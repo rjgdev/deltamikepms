@@ -1,0 +1,93 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Client_model extends CI_Model
+{
+	function __construct() 
+	{ 
+	 parent::__construct(); 
+	}
+
+	function get_all_client()
+	{
+	    $query = $this->db->query('SELECT * FROM client');
+	    return $query->result();
+  	}
+
+  	function save_client($clientname)
+	{
+		$query = $this->db->query('SELECT clientname FROM client WHERE clientname = "'.$clientname.'"');
+
+		if($query->num_rows() == 0){
+
+			$data = array(
+				'clientname' => $clientname,
+				'description' => $this->input->post('description'),
+				'location' => $this->input->post('location'),
+				'contactperson' => $this->input->post('contactperson'),
+				'contactno' => $this->input->post('contactno'),
+				'email' => $this->input->post('email'),
+				'activedetachmentpost' => $this->input->post('activedetachmentpost'),
+				'clientstatus' => 'Active'
+			 );
+
+			$this->db->insert('client', $data);
+			return 'true|'.$clientname.' successfully created!';
+		}
+		else 
+		{
+			return 'false|Client name already exist!';
+		}   
+  	}
+
+  	function update_client($id,$clientname)
+	{
+		$query = $this->db->query('SELECT clientname FROM client WHERE clientid!='.$id.' AND clientname = "'.$clientname.'"');
+
+		if($query->num_rows() == 0){
+
+			$data = array(
+				'clientname' => $clientname,
+				'description' => $this->input->post('description'),
+				'location' => $this->input->post('location'),
+				'contactperson' => $this->input->post('contactperson'),
+				'contactno' => $this->input->post('contactno'),
+				'email' => $this->input->post('email'),
+				'activedetachmentpost' => $this->input->post('activedetachmentpost')
+			 );
+
+			$this->db->where("clientID", $id);  
+            $this->db->update("client", $data);    
+
+			return 'true|'.$clientname.' successfully updated!';
+		}
+		else 
+		{
+			return 'false|Client name already exist!';
+		}   
+  	}
+
+  	function change_status_client($id,$status,$clientname)
+	{
+		if($status=="Inactive"){
+			$query = $this->db->query('SELECT * FROM detachment WHERE clientid='.$id.' AND detachmentstatus="Active"');
+
+			if($query->num_rows() == 0){
+            	$data = array('clientstatus' => $status);
+
+	            $this->db->where("clientID", $id);  
+	          	$this->db->update("client", $data);  
+	          	return 'true|'.$clientname.' successfully changed the status!';
+            }else{
+          		return 'false|Client is currently in used!'; 
+            }
+		}else{
+			$data = array('clientstatus' => $status);
+
+			$this->db->where("clientID", $id);  
+          	$this->db->update("client", $data);    
+			return 'true|'.$clientname.' successfully changed the status!';
+		}
+  	}
+}
+?>
+

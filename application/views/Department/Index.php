@@ -1,4 +1,4 @@
-Page Wrapper -->
+<!-- Page Wrapper -->
 <div class="page-wrapper">
 
 	<!-- Page Content -->
@@ -63,7 +63,7 @@ Page Wrapper -->
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="show_data">
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->departmentID; ?></td>
@@ -86,13 +86,6 @@ Page Wrapper -->
 										</div>
 									</td>
 									<td class="text-right">
-	                                <!-- <div class="dropdown dropdown-action">
-											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-	                                    <div class="dropdown-menu dropdown-menu-right">
-	                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_department"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-	                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_department"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-	                                    </div>
-										</div> -->
 										<button type="button" id="<?php echo $item->departmentID; ?>" class="btn btn-info btn-sm editdepartment"
 												data-toggle="modal"
 												data-target="#edit_department" 
@@ -191,7 +184,6 @@ Page Wrapper -->
 		</div>
 	</div>
 	<!-- /Delete Department Modal -->
-	
 </div>
 
 <?php 
@@ -223,8 +215,8 @@ Page Wrapper -->
 		});
 
 	    /* EDIT BUTTON - PASS DATA TO MODAL */
-		$('.editdepartment').unbind('click').bind('click', function(){
-			$(".modal-body #editdescription").val( $(this).data('description') );
+		$(document).on("click", ".editdepartment", function(){
+			$(".modal-body #editdescription").val( $(this).data('description'));
 			$('.update').attr('id', $(this).data('id'));
 		});
 
@@ -244,34 +236,43 @@ Page Wrapper -->
 		    document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='#e04d45'>inactive</font> this record?";
 		});
 
-		 /* SEACRH */
+		 /* SEARCH */
 		$('.search').unbind('click').bind('click', function(){
-			
 			var id = $("#search-id").val();
 			var description =$("#search-description").val();
 			var status = $("#search-status").val();
 
+			if(status=="Select Status") status = "";
+			
+
 			$.ajax({
-                url : "<?php echo site_url('departments/save');?>",
+                url : "<?php echo site_url('departments');?>",
                 method : "POST",
-                data : {description:description},
+                data : {id : id},
                 async : true,
                 dataType : 'json',
                 success: function(data){
-                	var result = data.split('|');
-        			if(result[0]=="false"){
-						document.getElementById("add-invalid").innerHTML = result[1];
-			        	$('#adddescription').addClass('is-invalid');
-			        	$("#adddescription").focus(); 
-        			}else{
-    					window.location.replace('<?php echo base_url(); ?>departments');
-        			}
+                	console.log(data);
+					var html ="";
+
+					for ( var i=0; i<data.length; i++ ) {
+						html += "<tr><td>"
+								+ data[i].departmentID + 
+							 "</td><td>" 
+							  	+ data[i].description + 
+							 "</td><td></td>" +
+							 '<td class="text-right">' + 
+										'<button type="button" id="' + data[i].departmentID + '" class="btn btn-info btn-sm editdepartment" data-toggle="modal" data-target="#edit_department" data-id="' + data[i].departmentID + '" data-description="' + data[i].description + '" data-tog="tooltip" data-placement="top"title="Edit"> <i class="fa fa-pencil"></i> </button>' + 
+							 "</td></tr>";
+					}
+
+					$("#show_data").html(html);
+
                 },
                 error: function(request, textStatus, error) {
-
+                		alert(request + ":" + textStatus + ":" + error);
             	}
             });
-            return false;
 		});
 
 		/* SAVE DESCIPTION */

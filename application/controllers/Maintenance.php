@@ -3,7 +3,7 @@
      
 		public function index() 
 		{ 
-			$this->load->view("Maintenance/index");
+			$this->load->view("Maintenance/Index");
 		} 
 	}     
 ?>

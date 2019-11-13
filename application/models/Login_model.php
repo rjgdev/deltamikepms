@@ -11,7 +11,7 @@ class Login_model extends CI_Model
 	{
 		$this->db->where('username', $username);
 		$this->db->where('password', $password);
-		$this->db->where('status', $status);
+		$this->db->where('employeestatus', $status);
 		$query = $this->db->get('employee');
 
 		if($query->num_rows() > 0)
@@ -26,8 +26,8 @@ class Login_model extends CI_Model
 
 	function validate($username,$password)
 	{
-	    $result = $this->db->query('SELECT employeeID FROM employee WHERE username="'.$username.'" AND password="'.$password.'"');
-	    return $result;
+	    $query = $this->db->query('SELECT * FROM employee WHERE username="'.$username.'" AND password="'.$password.'"');
+	    return $query;
   }
 }
 ?>

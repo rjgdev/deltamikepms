@@ -18,280 +18,41 @@
 			<div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
 				<a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_role"><i class="fa fa-plus"></i> Add Roles</a>
 				<div class="roles-menu">
-					<ul>
-						<li class="active">
-							<a href="javascript:void(0);">Administrator
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
+					<ul id="roles">
+						<?php foreach ($role as $item) { ?> 
+							<li id="<?php echo $item->roleID; ?>">
+								<a href="javascript:void(0);"><?php echo $item->roleDescription; ?>
+									<span class="role-action">
+										<?php if($item->roleID!=1 && $item->roleID!=2){ ?>
+											<span class="action-circle large iconedit" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#edit_role">
+												<i class="material-icons">edit</i>
+											</span>
+											<span class="action-circle large delete-btn icondelete" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#delete_role">
+												<i class="material-icons">delete</i>
+											</span>
+										<?php } ?>
 									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">CEO
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">Manager
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">Team Leader
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">Accountant
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">Web Developer
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">Web Designer
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">HR
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">UI/UX Developer
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
-						<li>
-							<a href="javascript:void(0);">SEO Analyst
-								<span class="role-action">
-									<span class="action-circle large" data-toggle="modal" data-target="#edit_role">
-										<i class="material-icons">edit</i>
-									</span>
-									<span class="action-circle large delete-btn" data-toggle="modal" data-target="#delete_role">
-										<i class="material-icons">delete</i>
-									</span>
-								</span>
-							</a>
-						</li>
+								</a>
+							</li>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>
 			<div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
 				<h6 class="card-title m-b-20">Module Access</h6>
 				<div class="m-b-30">
-					<ul class="list-group notification-list">
-						<li class="list-group-item">
-							Employee
-							<div class="status-toggle">
-								<input type="checkbox" id="staff_module" class="check">
-								<label for="staff_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
-						<li class="list-group-item">
-							Holidays
-							<div class="status-toggle">
-								<input type="checkbox" id="holidays_module" class="check" checked="">
-								<label for="holidays_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
-						<li class="list-group-item">
-							Leaves
-							<div class="status-toggle">
-								<input type="checkbox" id="leave_module" class="check" checked="">
-								<label for="leave_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
-						<li class="list-group-item">
-							Events
-							<div class="status-toggle">
-								<input type="checkbox" id="events_module" class="check" checked="">
-								<label for="events_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
-						<li class="list-group-item">
-							Chat
-							<div class="status-toggle">
-								<input type="checkbox" id="chat_module" class="check" checked="">
-								<label for="chat_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
-						<li class="list-group-item">
-							Jobs
-							<div class="status-toggle">
-								<input type="checkbox" id="job_module" class="check">
-								<label for="job_module" class="checktoggle">checkbox</label>
-							</div>
-						</li>
+					<ul class="list-group notification-list" id="show_data" style="margin-top: 28px;">
+						<?php foreach ($module as $item) { ?> 
+							<li class="list-group-item">
+								<?php echo $item->moduleDescription; ?>
+								<div class="status-toggle">
+									<input type="checkbox" id="<?php echo $item->moduleShortDesc; ?>" description="<?php echo $item->moduleDescription; ?>" name="<?php echo $item->ID; ?>" class="check" <?php if($item->modulestatus==1){ echo 'checked'; } ?>>
+									<label for="<?php echo $item->moduleShortDesc; ?>" class="checktoggle">checkbox</label>
+								</div>
+							</li>
+						<?php } ?>
 					</ul>
-				</div>      	
-				<div class="table-responsive">
-					<table class="table table-striped custom-table">
-						<thead>
-							<tr>
-								<th>Module Permission</th>
-								<th class="text-center">Read</th>
-								<th class="text-center">Write</th>
-								<th class="text-center">Create</th>
-								<th class="text-center">Delete</th>
-								<th class="text-center">Import</th>
-								<th class="text-center">Export</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Employee</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-							</tr>
-							<tr>
-								<td>Holidays</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-							</tr>
-							<tr>
-								<td>Leaves</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-							</tr>
-							<tr>
-								<td>Events</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-								<td class="text-center">
-									<input type="checkbox" checked="">
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
+				</div>      
 		</div>
     </div>
 	<!-- /Page Content -->
@@ -310,10 +71,11 @@
 					<form>
 						<div class="form-group">
 							<label>Role Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text">
+							<input class="form-control" type="text" id="addrole">
+							<div class="invalid-feedback" id="add-invalid"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Submit</button>
+							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
 					</form>
 				</div>
@@ -336,10 +98,11 @@
 					<form>
 						<div class="form-group">
 							<label>Role Name <span class="text-danger">*</span></label>
-							<input class="form-control" value="Team Leader" type="text">
+							<input class="form-control" type="text" id="editdescription">
+							<div class="invalid-feedback" id="edit-invalid"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Save</button>
+							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
 					</form>
 				</div>
@@ -356,14 +119,15 @@
 					<div class="form-header">
 						<h3>Delete Role</h3>
 						<p>Are you sure want to delete?</p>
+						<div class="invalid-feedback" id="status-invalid"></div>
 					</div>
 					<div class="modal-btn delete-action">
 						<div class="row">
 							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
+								<a href="#" class="btn btn-primary continue-btn delete">Delete</a>
 							</div>
 							<div class="col-6">
-								<a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
 							</div>
 						</div>
 					</div>
@@ -374,4 +138,224 @@
 	<!-- /Delete Role Modal -->
 	
  </div>
+
+<?php 
+	if($this->session->flashdata('successroles')!=""){
+		echo '<script type="text/javascript"> showRoleSuccessToast("'.$this->session->flashdata("successroles").'")</script>';
+	}
+?>
 <!-- /Page Wrapper -->
+
+<script>
+	$(document).ready(function() {
+		$('#1').addClass('active');
+
+		/* FOCUS ON DESCRIPTION */
+		$('#add_role').on('shown.bs.modal', function(){
+	   		$("#addrole").focus(); 
+		});
+
+		/* FOCUS ON DESCRIPTION */
+		$('#edit_role').on('shown.bs.modal', function(){
+	   		$("#editdescription").focus(); 
+		});
+
+		/* CLEAR MODAL */
+		$('#add_role').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    document.getElementById("add-invalid").innerHTML = "";
+        	$('#addrole').removeClass('is-invalid');
+		});
+
+		/* CLEAR MODAL */
+		$('#edit_role').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    document.getElementById("edit-invalid").innerHTML = "";
+        	$('#editdescription').removeClass('is-invalid');
+		});
+
+		/* CLEAR MODAL */
+		$('#delete_role').on('hidden.bs.modal', function(){
+		    document.getElementById("status-invalid").innerHTML = "";
+		});
+
+		/* SAVE ROLE */
+		$('#save').unbind('click').bind('click', function(){
+	        var description = $('#addrole').val().trim();
+
+	        if(description==""){
+	        	document.getElementById("add-invalid").innerHTML = "Please provide a role name.";
+	        	$('#addrole').addClass('is-invalid');
+	        	$("#addrole").focus(); 
+                event.preventDefault();
+	        }else{
+	        	$.ajax({
+	                url : "<?php echo site_url('roles/save');?>",
+	                method : "POST",
+	                data : {description:description},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-invalid").innerHTML = result[1];
+				        	$('#addrole').addClass('is-invalid');
+				        	$("#addrole").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>roles');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+	        }
+        });
+
+		/* DELETE BUTTON - PASS DATA TO MODAL */
+        $('.icondelete').unbind('click').bind('click', function(){
+			$('.delete').attr('id', $(this).attr('id'));
+			$('.delete').attr('description', $(this).data('description'));
+		});
+
+        /* DELETE ROLE */
+		$('.delete').unbind('click').bind('click', function(){
+	        var id = $(this).attr('id');
+	        var description = $(this).attr('description');
+
+        	$.ajax({
+                url : "<?php echo site_url('roles/delete');?>",
+                method : "POST",
+                data : {id:id,
+                		description:description},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+                	var result = data.split('|');
+        			if(result[0]=="false"){
+    					$("#status-invalid").css("display","block");
+						document.getElementById("status-invalid").innerHTML = result[1];
+        			}else{
+						window.location.replace('<?php echo base_url(); ?>roles');
+        			}
+                },
+                error: function(request, textStatus, error) {
+
+            	}
+            });
+            return false;
+        });
+
+        /* EDIT BUTTON - PASS DATA TO MODAL */
+		$('.iconedit').unbind('click').bind('click', function(){
+			$(".modal-body #editdescription").val( $(this).data('description'));
+			$('.update').attr('id', $(this).attr('id'));
+		});
+
+		/* UPDATE DESCIPTION */
+		$('.update').unbind('click').bind('click', function(){
+			var id = $(this).attr('id');
+	        var description = $('#editdescription').val().trim();
+
+	        if(description==""){
+	        	document.getElementById("edit-invalid").innerHTML = "Please provide a role name.";
+	        	$('#editdescription').addClass('is-invalid');
+	        	$("#editdescription").focus(); 
+                event.preventDefault();
+	        }else{
+	        	$.ajax({
+	                url : "<?php echo site_url('roles/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		description:description},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-invalid").innerHTML = result[1];
+				        	$('#editdescription').addClass('is-invalid');
+				        	$("#editdescription").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>roles');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+	        }
+        });
+
+		/* UPDATE MODULE */
+		$(document).on("click", ".check", function(){
+			var id = $(this).attr('name');
+			var description = $("ul#roles li.active a").text().replace("edit","").replace("delete","").trim() + " - " + $(this).attr('description');
+			var status = $(this).prop('checked')==true ? "1" : "0";
+
+			$.ajax({
+                url : "<?php echo site_url('roles/changestatus');?>",
+                method : "POST",
+                data : {id:id,
+                		description:description,
+                		status,status},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+                	var result = data.split('|');
+        			if(result[0]=="false"){
+
+        			}else{        				
+        				showRoleModuleSuccessToast(result[1],result[2]=="enabled" ? '#3c763d':'#b02b2b');
+        			}
+                },
+                error: function(request, textStatus, error) {
+
+            	}
+            });
+		});
+
+		/* LOAD MODULES */
+		$('.roles-menu li').unbind('click').bind('click', function(){
+			var id = $(this).attr('id');
+
+			$('.roles-menu li').removeClass('active');
+			$('#' + id).addClass('active');
+
+			$.ajax({
+                url : "<?php echo site_url('roles/loadmodules');?>",
+                method : "POST",
+                data : {id:id},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+        			var html ="";
+
+					for ( var i=0; i<data.length; i++ ) {
+						var checked = "";
+
+						if(data[i].modulestatus=="1"){
+							checked = "checked=''";
+						}
+
+						html += '<li class="list-group-item">' +
+									data[i].moduleDescription +
+									'<div class="status-toggle">' +
+										'<input type="checkbox" id="' + data[i].moduleShortDesc + '" description="' + data[i].moduleDescription + '" name="' + data[i].ID + '" class="check"' + checked + '">' +
+										'<label for="' + data[i].moduleShortDesc + '" class="checktoggle">checkbox</label>' + 
+									'</div>' +
+								'</li>';
+					}
+
+					$("#show_data").html(html);
+                },
+                error: function(request, textStatus, error) {
+
+            	}
+            });
+
+		});
+	});
+</script>

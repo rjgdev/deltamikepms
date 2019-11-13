@@ -9,13 +9,23 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Departments');
+			$data = array('title' => 'Departments');
 
-       		$data['data']=$this->department->get_all_department();
-	  		
-			$this->load->view('Template/Header',$data);
-			$this->load->view("Department/Index",$data);
-			$this->load->view('Template/Footer',$data);
+			if(isset($_POST['id'])){
+				$id = $this->input->post('id');
+				$description = $this->input->post('description');
+				$status = $this->input->post('status');
+
+       			$data=$this->department->search_department($id,$description,$status);
+       			echo json_encode($data);
+
+			}else{
+   				$data['data']=$this->department->get_all_department();
+
+				$this->load->view('Template/Header',$data);
+				$this->load->view("Department/Index",$data);
+				$this->load->view('Template/Footer',$data); 
+			}
 		} 
 
 		public function save() 

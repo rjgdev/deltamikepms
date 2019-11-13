@@ -2472,14 +2472,14 @@ table.dataTable thead > tr > td.sorting {
 	color: #fff;
 	display: inline-block;
 	font-weight: 500;
-	height: 38px;
-	line-height: 38px;
+	height: 33px;
+	line-height: 33px;
 	margin: 0 10px 0 0;
 	text-align: center;
 	text-decoration: none;
 	text-transform: uppercase;
 	vertical-align: middle;
-	width: 38px;
+	width: 33px;
 	position: relative;
 	white-space: nowrap;
 }
@@ -2494,7 +2494,10 @@ table.dataTable thead > tr > td.sorting {
     border-radius: 50%;
     display: block;
     overflow: hidden;
-    width: 100%;
+	width: 34px;
+    height: 34px;
+	display: block;
+
 }
 .chat.chat-left .chat-bubble:first-child .chat-content {
 	border-top-left-radius: 20px;

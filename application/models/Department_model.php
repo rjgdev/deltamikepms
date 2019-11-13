@@ -9,7 +9,24 @@ class Department_model extends CI_Model
 
 	function get_all_department()
 	{
-	    $query = $this->db->query('SELECT * FROM department');
+		$this->db->select('*');
+    	$this->db->from('department');
+    	$query = $this->db->get();
+
+	    return $query->result();
+  	}
+
+  	function search_department($id,$description,$status)
+	{
+	    $this->db->select('*');
+    	$this->db->from('department');
+
+	    if($id!="") $this->db->like('departmentID', $id);
+        if($description!="") $this->db->like('description', $description);
+        if($status!="")  $this->db->like('departmentstatus', $status);
+
+	    $query = $this->db->get();
+
 	    return $query->result();
   	}
 
@@ -57,7 +74,7 @@ class Department_model extends CI_Model
   	function change_status_department($id,$status,$description)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM employee WHERE departmentid='.$id.' AND status="Active"');
+			$query = $this->db->query('SELECT * FROM employee WHERE departmentid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('departmentstatus' => $status);

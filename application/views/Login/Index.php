@@ -53,7 +53,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-user"></i></span>
 										</div>
-										<input type="text" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="username" id="username" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("username"); ?>'>
+										<input type="text" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="username" id="username" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("uname"); ?>'>
 									</div>
 								</div>
 
@@ -63,7 +63,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-lock"></i></span>
 										</div>
-										<input type="password" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="password" id="password" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("password"); ?>'>
+										<input type="password" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="password" id="password" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("pword"); ?>'>
 									</div>
 								</div>
 

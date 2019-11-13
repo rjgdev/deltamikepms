@@ -3,10 +3,13 @@
      
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Profile');
+			$data = array('title' => 'Profile');
 
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Profile/Index",$data);
+
+			if(isAllowed(2)) $this->load->view("Profile/Index",$data);
+						else $this->load->view("Denied/Index");
+			
 			$this->load->view('Template/Footer',$data);
 		} 
 	}     

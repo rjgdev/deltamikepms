@@ -1,4 +1,4 @@
-<?php if($this->session->has_userdata('uname')){ }else{ redirect(base_url()); } ?>
+<?php if($this->session->has_userdata('username')){ }else{ redirect(base_url()); } ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -69,10 +69,12 @@
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img"><img src="<?php echo base_url();?>pages\assets\img\profiles\luffy.jpg" alt="">
 							<span class="status online"></span></span>
-							<span>Robinjamin Gelilio</span>
+							<span><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></span>
 						</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="<?php echo base_url(); ?>profile"><i class="la la-user"></i> My Profile</a>
+							<?php if(isAllowed(2)){ ?>
+								<a class="dropdown-item" href="<?php echo base_url(); ?>profile"><i class="la la-user"></i> My Profile</a>
+							<?php } ?>
 							<a class="dropdown-item" href="<?php echo base_url(); ?>Login/logout"><i class="la la-sign-out"></i> Logout</a>
 						</div>
 					</li>

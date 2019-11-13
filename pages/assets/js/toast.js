@@ -16,6 +16,84 @@
     })
   };
 
+  showRoleModuleSuccessToast = function(text,backColor) {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: text,
+      showHideTransition: 'slide',
+      icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
+      bgColor: backColor,
+      loaderBg: '#ffffff',
+      hideAfter: 7000, 
+    })
+  };
+
+  showRoleSuccessToast = function(text) {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: text,
+      showHideTransition: 'slide',
+      icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
+      loaderBg: '#ffffff',
+      hideAfter: 7000, 
+    })
+  };
+
+  showPhotoToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: "Photo successfully uploaded!",
+      showHideTransition: 'slide',
+      icon: 'success',
+      loaderBg: '#ffffff',
+      position: 'top-right',
+      hideAfter: 7000, 
+    })
+  };
+
+    showUploadPhotoError = function() {
+    'use strict';
+
+    resetToastPosition();
+    $.toast({
+      heading: 'Danger',
+      text: 'File not supported! Please select a JPEG or PNG File and try again.',
+      showHideTransition: 'slide',
+      icon: 'error',
+      loaderBg: '#ffffff',
+      position: 'top-right',
+      hideAfter: 7000 
+    });
+  }
+
+    showdataSuccessToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: 'employee status successfully saved!',
+      showHideTransition: 'slide',
+      icon: 'success',
+      loaderBg: '#ffffff',
+      position: 'top-right',
+      hideAfter: 7000, 
+    });
+  };
+
   showErrorToast = function(text) {
     'use strict';
     resetToastPosition();
