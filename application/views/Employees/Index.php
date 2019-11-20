@@ -999,7 +999,11 @@
 			$('.change').attr('id', $(this).data('id'));
 			$('.change').attr('status', $(this).data('status'));
 			$('.change').attr('employeestatus', $(this).data('employeestatus'));
-			document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='red'>Terminated</font> this record?";
+			document.getElementById("statusmessage").innerHTML = 'Are you sure you want to <div class="action-label">' +
+					'<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">' + 
+						'<i class="fa fa-dot-circle-o text-purple"></i> New' +
+					'</a>' + 
+				'</div> this record?"';
 		});
 
 		 /* resigned */

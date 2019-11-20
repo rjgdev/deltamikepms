@@ -75,7 +75,7 @@ class Designation_model extends CI_Model
   	function change_status_designation($id,$status,$designationdescription)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM employee WHERE designationid='.$id.' AND status="Active"');
+			$query = $this->db->query('SELECT * FROM employee WHERE designationid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('designationstatus' => $status);

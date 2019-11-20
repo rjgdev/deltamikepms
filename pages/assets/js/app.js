@@ -150,7 +150,11 @@ $(document).ready(function() {
 
 	if($('.datatable').length > 0) {
 		$('.datatable').DataTable({
-			"bFilter": false,
+			"bFilter": true,
+			"language": {
+		            "search": '<i class="fa fa-search"></i>',
+		            "searchPlaceholder": "Search here"
+		        }
 		});
 	}
 	

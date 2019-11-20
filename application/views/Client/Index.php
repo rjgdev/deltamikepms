@@ -99,7 +99,10 @@
 												data-target="#edit_client" 
 												data-id="<?php echo $item->clientID; ?>"
 												data-clientname="<?php echo $item->clientname; ?>"
-												data-location="<?php echo $item->location; ?>"
+												data-housenumber="<?php echo $item->housenumber; ?>"
+												data-streetname="<?php echo $item->streetname; ?>"
+												data-barangay="<?php echo $item->barangay; ?>"
+												data-city="<?php echo $item->city; ?>"
 												data-description="<?php echo $item->description; ?>"
 												data-contactperson="<?php echo $item->contactperson; ?>"
 												data-contactno="<?php echo $item->contactno; ?>"
@@ -142,9 +145,24 @@
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
 						<div class="form-group">
-							<label>Location </label>
-							<input class="form-control" type="text" id="location">
-							<div class="invalid-feedback" id="add-location"></div>
+							<label>House No. </label>
+							<input class="form-control" type="text" id="housenumber">
+							<div class="invalid-feedback" id="add-housenumber"></div>
+						</div>
+						<div class="form-group">
+							<label>Street Name <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="streetname">
+							<div class="invalid-feedback" id="add-streetname"></div>
+						</div>
+						<div class="form-group">
+							<label>Barangay <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="barangay">
+							<div class="invalid-feedback" id="add-barangay"></div>
+						</div>
+						<div class="form-group">
+							<label>City <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="city">
+							<div class="invalid-feedback" id="add-city"></div>
 						</div>
 						<div class="form-group">
 							<label>Contact Person <span class="text-danger">*</span></label>
@@ -153,7 +171,7 @@
 						</div>
 						<div class="form-group">
 							<label>Contact No. <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="contactno">
+							<input class="form-control contactinfo" type="text" id="contactno">
 							<div class="invalid-feedback" id="add-contactno"></div>
 						</div>
 						<div class="form-group">
@@ -199,13 +217,28 @@
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
 						<div class="form-group">
-							<label>Location </label>
-							<input class="form-control" type="text" id="editlocation">
-							<div class="invalid-feedback" id="edit-location"></div>
+							<label>House No. </label>
+							<input class="form-control" type="text" id="edithousenumber">
+							<div class="invalid-feedback" id="edit-housenumber"></div>
+						</div>
+						<div class="form-group">
+							<label>Street Name <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="editstreetname">
+							<div class="invalid-feedback" id="edit-streetname"></div>
+						</div>
+						<div class="form-group">
+							<label>Barangay <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="editbarangay">
+							<div class="invalid-feedback" id="edit-barangay"></div>
+						</div>
+						<div class="form-group">
+							<label>City <span class="text-danger">*</span></label>
+							<input class="form-control" type="text" id="editcity">
+							<div class="invalid-feedback" id="edit-city"></div>
 						</div>
 						<div class="form-group">
 							<label>Contact Person <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editcontactperson">
+							<input class="form-control contactinfo" type="text" id="editcontactperson">
 							<div class="invalid-feedback" id="edit-contactperson"></div>
 						</div>
 						<div class="form-group">
@@ -270,6 +303,8 @@
 
 <script>
 	$(document).ready(function() {
+		$('.contactinfo').mask('0000-000-0000');
+
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();
@@ -290,9 +325,21 @@
         	$('#description').removeClass('is-invalid');
         	$('#description').removeClass('is-valid');
         	$(this).find('form')[0].reset();
-		    document.getElementById("add-location").innerHTML = "";
-        	$('#location').removeClass('is-invalid');
-        	$('#location').removeClass('is-valid');
+		    document.getElementById("add-housenumber").innerHTML = "";
+        	$('#housenumber').removeClass('is-invalid');
+        	$('#housenumber').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-streetname").innerHTML = "";
+        	$('#streetname').removeClass('is-invalid');
+        	$('#streetname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-barangay").innerHTML = "";
+        	$('#barangay').removeClass('is-invalid');
+        	$('#barangay').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-city").innerHTML = "";
+        	$('#city').removeClass('is-invalid');
+        	$('#city').removeClass('is-valid');
         	$(this).find('form')[0].reset();
 		    document.getElementById("add-contactperson").innerHTML = "";
         	$('#contactperson').removeClass('is-invalid');
@@ -321,9 +368,21 @@
         	$('#editdescription').removeClass('is-invalid');
         	$('#editdescription').removeClass('is-valid');
         	$(this).find('form')[0].reset();
-		    document.getElementById("edit-location").innerHTML = "";
-        	$('#editlocation').removeClass('is-invalid');
-        	$('#editlocation').removeClass('is-valid');
+		    document.getElementById("edit-housenumber").innerHTML = "";
+        	$('#edithousenumber').removeClass('is-invalid');
+        	$('#edithousenumber').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-streetname").innerHTML = "";
+        	$('#editstreetname').removeClass('is-invalid');
+        	$('#editstreetname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-barangay").innerHTML = "";
+        	$('#editbarangay').removeClass('is-invalid');
+        	$('#editbarangay').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-city").innerHTML = "";
+        	$('#editcity').removeClass('is-invalid');
+        	$('#editcity').removeClass('is-valid');
         	$(this).find('form')[0].reset();
 		    document.getElementById("edit-contactperson").innerHTML = "";
         	$('#editcontactperson').removeClass('is-invalid');
@@ -351,7 +410,10 @@
 		$('.editclient').unbind('click').bind('click', function(){
 			$(".modal-body #editclientname").val( $(this).data('clientname') );
 			$(".modal-body #editdescription").val( $(this).data('description') );
-			$(".modal-body #editlocation").val( $(this).data('location') );
+			$(".modal-body #edithousenumber").val( $(this).data('housenumber') );
+			$(".modal-body #editstreetname").val( $(this).data('streetname') );
+			$(".modal-body #editbarangay").val( $(this).data('barangay') );
+			$(".modal-body #editcity").val( $(this).data('city') );
 			$(".modal-body #editcontactperson").val( $(this).data('contactperson') );
 			$(".modal-body #editcontactno").val( $(this).data('contactno') );
 			$(".modal-body #editemail").val( $(this).data('email') );
@@ -409,7 +471,10 @@
 		$('#save').unbind('click').bind('click', function(){
 	        var clientname = $('#clientname').val().trim();
 	        var description = $('#description').val().trim();
-	        var location = $('#location').val().trim();
+	        var housenumber = $('#housenumber').val().trim();
+	        var streetname = $('#streetname').val().trim();
+	        var barangay = $('#barangay').val().trim();
+	        var city = $('#city').val().trim();
 	        var contactperson = $('#contactperson').val().trim();
 	        var contactno = $('#contactno').val().trim();
 	        var email = $('#email').val().trim();
@@ -425,6 +490,39 @@
 	        	$('#clientname').removeClass('is-invalid');
 	        	$('#clientname').addClass('is-valid');
 	        	$("#clientname").focus();
+	        }
+
+	        if(streetname==""){
+	        	document.getElementById("add-streetname").innerHTML = "Please provide a streetname.";
+	        	$('#streetname').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-streetname").innerHTML = "";
+	        	$('#streetname').removeClass('is-invalid');
+	        	$('#streetname').addClass('is-valid');
+	        	$("#streetname").focus();
+	        }
+
+	        if(barangay==""){
+	        	document.getElementById("add-barangay").innerHTML = "Please provide a barangay.";
+	        	$('#barangay').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-barangay").innerHTML = "";
+	        	$('#barangay').removeClass('is-invalid');
+	        	$('#barangay').addClass('is-valid');
+	        	$("#barangay").focus();
+	        }
+
+	        if(city==""){
+	        	document.getElementById("add-city").innerHTML = "Please provide a city.";
+	        	$('#city').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-city").innerHTML = "";
+	        	$('#city').removeClass('is-invalid');
+	        	$('#city').addClass('is-valid');
+	        	$("#city").focus();
 	        }
 
 	        if(contactperson==""){
@@ -460,14 +558,17 @@
 	        	$("#email").focus();
 	        }
 
-	        if(clientname=="" || contactperson=="" || contactno=="" || email=="") return false;
+	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
 
 	        	$.ajax({
 	                url : "<?php echo site_url('clients/save');?>",
 	                method : "POST",
 	                data : {clientname:clientname,
 	                		description:description,
-	                		location:location,
+	                		housenumber:housenumber,
+	                		streetname:streetname,
+	                		barangay:barangay,
+	                		city:city,
 	                		contactperson:contactperson,
 	                		contactno:contactno,
 	                		email:email,
@@ -496,7 +597,10 @@
 			var id = $(this).attr('id');
 	        var clientname = $('#editclientname').val().trim();
 	        var description = $('#editdescription').val().trim();
-	        var location = $('#editlocation').val().trim();
+	        var housenumber = $('#edithousenumber').val().trim();
+	        var streetname = $('#editstreetname').val().trim();
+	        var barangay = $('#editbarangay').val().trim();
+	        var city = $('#editcity').val().trim();
 	        var contactperson = $('#editcontactperson').val().trim();
 	        var contactno = $('#editcontactno').val().trim();
 	        var email = $('#editemail').val().trim();
@@ -512,6 +616,36 @@
 	        	$('#editclientname').removeClass('is-invalid');
 	        	$('#editclientname').addClass('is-valid');
 	        	$("#editclientname").focus();
+	        }
+
+	        if(streetname==""){
+	        	document.getElementById("edit-streetname").innerHTML = "Please provide a streetname.";
+	        	$('#editstreetname').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-streetname").innerHTML = "";
+	        	$('#editstreetname').removeClass('is-invalid');
+	        	$('#editstreetname').addClass('is-valid');
+	        }
+
+	        if(barangay==""){
+	        	document.getElementById("edit-barangay").innerHTML = "Please provide a barangay.";
+	        	$('#editbarangay').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-barangay").innerHTML = "";
+	        	$('#editbarangay').removeClass('is-invalid');
+	        	$('#editbarangay').addClass('is-valid');
+	        }
+
+	        if(city==""){
+	        	document.getElementById("edit-city").innerHTML = "Please provide a city.";
+	        	$('#editcity').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-city").innerHTML = "";
+	        	$('#editcity').removeClass('is-invalid');
+	        	$('#editcity').addClass('is-valid');
 	        }
 
 	        if(contactperson==""){
@@ -539,12 +673,12 @@
 	        	$('#editemail').addClass('is-invalid');
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-contactperson").innerHTML = "";
+	        	document.getElementById("edit-email").innerHTML = "";
 	        	$('#editemail').removeClass('is-invalid');
 	        	$('#editemail').addClass('is-valid');
 	        }
 
-	        if(clientname=="" || contactperson=="" || contactno=="" || email=="") return false;
+	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
 
 	        	$.ajax({
 	                url : "<?php echo site_url('clients/update');?>",
@@ -552,7 +686,10 @@
 	                data : {id:id,
 	                		clientname:clientname,
 	                		description:description,
-	                		location:location,
+	                		housenumber:housenumber,
+	                		streetname:streetname,
+	                		barangay:barangay,
+	                		city:city,
 	                		contactperson:contactperson,
 	                		contactno:contactno,
 	                		email:email,

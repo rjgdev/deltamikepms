@@ -1,6 +1,9 @@
+<?php 
+$start = strtotime('12:00 AM');
+$end   = strtotime('11:59 PM');
+?>
 <!-- Page Wrapper -->
 <div class="page-wrapper">
-
 	<!-- Page Content -->
     <div class="content container-fluid">
 	
@@ -20,89 +23,79 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-		
-		<!-- Overtime Statistics -->
-		<div class="row">
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="stats-info">
-					<h6>Overtime Employee</h6>
-					<h4>12 <span>this month</span></h4>
+			<!-- Search Filter -->
+		<div class="row filter-row">
+			<div class="col-sm-6 col-md-3">  
+				<div class="form-group form-focus">
+					<input type="text" class="form-control floating">
+					<label class="focus-label">Employee ID</label>
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="stats-info">
-					<h6>Overtime Hours</h6>
-					<h4>118 <span>this month</span></h4>
+			<div class="col-sm-6 col-md-3">  
+				<div class="form-group form-focus">
+					<input type="text" class="form-control floating">
+					<label class="focus-label">Employee Name</label>
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="stats-info">
-					<h6>Pending Request</h6>
-					<h4>23</h4>
+			<div class="col-sm-6 col-md-3"> 
+				<div class="form-group form-focus select-focus">
+					<select class="select floating"> 
+						<option>Select Designation</option>
+						<option>Web Developer</option>
+						<option>Web Designer</option>
+						<option>Android Developer</option>
+						<option>Ios Developer</option>
+					</select>
+					<label class="focus-label">Designation</label>
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="stats-info">
-					<h6>Rejected</h6>
-					<h4>5</h4>
-				</div>
-			</div>
-		</div>
-		<!-- /Overtime Statistics -->
+			<div class="col-sm-6 col-md-3">  
+				<a href="#" class="btn btn-success btn-block"> Search </a>  
+			</div>     
+        </div>
+		<!-- /Search Filter -->
 		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
-					<table class="table table-striped custom-table mb-0 datatable">
+					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Name</th>
-								<th>OT Date</th>
-								<th class="text-center">OT Hours</th>
-								<th>OT Type</th>
-								<th>Description</th>
-								<th class="text-center">Status</th>
-								<th>Approved by</th>
-								<th class="text-right">Actions</th>
+								<th>Overtime No.</th>
+								<th>Employee Name</th>
+								<th>Department/Position</th>
+								<th>Overtime Date</th>
+								<th>Start Time</th>
+								<th>End Time</th>
+								<th>Total Hour</th>
+								<th>Actions</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="showdata">
+							<?php foreach ($data['record'] as $item): ?>
 							<tr>
-								<td>1</td>
-								<td>
-									<h2 class="table-avatar blue-link">
-										<a href="profile.html" class="avatar"><img alt="" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-02.jpg"></a>
-										<a href="profile.html">John Doe</a>
-									</h2>
-								</td>
-								<td>8 Mar 2019</td>
-								<td class="text-center">2</td>
-								<td>Normal day OT 1.5x</td>
-								<td>Lorem ipsum dollar</td>
-								<td class="text-center">
-									<div class="action-label">
-										<a class="btn btn-white btn-sm btn-rounded" href="javascript:void(0);">
-											<i class="fa fa-dot-circle-o text-purple"></i> New
-										</a>
-									</div>
-								</td>
-								<td>
-									<h2 class="table-avatar">
-										<a href="profile.html" class="avatar avatar-xs"><img src="<?php echo base_url();?>pages\assets\img\profiles\avatar-09.jpg" alt=""></a>
-										<a href="#">Richard Miles</a>
-									</h2>
-								</td>
+								<td><?php echo str_pad($item->overtimeid, 6, "0", STR_PAD_LEFT);  ?></td>
+							<td>
+                            <a id="<?php echo $item->employeeID; ?>" class="avatar">
+                            <?php	
+                            if($item->photo==""){
+                              echo '<img alt="" src="uploads/profileimg.png"></a>'.' '.$item->fullname.'</td>';
+                            }else{
+                              echo '<img alt="" src="uploads/'.$item->photo.'" ></a>'.' '.$item->fullname.'</td>';
+                            } ?>
+                           </td> 
+								<td><?php echo $item->positionDescription ?></td>
+								 <td><?php echo $item->overtimedate ?></td>
+								<td><?php echo $item->starttime ?></td>
+								<td><?php echo $item->endtime ?></td>
+								<td><?php echo $item->totalhour ?></td>
+								<div class="dropdown dropdown-action">
+								</div>
 								<td class="text-right">
-									<div class="dropdown dropdown-action">
-										<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_overtime"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_overtime"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-										</div>
-									</div>
+									<button type="button" id="<?php echo $item->overtimeid	; ?>" class="btn btn-info btn-sm edit_overtime" data-toggle="modal" data-target="#edit_overtime" data-id="<?php echo $item->overtimeid; ?>" data-employeeid="<?php echo $item->employeeID; ?>"  data-description="<?php echo $item->description; ?>" data-overtimedate="<?php echo $item->overtimedate; ?>" data-starttime="<?php echo $item->starttime; ?>" data-endtime="<?php echo $item->endtime; ?>" data-totalhour="<?php echo $item->totalhour; ?>" data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
 								</td>
 							</tr>
+						<?php endforeach; ?>
 						</tbody>
 					</table>
 				</div>
@@ -123,39 +116,76 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="form-group">
-							<label>Select Employee <span class="text-danger">*</span></label>
-							<select class="select">
-								<option>-</option>
-								<option>John Doe</option>
-								<option>Richard Miles</option>
-								<option>John Smith</option>
-							</select>
-						</div>
+						 <div class="col-sm-12">
+							<div class="form-group">
+                            <input id="datecreated" type="hidden" name="datecreated"  class="form-control input" autocomplete="off" value="<?php echo date("d/m/Y h:i A"); ?>"disabled>
+                            <div class="invalid-feedback" id="add-firstname"></div>
+                          </div>
+                            </div>
+                           
+                         <div class="col-sm-12">
+								<div class="form-group">
+	                            <label for="description">Employee Name <span class="text-danger">*</span></label>
+	                            <select class="form-control" id="addemployee" name="addemployee" style="width: 100%;"  description="employee name" required>
+	                            <option value="">No Selected</option>
+	                              <?php
+	                              foreach($data['dropdownemp'] as $empldropdown)
+	                              {
+	                              echo '<option value="'.$empldropdown->employeeID.'">'.$empldropdown->fullname.'</option>';
+	                              }
+	                              ?>  
+	                            </select>
+	                             <div class="invalid-feedback" id="add-employee"></div>
+	                           </div>
+	                          </div> 
+						<div class="col-sm-12">
 						<div class="form-group">
 							<label>Overtime Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text">
+								<input class="form-control datetimepicker" type="text" id="addovertimedate" name="addovertimedate" description="overtime date" required> 
+								 <div class="invalid-feedback" id="add-overtime"></div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label>Overtime Hours <span class="text-danger">*</span></label>
-							<input class="form-control" type="text">
+					</div>	
+
+						<div class="col-sm-12">
+						 <div class="form-group">
+								<label>Start Time <span class="text-danger">*</span></label>
+								<input class="form-control" type="time" style="width: 100%;" name="addstarttime" id="addstarttime" description="start time">
+								<div class="invalid-feedback" id="add-starttime"></div>
+							</div>
+						</div> 
+
+						<div class="col-sm-12">	
+							<div class="form-group">
+								<label>End Time <span class="text-danger">*</span></label>
+								<input class="form-control" type="time" style="width: 100%;" name="addendtime" id="addendtime" description="end time">
+							<div class="invalid-feedback" id="add-endtime"></div>
+							</div>
 						</div>
+							<div class="col-sm-12">	
+							<div class="form-group">
+								<label>Total Time</label>	
+								<input Class="form-control" id="totalTime"name="totalTime" readonly="readonly" />	
+							</div>
+						</div
+						>
+					 <div class="col-sm-12">	
 						<div class="form-group">
 							<label>Description <span class="text-danger">*</span></label>
-							<textarea rows="4" class="form-control"></textarea>
+							<input type="text" class="form-control" id="adddescription" name="adddescription" description="Description">
+							<div class="invalid-feedback" id="add-description"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Submit</button>
+							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
+					</div>	
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- /Add Overtime Modal -->
-	
 	<!-- Edit Overtime Modal -->
 	<div id="edit_overtime" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
@@ -168,31 +198,58 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="form-group">
-							<label>Select Employee <span class="text-danger">*</span></label>
-							<select class="select">
-								<option>-</option>
-								<option>John Doe</option>
-								<option>Richard Miles</option>
-								<option>John Smith</option>
-							</select>
-						</div>
+                         <div class="col-sm-12">
+								<div class="form-group">
+	                            <label for="description">Employee Name<span class="text-danger">*</span></label>
+	                            <select class="form-control" id="editemployee" name="editemployee" style="width: 100%;" description="employee name" >
+	                            <option value="">No Selected</option>
+	                              <?php
+	                              foreach($data['dropdownemp'] as $empldropdown)
+	                              {
+	                              echo '<option value="'.$empldropdown->employeeID.'">'.$empldropdown->fullname.'</option>';
+	                              }
+	                              ?>  
+	                            </select>
+	                             <div class="invalid-feedback" id="edit-employee"></div>
+	                           </div>
+	                          </div> 
+						<div class="col-sm-12">
 						<div class="form-group">
 							<label>Overtime Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text">
+								<input class="form-control datetimepicker" type="text" id="editovertimedate" name="editovertimedate" description="overtime date"> 
+								 <div class="invalid-feedback" id="edit-overtime"></div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label>Overtime Hours <span class="text-danger">*</span></label>
-							<input class="form-control" type="text">
+					</div>	
+						<div class="col-sm-12">
+						 <div class="form-group">
+								<label>Start Time <span class="text-danger">*</span></label>
+									<input class="form-control" type="text" style="width: 100%;" name="editstarttime" id="editstarttime" description="start time">
+								<div class="invalid-feedback" id="edit-starttime"></div>
+							</div>
+						</div>	
+						<div class="col-sm-12">	
+							<div class="form-group">
+								<label>End Time <span class="text-danger">*</span></label>	
+								<input class="form-control" type="text" style="width: 100%;" name="editendtime" id="editendtime" description="end time">
+							<div class="invalid-feedback" id="edit-endtime"></div>
+							</div>
 						</div>
+						<div class="col-sm-12">	
+							<div class="form-group">
+								<label>Total Time</label>	
+								<input Class="form-control" id="edittotalTime"name="edittotalTime" readonly="readonly" />	
+							</div>
+						</div>
+					 <div class="col-sm-12">	
 						<div class="form-group">
 							<label>Description <span class="text-danger">*</span></label>
-							<textarea rows="4" class="form-control"></textarea>
+							<input id="editdescription" name="editdescription" class="form-control" description="description">
+							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Submit</button>
+							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
 					</form>
 				</div>
@@ -227,4 +284,209 @@
 	<!-- /Delete Overtime Modal -->
 	
 </div>
+<?php 
+	if($this->session->flashdata('success')!=""){
+		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
+	}
+?>
 <!-- /Page Wrapper -->
+<script  type="text/javascript">  
+  $(document).ready(function() {
+ 		//Clear Modal//
+		$('#add_overtime').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    $(".invalid-feedback").html("");
+        	$('input').removeClass('is-invalid');
+        	$('input').removeClass('is-valid');
+        	$('select').removeClass('is-invalid');
+        	$('select').removeClass('is-valid');
+		});
+
+    $("#addendtime").change(function(){
+  		var $start = $("#addstarttime");
+  		var $end = $("#addendtime");
+  		var $diff = $("#totalTime");	
+  		var dtStart = new Date("7/20/2019 " + $start.val());
+        var dtEnd = new Date("7/20/2019 " + $end.val());
+        var startminute   =   dtStart.getMinutes();
+        var endminute   =   dtEnd.getMinutes();
+        var diff = (dtEnd - dtStart) /60000;
+        var hr = Math.floor(diff/60)
+        if(startminute=="30"){
+        	 var totalminute = startminute - endminute;
+        }else{
+        	var totalminute =  endminute - startminute 
+        }	
+        if( hr <= 0){
+        	 var hr = 0;
+        	 var totalminute = 0;
+        }else{
+        	var hr; 
+        	var totalminute;
+        }	
+        var diff = hr + ":" + totalminute; 
+        $("#totalTime").val(diff);
+     });
+     $("#editendtime").change(function(){
+  		var $start = $("#editstarttime");
+  		var $end = $("#editendtime");
+  		var $diff = $("#edittotalTime");	
+  		var dtStart = new Date("7/20/2019 " + $start.val());
+        var dtEnd = new Date("7/20/2019 " + $end.val());
+        var startminute   =   dtStart.getMinutes();
+        var endminute   =   dtEnd.getMinutes();
+        var diff = (dtEnd - dtStart) /60000;
+        var hr = Math.floor(diff/60)
+        if(startminute=="30"){
+        	 var totalminute = startminute - endminute;
+        }else{
+        	var totalminute =  endminute - startminute 
+        }	
+        if( hr <= 0){
+        	 var hr = 0;
+        	 var totalminute = 0;
+        }else{
+        	var hr; 
+        	var totalminute;
+        }	
+        var diff = hr + ":" + totalminute; 
+        $("#edittotalTime").val(diff);
+     });
+   
+
+	$('#save').unbind('click').bind('click', function(){
+		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', '#totalTime', '#adddescription'];
+
+		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', 'add-totalTime', 'add-description'];
+
+		var ValueArray = [];	
+		var firstRequired = "";
+		var navIndex = 0;
+
+		for(var i=0;i<IDArray.length;i++){
+			ValueArray[i] = $(IDArray[i]).val().trim()
+			if(i==4) continue;
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+				if(firstRequired==""){
+					firstRequired = IDArray[i]
+				};
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+	        	$(IDArray[i]).addClass('is-invalid');
+                event.preventDefault();
+			}else{
+			    document.getElementById(ErrorIDArray[i]).innerHTML = "";	
+				$(IDArray[i]).removeClass('is-invalid');
+				$(IDArray[i]).addClass('is-valid');
+			 	event.preventDefault();
+			}
+		}
+		$(firstRequired).focus();
+
+		if(firstRequired==""){
+    		$.ajax({
+                url : "<?php echo site_url('overtime/save');?>",
+                method : "POST",
+                data : {employeeID: ValueArray[0], 		overtimedate: ValueArray[1],
+                		starttime: ValueArray[2], 		endtime: ValueArray[3],
+                		totalhour: ValueArray[4], 	    description: ValueArray[5]},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+					var result = data.split('|');
+        			if(result[0]=="false"){
+							document.getElementById("add-employee").innerHTML = result[1];
+				        	$('#addemployee').removeClass('is-valid');
+				        	$('#addemployee').addClass('is-invalid');
+				        	$('#add-employee').addClass('invalid-feedback');
+				        	$("#addemployee").focus();
+				        	document.getElementById("add-overtime").innerHTML = result[1];
+				        	$('#addovertimedate').removeClass('is-valid');
+				        	$('#addovertimedate').addClass('is-invalid');
+				        	$('#add-overtime').addClass('invalid-feedback');
+						}else{
+        					window.location.replace('<?php echo base_url(); ?>overtime');
+            			}
+	                },
+	         		 error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+	  	}
+	});	
+
+		$('.edit_overtime').unbind('click').bind('click', function(){
+		$(".modal-body #editemployee").val( $(this).data('employeeid'));
+		$(".modal-body #editovertimedate").val( $(this).data('overtimedate'));
+		$(".modal-body #editstarttime").val( $(this).data('starttime'));
+		$(".modal-body #editendtime").val( $(this).data('endtime'));
+		$(".modal-body #edittotalTime").val( $(this).data('totalhour'));
+		$(".modal-body #editdescription").val( $(this).data('description'));
+		$('.update').attr('id', $(this).data('id'));
+         }); 
+
+		$('.update').unbind('click').bind('click', function(){
+		var IDArray = ['#editemployee', '#editovertimedate', '#editstarttime', '#editendtime', '#edittotalTime', '#editdescription'];
+
+		var ErrorIDArray = ['edit-employee', 'edit-overtime', 'edit-starttime', 'edit-endtime', 'edit-totalTime', 'edit-description'];
+
+		var ValueArray = [];
+		var firstRequired = "";
+		var navIndex = 0;
+		var id = $(this).attr('id');
+
+		for(var i=0;i<IDArray.length;i++){
+			ValueArray[i] = $(IDArray[i]).val().trim()
+			if(i==4) continue;
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+				if(firstRequired==""){
+					firstRequired = IDArray[i]
+				};
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+	        	$(IDArray[i]).addClass('is-invalid');
+                event.preventDefault();
+			}else{
+			    document.getElementById(ErrorIDArray[i]).innerHTML = "";	
+				$(IDArray[i]).removeClass('is-invalid');
+				$(IDArray[i]).addClass('is-valid');
+			 	event.preventDefault();
+			}
+		}
+		$(firstRequired).focus();
+
+		if(firstRequired==""){
+    		$.ajax({
+                url : "<?php echo site_url('overtime/update');?>",
+                method : "POST",
+                data : {id:id,
+                	  	employeeID: ValueArray[0], 		overtimedate: ValueArray[1],
+                		starttime: ValueArray[2], 		endtime: ValueArray[3],
+                		totalhour: ValueArray[4], 	    description: ValueArray[5]},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+					var result = data.split('|');
+        			if(result[0]=="false"){
+							document.getElementById("edit-employee").innerHTML = result[1];
+				        	$('#editemployee').removeClass('is-valid');
+				        	$('#editemployee').addClass('is-invalid');
+				        	$('#edit-employee').addClass('invalid-feedback');
+				        	$("#editemployee").focus();
+				        	document.getElementById("edit-overtime").innerHTML = result[1];
+				        	$('#editovertimedate').removeClass('is-valid');
+				        	$('#editovertimedate').addClass('is-invalid');
+				        	$('#edit-overtime').addClass('invalid-feedback');
+						}else{
+        					window.location.replace('<?php echo base_url(); ?>overtime');
+            			}
+	                },
+	         		 error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+	  		}
+		});	
+	
+     }); 		 
+</script>

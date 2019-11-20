@@ -33,7 +33,6 @@
 	            $this.addClass('active');
 	        }
 	    });
-
 	});
 	</script>
 

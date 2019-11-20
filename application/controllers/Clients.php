@@ -14,7 +14,10 @@
        		$data['data']=$this->client->get_all_client();
 	  		
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Client/Index",$data);
+
+			if(isAllowed(26)) $this->load->view("Client/Index",$data);
+						else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 

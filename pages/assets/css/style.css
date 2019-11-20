@@ -90,6 +90,20 @@ Version      : 3.3
 .btn {
 	font-size: .8rem !important;
 }
+
+.action-label{
+	width:50px;
+	display: contents;
+}
+
+input[type="search"] {
+  border-radius: 5px !important;
+}
+
+a.action-status {
+  pointer-events: none;
+  cursor: default;
+}
 /* End of Customize*/
 
 @font-face {
@@ -3008,7 +3022,6 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .filter-row .btn {
-	min-height: 50px;
 	padding: 12px;
 	text-transform: uppercase;
 }

@@ -11,7 +11,7 @@
 		{ 
 			$data = array('title' => 'Departments');
 
-			if(isset($_POST['id'])){
+			if(isset($_POST['id']) || isset($_POST['description']) || isset($_POST['status'])){
 				$id = $this->input->post('id');
 				$description = $this->input->post('description');
 				$status = $this->input->post('status');
@@ -23,7 +23,10 @@
    				$data['data']=$this->department->get_all_department();
 
 				$this->load->view('Template/Header',$data);
-				$this->load->view("Department/Index",$data);
+
+				if(isAllowed(24)) $this->load->view("Department/Index",$data);
+						else $this->load->view("Denied/Index");
+
 				$this->load->view('Template/Footer',$data); 
 			}
 		} 

@@ -22,7 +22,10 @@ class Client_model extends CI_Model
 			$data = array(
 				'clientname' => $clientname,
 				'description' => $this->input->post('description'),
-				'location' => $this->input->post('location'),
+				'housenumber' => $this->input->post('housenumber'),
+				'streetname' => $this->input->post('streetname'),
+				'barangay' => $this->input->post('barangay'),
+				'city' => $this->input->post('city'),
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),
@@ -48,7 +51,10 @@ class Client_model extends CI_Model
 			$data = array(
 				'clientname' => $clientname,
 				'description' => $this->input->post('description'),
-				'location' => $this->input->post('location'),
+				'housenumber' => $this->input->post('housenumber'),
+				'streetname' => $this->input->post('streetname'),
+				'barangay' => $this->input->post('barangay'),
+				'city' => $this->input->post('city'),
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),

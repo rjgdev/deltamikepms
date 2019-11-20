@@ -23,7 +23,7 @@ class Department_model extends CI_Model
 
 	    if($id!="") $this->db->like('departmentID', $id);
         if($description!="") $this->db->like('description', $description);
-        if($status!="")  $this->db->like('departmentstatus', $status);
+        if($status!="")  $this->db->where('departmentstatus', $status);
 
 	    $query = $this->db->get();
 

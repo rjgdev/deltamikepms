@@ -49,7 +49,7 @@
 								<?php } if($permission[5]){ ?>	
 									<li><a href="<?php echo base_url(); ?>overtime">Overtime</a></li>
 								<?php } if($permission[6]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Loans</a></li>
+									<li><a href="<?php echo base_url(); ?>loans">Loans</a></li>
 								<?php } ?>
 							</ul>
 						</li>
@@ -172,7 +172,7 @@
 									<?php } if($permission[31]){ ?>
 										<li><a href="<?php echo base_url(); ?>leavetype">Leave Type</a></li>
 									<?php } if($permission[32]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Bank</a></li>
+										<li><a href="<?php echo base_url(); ?>banks">Bank</a></li>
 									<?php } ?>
 								</ul>
 							</li>	

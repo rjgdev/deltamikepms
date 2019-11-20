@@ -14,7 +14,10 @@
        		$data['data']=$this->designation->get_all_designation();
 	  		
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Designation/Index",$data);
+
+			if(isAllowed(25)) $this->load->view("Designation/Index",$data);
+						else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 

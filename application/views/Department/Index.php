@@ -20,36 +20,6 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-
-		<!-- Search Filter -->
-		<div class="row filter-row">
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating" id="search-id">
-					<label class="focus-label">Department ID</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating" id="search-description">
-					<label class="focus-label">Department Name</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3"> 
-				<div class="form-group form-focus select-focus">
-					<select class="select floating" id="search-status"> 
-						<option>Select Status</option>
-						<option>Active</option>
-						<option>Inactive</option>
-					</select>
-					<label class="focus-label">Status</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<a href="#" class="btn btn-success btn-block search"> Search </a>  
-			</div>     
-        </div>
-		<!-- /Search Filter -->
 		
 		<div class="row">
 			<div class="col-md-12">
@@ -68,32 +38,26 @@
 								<tr>
 									<td><?php echo $item->departmentID; ?></td>
 									<td><?php echo $item->description; ?></td>
-									<td>
-										<div class="dropdown action-label">
-											<a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+									<td >
+										<div class="action-label">
+											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
 												<?php if($item->departmentstatus=="Active") 
 														   echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
 													  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Inactive';
 											    ?>
 											</a>
-											<div class="dropdown-menu">
-												<?php if($item->departmentstatus=='Active'){ ?>
-													<a class="dropdown-item inactive" href="#" data-toggle="modal" data-target="#status_department" data-id="<?php echo $item->departmentID; ?>" data-status="Inactive" data-description="<?php echo $item->description; ?>"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</a>
-												<?php }else{ ?>
-													<a class="dropdown-item activate" href="#" data-toggle="modal" data-target="#status_department" data-id="<?php echo $item->departmentID; ?>" data-status="Active" data-description="<?php echo $item->description; ?>"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
-												<?php } ?>
-											</div>
 										</div>
 									</td>
+
 									<td class="text-right">
-										<button type="button" id="<?php echo $item->departmentID; ?>" class="btn btn-info btn-sm editdepartment"
-												data-toggle="modal"
-												data-target="#edit_department" 
-												data-id="<?php echo $item->departmentID; ?>"
-												data-description="<?php echo $item->description; ?>"
-												data-tog="tooltip"
-												data-placement="top"
-												title="Edit"> <i class="fa fa-pencil"></i> </button>
+										<div class="dropdown dropdown-action">
+											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+											<div class="dropdown-menu dropdown-menu-right">
+												<a class="dropdown-item editdepartment" href="#" id="<?php echo $item->departmentID; ?>" data-toggle="modal" data-target="#edit_department" data-description="<?php echo $item->description; ?>"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+
+												<a class="dropdown-item changestatus" href="#" data-toggle="modal" data-target="#status_department" data-id="<?php echo $item->departmentID; ?>" data-status="<?php echo ($item->departmentstatus=='Active') ? 'Inactive' : 'Active' ?>" data-description="<?php echo $item->description; ?>"><i class="fa fa-toggle-on m-r-5"></i> Change Status</a>
+											</div>
+										</div>
 									</td>
 								</tr>
 							<?php } ?>
@@ -197,6 +161,13 @@
 	$(document).ready(function() {
   		$('[data-tog="tooltip"]').tooltip();
 
+  		$('.search-options').keypress(function (e) {
+		  if (e.which == 13) {
+		    $('.search').click();
+		    return false;   
+		  }
+		});
+
 		/* FOCUS ON DESCRIPTION */
 		$('#add_department').on('shown.bs.modal', function(){
 	   		$("#adddescription").focus(); 
@@ -210,6 +181,13 @@
 		});
 
 		/* CLEAR MODAL */
+		$('#edit_department').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    document.getElementById("edit-invalid").innerHTML = "";
+        	$('#editdescription').removeClass('is-invalid');
+		});
+
+		/* CLEAR MODAL */
 		$('#status_department').on('hidden.bs.modal', function(){
 		    document.getElementById("status-invalid").innerHTML = "";
 		});
@@ -217,23 +195,32 @@
 	    /* EDIT BUTTON - PASS DATA TO MODAL */
 		$(document).on("click", ".editdepartment", function(){
 			$(".modal-body #editdescription").val( $(this).data('description'));
-			$('.update').attr('id', $(this).data('id'));
+			$('.update').attr('id', $(this).attr('id'));
 		});
 
-	    /* ACTIVATE */
-		$('.activate').unbind('click').bind('click', function(){
+		/* CLEAR FILTERS */
+		$('.clear').unbind('click').bind('click', function(){
+			$('.filter-row input[type="text"]').val('');
+			$('#search-status').val("Select Status");
+			document.getElementById('select2-search-status-container').innerHTML = "Select Status";
+			$('.form-focus').removeClass('focused');
+			$(".search").trigger("click");
+		});
+
+	    /* Change Status */
+		$('.changestatus').unbind('click').bind('click', function(){
 			$('.change').attr('id', $(this).data('id'));
 			$('.change').attr('status', $(this).data('status'));
 			$('.change').attr('description', $(this).data('description'));
-			document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='green'>activate</font> this record?";
-		});
+			var displayText = "";
 
-	    /* INACTIVE */
-		$('.inactive').unbind('click').bind('click', function(){
-			$('.change').attr('id', $(this).data('id'));
-			$('.change').attr('status', $(this).data('status'));
-			$('.change').attr('description', $(this).data('description'));
-		    document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='#e04d45'>inactive</font> this record?";
+			if($(this).data('status')=="Active"){
+				displayText = "<font color='green'>activate</font>";
+			}else if($(this).data('status')=="Inactive"){
+				displayText = "<font color='#e04d45'>inactive</font>";
+			}
+
+			document.getElementById("statusmessage").innerHTML = "Are you sure you want to " + displayText + " this record?";
 		});
 
 		 /* SEARCH */
@@ -243,31 +230,60 @@
 			var status = $("#search-status").val();
 
 			if(status=="Select Status") status = "";
-			
 
 			$.ajax({
                 url : "<?php echo site_url('departments');?>",
                 method : "POST",
-                data : {id : id},
+                data : {id : id,
+                		description: description,
+                		status: status},
                 async : true,
                 dataType : 'json',
                 success: function(data){
-                	console.log(data);
 					var html ="";
 
-					for ( var i=0; i<data.length; i++ ) {
-						html += "<tr><td>"
-								+ data[i].departmentID + 
-							 "</td><td>" 
-							  	+ data[i].description + 
-							 "</td><td></td>" +
-							 '<td class="text-right">' + 
-										'<button type="button" id="' + data[i].departmentID + '" class="btn btn-info btn-sm editdepartment" data-toggle="modal" data-target="#edit_department" data-id="' + data[i].departmentID + '" data-description="' + data[i].description + '" data-tog="tooltip" data-placement="top"title="Edit"> <i class="fa fa-pencil"></i> </button>' + 
-							 "</td></tr>";
-					}
+					var table = $(".datatable").dataTable();
+		            oSettings = table.fnSettings();
+		            table.fnClearTable(this);
 
-					$("#show_data").html(html);
+		            var varStatus = "";
+		            var varStatusIcon = "";
 
+		            for (var i=0; i < data.length; i++)
+		            {
+		        		if(data[i].departmentstatus=="Active"){
+		        			varStatus = '<a class="dropdown-item inactive" href="#" data-toggle="modal" data-target="#status_department" data-id="' + data[i].departmentID + '" data-status="Inactive" data-description="' + data[i].description + '"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</a>';
+
+		        			varStatusIcon = '<i class="fa fa-dot-circle-o text-success"></i> Active ';
+		    			}else{
+		        			varStatus = '<a class="dropdown-item activate" href="#" data-toggle="modal" data-target="#status_department" data-id="' + data[i].departmentID + '" data-status="Active" data-description="' + data[i].description + '"><i class="fa fa-dot-circle-o text-success"></i> Active</a>';
+
+		        			varStatusIcon = '<i class="fa fa-dot-circle-o text-danger"></i> Inactive ';
+		    			}
+
+		                table.oApi._fnAddData(oSettings, [
+		                		data[i].departmentID,
+		                		data[i].description,
+		                		'<div class="dropdown action-label">' + 
+									'<a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">' 
+										+ varStatusIcon +
+									'</a>' + 
+									'<div class="dropdown-menu">'
+										+ varStatus +
+									'</div>' +
+								'</div>',  
+		                		'<div class="text-right"><button type="button" id="' + data[i].departmentID + '" class="btn btn-info btn-sm text-right editdepartment"' + 
+														'data-toggle="modal"' + 
+														'data-target="#edit_department"' + 
+														'data-id="' + data[i].departmentID + '"' +
+														'data-description="' + data[i].description + '"' +
+														'data-tog="tooltip"' +
+														'data-placement="top"' +
+														'title="Edit"> <i class="fa fa-pencil"></i> </button></div>']);
+		            }
+		 
+		            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+		            table.fnDraw();
                 },
                 error: function(request, textStatus, error) {
                 		alert(request + ":" + textStatus + ":" + error);

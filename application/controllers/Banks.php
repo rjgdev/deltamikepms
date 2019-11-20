@@ -1,34 +1,34 @@
 <?php 
-   class Leavetype extends CI_Controller {  
+   class Banks extends CI_Controller {  
 		public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 
-			$this->load->model('Leavetype_model');  
-	  		$this->leavetype = new Leavetype_model;     
+			$this->load->model('Bank_model');  
+	  		$this->bank = new Bank_model;     
 		}
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Leave Type');
+	  		$data = array('title' => 'Bank');
 
-       		$data['data']=$this->leavetype->get_all_leavetype();
+       		$data['data']=$this->bank->get_all_bank();
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(31)) $this->load->view("Leavetype/Index",$data);
+			if(isAllowed(32)) $this->load->view("Bank/Index",$data);
 						else $this->load->view("Denied/Index");
-			
+
 			$this->load->view('Template/Footer',$data);
 		} 
 
 		public function save() 
 		{ 
-			$leavetypename = $this->input->post('leavetypename');
+			$bankname = $this->input->post('bankname');
 
-       		$data=$this->leavetype->save_leavetype($leavetypename);
+       		$data=$this->bank->save_bank($bankname);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Bank name already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
@@ -39,12 +39,12 @@
 		public function update() 
 		{ 
 			$id = $this->input->post('id');
-			$leavetypename = $this->input->post('leavetypename');
+			$bankname = $this->input->post('bankname');
 
-       		$data=$this->leavetype->update_leavetype($id, $leavetypename);
+       		$data=$this->bank->update_bank($id, $bankname);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Bank name already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
@@ -56,12 +56,12 @@
 		{ 
 			$id = $this->input->post('id');
 			$status = $this->input->post('status');
-			$leavetypename = $this->input->post('leavetypename');
+			$bankname = $this->input->post('bankname');
 
-       		$data=$this->leavetype->change_status_leavetype($id, $status,$leavetypename);
+       		$data=$this->bank->change_status_bank($id, $status,$bankname);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Bank name already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
