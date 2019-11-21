@@ -146,12 +146,12 @@
 
 				<?php if($permission[24] || $permission[25] || $permission[26] || $permission[27] || $permission[28] ||
 						 $permission[29] || $permission[30] || $permission[31] || $permission[32] || $permission[33] || 
-						 $permission[34] || $permission[35]){ ?>
+						 $permission[34] || $permission[35] || $permission[36]){ ?>
 					<li class="menu-title"> 
 						<span>Administration</span>
 					</li>
 					<?php if($permission[24] || $permission[25] || $permission[26] || $permission[27] || $permission[28] ||
-						 $permission[29] || $permission[30] || $permission[31] || $permission[32]){ ?>
+						 $permission[29] || $permission[30] || $permission[31] || $permission[32] || $permission[33]){ ?>
 							<li class="submenu">
 								<a href="#" class="maintenance-header"><i class="la la-folder-open"></i> <span> File Maintenance </span> <span class="menu-arrow"></span></a>
 								<ul style="display: none;" class="menu-header" id="maintenance-header">
@@ -164,28 +164,30 @@
 									<?php } if($permission[27]){ ?>
 										<li><a href="<?php echo base_url(); ?>maintenance">Detachment Post</a></li>
 									<?php } if($permission[28]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Contribution</a></li>
+										<li><a href="<?php echo base_url(); ?>maintenance">SSS Table</a></li>
 									<?php } if($permission[29]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Tax Table</a></li>
+										<li><a href="<?php echo base_url(); ?>maintenance">Philhealth Table</a></li>
 									<?php } if($permission[30]){ ?>
-										<li><a href="<?php echo base_url(); ?>holidays">Holidays</a></li>
+										<li><a href="<?php echo base_url(); ?>maintenance">Tax Table</a></li>
 									<?php } if($permission[31]){ ?>
-										<li><a href="<?php echo base_url(); ?>leavetype">Leave Type</a></li>
+										<li><a href="<?php echo base_url(); ?>holidays">Holidays</a></li>
 									<?php } if($permission[32]){ ?>
+										<li><a href="<?php echo base_url(); ?>leavetype">Leave Type</a></li>
+									<?php } if($permission[33]){ ?>
 										<li><a href="<?php echo base_url(); ?>banks">Bank</a></li>
 									<?php } ?>
 								</ul>
 							</li>	
 					<?php } ?>
-					<?php if($permission[33]){ ?>
+					<?php if($permission[34]){ ?>
 						<li class="nav-item">
 							<a href="<?php echo base_url(); ?>company"><i class="la la-building"></i></i> <span>Company Profile</span> </a>
 						</li>
-					<?php } if($permission[34]){ ?>
+					<?php } if($permission[35]){ ?>
 						<li class="nav-item">
 							<a href="<?php echo base_url(); ?>roles"><i class="la la-key"></i></i> <span>Roles & Permission</span> </a>
 						</li>
-					<?php } if($permission[35]){ ?>
+					<?php } if($permission[36]){ ?>
 						<li class="nav-item">
 							<a href="<?php echo base_url(); ?>maintenance"><i class="la la-tasks"></i></i> <span>Approval Setup</span> </a>
 						</li>

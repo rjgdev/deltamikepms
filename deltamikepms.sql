@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2019 at 01:55 AM
+-- Generation Time: Nov 21, 2019 at 06:30 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -339,14 +339,15 @@ INSERT INTO `modulemstr` (`moduleID`, `moduleDescription`, `moduleShortDesc`) VA
 (25, 'Designations', 'designations'),
 (26, 'Clients', 'clients'),
 (27, 'Detachment Post', 'detachment'),
-(28, 'Contribution', 'contribution'),
-(29, 'Tax Table', 'taxtable'),
-(30, 'Holidays', 'holidays'),
-(31, 'Leave Type', 'leavetype'),
-(32, 'Bank', 'bank'),
-(33, 'Company Profile', 'companyprofile'),
-(34, 'Roles & Permission', 'rolespermission'),
-(35, 'Approval Setup', 'approvalsetup');
+(28, 'SSS Table', 'ssstable'),
+(29, 'Philhealth Table', 'philhealthtable'),
+(30, 'Tax Table', 'taxtable'),
+(31, 'Holidays', 'holidays'),
+(32, 'Leave Type', 'leavetype'),
+(33, 'Bank', 'bank'),
+(34, 'Company Profile', 'companyprofile'),
+(35, 'Roles & Permission', 'rolespermission'),
+(36, 'Approval Setup', 'approvalsetup');
 
 -- --------------------------------------------------------
 
@@ -428,7 +429,7 @@ CREATE TABLE `rolemodule` (
 
 INSERT INTO `rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (1, 1, 1, 1),
-(2, 1, 2, 0),
+(2, 1, 2, 1),
 (3, 1, 3, 1),
 (4, 1, 4, 1),
 (5, 1, 5, 1),
@@ -462,41 +463,43 @@ INSERT INTO `rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (33, 1, 33, 1),
 (34, 1, 34, 1),
 (35, 1, 35, 1),
-(36, 2, 1, 1),
-(37, 2, 2, 1),
-(38, 2, 3, 1),
-(39, 2, 4, 1),
-(40, 2, 5, 1),
-(41, 2, 6, 1),
-(42, 2, 7, 0),
-(43, 2, 8, 0),
-(44, 2, 9, 0),
-(45, 2, 10, 0),
-(46, 2, 11, 0),
-(47, 2, 12, 0),
-(48, 2, 13, 0),
-(49, 2, 14, 0),
-(50, 2, 15, 0),
-(51, 2, 16, 0),
-(52, 2, 17, 0),
-(53, 2, 18, 0),
-(54, 2, 19, 0),
-(55, 2, 20, 0),
-(56, 2, 21, 0),
-(57, 2, 22, 0),
-(58, 2, 23, 0),
-(59, 2, 24, 0),
-(60, 2, 25, 0),
-(61, 2, 26, 0),
-(62, 2, 27, 0),
-(63, 2, 28, 0),
-(64, 2, 29, 0),
-(65, 2, 30, 0),
-(66, 2, 31, 0),
-(67, 2, 32, 0),
-(68, 2, 33, 0),
-(69, 2, 34, 0),
-(70, 2, 35, 0);
+(36, 1, 36, 1),
+(37, 2, 1, 1),
+(38, 2, 2, 1),
+(39, 2, 3, 1),
+(40, 2, 4, 1),
+(41, 2, 5, 1),
+(42, 2, 6, 1),
+(43, 2, 7, 1),
+(44, 2, 8, 1),
+(45, 2, 9, 1),
+(46, 2, 10, 1),
+(47, 2, 11, 1),
+(48, 2, 12, 1),
+(49, 2, 13, 1),
+(50, 2, 14, 1),
+(51, 2, 15, 1),
+(52, 2, 16, 1),
+(53, 2, 17, 1),
+(54, 2, 18, 1),
+(55, 2, 19, 1),
+(56, 2, 20, 1),
+(57, 2, 21, 1),
+(58, 2, 22, 1),
+(59, 2, 23, 1),
+(60, 2, 24, 1),
+(61, 2, 25, 1),
+(62, 2, 26, 1),
+(63, 2, 27, 1),
+(64, 2, 28, 1),
+(65, 2, 29, 1),
+(66, 2, 30, 1),
+(67, 2, 31, 1),
+(68, 2, 32, 1),
+(69, 2, 33, 1),
+(70, 2, 34, 1),
+(71, 2, 35, 1),
+(72, 2, 36, 1);
 
 -- --------------------------------------------------------
 
@@ -669,7 +672,7 @@ ALTER TABLE `loan`
 -- AUTO_INCREMENT for table `modulemstr`
 --
 ALTER TABLE `modulemstr`
-  MODIFY `moduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `moduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `overtime`
 --
@@ -684,7 +687,7 @@ ALTER TABLE `payslip`
 -- AUTO_INCREMENT for table `rolemodule`
 --
 ALTER TABLE `rolemodule`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 --
 -- AUTO_INCREMENT for table `rolemstr`
 --
