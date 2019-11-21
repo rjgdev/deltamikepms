@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2019 at 01:52 AM
+-- Generation Time: Nov 21, 2019 at 01:55 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -23,6 +23,70 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `approval`
+--
+
+CREATE TABLE `approval` (
+  `approvalID` bigint(20) NOT NULL,
+  `moduleID` bigint(20) NOT NULL,
+  `employeeType` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `approval`
+--
+
+INSERT INTO `approval` (`approvalID`, `moduleID`, `employeeType`) VALUES
+(1, 7, 1),
+(2, 7, 2),
+(3, 9, 1),
+(4, 9, 2),
+(5, 10, 1),
+(6, 10, 2),
+(7, 14, 1),
+(8, 14, 2),
+(9, 16, 1),
+(10, 16, 2),
+(11, 18, 1),
+(12, 18, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `approvaldet`
+--
+
+CREATE TABLE `approvaldet` (
+  `approvalsetupID` bigint(20) NOT NULL,
+  `approvalID` bigint(20) NOT NULL,
+  `approvalDescription` varchar(255) NOT NULL,
+  `approvalLevel` int(11) NOT NULL,
+  `employeeID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank`
+--
+
+CREATE TABLE `bank` (
+  `bankID` bigint(11) NOT NULL,
+  `bankname` varchar(50) NOT NULL,
+  `bankstatus` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bank`
+--
+
+INSERT INTO `bank` (`bankID`, `bankname`, `bankstatus`) VALUES
+(1, 'b', 'Active'),
+(2, 'a', 'Active');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `client`
 --
 
@@ -31,12 +95,24 @@ CREATE TABLE `client` (
   `description` varchar(120) NOT NULL,
   `clientstatus` varchar(120) NOT NULL,
   `clientname` varchar(50) NOT NULL,
-  `location` varchar(50) NOT NULL,
+  `housenumber` varchar(50) NOT NULL,
+  `streetname` varchar(50) NOT NULL,
+  `barangay` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
   `contactperson` varchar(50) NOT NULL,
   `activedetachmentpost` int(10) NOT NULL,
   `contactno` varchar(20) NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client`
+--
+
+INSERT INTO `client` (`clientID`, `description`, `clientstatus`, `clientname`, `housenumber`, `streetname`, `barangay`, `city`, `contactperson`, `activedetachmentpost`, `contactno`, `email`) VALUES
+(1, '1', 'Active', '1', '', '', '', '', '1', 1, '1', '1'),
+(2, '2', 'Active', '3', '2', '3', '1', '1', '1', 1, '1', '1'),
+(3, '', 'Active', '2', '', '2', '2', '2', '2', 2, '2', '2');
 
 -- --------------------------------------------------------
 
@@ -55,9 +131,10 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`departmentID`, `description`, `departmentstatus`) VALUES
-(1, 'IT Department', 'Active'),
-(2, 'IT Departments', 'Inactive'),
-(3, 'DepName12', 'Active');
+(1, 'IT Departments', 'Active'),
+(2, 'HR Department', 'Inactive'),
+(3, '1', 'Active'),
+(4, '23', 'Active');
 
 -- --------------------------------------------------------
 
@@ -151,7 +228,7 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `photo`, `clientID`, `datecreated`) VALUES
-(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 'admin', 'admin', ' 10,000.00', ' 500.00', ' 0.00', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', '', 1, '2019-11-12 09:04:14.715840');
+(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 'admin', 'admin', ' 10,000.00', ' 500.00', ' 0.00', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', '', 1, '2019-11-20 01:34:14.905542');
 
 -- --------------------------------------------------------
 
@@ -165,6 +242,58 @@ CREATE TABLE `holiday` (
   `holidaydate` varchar(20) DEFAULT NULL,
   `holidaytype` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leavetype`
+--
+
+CREATE TABLE `leavetype` (
+  `leavetypeID` bigint(11) NOT NULL,
+  `leavetypename` varchar(50) NOT NULL,
+  `noofdays` int(11) NOT NULL,
+  `accumulation` varchar(20) NOT NULL,
+  `leavetypestatus` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `leavetype`
+--
+
+INSERT INTO `leavetype` (`leavetypeID`, `leavetypename`, `noofdays`, `accumulation`, `leavetypestatus`) VALUES
+(1, 'a', 1, 'No', 'Active'),
+(2, 'b', 1, 'No', 'Active'),
+(3, 'asd', 1, 'Yes', 'Active'),
+(4, 'e', 1, 'No', 'Active'),
+(5, 'as', 1, 'Yes', 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loan`
+--
+
+CREATE TABLE `loan` (
+  `loanID` int(11) NOT NULL,
+  `employeeID` int(11) NOT NULL,
+  `loantypeID` int(11) NOT NULL,
+  `dategranted` varchar(50) NOT NULL,
+  `enddate` varchar(255) NOT NULL,
+  `termofpaymentID` int(11) NOT NULL,
+  `amount` varchar(20) NOT NULL,
+  `deduction` varchar(25) NOT NULL,
+  `balance` varchar(25) NOT NULL,
+  `datecreated` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ;
+
+--
+-- Dumping data for table `loan`
+--
+
+INSERT INTO `loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `enddate`, `termofpaymentID`, `amount`, `deduction`, `balance`, `datecreated`) VALUES
+(1, 1, 1, '21/11/2019', '08/02/2020', 1, '5,000.00', '400.00', '', '2019-11-20 06:19:30.733972'),
+(2, 1, 2, '21/11/2019', '20/11/2019', 1, '2.00', '1.00', '', '2019-11-20 06:27:44.347017');
 
 -- --------------------------------------------------------
 
@@ -218,6 +347,40 @@ INSERT INTO `modulemstr` (`moduleID`, `moduleDescription`, `moduleShortDesc`) VA
 (33, 'Company Profile', 'companyprofile'),
 (34, 'Roles & Permission', 'rolespermission'),
 (35, 'Approval Setup', 'approvalsetup');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `overtime`
+--
+
+CREATE TABLE `overtime` (
+  `overtimeID` int(8) NOT NULL,
+  `employeeID` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `overtimedate` varchar(250) NOT NULL,
+  `starttime` varchar(255) NOT NULL,
+  `endtime` varchar(255) NOT NULL,
+  `totalhour` varchar(255) NOT NULL,
+  `datecreated` varchar(255) NOT NULL,
+  `dateupdated` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `overtime`
+--
+
+INSERT INTO `overtime` (`overtimeID`, `employeeID`, `description`, `overtimedate`, `starttime`, `endtime`, `totalhour`, `datecreated`, `dateupdated`) VALUES
+(1, 1, '11', '14/11/2019', '02:30 AM', '07:30 AM', '05:00', '13/11/2019 11:41 AM', '13/11/2019 01:46 PM'),
+(3, 1, '7111', '14/11/2019', '02:30 AM', '10:00 AM', '07:30', '13/11/2019 01:47 PM', '13/11/2019 02:06 PM'),
+(4, 1, 'hhh1', '18/11/2019', '01:30 AM', '03:00 AM', '1:30', '18/11/2019 05:20 PM', ''),
+(5, 1, 'jn', '19/11/2019', '08:00', '05:30', '0:0', '18/11/2019 05:25 PM', ''),
+(6, 1, 'adawdw', '20/11/2019', '18:00', '13:30', '0:0', '18/11/2019 05:26 PM', ''),
+(7, 1, 'wseqwqe', '22/11/2019', '11:11', '14:14', '3:3', '19/11/2019 09:02 AM', ''),
+(8, 5, 'weewew232', '28/11/2019', '11:11 AM', '03:33 PM', '04:22', '', ''),
+(9, 3, '1112', '28/11/2019', '08:08 AM', '09:30 AM', '1:22', '', ''),
+(10, 3, '121', '21/11/2019', '11:11', '16:21', '5:10', '', ''),
+(11, 3, 'aeew', '29/11/2019', '11:11', '14:11', '3:0', '', '');
 
 -- --------------------------------------------------------
 
@@ -360,6 +523,24 @@ INSERT INTO `rolemstr` (`roleID`, `roleDescription`) VALUES
 --
 
 --
+-- Indexes for table `approval`
+--
+ALTER TABLE `approval`
+  ADD PRIMARY KEY (`approvalID`);
+
+--
+-- Indexes for table `approvaldet`
+--
+ALTER TABLE `approvaldet`
+  ADD PRIMARY KEY (`approvalsetupID`);
+
+--
+-- Indexes for table `bank`
+--
+ALTER TABLE `bank`
+  ADD PRIMARY KEY (`bankID`);
+
+--
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
@@ -390,10 +571,22 @@ ALTER TABLE `holiday`
   ADD PRIMARY KEY (`holidayID`);
 
 --
+-- Indexes for table `leavetype`
+--
+ALTER TABLE `leavetype`
+  ADD PRIMARY KEY (`leavetypeID`);
+
+--
 -- Indexes for table `modulemstr`
 --
 ALTER TABLE `modulemstr`
   ADD PRIMARY KEY (`moduleID`);
+
+--
+-- Indexes for table `overtime`
+--
+ALTER TABLE `overtime`
+  ADD PRIMARY KEY (`overtimeID`);
 
 --
 -- Indexes for table `payslip`
@@ -418,15 +611,30 @@ ALTER TABLE `rolemstr`
 --
 
 --
+-- AUTO_INCREMENT for table `approval`
+--
+ALTER TABLE `approval`
+  MODIFY `approvalID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `approvaldet`
+--
+ALTER TABLE `approvaldet`
+  MODIFY `approvalsetupID` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bank`
+--
+ALTER TABLE `bank`
+  MODIFY `bankID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `clientID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `clientID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-  MODIFY `departmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `departmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `designation`
 --
@@ -448,10 +656,25 @@ ALTER TABLE `employee`
 ALTER TABLE `holiday`
   MODIFY `holidayID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `leavetype`
+--
+ALTER TABLE `leavetype`
+  MODIFY `leavetypeID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `loan`
+--
+ALTER TABLE `loan`
+  MODIFY `loanID` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `modulemstr`
 --
 ALTER TABLE `modulemstr`
   MODIFY `moduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+--
+-- AUTO_INCREMENT for table `overtime`
+--
+ALTER TABLE `overtime`
+  MODIFY `overtimeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `payslip`
 --
@@ -466,7 +689,7 @@ ALTER TABLE `rolemodule`
 -- AUTO_INCREMENT for table `rolemstr`
 --
 ALTER TABLE `rolemstr`
-  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
