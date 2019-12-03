@@ -19,36 +19,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="row filter-row">
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating">
-					<label class="focus-label">Employee ID</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating">
-					<label class="focus-label">Employee Name</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3"> 
-				<div class="form-group form-focus select-focus">
-					<select class="select floating"> 
-						<option>Select Designation</option>
-						<option>Web Developer</option>
-						<option>Web Designer</option>
-						<option>Android Developer</option>
-						<option>Ios Developer</option>
-					</select>
-					<label class="focus-label">Designation</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<a href="#" class="btn btn-success btn-block"> Search </a>  
-			</div>     
-        </div>
-		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
@@ -82,7 +52,7 @@
 								<div class="dropdown dropdown-action">
 								</div>
 								<td class="text-right">
-									<button type="button" id="<?php echo $item->loanid; ?>" class="btn btn-info btn-sm edit_loan" data-toggle="modal" data-target="#edit_loan" data-id="<?php echo $item->loanid; ?>" data-employeeid="<?php echo $item->employeeID; ?>" data-fullname="<?php echo $item->fullname; ?>" data-dategranted="<?php echo $item->dategranted; ?>" data-enddate="<?php echo $item->enddate; ?>" data-paymenttermid="<?php echo $item->paymenttermid; ?>"  data-termofpaymentID="<?php echo $item->termofpaymentID; ?>" data-loantypeid1="<?php echo $item->loantypeid1; ?>" data-amount="<?php echo $item->amount; ?>" data-deduction="<?php echo $item->deduction; ?>" data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
+									<button type="button" id="<?php echo $item->loanid; ?>" class="btn btn-info btn-sm edit_loan" data-toggle="modal" data-target="#edit_loan" data-id="<?php echo $item->loanid; ?>" data-employeeid="<?php echo $item->employeeID; ?>" data-fullname="<?php echo $item->fullname; ?>" data-dategranted="<?php echo $item->dategranted; ?>" data-enddate="<?php echo $item->enddate; ?>" data-paymenttermid="<?php echo $item->termofpaymentID; ?>" data-termofpaymentI1D="	<?php echo $item->termofpaymentID2; ?>" data-loantypeid1="<?php echo $item->loantypeid1; ?>" data-amount="<?php echo $item->amount; ?>" data-deduction="<?php echo $item->deduction; ?>" data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
 							</tr>
 
 							<?php } ?>
@@ -371,6 +341,17 @@
 	            return false;
 	  	}
 	});	
+			 	/* CLEAR MODAL */
+		$('#edit_loan').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    $(".invalid-feedback").html("");
+        	$('input').removeClass('is-invalid');
+        	$('input').removeClass('is-valid');
+        	$('select').removeClass('is-invalid');
+        	$('select').removeClass('is-valid');
+        	
+		});
+
 		//end loan save
 		//edit loan
 		$('.edit_loan').unbind('click').bind('click', function(){
@@ -380,8 +361,9 @@
 		$(".modal-body #editenddate").val( $(this).data('enddate'));
 		$(".modal-body #editamount").val( $(this).data('amount'));
 		$(".modal-body #editdeduction").val( $(this).data('deduction'));
-		$(".modal-body #edittermofpaymentID").val( $(this).data('paymenttermid'));
+		$(".modal-body #edittermofpaymentID").val( $(this).data('termofpaymentI1D'));
 		$('.update').attr('id', $(this).data('id'));
+	
          	/* updated employee */
 
 $('.update').unbind('click').bind('click', function(){

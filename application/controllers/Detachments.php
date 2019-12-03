@@ -1,21 +1,21 @@
 <?php 
-   class Leavetype extends CI_Controller {  
+   class Detachments extends CI_Controller {  
 		public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 
-			$this->load->model('Leavetype_model');  
-	  		$this->leavetype = new Leavetype_model;     
+			$this->load->model('Detachment_model');  
+	  		$this->detachment = new Detachment_model;     
 		}
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Leave Type');
+	  		$data = array('title' => 'Detachment Posts');
 
-       		$data['data']=$this->leavetype->get_all_leavetype();
+       		$data['data']=$this->detachment->get_all_detachment();
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(32)) $this->load->view("Leavetype/Index",$data);
+			if(isAllowed(27)) $this->load->view("Detachment/Index",$data);
 						else $this->load->view("Denied/Index");
 			
 			$this->load->view('Template/Footer',$data);
@@ -23,28 +23,30 @@
 
 		public function save() 
 		{ 
-			$leavetypename = $this->input->post('leavetypename');
+			$postname = $this->input->post('postname');
+			$clientID = $this->input->post('clientID');
 
-       		$data=$this->leavetype->save_leavetype($leavetypename);
+       		$data=$this->detachment->save_detachment($postname, $clientID);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Detachment post already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
             }   
 	    	echo json_encode($data);  
-		}  
+		} 
 
 		public function update() 
 		{ 
 			$id = $this->input->post('id');
-			$leavetypename = $this->input->post('leavetypename');
+			$postname = $this->input->post('postname');
+			$clientID = $this->input->post('clientID');
 
-       		$data=$this->leavetype->update_leavetype($id, $leavetypename);
+       		$data=$this->detachment->update_detachment($id, $postname, $clientID);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Detachment name already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
@@ -56,12 +58,12 @@
 		{ 
 			$id = $this->input->post('id');
 			$status = $this->input->post('status');
-			$leavetypename = $this->input->post('leavetypename');
+			$postname = $this->input->post('postname');
 
-       		$data=$this->leavetype->change_status_leavetype($id, $status,$leavetypename);
+       		$data=$this->detachment->change_status_detachment($id, $status,$postname);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Leave type already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Detachment name already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 

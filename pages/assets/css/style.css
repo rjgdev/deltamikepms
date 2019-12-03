@@ -104,6 +104,66 @@ a.action-status {
   pointer-events: none;
   cursor: default;
 }
+
+.approval-menu{
+	margin-top: 20px;
+}
+.approval-menu > ul {
+    background-color: #fff;
+    border: 1px solid #e3e3e3;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.approval-menu > ul > li {
+	display: block;
+	position: relative;
+}
+.approval-menu > ul > li a {
+	border-left: 3px solid transparent;
+    color: #333;
+    display: block;
+    padding: 10px 15px;
+    position: relative;
+}
+.approval-menu > ul > li.active a {
+	border-color: #e04d45;
+	color: #e04d45;
+}
+.approval-menu > ul > li a:hover {
+    background-color: #eee;
+	border-color: #e04d45;
+}
+.role-action {
+	float: right;
+	display: none;
+}
+.approval-menu > ul > li a:hover .role-action {
+	display: block;
+}
+.slide-nav .sidebar {
+	margin-left: 0;
+}
+
+td.details-control {
+	background: url('../img/plus.png') no-repeat center center;
+	cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('../img/minus.png') no-repeat center center;
+    height: 25px !important;
+    width: 25px !important;
+}
+
+#table_approval td{
+	border-bottom: .1em solid #dee2e6 !important; 
+	vertical-align: middle !important;
+}
+
+#table_approval #btn-delete-row{
+	font-size: .6rem !important;
+}
+
 /* End of Customize*/
 
 @font-face {
@@ -6550,7 +6610,7 @@ ul.comment-list li ul.children {
     padding: 15px;
 }
 .dash-card-content p {
-	font-size: 22px;
+	font-size: 15px;
 	margin-bottom: 0;
 }
 .dash-sec-content .dash-info-list + .dash-info-list {

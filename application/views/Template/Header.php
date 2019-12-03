@@ -67,7 +67,13 @@
 				<ul class="nav user-menu">
 					<li class="nav-item dropdown has-arrow main-drop">
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-							<span class="user-img"><img src="<?php echo base_url();?>pages\assets\img\profiles\luffy.jpg" alt="">
+							<span class="user-img">
+								<?php if($this->session->userdata('photo')==""){
+				                      echo '<img src="uploads/profileimg.png" alt=""/>';
+				                    }else{
+				                      echo '<img src="uploads/'.$this->session->userdata('photo').'" alt=""/>';
+				                    }
+					            ?>
 							<span class="status online"></span></span>
 							<span><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></span>
 						</a>

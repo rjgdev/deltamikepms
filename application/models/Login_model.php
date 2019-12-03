@@ -26,7 +26,16 @@ class Login_model extends CI_Model
 
 	function validate($username,$password)
 	{
-	    $query = $this->db->query('SELECT * FROM employee WHERE username="'.$username.'" AND password="'.$password.'"');
+	    $query = $this->db->query('
+	    	SELECT *, CONCAT(e.city) as ecity, CONCAT(e.housenumber) as ehousenumber, CONCAT(e.streetname) as estreetname, CONCAT(e.barangay) as ebarangay 
+	    	FROM employee as e
+	    	LEFT JOIN designation as des
+	    	ON des.designationID=e.designationID 
+	    	LEFT JOIN department as dept
+	    	ON dept.departmentID=e.departmentID 
+	    	LEFT JOIN detachment as detach
+	    	ON detach.detachmentID=e.detachmentID 
+	    	WHERE username="'.$username.'" AND password="'.$password.'"');
 	    return $query;
   }
 }

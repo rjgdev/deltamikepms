@@ -20,6 +20,8 @@
 
 	<script  type="text/javascript">  
     $(document).ready(function() {
+		$('.select2').select2();
+		
 		var current = location.pathname;
 	    $('#sidebar-menu li a').each(function(){
 	        var $this = $(this);

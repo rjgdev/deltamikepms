@@ -22,39 +22,6 @@ $end   = strtotime('11:59 PM');
 				</div>
 			</div>
 		</div>
-		<!-- /Page Header -->
-			<!-- Search Filter -->
-		<div class="row filter-row">
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating">
-					<label class="focus-label">Employee ID</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating">
-					<label class="focus-label">Employee Name</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3"> 
-				<div class="form-group form-focus select-focus">
-					<select class="select floating"> 
-						<option>Select Designation</option>
-						<option>Web Developer</option>
-						<option>Web Designer</option>
-						<option>Android Developer</option>
-						<option>Ios Developer</option>
-					</select>
-					<label class="focus-label">Designation</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<a href="#" class="btn btn-success btn-block"> Search </a>  
-			</div>     
-        </div>
-		<!-- /Search Filter -->
-		
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
@@ -302,6 +269,42 @@ $end   = strtotime('11:59 PM');
         	$('select').removeClass('is-valid');
 		});
 
+$("#addendtime").change(function(){
+	var starttime = $("#addstarttime").val().trim(); 
+	var endtime = $(this).val();
+	 if(endtime!="") computeOvertime(starttime,endtime);
+	});
+$("#addstarttime").change(function(){
+	var endtime = $("#addendtime").val().trim(); 
+	var starttime = $(this).val();
+	 if(starttime!="") computeOvertime(starttime,endtime);
+	});
+
+	function computeOvertime(starttime,endtime){
+		var dtStart = new Date("7/20/2019 " + $starttime.val());
+        var dtEnd = new Date("7/20/2019 " + $endtime.val());
+         var startminute   =   dtStart.getMinutes();
+        var endminute   =   dtEnd.getMinutes();
+        var diff = (dtEnd - dtStart) /60000;
+        var hr = Math.floor(diff/60)
+		/*var totalminute = new Date($start);
+		 totalminute.setMinutes(end.getMinutes() - dtStart);*/
+        if(startminute <= 1){
+        	 var totalminute = dtStart.getMinutes() - dtEnd.getMinutes();
+        }else{
+        	var totalminute =  dtEnd.getMinutes() - dtStart.getMinutes();
+        }	
+        if( hr <= 0){
+        	 var hr = 0;
+        	 var totalminute = 0;
+        }else{
+        	var hr; 
+        	var totalminute;
+        }	
+        var diff = hr + ":" + totalminute; 
+        $("#totalTime").val(diff);
+
+	}	
     $("#addendtime").change(function(){
   		var $start = $("#addstarttime");
   		var $end = $("#addendtime");
@@ -312,10 +315,12 @@ $end   = strtotime('11:59 PM');
         var endminute   =   dtEnd.getMinutes();
         var diff = (dtEnd - dtStart) /60000;
         var hr = Math.floor(diff/60)
-        if(startminute=="30"){
-        	 var totalminute = startminute - endminute;
+		/*var totalminute = new Date($start);
+		 totalminute.setMinutes(end.getMinutes() - dtStart);*/
+        if(startminute <= 1){
+        	 var totalminute = dtStart.getMinutes() - dtEnd.getMinutes();
         }else{
-        	var totalminute =  endminute - startminute 
+        	var totalminute =  dtEnd.getMinutes() - dtStart.getMinutes();
         }	
         if( hr <= 0){
         	 var hr = 0;
@@ -337,7 +342,7 @@ $end   = strtotime('11:59 PM');
         var endminute   =   dtEnd.getMinutes();
         var diff = (dtEnd - dtStart) /60000;
         var hr = Math.floor(diff/60)
-        if(startminute=="30"){
+        if(startminute <=0){
         	 var totalminute = startminute - endminute;
         }else{
         	var totalminute =  endminute - startminute 

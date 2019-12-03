@@ -20,36 +20,6 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-
-		<!-- Search Filter -->
-		<div class="row filter-row">
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating" id="search-id">
-					<label class="focus-label">Client ID</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<div class="form-group form-focus">
-					<input type="text" class="form-control floating" id="search-description">
-					<label class="focus-label">Client Name</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3"> 
-				<div class="form-group form-focus select-focus">
-					<select class="select floating" id="search-status"> 
-						<option>Select Status</option>
-						<option>Active</option>
-						<option>Inactive</option>
-					</select>
-					<label class="focus-label">Status</label>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">  
-				<a href="#" class="btn btn-success btn-block search"> Search </a>  
-			</div>     
-        </div>
-		<!-- /Search Filter -->
 		
 		<div class="row">
 			<div class="col-md-12">
@@ -76,41 +46,47 @@
 									<td><?php echo $item->contactno; ?></td>
 									<td><?php echo $item->email; ?></td>
 									<td><?php echo $item->activedetachmentpost; ?></td>
-									<td>
-										<div class="dropdown action-label">
-											<a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+									<td >
+										<div class="action-label">
+											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
 												<?php if($item->clientstatus=="Active") 
 														   echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
 													  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Inactive';
 											    ?>
 											</a>
-											<div class="dropdown-menu">
-												<?php if($item->clientstatus=='Active'){ ?>
-													<a class="dropdown-item inactive" href="#" data-toggle="modal" data-target="#status_client" data-id="<?php echo $item->clientID; ?>" data-status="Inactive" data-clientname="<?php echo $item->clientname; ?>"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</a>
-												<?php }else{ ?>
-													<a class="dropdown-item activate" href="#" data-toggle="modal" data-target="#status_client" data-id="<?php echo $item->clientID; ?>" data-status="Active" data-clientname="<?php echo $item->clientname; ?>"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
-												<?php } ?>
-											</div>
 										</div>
 									</td>
+
 									<td class="text-right">
-										<button type="button" id="<?php echo $item->clientID; ?>" class="btn btn-info btn-sm editclient"
-												data-toggle="modal"
-												data-target="#edit_client" 
-												data-id="<?php echo $item->clientID; ?>"
-												data-clientname="<?php echo $item->clientname; ?>"
-												data-housenumber="<?php echo $item->housenumber; ?>"
-												data-streetname="<?php echo $item->streetname; ?>"
-												data-barangay="<?php echo $item->barangay; ?>"
-												data-city="<?php echo $item->city; ?>"
-												data-description="<?php echo $item->description; ?>"
-												data-contactperson="<?php echo $item->contactperson; ?>"
-												data-contactno="<?php echo $item->contactno; ?>"
-												data-email="<?php echo $item->email; ?>"
-												data-activedetachmentpost="<?php echo $item->activedetachmentpost; ?>"
-												data-tog="tooltip"
-												data-placement="top"
-												title="Edit"> <i class="fa fa-pencil"></i> </button>
+										<div class="dropdown dropdown-action">
+											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+											<div class="dropdown-menu dropdown-menu-right">
+												<a class="dropdown-item editclient" href="#" 
+													id="<?php echo $item->clientID; ?>" 
+													data-toggle="modal" 
+													data-target="#edit_client" 
+													data-clientname="<?php echo $item->clientname; ?>"
+													data-housenumber="<?php echo $item->housenumber; ?>"
+													data-streetname="<?php echo $item->streetname; ?>"
+													data-barangay="<?php echo $item->barangay; ?>"
+													data-city="<?php echo $item->city; ?>"
+													data-description="<?php echo $item->description; ?>"
+													data-contactperson="<?php echo $item->contactperson; ?>"
+													data-contactno="<?php echo $item->contactno; ?>"
+													data-email="<?php echo $item->email; ?>"
+													data-activedetachmentpost="<?php echo $item->activedetachmentpost; ?>">
+												<i class="fa fa-pencil m-r-5"></i> Edit</a>
+
+												<a class="dropdown-item changestatus" href="#" 
+													data-toggle="modal" 
+													data-target="#status_client" 
+													data-id="<?php echo $item->clientID; ?>" 
+													data-status="<?php echo ($item->clientstatus=='Active') ? 'Inactive' : 'Active' ?>" 
+													data-clientname="<?php echo $item->clientname; ?>">
+												<i class="fa fa-toggle-on m-r-5"></i> Change Status</a>
+
+											</div>
+										</div>
 									</td>
 								</tr>
 							<?php } ?>
@@ -243,7 +219,7 @@
 						</div>
 						<div class="form-group">
 							<label>Contact No. <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editcontactno">
+							<input class="form-control contactinfo" type="text" id="editcontactno">
 							<div class="invalid-feedback" id="edit-contactno"></div>
 						</div>
 						<div class="form-group">
@@ -406,8 +382,8 @@
 		    document.getElementById("status-invalid").innerHTML = "";
 		});
 
-	    /* EDIT BUTTON - PASS DATA TO MODAL */
-		$('.editclient').unbind('click').bind('click', function(){
+		/* EDIT BUTTON - PASS DATA TO MODAL */
+		$(document).on("click", ".editclient", function(){
 			$(".modal-body #editclientname").val( $(this).data('clientname') );
 			$(".modal-body #editdescription").val( $(this).data('description') );
 			$(".modal-body #edithousenumber").val( $(this).data('housenumber') );
@@ -418,53 +394,23 @@
 			$(".modal-body #editcontactno").val( $(this).data('contactno') );
 			$(".modal-body #editemail").val( $(this).data('email') );
 			$(".modal-body #editactivedetachmentpost").val( $(this).data('activedetachmentpost') );
-			$('.update').attr('id', $(this).data('id'));
+			$('.update').attr('id', $(this).attr('id'));
 		});
 
-	    /* ACTIVATE */
-		$('.activate').unbind('click').bind('click', function(){
+	    /* Change Status */
+		$('.changestatus').unbind('click').bind('click', function(){
 			$('.change').attr('id', $(this).data('id'));
 			$('.change').attr('status', $(this).data('status'));
 			$('.change').attr('clientname', $(this).data('clientname'));
-			document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='green'>activate</font> this record?";
-		});
+			var displayText = "";
 
-	    /* INACTIVE */
-		$('.inactive').unbind('click').bind('click', function(){
-			$('.change').attr('id', $(this).data('id'));
-			$('.change').attr('status', $(this).data('status'));
-			$('.change').attr('clientname', $(this).data('clientname'));
-		    document.getElementById("statusmessage").innerHTML = "Are you sure you want to <font color='#e04d45'>inactive</font> this record?";
-		});
+			if($(this).data('status')=="Active"){
+				displayText = "<font color='green'>activate</font>";
+			}else if($(this).data('status')=="Inactive"){
+				displayText = "<font color='#e04d45'>inactive</font>";
+			}
 
-		 /* SEACRH */
-		$('.search').unbind('click').bind('click', function(){
-			
-			var id = $("#search-id").val();
-			var description =$("#search-description").val();
-			var status = $("#search-status").val();
-
-			$.ajax({
-                url : "<?php echo site_url('departments/save');?>",
-                method : "POST",
-                data : {description:description},
-                async : true,
-                dataType : 'json',
-                success: function(data){
-                	var result = data.split('|');
-        			if(result[0]=="false"){
-						document.getElementById("add-invalid").innerHTML = result[1];
-			        	$('#adddescription').addClass('is-invalid');
-			        	$("#adddescription").focus(); 
-        			}else{
-    					window.location.replace('<?php echo base_url(); ?>departments');
-        			}
-                },
-                error: function(request, textStatus, error) {
-
-            	}
-            });
-            return false;
+			document.getElementById("statusmessage").innerHTML = "Are you sure you want to " + displayText + " this record?";
 		});
 
 		/* SAVE DESCIPTION */

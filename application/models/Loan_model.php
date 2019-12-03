@@ -11,7 +11,7 @@ class Loan_model extends CI_Model
 		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  employee");
 		$loandata = $this->db->query("
              SELECT 
-            loanid,employeeID,fullname,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,paymenttermid,enddate
+            loanid,employeeID,fullname,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2
             FROM
             (
                 SELECT
@@ -29,10 +29,10 @@ class Loan_model extends CI_Model
                 WHEN srln.termofpaymentID = 2 THEN 'Payday'
                 WHEN srln.termofpaymentID = 3 THEN 'Yearly'
                 ELSE NULL
-                END AS termofpaymentID,termofpaymentID as paymenttermid,
-                srln.dategranted,
-                amount,
-                srln.balance,srln.enddate
+                END AS termofpaymentID,termofpaymentID as termofpaymentID2,
+                srln.dategranted as dategranted,
+                amount,enddate,
+                srln.balance
                 FROM  loan as srln 
                 LEFT JOIN employee as usrs on srln.employeeID = usrs.employeeID
                 ORDER BY loanid DESC
@@ -64,7 +64,7 @@ class Loan_model extends CI_Model
     function update_loan($data,$id,$employeeID,$dategranted)
 
     {
-        $query = $this->db->query('SELECT * FROM loan WHERE loanID != '.$id.' AND  employeeID ='.$employeeID.' AND dategranted ="'.$dategranted.'"');
+        $query = $this->db->query('SELECT * FROM loan WHERE loanID != '.$id.' AND  employeeID !='.$employeeID.' AND dategranted ="'.$dategranted.'"');
         if($query->num_rows() == 0){
 
         $data1 = array(
@@ -78,7 +78,5 @@ class Loan_model extends CI_Model
         {
             return 'false|Employee name and dategranted date already exist!';
         }        
-    }
-
-    		
+    }	
 }	

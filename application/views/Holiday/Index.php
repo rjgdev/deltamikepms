@@ -8,14 +8,14 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Holidays 2019</h3>
+					<h3 class="page-title">Holidays</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
 						<li class="breadcrumb-item active">Holidays</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday"><i class="fa fa-plus"></i> Add Holiday</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday" id="addholiday"><i class="fa fa-plus"></i> Add Holiday</a>
 				</div>
 			</div>
 		</div>
@@ -23,100 +23,38 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div class="table-responsive">
-					<table class="table table-striped custom-table mb-0">
+				<div>
+					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Title </th>
+								<th style="width: 30px;">#</th>
+								<th>Holiday Name</th>
 								<th>Holiday Date</th>
-								<th>Day</th>
+								<th>Type of Holiday</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="holiday-completed">
-								<td>1</td>
-								<td>New Year</td>
-								<td>1 Jan 2019</td>
-								<td>Sunday</td>
-								<td></td>
-							</tr>
-							<tr class="holiday-completed">
-								<td>2</td>
-								<td>Good Friday</td>
-								<td>14 Apr 2019</td>
-								<td>Friday</td>
-								<td></td>
-							</tr>
-							<tr class="holiday-completed">
-								<td>3</td>
-								<td>May Day</td>
-								<td>1 May 2019</td>
-								<td>Monday</td>
-								<td class="text-center">
-								</td>
-							</tr>
-							<tr class="holiday-completed">
-								<td>4</td>
-								<td>Memorial Day</td>
-								<td>28 May 2019</td>
-								<td>Monday</td>
-								<td class="text-center">
-								</td>
-							</tr>
-							<tr class="holiday-completed">
-								<td>5</td>
-								<td>Ramzon</td>
-								<td>26 Jun 2019</td>
-								<td>Monday</td>
-								<td></td>
-							</tr>
-							<tr class="holiday-upcoming">
-								<td>6</td>
-								<td>Bakrid</td>
-								<td>2 Sep 2019</td>
-								<td>Saturday</td>
-								<td class="text-right">
-									<div class="dropdown dropdown-action">
-										<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr class="holiday-upcoming">
-								<td>7</td>
-								<td>Deepavali</td>
-								<td>18 Oct 2019</td>
-								<td>Wednesday</td>
-								<td class="text-right">
-									<div class="dropdown dropdown-action">
-										<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr class="holiday-upcoming">
-								<td>8</td>
-								<td>Christmas</td>
-								<td>25 Dec 2019</td>
-								<td>Monday</td>
-								<td class="text-right">
-									<div class="dropdown dropdown-action">
-										<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_holiday"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_holiday"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-										</div>
-									</div>
-								</td>
-							</tr>
+						 	<?php foreach ($data as $item) { ?>    
+								<tr>
+									<td><?php echo $item->holidayID; ?></td>
+									<td><?php echo $item->holidayname; ?></td>
+									<td><?php echo date("F d, Y",strtotime($item->holidaydate)) ?></td>
+									<td><?php echo $item->holidaytype; ?></td>
+									<td class="text-right">
+										<button type="button" id="<?php echo $item->holidayID; ?>" class="btn btn-info btn-sm editholiday"
+												data-toggle="modal"
+												data-target="#edit_holiday" 
+												data-id="<?php echo $item->holidayID; ?>"
+												data-holidayname="<?php echo $item->holidayname; ?>"
+												data-holidaydate="<?php echo $item->holidaydate; ?>"
+												data-holidaytype="<?php echo $item->holidaytype; ?>"
+												data-tog="tooltip"
+												data-placement="top"
+												title="Edit"> <i class="fa fa-pencil"></i> </button>
+									</td>
+								</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 				</div>
@@ -125,8 +63,8 @@
     </div>
 	<!-- /Page Content -->
 	
-	<!-- Add Holiday Modal -->
-	<div class="modal custom-modal fade" id="add_holiday" role="dialog">
+	<!-- Add Department Modal -->
+	<div id="add_holiday" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -136,27 +74,38 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form id="test">
 						<div class="form-group">
 							<label>Holiday Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text">
+							<input class="form-control" type="text" id="holidayname">
+							<div class="invalid-feedback" id="add-holidayname"></div>
 						</div>
 						<div class="form-group">
 							<label>Holiday Date <span class="text-danger">*</span></label>
-							<div class="cal-icon"><input class="form-control datetimepicker" type="text"></div>
+							<input class="form-control" type="date" id="holidaydate" min="0000-01-01" max="9999-12-31">
+							<div class="invalid-feedback" id="add-holidaydate"></div>
+						</div>
+						<div class="form-group">
+							<label>Type of Holiday <span class="text-danger">*</span></label>
+							<select class="custom-select" id="holidaytype" required="">
+								<option value="">Select type of holiday</option>
+								<option value="Regular Holiday">Regular Holiday</option>
+								<option value="Special Non-working Holiday">Special Non-working Holiday</option>
+							</select>
+							<div class="invalid-feedback" id="add-holidaytype"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Submit</button>
+							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- /Add Holiday Modal -->
+	<!-- /Add Department Modal -->
 	
-	<!-- Edit Holiday Modal -->
-	<div class="modal custom-modal fade" id="edit_holiday" role="dialog">
+	<!-- Edit Department Modal -->
+	<div id="edit_holiday" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -169,46 +118,231 @@
 					<form>
 						<div class="form-group">
 							<label>Holiday Name <span class="text-danger">*</span></label>
-							<input class="form-control" value="New Year" type="text">
+							<input class="form-control" type="text" id="editholidayname">
+							<div class="invalid-feedback" id="edit-holidayname"></div>
 						</div>
 						<div class="form-group">
 							<label>Holiday Date <span class="text-danger">*</span></label>
-							<div class="cal-icon"><input class="form-control datetimepicker" value="01-01-2019" type="text"></div>
+							<input class="form-control" type="date" id="editholidaydate" min="0000-01-01" max="9999-12-31">
+							<div class="invalid-feedback" id="edit-holidaydate"></div>
+						</div>
+						<div class="form-group">
+							<label>Type of Holiday <span class="text-danger">*</span></label>
+							<select class="custom-select" id="editholidaytype" required="">
+								<option value="">Select type of holiday</option>
+								<option value="Regular Holiday">Regular Holiday</option>
+								<option value="Special Non-working Holiday">Special Non-working Holiday</option>
+							</select>
+							<div class="invalid-feedback" id="edit-holidaytype"></div>
 						</div>
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn">Save</button>
+							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- /Edit Holiday Modal -->
+	<!-- /Edit Department Modal -->
 
-	<!-- Delete Holiday Modal -->
-	<div class="modal custom-modal fade" id="delete_holiday" role="dialog">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body">
-					<div class="form-header">
-						<h3>Delete Holiday</h3>
-						<p>Are you sure want to delete?</p>
-					</div>
-					<div class="modal-btn delete-action">
-						<div class="row">
-							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-primary continue-btn">Delete</a>
-							</div>
-							<div class="col-6">
-								<a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /Delete Holiday Modal -->
-	
 </div>
+
+<?php 
+	if($this->session->flashdata('success')!=""){
+		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
+	}
+?>
 <!-- /Page Wrapper -->
+
+<script>
+	$(document).ready(function() {
+		$('.select2').select2();
+
+		/*$('#editholidaydate').datepicker().inputmask("date", { placeholder: "mm/dd/yyyy", yearrange: { minyear: 1700 } });*/
+
+		/*$('#editholidaydate').mask('00/00/0000');*/
+
+  		$('[data-tog="tooltip"]').tooltip();
+
+		/* FOCUS ON DESCRIPTION */
+		$('#add_holiday').on('shown.bs.modal', function(){
+	   		$("#holidayname").focus(); 
+		});
+		
+		/* CLEAR MODAL */
+		$('#add_holiday').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    document.getElementById("add-holidayname").innerHTML = "";
+        	$('#holidayname').removeClass('is-invalid');
+        	$('#holidayname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-holidaydate").innerHTML = "";
+        	$('#holidaydate').removeClass('is-invalid');
+        	$('#holidaydate').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-holidaytype").innerHTML = "";
+        	$('#holidaytype').removeClass('is-invalid');
+        	$('#holidaytype').removeClass('is-valid');
+		});
+
+		$('#edit_holiday').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    document.getElementById("edit-holidayname").innerHTML = "";
+        	$('#editholidayname').removeClass('is-invalid');
+        	$('#editholidayname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-holidaydate").innerHTML = "";
+        	$('#editholidaydate').removeClass('is-invalid');
+        	$('#editholidaydate').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-holidaytype").innerHTML = "";
+        	$('#editholidaytype').removeClass('is-invalid');
+        	$('#editholidaytype').removeClass('is-valid');
+		});
+
+	    /* EDIT BUTTON - PASS DATA TO MODAL */
+		$('.editholiday').unbind('click').bind('click', function(){
+			$(".modal-body #editholidayname").val( $(this).data('holidayname') );
+			$(".modal-body #editholidaydate").val( $(this).data('holidaydate') );
+			$(".modal-body #editholidaytype").find( $(this).data('holidaytype') ).text();
+            $(".modal-body #editholidaytype").val( $(this).data('holidaytype') );
+			$('.update').attr('id', $(this).data('id'));
+		});
+
+
+		/* SAVE DESCIPTION */
+		$('#save').unbind('click').bind('click', function(){
+	        var holidayname = $('#holidayname').val().trim();
+	        var holidaydate = $('#holidaydate').val().trim();
+	        var holidaytype = $('#holidaytype').val().trim();
+
+	        if(holidayname==""){
+	        	document.getElementById("add-holidayname").innerHTML = "Please provide a holiday name.";
+	        	$('#holidayname').addClass('is-invalid');
+	        	$("#holidayname").focus(); 
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("add-holidayname").innerHTML = "";
+	        	$('#holidayname').removeClass('is-invalid');
+	        	$('#holidayname').addClass('is-valid');
+	        	$("#holidayname").focus();
+	        }
+
+	        if(holidaydate==""){
+	        	document.getElementById("add-holidaydate").innerHTML = "Please provide a holiday date.";
+	        	$('#holidaydate').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-holidaydate").innerHTML = "";
+	        	$('#holidaydate').removeClass('is-invalid');
+	        	$('#holidaydate').addClass('is-valid');
+	        	$("#holidaydate").focus();
+	        }
+
+	        if(holidaytype==""){
+	        	document.getElementById("add-holidaytype").innerHTML = "Please provide a type of holiday.";
+	        	$('#holidaytype').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-holidaytype").innerHTML = "";
+	        	$('#holidaytype').removeClass('is-invalid');
+	        	$('#holidaytype').addClass('is-valid');
+	        	$("#holidaytype").focus();
+	        }
+
+	        if(holidayname=="" || holidaydate=="" || holidaytype=="" ) return false;
+
+	        	$.ajax({
+	                url : "<?php echo site_url('holidays/save');?>",
+	                method : "POST",
+	                data : {holidayname:holidayname,
+	                		holidaydate:holidaydate,
+	                		holidaytype:holidaytype
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-holidayname").innerHTML = result[1];
+				        	$('#holidayname').addClass('is-invalid');
+				        	$("#holidayname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>holidays');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+ 		$('.update').unbind('click').bind('click', function(){
+			var id = $(this).attr('id');
+	        var holidayname = $('#editholidayname').val().trim();
+	        var holidaydate = $('#editholidaydate').val().trim();
+	        var holidaytype = $('#editholidaytype').val().trim();
+
+	        if(holidayname==""){
+	        	document.getElementById("edit-holidayname").innerHTML = "Please provide a holiday name.";
+	        	$('#editholidayname').addClass('is-invalid');
+	        	$("#editholidayname").focus(); 
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-holidayname").innerHTML = "";
+	        	$('#editholidayname').removeClass('is-invalid');
+	        	$('#editholidayname').addClass('is-valid');
+	        	$("#editholidayname").focus();
+	        }
+
+	        if(holidaydate==""){
+	        	document.getElementById("edit-holidaydate").innerHTML = "Please provide a holiday date.";
+	        	$('#editholidaydate').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-holidaydate").innerHTML = "";
+	        	$('#editholidaydate').removeClass('is-invalid');
+	        	$('#editholidaydate').addClass('is-valid');
+	        }
+
+	        if(holidaytype==""){
+	        	document.getElementById("edit-holidaytype").innerHTML = "Please provide a type of holiday.";
+	        	$('#editholidaytype').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-holidaytype").innerHTML = "";
+	        	$('#editholidaytype').removeClass('is-invalid');
+	        	$('#editholidaytype').addClass('is-valid');
+	        }
+
+	        if(holidayname=="" || holidaydate=="" || holidaytype=="" ) return false;
+
+	        	$.ajax({
+	                url : "<?php echo site_url('holidays/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		holidayname:holidayname,
+	                		holidaydate:holidaydate,
+	                		holidaytype:holidaytype},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-holidayname").innerHTML = result[1];
+				        	$('#editholidayname').addClass('is-invalid');
+				        	$("#editholidayname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>holidays');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+	});
+</script>

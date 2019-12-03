@@ -1,21 +1,21 @@
 <?php 
-   class Holidays extends CI_Controller {  
+   class Philhealthtable extends CI_Controller {  
 		public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 
-			$this->load->model('Holiday_model');  
-	  		$this->holiday = new Holiday_model;     
+			$this->load->model('Philhealthtable_model');  
+	  		$this->philhealth = new Philhealthtable_model;     
 		}
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Holidays');
+	  		$data = array('title' => 'SSS table');
 
-       		$data['data']=$this->holiday->get_all_holiday();
+       		$data['data']=$this->philhealth->get_all_philhealth();
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(31)) $this->load->view("Holiday/Index",$data);
+			if(isAllowed(29)) $this->load->view("Philhealthtable/Index",$data);
 						else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
@@ -23,12 +23,13 @@
 
 		public function save() 
 		{ 
-			$holidayname = $this->input->post('holidayname');
+			$belowrange = $this->input->post('belowrange');
+			$aboverange = $this->input->post('aboverange');
 
-       		$data=$this->holiday->save_holiday($holidayname);
+       		$data=$this->philhealth->save_philhealth($belowrange, $aboverange);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Holiday name already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Range already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 
@@ -39,12 +40,13 @@
 		public function update() 
 		{ 
 			$id = $this->input->post('id');
-			$holidayname = $this->input->post('holidayname');
+			$belowrange = $this->input->post('belowrange');
+			$aboverange = $this->input->post('aboverange');
 
-       		$data=$this->holiday->update_holiday($id, $holidayname);
+       		$data=$this->philhealth->update_philhealth($id, $belowrange, $aboverange);
        		$retval = explode("|",$data);
 
-            if($retval[0] == "false" && $retval[1] == "Holiday name already exist!"){
+            if($retval[0] == "false" && $retval[1] == "Range already exist!"){
     			$this->session->set_flashdata('error', $retval[1]); 
             }else{
                 $this->session->set_flashdata('success', $retval[1]); 

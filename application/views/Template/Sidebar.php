@@ -162,13 +162,13 @@
 									<?php } if($permission[26]){ ?>
 										<li><a href="<?php echo base_url(); ?>clients">Clients</a></li>
 									<?php } if($permission[27]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Detachment Post</a></li>
+										<li><a href="<?php echo base_url(); ?>detachments">Detachment Post</a></li>
 									<?php } if($permission[28]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">SSS Table</a></li>
+										<li><a href="<?php echo base_url(); ?>ssstable">SSS Table</a></li>
 									<?php } if($permission[29]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Philhealth Table</a></li>
+										<li><a href="<?php echo base_url(); ?>philhealthtable">PhilHealth Table</a></li>
 									<?php } if($permission[30]){ ?>
-										<li><a href="<?php echo base_url(); ?>maintenance">Tax Table</a></li>
+										<li><a href="<?php echo base_url(); ?>taxtable">Tax Table</a></li>
 									<?php } if($permission[31]){ ?>
 										<li><a href="<?php echo base_url(); ?>holidays">Holidays</a></li>
 									<?php } if($permission[32]){ ?>
@@ -189,7 +189,7 @@
 						</li>
 					<?php } if($permission[36]){ ?>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>maintenance"><i class="la la-tasks"></i></i> <span>Approval Setup</span> </a>
+							<a href="<?php echo base_url(); ?>approval"><i class="la la-tasks"></i></i> <span>Approval Setup</span> </a>
 						</li>
 					<?php } ?>
 				<?php } ?>

@@ -17,78 +17,116 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-	
+
 		<div class="row">
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
-						<div class="dash-widget-info">
-							<h3>112</h3>
-							<span>Projects</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-usd"></i></span>
-						<div class="dash-widget-info">
-							<h3>44</h3>
-							<span>Clients</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-diamond"></i></span>
-						<div class="dash-widget-info">
-							<h3>37</h3>
-							<span>Tasks</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
 				<div class="card dash-widget">
 					<div class="card-body">
 						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
 						<div class="dash-widget-info">
-							<h3>218</h3>
-							<span>Employees</span>
+							<h3><?php foreach ($data['employee'] as $item) { ?><?php echo $item->noofemployee; ?><?php } ?></h3>
+							<span>Employee</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+						<div class="dash-widget-info">
+							<h3><?php foreach ($data['actemployee'] as $item) { ?><?php echo $item->actemployee; ?><?php } ?></h3>
+							<span>Active Employee</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
+						<div class="dash-widget-info">
+							<h3><?php foreach ($data['inactemployee'] as $item) { ?><?php echo $item->inactemployee; ?><?php } ?></h3>
+							<span>Inactive Employee</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+	
 		<div class="row">
-			<div class="col-md-12">
-				<div class="row">
-					<div class="col-md-6 text-center">
-						<div class="card">
-							<div class="card-body">
-								<h3 class="card-title">Total Revenue</h3>
-								<div id="bar-charts"></div>
-							</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
+						<div class="dash-widget-info">
+							<h3><?php foreach ($data['client'] as $item) { ?><?php echo $item->noofclient; ?><?php } ?></h3>
+							<span>Client</span>
 						</div>
 					</div>
-					<div class="col-md-6 text-center">
-						<div class="card">
-							<div class="card-body">
-								<h3 class="card-title">Sales Overview</h3>
-								<div id="line-charts"></div>
-							</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
+						<div class="dash-widget-info">
+							<h3><?php foreach ($data['actclient'] as $item) { ?><?php echo $item->actclient; ?><?php } ?></h3>
+							<span>Active Client</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
+						<div class="dash-widget-info">
+							<h3><?php foreach ($data['inactclient'] as $item) { ?><?php echo $item->inactclient; ?><?php } ?></h3>
+							<span>Inactive Client</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="row">
+			<div class="col-md-12 d-flex">
+					<div class="card card-table flex-fill">
+						<div class="card-header">
+							<h3 class="card-title mb-0">Active Detachment Post</h3>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table custom-table mb-0">
+									<thead>
+										<tr>
+											<th>Post Name</th>
+											<th>Location</th>
+											<th>Client Name</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php foreach ($data['detachment'] as $item) { ?>    
+											<tr>
+												<td><?php echo $item->postname; ?></td>
+												<td><?php echo $item->detachcity; ?></td>
+												<td><?php echo $item->clientname; ?></td>
+											</tr>
+										<?php } ?>
+										
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="card-footer">
+							<a href="<?php echo base_url(); ?>detachments" style="color: #e04d45;">View all detachment</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<!-- <div class="row">
 			<div class="col-md-12">
 				<div class="card-group m-b-30">
 					<div class="card">
@@ -164,10 +202,10 @@
 					</div>
 				</div>
 			</div>	
-		</div>
+		</div> -->
 		
 		<!-- Statistics Widget -->
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-12 col-lg-12 col-xl-4 d-flex">
 				<div class="card flex-fill dash-statistics">
 					<div class="card-body">
@@ -290,10 +328,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<!-- /Statistics Widget -->
 		
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-6 d-flex">
 				<div class="card card-table flex-fill">
 					<div class="card-header">
@@ -408,9 +446,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-6 d-flex">
 				<div class="card card-table flex-fill">
 					<div class="card-header">
@@ -722,7 +760,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	
 	</div>
 	<!-- /Page Content -->
