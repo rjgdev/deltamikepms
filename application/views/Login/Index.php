@@ -29,7 +29,7 @@
 				
 					<!-- Account Logo -->
 					<div class="account-logo">
-						<a href="index.html"><img src="<?php echo base_url();?>pages\assets\img\logo.png" alt="Deltamike Payroll Management System"></a>
+						<a href="<?php echo base_url(); ?>login"><img src="<?php echo base_url();?>pages\assets\img\logo.png" alt="Deltamike Payroll Management System"></a>
 					</div>
 					<!-- /Account Logo -->
 					
@@ -53,7 +53,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-user"></i></span>
 										</div>
-										<input type="text" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="username" id="username" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("uname"); ?>'>
+										<input type="text" class='form-control lettersonly <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="username" id="username" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("uname"); ?>'>
 									</div>
 								</div>
 
@@ -63,7 +63,7 @@
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-lock"></i></span>
 										</div>
-										<input type="password" class='form-control <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="password" id="password" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("pword"); ?>'>
+										<input type="password" class='form-control lettersonly <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="password" id="password" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("pword"); ?>'>
 									</div>
 								</div>
 
@@ -89,6 +89,10 @@
 		
 		<!-- Custom JS -->
 		<script src="<?php echo base_url();?>pages\assets\js\app.js"></script>
-		
+		<script>
+			$(document).ready(function() {
+				$("#username").focus();
+			});		
+		</script>
     </body>
 </html>

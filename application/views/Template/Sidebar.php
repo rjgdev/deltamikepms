@@ -174,7 +174,7 @@
 									<?php } if($permission[32]){ ?>
 										<li><a href="<?php echo base_url(); ?>leavetype">Leave Type</a></li>
 									<?php } if($permission[33]){ ?>
-										<li><a href="<?php echo base_url(); ?>banks">Bank</a></li>
+										<li><a href="<?php echo base_url(); ?>banks">Banks</a></li>
 									<?php } ?>
 								</ul>
 							</li>	

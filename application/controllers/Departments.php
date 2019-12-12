@@ -11,25 +11,15 @@
 		{ 
 			$data = array('title' => 'Departments');
 
-			if(isset($_POST['id']) || isset($_POST['description']) || isset($_POST['status'])){
-				$id = $this->input->post('id');
-				$description = $this->input->post('description');
-				$status = $this->input->post('status');
+			$data['data']=$this->department->get_all_department();
 
-       			$data=$this->department->search_department($id,$description,$status);
-       			echo json_encode($data);
+			$this->load->view('Template/Header',$data);
 
-			}else{
-   				$data['data']=$this->department->get_all_department();
+			if(isAllowed(24)) $this->load->view("Department/Index",$data);
+					else $this->load->view("Denied/Index");
 
-				$this->load->view('Template/Header',$data);
-
-				if(isAllowed(24)) $this->load->view("Department/Index",$data);
-						else $this->load->view("Denied/Index");
-
-				$this->load->view('Template/Footer',$data); 
-			}
-		} 
+			$this->load->view('Template/Footer',$data); 
+		}
 
 		public function save() 
 		{ 

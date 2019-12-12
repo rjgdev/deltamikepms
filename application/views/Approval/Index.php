@@ -1,9 +1,7 @@
 <!-- Page Wrapper -->
 <div class="page-wrapper">
-
 	<!-- Page Content -->
-    <div class="content container-fluid">
-	
+    <div class="content container-fluid" >
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -16,14 +14,14 @@
 
 		<ul class="nav nav-tabs nav-tabs-solid nav-justified" style="margin-bottom: 20px;">
 			<?php foreach ($module as $item) { ?> 
-				<li class="nav-item" style="border-bottom: 1px solid #dee2e6;">
+				<li class="nav-item" style="border-bottom: 1px solid #dee2e6; border-top: 1px solid #dee2e6;">
 					<a class="nav-link" name="<?php echo $item->moduleID; ?>" id="<?php echo $item->moduleShortDesc; ?>" href="#solid-justified-<?php echo $item->moduleShortDesc; ?>" data-toggle="tab"><?php echo $item->moduleDescription; ?>
 					</a>
 				</li>
 			<?php } ?>
 		</ul>
 
-	 	<div class="row" id="headerapproval">
+	 	<div class="row" id="headerapproval" style="display: none;">
 				<div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
 					<a href="#" class="btn btn-success btn-block addApproval" data-toggle="modal" data-target="#add_approval"><i class="fa fa-plus"></i> Add New Approval</a>
 					<div class="roles-menu">
@@ -45,7 +43,7 @@
 						</ul>
 					</div>
 				</div>
-				<div class="col-sm-8 col-md-8 col-lg-8 col-xl-9">
+				<div class="col-sm-8 col-md-8 col-lg-8 col-xl-9" id="listapprover">
 					<h6 class="card-title m-b-20">List of approver</h6>
 					<div class="m-b-30">
 						<ul class="list-group notification-list" id="show_approver" style="margin-top: 28px;">
@@ -148,48 +146,90 @@
 	</div>
 <!-- /Delete Approval Modal -->
 
-
-
-
-
-
-
-
-<!-- SCRIPT -->
-
-
-
-
-
-
-
-
-
-
 <script>
 $(document).ready(function() {
 	var counter = 0;
 
-	$(document).on("click", '#save', function () {
-		var employeeID = [];
+	$(".nav-link").unbind('click').bind('click', function(){
+		var id = $(this).attr('name');
+		var desc = $("#" + $(this).attr('id')).text().trim();
 
-		$("#table_approval .classEmployee").each(function(){
-			employeeID.push($(this).val());
-		});
+		$('.modal-body #addModule').val(desc);
+		$('.modal-body #addModule').attr('moduleID',id);
+		$('.modal-body #addModule').attr('moduleShortDesc',$(this).attr('id'));
+
+		$('.addApproval').attr('description', desc);
+		$('.addApproval').attr('moduleid', id);
+
+		$('.roles-menu').html("");
+		$('#show_approver').html("");
+		$('#norecord').html("");
 
 		$.ajax({
-           url : "<?php echo site_url('approval/save');?>",
-            method : "POST",
-            data : {employeeID:employeeID},
-            async : true,
-            dataType : 'text',
-            success: function(data){
+	        url : "<?php echo site_url('approval/loadapproval');?>",
+	        method : "POST",
+	        data : {id:id,
+	        		type:"0"},
+	        async : true,
+	        dataType : 'json',
+	        success: function(data){
+				var html ="";
 
-            },
-            error: function(request, textStatus, error) {
+					html += '<div class="form-group form-focus select-focus">' + 
+								'<select class="select floating select2" id="searchbyemployeetype" style="width:100%;">' + 
+									'<option value="0">All</option>';
+								for (var i=0; i<data['employeetype'].length; i++) {
+									html += '<option value="' + data['employeetype'][i].employeetypeID + '">' + data['employeetype'][i].employeeTypeDescription + '</option>';
+								}
+					html += '</select>' + 
+								'<label class="focus-label">Employee Type</label>' + 
+							'</div>';
 
-        	}
-        }); 
+					html += '<ul id="roles">';
+				for (var i=0; i<data['approval'].length; i++) {
+					html += '<li id="' + data['approval'][i].approvalID + '">' + 
+								'<a href="javascript:void(0);">' +
+									'<span class="role-action">'  + 
+										'<span class="action-circle large iconedit" id="' + data['approval'][i].approvalID + '" data-description="' + data['approval'][i].approvalDescription + '" data-toggle="modal" data-target="#edit_approval">' +
+												'<i class="material-icons">edit</i>' +
+										'</span>' +
+										'<span class="action-circle large delete-btn icondelete" id="' + data['approval'][i].approvalID + '" data-description="' + data['approval'][i].approvalDescription + '" data-toggle="modal" data-target="#delete_approval">' + 
+											'<i class="material-icons">delete</i>' +
+										'</span>' +
+									'</span>' + data['approval'][i].approvalDescription +
+									'<span style="color:#888;display: block; font-size: 12px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
+								'</a>' + 
+							'</li>';
+				}
+					html += "</ul>";
+
+				if(data['approval'].length==0){
+					var norecord = "";
+						norecord += '<div class="main-wrapper">' +
+										'<div class="error-box" style="padding-top: 120px;">' +
+											'<img class="isometric" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.png">' + 
+											'<h3></i>No records found!</h3>' +
+											'<p style="color:#888">Setup new approval!</p>' +
+											'<div style="text-align: -webkit-center;">' +
+												'<a href="#" class="btn btn-success btn-block addApproval" data-toggle="modal" data-target="#add_approval"  style="width:300px;"><i class="fa fa-plus""></i> Add New Approval</a>' +
+											'</div>' +
+										'</div>' +
+									'</div>';
+
+					$("#headerapproval").hide();
+					$("#norecord").html(norecord);
+				}else{	
+					$('#listapprover').show();	
+					$('#headerapproval').show();		
+					$(".roles-menu").html(html);
+					$('.select2').select2();
+					$('.roles-menu li:nth-child(1) a').click();
+				}
+	        },
+	        error: function(request, textStatus, error) {
+
+	    	}
+	    });
 	});
 
 	$('#add_approval').on('show.bs.modal', function(){
@@ -233,12 +273,43 @@ $(document).ready(function() {
 
         	}
         });
-
-		
 	});
+
 	$(document).on("click", "#btn-delete-row", function () {
 		$(this).closest("tr").remove();
 	});		
+
+	$(document).on("click", '#save', function () {
+		var employeeID = [];
+
+		var moduleID = $('.modal-body #addModule').attr("moduleID");
+		var description = $('.modal-body #adddescription').val();
+		var shortDesc = $('.modal-body #addModule').attr("moduleShortDesc");
+		var type = $('.modal-body #selectemployeetype').val();
+
+		$("#table_approval .classEmployee").each(function(){
+			employeeID.push($(this).val());
+		});
+
+		$.ajax({
+           url : "<?php echo site_url('approval/save');?>",
+            method : "POST",
+            data : { moduleID: moduleID,
+            		 description: description,
+            		 type: type,
+            		 employeeID:employeeID},
+            async : true,
+            dataType : 'text',
+            success: function(data){
+            	$('#'+shortDesc).trigger("click");
+            },
+            error: function(request, textStatus, error) {
+
+        	}
+        }); 
+		$('#add_approval').modal('hide')
+        event.preventDefault();
+	});
 
 	function GetDynamicTextBox(data) {
 		var html = "";
@@ -256,7 +327,6 @@ $(document).ready(function() {
 
 	    var newSelect = $(select);
 
-
 		html += '<td>' + select +						
 			    '</td>' + 
 			    '<td>' + 
@@ -269,44 +339,62 @@ $(document).ready(function() {
 	  	$('.select2').select2();
 	}
 
-	/* CLEAR MODAL */
-	$('#delete_approval').on('hidden.bs.modal', function(){
-	    document.getElementById("status-invalid").innerHTML = "";
+	$(document).on('change', '#searchbyemployeetype', function(){
+		var id = $('.addApproval').attr("moduleid");
+		var type = $(this).val();
+
+		$.ajax({
+	        url : "<?php echo site_url('approval/loadapproval');?>",
+	        method : "POST",
+	        data : {id:id,
+	        		type:type},
+	        async : true,
+	        dataType : 'json',
+	        success: function(data){
+				var html="";
+
+				for (var i=0; i<data['approval'].length; i++) {
+					html += '<li id="' + data['approval'][i].approvalID + '">' + 
+								'<a href="javascript:void(0);">' +
+									'<span class="role-action">'  + 
+										'<span class="action-circle large iconedit" id="' + data['approval'][i].approvalID + '" data-description="' + data['approval'][i].approvalDescription + '" data-toggle="modal" data-target="#edit_approval">' +
+												'<i class="material-icons">edit</i>' +
+										'</span>' +
+										'<span class="action-circle large delete-btn icondelete" id="' + data['approval'][i].approvalID + '" data-description="' + data['approval'][i].approvalDescription + '" data-toggle="modal" data-target="#delete_approval">' + 
+											'<i class="material-icons">delete</i>' +
+										'</span>' +
+									'</span>' + data['approval'][i].approvalDescription +
+									'<span style="color:#888;display: block; font-size: 12px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
+								'</a>' + 
+							'</li>';
+				}
+
+				if(data['approval'].length==0){
+					var norecord = "";
+						norecord += '<div class="main-wrapper">' +
+										'<div class="error-box">' +
+											'<img class="isometric" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.png">' + 
+											'<h4></i>No records found!</h4>' +
+											'<p style="color:#888">Setup new approval!</p>' +
+										'</div>' +
+									'</div>';
+
+					$("#roles").html(norecord);
+					$("#listapprover").hide();
+				}else{	
+					$("#listapprover").show();
+					$('#headerapproval').show();		
+					$("#roles").html(html);
+					$('.select2').select2();
+					$('.roles-menu li:nth-child(1) a').click();
+				}
+	        },
+	        error: function(request, textStatus, error) {
+
+	    	}
+	    });
+
 	});
-
-	/* DELETE BUTTON - PASS DATA TO MODAL */
-	$(document).on('click', '.icondelete', function(){
-		$('.delete').attr('id', $(this).attr('id'));
-		$('.delete').attr('description', $(this).data('description'));
-	});
-
-	/* DELETE APPROVAL */
-	$('.delete').unbind('click').bind('click', function(){
-        var id = $(this).attr('id');
-        var description = $(this).attr('description');
-
-    	$.ajax({
-            url : "<?php echo site_url('approval/delete');?>",
-            method : "POST",
-            data : {id:id,
-            		description:description},
-            async : true,
-            dataType : 'json',
-            success: function(data){
-            	var result = data.split('|');
-    			if(result[0]=="false"){
-					$("#status-invalid").css("display","block");
-					document.getElementById("status-invalid").innerHTML = result[1];
-    			}else{
-					window.location.replace('<?php echo base_url(); ?>approval');
-    			}
-            },
-            error: function(request, textStatus, error) {
-
-        	}
-        });
-        return false;
-    });
 
 	$(document).on('click', '.roles-menu li', function(){
 		var id = $(this).attr('id');
@@ -352,72 +440,51 @@ $(document).ready(function() {
 	    });
 	});
 
+	/* CLEAR MODAL */
+	$('#delete_approval').on('hidden.bs.modal', function(){
+	    document.getElementById("status-invalid").innerHTML = "";
+	});
+
+	/* DELETE BUTTON - PASS DATA TO MODAL */
+	$(document).on('click', '.icondelete', function(){
+		$('.delete').attr('id', $(this).attr('id'));
+		$('.delete').attr('description', $(this).data('description'));
+	});
+
+	/* DELETE APPROVAL */
+	$('.delete').unbind('click').bind('click', function(){
+        var id = $(this).attr('id');
+        var description = $(this).attr('description');
+
+    	$.ajax({
+            url : "<?php echo site_url('approval/delete');?>",
+            method : "POST",
+            data : {id:id,
+            		description:description},
+            async : true,
+            dataType : 'json',
+            success: function(data){
+            	var result = data.split('|');
+    			if(result[0]=="false"){
+					$("#status-invalid").css("display","block");
+					document.getElementById("status-invalid").innerHTML = result[1];
+    			}else{
+					window.location.replace('<?php echo base_url(); ?>approval');
+    			}
+            },
+            error: function(request, textStatus, error) {
+
+        	}
+        });
+        event.preventDefault();
+        return false;
+    });
+
 	$("#timesheet").addClass("active");
 	$('.addApproval').attr('description', "Timesheet");
+	$('.modal-body #addModule').val("Timesheet");
+	$('.modal-body #addModule').attr('moduleID',7);
+    $('#timesheet').trigger("click");
 	$('.roles-menu li:nth-child(1) a').click();
-
-	$(".nav-link").unbind('click').bind('click', function(){
-		var id = $(this).attr('name');
-		var desc = $("#" + $(this).attr('id')).text().trim();
-
-		$('.modal-body #addModule').val(desc);
-		$('.addApproval').attr('description', desc);
-
-		$('.roles-menu').html("");
-		$('#show_approver').html("");
-		$('#norecord').html("");
-
-		$.ajax({
-	        url : "<?php echo site_url('approval/loadapproval');?>",
-	        method : "POST",
-	        data : {id:id},
-	        async : true,
-	        dataType : 'json',
-	        success: function(data){
-				var html ="";
-
-					html += '<ul id="roles">';
-				for (var i=0; i<data.length; i++) {
-					html += '<li id="' + data[i].approvalID + '">' + 
-								'<a href="javascript:void(0);">' + data[i].approvalDescription + 
-									'<span class="role-action">'  + 
-											'<span class="action-circle large iconedit" id="' + data[i].approvalID + '" data-description="' + data[i].approvalDescription + '" data-toggle="modal" data-target="#edit_approval">' +
-												'<i class="material-icons">edit</i>' +
-											'</span>' +
-											'<span class="action-circle large delete-btn icondelete" id="' + data[i].approvalID + '" data-description="' + data[i].approvalDescription + '" data-toggle="modal" data-target="#delete_approval">' + 
-												'<i class="material-icons">delete</i>' +
-											'</span>' +
-									'</span>' +
-								'</a>' + 
-							'</li>';
-				}
-					html += "</ul>";
-
-				if(data.length==0){
-					var norecord = "";
-						norecord += '<div class="main-wrapper">' +
-										'<div class="error-box">' +
-											'<h1 style="color: #b6b6b6 !important;"><i class="fa fa-file"></i></h1>' + 
-											'<h3></i>No records found!</h3>' +
-											'<p>Setup new approval!</p>' +
-											'<div style="text-align: -webkit-center;">' +
-												'<a href="#" class="btn btn-success btn-block addApproval" data-toggle="modal" data-target="#add_approval"  style="width:300px;"><i class="fa fa-plus""></i> Add New Approval</a>' +
-											'</div>' +
-										'</div>' +
-									'</div>';
-
-					$("#headerapproval").hide();
-					$("#norecord").html(norecord);
-				}else{	
-					$('#headerapproval').show();		
-					$(".roles-menu").html(html);
-					$('.roles-menu li:nth-child(1) a').click();
-				}
-	        },
-	        error: function(request, textStatus, error) {
-
-	    	}
-	    });
-	});
 });
 </script>

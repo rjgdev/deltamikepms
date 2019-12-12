@@ -99,5 +99,5 @@
 				
             </div>
 			<!-- /Header -->
-
+			
 			<?php $this->view('Template/Sidebar'); ?>

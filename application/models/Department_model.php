@@ -16,20 +16,6 @@ class Department_model extends CI_Model
 	    return $query->result();
   	}
 
-  	function search_department($id,$description,$status)
-	{
-	    $this->db->select('*');
-    	$this->db->from('department');
-
-	    if($id!="") $this->db->like('departmentID', $id);
-        if($description!="") $this->db->like('description', $description);
-        if($status!="")  $this->db->where('departmentstatus', $status);
-
-	    $query = $this->db->get();
-
-	    return $query->result();
-  	}
-
   	function save_department($description)
 	{
 		$query = $this->db->query('SELECT description FROM department WHERE description = "'.$description.'"');

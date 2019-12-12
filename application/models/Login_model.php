@@ -26,8 +26,7 @@ class Login_model extends CI_Model
 
 	function validate($username,$password)
 	{
-	    $query = $this->db->query('
-	    	SELECT *, CONCAT(e.city) as ecity, CONCAT(e.housenumber) as ehousenumber, CONCAT(e.streetname) as estreetname, CONCAT(e.barangay) as ebarangay 
+		$sql = 'SELECT *, CONCAT(e.city) as ecity, CONCAT(e.housenumber) as ehousenumber, CONCAT(e.streetname) as estreetname, CONCAT(e.barangay) as ebarangay 
 	    	FROM employee as e
 	    	LEFT JOIN designation as des
 	    	ON des.designationID=e.designationID 
@@ -35,7 +34,10 @@ class Login_model extends CI_Model
 	    	ON dept.departmentID=e.departmentID 
 	    	LEFT JOIN detachment as detach
 	    	ON detach.detachmentID=e.detachmentID 
-	    	WHERE username="'.$username.'" AND password="'.$password.'"');
+	    	WHERE username= ? AND password= ?';
+
+	    $query = $this->db->query($sql,array($username,$password));
+
 	    return $query;
   }
 }

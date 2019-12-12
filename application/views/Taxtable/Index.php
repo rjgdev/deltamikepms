@@ -8,14 +8,14 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Tax table</h3>
+					<h3 class="page-title">Tax Table</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tax table</li>
+						<li class="breadcrumb-item active">Tax Table</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_tax" id="addtax"><i class="fa fa-plus"></i> Add Tax Range</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_tax" id="addtax" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Tax Range</a>
 				</div>
 			</div>
 		</div>
@@ -44,7 +44,7 @@
 									<td class="text-right"><?php echo $item->additionaltax; ?></td>
 									<td class="text-right"><?php echo $item->percent; ?>%</td>
 									<td class="text-right">
-										<button type="button" id="<?php echo $item->taxID; ?>" class="btn btn-info btn-sm edittax"
+										<button type="button" id="<?php echo $item->taxID; ?>" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" class="btn btn-info btn-sm edittax"
 												data-toggle="modal"
 												data-target="#edit_tax" 
 												data-id="<?php echo $item->taxID; ?>"
@@ -179,6 +179,53 @@
 		</div>
 	</div>
 	<!-- /Edit Department Modal -->
+
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 </div>
 
@@ -245,7 +292,7 @@
 			$(".modal-body #editaboverange").val( $(this).data('aboverange') );
             $(".modal-body #editadditionaltax").val( $(this).data('additionaltax') );
             $(".modal-body #editpercent").val( $(this).data('percent') );
-			$('.update').attr('id', $(this).data('id'));
+			$('.edit').attr('id', $(this).data('id'));
 		});
 
 		/* SAVE DESCIPTION */
@@ -279,38 +326,19 @@
 			$('#addtabs li:eq('+navIndex+') a').tab('show');
 			$(firstRequired).focus();
 
-			if(firstRequired==""){
-	    		$.ajax({
-	                url : "<?php echo site_url('taxtable/save');?>",
-	                method : "POST",
-	                data : {belowrange: ValueArray[0],		aboverange: ValueArray[1], 		
-	                		additionaltax: ValueArray[2],	percent: ValueArray[3]},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-						var result = data.split('|');
-	        			if(result[0]=="false"){
-	        				if(result[1] == "Tax range already exist!"){
-								document.getElementById("add-belowrange").innerHTML = result[1];
-					        	$('#belowrange').removeClass('is-valid');
-					        	$('#belowrange').addClass('is-invalid');
-					        	$('#add-belowrange').addClass('invalid-feedback');
-					        	$("#belowrange").focus();
-					        	document.getElementById("add-aboverange").innerHTML = result[1];
-					        	$('#aboverange').removeClass('is-valid');
-					        	$('#aboverange').addClass('is-invalid');
-					        	$('#add-aboverange').addClass('invalid-feedback');
-	        				}
-	        			}else{
-	    					window.location.replace('<?php echo base_url(); ?>taxtable');
-	        			}
-	                },
-	         		 error: function(request, textStatus, error) {
+			if(firstRequired=="")
 
-	            	}													
-	            });
-	            return false;
-	    	}
+				$('#add_tax').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+		$("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_tax').show();
+
 		});
 
  		$('.update').unbind('click').bind('click', function(){
@@ -345,9 +373,104 @@
 		$('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
 		$(firstRequired).focus();
 
-		if(firstRequired==""){
-	    	$.ajax({
-	            url : "<?php echo site_url('taxtable/update');?>",
+		if(firstRequired=="")
+
+			$('#edit_tax').hide();
+				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+ 		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_tax').show();
+
+		});
+
+	$('.add').unbind('click').bind('click', function(){
+			var IDArray = ['#belowrange', '#aboverange', '#additionaltax', '#percent'];
+
+			var ErrorIDArray = ['add-belowrange', 'add-aboverange', 'add-additionaltax', 'add-percent'];
+		    var ValueArray = [];
+			var firstRequired = "";
+			var navIndex = 0;
+
+			for(var i=0;i<IDArray.length;i++){
+				ValueArray[i] = $(IDArray[i]).val().trim();
+
+				if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+					if(firstRequired==""){
+						firstRequired = IDArray[i]
+							 if(i<=3) navIndex = 0;
+					};
+					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
+		        	$(IDArray[i]).addClass('is-invalid');
+	                event.preventDefault();
+				}else{
+				    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+					$(IDArray[i]).removeClass('is-invalid');
+					$(IDArray[i]).addClass('is-valid');
+				 	event.preventDefault();
+				}
+			}
+
+        	$.ajax({
+	                url : "<?php echo site_url('taxtable/save');?>",
+	                method : "POST",
+	                data : {belowrange: ValueArray[0],		aboverange: ValueArray[1], 		
+	                		additionaltax: ValueArray[2],	percent: ValueArray[3]},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+						var result = data.split('|');
+	        			if(result[0]=="false"){
+							document.getElementById("add-belowrange").innerHTML = result[1];
+				        	$('#belowrange').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_tax').show();
+				        	$("#belowrange").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>taxtable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+		var IDArray = ['#editbelowrange', '#editaboverange', '#editadditionaltax', '#editpercent'];
+
+		var ErrorIDArray = ['edit-belowrange', 'edit-aboverange', 'edit-additionaltax', 'edit-percent'];
+	    var ValueArray = [];
+		var firstRequired = "";
+		var navIndex = 0;
+		var id = $(this).attr('id');
+
+		for(var i=0;i<IDArray.length;i++){
+			ValueArray[i] = $(IDArray[i]).val();
+			
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+				if(firstRequired==""){
+					firstRequired = IDArray[i];
+						 if(i<=3) navIndex = 0;
+				};
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
+	        	$(IDArray[i]).addClass('is-invalid');
+                event.preventDefault();
+			}else{
+			    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+				$(IDArray[i]).removeClass('is-invalid');
+				$(IDArray[i]).addClass('is-valid');
+			 	event.preventDefault();
+			}
+		}
+
+        	$.ajax({
+	                url : "<?php echo site_url('taxtable/update');?>",
 	            method : "POST",
 	            data : {id:id, 
 	        			belowrange: ValueArray[0], 		aboverange: ValueArray[1],
@@ -357,34 +480,20 @@
 	            success: function(data){
 					var result = data.split('|');
 	    			if(result[0]=="false"){
-	        				if(result[1] == "Tax range already exist!"){
-								document.getElementById("edit-belowrange").innerHTML = result[1];
-					        	$('#editbelowrange').removeClass('is-valid');
-					        	$('#editbelowrange').addClass('is-invalid');
-					        	$('#edit-belowrange').addClass('invalid-feedback');
-					        	$("#editbelowrange").focus();
-					        	document.getElementById("edit-lastname").innerHTML = result[1];
-					        	$('#editlastname').removeClass('is-valid');
-					        	$('#editlastname').addClass('is-invalid');
-					        	$('#edit-lastname').addClass('invalid-feedback');
-	        				}else{
-	        					$('.modal-body #edittabs li:eq(1) a').tab('show');
-					        	document.getElementById("edit-username").innerHTML = result[1];
-	    						$('#editusername').removeClass('is-valid');
-					        	$('#editusername').addClass('is-invalid');
-					        	$('#edit-username').addClass('invalid-feedback');
-					        	$("#editusername").focus();
-	        				}
-	        			}else{
-	    					window.location.replace('<?php echo base_url(); ?>taxtable');
-	        			}
-	            },
-	     		 error: function(request, textStatus, error) {
+							document.getElementById("edit-belowrange").innerHTML = result[1];
+				        	$('#editbelowrange').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_tax').show();
+				        	$("#editbelowrange").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>taxtable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
 
-	        	}
-	        });
-	        return false;
-    	}
-	});
+	            	}
+	            });
+	            return false;
+        });
 });
 </script>

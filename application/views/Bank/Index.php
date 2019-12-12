@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_bank" id="addbank"><i class="fa fa-plus"></i> Add Bank</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_bank" id="addbank" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Bank</a>
 				</div>
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="show_data">
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->bankID; ?></td>
@@ -53,14 +53,14 @@
 										<div class="dropdown dropdown-action">
 											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item editbank" href="#" 
+												<a class="dropdown-item editbank" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													id="<?php echo $item->bankID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_bank" 
 													data-bankname="<?php echo $item->bankname; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
-												<a class="dropdown-item changestatus" href="#" 
+												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													data-toggle="modal" 
 													data-target="#status_bank" 
 													data-id="<?php echo $item->bankID; ?>" 
@@ -71,6 +71,7 @@
 											</div>
 										</div>
 									</td>
+
 								</tr>
 							<?php } ?>
 						</tbody>
@@ -95,7 +96,7 @@
 					<form id="test">
 						<div class="form-group">
 							<label>Bank Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="bankname">
+							<input class="form-control restrictspecchar" type="text" id="bankname">
 							<div class="invalid-feedback" id="add-bankname"></div>
 						</div>
 						<div class="submit-section">
@@ -122,7 +123,7 @@
 					<form>
 						<div class="form-group">
 							<label>Bank Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editbankname">
+							<input class="form-control restrictspecchar" type="text" id="editbankname">
 							<div class="invalid-feedback" id="edit-bankname"></div>
 						</div>
 						<div class="submit-section">
@@ -160,7 +161,55 @@
 		</div>
 	</div>
 	<!-- /Delete Department Modal -->
-	
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
 
 <?php 
@@ -172,7 +221,6 @@
 
 <script>
 	$(document).ready(function() {
-		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();
 
@@ -189,6 +237,7 @@
         	$('#bankname').removeClass('is-valid');
 		});
 
+		/* CLEAR MODAL */
 		$('#edit_bank').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
 		    document.getElementById("edit-bankname").innerHTML = "";
@@ -204,7 +253,7 @@
 	    /* EDIT BUTTON - PASS DATA TO MODAL */
 		$(document).on("click", ".editbank", function(){
 			$(".modal-body #editbankname").val( $(this).data('bankname'));
-			$('.update').attr('id', $(this).attr('id'));
+			$('.edit').attr('id', $(this).attr('id'));
 		});
 
 	    /* Change Status */
@@ -233,7 +282,7 @@
 	        	$("#bankname").focus(); 
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("add-bankname").innerHTML = "";
+	       		document.getElementById("add-bankname").innerHTML = "";
 	        	$('#bankname').removeClass('is-invalid');
 	        	$('#bankname').addClass('is-valid');
 	        	$("#bankname").focus();
@@ -241,31 +290,21 @@
 
 	        if(bankname=="" ) return false;
 
-	        	$.ajax({
-	                url : "<?php echo site_url('banks/save');?>",
-	                method : "POST",
-	                data : {bankname:bankname
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-bankname").innerHTML = result[1];
-				        	$('#bankname').addClass('is-invalid');
-				        	$("#bankname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>banks');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
+	        	$('#add_bank').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
-	            	}
-	            });
-	            return false;
-        });
+	    		event.preventDefault(); 
+	    		return false;
+	    });
 
- 		$('.update').unbind('click').bind('click', function(){
+        $("#cncl-add").unbind('click').bind('click', function(){
+
+			$('#confirmation_add').modal('hide');
+			$('#add_bank').show();
+		});
+
+        /* UPDATE DESCIPTION */
+		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
 	        var bankname = $('#editbankname').val().trim();
 
@@ -283,29 +322,18 @@
 	       
 	        if(bankname=="" ) return false;
 
-	        	$.ajax({
-	                url : "<?php echo site_url('banks/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		bankname:bankname},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-bankname").innerHTML = result[1];
-				        	$('#editbankname').addClass('is-invalid');
-				        	$("#editbankname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>banks');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
+	        $('#edit_bank').hide();
+			$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 
-	            	}
-	            });
-	            return false;
+    		event.preventDefault(); 
+    		return false;
         });
+
+        $("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_bank').show();
+
+    	});
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
@@ -335,6 +363,64 @@
             	}
             });
             return false;
+        });
+
+		$('.add').unbind('click').bind('click', function(){
+			var bankname = $('#bankname').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('banks/save');?>",
+	                method : "POST",
+	                data : {bankname:bankname},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-bankname").innerHTML = result[1];
+				        	$('#bankname').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_bank').show();
+				        	$("#bankname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>banks');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var bankname = $('#editbankname').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('banks/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		bankname:bankname},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-bankname").innerHTML = result[1];
+				        	$('#editbankname').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_department').show();
+				        	$("#editbankname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>banks');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
         });
        
 	});

@@ -13,7 +13,7 @@
 	  		$data = array('title' => 'Approval Setup');
 
 	  		$data['module']=$this->approval->get_all_modules();
-	  		$data['approval']=$this->approval->get_approval(7);
+	  		$data['approval']=$this->approval->get_approval(7, "0");
 
 			$this->load->view('Template/Header',$data);
 			$this->load->view("Approval/Index",$data);
@@ -22,8 +22,12 @@
 
 		public function save() 
 		{	
+			$moduleID = $this->input->post('moduleID');
+			$description = $this->input->post('description');
+			$type = $this->input->post('type');
 			$employeeID = $this->input->post('employeeID');
-       		$data = $this->approval->save_approval($employeeID);
+
+       		$data = $this->approval->save_approval($moduleID, $description, $type, $employeeID);
        	       		
 	    	echo json_encode($data);  
 		}
@@ -31,9 +35,11 @@
 		public function loadapproval() 
 		{ 
 			$id = $this->input->post('id');
+			$type = $this->input->post('type');
 
-       		$data['approval']=$this->approval->get_approval($id);
-	    	echo json_encode($data['approval']);  
+       		$data['approval']=$this->approval->get_approval($id,$type);
+       		$data['employeetype']=$this->approval->get_employeetype();
+	    	echo json_encode($data);  
 		} 
 
 		public function loadapprover() 

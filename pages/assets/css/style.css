@@ -164,6 +164,10 @@ tr.shown td.details-control {
 	font-size: .6rem !important;
 }
 
+.isometric{
+	margin-bottom: 20px;
+}
+
 /* End of Customize*/
 
 @font-face {

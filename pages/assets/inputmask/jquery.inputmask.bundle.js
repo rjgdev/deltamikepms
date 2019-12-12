@@ -3742,7 +3742,7 @@
                 alias: "numeric",
                 placeholder: "0",
                 autoGroup: true,
-                digits: 2,
+                digits: 4,
                 digitsOptional: false,
                 clearMaskOnLostFocus: false
             },

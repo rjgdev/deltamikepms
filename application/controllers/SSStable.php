@@ -9,7 +9,7 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'SSS table');
+	  		$data = array('title' => 'SSS Table');
 
        		$data['data']=$this->sss->get_all_sss();
 	  		

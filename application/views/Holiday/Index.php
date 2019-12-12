@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday" id="addholiday"><i class="fa fa-plus"></i> Add Holiday</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday" id="addholiday" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Holiday</a>
 				</div>
 			</div>
 		</div>
@@ -44,7 +44,8 @@
 									<td class="text-right">
 										<button type="button" id="<?php echo $item->holidayID; ?>" class="btn btn-info btn-sm editholiday"
 												data-toggle="modal"
-												data-target="#edit_holiday" 
+												data-target="#edit_holiday"
+												data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" 
 												data-id="<?php echo $item->holidayID; ?>"
 												data-holidayname="<?php echo $item->holidayname; ?>"
 												data-holidaydate="<?php echo $item->holidaydate; ?>"
@@ -77,7 +78,7 @@
 					<form id="test">
 						<div class="form-group">
 							<label>Holiday Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="holidayname">
+							<input class="form-control restrictspecchar" type="text" id="holidayname">
 							<div class="invalid-feedback" id="add-holidayname"></div>
 						</div>
 						<div class="form-group">
@@ -118,7 +119,7 @@
 					<form>
 						<div class="form-group">
 							<label>Holiday Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editholidayname">
+							<input class="form-control restrictspecchar" type="text" id="editholidayname">
 							<div class="invalid-feedback" id="edit-holidayname"></div>
 						</div>
 						<div class="form-group">
@@ -144,6 +145,53 @@
 		</div>
 	</div>
 	<!-- /Edit Department Modal -->
+
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 
@@ -206,7 +254,7 @@
 			$(".modal-body #editholidaydate").val( $(this).data('holidaydate') );
 			$(".modal-body #editholidaytype").find( $(this).data('holidaytype') ).text();
             $(".modal-body #editholidaytype").val( $(this).data('holidaytype') );
-			$('.update').attr('id', $(this).data('id'));
+			$('.edit').attr('id', $(this).data('id'));
 		});
 
 
@@ -252,31 +300,18 @@
 
 	        if(holidayname=="" || holidaydate=="" || holidaytype=="" ) return false;
 
-	        	$.ajax({
-	                url : "<?php echo site_url('holidays/save');?>",
-	                method : "POST",
-	                data : {holidayname:holidayname,
-	                		holidaydate:holidaydate,
-	                		holidaytype:holidaytype
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-holidayname").innerHTML = result[1];
-				        	$('#holidayname').addClass('is-invalid');
-				        	$("#holidayname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>holidays');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
+	        $('#add_holiday').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
-	            	}
-	            });
-	            return false;
-        });
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+		$("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_holiday').show();
+
+		});
 
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
@@ -318,7 +353,59 @@
 
 	        if(holidayname=="" || holidaydate=="" || holidaytype=="" ) return false;
 
-	        	$.ajax({
+	        $('#edit_holiday').hide();
+				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+ 		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_holiday').show();
+
+		});
+
+        $('.add').unbind('click').bind('click', function(){
+			var holidayname = $('#holidayname').val().trim();
+	        var holidaydate = $('#holidaydate').val().trim();
+	        var holidaytype = $('#holidaytype').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('holidays/save');?>",
+	                method : "POST",
+	                data : {holidayname:holidayname,
+	                		holidaydate:holidaydate,
+	                		holidaytype:holidaytype
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-holidayname").innerHTML = result[1];
+				        	$('#holidayname').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_holiday').show();
+				        	$("#holidayname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>holidays');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var holidayname = $('#editholidayname').val().trim();
+	        var holidaydate = $('#editholidaydate').val().trim();
+	        var holidaytype = $('#editholidaytype').val().trim();
+
+        	$.ajax({
 	                url : "<?php echo site_url('holidays/update');?>",
 	                method : "POST",
 	                data : {id:id,
@@ -332,6 +419,8 @@
             			if(result[0]=="false"){
 							document.getElementById("edit-holidayname").innerHTML = result[1];
 				        	$('#editholidayname').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_holiday').show();
 				        	$("#editholidayname").focus(); 
             			}else{
         					window.location.replace('<?php echo base_url(); ?>holidays');

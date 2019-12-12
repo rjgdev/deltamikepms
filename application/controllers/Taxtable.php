@@ -9,7 +9,7 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Tax table');
+	  		$data = array('title' => 'Tax Table');
 
        		$data['data']=$this->taxtable->get_all_tax();
 	  		

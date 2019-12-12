@@ -9,7 +9,7 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Bank');
+	  		$data = array('title' => 'Banks');
 
        		$data['data']=$this->bank->get_all_bank();
 	  		

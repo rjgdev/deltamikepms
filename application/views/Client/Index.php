@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_client" id="addclient"><i class="fa fa-plus"></i> Add Client</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_client" id="addclient" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Client</a>
 				</div>
 			</div>
 		</div>
@@ -28,13 +28,13 @@
 						<thead>
 							<tr>
 								<th style="width: 30px;">#</th>
-								<th>Client Name</th>
-								<th>Contact Person</th>
-								<th>Contact No.</th>
-								<th style="width: 200px ! important;">Email</th>
-								<th style="width: 250px ! important;">No. of active detachment post</th>
+								<th style="width: 220px ! important;">Client Name</th>
+								<th style="width: 220px ! important;">Contact Person</th>
+								<th style="width: 170px ! important;">Contact No.</th>
+								<th style="width: 220px ! important;">Email</th>
+								<th style="width: 100px ! important;">No. of active detachment post</th>
 								<th style="width: 100px ! important;">Status</th>
-								<th class="text-right">Action</th>
+								<th style="width: 50px ! important;" class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -61,7 +61,7 @@
 										<div class="dropdown dropdown-action">
 											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item editclient" href="#" 
+												<a class="dropdown-item editclient" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													id="<?php echo $item->clientID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_client" 
@@ -77,7 +77,7 @@
 													data-activedetachmentpost="<?php echo $item->activedetachmentpost; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
-												<a class="dropdown-item changestatus" href="#" 
+												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													data-toggle="modal" 
 													data-target="#status_client" 
 													data-id="<?php echo $item->clientID; ?>" 
@@ -112,37 +112,37 @@
 					<form id="test">
 						<div class="form-group">
 							<label>Client Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="clientname">
+							<input class="form-control restrictspecchar" type="text" id="clientname">
 							<div class="invalid-feedback" id="add-clientname"></div>
 						</div>
 						<div class="form-group">
 							<label>Description </label>
-							<input class="form-control" type="text" id="description">
+							<input class="form-control restrictspecchar" type="text" id="description">
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
 						<div class="form-group">
 							<label>House No. </label>
-							<input class="form-control" type="text" id="housenumber">
+							<input class="form-control specchar" type="text" id="housenumber">
 							<div class="invalid-feedback" id="add-housenumber"></div>
 						</div>
 						<div class="form-group">
 							<label>Street Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="streetname">
+							<input class="form-control specchar" type="text" id="streetname">
 							<div class="invalid-feedback" id="add-streetname"></div>
 						</div>
 						<div class="form-group">
 							<label>Barangay <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="barangay">
+							<input class="form-control specchar" type="text" id="barangay">
 							<div class="invalid-feedback" id="add-barangay"></div>
 						</div>
 						<div class="form-group">
 							<label>City <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="city">
+							<input class="form-control restrictspecchar" type="text" id="city">
 							<div class="invalid-feedback" id="add-city"></div>
 						</div>
 						<div class="form-group">
 							<label>Contact Person <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="contactperson">
+							<input class="form-control restrictspecchar" type="text" id="contactperson">
 							<div class="invalid-feedback" id="add-contactperson"></div>
 						</div>
 						<div class="form-group">
@@ -157,7 +157,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of active detachment post </label>
-							<input class="form-control" type="text" id="activedetachmentpost">
+							<input class="form-control number" type="text" id="activedetachmentpost">
 							<div class="invalid-feedback" id="add-activedetachmentpost"></div>
 						</div>
 						<div class="submit-section">
@@ -184,37 +184,37 @@
 					<form>
 						<div class="form-group">
 							<label>Client Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editclientname">
+							<input class="form-control restrictspecchar" type="text" id="editclientname">
 							<div class="invalid-feedback" id="edit-clientname"></div>
 						</div>
 						<div class="form-group">
 							<label>Description </label>
-							<input class="form-control" type="text" id="editdescription">
+							<input class="form-control restrictspecchar" type="text" id="editdescription">
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
 						<div class="form-group">
 							<label>House No. </label>
-							<input class="form-control" type="text" id="edithousenumber">
+							<input class="form-control specchar" type="text" id="edithousenumber">
 							<div class="invalid-feedback" id="edit-housenumber"></div>
 						</div>
 						<div class="form-group">
 							<label>Street Name <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editstreetname">
+							<input class="form-control specchar" type="text" id="editstreetname">
 							<div class="invalid-feedback" id="edit-streetname"></div>
 						</div>
 						<div class="form-group">
 							<label>Barangay <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editbarangay">
+							<input class="form-control specchar" type="text" id="editbarangay">
 							<div class="invalid-feedback" id="edit-barangay"></div>
 						</div>
 						<div class="form-group">
 							<label>City <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editcity">
+							<input class="form-control restrictspecchar" type="text" id="editcity">
 							<div class="invalid-feedback" id="edit-city"></div>
 						</div>
 						<div class="form-group">
 							<label>Contact Person <span class="text-danger">*</span></label>
-							<input class="form-control contactinfo" type="text" id="editcontactperson">
+							<input class="form-control restrictspecchar" type="text" id="editcontactperson">
 							<div class="invalid-feedback" id="edit-contactperson"></div>
 						</div>
 						<div class="form-group">
@@ -229,7 +229,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of active detachment post </label>
-							<input class="form-control" type="text" id="editactivedetachmentpost">
+							<input class="form-control number" type="text" id="editactivedetachmentpost">
 							<div class="invalid-feedback" id="edit-activedetachmentpost"></div>
 						</div>
 						<div class="submit-section">
@@ -267,6 +267,53 @@
 		</div>
 	</div>
 	<!-- /Delete Department Modal -->
+
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 </div>
 
@@ -394,7 +441,7 @@
 			$(".modal-body #editcontactno").val( $(this).data('contactno') );
 			$(".modal-body #editemail").val( $(this).data('email') );
 			$(".modal-body #editactivedetachmentpost").val( $(this).data('activedetachmentpost') );
-			$('.update').attr('id', $(this).attr('id'));
+			$('.edit').attr('id', $(this).attr('id'));
 		});
 
 	    /* Change Status */
@@ -506,38 +553,18 @@
 
 	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
 
-	        	$.ajax({
-	                url : "<?php echo site_url('clients/save');?>",
-	                method : "POST",
-	                data : {clientname:clientname,
-	                		description:description,
-	                		housenumber:housenumber,
-	                		streetname:streetname,
-	                		barangay:barangay,
-	                		city:city,
-	                		contactperson:contactperson,
-	                		contactno:contactno,
-	                		email:email,
-	                		activedetachmentpost:activedetachmentpost
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-clientname").innerHTML = result[1];
-				        	$('#clientname').addClass('is-invalid');
-				        	$("#clientname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>clients');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
+	        $('#add_client').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
-	            	}
-	            });
-	            return false;
-        });
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+		$("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_client').show();
+
+		});
 
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
@@ -626,38 +653,18 @@
 
 	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
 
-	        	$.ajax({
-	                url : "<?php echo site_url('clients/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		clientname:clientname,
-	                		description:description,
-	                		housenumber:housenumber,
-	                		streetname:streetname,
-	                		barangay:barangay,
-	                		city:city,
-	                		contactperson:contactperson,
-	                		contactno:contactno,
-	                		email:email,
-	                		activedetachmentpost:activedetachmentpost},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-clientname").innerHTML = result[1];
-				        	$('#editclientname').addClass('is-invalid');
-				        	$("#editclientname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>clients');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
+	        $('#edit_client').hide();
+				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 
-	            	}
-	            });
-	            return false;
-        });
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+ 		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_client').show();
+
+		});
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
@@ -688,6 +695,100 @@
             });
             return false;
         });
-       
+
+        $('.add').unbind('click').bind('click', function(){
+			var clientname = $('#clientname').val().trim();
+	        var description = $('#description').val().trim();
+	        var housenumber = $('#housenumber').val().trim();
+	        var streetname = $('#streetname').val().trim();
+	        var barangay = $('#barangay').val().trim();
+	        var city = $('#city').val().trim();
+	        var contactperson = $('#contactperson').val().trim();
+	        var contactno = $('#contactno').val().trim();
+	        var email = $('#email').val().trim();
+	        var activedetachmentpost = $('#activedetachmentpost').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('clients/save');?>",
+	                method : "POST",
+	                data : {clientname:clientname,
+	                		description:description,
+	                		housenumber:housenumber,
+	                		streetname:streetname,
+	                		barangay:barangay,
+	                		city:city,
+	                		contactperson:contactperson,
+	                		contactno:contactno,
+	                		email:email,
+	                		activedetachmentpost:activedetachmentpost
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-clientname").innerHTML = result[1];
+				        	$('#clientname').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_client').show();
+				        	$("#clientname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>clients');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var clientname = $('#editclientname').val().trim();
+	        var description = $('#editdescription').val().trim();
+	        var housenumber = $('#edithousenumber').val().trim();
+	        var streetname = $('#editstreetname').val().trim();
+	        var barangay = $('#editbarangay').val().trim();
+	        var city = $('#editcity').val().trim();
+	        var contactperson = $('#editcontactperson').val().trim();
+	        var contactno = $('#editcontactno').val().trim();
+	        var email = $('#editemail').val().trim();
+	        var activedetachmentpost = $('#editactivedetachmentpost').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('clients/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		clientname:clientname,
+	                		description:description,
+	                		housenumber:housenumber,
+	                		streetname:streetname,
+	                		barangay:barangay,
+	                		city:city,
+	                		contactperson:contactperson,
+	                		contactno:contactno,
+	                		email:email,
+	                		activedetachmentpost:activedetachmentpost},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-clientname").innerHTML = result[1];
+				        	$('#editclientname').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_client').show();
+				        	$("#editclientname").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>clients');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
 	});
 </script>

@@ -9,7 +9,7 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'SSS table');
+	  		$data = array('title' => 'PhilHealth Table');
 
        		$data['data']=$this->philhealth->get_all_philhealth();
 	  		

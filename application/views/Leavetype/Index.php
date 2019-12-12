@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_leavetype" id="addleavetype"><i class="fa fa-plus"></i> Add Leave Type</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_leavetype" id="addleavetype" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Leave Type</a>
 				</div>
 			</div>
 		</div>
@@ -57,7 +57,7 @@
 										<div class="dropdown dropdown-action">
 											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item editleavetype" href="#" 
+												<a class="dropdown-item editleavetype" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													id="<?php echo $item->leavetypeID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_leavetype" 
@@ -66,7 +66,7 @@
 													data-accumulation="<?php echo $item->accumulation; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
-												<a class="dropdown-item changestatus" href="#" 
+												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													data-toggle="modal" 
 													data-target="#status_leavetype" 
 													data-id="<?php echo $item->leavetypeID; ?>" 
@@ -101,12 +101,12 @@
 					<form id="test">
 						<div class="form-group">
 							<label>Leave Type <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="leavetypename">
+							<input class="form-control restrictspecchar" type="text" id="leavetypename">
 							<div class="invalid-feedback" id="add-leavetypename"></div>
 						</div>
 						<div class="form-group">
 							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="noofdays">
+							<input class="form-control number" type="text" id="noofdays">
 							<div class="invalid-feedback" id="add-noofdays"></div>
 						</div>
 						<div class="form-group">
@@ -142,12 +142,12 @@
 					<form>
 						<div class="form-group">
 							<label>Leave Type <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editleavetypename">
+							<input class="form-control restrictspecchar" type="text" id="editleavetypename">
 							<div class="invalid-feedback" id="edit-leavetypename"></div>
 						</div>
 						<div class="form-group">
 							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editnoofdays">
+							<input class="form-control number" type="text" id="editnoofdays">
 							<div class="invalid-feedback" id="edit-noofdays"></div>
 						</div>
 						<div class="form-group">
@@ -194,6 +194,53 @@
 		</div>
 	</div>
 	<!-- /Delete Department Modal -->
+
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 </div>
 
@@ -257,7 +304,7 @@
 			$(".modal-body #editnoofdays").val( $(this).data('noofdays') );
 			$(".modal-body #editaccumulation").find( $(this).data('accumulation') ).text();
             $(".modal-body #editaccumulation").val( $(this).data('accumulation') );
-			$('.update').attr('id', $(this).attr('id'));
+			$('.edit').attr('id', $(this).attr('id'));
 		});
 
 	    /* Change Status */
@@ -318,7 +365,20 @@
 
 	        if(leavetypename=="" || noofdays=="" || accumulation=="" ) return false;
 
-	        	$.ajax({
+	        $('#add_leavetype').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+		$("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_leavetype').show();
+
+		});
+
+	        	/*$.ajax({
 	                url : "<?php echo site_url('leavetype/save');?>",
 	                method : "POST",
 	                data : {leavetypename:leavetypename,
@@ -342,7 +402,7 @@
 	            	}
 	            });
 	            return false;
-        });
+        });*/
 
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
@@ -384,7 +444,20 @@
 	       
 	        if(leavetypename=="" || noofdays=="" || accumulation=="" ) return false;
 
-	        	$.ajax({
+	        $('#edit_leavetype').hide();
+				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+ 		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_leavetype').show();
+
+		});
+
+	        	/*$.ajax({
 	                url : "<?php echo site_url('leavetype/update');?>",
 	                method : "POST",
 	                data : {id:id,
@@ -408,7 +481,7 @@
 	            	}
 	            });
 	            return false;
-        });
+        });*/
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
@@ -438,6 +511,73 @@
             	}
             });
             return false;
+        });
+
+        $('.add').unbind('click').bind('click', function(){
+			var leavetypename = $('#leavetypename').val().trim();
+	        var noofdays = $('#noofdays').val().trim();
+	        var accumulation = $('#accumulation').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('leavetype/save');?>",
+	                method : "POST",
+	                data : {leavetypename:leavetypename,
+	                		noofdays:noofdays,
+	                		accumulation:accumulation
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-leavetypename").innerHTML = result[1];
+				        	$('#clientname').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_leavetype').show();
+				        	$("#leavetypename").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>leavetype');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var leavetypename = $('#editleavetypename').val().trim();
+	        var noofdays = $('#editnoofdays').val().trim();
+	        var accumulation = $('#editaccumulation').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('leavetype/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		leavetypename:leavetypename,
+	                		noofdays:noofdays,
+	                		accumulation:accumulation},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-leavetypename").innerHTML = result[1];
+				        	$('#editleavetypename').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_leavetype').show();
+				        	$("#editleavetypename").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>leavetype');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
         });
        
 	});

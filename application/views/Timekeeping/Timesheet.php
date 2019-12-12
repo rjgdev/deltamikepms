@@ -1,7 +1,6 @@
 <!-- Page Wrapper -->
 <div class="page-wrapper">
     <div class="content container-fluid">
-	
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -69,8 +68,13 @@
 					<table class="table table-striped custom-table table-nowrap mb-0">
 						<thead>
 							<tr>
+									<th colspan="32" style="text-align:center;">
+										January
+									</th>
+							</tr>
+							<tr>
 								<th>Employee</th>
-								<th>1</th>
+								<th style="text-align:center;">1</th>
 								<th>2</th>
 								<th>3</th>
 								<th>4</th>
@@ -110,7 +114,7 @@
 										<a href="profile.html">John Doe</a>
 									</h2>
 								</td>
-								<td><a href="javascript:void(0);" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-check text-success"></i></a></td>
+								<td style="text-align:center;"><a href="#">3.45 hrs</a></td>
 								<td><a href="javascript:void(0);" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-check text-success"></i></a></td>
 								<td><a href="javascript:void(0);" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-check text-success"></i></a></td>
 								<td><a href="javascript:void(0);" data-toggle="modal" data-target="#attendance_info"><i class="fa fa-check text-success"></i></a></td>

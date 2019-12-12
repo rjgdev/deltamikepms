@@ -8,11 +8,11 @@
 			}
 
 			$this->load->view("Login/Index");
+			$this->load->view('Template/Footer');
 		}
 		
 		public function login_validation()
 		{
-
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 
