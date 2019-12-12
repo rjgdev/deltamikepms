@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2019 at 02:50 AM
+-- Generation Time: Dec 12, 2019 at 07:43 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -38,13 +38,14 @@ CREATE TABLE `approval` (
 --
 
 INSERT INTO `approval` (`approvalID`, `approvalDescription`, `moduleID`, `employeetypeID`) VALUES
-(1, 'Description 1', 7, 1),
-(2, 'Description 2', 7, 2),
-(3, 'Description 3', 9, 1),
-(9, 'Description 9', 16, 1),
-(10, 'Description 10', 16, 2),
-(11, 'Description 11', 18, 1),
-(12, 'Description 12', 18, 2);
+(1, 'Timesheet Approval', 7, 2),
+(2, 'Timesheet Timesheet', 7, 1),
+(7, '', 9, 0),
+(25, 'Payroll 2', 10, 0),
+(28, 'DAWDAWDWW', 10, 0),
+(31, 'Payroll', 9, 1),
+(32, '', 7, 0),
+(33, 'Payroll Adjustment', 10, 1);
 
 -- --------------------------------------------------------
 
@@ -64,9 +65,17 @@ CREATE TABLE `approvaldet` (
 --
 
 INSERT INTO `approvaldet` (`approvaldetID`, `approvalID`, `employeeID`, `approvalLevel`) VALUES
-(1, 13, 1, 1),
-(2, 13, 2, 2),
-(3, 13, 3, 3);
+(1, 1, 1, 1),
+(2, 1, 2, 2),
+(3, 2, 2, 1),
+(4, 2, 3, 2),
+(30, 25, 1, 1),
+(33, 28, 1, 1),
+(36, 31, 1, 1),
+(37, 31, 3, 2),
+(38, 31, 2, 3),
+(39, 33, 2, 1),
+(40, 33, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -261,7 +270,148 @@ CREATE TABLE `employee` (
 INSERT INTO `employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `photo`, `clientID`, `datecreated`) VALUES
 (1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 1, 'admin', 'admin', ' 10,000.00', ' 500.00', ' 0.00', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', '1.jpg', 1, '2019-11-25 08:26:51.905646'),
 (2, 'Office', '', 'Staff', 'Female', '', 'Opel', '175', 'Caloocan', '1994-02-20', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '1', 1, 2, 2, 'staff', 'staff', '10,000.00', '100.00', '', '', '', '', '', 'Active', '', 0, '2019-11-25 08:26:54.102823'),
-(3, 'Office', '', 'Executive', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '2000-10-25', '0912-345-6789', 'Married', 'Fiipino', '2013-11-25', 1, '1', 1, 2, 3, 'exe', 'exe', '20,000.00', '200.00', '', '', '', '', '', 'Active', '', 0, '2019-11-25 08:26:55.930875');
+(3, 'Office', '', 'Executive', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '2000-10-25', '0912-345-6789', 'Married', 'Fiipino', '2013-11-25', 1, '1', 1, 2, 2, 'exe', 'exe', '20,000.00', '200.00', '', '', '', '', '', 'Active', '', 0, '2019-12-03 11:56:31.366887');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeecreditleave`
+--
+
+CREATE TABLE `employeecreditleave` (
+  `employeeleavecreditID` bigint(20) NOT NULL,
+  `employeeID` bigint(20) NOT NULL,
+  `leavetypeID` bigint(20) NOT NULL,
+  `totalleave` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeecreditleave`
+--
+
+INSERT INTO `employeecreditleave` (`employeeleavecreditID`, `employeeID`, `leavetypeID`, `totalleave`) VALUES
+(5, 1, 1, 3),
+(6, 1, 2, 5),
+(7, 2, 0, 1),
+(8, 2, 0, 1),
+(9, 3, 0, 11),
+(10, 3, 0, 1),
+(11, 4, 0, 1),
+(12, 4, 0, 12),
+(13, 5, 0, 1),
+(14, 5, 0, 4),
+(15, 6, 2, 3),
+(16, 6, 1, 3),
+(17, 7, 5, 5),
+(18, 11, 2, 7),
+(19, 11, 5, 5),
+(20, 13, 4, 5),
+(21, 13, 1, 1),
+(22, 14, 3, 43),
+(23, 14, 4, 2),
+(24, 15, 1, 6),
+(25, 16, 1, 234),
+(26, 17, 1, 1),
+(27, 18, 1, 1),
+(28, 19, 1, 43543),
+(29, 20, 2, 234),
+(30, 21, 2, 234),
+(31, 22, 1, 232),
+(32, 23, 2, 5656),
+(33, 25, 1, 45),
+(34, 26, 2, 4),
+(35, 26, 1, 1),
+(36, 27, 1, 4),
+(37, 28, 3, 3),
+(38, 29, 1, 44),
+(39, 30, 1, 4),
+(40, 31, 1, 4),
+(41, 33, 1, 33),
+(42, 34, 1, 3434),
+(43, 35, 1, 4545),
+(44, 36, 1, 4),
+(45, 37, 1, 4545),
+(46, 40, 1, 5),
+(47, 41, 1, 1),
+(48, 42, 1, 5),
+(49, 43, 1, 3),
+(50, 44, 1, 11),
+(51, 45, 0, 0),
+(52, 46, 1, 2),
+(53, 48, 1, 2),
+(54, 50, 1, 4),
+(55, 51, 2, 6),
+(56, 52, 1, 4545),
+(57, 53, 2, 5),
+(58, 54, 1, 4545),
+(59, 55, 1, 55),
+(60, 57, 1, 0),
+(61, 1, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeeleave`
+--
+
+CREATE TABLE `employeeleave` (
+  `employeeleaveID` bigint(20) NOT NULL,
+  `leavetypeID` bigint(20) NOT NULL,
+  `employeeID` bigint(20) NOT NULL,
+  `leavefrom` varchar(250) NOT NULL,
+  `leaveto` varchar(250) NOT NULL,
+  `numberofdays` bigint(20) NOT NULL,
+  `remainingleave` int(11) NOT NULL,
+  `reason` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeeleave`
+--
+
+INSERT INTO `employeeleave` (`employeeleaveID`, `leavetypeID`, `employeeID`, `leavefrom`, `leaveto`, `numberofdays`, `remainingleave`, `reason`) VALUES
+(85, 1, 1, '06/12/2019', '08/12/2019', 3, 5, '21313'),
+(86, 1, 1, '22/12/2019', '22/12/2019', 1, 4, '1'),
+(87, 1, 1, '10/12/2019', '12/12/2019', 3, 2, '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeeschedule`
+--
+
+CREATE TABLE `employeeschedule` (
+  `scheduleID` int(11) NOT NULL,
+  `employeeID` int(11) NOT NULL,
+  `sunschedulefrom` varchar(15) NOT NULL,
+  `sunscheduleto` varchar(15) NOT NULL,
+  `sunrestday` int(11) NOT NULL,
+  `monchedulefrom` varchar(15) NOT NULL,
+  `monscheduleto` varchar(15) NOT NULL,
+  `monrestday` int(11) NOT NULL,
+  `tueschedulefrom` varchar(15) NOT NULL,
+  `tuescheduleto` varchar(15) NOT NULL,
+  `tuerestday` int(11) NOT NULL,
+  `wedschedulefrom` varchar(15) NOT NULL,
+  `wedscheduleto` varchar(15) NOT NULL,
+  `wedrestday` int(11) NOT NULL,
+  `thschedulefrom` varchar(15) NOT NULL,
+  `thscheduleto` varchar(15) NOT NULL,
+  `threstday` int(11) NOT NULL,
+  `frischedulefrom` varchar(15) NOT NULL,
+  `frischeduleto` varchar(15) NOT NULL,
+  `frirestday` int(11) NOT NULL,
+  `satschedulefrom` varchar(15) NOT NULL,
+  `satscheduleto` varchar(15) NOT NULL,
+  `satrestday` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employeeschedule`
+--
+
+INSERT INTO `employeeschedule` (`scheduleID`, `employeeID`, `sunschedulefrom`, `sunscheduleto`, `sunrestday`, `monchedulefrom`, `monscheduleto`, `monrestday`, `tueschedulefrom`, `tuescheduleto`, `tuerestday`, `wedschedulefrom`, `wedscheduleto`, `wedrestday`, `thschedulefrom`, `thscheduleto`, `threstday`, `frischedulefrom`, `frischeduleto`, `frirestday`, `satschedulefrom`, `satscheduleto`, `satrestday`) VALUES
+(1, 1, '15:33', '03:33', 0, '', '', 1, '', '', 1, '', '', 1, '', '', 1, '', '', 1, '', '', 1);
 
 -- --------------------------------------------------------
 
@@ -705,6 +855,24 @@ ALTER TABLE `detachment`
   ADD PRIMARY KEY (`detachmentID`);
 
 --
+-- Indexes for table `employeecreditleave`
+--
+ALTER TABLE `employeecreditleave`
+  ADD PRIMARY KEY (`employeeleavecreditID`);
+
+--
+-- Indexes for table `employeeleave`
+--
+ALTER TABLE `employeeleave`
+  ADD PRIMARY KEY (`employeeleaveID`);
+
+--
+-- Indexes for table `employeeschedule`
+--
+ALTER TABLE `employeeschedule`
+  ADD PRIMARY KEY (`scheduleID`);
+
+--
 -- Indexes for table `employeetype`
 --
 ALTER TABLE `employeetype`
@@ -772,12 +940,12 @@ ALTER TABLE `taxtable`
 -- AUTO_INCREMENT for table `approval`
 --
 ALTER TABLE `approval`
-  MODIFY `approvalID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `approvalID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT for table `approvaldet`
 --
 ALTER TABLE `approvaldet`
-  MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT for table `approvalmodule`
 --
@@ -813,6 +981,21 @@ ALTER TABLE `detachment`
 --
 ALTER TABLE `employee`
   MODIFY `employeeID` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `employeecreditleave`
+--
+ALTER TABLE `employeecreditleave`
+  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+--
+-- AUTO_INCREMENT for table `employeeleave`
+--
+ALTER TABLE `employeeleave`
+  MODIFY `employeeleaveID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+--
+-- AUTO_INCREMENT for table `employeeschedule`
+--
+ALTER TABLE `employeeschedule`
+  MODIFY `scheduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `employeetype`
 --
