@@ -32,7 +32,7 @@
 								<th style="width: 220px ! important;">Contact Person</th>
 								<th style="width: 170px ! important;">Contact No.</th>
 								<th style="width: 220px ! important;">Email</th>
-								<th style="width: 100px ! important;">No. of active detachment post</th>
+								<th style="width: 220px ! important;">No. of active detachment post</th>
 								<th style="width: 100px ! important;">Status</th>
 								<th style="width: 50px ! important;" class="text-right">Action</th>
 							</tr>

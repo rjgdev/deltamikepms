@@ -164,7 +164,7 @@
 									<?php } if($permission[27]){ ?>
 										<li><a href="<?php echo base_url(); ?>detachments">Detachment Post</a></li>
 									<?php } if($permission[28]){ ?>
-										<li><a href="<?php echo base_url(); ?>ssstable">SSS Table</a></li>
+										<li><a href="<?php echo base_url(); ?>SSStable">SSS Table</a></li>
 									<?php } if($permission[29]){ ?>
 										<li><a href="<?php echo base_url(); ?>philhealthtable">PhilHealth Table</a></li>
 									<?php } if($permission[30]){ ?>
