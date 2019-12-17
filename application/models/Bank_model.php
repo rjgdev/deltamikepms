@@ -9,13 +9,13 @@ class Bank_model extends CI_Model
 
 	function get_all_bank()
 	{
-	    $query = $this->db->query('SELECT * FROM bank');
+	    $query = $this->db->query('SELECT * FROM dm_bank');
 	    return $query->result();
   	}
 
   	function save_bank($bankname)
 	{
-		$query = $this->db->query('SELECT bankname FROM bank WHERE bankname = "'.$bankname.'"');
+		$query = $this->db->query('SELECT bankname FROM dm_bank WHERE bankname = "'.$bankname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -24,7 +24,7 @@ class Bank_model extends CI_Model
 				'bankstatus' => 'Active'
 			 );
 
-			$this->db->insert('bank', $data);
+			$this->db->insert('dm_bank', $data);
 			return 'true|'.$bankname.' successfully created!';
 		}
 		else 
@@ -35,7 +35,7 @@ class Bank_model extends CI_Model
 
   	function update_bank($id,$bankname)
 	{
-		$query = $this->db->query('SELECT bankname FROM bank WHERE bankid!='.$id.' AND bankname = "'.$bankname.'"');
+		$query = $this->db->query('SELECT bankname FROM dm_bank WHERE bankid!='.$id.' AND bankname = "'.$bankname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -44,7 +44,7 @@ class Bank_model extends CI_Model
 			 );
 
 			$this->db->where("bankID", $id);  
-            $this->db->update("bank", $data);    
+            $this->db->update("dm_bank", $data);    
 
 			return 'true|'.$bankname.' successfully updated!';
 		}
@@ -57,13 +57,13 @@ class Bank_model extends CI_Model
   	function change_status_bank($id,$status,$bankname)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM detachment WHERE bankid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_detachment WHERE bankid='.$id.' AND detachmentstatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('bankstatus' => $status);
 
 	            $this->db->where("bankID", $id);  
-	          	$this->db->update("bank", $data);  
+	          	$this->db->update("dm_bank", $data);  
 	          	return 'true|'.$bankname.' successfully changed the status!';
             }else{
           		return 'false|Bank is currently in used!'; 
@@ -72,7 +72,7 @@ class Bank_model extends CI_Model
 			$data = array('bankstatus' => $status);
 
 			$this->db->where("bankID", $id);  
-          	$this->db->update("bank", $data);    
+          	$this->db->update("dm_bank", $data);    
 			return 'true|'.$bankname.' successfully changed the status!';
 		}
   	}

@@ -11,13 +11,13 @@ class Detachment_model extends CI_Model
 	{
 	    $detachment = $this->db->query('
 			SELECT *, CONCAT(detach.city) as detachcity, CONCAT(detach.housenumber) as detachhousenumber, CONCAT(detach.streetname) as detachstreetname, CONCAT(detach.barangay) as detachbarangay
-			FROM detachment as detach
-			LEFT JOIN client as client
+			FROM dm_detachment as detach
+			LEFT JOIN dm_client as client
 			ON detach.clientID=client.clientID
 			');
 
 	    $client = $this->db->query('
-			SELECT * FROM client 
+			SELECT * FROM dm_client WHERE clientstatus="Active"
 			');
 
 	    $result1 = $detachment->result();
@@ -30,7 +30,7 @@ class Detachment_model extends CI_Model
 
   	function save_detachment($postname, $clientID)
 	{
-		$query = $this->db->query('SELECT postname FROM detachment WHERE postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
+		$query = $this->db->query('SELECT postname FROM dm_detachment WHERE postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
 		if($query->num_rows() == 0){
 
@@ -48,7 +48,7 @@ class Detachment_model extends CI_Model
 				'detachmentstatus' => 'Active'
 			 );
 
-			$this->db->insert('detachment', $data);
+			$this->db->insert('dm_detachment', $data);
 			return 'true|'.$postname.' successfully created!';
 		}
 		else 
@@ -59,7 +59,7 @@ class Detachment_model extends CI_Model
 
   	function update_detachment($id,$postname, $clientID)
 	{
-		$query = $this->db->query('SELECT postname FROM detachment WHERE detachmentid!='.$id.' AND postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
+		$query = $this->db->query('SELECT postname FROM dm_detachment WHERE detachmentid!='.$id.' AND postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
 		if($query->num_rows() == 0){
 
@@ -77,7 +77,7 @@ class Detachment_model extends CI_Model
 			 );
 
 			$this->db->where("detachmentID", $id);  
-            $this->db->update("detachment", $data);    
+            $this->db->update("dm_detachment", $data);    
 
 			return 'true|'.$postname.' successfully updated!';
 		}
@@ -90,13 +90,13 @@ class Detachment_model extends CI_Model
   	function change_status_detachment($id,$status,$postname)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM employee WHERE detachmentid='.$id.' AND employeestatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_employee WHERE detachmentid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('detachmentstatus' => $status);
 
 	            $this->db->where("detachmentID", $id);  
-	          	$this->db->update("detachment", $data);  
+	          	$this->db->update("dm_detachment", $data);  
 	          	return 'true|'.$postname.' successfully changed the status!';
             }else{
           		return 'false|Detachment post is currently in used!'; 
@@ -105,7 +105,7 @@ class Detachment_model extends CI_Model
 			$data = array('detachmentstatus' => $status);
 
 			$this->db->where("detachmentID", $id);  
-          	$this->db->update("detachment", $data);    
+          	$this->db->update("dm_detachment", $data);    
 			return 'true|'.$postname.' successfully changed the status!';
 		}
   	}

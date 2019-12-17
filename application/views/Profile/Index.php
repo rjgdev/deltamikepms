@@ -1,4 +1,4 @@
-Page Wrapper -->
+<!-- Page Wrapper -->
 <div class="page-wrapper">
 
 	<!-- Page Content -->
@@ -10,7 +10,7 @@ Page Wrapper -->
 				<div class="col-sm-12">
 					<h3 class="page-title">Profile</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Profile</li>
 					</ul>
 				</div>

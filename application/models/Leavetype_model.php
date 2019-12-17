@@ -9,13 +9,13 @@ class Leavetype_model extends CI_Model
 
 	function get_all_leavetype()
 	{
-	    $query = $this->db->query('SELECT * FROM leavetype');
+	    $query = $this->db->query('SELECT * FROM dm_leavetype');
 	    return $query->result();
   	}
 
   	function save_leavetype($leavetypename)
 	{
-		$query = $this->db->query('SELECT leavetypename FROM leavetype WHERE leavetypename = "'.$leavetypename.'"');
+		$query = $this->db->query('SELECT leavetypename FROM dm_leavetype WHERE leavetypename = "'.$leavetypename.'"');
 
 		if($query->num_rows() == 0){
 
@@ -26,7 +26,7 @@ class Leavetype_model extends CI_Model
 				'leavetypestatus' => 'Active'
 			 );
 
-			$this->db->insert('leavetype', $data);
+			$this->db->insert('dm_leavetype', $data);
 			return 'true|'.$leavetypename.' successfully created!';
 		}
 		else 
@@ -37,7 +37,7 @@ class Leavetype_model extends CI_Model
 
   	function update_leavetype($id,$leavetypename)
 	{
-		$query = $this->db->query('SELECT leavetypename FROM leavetype WHERE leavetypeid!='.$id.' AND leavetypename = "'.$leavetypename.'"');
+		$query = $this->db->query('SELECT leavetypename FROM dm_leavetype WHERE leavetypeid!='.$id.' AND leavetypename = "'.$leavetypename.'"');
 
 		if($query->num_rows() == 0){
 
@@ -48,7 +48,7 @@ class Leavetype_model extends CI_Model
 			 );
 
 			$this->db->where("leavetypeID", $id);  
-            $this->db->update("leavetype", $data);    
+            $this->db->update("dm_leavetype", $data);    
 
 			return 'true|'.$leavetypename.' successfully updated!';
 		}
@@ -61,13 +61,13 @@ class Leavetype_model extends CI_Model
   	function change_status_leavetype($id,$status,$leavetypename)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM detachment WHERE leavetypeid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_detachment WHERE leavetypeid='.$id.' AND detachmentstatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('leavetypestatus' => $status);
 
 	            $this->db->where("leavetypeID", $id);  
-	          	$this->db->update("leavetype", $data);  
+	          	$this->db->update("dm_leavetype", $data);  
 	          	return 'true|'.$leavetypename.' successfully changed the status!';
             }else{
           		return 'false|Leave type is currently in used!'; 
@@ -76,7 +76,7 @@ class Leavetype_model extends CI_Model
 			$data = array('leavetypestatus' => $status);
 
 			$this->db->where("leavetypeID", $id);  
-          	$this->db->update("leavetype", $data);    
+          	$this->db->update("dm_leavetype", $data);    
 			return 'true|'.$leavetypename.' successfully changed the status!';
 		}
   	}

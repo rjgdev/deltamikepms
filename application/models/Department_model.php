@@ -10,7 +10,7 @@ class Department_model extends CI_Model
 	function get_all_department()
 	{
 		$this->db->select('*');
-    	$this->db->from('department');
+    	$this->db->from('dm_department');
     	$query = $this->db->get();
 
 	    return $query->result();
@@ -18,7 +18,7 @@ class Department_model extends CI_Model
 
   	function save_department($description)
 	{
-		$query = $this->db->query('SELECT description FROM department WHERE description = "'.$description.'"');
+		$query = $this->db->query('SELECT description FROM dm_department WHERE description = "'.$description.'"');
 
 		if($query->num_rows() == 0){
 
@@ -27,7 +27,7 @@ class Department_model extends CI_Model
 				'departmentstatus' => 'Active'
 			 );
 
-			$this->db->insert('department', $data);
+			$this->db->insert('dm_department', $data);
 			return 'true|'.$description.' successfully created!';
 		}
 		else 
@@ -38,7 +38,7 @@ class Department_model extends CI_Model
 
   	function update_department($id,$description)
 	{
-		$query = $this->db->query('SELECT description FROM department WHERE departmentid!='.$id.' AND description = "'.$description.'"');
+		$query = $this->db->query('SELECT description FROM dm_department WHERE departmentid!='.$id.' AND description = "'.$description.'"');
 
 		if($query->num_rows() == 0){
 
@@ -47,7 +47,7 @@ class Department_model extends CI_Model
 			 );
 
 			$this->db->where("departmentID", $id);  
-            $this->db->update("department", $data);  
+            $this->db->update("dm_department", $data);  
 
 			return 'true|'.$description.' successfully updated!';
 		}
@@ -60,13 +60,13 @@ class Department_model extends CI_Model
   	function change_status_department($id,$status,$description)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM employee WHERE departmentid='.$id.' AND employeestatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_employee WHERE departmentid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('departmentstatus' => $status);
 
 	            $this->db->where("departmentID", $id);  
-	          	$this->db->update("department", $data);  
+	          	$this->db->update("dm_department", $data);  
 	          	return 'true|'.$description.' successfully changed the status!';
             }else{
           		return 'false|Department is currently in used!'; 
@@ -75,7 +75,7 @@ class Department_model extends CI_Model
 			$data = array('departmentstatus' => $status);
 
 			$this->db->where("departmentID", $id);  
-          	$this->db->update("department", $data);    
+          	$this->db->update("dm_department", $data);    
 			return 'true|'.$description.' successfully changed the status!';
 		}
   	}

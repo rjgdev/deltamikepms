@@ -9,13 +9,13 @@ class SSStable_model extends CI_Model
 
 	function get_all_sss()
 	{
-	    $query = $this->db->query('SELECT * FROM ssstable');
+	    $query = $this->db->query('SELECT * FROM dm_ssstable');
 	    return $query->result();
   	}
 
   	function save_sss($belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM ssstable WHERE belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_ssstable WHERE belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -27,7 +27,7 @@ class SSStable_model extends CI_Model
 				'total' => $this->input->post('total')
 			 );
 
-			$this->db->insert('ssstable', $data);
+			$this->db->insert('dm_ssstable', $data);
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully created!';
 		}
 		else 
@@ -38,7 +38,7 @@ class SSStable_model extends CI_Model
 
   	function update_sss($id,$belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM ssstable WHERE sssid!='.$id.' AND belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_ssstable WHERE sssid!='.$id.' AND belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -51,7 +51,7 @@ class SSStable_model extends CI_Model
 			 );
 
 			$this->db->where("sssID", $id);  
-            $this->db->update("ssstable", $data);    
+            $this->db->update("dm_ssstable", $data);    
 
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully updated!';
 		}

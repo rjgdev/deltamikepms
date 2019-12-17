@@ -9,13 +9,13 @@ class Client_model extends CI_Model
 
 	function get_all_client()
 	{
-	    $query = $this->db->query('SELECT * FROM client');
+	    $query = $this->db->query('SELECT * FROM dm_client');
 	    return $query->result();
   	}
 
   	function save_client($clientname)
 	{
-		$query = $this->db->query('SELECT clientname FROM client WHERE clientname = "'.$clientname.'"');
+		$query = $this->db->query('SELECT clientname FROM dm_client WHERE clientname = "'.$clientname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -33,7 +33,7 @@ class Client_model extends CI_Model
 				'clientstatus' => 'Active'
 			 );
 
-			$this->db->insert('client', $data);
+			$this->db->insert('dm_client', $data);
 			return 'true|'.$clientname.' successfully created!';
 		}
 		else 
@@ -44,7 +44,7 @@ class Client_model extends CI_Model
 
   	function update_client($id,$clientname)
 	{
-		$query = $this->db->query('SELECT clientname FROM client WHERE clientid!='.$id.' AND clientname = "'.$clientname.'"');
+		$query = $this->db->query('SELECT clientname FROM dm_client WHERE clientid!='.$id.' AND clientname = "'.$clientname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -62,7 +62,7 @@ class Client_model extends CI_Model
 			 );
 
 			$this->db->where("clientID", $id);  
-            $this->db->update("client", $data);    
+            $this->db->update("dm_client", $data);    
 
 			return 'true|'.$clientname.' successfully updated!';
 		}
@@ -75,13 +75,13 @@ class Client_model extends CI_Model
   	function change_status_client($id,$status,$clientname)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM detachment WHERE clientid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_detachment WHERE clientid='.$id.' AND detachmentstatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('clientstatus' => $status);
 
 	            $this->db->where("clientID", $id);  
-	          	$this->db->update("client", $data);  
+	          	$this->db->update("dm_client", $data);  
 	          	return 'true|'.$clientname.' successfully changed the status!';
             }else{
           		return 'false|Client is currently in used!'; 
@@ -90,7 +90,7 @@ class Client_model extends CI_Model
 			$data = array('clientstatus' => $status);
 
 			$this->db->where("clientID", $id);  
-          	$this->db->update("client", $data);    
+          	$this->db->update("dm_client", $data);    
 			return 'true|'.$clientname.' successfully changed the status!';
 		}
   	}

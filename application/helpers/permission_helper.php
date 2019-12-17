@@ -4,7 +4,7 @@
 		$CI=&get_instance();
 
 		$CI->db->select('*');
-		$CI->db->from('rolemodule');
+		$CI->db->from('dm_rolemodule');
 		$CI->db->where("roleID", $CI->session->userdata('roleID'));  
 		$CI->db->where("moduleID", $module);  
 		$result = $CI->db->get()->result();

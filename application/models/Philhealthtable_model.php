@@ -9,13 +9,13 @@ class Philhealthtable_model extends CI_Model
 
 	function get_all_philhealth()
 	{
-	    $query = $this->db->query('SELECT * FROM philhealthtable');
+	    $query = $this->db->query('SELECT * FROM dm_philhealthtable');
 	    return $query->result();
   	}
 
   	function save_philhealth($belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM philhealthtable WHERE belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_philhealthtable WHERE belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -28,7 +28,7 @@ class Philhealthtable_model extends CI_Model
 				'total' => $this->input->post('total')
 			 );
 
-			$this->db->insert('philhealthtable', $data);
+			$this->db->insert('dm_philhealthtable', $data);
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully created!';
 		}
 		else 
@@ -39,7 +39,7 @@ class Philhealthtable_model extends CI_Model
 
   	function update_philhealth($id,$belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM philhealthtable WHERE philhealthid!='.$id.' AND belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_philhealthtable WHERE philhealthid!='.$id.' AND belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -53,7 +53,7 @@ class Philhealthtable_model extends CI_Model
 			 );
 
 			$this->db->where("philhealthID", $id);  
-            $this->db->update("philhealthtable", $data);    
+            $this->db->update("dm_philhealthtable", $data);    
 
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully updated!';
 		}

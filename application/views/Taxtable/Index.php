@@ -8,10 +8,10 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Tax Table</h3>
+					<h3 class="page-title">Tax table</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tax Table</li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
+						<li class="breadcrumb-item active">Tax table</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
@@ -27,11 +27,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 50px;">#</th>
-								<th style="width: 250px;">Below Range</th>
-								<th style="width: 250px;">Above Range</th>
-								<th style="width: 250px;">Additional Tax</th>
-								<th style="width: 250px;">Percent</th>
+								<th style="width: 30px;">#</th>
+								<th>Minimum Range</th>
+								<th>Maximum Range</th>
+								<th>Additional Tax</th>
+								<th>Percentage</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -44,10 +44,11 @@
 									<td class="text-right"><?php echo $item->additionaltax; ?></td>
 									<td class="text-right"><?php echo $item->percent; ?>%</td>
 									<td class="text-right">
-										<button type="button" id="<?php echo $item->taxID; ?>" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" class="btn btn-info btn-sm edittax"
+										<button type="button" id="<?php echo $item->taxID; ?>" class="btn btn-info btn-sm edittax"
 												data-toggle="modal"
 												data-target="#edit_tax" 
 												data-id="<?php echo $item->taxID; ?>"
+												data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
 												data-belowrange="<?php echo $item->belowrange; ?>"
 												data-aboverange="<?php echo $item->aboverange; ?>"
 												data-additionaltax="<?php echo $item->additionaltax; ?>"
@@ -79,22 +80,22 @@
 				<div class="modal-body">
 					<form id="test">
 						<div class="form-group">
-                            <label>Below Range <span class="text-danger">*</span></label>
+                            <label>Minimum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="belowrange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description=" below range" required>
+                              <input id="belowrange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="below range" required>
                               <div class="invalid-feedback" id="add-belowrange"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Above Range <span class="text-danger">*</span></label>
+                            <label>Maximum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="aboverange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n above range" required>
+                              <input id="aboverange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
                               <div class="invalid-feedback" id="add-aboverange"></div>
                             </div>
                         </div>
@@ -104,13 +105,13 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="additionaltax" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n additional tax" required>
+                              <input id="additionaltax" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="additional tax" required>
                               <div class="invalid-feedback" id="add-additionaltax"></div>
                             </div>
                         </div>
 						<div class="form-group">
-							<label>Percent <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="percent" description=" percent">
+							<label>Percentage <span class="text-danger">*</span></label>
+							<input class="form-control numbersonly" type="text" id="percent">
 							<div class="invalid-feedback" id="add-percent"></div>
 						</div>
 						<div class="submit-section">
@@ -128,7 +129,7 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit Tax Ramge</h5>
+					<h5 class="modal-title">Edit Tax Range</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -136,22 +137,22 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-                            <label>Below Range <span class="text-danger">*</span></label>
+                            <label>Minimum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editbelowrange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description=" below range" required>
+                              <input id="editbelowrange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="below range" required>
                               <div class="invalid-feedback" id="edit-belowrange"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Above Range <span class="text-danger">*</span></label>
+                            <label>Maximum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editaboverange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n above range" required>
+                              <input id="editaboverange" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
                               <div class="invalid-feedback" id="edit-aboverange"></div>
                             </div>
                         </div>
@@ -161,13 +162,13 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editadditionaltax" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n additional tax" required>
+                              <input id="editadditionaltax" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="additional tax" required>
                               <div class="invalid-feedback" id="edit-additionaltax"></div>
                             </div>
                         </div>
 						<div class="form-group">
-							<label>Percent <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editpercent" description=" percent">
+							<label>Percentage <span class="text-danger">*</span></label>
+							<input class="form-control numbersonly" type="text" id="editpercent">
 							<div class="invalid-feedback" id="edit-percent"></div>
 						</div>
 						<div class="submit-section">
@@ -297,38 +298,56 @@
 
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
-			var IDArray = ['#belowrange', '#aboverange', '#additionaltax', '#percent'];
+	        var belowrange = $('#belowrange').val().trim();
+	        var aboverange = $('#aboverange').val().trim();
+	        var additionaltax = $('#additionaltax').val().trim();
+	        var percent = $('#percent').val().trim();
 
-			var ErrorIDArray = ['add-belowrange', 'add-aboverange', 'add-additionaltax', 'add-percent'];
-		    var ValueArray = [];
-			var firstRequired = "";
-			var navIndex = 0;
+	        if(belowrange==""){
+	        	document.getElementById("add-belowrange").innerHTML = "Please provide a below range.";
+	        	$('#belowrange').addClass('is-invalid');
+	        	$("#belowrange").focus(); 
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("add-belowrange").innerHTML = "";
+	        	$('#belowrange').removeClass('is-invalid');
+	        	$('#belowrange').addClass('is-valid');
+	        	$("#belowrange").focus();
+	        }
 
-			for(var i=0;i<IDArray.length;i++){
-				ValueArray[i] = $(IDArray[i]).val().trim();
+	        if(aboverange=="" || aboverange=="0.0000"){
+	        	document.getElementById("add-aboverange").innerHTML = "Please provide an above range.";
+	        	$('#aboverange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-aboverange").innerHTML = "";
+	        	$('#aboverange').removeClass('is-invalid');
+	        	$('#aboverange').addClass('is-valid');
+	        }
 
-				if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-					if(firstRequired==""){
-						firstRequired = IDArray[i]
-							 if(i<=3) navIndex = 0;
-					};
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-		        	$(IDArray[i]).addClass('is-invalid');
-	                event.preventDefault();
-				}else{
-				    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-					$(IDArray[i]).removeClass('is-invalid');
-					$(IDArray[i]).addClass('is-valid');
-				 	event.preventDefault();
-				}
-			}
+	        if(additionaltax=="" || additionaltax=="0.0000"){
+	        	document.getElementById("add-additionaltax").innerHTML = "Please provide an additional tax.";
+	        	$('#additionaltax').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-additionaltax").innerHTML = "";
+	        	$('#additionaltax').removeClass('is-invalid');
+	        	$('#additionaltax').addClass('is-valid');
+	        }
 
-			$('#addtabs li:eq('+navIndex+') a').tab('show');
-			$(firstRequired).focus();
+	        if(percent==""){
+	        	document.getElementById("add-percent").innerHTML = "Please provide a percent.";
+	        	$('#percent').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-percent").innerHTML = "";
+	        	$('#percent').removeClass('is-invalid');
+	        	$('#percent').addClass('is-valid');
+	        }
 
-			if(firstRequired=="")
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || additionaltax=="0.0000" || percent=="" ) return false;
 
-				$('#add_tax').hide();
+	        $('#add_tax').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
 	    		event.preventDefault(); 
@@ -341,41 +360,84 @@
 
 		});
 
+	        	/*$.ajax({
+	                url : "<?php echo site_url('taxtable/save');?>",
+	                method : "POST",
+	                data : {belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		additionaltax:additionaltax,
+	                		percent:percent
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-belowrange").innerHTML = result[1];
+				        	$('#belowrange').addClass('is-invalid');
+				        	$("#belowrange").focus(); 
+				        	$('#aboverange').addClass('is-invalid');
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>taxtable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });*/
+
  		$('.update').unbind('click').bind('click', function(){
+			var id = $(this).attr('id');
+	        var belowrange = $('#editbelowrange').val().trim();
+	        var aboverange = $('#editaboverange').val().trim();
+	        var additionaltax = $('#editadditionaltax').val().trim();
+	        var percent = $('#editpercent').val().trim();
 
-		var IDArray = ['#editbelowrange', '#editaboverange', '#editadditionaltax', '#editpercent'];
+	        if(belowrange==""){
+	        	document.getElementById("edit-belowrange").innerHTML = "Please provide a percent.";
+	        	$('#editbelowrange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-belowrange").innerHTML = "";
+	        	$('#editbelowrange').removeClass('is-invalid');
+	        	$('#editbelowrange').addClass('is-valid');
+	        }
 
-		var ErrorIDArray = ['edit-belowrange', 'edit-aboverange', 'edit-additionaltax', 'edit-percent'];
-	    var ValueArray = [];
-		var firstRequired = "";
-		var navIndex = 0;
-		var id = $(this).attr('id');
+	        if(aboverange=="" || aboverange=="0.0000"){
+	        	document.getElementById("edit-aboverange").innerHTML = "Please provide an above range.";
+	        	$('#editaboverange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-aboverange").innerHTML = "";
+	        	$('#editaboverange').removeClass('is-invalid');
+	        	$('#editaboverange').addClass('is-valid');
+	        }
 
-		for(var i=0;i<IDArray.length;i++){
-			ValueArray[i] = $(IDArray[i]).val();
-			
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-				if(firstRequired==""){
-					firstRequired = IDArray[i];
-						 if(i<=3) navIndex = 0;
-				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-	        	$(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
-			}else{
-			    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-				$(IDArray[i]).removeClass('is-invalid');
-				$(IDArray[i]).addClass('is-valid');
-			 	event.preventDefault();
-			}
-		}
+	        if(additionaltax=="" || additionaltax=="0.0000"){
+	        	document.getElementById("edit-additionaltax").innerHTML = "Please provide an additional tax.";
+	        	$('#editadditionaltax').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-additionaltax").innerHTML = "";
+	        	$('#editadditionaltax').removeClass('is-invalid');
+	        	$('#editadditionaltax').addClass('is-valid');
+	        }
 
-		$('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
-		$(firstRequired).focus();
+	        if(percent==""){
+	        	document.getElementById("edit-percent").innerHTML = "Please provide a percent.";
+	        	$('#editpercent').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-percent").innerHTML = "";
+	        	$('#editpercent').removeClass('is-invalid');
+	        	$('#editpercent').addClass('is-valid');
+	        }
 
-		if(firstRequired=="")
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || additionaltax=="0.0000" || percent=="" ) return false;
 
-			$('#edit_tax').hide();
+	        $('#edit_tax').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 
 	    		event.preventDefault(); 
@@ -388,45 +450,56 @@
 
 		});
 
-	$('.add').unbind('click').bind('click', function(){
-			var IDArray = ['#belowrange', '#aboverange', '#additionaltax', '#percent'];
+	        	/*$.ajax({
+	                url : "<?php echo site_url('taxtable/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		additionaltax:additionaltax,
+	                		percent:percent},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-belowrange").innerHTML = result[1];
+				        	$('#editbelowrange').addClass('is-invalid');
+				        	$("#editbelowrange").focus(); 
+				        	$('#editaboverange').addClass('is-invalid');
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>taxtable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
 
-			var ErrorIDArray = ['add-belowrange', 'add-aboverange', 'add-additionaltax', 'add-percent'];
-		    var ValueArray = [];
-			var firstRequired = "";
-			var navIndex = 0;
+	            	}
+	            });
+	            return false;
+        });*/
 
-			for(var i=0;i<IDArray.length;i++){
-				ValueArray[i] = $(IDArray[i]).val().trim();
-
-				if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-					if(firstRequired==""){
-						firstRequired = IDArray[i]
-							 if(i<=3) navIndex = 0;
-					};
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-		        	$(IDArray[i]).addClass('is-invalid');
-	                event.preventDefault();
-				}else{
-				    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-					$(IDArray[i]).removeClass('is-invalid');
-					$(IDArray[i]).addClass('is-valid');
-				 	event.preventDefault();
-				}
-			}
+        $('.add').unbind('click').bind('click', function(){
+			var belowrange = $('#belowrange').val().trim();
+	        var aboverange = $('#aboverange').val().trim();
+	        var additionaltax = $('#additionaltax').val().trim();
+	        var percent = $('#percent').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('taxtable/save');?>",
 	                method : "POST",
-	                data : {belowrange: ValueArray[0],		aboverange: ValueArray[1], 		
-	                		additionaltax: ValueArray[2],	percent: ValueArray[3]},
+	                data : {belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		additionaltax:additionaltax,
+	                		percent:percent
+	                		},
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
-						var result = data.split('|');
-	        			if(result[0]=="false"){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
 							document.getElementById("add-belowrange").innerHTML = result[1];
 				        	$('#belowrange').addClass('is-invalid');
+				        	$('#aboverange').addClass('is-invalid');
 							$('#confirmation_add').modal('hide');
 				        	$('#add_tax').show();
 				        	$("#belowrange").focus(); 
@@ -442,46 +515,28 @@
         });
 
         $('.edit').unbind('click').bind('click', function(){
-		var IDArray = ['#editbelowrange', '#editaboverange', '#editadditionaltax', '#editpercent'];
-
-		var ErrorIDArray = ['edit-belowrange', 'edit-aboverange', 'edit-additionaltax', 'edit-percent'];
-	    var ValueArray = [];
-		var firstRequired = "";
-		var navIndex = 0;
-		var id = $(this).attr('id');
-
-		for(var i=0;i<IDArray.length;i++){
-			ValueArray[i] = $(IDArray[i]).val();
-			
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-				if(firstRequired==""){
-					firstRequired = IDArray[i];
-						 if(i<=3) navIndex = 0;
-				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-	        	$(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
-			}else{
-			    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-				$(IDArray[i]).removeClass('is-invalid');
-				$(IDArray[i]).addClass('is-valid');
-			 	event.preventDefault();
-			}
-		}
+        	var id = $(this).attr('id');
+	        var belowrange = $('#editbelowrange').val().trim();
+	        var aboverange = $('#editaboverange').val().trim();
+	        var additionaltax = $('#editadditionaltax').val().trim();
+	        var percent = $('#editpercent').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('taxtable/update');?>",
-	            method : "POST",
-	            data : {id:id, 
-	        			belowrange: ValueArray[0], 		aboverange: ValueArray[1],
-	            		additionaltax: ValueArray[2], 	percent: ValueArray[3]},
-	            async : true,
-	            dataType : 'json',
-	            success: function(data){
-					var result = data.split('|');
-	    			if(result[0]=="false"){
+	                method : "POST",
+	                data : {id:id,
+	                		belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		additionaltax:additionaltax,
+	                		percent:percent},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
 							document.getElementById("edit-belowrange").innerHTML = result[1];
 				        	$('#editbelowrange').addClass('is-invalid');
+				        	$('#editaboverange').addClass('is-invalid');
 							$('#confirmation_edit').modal('hide');
 				        	$('#edit_tax').show();
 				        	$("#editbelowrange").focus(); 
@@ -495,5 +550,6 @@
 	            });
 	            return false;
         });
-});
+
+	});
 </script>

@@ -10,12 +10,12 @@
 				<div class="col">
 					<h3 class="page-title">SSS Table</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard</a></li>
 						<li class="breadcrumb-item active">SSS Table</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_sss" id="addsss"><i class="fa fa-plus"></i> Add SSS Range</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_sss" id="addsss" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add SSS Range</a>
 				</div>
 			</div>
 		</div>
@@ -28,10 +28,10 @@
 						<thead>
 							<tr>
 								<th style="width: 30px;">#</th>
-								<th>Below Range</th>
-								<th>Above Range</th>
-								<th>Employer</th>
-								<th>Employee</th>
+								<th>Minimum Range</th>
+								<th>Maximum Range</th>
+								<th>Employer Contribution</th>
+								<th>Employee Contribution</th>
 								<th>Total</th>
 								<th class="text-right">Action</th>
 							</tr>
@@ -49,6 +49,7 @@
 										<button type="button" id="<?php echo $item->sssID; ?>" class="btn btn-info btn-sm editsss"
 												data-toggle="modal"
 												data-target="#edit_sss" 
+												data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
 												data-id="<?php echo $item->sssID; ?>"
 												data-belowrange="<?php echo $item->belowrange; ?>"
 												data-aboverange="<?php echo $item->aboverange; ?>"
@@ -82,7 +83,7 @@
 				<div class="modal-body">
 					<form id="test">
 						<div class="form-group">
-                            <label>Below Range <span class="text-danger">*</span></label>
+                            <label>Minimum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -92,7 +93,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Above Range <span class="text-danger">*</span></label>
+                            <label>Maximum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -102,7 +103,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Employer <span class="text-danger">*</span></label>
+                            <label>Employer Contribution <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -112,7 +113,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Employee <span class="text-danger">*</span></label>
+                            <label>Employee Contribution <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -122,7 +123,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Total <span class="text-danger">*</span></label>
+                            <label>Total Premium Payment <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -154,7 +155,7 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-                            <label>Below Range <span class="text-danger">*</span></label>
+                            <label>Minimum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -164,7 +165,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Above Range <span class="text-danger">*</span></label>
+                            <label>Maximum Range <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -174,7 +175,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Employer <span class="text-danger">*</span></label>
+                            <label>Employer Contribution <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -184,7 +185,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Employee <span class="text-danger">*</span></label>
+                            <label>Employee Contribution <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -194,7 +195,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Total <span class="text-danger">*</span></label>
+                            <label>Total Premium Payment <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -212,6 +213,53 @@
 		</div>
 	</div>
 	<!-- /Edit Department Modal -->
+
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 </div>
 
@@ -287,147 +335,294 @@
             $(".modal-body #editemployer").val( $(this).data('employer') );
             $(".modal-body #editemployee").val( $(this).data('employee') );
             $(".modal-body #edittotal").val( $(this).data('total') );
-			$('.update').attr('id', $(this).data('id'));
+			$('.edit').attr('id', $(this).data('id'));
 		});
 
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
-			var IDArray = ['#belowrange', '#aboverange', '#employer', '#employee', '#total'];
+	        var belowrange = $('#belowrange').val().trim();
+	        var aboverange = $('#aboverange').val().trim();
+	        var employer = $('#employer').val().trim();
+	        var employee = $('#employee').val().trim();
+	        var total = $('#total').val().trim();
 
-			var ErrorIDArray = ['add-belowrange', 'add-aboverange', 'add-employer', 'add-employee', 'add-total'];
-		    var ValueArray = [];
-			var firstRequired = "";
-			var navIndex = 0;
+	        if(belowrange==""){
+	        	document.getElementById("add-belowrange").innerHTML = "Please provide a below range.";
+	        	$('#belowrange').addClass('is-invalid');
+	        	$("#belowrange").focus(); 
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("add-belowrange").innerHTML = "";
+	        	$('#belowrange').removeClass('is-invalid');
+	        	$('#belowrange').addClass('is-valid');
+	        	$("#belowrange").focus();
+	        }
 
-			for(var i=0;i<IDArray.length;i++){
-				ValueArray[i] = $(IDArray[i]).val().trim();
+	        if(aboverange=="" || aboverange=="0.0000"){
+	        	document.getElementById("add-aboverange").innerHTML = "Please provide an above range.";
+	        	$('#aboverange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-aboverange").innerHTML = "";
+	        	$('#aboverange').removeClass('is-invalid');
+	        	$('#aboverange').addClass('is-valid');
+	        }
 
-				if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-					if(firstRequired==""){
-						firstRequired = IDArray[i]
-							 if(i<=3) navIndex = 0;
-					};
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-		        	$(IDArray[i]).addClass('is-invalid');
-	                event.preventDefault();
-				}else{
-				    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-					$(IDArray[i]).removeClass('is-invalid');
-					$(IDArray[i]).addClass('is-valid');
-				 	event.preventDefault();
-				}
-			}
+	        if(employer=="" || employer=="0.0000"){
+	        	document.getElementById("add-employer").innerHTML = "Please provide an employer contribution.";
+	        	$('#employer').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-employer").innerHTML = "";
+	        	$('#employer').removeClass('is-invalid');
+	        	$('#employer').addClass('is-valid');
+	        }
 
-			$('#addtabs li:eq('+navIndex+') a').tab('show');
-			$(firstRequired).focus();
+	        if(employee=="" || employee=="0.0000"){
+	        	document.getElementById("add-employee").innerHTML = "Please provide an employee contribution.";
+	        	$('#employee').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-employee").innerHTML = "";
+	        	$('#employee').removeClass('is-invalid');
+	        	$('#employee').addClass('is-valid');
+	        }
 
-			if(firstRequired==""){
-	    		$.ajax({
+	        if(total=="" || total=="0.0000"){
+	        	document.getElementById("add-total").innerHTML = "Please provide a total.";
+	        	$('#total').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-total").innerHTML = "";
+	        	$('#total').removeClass('is-invalid');
+	        	$('#total').addClass('is-valid');
+	        }
+
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || employer=="" || employer=="0.0000" || employee=="" || employee=="0.0000" || total=="" || total=="0.0000" ) return false;
+
+	        $('#add_sss').hide();
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+		$("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_sss').show();
+
+		});
+
+	        	/*$.ajax({
 	                url : "<?php echo site_url('ssstable/save');?>",
 	                method : "POST",
-	                data : {belowrange: ValueArray[0],		aboverange: ValueArray[1], 		
-	                		additionaltax: ValueArray[2],	total: ValueArray[3]},
+	                data : {belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		employer:employer,
+	                		employee:employee,
+	                		total:total
+	                		},
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
-						var result = data.split('|');
-	        			if(result[0]=="false"){
-	        				if(result[1] == "Tax range already exist!"){
-								document.getElementById("add-belowrange").innerHTML = result[1];
-					        	$('#belowrange').removeClass('is-valid');
-					        	$('#belowrange').addClass('is-invalid');
-					        	$('#add-belowrange').addClass('invalid-feedback');
-					        	$("#belowrange").focus();
-					        	document.getElementById("add-aboverange").innerHTML = result[1];
-					        	$('#aboverange').removeClass('is-valid');
-					        	$('#aboverange').addClass('is-invalid');
-					        	$('#add-aboverange').addClass('invalid-feedback');
-	        				}
-	        			}else{
-	    					window.location.replace('<?php echo base_url(); ?>ssstable');
-	        			}
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-belowrange").innerHTML = result[1];
+				        	$('#belowrange').addClass('is-invalid');
+				        	$("#belowrange").focus(); 
+				        	$('#aboverange').addClass('is-invalid');
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>ssstable');
+            			}
 	                },
-	         		 error: function(request, textStatus, error) {
+	                error: function(request, textStatus, error) {
 
-	            	}													
+	            	}
 	            });
 	            return false;
-	    	}
-		});
+        });*/
 
  		$('.update').unbind('click').bind('click', function(){
-
-			var IDArray = ['#editbelowrange', '#editaboverange', '#editemployer', '#editemployee', '#edittotal'];
-
-			var ErrorIDArray = ['edit-belowrange', 'edit-aboverange', 'edit-employer', 'edit-employee', 'edit-total'];
-		    var ValueArray = [];
-			var firstRequired = "";
-			var navIndex = 0;
 			var id = $(this).attr('id');
+	        var belowrange = $('#editbelowrange').val().trim();
+	        var aboverange = $('#editaboverange').val().trim();
+	        var employer = $('#editemployer').val().trim();
+	        var employee = $('#editemployee').val().trim();
+	        var total = $('#edittotal').val().trim();
 
-			for(var i=0;i<IDArray.length;i++){
-				ValueArray[i] = $(IDArray[i]).val();
-				
-				if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-					if(firstRequired==""){
-						firstRequired = IDArray[i];
-							 if(i<=3) navIndex = 0;
-					};
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a" + $(IDArray[i]).attr("description") +".";
-		        	$(IDArray[i]).addClass('is-invalid');
-	                event.preventDefault();
-				}else{
-				    document.getElementById(ErrorIDArray[i]).innerHTML = "";
-					$(IDArray[i]).removeClass('is-invalid');
-					$(IDArray[i]).addClass('is-valid');
-				 	event.preventDefault();
-				}
-			}
+	        if(belowrange==""){
+	        	document.getElementById("edit-belowrange").innerHTML = "Please provide a percent.";
+	        	$('#editbelowrange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-belowrange").innerHTML = "";
+	        	$('#editbelowrange').removeClass('is-invalid');
+	        	$('#editbelowrange').addClass('is-valid');
+	        }
 
-			$('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
-			$(firstRequired).focus();
+	        if(aboverange=="" || aboverange=="0.0000"){
+	        	document.getElementById("edit-aboverange").innerHTML = "Please provide an above range.";
+	        	$('#editaboverange').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-aboverange").innerHTML = "";
+	        	$('#editaboverange').removeClass('is-invalid');
+	        	$('#editaboverange').addClass('is-valid');
+	        }
 
-			if(firstRequired==""){
-		    	$.ajax({
-		            url : "<?php echo site_url('ssstable/update');?>",
-		            method : "POST",
-		            data : {id:id, 
-		        			belowrange: ValueArray[0], 		aboverange: ValueArray[1],
-		            		additionaltax: ValueArray[2], 	total: ValueArray[3]},
-		            async : true,
-		            dataType : 'json',
-		            success: function(data){
-						var result = data.split('|');
-		    			if(result[0]=="false"){
-		        				if(result[1] == "Tax range already exist!"){
-									document.getElementById("edit-belowrange").innerHTML = result[1];
-						        	$('#editbelowrange').removeClass('is-valid');
-						        	$('#editbelowrange').addClass('is-invalid');
-						        	$('#edit-belowrange').addClass('invalid-feedback');
-						        	$("#editbelowrange").focus();
-						        	document.getElementById("edit-lastname").innerHTML = result[1];
-						        	$('#editlastname').removeClass('is-valid');
-						        	$('#editlastname').addClass('is-invalid');
-						        	$('#edit-lastname').addClass('invalid-feedback');
-		        				}else{
-		        					$('.modal-body #edittabs li:eq(1) a').tab('show');
-						        	document.getElementById("edit-username").innerHTML = result[1];
-		    						$('#editusername').removeClass('is-valid');
-						        	$('#editusername').addClass('is-invalid');
-						        	$('#edit-username').addClass('invalid-feedback');
-						        	$("#editusername").focus();
-		        				}
-		        			}else{
-		    					window.location.replace('<?php echo base_url(); ?>ssstable');
-		        			}
-		            },
-		     		 error: function(request, textStatus, error) {
+	        if(employer=="" || employer=="0.0000"){
+	        	document.getElementById("edit-employer").innerHTML = "Please provide an employer contribution.";
+	        	$('#editemployer').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-employer").innerHTML = "";
+	        	$('#editemployer').removeClass('is-invalid');
+	        	$('#editemployer').addClass('is-valid');
+	        }
 
-		        	}
-		        });
-		        return false;
-	    	}
+	        if(employee=="" || employee=="0.0000"){
+	        	document.getElementById("edit-employee").innerHTML = "Please provide an employee contribution.";
+	        	$('#editemployee').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-employee").innerHTML = "";
+	        	$('#editemployee').removeClass('is-invalid');
+	        	$('#editemployee').addClass('is-valid');
+	        }
+
+	        if(total=="" || total=="0.0000"){
+	        	document.getElementById("edit-total").innerHTML = "Please provide a total.";
+	        	$('#edittotal').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-total").innerHTML = "";
+	        	$('#edittotal').removeClass('is-invalid');
+	        	$('#edittotal').addClass('is-valid');
+	        }
+
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || employer=="" || employer=="0.0000" || employee=="" || employee=="0.0000" || total=="" || total=="0.0000" ) return false;
+
+	        $('#edit_sss').hide();
+				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+
+	    		event.preventDefault(); 
+	    		return false;
+	    });
+
+ 		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_sss').show();
+
 		});
+
+	        	/*$.ajax({
+	                url : "<?php echo site_url('ssstable/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		employer:employer,
+	                		employee:employee,
+	                		total:total
+	                	},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-belowrange").innerHTML = result[1];
+				        	$('#editbelowrange').addClass('is-invalid');
+				        	$("#editbelowrange").focus(); 
+				        	$('#editaboverange').addClass('is-invalid');
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>ssstable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });*/
+
+		$('.add').unbind('click').bind('click', function(){
+			var belowrange = $('#belowrange').val().trim();
+	        var aboverange = $('#aboverange').val().trim();
+	        var employer = $('#employer').val().trim();
+	        var employee = $('#employee').val().trim();
+	        var total = $('#total').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('ssstable/save');?>",
+	                method : "POST",
+	                data : {belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		employer:employer,
+	                		employee:employee,
+	                		total:total
+	                		},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-belowrange").innerHTML = result[1];
+				        	$('#belowrange').addClass('is-invalid');
+				        	$('#aboverange').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_sss').show();
+				        	$("#belowrange").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>ssstable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var belowrange = $('#editbelowrange').val().trim();
+	        var aboverange = $('#editaboverange').val().trim();
+	        var employer = $('#editemployer').val().trim();
+	        var employee = $('#editemployee').val().trim();
+	        var total = $('#edittotal').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('ssstable/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		belowrange:belowrange,
+	                		aboverange:aboverange,
+	                		employer:employer,
+	                		employee:employee,
+	                		total:total
+	                	},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-belowrange").innerHTML = result[1];
+				        	$('#editbelowrange').addClass('is-invalid');
+				        	$('#editaboverange').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_sss').show();
+				        	$("#editbelowrange").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>ssstable');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
 
 	});
 </script>
+

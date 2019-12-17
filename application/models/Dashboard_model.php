@@ -9,19 +9,19 @@ class Dashboard_model extends CI_Model
 
 	function get_all()
 	{
-		$client = $this->db->query('SELECT COUNT(clientID) AS noofclient FROM client');
-		$actclient = $this->db->query('SELECT COUNT(clientID) AS actclient FROM client WHERE clientstatus="Active"');
-		$inactclient = $this->db->query('SELECT COUNT(clientID) AS inactclient FROM client WHERE clientstatus="Inactive"');
+		$client = $this->db->query('SELECT COUNT(clientID) AS noofclient FROM dm_client');
+		$actclient = $this->db->query('SELECT COUNT(clientID) AS actclient FROM dm_client WHERE clientstatus="Active"');
+		$inactclient = $this->db->query('SELECT COUNT(clientID) AS inactclient FROM dm_client WHERE clientstatus="Inactive"');
 
-		$employee = $this->db->query('SELECT COUNT(employeeID) AS noofemployee FROM employee');
-		$actemployee = $this->db->query('SELECT COUNT(employeeID) AS actemployee FROM employee WHERE employeestatus="Active"');
-		$inactemployee = $this->db->query('SELECT COUNT(employeeID) AS inactemployee FROM employee WHERE employeestatus="Inactive"');
+		$employee = $this->db->query('SELECT COUNT(employeeID) AS noofemployee FROM dm_employee');
+		$actemployee = $this->db->query('SELECT COUNT(employeeID) AS actemployee FROM dm_employee WHERE employeestatus="Active"');
+		$inactemployee = $this->db->query('SELECT COUNT(employeeID) AS inactemployee FROM dm_employee WHERE employeestatus="Inactive"');
 
 		$detachment = $this->db->query('
 			SELECT *, CONCAT(detach.city) as detachcity, CONCAT(detach.housenumber) as detachhousenumber, CONCAT(detach.streetname) as detachstreetname, CONCAT(detach.barangay) as detachbarangay
-			FROM detachment as detach
-			LEFT JOIN client as client
-			ON detach.clientID=client.clientID
+			FROM dm_detachment as detach
+			LEFT JOIN dm_client
+			ON detach.clientID=dm_client.clientID
 			WHERE detachmentstatus="Active"');
 
 	    $result1 = $client->result();

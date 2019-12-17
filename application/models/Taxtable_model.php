@@ -9,13 +9,13 @@ class Taxtable_model extends CI_Model
 
 	function get_all_tax()
 	{
-	    $query = $this->db->query('SELECT * FROM taxtable');
+	    $query = $this->db->query('SELECT * FROM dm_taxtable');
 	    return $query->result();
   	}
 
   	function save_tax($belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM taxtable WHERE belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_taxtable WHERE belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -26,7 +26,7 @@ class Taxtable_model extends CI_Model
 				'percent' => $this->input->post('percent')
 			 );
 
-			$this->db->insert('taxtable', $data);
+			$this->db->insert('dm_taxtable', $data);
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully created!';
 		}
 		else 
@@ -37,7 +37,7 @@ class Taxtable_model extends CI_Model
 
   	function update_tax($id, $belowrange, $aboverange)
 	{
-		$query = $this->db->query('SELECT belowrange FROM taxtable WHERE taxid!='.$id.' AND belowrange = "'.$belowrange.'"');
+		$query = $this->db->query('SELECT belowrange FROM dm_taxtable WHERE taxid!='.$id.' AND belowrange = "'.$belowrange.'"');
 
 		if($query->num_rows() == 0){
 
@@ -49,7 +49,7 @@ class Taxtable_model extends CI_Model
 			 );
 
 			$this->db->where("taxid", $id);  
-            $this->db->update("taxtable", $data);    
+            $this->db->update("dm_taxtable", $data);    
 
 			return 'true|'.$belowrange.'-'.$aboverange.' successfully updated!';
 		}

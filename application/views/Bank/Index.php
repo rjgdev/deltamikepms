@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">Banks</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Banks</li>
 					</ul>
 				</div>

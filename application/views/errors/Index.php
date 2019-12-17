@@ -30,7 +30,7 @@
 				<h1>404</h1>
 				<h3><i class="fa fa-warning"></i> Website currently</h3>
 				<p>Under Maintenance</p>
-				<a href="index.html" class="btn btn-custom">Back to Home</a>
+				<a href="<?php echo base_url(); ?>Dashboard" class="btn btn-custom">Back to Home</a>
 			</div>
 		</div>
 		<!-- /Main Wrapper -->

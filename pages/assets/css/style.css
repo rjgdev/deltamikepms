@@ -168,6 +168,22 @@ tr.shown td.details-control {
 	margin-bottom: 20px;
 }
 
+.tsheader{
+	text-align:center;
+	font-size: 12px;
+
+}
+
+.tsrow{
+	text-align:center; 
+	border-right: 1px dotted #dee2e6;
+}
+
+.tshours{
+	color:#009d32;
+	display: block; 
+	font-size: 12px;
+}
 /* End of Customize*/
 
 @font-face {

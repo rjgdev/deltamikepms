@@ -12,13 +12,13 @@ class Designation_model extends CI_Model
 	    $designation = $this->db->query('
 
 			SELECT *
-			FROM designation
-			LEFT JOIN department
-			ON designation.departmentID=department.departmentID
+			FROM dm_designation
+			LEFT JOIN dm_department
+			ON dm_designation.departmentID=dm_department.departmentID
 			');
 
 	    $department = $this->db->query('
-			SELECT * FROM department 
+			SELECT * FROM dm_department 
 			');
 
 	    $result1 = $designation->result();
@@ -31,7 +31,7 @@ class Designation_model extends CI_Model
 
   	function save_designation($designationdescription, $departmentID)
 	{
-		$query = $this->db->query('SELECT designationdescription FROM designation WHERE designationdescription = "'.$designationdescription.'" AND departmentID = "'.$departmentID.'"' );
+		$query = $this->db->query('SELECT designationdescription FROM dm_designation WHERE designationdescription = "'.$designationdescription.'" AND departmentID = "'.$departmentID.'"' );
 
 		if($query->num_rows() == 0){
 
@@ -41,7 +41,7 @@ class Designation_model extends CI_Model
 				'designationstatus' => 'Active'
 			 );
 
-			$this->db->insert('designation', $data);
+			$this->db->insert('dm_designation', $data);
 			return 'true|'.$designationdescription.' successfully created!';
 		}
 		else 
@@ -52,7 +52,7 @@ class Designation_model extends CI_Model
 
   	function update_designation($id,$designationdescription, $departmentID)
 	{
-		$query = $this->db->query('SELECT designationdescription FROM designation WHERE designationid!='.$id.' AND designationdescription = "'.$designationdescription.'" AND departmentID = "'.$departmentID.'"' );
+		$query = $this->db->query('SELECT designationdescription FROM dm_designation WHERE designationid!='.$id.' AND designationdescription = "'.$designationdescription.'" AND departmentID = "'.$departmentID.'"' );
 
 		if($query->num_rows() == 0){
 
@@ -62,7 +62,7 @@ class Designation_model extends CI_Model
 			 );
 
 			$this->db->where("designationID", $id);  
-            $this->db->update("designation", $data);    
+            $this->db->update("dm_designation", $data);    
 
 			return 'true|'.$designationdescription.' successfully updated!';
 		}
@@ -75,13 +75,13 @@ class Designation_model extends CI_Model
   	function change_status_designation($id,$status,$designationdescription)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM employee WHERE designationid='.$id.' AND employeestatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_employee WHERE designationid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('designationstatus' => $status);
 
 	            $this->db->where("designationID", $id);  
-	          	$this->db->update("designation", $data);  
+	          	$this->db->update("dm_designation", $data);  
 	          	return 'true|'.$designationdescription.' successfully changed the status!';
             }else{
           		return 'false|Designation is currently in used!'; 
@@ -90,7 +90,7 @@ class Designation_model extends CI_Model
 			$data = array('designationstatus' => $status);
 
 			$this->db->where("designationID", $id);  
-          	$this->db->update("designation", $data);    
+          	$this->db->update("dm_designation", $data);    
 			return 'true|'.$designationdescription.' successfully changed the status!';
 		}
   	}

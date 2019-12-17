@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">Clients</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Clients</li>
 					</ul>
 				</div>
@@ -157,7 +157,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of active detachment post </label>
-							<input class="form-control number" type="text" id="activedetachmentpost">
+							<input class="form-control numbersonly" type="text" id="activedetachmentpost">
 							<div class="invalid-feedback" id="add-activedetachmentpost"></div>
 						</div>
 						<div class="submit-section">
@@ -229,7 +229,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of active detachment post </label>
-							<input class="form-control number" type="text" id="editactivedetachmentpost">
+							<input class="form-control numbersonly" type="text" id="editactivedetachmentpost">
 							<div class="invalid-feedback" id="edit-activedetachmentpost"></div>
 						</div>
 						<div class="submit-section">

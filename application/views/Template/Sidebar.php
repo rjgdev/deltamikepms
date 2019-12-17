@@ -1,6 +1,6 @@
 <?php
 	$this->db->select('*');
-	$this->db->from('rolemodule');
+	$this->db->from('dm_rolemodule');
 	$this->db->where("roleID", $this->session->userdata('roleID'));  
 	$result = $this->db->get()->result();
 
@@ -59,7 +59,7 @@
 							<a href="#" class="timekeeping-header"><i class="la la-dashboard"></i> <span> Timekeeping</span>  <span class="menu-arrow"></span></a>
 							<ul style="display: none;" class="menu-header" id="timekeeping-header">
 								<?php if($permission[7]){ ?>
-									<li><a href="<?php echo base_url(); ?>timekeeping/timesheet">Timesheet</a></li>
+									<li><a href="<?php echo base_url(); ?>timekeeping">Timesheet</a></li>
 								<?php } if($permission[8]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Timekeeping Report</a></li>
 								<?php } ?>

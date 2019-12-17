@@ -10,7 +10,7 @@ class Roles_model extends CI_Model
 	function get_all_roles()
 	{
 		$this->db->select('*');
-    	$this->db->from('rolemstr');
+    	$this->db->from('dm_rolemstr');
     	$query = $this->db->get();
 
 	    return $query->result();
@@ -18,7 +18,7 @@ class Roles_model extends CI_Model
 
   	function get_modules($id)
 	{
-    	$query = $this->db->query('SELECT * FROM rolemodule INNER JOIN modulemstr ON modulemstr.moduleID=rolemodule.moduleID WHERE rolemodule.roleID='.$id);
+    	$query = $this->db->query('SELECT * FROM dm_rolemodule INNER JOIN dm_modulemstr ON dm_modulemstr.moduleID=dm_rolemodule.moduleID WHERE dm_rolemodule.roleID='.$id);
 	    return $query->result();
   	}
 
@@ -27,7 +27,7 @@ class Roles_model extends CI_Model
 		$data = array('modulestatus' => $status);
 
         $this->db->where("ID", $id);  
-      	$this->db->update("rolemodule", $data);  
+      	$this->db->update("dm_rolemodule", $data);  
 
   		if($status=="1") return 'true|'.$description.' has been enabled!|enabled';
   		else return 'true|'.$description.' has been disabled!|disabled';
@@ -35,11 +35,11 @@ class Roles_model extends CI_Model
 
   	function delete_role($id,$description)
 	{
-		$query = $this->db->query('SELECT * FROM employee WHERE roleID='.$id.' AND employeestatus="Active"');
+		$query = $this->db->query('SELECT * FROM dm_employee WHERE roleID='.$id.' AND employeestatus="Active"');
 
 		if($query->num_rows() == 0){
     		$this->db->where("roleID", $id);  
-	      	$this->db->delete("rolemstr");  
+	      	$this->db->delete("dm_rolemstr");  
 
 	  		return 'true|'.$description.' successfully deleted!';
         }else{
@@ -49,12 +49,12 @@ class Roles_model extends CI_Model
 
   	function save_role($description)
 	{
-		$query = $this->db->query('SELECT roleDescription FROM rolemstr WHERE roleDescription = "'.$description.'"');
+		$query = $this->db->query('SELECT roleDescription FROM dm_rolemstr WHERE roleDescription = "'.$description.'"');
 
 		if($query->num_rows() == 0){
 
 			$data = array('roleDescription' => $description);
-			$this->db->insert('rolemstr', $data);
+			$this->db->insert('dm_rolemstr', $data);
 
 			$last_id = $this->db->insert_id();
 
@@ -64,7 +64,7 @@ class Roles_model extends CI_Model
 						  			'moduleID' => $i);
 			}
 
-			$this->db->insert_batch('rolemodule', $record);
+			$this->db->insert_batch('dm_rolemodule', $record);
 
 			return 'true|'.$description.' successfully created!';
 		}
@@ -76,7 +76,7 @@ class Roles_model extends CI_Model
 
   	function update_role($id,$description)
 	{
-		$query = $this->db->query('SELECT roleDescription FROM rolemstr WHERE roleID!='.$id.' AND roleDescription = "'.$description.'"');
+		$query = $this->db->query('SELECT roleDescription FROM dm_rolemstr WHERE roleID!='.$id.' AND roleDescription = "'.$description.'"');
 
 		if($query->num_rows() == 0){
 
@@ -85,7 +85,7 @@ class Roles_model extends CI_Model
 			 );
 
 			$this->db->where("roleID", $id);  
-            $this->db->update("rolemstr", $data);  
+            $this->db->update("dm_rolemstr", $data);  
 
 			return 'true|'.$description.' successfully updated!';
 		}

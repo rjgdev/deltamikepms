@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">Detachment Posts</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Detachment Posts</li>
 					</ul>
 				</div>
@@ -169,7 +169,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-							<input class="form-control number" type="text" id="noofguard">
+							<input class="form-control numbersonly" type="text" id="noofguard">
 							<div class="invalid-feedback" id="add-noofguard"></div>
 						</div>
 						<div class="submit-section">
@@ -249,7 +249,7 @@
 						</div>
 						<div class="form-group">
 							<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-							<input class="form-control number" type="text" id="editnoofguard">
+							<input class="form-control numbersonly" type="text" id="editnoofguard">
 							<div class="invalid-feedback" id="edit-noofguard"></div>
 						</div>
 						<div class="submit-section">

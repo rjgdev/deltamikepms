@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">Leave Type</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Leave Type</li>
 					</ul>
 				</div>
@@ -101,12 +101,12 @@
 					<form id="test">
 						<div class="form-group">
 							<label>Leave Type <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="leavetypename">
+							<input class="form-control letterswithspace" type="text" id="leavetypename">
 							<div class="invalid-feedback" id="add-leavetypename"></div>
 						</div>
 						<div class="form-group">
 							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control number" type="text" id="noofdays">
+							<input class="form-control numbersonly" type="text" id="noofdays">
 							<div class="invalid-feedback" id="add-noofdays"></div>
 						</div>
 						<div class="form-group">
@@ -142,12 +142,12 @@
 					<form>
 						<div class="form-group">
 							<label>Leave Type <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="editleavetypename">
+							<input class="form-control letterswithspace" type="text" id="editleavetypename">
 							<div class="invalid-feedback" id="edit-leavetypename"></div>
 						</div>
 						<div class="form-group">
 							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control number" type="text" id="editnoofdays">
+							<input class="form-control numbersonly" type="text" id="editnoofdays">
 							<div class="invalid-feedback" id="edit-noofdays"></div>
 						</div>
 						<div class="form-group">

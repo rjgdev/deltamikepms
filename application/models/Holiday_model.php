@@ -9,13 +9,13 @@ class Holiday_model extends CI_Model
 
 	function get_all_holiday()
 	{
-	    $query = $this->db->query('SELECT * FROM holiday');
+	    $query = $this->db->query('SELECT * FROM dm_holiday');
 	    return $query->result();
   	}
 
   	function save_holiday($holidayname)
 	{
-		$query = $this->db->query('SELECT holidayname FROM holiday WHERE holidayname = "'.$holidayname.'"');
+		$query = $this->db->query('SELECT holidayname FROM dm_holiday WHERE holidayname = "'.$holidayname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -25,7 +25,7 @@ class Holiday_model extends CI_Model
 				'holidaytype' => $this->input->post('holidaytype')
 			 );
 
-			$this->db->insert('holiday', $data);
+			$this->db->insert('dm_holiday', $data);
 			return 'true|'.$holidayname.' successfully created!';
 		}
 		else 
@@ -36,7 +36,7 @@ class Holiday_model extends CI_Model
 
   	function update_holiday($id,$holidayname)
 	{
-		$query = $this->db->query('SELECT holidayname FROM holiday WHERE holidayid!='.$id.' AND holidayname = "'.$holidayname.'"');
+		$query = $this->db->query('SELECT holidayname FROM dm_holiday WHERE holidayid!='.$id.' AND holidayname = "'.$holidayname.'"');
 
 		if($query->num_rows() == 0){
 
@@ -47,7 +47,7 @@ class Holiday_model extends CI_Model
 			 );
 
 			$this->db->where("holidayID", $id);  
-            $this->db->update("holiday", $data);    
+            $this->db->update("dm_holiday", $data);    
 
 			return 'true|'.$holidayname.' successfully updated!';
 		}

@@ -8,7 +8,7 @@ class Loan_model extends CI_Model
 	}
 	function get_all_loan()
 	{
-		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  employee");
+		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee");
 		$loandata = $this->db->query("
              SELECT 
             loanid,employeeID,fullname,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2
@@ -33,8 +33,8 @@ class Loan_model extends CI_Model
                 srln.dategranted as dategranted,
                 amount,enddate,
                 srln.balance
-                FROM  loan as srln 
-                LEFT JOIN employee as usrs on srln.employeeID = usrs.employeeID
+                FROM dm_loan as srln 
+                LEFT JOIN dm_employee as usrs on srln.employeeID = usrs.employeeID
                 ORDER BY loanid DESC
             )a
         ");
@@ -45,7 +45,7 @@ class Loan_model extends CI_Model
 	}
 	function save_loan($data,$employeeID,$loantypeID,$dategranted)
 	{
-	$query = $this->db->query('SELECT * FROM loan WHERE employeeID ='.$employeeID.' AND loantypeID ='.$loantypeID.' AND dategranted ="'.$dategranted.'"');
+	$query = $this->db->query('SELECT * FROM dm_loan WHERE employeeID ='.$employeeID.' AND loantypeID ='.$loantypeID.' AND dategranted ="'.$dategranted.'"');
 
 	if($query->num_rows() == 0){
 
@@ -53,7 +53,7 @@ class Loan_model extends CI_Model
 		'employeeID' => $employeeID,
 		'loantypeID' => $loantypeID,
 		'dategranted' => $dategranted);
-		$this->db->insert('loan', $data);
+		$this->db->insert('dm_loan', $data);
 		return 'true|  Loan successfully created!';
 	 	}
 		else 
@@ -64,14 +64,14 @@ class Loan_model extends CI_Model
     function update_loan($data,$id,$employeeID,$dategranted)
 
     {
-        $query = $this->db->query('SELECT * FROM loan WHERE loanID != '.$id.' AND  employeeID !='.$employeeID.' AND dategranted ="'.$dategranted.'"');
+        $query = $this->db->query('SELECT * FROM dm_loan WHERE loanID != '.$id.' AND  employeeID !='.$employeeID.' AND dategranted ="'.$dategranted.'"');
         if($query->num_rows() == 0){
 
         $data1 = array(
             'employeeID' => $employeeID,
             'dategranted' => $dategranted);
             $this->db->where("loanid", $id);  
-            $this->db->update("loan", $data);  
+            $this->db->update("dm_loan", $data);  
             return 'true|Employee name and dategranted successfully updated!';
         }
         else 

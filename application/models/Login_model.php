@@ -12,7 +12,7 @@ class Login_model extends CI_Model
 		$this->db->where('username', $username);
 		$this->db->where('password', $password);
 		$this->db->where('employeestatus', $status);
-		$query = $this->db->get('employee');
+		$query = $this->db->get('dm_employee');
 
 		if($query->num_rows() > 0)
 		{
@@ -27,12 +27,12 @@ class Login_model extends CI_Model
 	function validate($username,$password)
 	{
 		$sql = 'SELECT *, CONCAT(e.city) as ecity, CONCAT(e.housenumber) as ehousenumber, CONCAT(e.streetname) as estreetname, CONCAT(e.barangay) as ebarangay 
-	    	FROM employee as e
-	    	LEFT JOIN designation as des
+	    	FROM dm_employee as e
+	    	LEFT JOIN dm_designation as des
 	    	ON des.designationID=e.designationID 
-	    	LEFT JOIN department as dept
+	    	LEFT JOIN dm_department as dept
 	    	ON dept.departmentID=e.departmentID 
-	    	LEFT JOIN detachment as detach
+	    	LEFT JOIN dm_detachment as detach
 	    	ON detach.detachmentID=e.detachmentID 
 	    	WHERE username= ? AND password= ?';
 
