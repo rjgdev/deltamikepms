@@ -159,12 +159,12 @@
 						</div>
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
-							<input class="form-control" id="startdate" type="date" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" id="startdate" type="date" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="add-startdate"></div>
 						</div>
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
-							<input class="form-control" id="enddate" type="date" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" id="enddate" type="date" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="add-enddate"></div>
 						</div>
 						<div class="form-group">
@@ -239,12 +239,12 @@
 						</div>
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="editstartdate" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" type="date" id="editstartdate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="edit-startdate"></div>
 						</div>
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="editenddate" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" type="date" id="editenddate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="edit-enddate"></div>
 						</div>
 						<div class="form-group">

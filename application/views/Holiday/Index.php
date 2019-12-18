@@ -83,7 +83,7 @@
 						</div>
 						<div class="form-group">
 							<label>Holiday Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="holidaydate" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" type="date" id="holidaydate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="add-holidaydate"></div>
 						</div>
 						<div class="form-group">
@@ -124,7 +124,7 @@
 						</div>
 						<div class="form-group">
 							<label>Holiday Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="editholidaydate" min="0000-01-01" max="9999-12-31">
+							<input class="form-control" type="date" id="editholidaydate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
 							<div class="invalid-feedback" id="edit-holidaydate"></div>
 						</div>
 						<div class="form-group">

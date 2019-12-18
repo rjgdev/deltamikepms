@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.9.2
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 17, 2019 at 12:00 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 5.6.28
+-- Host: 127.0.0.1:3306
+-- Generation Time: Dec 18, 2019 at 06:17 AM
+-- Server version: 10.2.27-MariaDB
+-- PHP Version: 7.2.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `deltamikepms`
+-- Database: `u465060638_deltamikepms`
 --
 
 -- --------------------------------------------------------
@@ -626,50 +628,50 @@ CREATE TABLE `attparam` (
 
 INSERT INTO `attparam` (`change_operator`, `change_time`, `create_operator`, `create_time`, `delete_operator`, `delete_time`, `status`, `ParaName`, `ParaType`, `ParaValue`) VALUES
 (NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'approval_ot', NULL, '0'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'break_in', NULL, '"3"'),
-(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'break_out', NULL, '"2"'),
-(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'check_in', NULL, '"0"'),
-(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'check_out', NULL, '"1"'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'break_in', NULL, '\"3\"'),
+(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'break_out', NULL, '\"2\"'),
+(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'check_in', NULL, '\"0\"'),
+(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'check_out', NULL, '\"1\"'),
 (NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'EarlyAbsent', NULL, '0'),
 (NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'enable_capture', NULL, '0'),
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'enable_funckey', NULL, '0'),
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'enable_workcode', NULL, '0'),
 (NULL, '2019-12-17 11:38:19', NULL, '2019-12-17 11:38:19', NULL, NULL, 0, 'filter_emp', NULL, '0'),
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'font_size', NULL, '8'),
-(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'funckey0', NULL, '"Check-In"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey1', NULL, '"Check-Out"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey10', NULL, '"10"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey11', NULL, '"11"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey12', NULL, '"12"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey13', NULL, '"13"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey14', NULL, '"14"'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey2', NULL, '"Break-Out"'),
-(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey255', NULL, '"Unknown"'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey3', NULL, '"Break-In"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey4', NULL, '"OT-In"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey5', NULL, '"OT-Out"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey6', NULL, '"6"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey7', NULL, '"7"'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey8', NULL, '"8"'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey9', NULL, '"9"'),
+(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'funckey0', NULL, '\"Check-In\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey1', NULL, '\"Check-Out\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey10', NULL, '\"10\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey11', NULL, '\"11\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey12', NULL, '\"12\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey13', NULL, '\"13\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey14', NULL, '\"14\"'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey2', NULL, '\"Break-Out\"'),
+(NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'funckey255', NULL, '\"Unknown\"'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey3', NULL, '\"Break-In\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey4', NULL, '\"OT-In\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey5', NULL, '\"OT-Out\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey6', NULL, '\"6\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey7', NULL, '\"7\"'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'funckey8', NULL, '\"8\"'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'funckey9', NULL, '\"9\"'),
 (NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'jbd_action_type', NULL, '1'),
 (NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'LateAbsent', NULL, '0'),
-(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass0', NULL, '{"LeaveId": 1000, "MinUnit": 0.5, "IsLeave": 1, "LeaveName": "Actual Attendance", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 1, "ReportSymbol": " ", "Unit": 3}'),
-(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass1', NULL, '{"LeaveId": 1001, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Attendance Duration/Short", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": " ", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass10', NULL, '{"LeaveId": 1010, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "No Check-In", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "[", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass11', NULL, '{"LeaveId": 1011, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "No Check-Out", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "]", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass12', NULL, '{"LeaveId": 1012, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Present", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "P", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass13', NULL, '{"LeaveId": 1013, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Day Off", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "D", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass14', NULL, '{"LeaveId": 1014, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Weekend", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "W", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'LeaveClass15', NULL, '{"LeaveId": 1015, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Holiday", "Classify": 0, "RemaindCount": 0, "LeaveType": 2, "Color": 0, "RemaindProc": 2, "ReportSymbol": "H", "Unit": 1}'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass2', NULL, '{"LeaveId": 1002, "MinUnit": 1.0, "IsLeave": 2, "LeaveName": "Total Time/Total Time Worked", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": " ", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass3', NULL, '{"LeaveId": 1003, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Break Time/Actual Break Time", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": " ", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass4', NULL, '{"LeaveId": 1004, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Timetable", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": " ", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass5', NULL, '{"LeaveId": 1005, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Late", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": ">", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass6', NULL, '{"LeaveId": 1006, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Early Leave", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 2, "ReportSymbol": "<", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass7', NULL, '{"LeaveId": 1007, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Leave", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 1, "ReportSymbol": "V", "Unit": 2}'),
-(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'LeaveClass8', NULL, '{"LeaveId": 1008, "MinUnit": 0.5, "IsLeave": 1, "LeaveName": "Absent", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 1, "ReportSymbol": "A", "Unit": 3}'),
-(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'LeaveClass9', NULL, '{"LeaveId": 1009, "MinUnit": 1.0, "IsLeave": 1, "LeaveName": "Overtime", "Classify": 0, "RemaindCount": 1, "LeaveType": 3, "Color": 0, "RemaindProc": 1, "ReportSymbol": "+", "Unit": 1}'),
+(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass0', NULL, '{\"LeaveId\": 1000, \"MinUnit\": 0.5, \"IsLeave\": 1, \"LeaveName\": \"Actual Attendance\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 1, \"ReportSymbol\": \" \", \"Unit\": 3}'),
+(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass1', NULL, '{\"LeaveId\": 1001, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Attendance Duration/Short\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \" \", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass10', NULL, '{\"LeaveId\": 1010, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"No Check-In\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"[\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass11', NULL, '{\"LeaveId\": 1011, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"No Check-Out\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"]\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass12', NULL, '{\"LeaveId\": 1012, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Present\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"P\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'LeaveClass13', NULL, '{\"LeaveId\": 1013, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Day Off\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"D\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass14', NULL, '{\"LeaveId\": 1014, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Weekend\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"W\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'LeaveClass15', NULL, '{\"LeaveId\": 1015, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Holiday\", \"Classify\": 0, \"RemaindCount\": 0, \"LeaveType\": 2, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"H\", \"Unit\": 1}'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass2', NULL, '{\"LeaveId\": 1002, \"MinUnit\": 1.0, \"IsLeave\": 2, \"LeaveName\": \"Total Time/Total Time Worked\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \" \", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass3', NULL, '{\"LeaveId\": 1003, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Break Time/Actual Break Time\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \" \", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass4', NULL, '{\"LeaveId\": 1004, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Timetable\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \" \", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'LeaveClass5', NULL, '{\"LeaveId\": 1005, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Late\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \">\", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:25', NULL, '2019-12-17 11:38:25', NULL, NULL, 0, 'LeaveClass6', NULL, '{\"LeaveId\": 1006, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Early Leave\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 2, \"ReportSymbol\": \"<\", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'LeaveClass7', NULL, '{\"LeaveId\": 1007, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Leave\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 1, \"ReportSymbol\": \"V\", \"Unit\": 2}'),
+(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'LeaveClass8', NULL, '{\"LeaveId\": 1008, \"MinUnit\": 0.5, \"IsLeave\": 1, \"LeaveName\": \"Absent\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 1, \"ReportSymbol\": \"A\", \"Unit\": 3}'),
+(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'LeaveClass9', NULL, '{\"LeaveId\": 1009, \"MinUnit\": 1.0, \"IsLeave\": 1, \"LeaveName\": \"Overtime\", \"Classify\": 0, \"RemaindCount\": 1, \"LeaveType\": 3, \"Color\": 0, \"RemaindProc\": 1, \"ReportSymbol\": \"+\", \"Unit\": 1}'),
 (NULL, '2019-12-17 11:38:19', NULL, '2019-12-17 11:38:19', NULL, NULL, 0, 'leave_include_in', NULL, '1'),
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'leave_include_out', NULL, '1'),
 (NULL, '2019-12-17 11:38:19', NULL, '2019-12-17 11:38:19', NULL, NULL, 0, 'MaxShiftInterval', NULL, '660'),
@@ -690,11 +692,11 @@ INSERT INTO `attparam` (`change_operator`, `change_time`, `create_operator`, `cr
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'OTCheckRecType', NULL, '2'),
 (NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'OutCheckRecType', NULL, '3'),
 (NULL, '2019-12-17 11:38:24', NULL, '2019-12-17 11:38:24', NULL, NULL, 0, 'OutOverTime', NULL, '1'),
-(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'overtime_in', NULL, '"4"'),
-(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'overtime_out', NULL, '"5"'),
+(NULL, '2019-12-17 11:38:26', NULL, '2019-12-17 11:38:26', NULL, NULL, 0, 'overtime_in', NULL, '\"4\"'),
+(NULL, '2019-12-17 11:38:22', NULL, '2019-12-17 11:38:22', NULL, NULL, 0, 'overtime_out', NULL, '\"5\"'),
 (NULL, '2019-12-17 11:38:23', NULL, '2019-12-17 11:38:23', NULL, NULL, 0, 'punch_period', NULL, '1'),
-(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'short_date', NULL, '"1"'),
-(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'short_time', NULL, '"1"'),
+(NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'short_date', NULL, '\"1\"'),
+(NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'short_time', NULL, '\"1\"'),
 (NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'TakeCardIn', NULL, '1'),
 (NULL, '2019-12-17 11:38:20', NULL, '2019-12-17 11:38:20', NULL, NULL, 0, 'TakeCardOut', NULL, '1'),
 (NULL, '2019-12-17 11:38:21', NULL, '2019-12-17 11:38:21', NULL, NULL, 0, 'training_include_in', NULL, '1'),
@@ -825,7 +827,7 @@ CREATE TABLE `att_approvedhistory` (
   `approver_type` smallint(6) NOT NULL,
   `approver` varchar(50) NOT NULL,
   `approver_name` varchar(50) NOT NULL,
-  `remark` longtext,
+  `remark` longtext DEFAULT NULL,
   `action_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -839,7 +841,7 @@ CREATE TABLE `att_attreport` (
   `ItemName` varchar(100) NOT NULL,
   `ItemType` varchar(20) DEFAULT NULL,
   `Author_id` int(11) NOT NULL,
-  `ItemValue` longtext,
+  `ItemValue` longtext DEFAULT NULL,
   `Published` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -946,7 +948,7 @@ CREATE TABLE `att_changeschedule` (
   `process_status` varchar(2) DEFAULT NULL,
   `audit_user_id` int(11) DEFAULT NULL,
   `approve_level` smallint(6) DEFAULT NULL,
-  `approver` longtext
+  `approver` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1032,7 +1034,7 @@ CREATE TABLE `att_overtime` (
   `auditreason` varchar(100) DEFAULT NULL,
   `audit_user_id` int(11) DEFAULT NULL,
   `approve_level` smallint(6) DEFAULT NULL,
-  `approver` longtext
+  `approver` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1114,7 +1116,7 @@ CREATE TABLE `att_training` (
   `process_status` varchar(2) DEFAULT NULL,
   `audit_user_id` int(11) DEFAULT NULL,
   `approve_level` smallint(6) DEFAULT NULL,
-  `approver` longtext
+  `approver` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -2016,16 +2018,16 @@ CREATE TABLE `base_companysetting` (
 --
 
 INSERT INTO `base_companysetting` (`change_operator`, `change_time`, `create_operator`, `create_time`, `delete_operator`, `delete_time`, `status`, `ParaName`, `ParaType`, `ParaValue`) VALUES
-(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'agent_id', NULL, '""'),
-(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_country', NULL, '""'),
-(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_email', NULL, '""'),
-(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_name', NULL, '""'),
-(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'currency', NULL, '""'),
-(NULL, '2019-12-17 11:37:30', NULL, '2019-12-17 11:37:30', NULL, NULL, 0, 'estd_id', NULL, '""'),
+(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'agent_id', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_country', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_email', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'company_name', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'currency', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:30', NULL, '2019-12-17 11:37:30', NULL, NULL, 0, 'estd_id', NULL, '\"\"'),
 (NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'logo_pos', NULL, '3'),
 (NULL, '2019-12-17 11:37:30', NULL, '2019-12-17 11:37:30', NULL, NULL, 0, 'name_pos', NULL, '3'),
-(NULL, '2019-12-17 11:37:29', NULL, '2019-12-17 11:37:29', NULL, NULL, 0, 'phone_number', NULL, '""'),
-(NULL, '2019-12-17 11:37:30', NULL, '2019-12-17 11:37:30', NULL, NULL, 0, 'record_type', NULL, '"SCR"'),
+(NULL, '2019-12-17 11:37:29', NULL, '2019-12-17 11:37:29', NULL, NULL, 0, 'phone_number', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:30', NULL, '2019-12-17 11:37:30', NULL, NULL, 0, 'record_type', NULL, '\"SCR\"'),
 (NULL, '2019-12-17 11:37:31', NULL, '2019-12-17 11:37:31', NULL, NULL, 0, 'show_in_report', NULL, '0');
 
 -- --------------------------------------------------------
@@ -2087,18 +2089,18 @@ INSERT INTO `base_emailsetting` (`change_operator`, `change_time`, `create_opera
 (NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'absent_count', NULL, '0'),
 (NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'early_count', NULL, '0'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'email_alert', NULL, '0'),
-(NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'email_host', NULL, '""'),
-(NULL, '2019-12-17 11:37:32', NULL, '2019-12-17 11:37:32', NULL, NULL, 0, 'email_host_password', NULL, '""'),
-(NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'email_host_user', NULL, '""'),
+(NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'email_host', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:32', NULL, '2019-12-17 11:37:32', NULL, NULL, 0, 'email_host_password', NULL, '\"\"'),
+(NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'email_host_user', NULL, '\"\"'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'email_port', NULL, '25'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'email_use_tls', NULL, '0'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'exception_send', NULL, '0'),
 (NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'late_count', NULL, '0'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'pop_alert', NULL, '0'),
-(NULL, '2019-12-17 11:37:32', NULL, '2019-12-17 11:37:32', NULL, NULL, 0, 'sender_name', NULL, '""'),
+(NULL, '2019-12-17 11:37:32', NULL, '2019-12-17 11:37:32', NULL, NULL, 0, 'sender_name', NULL, '\"\"'),
 (NULL, '2019-12-17 11:37:34', NULL, '2019-12-17 11:37:34', NULL, NULL, 0, 'send_day', NULL, '1'),
 (NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'send_rate', NULL, '0'),
-(NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'send_time', NULL, '"19:00"');
+(NULL, '2019-12-17 11:37:33', NULL, '2019-12-17 11:37:33', NULL, NULL, 0, 'send_time', NULL, '\"19:00\"');
 
 -- --------------------------------------------------------
 
@@ -2119,7 +2121,7 @@ CREATE TABLE `base_emailtemplate` (
   `event_status` smallint(6) DEFAULT NULL,
   `receiver` smallint(6) NOT NULL,
   `email_subject` varchar(200) DEFAULT NULL,
-  `email_content` longtext,
+  `email_content` longtext DEFAULT NULL,
   `content_type` longtext NOT NULL,
   `maximum` int(11) NOT NULL,
   `lng` varchar(20) NOT NULL
@@ -2145,7 +2147,7 @@ CREATE TABLE `base_ftpserver` (
   `port` int(11) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
   `pwd` varchar(100) DEFAULT NULL,
-  `remark` longtext
+  `remark` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -2164,19 +2166,19 @@ CREATE TABLE `base_operatortemplate` (
   `delete_time` datetime DEFAULT NULL,
   `status` smallint(6) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `template1` longtext,
+  `template1` longtext DEFAULT NULL,
   `finger_id` smallint(6) NOT NULL,
   `valid` smallint(6) NOT NULL,
   `fpversion` varchar(10) NOT NULL,
   `bio_type` smallint(6) NOT NULL,
   `utime` datetime DEFAULT NULL,
-  `bitmap_picture` longtext,
-  `bitmap_picture2` longtext,
-  `bitmap_picture3` longtext,
-  `bitmap_picture4` longtext,
+  `bitmap_picture` longtext DEFAULT NULL,
+  `bitmap_picture2` longtext DEFAULT NULL,
+  `bitmap_picture3` longtext DEFAULT NULL,
+  `bitmap_picture4` longtext DEFAULT NULL,
   `use_type` smallint(6) DEFAULT NULL,
-  `template2` longtext,
-  `template3` longtext,
+  `template2` longtext DEFAULT NULL,
+  `template3` longtext DEFAULT NULL,
   `template_flag` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2342,7 +2344,7 @@ CREATE TABLE `checkexact` (
   `audit_reason` varchar(100) DEFAULT NULL,
   `audit_user_id` int(11) DEFAULT NULL,
   `approve_level` smallint(6) DEFAULT NULL,
-  `approver` longtext
+  `approver` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -2368,7 +2370,7 @@ CREATE TABLE `checkinout` (
   `upload_time` datetime DEFAULT NULL,
   `longitude` double DEFAULT NULL,
   `latitude` double DEFAULT NULL,
-  `location` longtext,
+  `location` longtext DEFAULT NULL,
   `app_client` varchar(50) DEFAULT NULL,
   `data_from` smallint(6) DEFAULT NULL,
   `mobile` smallint(6) DEFAULT NULL
@@ -2530,7 +2532,7 @@ CREATE TABLE `devcmds` (
   `CmdTransTime` datetime DEFAULT NULL,
   `CmdOverTime` datetime DEFAULT NULL,
   `CmdReturn` int(11) DEFAULT NULL,
-  `CmdReturnContent` longtext,
+  `CmdReturnContent` longtext DEFAULT NULL,
   `CmdImmediately` tinyint(1) NOT NULL,
   `cmdreturntype` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -2557,7 +2559,7 @@ CREATE TABLE `devcmds_bak` (
   `CmdTransTime` datetime DEFAULT NULL,
   `CmdOverTime` datetime DEFAULT NULL,
   `CmdReturn` int(11) DEFAULT NULL,
-  `CmdReturnContent` longtext,
+  `CmdReturnContent` longtext DEFAULT NULL,
   `CmdImmediately` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2916,8 +2918,8 @@ CREATE TABLE `dm_bank` (
 --
 
 INSERT INTO `dm_bank` (`bankID`, `bankname`, `bankstatus`) VALUES
-(1, 'b', 'Active'),
-(2, 'a', 'Active');
+(1, 'Metrobank', 'Active'),
+(2, 'BPI', 'Active');
 
 -- --------------------------------------------------------
 
@@ -2945,9 +2947,9 @@ CREATE TABLE `dm_client` (
 --
 
 INSERT INTO `dm_client` (`clientID`, `description`, `clientstatus`, `clientname`, `housenumber`, `streetname`, `barangay`, `city`, `contactperson`, `activedetachmentpost`, `contactno`, `email`) VALUES
-(1, '1', 'Active', '1', '', '', '', '', '1', 1, '1', '1'),
-(2, '2', 'Active', '3', '2', '3', '1', '1', '1', 1, '1', '1'),
-(3, '', 'Active', '2', '', '2', '2', '2', '2', 2, '2', '2');
+(1, 'Cebu', 'Active', 'Mactan Newton', '', 'Street', 'Barangay', 'City', '1', 1, '1', '1'),
+(2, 'Megaworld', 'Active', 'Megaworld Coporation', '2', '3', '1', '1', '1', 1, '1', '1'),
+(3, 'Eton', 'Inactive', 'Eton', '', '2', '2', '2', '2', 2, '2', '2');
 
 -- --------------------------------------------------------
 
@@ -2966,10 +2968,10 @@ CREATE TABLE `dm_department` (
 --
 
 INSERT INTO `dm_department` (`departmentID`, `description`, `departmentstatus`) VALUES
-(1, 'IT Departments', 'Active'),
+(1, 'IT Department', 'Active'),
 (2, 'HR Department', 'Inactive'),
-(3, '1', 'Active'),
-(4, '23', 'Active');
+(3, 'Admin Department', 'Active'),
+(4, 'Finance Department', 'Active');
 
 -- --------------------------------------------------------
 
@@ -3029,47 +3031,47 @@ INSERT INTO `dm_detachment` (`detachmentID`, `postname`, `housenumber`, `streetn
 
 CREATE TABLE `dm_employee` (
   `employeeID` bigint(20) NOT NULL,
-  `firstname` varchar(60) NOT NULL,
-  `middlename` varchar(60) NOT NULL,
-  `lastname` varchar(60) NOT NULL,
-  `gender` varchar(6) NOT NULL,
-  `housenumber` varchar(10) NOT NULL,
-  `streetname` varchar(50) NOT NULL,
-  `barangay` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `birthdate` varchar(60) NOT NULL,
-  `contactinfo` varchar(30) NOT NULL,
-  `civilstatus` varchar(30) NOT NULL,
-  `citizenship` varchar(30) NOT NULL,
-  `hireddate` varchar(60) NOT NULL,
+  `firstname` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middlename` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `gender` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `housenumber` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `streetname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `barangay` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `birthdate` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contactinfo` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `civilstatus` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `citizenship` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hireddate` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `departmentID` int(11) NOT NULL,
-  `designationID` varchar(50) NOT NULL,
+  `designationID` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `detachmentID` bigint(20) NOT NULL,
   `roleID` bigint(20) NOT NULL,
   `approvalID` bigint(20) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `basicsalary` varchar(50) NOT NULL,
-  `dailyrate` varchar(50) NOT NULL,
-  `allowance` varchar(50) NOT NULL,
-  `tinnumber` varchar(30) NOT NULL,
-  `sssnumber` varchar(30) NOT NULL,
-  `philhealthnumber` varchar(30) NOT NULL,
-  `pagibignumber` varchar(30) NOT NULL,
-  `employeestatus` varchar(20) NOT NULL,
-  `photo` varchar(255) NOT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `basicsalary` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dailyrate` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `allowance` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tinnumber` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sssnumber` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `philhealthnumber` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pagibignumber` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `employeestatus` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `clientID` int(120) NOT NULL,
-  `datecreated` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ;
+  `datecreated` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `dm_employee`
 --
 
 INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `photo`, `clientID`, `datecreated`) VALUES
-(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 1, 'admin', 'admin', ' 10,000.00', ' 500.00', ' 0.00', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', '1.jpg', 1, '2019-11-25 08:26:51.905646'),
-(2, 'Office', '', 'Staff', 'Female', '', 'Opel', '175', 'Caloocan', '1994-02-20', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '1', 1, 2, 2, 'staff', 'staff', '10,000.00', '100.00', '', '', '', '', '', 'Active', '', 0, '2019-11-25 08:26:54.102823'),
-(3, 'Office', '', 'Executive', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '2000-10-25', '0912-345-6789', 'Married', 'Fiipino', '2013-11-25', 1, '1', 1, 2, 2, 'exe', 'exe', '20,000.00', '200.00', '', '', '', '', '', 'Active', '', 0, '2019-12-03 11:56:31.366887');
+(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 1, 'admin', 'admin', ' 10,000.0000', ' 500.0000', ' 0.0000', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', '1.jpg', 1, '2019-11-25 08:26:51.905646'),
+(2, 'Cardo', '', 'Dalisay', 'Female', '', 'Opel', '175', 'Caloocan', '1994-02-20', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '1', 1, 2, 2, 'staff', 'staff', ' 10,000.0000', ' 100.0000', '', '', '', '', '', 'Active', '2.jpg', 0, '2019-11-25 08:26:54.102823'),
+(3, 'John', '', 'Wick', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '2000-10-25', '0912-345-6789', 'Married', 'Fiipino', '2013-11-25', 1, '1', 1, 2, 2, 'exe', 'exe', ' 20,000.0000', ' 200.0000', '', '', '', '', '', 'Active', '3.png', 0, '2019-12-03 11:56:31.366887');
 
 -- --------------------------------------------------------
 
@@ -3249,8 +3251,7 @@ CREATE TABLE `dm_holiday` (
 --
 
 INSERT INTO `dm_holiday` (`holidayID`, `holidayname`, `holidaydate`, `holidaytype`) VALUES
-(1, 'asdd', '9999-11-30', 'Regular Holiday'),
-(2, 'asd', '0001-08-08', 'Regular Holiday');
+(1, 'asd', '1999-12-17', 'Regular Holiday');
 
 -- --------------------------------------------------------
 
@@ -3271,11 +3272,11 @@ CREATE TABLE `dm_leavetype` (
 --
 
 INSERT INTO `dm_leavetype` (`leavetypeID`, `leavetypename`, `noofdays`, `accumulation`, `leavetypestatus`) VALUES
-(1, 'a', 1, 'No', 'Active'),
-(2, 'b', 1, 'No', 'Active'),
-(3, 'asd', 1, 'Yes', 'Active'),
-(4, 'e', 1, 'No', 'Active'),
-(5, 'as', 1, 'Yes', 'Active');
+(1, 'Sick Leave', 5, 'No', 'Active'),
+(2, 'Vacation Leave', 5, 'No', 'Active'),
+(3, 'Emergency Leave', 4, 'Yes', 'Active'),
+(4, 'Paternity Leave', 1, 'No', 'Active'),
+(5, 'Maternity Leave', 4, 'Yes', 'Active');
 
 -- --------------------------------------------------------
 
@@ -3287,14 +3288,14 @@ CREATE TABLE `dm_loan` (
   `loanID` int(11) NOT NULL,
   `employeeID` int(11) NOT NULL,
   `loantypeID` int(11) NOT NULL,
-  `dategranted` varchar(50) NOT NULL,
-  `enddate` varchar(255) NOT NULL,
+  `dategranted` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enddate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `termofpaymentID` int(11) NOT NULL,
-  `amount` varchar(20) NOT NULL,
-  `deduction` varchar(25) NOT NULL,
-  `balance` varchar(25) NOT NULL,
-  `datecreated` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ;
+  `amount` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deduction` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `balance` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `datecreated` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `dm_loan`
@@ -3636,7 +3637,7 @@ CREATE TABLE `empitemdefine` (
   `ItemName` varchar(100) NOT NULL,
   `ItemType` varchar(20) DEFAULT NULL,
   `Author_id` int(11) NOT NULL,
-  `ItemValue` longtext,
+  `ItemValue` longtext DEFAULT NULL,
   `Published` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -3687,13 +3688,13 @@ CREATE TABLE `finger_template` (
   `bio_type` smallint(6) NOT NULL,
   `SN` varchar(20) DEFAULT NULL,
   `UTime` datetime DEFAULT NULL,
-  `BITMAPPICTURE` longtext,
-  `BITMAPPICTURE2` longtext,
-  `BITMAPPICTURE3` longtext,
-  `BITMAPPICTURE4` longtext,
+  `BITMAPPICTURE` longtext DEFAULT NULL,
+  `BITMAPPICTURE2` longtext DEFAULT NULL,
+  `BITMAPPICTURE3` longtext DEFAULT NULL,
+  `BITMAPPICTURE4` longtext DEFAULT NULL,
   `USETYPE` smallint(6) DEFAULT NULL,
-  `Template2` longtext,
-  `Template3` longtext
+  `Template2` longtext DEFAULT NULL,
+  `Template3` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -3893,8 +3894,8 @@ CREATE TABLE `iclock_appactionlog` (
   `user` varchar(20) NOT NULL,
   `client` varchar(50) DEFAULT NULL,
   `action` varchar(50) DEFAULT NULL,
-  `params` longtext,
-  `describe` longtext,
+  `params` longtext DEFAULT NULL,
+  `describe` longtext DEFAULT NULL,
   `request_status` smallint(6) NOT NULL,
   `action_time` datetime NOT NULL,
   `remote_ip` varchar(20) DEFAULT NULL
@@ -4015,7 +4016,7 @@ CREATE TABLE `iclock_devicetransaction` (
   `reserved` varchar(20) DEFAULT NULL,
   `longitude` double DEFAULT NULL,
   `latitude` double DEFAULT NULL,
-  `location` longtext,
+  `location` longtext DEFAULT NULL,
   `app_client` varchar(50) DEFAULT NULL,
   `data_from` smallint(6) DEFAULT NULL,
   `upload_time` datetime DEFAULT NULL,
@@ -4114,7 +4115,7 @@ CREATE TABLE `iclock_notification` (
   `system_sender` varchar(50) DEFAULT NULL,
   `category` smallint(6) NOT NULL,
   `sub_category` int(11) DEFAULT NULL,
-  `content` longtext,
+  `content` longtext DEFAULT NULL,
   `source` int(11) DEFAULT NULL,
   `notification_time` datetime NOT NULL,
   `read_status` smallint(6) NOT NULL,
@@ -4301,7 +4302,7 @@ CREATE TABLE `leaveclass1` (
   `Color` int(11) NOT NULL,
   `Classify` smallint(6) NOT NULL,
   `LeaveType` smallint(6) NOT NULL,
-  `Calc` longtext
+  `Calc` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -4312,11 +4313,11 @@ INSERT INTO `leaveclass1` (`change_operator`, `change_time`, `create_operator`, 
 (NULL, '2019-12-17 11:38:34', NULL, '2019-12-17 11:38:34', NULL, NULL, 0, 1000, 'Expected/Actual', 0.5, 3, 1, 0, ' ', 0, 0, 0, 3, NULL),
 (NULL, '2019-12-17 11:38:34', NULL, '2019-12-17 11:38:34', NULL, NULL, 0, 1001, 'Late', 10, 2, 2, 1, '>', 0, 0, 0, 3, 'AttItem(minLater)'),
 (NULL, '2019-12-17 11:38:34', NULL, '2019-12-17 11:38:34', NULL, NULL, 0, 1002, 'Early Leave', 10, 2, 2, 1, '<', 0, 0, 0, 3, 'AttItem(minEarly)'),
-(NULL, '2019-12-17 11:38:34', NULL, '2019-12-17 11:38:34', NULL, NULL, 0, 1003, 'Leave', 1, 1, 1, 1, 'V', 0, 0, 0, 3, 'if((AttItem(LeaveType1)>0) and (AttItem(LeaveType1)<999), "AttItem(LeaveTime1), "0)+if((AttItem(LeaveType2)>0) and (AttItem(LeaveType2)<999), "AttItem(LeaveTime2), "0)+if((AttItem(LeaveType3)>0) and (AttItem(LeaveType3)<999), "AttItem(LeaveTime3), "0)+if((AttItem(LeaveType4)>0) and (AttItem(LeaveType4)<999), "AttItem(LeaveTime4), "0)+if((AttItem(LeaveType5)>0) and (AttItem(LeaveType5)<999), "AttItem(LeaveTime5), "0)'),
+(NULL, '2019-12-17 11:38:34', NULL, '2019-12-17 11:38:34', NULL, NULL, 0, 1003, 'Leave', 1, 1, 1, 1, 'V', 0, 0, 0, 3, 'if((AttItem(LeaveType1)>0) and (AttItem(LeaveType1)<999), \"AttItem(LeaveTime1), \"0)+if((AttItem(LeaveType2)>0) and (AttItem(LeaveType2)<999), \"AttItem(LeaveTime2), \"0)+if((AttItem(LeaveType3)>0) and (AttItem(LeaveType3)<999), \"AttItem(LeaveTime3), \"0)+if((AttItem(LeaveType4)>0) and (AttItem(LeaveType4)<999), \"AttItem(LeaveTime4), \"0)+if((AttItem(LeaveType5)>0) and (AttItem(LeaveType5)<999), \"AttItem(LeaveTime5), \"0)'),
 (NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1004, 'Absent', 0.5, 3, 1, 0, 'A', 0, 0, 0, 3, 'AttItem(MinAbsent)'),
 (NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1005, 'Overtime', 1, 1, 1, 1, '+', 0, 0, 0, 3, 'AttItem(MinOverTime)'),
-(NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1008, 'No Check-In', 1, 4, 2, 1, '[', 0, 0, 0, 2, 'If(AttItem(CheckIn)": null, "If(AttItem(OnDuty)": null, "0, "if(((AttItem(LeaveStart1)": null) or (AttItem(LeaveStart1)>AttItem(OnDuty))) and AttItem(DutyOn), "1, "0)), "0)'),
-(NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1009, 'No Check-Out', 1, 4, 2, 1, ']', 0, 0, 0, 2, 'If(AttItem(CheckOut)": null, "If(AttItem(OffDuty)": null, "0, "if((AttItem(LeaveEnd1)": null) or (AttItem(LeaveEnd1)<AttItem(OffDuty)), "if((AttItem(LeaveEnd2)": null) or (AttItem(LeaveEnd2)<AttItem(OffDuty)), "if(((AttItem(LeaveEnd3)": null) or (AttItem(LeaveEnd3)<AttItem(OffDuty))) and AttItem(DutyOff), "1, "0), "0), "0)), "0)');
+(NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1008, 'No Check-In', 1, 4, 2, 1, '[', 0, 0, 0, 2, 'If(AttItem(CheckIn)\": null, \"If(AttItem(OnDuty)\": null, \"0, \"if(((AttItem(LeaveStart1)\": null) or (AttItem(LeaveStart1)>AttItem(OnDuty))) and AttItem(DutyOn), \"1, \"0)), \"0)'),
+(NULL, '2019-12-17 11:38:35', NULL, '2019-12-17 11:38:35', NULL, NULL, 0, 1009, 'No Check-Out', 1, 4, 2, 1, ']', 0, 0, 0, 2, 'If(AttItem(CheckOut)\": null, \"If(AttItem(OffDuty)\": null, \"0, \"if((AttItem(LeaveEnd1)\": null) or (AttItem(LeaveEnd1)<AttItem(OffDuty)), \"if((AttItem(LeaveEnd2)\": null) or (AttItem(LeaveEnd2)<AttItem(OffDuty)), \"if(((AttItem(LeaveEnd3)\": null) or (AttItem(LeaveEnd3)<AttItem(OffDuty))) and AttItem(DutyOff), \"1, \"0), \"0), \"0)), \"0)');
 
 -- --------------------------------------------------------
 
@@ -4392,7 +4393,7 @@ CREATE TABLE `operatecmds` (
   `CmdReturn` int(11) DEFAULT NULL,
   `process_count` smallint(6) NOT NULL,
   `success_flag` smallint(6) NOT NULL,
-  `receive_data` longtext,
+  `receive_data` longtext DEFAULT NULL,
   `cmm_type` smallint(6) NOT NULL,
   `cmm_system` smallint(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -4417,7 +4418,7 @@ CREATE TABLE `payroll_allowance` (
   `model` smallint(6) DEFAULT NULL,
   `amount` decimal(8,2) NOT NULL,
   `issue_date` datetime NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4457,7 +4458,7 @@ CREATE TABLE `payroll_cashadvance` (
   `employee_id` int(11) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
   `issue_date` datetime NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4477,7 +4478,7 @@ CREATE TABLE `payroll_currency` (
   `status` smallint(6) DEFAULT NULL,
   `currency` varchar(20) NOT NULL,
   `is_basic` tinyint(1) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -4506,7 +4507,7 @@ CREATE TABLE `payroll_deduction` (
   `deduction_type_id` int(11) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
   `issue_date` datetime NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4551,7 +4552,7 @@ CREATE TABLE `payroll_exceptionformula` (
   `fixed_amount` decimal(8,2) DEFAULT NULL,
   `fixed_unit` int(11) DEFAULT NULL,
   `is_basic` tinyint(1) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4572,7 +4573,7 @@ CREATE TABLE `payroll_expense` (
   `employee_id` int(11) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
   `issue_date` datetime NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4627,7 +4628,7 @@ CREATE TABLE `payroll_increment` (
   `amount` decimal(8,2) NOT NULL,
   `issue_date` date NOT NULL,
   `updated` tinyint(1) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4653,7 +4654,7 @@ CREATE TABLE `payroll_leaveformula` (
   `fixed_amount` decimal(8,2) DEFAULT NULL,
   `fixed_unit` int(11) DEFAULT NULL,
   `is_basic` tinyint(1) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4679,7 +4680,7 @@ CREATE TABLE `payroll_otformula` (
   `fixed_amount` decimal(8,2) DEFAULT NULL,
   `fixed_unit` int(11) DEFAULT NULL,
   `is_basic` tinyint(1) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -4734,7 +4735,7 @@ CREATE TABLE `payroll_payrollleavecredit` (
   `total_days` decimal(8,2) DEFAULT NULL,
   `formula_id` int(11) NOT NULL,
   `amount` decimal(8,2) NOT NULL,
-  `remarks` longtext
+  `remarks` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5023,8 +5024,8 @@ CREATE TABLE `personnel_empchange` (
   `UserID_id` int(11) NOT NULL,
   `changedate` datetime DEFAULT NULL,
   `changepostion` int(11) DEFAULT NULL,
-  `oldvalue` longtext,
-  `newvalue` longtext,
+  `oldvalue` longtext DEFAULT NULL,
+  `newvalue` longtext DEFAULT NULL,
   `changereason` varchar(200) DEFAULT NULL,
   `isvalid` tinyint(1) NOT NULL,
   `approvalstatus` int(11) NOT NULL,
@@ -5628,7 +5629,7 @@ CREATE TABLE `user_speday` (
   `State` varchar(2) DEFAULT NULL,
   `audit_user_id` int(11) DEFAULT NULL,
   `approve_level` smallint(6) DEFAULT NULL,
-  `approver` longtext,
+  `approver` longtext DEFAULT NULL,
   `data_from` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -5693,7 +5694,7 @@ CREATE TABLE `worktable_instantmsg` (
   `status` smallint(6) DEFAULT NULL,
   `monitor last time` datetime DEFAULT NULL,
   `msgtype_id` int(11) NOT NULL,
-  `content` longtext
+  `content` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -6288,6 +6289,12 @@ ALTER TABLE `dm_detachment`
   ADD PRIMARY KEY (`detachmentID`);
 
 --
+-- Indexes for table `dm_employee`
+--
+ALTER TABLE `dm_employee`
+  ADD PRIMARY KEY (`employeeID`);
+
+--
 -- Indexes for table `dm_employeecreditleave`
 --
 ALTER TABLE `dm_employeecreditleave`
@@ -6322,6 +6329,12 @@ ALTER TABLE `dm_holiday`
 --
 ALTER TABLE `dm_leavetype`
   ADD PRIMARY KEY (`leavetypeID`);
+
+--
+-- Indexes for table `dm_loan`
+--
+ALTER TABLE `dm_loan`
+  ADD PRIMARY KEY (`loanID`);
 
 --
 -- Indexes for table `dm_modulemstr`
@@ -6980,1414 +6993,511 @@ ALTER TABLE `worktable_usrmsg`
 --
 ALTER TABLE `access_acaccesslevel`
   MODIFY `level_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_acaccesslevel_doors`
 --
 ALTER TABLE `access_acaccesslevel_doors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_acaccesslevel_employees`
 --
 ALTER TABLE `access_acaccesslevel_employees`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_acantipassback`
 --
 ALTER TABLE `access_acantipassback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_accombgroup`
 --
 ALTER TABLE `access_accombgroup`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_acdoor`
 --
 ALTER TABLE `access_acdoor`
   MODIFY `door_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_acgroup`
 --
 ALTER TABLE `access_acgroup`
   MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `access_acholidays`
 --
 ALTER TABLE `access_acholidays`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `access_actimezone`
 --
 ALTER TABLE `access_actimezone`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `access_actimezones`
 --
 ALTER TABLE `access_actimezones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `access_acunlockcomb`
 --
 ALTER TABLE `access_acunlockcomb`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `acc_morecardempgroup`
 --
 ALTER TABLE `acc_morecardempgroup`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `action_log`
 --
 ALTER TABLE `action_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+
 --
 -- AUTO_INCREMENT for table `areaadmin`
 --
 ALTER TABLE `areaadmin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `attcalclog`
 --
 ALTER TABLE `attcalclog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `attexception`
 --
 ALTER TABLE `attexception`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `attrecabnormite`
 --
 ALTER TABLE `attrecabnormite`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `attshifts`
 --
 ALTER TABLE `attshifts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_approvedhistory`
 --
 ALTER TABLE `att_approvedhistory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_autocal_log`
 --
 ALTER TABLE `att_autocal_log`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `att_autoexportlog`
 --
 ALTER TABLE `att_autoexportlog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_breaktime`
 --
 ALTER TABLE `att_breaktime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_changeschedule`
 --
 ALTER TABLE `att_changeschedule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_exportschedule`
 --
 ALTER TABLE `att_exportschedule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `att_multipletransaction`
 --
 ALTER TABLE `att_multipletransaction`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_overtime`
 --
 ALTER TABLE `att_overtime`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_reportoption`
 --
 ALTER TABLE `att_reportoption`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_rule`
 --
 ALTER TABLE `att_rule`
   MODIFY `RuleID` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_training`
 --
 ALTER TABLE `att_training`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_trainingcategory`
 --
 ALTER TABLE `att_trainingcategory`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `att_waitforprocessdata`
 --
 ALTER TABLE `att_waitforprocessdata`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `auth_group`
 --
 ALTER TABLE `auth_group`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
 --
 -- AUTO_INCREMENT for table `auth_message`
 --
 ALTER TABLE `auth_message`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=607;
+
 --
 -- AUTO_INCREMENT for table `auth_user`
 --
 ALTER TABLE `auth_user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_additiondata`
 --
 ALTER TABLE `base_additiondata`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_appoption`
 --
 ALTER TABLE `base_appoption`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `base_basecode`
 --
 ALTER TABLE `base_basecode`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3842;
+
 --
 -- AUTO_INCREMENT for table `base_datatranslation`
 --
 ALTER TABLE `base_datatranslation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `base_emailtemplate`
 --
 ALTER TABLE `base_emailtemplate`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_ftpserver`
 --
 ALTER TABLE `base_ftpserver`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_operatortemplate`
 --
 ALTER TABLE `base_operatortemplate`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_option`
 --
 ALTER TABLE `base_option`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
 --
 -- AUTO_INCREMENT for table `base_personaloption`
 --
 ALTER TABLE `base_personaloption`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_strresource`
 --
 ALTER TABLE `base_strresource`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_strtranslation`
 --
 ALTER TABLE `base_strtranslation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `base_systemoption`
 --
 ALTER TABLE `base_systemoption`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `checkexact`
 --
 ALTER TABLE `checkexact`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `checkinout`
 --
 ALTER TABLE `checkinout`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `dbapp_viewmodel`
 --
 ALTER TABLE `dbapp_viewmodel`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `dbbackuplog`
 --
 ALTER TABLE `dbbackuplog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
   MODIFY `DeptID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `department_holiday`
 --
 ALTER TABLE `department_holiday`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `department_rule`
 --
 ALTER TABLE `department_rule`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `deptadmin`
 --
 ALTER TABLE `deptadmin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `devcmds`
 --
 ALTER TABLE `devcmds`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `devcmds_bak`
 --
 ALTER TABLE `devcmds_bak`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `devlog`
 --
 ALTER TABLE `devlog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+
 --
 -- AUTO_INCREMENT for table `dm_approval`
 --
 ALTER TABLE `dm_approval`
   MODIFY `approvalID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
 --
 -- AUTO_INCREMENT for table `dm_approvaldet`
 --
 ALTER TABLE `dm_approvaldet`
   MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
 --
 -- AUTO_INCREMENT for table `dm_approvalmodule`
 --
 ALTER TABLE `dm_approvalmodule`
   MODIFY `approvalmoduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `dm_bank`
 --
 ALTER TABLE `dm_bank`
   MODIFY `bankID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `dm_client`
 --
 ALTER TABLE `dm_client`
   MODIFY `clientID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `dm_department`
 --
 ALTER TABLE `dm_department`
   MODIFY `departmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `dm_designation`
 --
 ALTER TABLE `dm_designation`
   MODIFY `designationID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `dm_detachment`
 --
 ALTER TABLE `dm_detachment`
   MODIFY `detachmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `dm_employee`
 --
 ALTER TABLE `dm_employee`
-  MODIFY `employeeID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `employeeID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `dm_employeecreditleave`
 --
 ALTER TABLE `dm_employeecreditleave`
   MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
 --
 -- AUTO_INCREMENT for table `dm_employeeleave`
 --
 ALTER TABLE `dm_employeeleave`
   MODIFY `employeeleaveID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+
 --
 -- AUTO_INCREMENT for table `dm_employeeschedule`
 --
 ALTER TABLE `dm_employeeschedule`
   MODIFY `scheduleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `dm_employeetype`
 --
 ALTER TABLE `dm_employeetype`
   MODIFY `employeetypeID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `dm_holiday`
+--
+ALTER TABLE `dm_holiday`
+  MODIFY `holidayID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `dm_leavetype`
 --
 ALTER TABLE `dm_leavetype`
   MODIFY `leavetypeID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT for table `dm_loan`
 --
 ALTER TABLE `dm_loan`
-  MODIFY `loanID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `loanID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `dm_modulemstr`
 --
 ALTER TABLE `dm_modulemstr`
   MODIFY `moduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
 --
 -- AUTO_INCREMENT for table `dm_overtime`
 --
 ALTER TABLE `dm_overtime`
   MODIFY `overtimeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `dm_philhealthtable`
+--
+ALTER TABLE `dm_philhealthtable`
+  MODIFY `philhealthID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `dm_rolemodule`
 --
 ALTER TABLE `dm_rolemodule`
   MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+
 --
 -- AUTO_INCREMENT for table `dm_rolemstr`
 --
 ALTER TABLE `dm_rolemstr`
-  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT for table `face_template`
---
-ALTER TABLE `face_template`
-  MODIFY `templateid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `finger_template`
---
-ALTER TABLE `finger_template`
-  MODIFY `templateid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `holidays`
---
-ALTER TABLE `holidays`
-  MODIFY `HolidayID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock`
---
-ALTER TABLE `iclock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `iclock_announcement`
---
-ALTER TABLE `iclock_announcement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_appactionlog`
---
-ALTER TABLE `iclock_appactionlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_applist`
---
-ALTER TABLE `iclock_applist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_biodata`
---
-ALTER TABLE `iclock_biodata`
-  MODIFY `bio_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `iclock_deviceoplog`
---
-ALTER TABLE `iclock_deviceoplog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `iclock_devicetransaction`
---
-ALTER TABLE `iclock_devicetransaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_dininghall`
---
-ALTER TABLE `iclock_dininghall`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `iclock_dstime`
---
-ALTER TABLE `iclock_dstime`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_notice`
---
-ALTER TABLE `iclock_notice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_notification`
---
-ALTER TABLE `iclock_notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_oplog`
---
-ALTER TABLE `iclock_oplog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_testdata`
---
-ALTER TABLE `iclock_testdata`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_testdata_admin_area`
---
-ALTER TABLE `iclock_testdata_admin_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_testdata_admin_dept`
---
-ALTER TABLE `iclock_testdata_admin_dept`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_usbtransaction`
---
-ALTER TABLE `iclock_usbtransaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_workcode`
---
-ALTER TABLE `iclock_workcode`
-  MODIFY `workcode_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `iclock_workcode_devices`
---
-ALTER TABLE `iclock_workcode_devices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `leaveclass`
---
-ALTER TABLE `leaveclass`
-  MODIFY `LeaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `leaveclass1`
---
-ALTER TABLE `leaveclass1`
-  MODIFY `LeaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1010;
---
--- AUTO_INCREMENT for table `num_run`
---
-ALTER TABLE `num_run`
-  MODIFY `Num_runID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `num_run_deil`
---
-ALTER TABLE `num_run_deil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `operatecmds`
---
-ALTER TABLE `operatecmds`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_allowance`
---
-ALTER TABLE `payroll_allowance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_allowancetype`
---
-ALTER TABLE `payroll_allowancetype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_cashadvance`
---
-ALTER TABLE `payroll_cashadvance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_currency`
---
-ALTER TABLE `payroll_currency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `payroll_deduction`
---
-ALTER TABLE `payroll_deduction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_deductiontype`
---
-ALTER TABLE `payroll_deductiontype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_exceptionformula`
---
-ALTER TABLE `payroll_exceptionformula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_expense`
---
-ALTER TABLE `payroll_expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_formulasign`
---
-ALTER TABLE `payroll_formulasign`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `payroll_increment`
---
-ALTER TABLE `payroll_increment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_leaveformula`
---
-ALTER TABLE `payroll_leaveformula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_otformula`
---
-ALTER TABLE `payroll_otformula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_payrollcredit`
---
-ALTER TABLE `payroll_payrollcredit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_payrollleavecredit`
---
-ALTER TABLE `payroll_payrollleavecredit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_salary`
---
-ALTER TABLE `payroll_salary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_salarychange`
---
-ALTER TABLE `payroll_salarychange`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_salary_exception_formula`
---
-ALTER TABLE `payroll_salary_exception_formula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_salary_leave_formula`
---
-ALTER TABLE `payroll_salary_leave_formula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `payroll_salary_ot_formula`
---
-ALTER TABLE `payroll_salary_ot_formula`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_area`
---
-ALTER TABLE `personnel_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `personnel_cities`
---
-ALTER TABLE `personnel_cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_countries`
---
-ALTER TABLE `personnel_countries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_departmentapprove`
---
-ALTER TABLE `personnel_departmentapprove`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_departmentapprover`
---
-ALTER TABLE `personnel_departmentapprover`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_departmentnotify`
---
-ALTER TABLE `personnel_departmentnotify`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_document`
---
-ALTER TABLE `personnel_document`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_documentdetail`
---
-ALTER TABLE `personnel_documentdetail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_education`
---
-ALTER TABLE `personnel_education`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_empchange`
---
-ALTER TABLE `personnel_empchange`
-  MODIFY `changeno` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_employeeoption`
---
-ALTER TABLE `personnel_employeeoption`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_iccard`
---
-ALTER TABLE `personnel_iccard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `personnel_iccard_posmeal`
---
-ALTER TABLE `personnel_iccard_posmeal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_iccard_use_mechine`
---
-ALTER TABLE `personnel_iccard_use_mechine`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_issuecard`
---
-ALTER TABLE `personnel_issuecard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_leavelog`
---
-ALTER TABLE `personnel_leavelog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_meal`
---
-ALTER TABLE `personnel_meal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `personnel_national`
---
-ALTER TABLE `personnel_national`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_positions`
---
-ALTER TABLE `personnel_positions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `personnel_state`
---
-ALTER TABLE `personnel_state`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `schclass`
---
-ALTER TABLE `schclass`
-  MODIFY `SchclassID` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `schclass_break_times`
---
-ALTER TABLE `schclass_break_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `setuseratt`
---
-ALTER TABLE `setuseratt`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `sync_area`
---
-ALTER TABLE `sync_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `sync_department`
---
-ALTER TABLE `sync_department`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `sync_employee`
---
-ALTER TABLE `sync_employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `sync_job`
---
-ALTER TABLE `sync_job`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `userinfo`
---
-ALTER TABLE `userinfo`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `userinfo_attarea`
---
-ALTER TABLE `userinfo_attarea`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `useruusedsclasses`
---
-ALTER TABLE `useruusedsclasses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_of_run`
---
-ALTER TABLE `user_of_run`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_speday`
---
-ALTER TABLE `user_speday`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_temp_sch`
---
-ALTER TABLE `user_temp_sch`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `worktable_groupmsg`
---
-ALTER TABLE `worktable_groupmsg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `worktable_instantmsg`
---
-ALTER TABLE `worktable_instantmsg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `worktable_msgtype`
---
-ALTER TABLE `worktable_msgtype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `worktable_usrmsg`
---
-ALTER TABLE `worktable_usrmsg`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `access_acaccesslevel`
---
-ALTER TABLE `access_acaccesslevel`
-  ADD CONSTRAINT `ac_tz_id_refs_id_45d358fb` FOREIGN KEY (`ac_tz_id`) REFERENCES `access_actimezones` (`id`);
-
---
--- Constraints for table `access_acaccesslevel_doors`
---
-ALTER TABLE `access_acaccesslevel_doors`
-  ADD CONSTRAINT `acaccesslevel_id_refs_level_id_55a41dcd` FOREIGN KEY (`acaccesslevel_id`) REFERENCES `access_acaccesslevel` (`level_id`),
-  ADD CONSTRAINT `acdoor_id_refs_door_id_2d999c00` FOREIGN KEY (`acdoor_id`) REFERENCES `access_acdoor` (`door_id`);
-
---
--- Constraints for table `access_acaccesslevel_employees`
---
-ALTER TABLE `access_acaccesslevel_employees`
-  ADD CONSTRAINT `acaccesslevel_id_refs_level_id_c0a6f57` FOREIGN KEY (`acaccesslevel_id`) REFERENCES `access_acaccesslevel` (`level_id`),
-  ADD CONSTRAINT `employee_id_refs_userid_314d1447` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `access_acantipassback`
---
-ALTER TABLE `access_acantipassback`
-  ADD CONSTRAINT `door_id_refs_door_id_27bf7fd7` FOREIGN KEY (`door_id`) REFERENCES `access_acdoor` (`door_id`);
-
---
--- Constraints for table `access_accombgroup`
---
-ALTER TABLE `access_accombgroup`
-  ADD CONSTRAINT `comb_id_refs_id_701b4d5` FOREIGN KEY (`comb_id`) REFERENCES `access_acunlockcomb` (`id`),
-  ADD CONSTRAINT `group_id_refs_group_id_7e859806` FOREIGN KEY (`group_id`) REFERENCES `access_acgroup` (`group_id`);
-
---
--- Constraints for table `access_acdoor`
---
-ALTER TABLE `access_acdoor`
-  ADD CONSTRAINT `device_id_refs_id_3158457e` FOREIGN KEY (`device_id`) REFERENCES `iclock` (`id`),
-  ADD CONSTRAINT `nc_tz_id_refs_id_43a365c8` FOREIGN KEY (`nc_tz_id`) REFERENCES `access_actimezone` (`id`),
-  ADD CONSTRAINT `no_tz_id_refs_id_43a365c8` FOREIGN KEY (`no_tz_id`) REFERENCES `access_actimezone` (`id`);
-
---
--- Constraints for table `access_acgroup`
---
-ALTER TABLE `access_acgroup`
-  ADD CONSTRAINT `tzs_id_refs_id_3acfa22c` FOREIGN KEY (`tzs_id`) REFERENCES `access_actimezones` (`id`);
-
---
--- Constraints for table `access_acholidays`
---
-ALTER TABLE `access_acholidays`
-  ADD CONSTRAINT `tz_id_refs_id_22945471` FOREIGN KEY (`tz_id`) REFERENCES `access_actimezone` (`id`);
-
---
--- Constraints for table `access_actimezone`
---
-ALTER TABLE `access_actimezone`
-  ADD CONSTRAINT `tzs_id_refs_id_2b5824fd` FOREIGN KEY (`tzs_id`) REFERENCES `access_actimezones` (`id`);
-
---
--- Constraints for table `access_acunlockcomb`
---
-ALTER TABLE `access_acunlockcomb`
-  ADD CONSTRAINT `door_id_refs_door_id_7906e0e` FOREIGN KEY (`door_id`) REFERENCES `access_acdoor` (`door_id`);
-
---
--- Constraints for table `action_log`
---
-ALTER TABLE `action_log`
-  ADD CONSTRAINT `content_type_id_refs_id_4de4082b` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_6a75a369` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `areaadmin`
---
-ALTER TABLE `areaadmin`
-  ADD CONSTRAINT `area_id_refs_id_732fe028` FOREIGN KEY (`area_id`) REFERENCES `personnel_area` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_36bfc4c5` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `attexception`
---
-ALTER TABLE `attexception`
-  ADD CONSTRAINT `UserId_refs_userid_77fe2014` FOREIGN KEY (`UserId`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `attrecabnormite`
---
-ALTER TABLE `attrecabnormite`
-  ADD CONSTRAINT `userid_refs_userid_69940d0b` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `attshifts`
---
-ALTER TABLE `attshifts`
-  ADD CONSTRAINT `SchId_refs_SchclassID_5ed7d93a` FOREIGN KEY (`SchId`) REFERENCES `schclass` (`SchclassID`),
-  ADD CONSTRAINT `userid_refs_userid_7205af39` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `att_attreport`
---
-ALTER TABLE `att_attreport`
-  ADD CONSTRAINT `Author_id_refs_id_141eb522` FOREIGN KEY (`Author_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `att_changeschedule`
---
-ALTER TABLE `att_changeschedule`
-  ADD CONSTRAINT `timetable_id_refs_SchclassID_3bba7e7c` FOREIGN KEY (`timetable_id`) REFERENCES `schclass` (`SchclassID`),
-  ADD CONSTRAINT `userid_refs_userid_32017aef` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `att_multipletransaction`
---
-ALTER TABLE `att_multipletransaction`
-  ADD CONSTRAINT `emp_id_refs_userid_43217ad` FOREIGN KEY (`emp_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `att_overtime`
---
-ALTER TABLE `att_overtime`
-  ADD CONSTRAINT `emp_id_refs_userid_25727377` FOREIGN KEY (`emp_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `att_training`
---
-ALTER TABLE `att_training`
-  ADD CONSTRAINT `category_id_refs_category_id_6fa23509` FOREIGN KEY (`category_id`) REFERENCES `att_trainingcategory` (`category_id`),
-  ADD CONSTRAINT `userid_refs_userid_49c36a5e` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `att_waitforprocessdata`
---
-ALTER TABLE `att_waitforprocessdata`
-  ADD CONSTRAINT `UserID_id_refs_userid_1181a739` FOREIGN KEY (`UserID_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `auth_group_permissions`
---
-ALTER TABLE `auth_group_permissions`
-  ADD CONSTRAINT `group_id_refs_id_3cea63fe` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `permission_id_refs_id_5886d21f` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`);
-
---
--- Constraints for table `auth_message`
---
-ALTER TABLE `auth_message`
-  ADD CONSTRAINT `user_id_refs_id_650f49a6` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `auth_permission`
---
-ALTER TABLE `auth_permission`
-  ADD CONSTRAINT `content_type_id_refs_id_728de91f` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `auth_user_groups`
---
-ALTER TABLE `auth_user_groups`
-  ADD CONSTRAINT `group_id_refs_id_f116770` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_7ceef80f` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `auth_user_user_permissions`
---
-ALTER TABLE `auth_user_user_permissions`
-  ADD CONSTRAINT `permission_id_refs_id_67e79cb` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_dfbab7d` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `base_additiondata`
---
-ALTER TABLE `base_additiondata`
-  ADD CONSTRAINT `content_type_id_refs_id_546addb9` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_1cafc7fb` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `base_datatranslation`
---
-ALTER TABLE `base_datatranslation`
-  ADD CONSTRAINT `content_type_id_refs_id_5cdb265` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `base_operatortemplate`
---
-ALTER TABLE `base_operatortemplate`
-  ADD CONSTRAINT `user_id_refs_id_750035a1` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `base_personaloption`
---
-ALTER TABLE `base_personaloption`
-  ADD CONSTRAINT `option_id_refs_id_7f17031f` FOREIGN KEY (`option_id`) REFERENCES `base_option` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_74c3551a` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `base_strtranslation`
---
-ALTER TABLE `base_strtranslation`
-  ADD CONSTRAINT `str_id_refs_id_5d349cf3` FOREIGN KEY (`str_id`) REFERENCES `base_strresource` (`id`);
-
---
--- Constraints for table `base_systemoption`
---
-ALTER TABLE `base_systemoption`
-  ADD CONSTRAINT `option_id_refs_id_10860d7e` FOREIGN KEY (`option_id`) REFERENCES `base_option` (`id`);
-
---
--- Constraints for table `checkexact`
---
-ALTER TABLE `checkexact`
-  ADD CONSTRAINT `userid_refs_userid_1d1a8a19` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `dbapp_viewmodel`
---
-ALTER TABLE `dbapp_viewmodel`
-  ADD CONSTRAINT `model_id_refs_id_79bf6e63` FOREIGN KEY (`model_id`) REFERENCES `django_content_type` (`id`);
-
---
--- Constraints for table `dbbackuplog`
---
-ALTER TABLE `dbbackuplog`
-  ADD CONSTRAINT `user_id_refs_id_180ba78b` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `departments`
---
-ALTER TABLE `departments`
-  ADD CONSTRAINT `supdeptid_refs_DeptID_70dcc89` FOREIGN KEY (`supdeptid`) REFERENCES `departments` (`DeptID`);
-
---
--- Constraints for table `department_holiday`
---
-ALTER TABLE `department_holiday`
-  ADD CONSTRAINT `dept_id_refs_DeptID_3c0c4ecc` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`DeptID`),
-  ADD CONSTRAINT `holiday_id_refs_HolidayID_7a29fa37` FOREIGN KEY (`holiday_id`) REFERENCES `holidays` (`HolidayID`);
-
---
--- Constraints for table `department_rule`
---
-ALTER TABLE `department_rule`
-  ADD CONSTRAINT `dept_id_refs_DeptID_2677a31` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`DeptID`),
-  ADD CONSTRAINT `rule_id_refs_RuleID_40d37f27` FOREIGN KEY (`rule_id`) REFERENCES `att_rule` (`RuleID`);
-
---
--- Constraints for table `deptadmin`
---
-ALTER TABLE `deptadmin`
-  ADD CONSTRAINT `dept_id_refs_DeptID_602729fe` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`DeptID`),
-  ADD CONSTRAINT `user_id_refs_id_759dae3` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `devcmds`
---
-ALTER TABLE `devcmds`
-  ADD CONSTRAINT `CmdOperate_id_refs_id_59acd186` FOREIGN KEY (`CmdOperate_id`) REFERENCES `operatecmds` (`id`),
-  ADD CONSTRAINT `SN_id_refs_id_2cf7b853` FOREIGN KEY (`SN_id`) REFERENCES `iclock` (`id`);
-
---
--- Constraints for table `devcmds_bak`
---
-ALTER TABLE `devcmds_bak`
-  ADD CONSTRAINT `CmdOperate_id_refs_id_43995e93` FOREIGN KEY (`CmdOperate_id`) REFERENCES `operatecmds` (`id`),
-  ADD CONSTRAINT `SN_id_refs_id_72564094` FOREIGN KEY (`SN_id`) REFERENCES `iclock` (`id`);
-
---
--- Constraints for table `devlog`
---
-ALTER TABLE `devlog`
-  ADD CONSTRAINT `SN_id_refs_id_9fc6243` FOREIGN KEY (`SN_id`) REFERENCES `iclock` (`id`);
-
---
--- Constraints for table `empitemdefine`
---
-ALTER TABLE `empitemdefine`
-  ADD CONSTRAINT `Author_id_refs_id_42892481` FOREIGN KEY (`Author_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `iclock`
---
-ALTER TABLE `iclock`
-  ADD CONSTRAINT `area_id_refs_id_4bcee01a` FOREIGN KEY (`area_id`) REFERENCES `personnel_area` (`id`),
-  ADD CONSTRAINT `dining_id_refs_id_10714237` FOREIGN KEY (`dining_id`) REFERENCES `iclock_dininghall` (`id`),
-  ADD CONSTRAINT `dstime_id_refs_id_58c5aa33` FOREIGN KEY (`dstime_id`) REFERENCES `iclock_dstime` (`id`);
-
---
--- Constraints for table `iclock_announcement`
---
-ALTER TABLE `iclock_announcement`
-  ADD CONSTRAINT `userid_refs_userid_6f54f506` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `iclock_notice`
---
-ALTER TABLE `iclock_notice`
-  ADD CONSTRAINT `DeviceID_refs_id_6bb1aea5` FOREIGN KEY (`DeviceID`) REFERENCES `iclock` (`id`),
-  ADD CONSTRAINT `userid_refs_userid_696c0217` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `iclock_notification`
---
-ALTER TABLE `iclock_notification`
-  ADD CONSTRAINT `receiver_id_refs_userid_7182d89e` FOREIGN KEY (`receiver_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `iclock_oplog`
---
-ALTER TABLE `iclock_oplog`
-  ADD CONSTRAINT `SN_refs_id_3b91645d` FOREIGN KEY (`SN`) REFERENCES `iclock` (`id`);
-
---
--- Constraints for table `iclock_testdata`
---
-ALTER TABLE `iclock_testdata`
-  ADD CONSTRAINT `area_id_refs_id_1ccd366e` FOREIGN KEY (`area_id`) REFERENCES `personnel_area` (`id`),
-  ADD CONSTRAINT `dept_id_refs_DeptID_78ae257a` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`DeptID`);
-
---
--- Constraints for table `iclock_testdata_admin_area`
---
-ALTER TABLE `iclock_testdata_admin_area`
-  ADD CONSTRAINT `area_id_refs_id_53590bb` FOREIGN KEY (`area_id`) REFERENCES `personnel_area` (`id`),
-  ADD CONSTRAINT `testdata_id_refs_id_df0d148` FOREIGN KEY (`testdata_id`) REFERENCES `iclock_testdata` (`id`);
-
---
--- Constraints for table `iclock_testdata_admin_dept`
---
-ALTER TABLE `iclock_testdata_admin_dept`
-  ADD CONSTRAINT `department_id_refs_DeptID_3cd5ed6f` FOREIGN KEY (`department_id`) REFERENCES `departments` (`DeptID`),
-  ADD CONSTRAINT `testdata_id_refs_id_6210bc2a` FOREIGN KEY (`testdata_id`) REFERENCES `iclock_testdata` (`id`);
-
---
--- Constraints for table `iclock_workcode_devices`
---
-ALTER TABLE `iclock_workcode_devices`
-  ADD CONSTRAINT `device_id_refs_id_6afe4a0b` FOREIGN KEY (`device_id`) REFERENCES `iclock` (`id`),
-  ADD CONSTRAINT `workcode_id_refs_workcode_id_fb83af3` FOREIGN KEY (`workcode_id`) REFERENCES `iclock_workcode` (`workcode_id`);
-
---
--- Constraints for table `num_run_deil`
---
-ALTER TABLE `num_run_deil`
-  ADD CONSTRAINT `Num_runID_refs_Num_runID_782a4d87` FOREIGN KEY (`Num_runID`) REFERENCES `num_run` (`Num_runID`),
-  ADD CONSTRAINT `SchclassID_refs_SchclassID_51a7cc12` FOREIGN KEY (`SchclassID`) REFERENCES `schclass` (`SchclassID`);
-
---
--- Constraints for table `operatecmds`
---
-ALTER TABLE `operatecmds`
-  ADD CONSTRAINT `Author_id_refs_id_484a3ab4` FOREIGN KEY (`Author_id`) REFERENCES `auth_user` (`id`);
-
---
--- Constraints for table `payroll_allowance`
---
-ALTER TABLE `payroll_allowance`
-  ADD CONSTRAINT `allowance_type_id_refs_id_7ef709b9` FOREIGN KEY (`allowance_type_id`) REFERENCES `payroll_allowancetype` (`id`),
-  ADD CONSTRAINT `employee_id_refs_userid_41f9a2b1` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_cashadvance`
---
-ALTER TABLE `payroll_cashadvance`
-  ADD CONSTRAINT `employee_id_refs_userid_614c6968` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_deduction`
---
-ALTER TABLE `payroll_deduction`
-  ADD CONSTRAINT `deduction_type_id_refs_id_53cc1da5` FOREIGN KEY (`deduction_type_id`) REFERENCES `payroll_deductiontype` (`id`),
-  ADD CONSTRAINT `employee_id_refs_userid_218f416e` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_expense`
---
-ALTER TABLE `payroll_expense`
-  ADD CONSTRAINT `employee_id_refs_userid_672726c9` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_increment`
---
-ALTER TABLE `payroll_increment`
-  ADD CONSTRAINT `employee_id_refs_userid_571b646c` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_leaveformula`
---
-ALTER TABLE `payroll_leaveformula`
-  ADD CONSTRAINT `leave_type_id_refs_LeaveID_561883a7` FOREIGN KEY (`leave_type_id`) REFERENCES `leaveclass` (`LeaveID`);
-
---
--- Constraints for table `payroll_payrollcredit`
---
-ALTER TABLE `payroll_payrollcredit`
-  ADD CONSTRAINT `userid_refs_userid_73eed065` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_payrollleavecredit`
---
-ALTER TABLE `payroll_payrollleavecredit`
-  ADD CONSTRAINT `userid_refs_userid_66068b9d` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `payroll_salary`
---
-ALTER TABLE `payroll_salary`
-  ADD CONSTRAINT `employee_id_refs_userid_9a0b116` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`),
-  ADD CONSTRAINT `pay_currency_id_refs_id_3f2e58dc` FOREIGN KEY (`pay_currency_id`) REFERENCES `payroll_currency` (`id`);
-
---
--- Constraints for table `payroll_salary_exception_formula`
---
-ALTER TABLE `payroll_salary_exception_formula`
-  ADD CONSTRAINT `exceptionformula_id_refs_id_5417eac7` FOREIGN KEY (`exceptionformula_id`) REFERENCES `payroll_exceptionformula` (`id`),
-  ADD CONSTRAINT `salary_id_refs_id_27e416d4` FOREIGN KEY (`salary_id`) REFERENCES `payroll_salary` (`id`);
-
---
--- Constraints for table `payroll_salary_leave_formula`
---
-ALTER TABLE `payroll_salary_leave_formula`
-  ADD CONSTRAINT `leaveformula_id_refs_id_b700e05` FOREIGN KEY (`leaveformula_id`) REFERENCES `payroll_leaveformula` (`id`),
-  ADD CONSTRAINT `salary_id_refs_id_1f7b970a` FOREIGN KEY (`salary_id`) REFERENCES `payroll_salary` (`id`);
-
---
--- Constraints for table `payroll_salary_ot_formula`
---
-ALTER TABLE `payroll_salary_ot_formula`
-  ADD CONSTRAINT `otformula_id_refs_id_1564ff51` FOREIGN KEY (`otformula_id`) REFERENCES `payroll_otformula` (`id`),
-  ADD CONSTRAINT `salary_id_refs_id_6bffaa81` FOREIGN KEY (`salary_id`) REFERENCES `payroll_salary` (`id`);
-
---
--- Constraints for table `personnel_area`
---
-ALTER TABLE `personnel_area`
-  ADD CONSTRAINT `parent_id_refs_id_6559da19` FOREIGN KEY (`parent_id`) REFERENCES `personnel_area` (`id`);
-
---
--- Constraints for table `personnel_cities`
---
-ALTER TABLE `personnel_cities`
-  ADD CONSTRAINT `country_id_refs_id_3599bc19` FOREIGN KEY (`country_id`) REFERENCES `personnel_countries` (`id`),
-  ADD CONSTRAINT `state_id_refs_id_78352d66` FOREIGN KEY (`state_id`) REFERENCES `personnel_state` (`id`);
-
---
--- Constraints for table `personnel_departmentapprove`
---
-ALTER TABLE `personnel_departmentapprove`
-  ADD CONSTRAINT `dept_id_refs_DeptID_3f7ffbde` FOREIGN KEY (`dept_id`) REFERENCES `departments` (`DeptID`);
-
---
--- Constraints for table `personnel_departmentapprover`
---
-ALTER TABLE `personnel_departmentapprover`
-  ADD CONSTRAINT `approve_id_refs_id_6e5c558` FOREIGN KEY (`approve_id`) REFERENCES `personnel_departmentapprove` (`id`),
-  ADD CONSTRAINT `approver_id_refs_userid_480aa1c2` FOREIGN KEY (`approver_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_departmentnotify`
---
-ALTER TABLE `personnel_departmentnotify`
-  ADD CONSTRAINT `approve_id_refs_id_31d591be` FOREIGN KEY (`approve_id`) REFERENCES `personnel_departmentapprove` (`id`),
-  ADD CONSTRAINT `notify_id_refs_userid_1a6ecbd8` FOREIGN KEY (`notify_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_documentdetail`
---
-ALTER TABLE `personnel_documentdetail`
-  ADD CONSTRAINT `doc_id_refs_id_3fa69f06` FOREIGN KEY (`doc_id`) REFERENCES `personnel_document` (`id`),
-  ADD CONSTRAINT `emp_id_refs_userid_2fad50dd` FOREIGN KEY (`emp_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_empchange`
---
-ALTER TABLE `personnel_empchange`
-  ADD CONSTRAINT `UserID_id_refs_userid_8d2d3e8` FOREIGN KEY (`UserID_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_employeeoption`
---
-ALTER TABLE `personnel_employeeoption`
-  ADD CONSTRAINT `option_id_refs_id_1e3bd06b` FOREIGN KEY (`option_id`) REFERENCES `base_option` (`id`),
-  ADD CONSTRAINT `user_id_refs_userid_77485c5c` FOREIGN KEY (`user_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_iccard_posmeal`
---
-ALTER TABLE `personnel_iccard_posmeal`
-  ADD CONSTRAINT `iccard_id_refs_id_54fef5d3` FOREIGN KEY (`iccard_id`) REFERENCES `personnel_iccard` (`id`),
-  ADD CONSTRAINT `meal_id_refs_id_1a3ef3c4` FOREIGN KEY (`meal_id`) REFERENCES `personnel_meal` (`id`);
-
---
--- Constraints for table `personnel_iccard_use_mechine`
---
-ALTER TABLE `personnel_iccard_use_mechine`
-  ADD CONSTRAINT `device_id_refs_id_57b70b9d` FOREIGN KEY (`device_id`) REFERENCES `iclock` (`id`),
-  ADD CONSTRAINT `iccard_id_refs_id_4b61aed1` FOREIGN KEY (`iccard_id`) REFERENCES `personnel_iccard` (`id`);
-
---
--- Constraints for table `personnel_issuecard`
---
-ALTER TABLE `personnel_issuecard`
-  ADD CONSTRAINT `UserID_id_refs_userid_77c69211` FOREIGN KEY (`UserID_id`) REFERENCES `userinfo` (`userid`),
-  ADD CONSTRAINT `type_id_refs_id_2573889` FOREIGN KEY (`type_id`) REFERENCES `personnel_iccard` (`id`);
-
---
--- Constraints for table `personnel_leavelog`
---
-ALTER TABLE `personnel_leavelog`
-  ADD CONSTRAINT `UserID_id_refs_userid_9c50bf0` FOREIGN KEY (`UserID_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `personnel_positions`
---
-ALTER TABLE `personnel_positions`
-  ADD CONSTRAINT `parent_id_refs_id_59becf49` FOREIGN KEY (`parent_id`) REFERENCES `personnel_positions` (`id`);
-
---
--- Constraints for table `personnel_state`
---
-ALTER TABLE `personnel_state`
-  ADD CONSTRAINT `country_id_refs_id_a74d6b2` FOREIGN KEY (`country_id`) REFERENCES `personnel_countries` (`id`);
-
---
--- Constraints for table `schclass_break_times`
---
-ALTER TABLE `schclass_break_times`
-  ADD CONSTRAINT `breaktime_id_refs_id_731649fb` FOREIGN KEY (`breaktime_id`) REFERENCES `att_breaktime` (`id`),
-  ADD CONSTRAINT `schclass_id_refs_SchclassID_287b8ebc` FOREIGN KEY (`schclass_id`) REFERENCES `schclass` (`SchclassID`);
-
---
--- Constraints for table `setuseratt`
---
-ALTER TABLE `setuseratt`
-  ADD CONSTRAINT `UserID_id_refs_userid_227b877c` FOREIGN KEY (`UserID_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `userinfo`
---
-ALTER TABLE `userinfo`
-  ADD CONSTRAINT `city_id_refs_id_58a85440` FOREIGN KEY (`city_id`) REFERENCES `personnel_cities` (`id`),
-  ADD CONSTRAINT `country_id_refs_id_79222ee2` FOREIGN KEY (`country_id`) REFERENCES `personnel_countries` (`id`),
-  ADD CONSTRAINT `defaultdeptid_refs_DeptID_17a2b9c0` FOREIGN KEY (`defaultdeptid`) REFERENCES `departments` (`DeptID`),
-  ADD CONSTRAINT `education_id_refs_id_95e1866` FOREIGN KEY (`education_id`) REFERENCES `personnel_education` (`id`),
-  ADD CONSTRAINT `morecard_group_id_refs_id_1069ef02` FOREIGN KEY (`morecard_group_id`) REFERENCES `acc_morecardempgroup` (`id`),
-  ADD CONSTRAINT `national_id_refs_id_3450c405` FOREIGN KEY (`national_id`) REFERENCES `personnel_national` (`id`),
-  ADD CONSTRAINT `position_id_refs_id_125c87d4` FOREIGN KEY (`position_id`) REFERENCES `personnel_positions` (`id`),
-  ADD CONSTRAINT `state_id_refs_id_4198f6f5` FOREIGN KEY (`state_id`) REFERENCES `personnel_state` (`id`);
-
---
--- Constraints for table `userinfo_attarea`
---
-ALTER TABLE `userinfo_attarea`
-  ADD CONSTRAINT `area_id_refs_id_50a67231` FOREIGN KEY (`area_id`) REFERENCES `personnel_area` (`id`),
-  ADD CONSTRAINT `employee_id_refs_userid_1db999aa` FOREIGN KEY (`employee_id`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `user_of_run`
---
-ALTER TABLE `user_of_run`
-  ADD CONSTRAINT `NUM_OF_RUN_ID_refs_Num_runID_3d45cc96` FOREIGN KEY (`NUM_OF_RUN_ID`) REFERENCES `num_run` (`Num_runID`),
-  ADD CONSTRAINT `userid_refs_userid_5fa65de` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `user_speday`
---
-ALTER TABLE `user_speday`
-  ADD CONSTRAINT `DateID_refs_LeaveID_2d5c00f` FOREIGN KEY (`DateID`) REFERENCES `leaveclass` (`LeaveID`),
-  ADD CONSTRAINT `userid_refs_userid_58fb1ceb` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `user_temp_sch`
---
-ALTER TABLE `user_temp_sch`
-  ADD CONSTRAINT `userid_refs_userid_2a036f9c` FOREIGN KEY (`userid`) REFERENCES `userinfo` (`userid`);
-
---
--- Constraints for table `worktable_groupmsg`
---
-ALTER TABLE `worktable_groupmsg`
-  ADD CONSTRAINT `group_id_refs_id_38b9d9d1` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  ADD CONSTRAINT `msgtype_id_refs_id_38769aa5` FOREIGN KEY (`msgtype_id`) REFERENCES `worktable_msgtype` (`id`);
+  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- Constraints for table `worktable_instantmsg`
+-- AUTO_INCREMENT for table `dm_ssstable`
 --
-ALTER TABLE `worktable_instantmsg`
-  ADD CONSTRAINT `msgtype_id_refs_id_3e2f3bb5` FOREIGN KEY (`msgtype_id`) REFERENCES `worktable_msgtype` (`id`);
+ALTER TABLE `dm_ssstable`
+  MODIFY `sssID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints for table `worktable_usrmsg`
+-- AUTO_INCREMENT for table `dm_taxtable`
 --
-ALTER TABLE `worktable_usrmsg`
-  ADD CONSTRAINT `msg_id_refs_id_2f4ceb98` FOREIGN KEY (`msg_id`) REFERENCES `worktable_instantmsg` (`id`),
-  ADD CONSTRAINT `user_id_refs_id_32198701` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+ALTER TABLE `dm_taxtable`
+  MODIFY `taxID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

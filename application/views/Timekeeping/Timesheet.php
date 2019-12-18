@@ -52,7 +52,7 @@
 
 									</h2>
 								</td>
-								<?php 
+								<!-- <?php 
 									for($i=1;$i<$lastday;$i++){
 								?>
 									<td class="tsrow">
@@ -61,7 +61,31 @@
 												</a>
 									</td>
 								<?php } ?>
-								<td><i class="fa fa-close text-danger"></i></td>
+								<td><i class="fa fa-close text-danger"></i></td> -->
+
+								<?php 
+									$colDay = 1;
+
+									foreach ($data as $item){
+										$month = date("F",strtotime($item->checktime));
+										$day = date("d",strtotime($item->checktime));
+										$year = date("Y",strtotime($item->checktime));
+										$day = date("G",strtotime($item->checktime));
+										$minute = date("i",strtotime($item->checktime));
+										$second = date("s",strtotime($item->checktime));
+
+										echo '<td>';
+
+										if($colDay==$day){
+											echo $day.':'.$minute;
+										}else{
+											echo $colDay.'|'.$day;
+										}
+
+										echo '</td>';
+
+										$colDay++;
+									} ?>
 							</tr>
 						</tbody>
 					</table>
