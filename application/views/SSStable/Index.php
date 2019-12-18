@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">SSS Table</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">SSS Table</li>
 					</ul>
 				</div>
@@ -413,35 +413,6 @@
 
 		});
 
-	        	/*$.ajax({
-	                url : "<?php echo site_url('ssstable/save');?>",
-	                method : "POST",
-	                data : {belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-belowrange").innerHTML = result[1];
-				        	$('#belowrange').addClass('is-invalid');
-				        	$("#belowrange").focus(); 
-				        	$('#aboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>ssstable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
-
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
 	        var belowrange = $('#editbelowrange').val().trim();
@@ -515,36 +486,6 @@
 
 		});
 
-	        	/*$.ajax({
-	                url : "<?php echo site_url('ssstable/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
-	                	},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-belowrange").innerHTML = result[1];
-				        	$('#editbelowrange').addClass('is-invalid');
-				        	$("#editbelowrange").focus(); 
-				        	$('#editaboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>ssstable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
-
 		$('.add').unbind('click').bind('click', function(){
 			var belowrange = $('#belowrange').val().trim();
 	        var aboverange = $('#aboverange').val().trim();
@@ -553,7 +494,7 @@
 	        var total = $('#total').val().trim();
 
         	$.ajax({
-	                url : "<?php echo site_url('ssstable/save');?>",
+	                url : "<?php echo site_url('SSStable/save');?>",
 	                method : "POST",
 	                data : {belowrange:belowrange,
 	                		aboverange:aboverange,
@@ -573,7 +514,7 @@
 				        	$('#add_sss').show();
 				        	$("#belowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>ssstable');
+        					window.location.replace('<?php echo base_url(); ?>SSStable');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -592,7 +533,7 @@
 	        var total = $('#edittotal').val().trim();
 
         	$.ajax({
-	                url : "<?php echo site_url('ssstable/update');?>",
+	                url : "<?php echo site_url('SSStable/update');?>",
 	                method : "POST",
 	                data : {id:id,
 	                		belowrange:belowrange,
@@ -613,7 +554,7 @@
 				        	$('#edit_sss').show();
 				        	$("#editbelowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>ssstable');
+        					window.location.replace('<?php echo base_url(); ?>SSStable');
             			}
 	                },
 	                error: function(request, textStatus, error) {
