@@ -108,7 +108,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="employer" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
+                              <input id="employer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
                               <div class="invalid-feedback" id="add-employer"></div>
                             </div>
                         </div>
@@ -118,17 +118,17 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="employee" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" required>
+                              <input id="employee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" required>
                               <div class="invalid-feedback" id="add-employee"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Total Premium Payment <span class="text-danger">*</span></label>
+                            <label>Total <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="total" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" required>
+                              <input id="total" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" readonly="true" required>
                               <div class="invalid-feedback" id="add-total"></div>
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editemployer" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
+                              <input id="editemployer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
                               <div class="invalid-feedback" id="edit-employer"></div>
                             </div>
                         </div>
@@ -190,17 +190,17 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editemployee" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" required>
+                              <input id="editemployee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" required>
                               <div class="invalid-feedback" id="edit-employee"></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Total Premium Payment <span class="text-danger">*</span></label>
+                            <label>Total <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="edittotal" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" required>
+                              <input id="edittotal" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" readonly="true" required>
                               <div class="invalid-feedback" id="edit-total"></div>
                             </div>
                         </div>
@@ -563,6 +563,27 @@
 	            });
 	            return false;
         });
+
+        $('.form-group').on('input', '.sum', function(){
+        	var totalSum = 0;
+        	$('.form-group .sum').each(function(){
+        		var inputVal = $(this).val();
+        		if ($.isNumeric(inputVal)) {
+        			totalSum += parseFloat(inputVal);
+        		}
+        	});
+        	$('#total')
+        });
+
+        $('.sum').keyup(function () {
+		    var sum = 0;
+		    $('.sum').each(function() {
+		        sum += Number($(this).val().replace(",",""));
+		    });
+		    $('.total').val(sum);
+		});
+
+		
 
 	});
 </script>

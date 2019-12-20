@@ -9,12 +9,21 @@ class Overtime_model extends CI_Model
 	function get_all_employeeovertime()
 	{
 
-			$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee");
-			$result = $this->db->query("SELECT o.overtimeid, o.employeeID, CONCAT(d.description,' / ',p.designationdescription) as positionDescription,  CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname,photo, o.description, o.overtimedate, TIME_FORMAT(o.starttime,'%h:%i %p'	) as starttime, TIME_FORMAT(o.endtime,'%h:%i %p') as endtime, totalhour
-			FROM dm_overtime as o
-			LEFT JOIN dm_employee as emp ON o.employeeID = emp.employeeID 
-			LEFT JOIN dm_department as d ON emp.departmentID = d.departmentID
-			LEFT JOIN dm_designation as p ON d.departmentID = p.departmentID");
+			$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
+			$result = $this->db->query("SELECT 
+										* 
+										FROM
+										(
+											SELECT o.overtimeid, o.employeeID, CONCAT(d.description,' / ',p.designationdescription) as positionDescription,
+											  CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname,photo,
+											  o.description, o.overtimedate, TIME_FORMAT(o.starttime,'%h:%i %p'	) as starttime,
+											  TIME_FORMAT(o.endtime,'%h:%i %p') as endtime, totalhour,starttime as updatedstarttime,endtime as updatedendtime
+											FROM dm_overtime as o
+											LEFT JOIN dm_employee as emp ON o.employeeID = emp.employeeID 
+											LEFT JOIN dm_department as d ON emp.departmentID = d.departmentID
+											LEFT JOIN dm_designation as p ON d.departmentID = p.departmentID
+											group by overtimeid,o.employeeid,o.overtimedate
+										)a");
 			$query = $query->result();	 
 			$queryovertime = $result->result();
 			return array('dropdownemp' => $query, 'record' => $queryovertime);

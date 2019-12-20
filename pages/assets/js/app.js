@@ -134,9 +134,11 @@ $(document).ready(function() {
 	
 	// Date Time Picker
 	
+	var dateToday = new Date();
 	if($('.datetimepicker').length > 0) {
 		$('.datetimepicker').datetimepicker({
-			format: 'DD/MM/YYYY',
+			minDate: dateToday,
+			format: 'YYYY-MM-DD',
 			icons: {
 				up: "fa fa-angle-up",
 				down: "fa fa-angle-down",

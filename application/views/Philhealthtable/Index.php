@@ -10,7 +10,7 @@
 				<div class="col">
 					<h3 class="page-title">PhilHealth Table</h3>
 					<ul class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">PhilHealth Table</li>
 					</ul>
 				</div>
@@ -116,7 +116,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="employer" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
+                              <input id="employer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
                               <div class="invalid-feedback" id="add-employer"></div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="employee" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" required>
+                              <input id="employee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" readonly="true" required>
                               <div class="invalid-feedback" id="add-employee"></div>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="total" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" required>
+                              <input id="total" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" readonly="true" required>
                               <div class="invalid-feedback" id="add-total"></div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editemployer" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
+                              <input id="editemployer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
                               <div class="invalid-feedback" id="edit-employer"></div>
                             </div>
                         </div>
@@ -203,7 +203,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="editemployee" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
+                              <input id="editemployee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" readonly="true" required>
                               <div class="invalid-feedback" id="edit-employee"></div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="edittotal" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="additional tax" required>
+                              <input id="edittotal" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description="additional tax" readonly="true" required>
                               <div class="invalid-feedback" id="edit-total"></div>
                             </div>
                         </div>
@@ -446,36 +446,6 @@
 
 		});
 
-	        	/*$.ajax({
-	                url : "<?php echo site_url('philhealthtable/save');?>",
-	                method : "POST",
-	                data : {belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		percent:percent,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-belowrange").innerHTML = result[1];
-				        	$('#belowrange').addClass('is-invalid');
-				        	$("#belowrange").focus(); 
-				        	$('#aboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>philhealthtable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
-
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
 	        var belowrange = $('#editbelowrange').val().trim();
@@ -560,37 +530,6 @@
 
 		});
 
-	        	/*$.ajax({
-	                url : "<?php echo site_url('philhealthtable/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		percent:percent,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
-	                	},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-belowrange").innerHTML = result[1];
-				        	$('#editbelowrange').addClass('is-invalid');
-				        	$("#editbelowrange").focus(); 
-				        	$('#editaboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>philhealthtable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
-
         $('.add').unbind('click').bind('click', function(){
 			var belowrange = $('#belowrange').val().trim();
 	        var aboverange = $('#aboverange').val().trim();
@@ -671,6 +610,19 @@
 	            	}
 	            });
 	            return false;
+        });
+
+        $('.sum').keyup(function () {
+		    var sum = 0;
+		    $('.sum').each(function() {
+		        sum += Number($(this).val().replace(",",""));
+		    });
+		    $('.total').val(sum);
+		});
+
+		$("#employer").keyup(function () {
+            var value = $(this).val();
+            $("#employee").val(value);
         });
 
 	});

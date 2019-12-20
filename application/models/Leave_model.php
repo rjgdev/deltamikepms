@@ -9,8 +9,8 @@ class Leave_model extends CI_Model
 
 	function get_all_leave()
 	{
-		$dataemployee = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee");
-		$dataleave = $this->db->query('SELECT * FROM dm_leavetype');
+		$dataemployee = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
+		$dataleave = $this->db->query('SELECT * FROM dm_leavetype WHERE leavetypestatus = "Active"');
 		$employeerecord = $this->db->query("
 							SELECT 
 							*
@@ -43,7 +43,7 @@ class Leave_model extends CI_Model
 
 		$updatedtotalledave = ($remainingleave - $numberofdays);
 		$checkleave = $this->db->query('
-					SELECT * FROM dm_employeeleave WHERE leavetypeID = '.$leavetypeID.' AND employeeID ='.$employeeID.' AND  leavefrom >= "'.$addfrom.'"');
+					SELECT * FROM dm_employeeleave WHERE leavetypeID = '.$leavetypeID.' AND employeeID ='.$employeeID.' AND  leavefrom = "'.$addfrom.'"');
 		if($checkleave->num_rows() == 0){
 			$updatedemployeecredit = array(
 				'employeeID' => $employeeID,

@@ -8,7 +8,7 @@ class Loan_model extends CI_Model
 	}
 	function get_all_loan()
 	{
-		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee");
+		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
 		$loandata = $this->db->query("
              SELECT 
             loanid,employeeID,fullname,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2

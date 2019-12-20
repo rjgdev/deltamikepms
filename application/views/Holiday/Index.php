@@ -82,8 +82,8 @@
 							<div class="invalid-feedback" id="add-holidayname"></div>
 						</div>
 						<div class="form-group">
-							<label>Holiday Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="holidaydate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
+							<label class="col-form-label">Holiday Date <span class="text-danger">*</span></label>
+							<input class="form-control datetimepicker" id="holidaydate" type="text">
 							<div class="invalid-feedback" id="add-holidaydate"></div>
 						</div>
 						<div class="form-group">
@@ -123,8 +123,8 @@
 							<div class="invalid-feedback" id="edit-holidayname"></div>
 						</div>
 						<div class="form-group">
-							<label>Holiday Date <span class="text-danger">*</span></label>
-							<input class="form-control" type="date" id="editholidaydate" min="<?php echo date("Y-m-d"); ?>" max="9999-12-31">
+							<label class="col-form-label">Holiday Date <span class="text-danger">*</span></label>
+							<input class="form-control datetimepicker" id="editholidaydate" type="text">
 							<div class="invalid-feedback" id="edit-holidaydate"></div>
 						</div>
 						<div class="form-group">
@@ -206,10 +206,6 @@
 	$(document).ready(function() {
 		$('.select2').select2();
 
-		/*$('#editholidaydate').datepicker().inputmask("date", { placeholder: "mm/dd/yyyy", yearrange: { minyear: 1700 } });*/
-
-		/*$('#editholidaydate').mask('00/00/0000');*/
-
   		$('[data-tog="tooltip"]').tooltip();
 
 		/* FOCUS ON DESCRIPTION */
@@ -264,6 +260,8 @@
 	        var holidaydate = $('#holidaydate').val().trim();
 	        var holidaytype = $('#holidaytype').val().trim();
 
+	        /*$('#holidaydate').datepicker({ minDate: 0});*/
+
 	        if(holidayname==""){
 	        	document.getElementById("add-holidayname").innerHTML = "Please provide a holiday name.";
 	        	$('#holidayname').addClass('is-invalid');
@@ -279,6 +277,7 @@
 	        if(holidaydate==""){
 	        	document.getElementById("add-holidaydate").innerHTML = "Please provide a holiday date.";
 	        	$('#holidaydate').addClass('is-invalid');
+
 	        	event.preventDefault();
 	        }else{
 	        	document.getElementById("add-holidaydate").innerHTML = "";

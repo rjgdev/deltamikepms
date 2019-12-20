@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_loan"><i class="fa fa-plus"></i> Add Loan</a>
+					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_loan" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Loan</a>
 				</div>
 			</div>
 		</div>
@@ -52,7 +52,21 @@
 								<div class="dropdown dropdown-action">
 								</div>
 								<td class="text-right">
-									<button type="button" id="<?php echo $item->loanid; ?>" class="btn btn-info btn-sm edit_loan" data-toggle="modal" data-target="#edit_loan" data-id="<?php echo $item->loanid; ?>" data-employeeid="<?php echo $item->employeeID; ?>" data-fullname="<?php echo $item->fullname; ?>" data-dategranted="<?php echo $item->dategranted; ?>" data-enddate="<?php echo $item->enddate; ?>" data-paymenttermid="<?php echo $item->termofpaymentID; ?>" data-termofpaymentI1D="	<?php echo $item->termofpaymentID2; ?>" data-loantypeid1="<?php echo $item->loantypeid1; ?>" data-amount="<?php echo $item->amount; ?>" data-deduction="<?php echo $item->deduction; ?>" data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
+									<button type="button" id="<?php echo $item->loanid; ?>" 
+										class="btn btn-info btn-sm edit_loan" 
+										data-toggle="modal" data-target="#edit_loan" 
+										data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
+										data-id="<?php echo $item->loanid; ?>" 
+										data-employeeid="<?php echo $item->employeeID; ?>" 
+										data-fullname="<?php echo $item->fullname; ?>" 
+										data-dategranted="<?php echo $item->dategranted; ?>" 
+										data-enddate="<?php echo $item->enddate; ?>" 
+										data-paymenttermid="<?php echo $item->termofpaymentID; ?>" 
+										data-termofpayment="<?php echo $item->termofpaymentID2; ?>" 
+										data-loantypeid1="<?php echo $item->loantypeid1; ?>" 
+										data-amount="<?php echo $item->amount; ?>" 
+										data-deduction="<?php echo $item->deduction; ?>" 
+										data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
 							</tr>
 
 							<?php } ?>
@@ -147,7 +161,7 @@
            <div class="col-sm-12">
           	 <div class="form-group">
              <label for="exampleInputPassword1">Term of Payments</label>
-            <select class="form-control select2" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;">
+            <select class="form-control" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;">
             <option value="1">Monthly</option>
             <option value="2">Payday</option>
             <option value="3">Yearly</option>
@@ -163,105 +177,150 @@
         </div>	
         </div>
        </div>
-           	<div id="edit_loan" class="modal custom-modal fade" role="dialog">
-		  <div class="modal-dialog modal-dialog-centered" role="document">
+	<div id="edit_loan" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Edit Loan</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-	        <div class="modal-body">
-	        <form>
-	        <div class="col-sm-12">
-	          <div class="form-group">
-	            <label for="basicsalary">Employee Name<code>*</code></label>
-	            <select class="form-control" name="editemployeeID" id="editemployeeID" style="width: 100%;">
-	            <option value="">No Selected</option>
-	          <?php
-	            foreach($data['dropdownemp'] as $item)
-	            {
-	            echo '<option value="'.$item->employeeID.'">'.$item->fullname. '</option>';
-	            }
-	            ?> 
-	            </select>
-	            <div class="invalid-feedback" id="edit-employee"></div>
-	          </div>
-          </div> 
-             <div class="col-sm-12">
-          	<div class="form-group">
-              <label for="exampleInputPassword1">Loan Type</label>
-              <select class="form-control" id="editloantypeID" name="editloantypeID" name style="width: 100%;">
-	              <option value="1">Social Security System(SSS)</option>
-	              <option value="2">Pag-IBIG</option>
-	              <option value="3">Salary</option>
-	              <option value="4">Emergency</option>
-              </select>
-              <div class="invalid-feedback" id="edit-loantype"></div>
-            </div> 
-             </div>
-
-             	<div class="col-sm-12">
-						<div class="form-group">
-							<label>Start Date</label>
-							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"">
-								 <div class="invalid-feedback" id="edit-dategranted"></div>
-							</div>
-						</div>
+				<div class="modal-body">
+				<form>
+				<div class="col-sm-12">
+				<div class="form-group">
+					<label for="basicsalary">Employee Name<code>*</code></label>
+					<select class="form-control" name="editemployeeID" id="editemployeeID" style="width: 100%;">
+					<option value="">No Selected</option>
+					<?php
+					foreach($data['dropdownemp'] as $item)
+					{
+					echo '<option value="'.$item->employeeID.'">'.$item->fullname. '</option>';
+					}
+					?> 
+					</select>
+					<div class="invalid-feedback" id="edit-employee"></div>
+				</div>
+				</div> 
+				<div class="col-sm-12">
+					<div class="form-group">
+					<label for="exampleInputPassword1">Loan Type</label>
+					<select class="form-control" id="editloantypeID" name="editloantypeID" name style="width: 100%;">
+					<option value="1">Social Security System(SSS)</option>
+					<option value="2">Pag-IBIG</option>
+					<option value="3">Salary</option>
+					<option value="4">Emergency</option>
+					</select>
+					<div class="invalid-feedback" id="edit-loantype"></div>
+					</div> 
+				</div>
+				<div class="col-sm-12">
+					<div class="form-group">
+					<label>Start Date</label>
+					<div class="cal-icon">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"">
+					<div class="invalid-feedback" id="edit-dategranted"></div>
+					</div>
+					</div>
 				</div>	
 				<div class="col-sm-12">
-						<div class="form-group">
-							<label>End Date</label>
-							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"">
-								 <div class="invalid-feedback" id="edit-enddate"></div>
-							</div>
-						</div>
+					<div class="form-group">
+					<label>End Date</label>
+					<div class="cal-icon">
+					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"">
+					<div class="invalid-feedback" id="edit-enddate"></div>
+					</div>
+					</div>
 				</div>	
-			<div class="col-sm-12">
-			  <div class="form-group">
-				<label for="basicsalary">Loan Amount<code>*</code></label>
-				<div class="input-group mr-sm-2 mb-sm-0">
+				<div class="col-sm-12">
+					<div class="form-group">
+					<label for="basicsalary">Loan Amount<code>*</code></label>
+					<div class="input-group mr-sm-2 mb-sm-0">
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
 					<input id="editamount" name="editamount" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" required>
 					<div class="invalid-feedback" id="edit-amount"></div>
 					</div>
+					</div>
 				</div>
-			</div>
-           <div class="col-sm-12">
-			  <div class="form-group">
-				<label for="basicsalary">Deduction Amount<code>*</code></label>
-				<div class="input-group mr-sm-2 mb-sm-0">
+				<div class="col-sm-12">
+					<div class="form-group">
+					<label for="basicsalary">Deduction Amount<code>*</code></label>
+					<div class="input-group mr-sm-2 mb-sm-0">
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
 					<input id="editdeduction" name="editdeduction" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" required>
 					<div class="invalid-feedback" id="edit-deduction"></div>
 					</div>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="form-group">
+					<label for="exampleInputPassword1">Term of Payments</label>
+					<select class="form-control" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;">
+					<option value="1">Monthly</option>
+					<option value="2">Payday</option>
+					<option value="3">Yearly</option>
+					</select>      
+					</div>
+				</div>            
+				<div class="submit-section">
+				<button class="btn btn-primary submit-btn update">Update</button>
+				</div>
+				</form>
+				</div>
+			</div>	
+		</div>
+	</div>
+<!-- /Approve Leave Modal -->
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
 				</div>
 			</div>
-           <div class="col-sm-12">
-          	 <div class="form-group">
-             <label for="exampleInputPassword1">Term of Payments</label>
-            <select class="form-control select2" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;">
-            <option value="1">Monthly</option>
-            <option value="2">Payday</option>
-            <option value="3">Yearly</option>
-            </select>      
-        </div>
-        </div>            
-		<div class="submit-section">
-		<button class="btn btn-primary submit-btn update">Update</button>
 		</div>
-        </div>
-    	</form>
-        </div>	
-        </div>
-       </div>
+	</div>
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn edit">Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
        <?php 
 	if($this->session->flashdata('success')!=""){
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
@@ -269,6 +328,15 @@
 ?>
  <script  type="text/javascript">
    $(document).ready(function() { 
+   		/* CLEAR MODAL */
+		$('#edit_loan').on('hidden.bs.modal', function(){
+		    $(this).find('form')[0].reset();
+		    $(".invalid-feedback").html("");
+        	$('input').removeClass('is-invalid');
+        	$('input').removeClass('is-valid');
+        	$('select').removeClass('is-invalid');
+        	$('select').removeClass('is-valid');
+		});
 
    		$('#add_loan').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
@@ -278,7 +346,6 @@
         	$('select').removeClass('is-invalid');
         	$('select').removeClass('is-valid');
 		}); 
-
 		$('#save').unbind('click').bind('click', function(){
 		var IDArray = ['#addemployeeID', '#addloantypeID', '#adddategranted', '#addenddate', '#addamount', '#adddeduction', '#addtermofpaymentID'];
 		var ErrorIDArray = ['add-employee', 'add-loantype', 'add-dategranted', 'add-addenddate', 'add-amount', 'add-deduction', 'add-termofpaymentID'];
@@ -304,14 +371,35 @@
 			}
 		}
 		$(firstRequired).focus();
-
 		if(firstRequired==""){
+		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
+		$('#add_loan').hide();
+		$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+		event.preventDefault(); 
+		return false;
+		}
+	 });
+	  $("#cncl-add").unbind('click').bind('click', function(){
+			$('#confirmation_add').modal('hide');
+			$('#add_loan').show();
+
+		});	
+	 	 $('.add').unbind('click').bind('click', function(){
+	 	 	var employeeID 		= 		$("#addemployeeID").val();
+	 	 	var loantypeID 		= 		$("#addloantypeID").val();
+	 	 	var dategranted 	= 		$("#adddategranted").val();
+	 	 	var enddate 		= 		$("#addenddate").val();
+	 	 	var amount 			= 		$("#addamount").val();
+	 	 	var deduction 		= 		$("#adddeduction").val();
+	 	 	var termofpaymentID = 		$("#addtermofpaymentID").val();
+
     		$.ajax({
                 url : "<?php echo site_url('Loans/save');?>",
                 method : "POST",
-                data : {employeeID: ValueArray[0], 		loantypeID: ValueArray[1],
-                		dategranted: ValueArray[2], 	enddate: ValueArray[3],
-                		amount: ValueArray[4], 	        deduction: ValueArray[5], termofpaymentID: ValueArray[6]},
+                data : {employeeID: 		employeeID, 		loantypeID: loantypeID,
+                		dategranted: 		dategranted, 		enddate: 	enddate,
+                		amount: 			amount, 	        deduction:  deduction, 
+                		termofpaymentID: 	termofpaymentID},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -339,8 +427,7 @@
 	            	}
 	            });
 	            return false;
-	  	}
-	});	
+			});	
 			 	/* CLEAR MODAL */
 		$('#edit_loan').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
@@ -351,9 +438,6 @@
         	$('select').removeClass('is-valid');
         	
 		});
-
-		//end loan save
-		//edit loan
 		$('.edit_loan').unbind('click').bind('click', function(){
 		$(".modal-body #editemployeeID").val($(this).data('employeeid'));
 		$(".modal-body #editloantypeID").val( $(this).data('loantypeid1'));
@@ -361,11 +445,11 @@
 		$(".modal-body #editenddate").val( $(this).data('enddate'));
 		$(".modal-body #editamount").val( $(this).data('amount'));
 		$(".modal-body #editdeduction").val( $(this).data('deduction'));
-		$(".modal-body #edittermofpaymentID").val( $(this).data('termofpaymentI1D'));
-		$('.update').attr('id', $(this).data('id'));
+		$(".modal-body #edittermofpaymentID").val( $(this).data('termofpayment'));
+		$('.edit').attr('id', $(this).data('id'));
+	});	
 	
          	/* updated employee */
-
 $('.update').unbind('click').bind('click', function(){
 		var IDArray = ['#editemployeeID', '#editloantypeID', '#editdategranted', '#editenddate', '#editamount', '#editdeduction', '#edittermofpaymentID'];
 		var ErrorIDArray = ['edit-employee', 'edit-loantype', 'edit-dategranted', 'edit-enddate', 'edit-amount', 'edit-deduction' , 'edit-termofpaymentID'];
@@ -393,15 +477,37 @@ $('.update').unbind('click').bind('click', function(){
 			}
 		}
 		$(firstRequired).focus();
-
 		if(firstRequired==""){
+		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
+		$('#edit_loan').hide();
+		$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+		event.preventDefault(); 
+		return false;
+		}
+	});	
+		$("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_loan').show();
+
+		});
+
+	$('.edit').unbind('click').bind('click', function(){
+		var id = $(this).attr('id');
+		 var employeeID 		= 	$('#editemployeeID').val().trim();
+		 var loantypeID 		= 	$('#editloantypeID').val().trim();
+		 var dategranted 		= 	$('#editdategranted').val().trim();
+		 var enddate 			= 	$('#editenddate').val().trim();
+		 var amount 			= 	$('#editamount').val().trim();
+		 var deduction 			= 	$('#editdeduction').val().trim();
+		 var termofpaymentID 	= 	$('#edittermofpaymentID').val().trim();
     		$.ajax({
                 url : "<?php echo site_url('loans/update');?>",
                 method : "POST",
-                data : {id:id,
-                	  	employeeID: ValueArray[0], 		loantypeID: ValueArray[1],
-                		dategranted: ValueArray[2], 	enddate: ValueArray[3],
-                		amount: ValueArray[4], 	        deduction: ValueArray[5],  termofpaymentID: ValueArray[6]},
+                data : {id: 				id,
+                	  	employeeID: 		employeeID, 		loantypeID: 	loantypeID,
+                		dategranted: 		dategranted, 		enddate: 		enddate,
+                		amount: 			amount, 	    	deduction: 		deduction,  
+                		termofpaymentID: 	termofpaymentID},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -425,9 +531,7 @@ $('.update').unbind('click').bind('click', function(){
 	            	}
 	            });
 	            return false;
-	  	}
-	});	
- });   
-});      
+		 });   
+		});      
 </script>
 
