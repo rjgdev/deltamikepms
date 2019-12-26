@@ -152,7 +152,7 @@ $end   = strtotime('11:59 PM');
 					 <div class="col-sm-12">	
 						<div class="form-group">
 							<label>Description <span class="text-danger">*</span></label>
-							<input type="text" class="form-control" id="adddescription" name="adddescription" description="Description">
+							<input type="text" class="form-control alphanumericwithspace" id="adddescription" name="adddescription" description="Description">
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
 						<div class="submit-section">
@@ -224,7 +224,7 @@ $end   = strtotime('11:59 PM');
 					 <div class="col-sm-12">	
 						<div class="form-group">
 							<label>Description <span class="text-danger">*</span></label>
-							<input id="editdescription" name="editdescription" class="form-control" description="description">
+							<input id="editdescription" name="editdescription" class="form-control alphanumericwithspace" description="description">
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
 						<div class="submit-section">
@@ -417,6 +417,7 @@ $("#addstarttime").change(function(){
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
+
 		if(starttimecheck <= endtimecheck){
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()

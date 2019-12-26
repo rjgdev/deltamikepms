@@ -27,10 +27,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 30px;">#</th>
-								<th>Bank Name</th>
-								<th>Status</th>
-								<th class="text-right">Action</th>
+								<th style="width: 50px;">ID No.</th>
+								<th style="width: 300px;">Bank Name</th>
+								<th style="width: 300px;">Account Number Format</th>
+								<th style="width: 100px;">Status</th>
+								<th class="text-right" style="width: 100px;">Action</th>
 							</tr>
 						</thead>
 						<tbody id="show_data">
@@ -38,6 +39,7 @@
 								<tr>
 									<td><?php echo $item->bankID; ?></td>
 									<td><?php echo $item->bankname; ?></td>
+									<td><?php echo $item->acctnoformat; ?></td>
 									<td >
 										<div class="action-label">
 											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
@@ -57,7 +59,8 @@
 													id="<?php echo $item->bankID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_bank" 
-													data-bankname="<?php echo $item->bankname; ?>">
+													data-bankname="<?php echo $item->bankname; ?>"
+													data-acctnoformat="<?php echo $item->acctnoformat; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
 												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
@@ -99,6 +102,11 @@
 							<input class="form-control restrictspecchar" type="text" id="bankname">
 							<div class="invalid-feedback" id="add-bankname"></div>
 						</div>
+						<div class="form-group">
+							<label>Account Number Format <span class="text-danger">*</span></label>
+							<input class="form-control accountnumber" type="text" id="acctnoformat">
+							<div class="invalid-feedback" id="add-acctnoformat"></div>
+						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -125,6 +133,11 @@
 							<label>Bank Name <span class="text-danger">*</span></label>
 							<input class="form-control restrictspecchar" type="text" id="editbankname">
 							<div class="invalid-feedback" id="edit-bankname"></div>
+						</div>
+						<div class="form-group">
+							<label>Account Number Format <span class="text-danger">*</span></label>
+							<input class="form-control accountnumber" type="text" id="editacctnoformat">
+							<div class="invalid-feedback" id="edit-acctnoformat"></div>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
@@ -168,6 +181,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -175,7 +189,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+								<a href="#" class="btn btn-primary continue-btn add" >Add</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
@@ -192,6 +206,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -199,7 +214,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+								<a href="#" class="btn btn-primary continue-btn edit" >Update</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
@@ -235,6 +250,10 @@
 		    document.getElementById("add-bankname").innerHTML = "";
         	$('#bankname').removeClass('is-invalid');
         	$('#bankname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("add-acctnoformat").innerHTML = "";
+        	$('#acctnoformat').removeClass('is-invalid');
+        	$('#acctnoformat').removeClass('is-valid');
 		});
 
 		/* CLEAR MODAL */
@@ -243,6 +262,10 @@
 		    document.getElementById("edit-bankname").innerHTML = "";
         	$('#editbankname').removeClass('is-invalid');
         	$('#editbankname').removeClass('is-valid');
+        	$(this).find('form')[0].reset();
+		    document.getElementById("edit-acctnoformat").innerHTML = "";
+        	$('#editacctnoformat').removeClass('is-invalid');
+        	$('#editacctnoformat').removeClass('is-valid');
 		});
 
 		/* CLEAR MODAL */
@@ -253,6 +276,7 @@
 	    /* EDIT BUTTON - PASS DATA TO MODAL */
 		$(document).on("click", ".editbank", function(){
 			$(".modal-body #editbankname").val( $(this).data('bankname'));
+			$(".modal-body #editacctnoformat").val( $(this).data('acctnoformat'));
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 
@@ -275,6 +299,7 @@
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
 	        var bankname = $('#bankname').val().trim();
+	        var acctnoformat = $('#acctnoformat').val().trim();
 
 	        if(bankname==""){
 	        	document.getElementById("add-bankname").innerHTML = "Please provide a bank name.";
@@ -287,8 +312,19 @@
 	        	$('#bankname').addClass('is-valid');
 	        	$("#bankname").focus();
 	        }
+	        if(acctnoformat==""){
+	        	document.getElementById("add-acctnoformat").innerHTML = "Please provide an account number format.";
+	        	$('#acctnoformat').addClass('is-invalid');
+	        	$("#acctnoformat").focus(); 
+                event.preventDefault();
+	        }else{
+	       		document.getElementById("add-acctnoformat").innerHTML = "";
+	        	$('#acctnoformat').removeClass('is-invalid');
+	        	$('#acctnoformat').addClass('is-valid');
+	        	$("#acctnoformat").focus();
+	        }
 
-	        if(bankname=="" ) return false;
+	        if(bankname=="" || acctnoformat=="") return false;
 
 	        	$('#add_bank').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -307,6 +343,7 @@
 		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
 	        var bankname = $('#editbankname').val().trim();
+	        var acctnoformat = $('#editacctnoformat').val().trim();
 
 	        if(bankname==""){
 	        	document.getElementById("edit-bankname").innerHTML = "Please provide a bank name.";
@@ -319,8 +356,19 @@
 	        	$('#editbankname').addClass('is-valid');
 	        	$("#editbankname").focus();
 	        }
+	        if(acctnoformat==""){
+	        	document.getElementById("edit-acctnoformat").innerHTML = "Please provide an account number format.";
+	        	$('#editacctnoformat').addClass('is-invalid');
+	        	$("#editacctnoformat").focus(); 
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-acctnoformat").innerHTML = "";
+	        	$('#editacctnoformat').removeClass('is-invalid');
+	        	$('#editacctnoformat').addClass('is-valid');
+	        	$("#editacctnoformat").focus();
+	        }
 	       
-	        if(bankname=="" ) return false;
+	        if(bankname=="" || acctnoformat=="") return false;
 
 	        $('#edit_bank').hide();
 			$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -367,11 +415,13 @@
 
 		$('.add').unbind('click').bind('click', function(){
 			var bankname = $('#bankname').val().trim();
+			var acctnoformat = $('#acctnoformat').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('banks/save');?>",
 	                method : "POST",
-	                data : {bankname:bankname},
+	                data : {bankname:bankname,
+	                		acctnoformat:acctnoformat},
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
@@ -396,12 +446,14 @@
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
 	        var bankname = $('#editbankname').val().trim();
+	        var acctnoformat = $('#editacctnoformat').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('banks/update');?>",
 	                method : "POST",
 	                data : {id:id,
-	                		bankname:bankname},
+	                		bankname:bankname,
+	                		acctnoformat:acctnoformat},
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){

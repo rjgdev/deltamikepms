@@ -21,6 +21,7 @@ class Bank_model extends CI_Model
 
 			$data = array(
 				'bankname' => $bankname,
+				'acctnoformat' => $this->input->post('acctnoformat'),
 				'bankstatus' => 'Active'
 			 );
 
@@ -40,7 +41,8 @@ class Bank_model extends CI_Model
 		if($query->num_rows() == 0){
 
 			$data = array(
-				'bankname' => $bankname
+				'bankname' => $bankname,
+				'acctnoformat' => $this->input->post('acctnoformat')
 			 );
 
 			$this->db->where("bankID", $id);  

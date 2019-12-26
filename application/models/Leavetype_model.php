@@ -61,7 +61,11 @@ class Leavetype_model extends CI_Model
   	function change_status_leavetype($id,$status,$leavetypename)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM dm_detachment WHERE leavetypeid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('
+				SELECT * FROM dm_employeecreditleave 
+				INNER JOIN dm_employee 
+				ON dm_employeecreditleave.employeeID=dm_employee.employeeID
+				WHERE leavetypeid='.$id.' AND employeestatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('leavetypestatus' => $status);

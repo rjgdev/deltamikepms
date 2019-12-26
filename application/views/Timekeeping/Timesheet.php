@@ -1,5 +1,4 @@
 <?php
-
 	$currentMonth = date('F');
 	$currentYear = date('Y');
 	$lastday = date('t');
@@ -28,9 +27,9 @@
 					<table class="table table-striped custom-table table-nowrap mb-0">
 						<thead>
 							<tr>
-									<th colspan="32" style="text-align:center;">
-										<?=$currentMonth.' '.$currentYear;?>
-									</th>
+								<th colspan="<?=$lastday+1;?>" style="text-align:center;">
+									<?=$currentMonth.' '.$currentYear;?>
+								</th>
 							</tr>
 							<tr>
 								<th class="tsheader">Employee</th>
@@ -45,11 +44,12 @@
 							<tr>
 								<td>
 									<h2 class="table-avatar">
-										<a class="avatar" href="profile.html"><img alt="" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-09.jpg"></a>
+										<a class="avatar" href="profile.html">
+											<img alt="" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-09.jpg">
+										</a>
 										<a style="font-size: 12px;" href="profile.html">Robinjamin Gelilio
 											<span style="font-size: 11px;">Web Developer</span>
 										</a>
-
 									</h2>
 								</td>
 								<!-- <?php 

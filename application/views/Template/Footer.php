@@ -90,6 +90,13 @@
 		    }
 		});
 
+		$(".accountnumber").keypress(function(e){
+		    var keyCode = e.which;
+		    if ( !( (keyCode >= 48 && keyCode <= 57) ) && keyCode != 8 && keyCode != 45 && keyCode != 32 && keyCode != 13) {
+		      e.preventDefault();
+		    }
+		});
+
 		$(".restrictspecchar").keypress(function(e){
 		    var keyCode = e.which;
 

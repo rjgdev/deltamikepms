@@ -27,12 +27,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 30px;">#</th>
+								<th style="width: 50px;">ID No.</th>
 								<th style="width: 220px ! important;">Client Name</th>
 								<th style="width: 220px ! important;">Contact Person</th>
 								<th style="width: 170px ! important;">Contact No.</th>
-								<th style="width: 220px ! important;">Email</th>
-								<th style="width: 220px ! important;">No. of active detachment post</th>
+								<th style="width: 170px ! important;">Email</th>
 								<th style="width: 100px ! important;">Status</th>
 								<th style="width: 50px ! important;" class="text-right">Action</th>
 							</tr>
@@ -41,11 +40,14 @@
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->clientID; ?></td>
-									<td><?php echo $item->clientname; ?></td>
+									<td>
+										<div class="dash-card-content">  
+											<p style="margin-left: 10px; color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Active Detachment Post: <?php echo $item->activedetachmentpost; ?> </span></p> 	
+										</div>
+									</td>
 									<td><?php echo $item->contactperson; ?></td>
 									<td><?php echo $item->contactno; ?></td>
 									<td><?php echo $item->email; ?></td>
-									<td><?php echo $item->activedetachmentpost; ?></td>
 									<td >
 										<div class="action-label">
 											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
@@ -100,7 +102,7 @@
 	
 	<!-- Add Department Modal -->
 	<div id="add_client" class="modal custom-modal fade" role="dialog">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Add Client</h5>
@@ -110,55 +112,57 @@
 				</div>
 				<div class="modal-body">
 					<form id="test">
-						<div class="form-group">
-							<label>Client Name <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="clientname">
-							<div class="invalid-feedback" id="add-clientname"></div>
-						</div>
-						<div class="form-group">
-							<label>Description </label>
-							<input class="form-control restrictspecchar" type="text" id="description">
-							<div class="invalid-feedback" id="add-description"></div>
-						</div>
-						<div class="form-group">
-							<label>House No. </label>
-							<input class="form-control specchar" type="text" id="housenumber">
-							<div class="invalid-feedback" id="add-housenumber"></div>
-						</div>
-						<div class="form-group">
-							<label>Street Name <span class="text-danger">*</span></label>
-							<input class="form-control specchar" type="text" id="streetname">
-							<div class="invalid-feedback" id="add-streetname"></div>
-						</div>
-						<div class="form-group">
-							<label>Barangay <span class="text-danger">*</span></label>
-							<input class="form-control specchar" type="text" id="barangay">
-							<div class="invalid-feedback" id="add-barangay"></div>
-						</div>
-						<div class="form-group">
-							<label>City <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="city">
-							<div class="invalid-feedback" id="add-city"></div>
-						</div>
-						<div class="form-group">
-							<label>Contact Person <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="contactperson">
-							<div class="invalid-feedback" id="add-contactperson"></div>
-						</div>
-						<div class="form-group">
-							<label>Contact No. <span class="text-danger">*</span></label>
-							<input class="form-control contactinfo" type="text" id="contactno">
-							<div class="invalid-feedback" id="add-contactno"></div>
-						</div>
-						<div class="form-group">
-							<label>Email<span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="email">
-							<div class="invalid-feedback" id="add-email"></div>
-						</div>
-						<div class="form-group">
-							<label>No. of active detachment post </label>
-							<input class="form-control numbersonly" type="text" id="activedetachmentpost">
-							<div class="invalid-feedback" id="add-activedetachmentpost"></div>
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Client Name <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="clientname">
+								<div class="invalid-feedback" id="add-clientname"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Description </label>
+								<input class="form-control restrictspecchar" type="text" id="description">
+								<div class="invalid-feedback" id="add-description"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>House No. </label>
+								<input class="form-control specchar" type="text" id="housenumber">
+								<div class="invalid-feedback" id="add-housenumber"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Street Name <span class="text-danger">*</span></label>
+								<input class="form-control specchar" type="text" id="streetname">
+								<div class="invalid-feedback" id="add-streetname"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Barangay <span class="text-danger">*</span></label>
+								<input class="form-control specchar" type="text" id="barangay">
+								<div class="invalid-feedback" id="add-barangay"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>City <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="city">
+								<div class="invalid-feedback" id="add-city"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Contact Person <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="contactperson">
+								<div class="invalid-feedback" id="add-contactperson"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Contact No. <span class="text-danger">*</span></label>
+								<input class="form-control contactinfo" type="text" id="contactno">
+								<div class="invalid-feedback" id="add-contactno"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Email<span class="text-danger">*</span></label>
+								<input class="form-control" type="text" id="email">
+								<div class="invalid-feedback" id="add-email"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>No. of active detachment post </label>
+								<input class="form-control numbersonly" type="text" id="activedetachmentpost">
+								<div class="invalid-feedback" id="add-activedetachmentpost"></div>
+							</div>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
@@ -172,7 +176,7 @@
 	
 	<!-- Edit Department Modal -->
 	<div id="edit_client" class="modal custom-modal fade" role="dialog">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Edit Client</h5>
@@ -181,56 +185,58 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
-						<div class="form-group">
-							<label>Client Name <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="editclientname">
-							<div class="invalid-feedback" id="edit-clientname"></div>
-						</div>
-						<div class="form-group">
-							<label>Description </label>
-							<input class="form-control restrictspecchar" type="text" id="editdescription">
-							<div class="invalid-feedback" id="edit-description"></div>
-						</div>
-						<div class="form-group">
-							<label>House No. </label>
-							<input class="form-control specchar" type="text" id="edithousenumber">
-							<div class="invalid-feedback" id="edit-housenumber"></div>
-						</div>
-						<div class="form-group">
-							<label>Street Name <span class="text-danger">*</span></label>
-							<input class="form-control specchar" type="text" id="editstreetname">
-							<div class="invalid-feedback" id="edit-streetname"></div>
-						</div>
-						<div class="form-group">
-							<label>Barangay <span class="text-danger">*</span></label>
-							<input class="form-control specchar" type="text" id="editbarangay">
-							<div class="invalid-feedback" id="edit-barangay"></div>
-						</div>
-						<div class="form-group">
-							<label>City <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="editcity">
-							<div class="invalid-feedback" id="edit-city"></div>
-						</div>
-						<div class="form-group">
-							<label>Contact Person <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="editcontactperson">
-							<div class="invalid-feedback" id="edit-contactperson"></div>
-						</div>
-						<div class="form-group">
-							<label>Contact No. <span class="text-danger">*</span></label>
-							<input class="form-control contactinfo" type="text" id="editcontactno">
-							<div class="invalid-feedback" id="edit-contactno"></div>
-						</div>
-						<div class="form-group">
-							<label>Email <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editemail">
-							<div class="invalid-feedback" id="edit-email"></div>
-						</div>
-						<div class="form-group">
-							<label>No. of active detachment post </label>
-							<input class="form-control numbersonly" type="text" id="editactivedetachmentpost">
-							<div class="invalid-feedback" id="edit-activedetachmentpost"></div>
+					<form id="test">
+						<div class="row">
+							<div class="form-group col-sm-6">
+								<label>Client Name <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="editclientname">
+								<div class="invalid-feedback" id="edit-clientname"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Description </label>
+								<input class="form-control restrictspecchar" type="text" id="editdescription">
+								<div class="invalid-feedback" id="edit-description"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>House No. </label>
+								<input class="form-control specchar" type="text" id="edithousenumber">
+								<div class="invalid-feedback" id="edit-housenumber"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Street Name <span class="text-danger">*</span></label>
+								<input class="form-control specchar" type="text" id="editstreetname">
+								<div class="invalid-feedback" id="edit-streetname"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Barangay <span class="text-danger">*</span></label>
+								<input class="form-control specchar" type="text" id="editbarangay">
+								<div class="invalid-feedback" id="edit-barangay"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>City <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="editcity">
+								<div class="invalid-feedback" id="edit-city"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Contact Person <span class="text-danger">*</span></label>
+								<input class="form-control restrictspecchar" type="text" id="editcontactperson">
+								<div class="invalid-feedback" id="edit-contactperson"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Contact No. <span class="text-danger">*</span></label>
+								<input class="form-control contactinfo" type="text" id="editcontactno">
+								<div class="invalid-feedback" id="edit-contactno"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>Email <span class="text-danger">*</span></label>
+								<input class="form-control" type="text" id="editemail">
+								<div class="invalid-feedback" id="edit-email"></div>
+							</div>
+							<div class="form-group col-sm-6">
+								<label>No. of active detachment post </label>
+								<input class="form-control numbersonly" type="text" id="editactivedetachmentpost">
+								<div class="invalid-feedback" id="edit-activedetachmentpost"></div>
+							</div>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
@@ -268,11 +274,13 @@
 	</div>
 	<!-- /Delete Department Modal -->
 
+	<!-- Confirmation Modal -->
 	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -280,7 +288,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+								<a href="#" class="btn btn-primary continue-btn add" >Add</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
@@ -297,6 +305,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -304,7 +313,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+								<a href="#" class="btn btn-primary continue-btn edit" >Update</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>

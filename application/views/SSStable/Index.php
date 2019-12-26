@@ -27,7 +27,7 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 30px;">#</th>
+								<th style="width: 50px;">ID No.</th>
 								<th>Minimum Range</th>
 								<th>Maximum Range</th>
 								<th>Employer Contribution</th>
@@ -214,11 +214,13 @@
 	</div>
 	<!-- /Edit Department Modal -->
 
+	<!-- Confirmation Modal -->
 	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -226,7 +228,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+								<a href="#" class="btn btn-primary continue-btn add" >Add</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
@@ -243,6 +245,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -250,7 +253,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+								<a href="#" class="btn btn-primary continue-btn edit" >Update</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>

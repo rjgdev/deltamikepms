@@ -25,7 +25,7 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								  <th style="width: 20px ! important;">Reference#</th>
+								  <th style="width: 20px ! important;">Reference NO</th>
 								  <th>Employee Name</th>
 			                      <th>Loan Type</th>
 			                      <th>Term of Payment</th>
@@ -120,7 +120,7 @@
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted" description="start date"">
+								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted" data-date-format="DD/MM/YYYY" description="start date">
 								 <div class="invalid-feedback" id="add-dategranted"></div>
 							</div>
 						</div>
@@ -129,7 +129,7 @@
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" description="end date"">
+								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" data-date-format="DD/MM/YYYY" description="end date">
 								 <div class="invalid-feedback" id="add-addenddate"></div>
 							</div>
 						</div>
@@ -219,7 +219,7 @@
 					<div class="form-group">
 					<label>Start Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" data-date-format="DD/MM/YYYY" name="editdategranted">
 					<div class="invalid-feedback" id="edit-dategranted"></div>
 					</div>
 					</div>
@@ -228,7 +228,7 @@
 					<div class="form-group">
 					<label>End Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"">
+					<input class="form-control datetimepicker" type="text" id="editenddate" data-date-format="DD/MM/YYYY" name="editenddate">
 					<div class="invalid-feedback" id="edit-enddate"></div>
 					</div>
 					</div>
@@ -346,30 +346,76 @@
         	$('select').removeClass('is-invalid');
         	$('select').removeClass('is-valid');
 		}); 
+
 		$('#save').unbind('click').bind('click', function(){
 		var IDArray = ['#addemployeeID', '#addloantypeID', '#adddategranted', '#addenddate', '#addamount', '#adddeduction', '#addtermofpaymentID'];
 		var ErrorIDArray = ['add-employee', 'add-loantype', 'add-dategranted', 'add-addenddate', 'add-amount', 'add-deduction', 'add-termofpaymentID'];
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
-
+		var amount = $("#addamount").val();
+		var deduction = $("#adddeduction").val();
+		var enddate = $("#addenddate").val();
+		var adddategranted = $("#adddategranted").val();
+		var arrtodate = adddategranted.split("/");
+		var arrt1odate = enddate.split("/");
+		var tdate = arrt1odate[0];
+		var tmonth = arrt1odate[1];
+		var tyear = arrt1odate[2]; 
+		var fdate = arrtodate[0];
+		var fmonth = arrtodate[1];
+		var fyear = arrtodate[2]; 
+		var dtfTest = new Date (fyear, fmonth, fdate);
+		var dttTest = new Date (tyear, tmonth, tdate);
+		if(dttTest > dtfTest){	
+		document.getElementById("add-addenddate").innerHTML = "";
+		$(IDArray[3]).removeClass('is-invalid');
+		$(IDArray[3]).addClass('is-valid');
+		event.preventDefault();
+		}else{
+		document.getElementById("add-addenddate").innerHTML = "invalid dates";
+		$(IDArray[3]).addClass('is-invalid');
+		event.preventDefault();
+		return false;
+		};
+		if(amount ==0){
+			
+		document.getElementById("add-amount").innerHTML = "invalid input";
+		$(IDArray[4]).addClass('is-invalid');
+		return false;
+		}else{
+		document.getElementById("add-amount").innerHTML = "";
+		$(IDArray[4]).removeClass('is-invalid');
+		$(IDArray[4]).addClass('is-valid');
+		event.preventDefault();
+		};
+		if(deduction > amount){
+		document.getElementById("add-deduction").innerHTML = "deduction amount is to high";
+		$(IDArray[5]).addClass('is-invalid');
+		return false;
+		}else{
+		document.getElementById("add-deduction").innerHTML = "";
+		$(IDArray[5]).removeClass('is-invalid');
+		$(IDArray[5]).addClass('is-valid');
+		event.preventDefault();
+		};
 		for(var i=0;i<IDArray.length;i++){
-			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==6) continue;
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-				if(firstRequired==""){
-				firstRequired = IDArray[i]
-				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-	        	$(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
-			}else{
-			    document.getElementById(ErrorIDArray[i]).innerHTML = "";	
-				$(IDArray[i]).removeClass('is-invalid');
-				$(IDArray[i]).addClass('is-valid');
-			 	event.preventDefault();
-			}
+		ValueArray[i] = $(IDArray[i]).val().trim()
+		if(i==6) continue;
+		if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+			if(firstRequired==""){
+			firstRequired = IDArray[i]
+			};
+			document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+        	$(IDArray[i]).addClass('is-invalid');
+            event.preventDefault();
+		}else{
+		    document.getElementById(ErrorIDArray[i]).innerHTML = "";	
+			$(IDArray[i]).removeClass('is-invalid');
+			$(IDArray[i]).addClass('is-valid');
+		 	event.preventDefault();
 		}
+	}
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -447,6 +493,7 @@
 		$(".modal-body #editdeduction").val( $(this).data('deduction'));
 		$(".modal-body #edittermofpaymentID").val( $(this).data('termofpayment'));
 		$('.edit').attr('id', $(this).data('id'));
+
 	});	
 	
          	/* updated employee */
@@ -457,8 +504,62 @@ $('.update').unbind('click').bind('click', function(){
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
-		var id = $(this).attr('id');	
-
+		var id = $(this).attr('id');
+		var editamount = $("#editamount").val();
+		var editdeduction = $("#editdeduction").val();
+		var enddate = $("#editenddate").val();
+		var dategranted = $("#editdategranted").val();
+		var arrtodate = dategranted.split("/");
+		var arrt1odate = enddate.split("/");
+		var tdate = arrt1odate[0];
+		var tmonth = arrt1odate[1];
+		var tyear = arrt1odate[2]; 
+		var fdate = arrtodate[0];
+		var fmonth = arrtodate[1];
+		var fyear = arrtodate[2]; 
+		var dtfTest = new Date (fyear, fmonth, fdate);
+		var dttTest = new Date (tyear, tmonth, tdate);
+		if(dttTest > dtfTest){	
+		document.getElementById("edit-enddate").innerHTML = "";
+		$(IDArray[3]).removeClass('is-invalid');
+		$(IDArray[3]).addClass('is-valid');
+		event.preventDefault();
+		}else{
+		document.getElementById("edit-enddate").innerHTML = "invalid dates";
+		$(IDArray[3]).addClass('is-invalid');
+		event.preventDefault();
+		return false;
+		};
+		if(editamount ==0){
+		document.getElementById("edit-amount").innerHTML = "invalid input";
+		$(IDArray[4]).addClass('is-invalid');
+		return false;
+		}else{
+		document.getElementById("edit-amount").innerHTML = "";
+		$(IDArray[4]).removeClass('is-invalid');
+		$(IDArray[4]).addClass('is-valid');
+		event.preventDefault();
+		};
+		if(editdeduction ==0){
+		document.getElementById("edit-deduction").innerHTML = "invalid input";
+		$(IDArray[5]).addClass('is-invalid');
+		return false;
+		}else{
+		document.getElementById("edit-deduction").innerHTML = "";
+		$(IDArray[5]).removeClass('is-invalid');
+		$(IDArray[5]).addClass('is-valid');
+		event.preventDefault();
+		};
+		if(editdeduction > editamount){
+		document.getElementById("edit-deduction").innerHTML = "deduction amount is to high";
+		$(IDArray[5]).addClass('is-invalid');
+		return false;
+		}else{
+		document.getElementById("edit-deduction").innerHTML = "";
+		$(IDArray[5]).removeClass('is-invalid');
+		$(IDArray[5]).addClass('is-valid');
+		event.preventDefault();
+		};
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
 			if(i==6) continue;

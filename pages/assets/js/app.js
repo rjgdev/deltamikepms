@@ -134,9 +134,21 @@ $(document).ready(function() {
 	
 	// Date Time Picker
 	
-	var dateToday = new Date();
 	if($('.datetimepicker').length > 0) {
 		$('.datetimepicker').datetimepicker({
+			format: 'DD/MM/YYYY',
+			icons: {
+				up: "fa fa-angle-up",
+				down: "fa fa-angle-down",
+				next: 'fa fa-angle-right',
+				previous: 'fa fa-angle-left'
+			}
+		});
+	}
+	
+	var dateToday = new Date();
+	if($('.previousdate').length > 0) {
+		$('.previousdate').datetimepicker({
 			minDate: dateToday,
 			format: 'YYYY-MM-DD',
 			icons: {

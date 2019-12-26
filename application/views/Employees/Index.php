@@ -67,11 +67,11 @@
     <?php if($item->employeestatus=="Active") 
     echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
     elseif($item->employeestatus=="Terminated")
-    echo '<i class="fa fa-dot-circle-o text-danger"></i> Terminated';
+    echo '<i class="fa fa-dot-circle-o"></i> Terminated';
     elseif($item->employeestatus=="Resigned")
-    echo '<i class="fa fa-dot-circle-o text-purple"></i> Resigned';
+    echo '<i class="fa fa-dot-circle-o text-danger"></i> Resigned';
     elseif($item->employeestatus=="End of Contract")
-    echo '<i class="fa fa-dot-circle-o text-danger"></i> End of Contract';
+    echo '<i class="fa fa-dot-circle-o text-purple"></i> End of Contract';
     ?>
     </a> 
     </div>
@@ -1237,12 +1237,25 @@
         <div class="form-header">
           <h3>Change Status</h3>
            <div class="col-sm-12">
-              <p><label>Are you sure you want to</label><select class="form-control" name="changestatus" id="changestatus" description="status" required>
-             <option>Active</option>
-            <option>Terminated</option>
-            <option>End of Contract</option>
-            <option>Resigned</option>
-            </select>this record?</p>
+                <div class="dropdown">
+
+                <!-- <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown" aria-expanded="false" name="changestatus" id="changestatus" description="status">Web Developer </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
+                  <a class="dropdown-item" href="#">Terminated</a>
+                  <a class="dropdown-item" href="#">End of Contract</a>
+                  <a class="dropdown-item" href="#">Resigned</a>
+                </div> -->
+              <p>Are you sure you want to
+                  <select class="selectstatus" name="changestatus" id="changestatus" description="status">
+                      <option value="Active"> Activate</option>
+                      <option value="Terminated"> Terminate</option>
+                      <option value="End of Contract"> End the Contract</option>
+                      <option value="Resigned"> Resign</option>
+                  </select>
+                this record?</p>
+              </div>
+                </p>
             </div>
           <div class="invalid-feedback" id="status-invalid"></div>
         </div>

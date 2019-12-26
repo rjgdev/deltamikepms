@@ -27,10 +27,8 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 30px;">#</th>
+								<th style="width: 50px;">ID No.</th>
 								<th>Leave Type</th>
-								<th>Leave Days</th>
-								<th>Accumulation</th>
 								<th>Status</th>
 								<th class="text-right">Action</th>
 							</tr>
@@ -40,8 +38,6 @@
 								<tr>
 									<td><?php echo $item->leavetypeID; ?></td>
 									<td><?php echo $item->leavetypename; ?></td>
-									<td><?php echo $item->noofdays; ?></td>
-									<td><?php echo $item->accumulation; ?></td>
 									<td >
 										<div class="action-label">
 											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
@@ -61,9 +57,7 @@
 													id="<?php echo $item->leavetypeID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_leavetype" 
-													data-leavetypename="<?php echo $item->leavetypename; ?>"
-													data-noofdays="<?php echo $item->noofdays; ?>"
-													data-accumulation="<?php echo $item->accumulation; ?>">
+													data-leavetypename="<?php echo $item->leavetypename; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
 												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
@@ -104,20 +98,6 @@
 							<input class="form-control letterswithspace" type="text" id="leavetypename">
 							<div class="invalid-feedback" id="add-leavetypename"></div>
 						</div>
-						<div class="form-group">
-							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control numbersonly" type="text" id="noofdays">
-							<div class="invalid-feedback" id="add-noofdays"></div>
-						</div>
-						<div class="form-group">
-							<label>Accumulation <span class="text-danger">*</span></label>
-							<select class="custom-select" id="accumulation" required="">
-								<option value="">Is it accumulated yearly?</option>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							</select>
-							<div class="invalid-feedback" id="add-accumulation"></div>
-						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -144,20 +124,6 @@
 							<label>Leave Type <span class="text-danger">*</span></label>
 							<input class="form-control letterswithspace" type="text" id="editleavetypename">
 							<div class="invalid-feedback" id="edit-leavetypename"></div>
-						</div>
-						<div class="form-group">
-							<label>Number of days <span class="text-danger">*</span></label>
-							<input class="form-control numbersonly" type="text" id="editnoofdays">
-							<div class="invalid-feedback" id="edit-noofdays"></div>
-						</div>
-						<div class="form-group">
-							<label>Accumulation <span class="text-danger">*</span></label>
-							<select class="custom-select" id="editaccumulation" required="">
-								<option value="">Is it accumulated yearly?</option>
-								<option value="Yes">Yes</option>
-								<option value="No">No</option>
-							</select>
-							<div class="invalid-feedback" id="edit-accumulation"></div>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
@@ -195,11 +161,13 @@
 	</div>
 	<!-- /Delete Department Modal -->
 
+	<!-- Confirmation Modal -->
 	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -207,7 +175,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn add" >Add</a>
+								<a href="#" class="btn btn-primary continue-btn add" >Add</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
@@ -224,6 +192,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -231,7 +200,7 @@
 				
 						<div class="row">
 							<div class="col-6">
-								<a href="#" class="btn btn-primary submit-btn edit" >Update</a>
+								<a href="#" class="btn btn-primary continue-btn edit" >Update</a>
 							</div>
 							<div class="col-6">
 								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
@@ -268,14 +237,6 @@
 		    document.getElementById("add-leavetypename").innerHTML = "";
         	$('#leavetypename').removeClass('is-invalid');
         	$('#leavetypename').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-noofdays").innerHTML = "";
-        	$('#noofdays').removeClass('is-invalid');
-        	$('#noofdays').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-accumulation").innerHTML = "";
-        	$('#accumulation').removeClass('is-invalid');
-        	$('#accumulation').removeClass('is-valid');
 		});
 
 		$('#edit_leavetype').on('hidden.bs.modal', function(){
@@ -283,14 +244,6 @@
 		    document.getElementById("edit-leavetypename").innerHTML = "";
         	$('#editleavetypename').removeClass('is-invalid');
         	$('#editleavetypename').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-noofdays").innerHTML = "";
-        	$('#editnoofdays').removeClass('is-invalid');
-        	$('#editnoofdays').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-accumulation").innerHTML = "";
-        	$('#editaccumulation').removeClass('is-invalid');
-        	$('#editaccumulation').removeClass('is-valid');
 		});
 
 		/* CLEAR MODAL */
@@ -301,9 +254,6 @@
 		/* EDIT BUTTON - PASS DATA TO MODAL */
 		$(document).on("click", ".editleavetype", function(){
 			$(".modal-body #editleavetypename").val( $(this).data('leavetypename') );
-			$(".modal-body #editnoofdays").val( $(this).data('noofdays') );
-			$(".modal-body #editaccumulation").find( $(this).data('accumulation') ).text();
-            $(".modal-body #editaccumulation").val( $(this).data('accumulation') );
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 
@@ -326,8 +276,6 @@
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
 	        var leavetypename = $('#leavetypename').val().trim();
-	        var noofdays = $('#noofdays').val().trim();
-	        var accumulation = $('#accumulation').val().trim();
 
 	        if(leavetypename==""){
 	        	document.getElementById("add-leavetypename").innerHTML = "Please provide a leave type.";
@@ -341,29 +289,7 @@
 	        	$("#leavetypename").focus();
 	        }
 
-	        if(noofdays==""){
-	        	document.getElementById("add-noofdays").innerHTML = "Please provide a number of days.";
-	        	$('#noofdays').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-noofdays").innerHTML = "";
-	        	$('#noofdays').removeClass('is-invalid');
-	        	$('#noofdays').addClass('is-valid');
-	        	$("#noofdays").focus();
-	        }
-
-	        if(accumulation==""){
-	        	document.getElementById("add-accumulation").innerHTML = "Please provide an answer.";
-	        	$('#accumulation').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-accumulation").innerHTML = "";
-	        	$('#accumulation').removeClass('is-invalid');
-	        	$('#accumulation').addClass('is-valid');
-	        	$("#accumulation").focus();
-	        }
-
-	        if(leavetypename=="" || noofdays=="" || accumulation=="" ) return false;
+	        if(leavetypename=="") return false;
 
 	        $('#add_leavetype').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -378,37 +304,9 @@
 
 		});
 
-	        	/*$.ajax({
-	                url : "<?php echo site_url('leavetype/save');?>",
-	                method : "POST",
-	                data : {leavetypename:leavetypename,
-	                		noofdays:noofdays,
-	                		accumulation:accumulation
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-leavetypename").innerHTML = result[1];
-				        	$('#leavetypename').addClass('is-invalid');
-				        	$("#leavetypename").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>leavetype');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
-
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
 	        var leavetypename = $('#editleavetypename').val().trim();
-	        var noofdays = $('#editnoofdays').val().trim();
-	        var accumulation = $('#editaccumulation').val().trim();
 
 	        if(leavetypename==""){
 	        	document.getElementById("edit-leavetypename").innerHTML = "Please provide a leave type.";
@@ -421,28 +319,8 @@
 	        	$('#editleavetypename').addClass('is-valid');
 	        	$("#editleavetypename").focus();
 	        }
-
-	        if(noofdays==""){
-	        	document.getElementById("edit-noofdays").innerHTML = "Please provide a number of days.";
-	        	$('#editnoofdays').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-noofdays").innerHTML = "";
-	        	$('#editnoofdays').removeClass('is-invalid');
-	        	$('#editnoofdays').addClass('is-valid');
-	        }
-
-	        if(accumulation==""){
-	        	document.getElementById("edit-accumulation").innerHTML = "Please provide an answer.";
-	        	$('#editaccumulation').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-accumulation").innerHTML = "";
-	        	$('#editaccumulation').removeClass('is-invalid');
-	        	$('#editaccumulation').addClass('is-valid');
-	        }
 	       
-	        if(leavetypename=="" || noofdays=="" || accumulation=="" ) return false;
+	        if(leavetypename=="") return false;
 
 	        $('#edit_leavetype').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -456,32 +334,6 @@
 			$('#edit_leavetype').show();
 
 		});
-
-	        	/*$.ajax({
-	                url : "<?php echo site_url('leavetype/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		leavetypename:leavetypename,
-	                		noofdays:noofdays,
-	                		accumulation:accumulation},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-leavetypename").innerHTML = result[1];
-				        	$('#editleavetypename').addClass('is-invalid');
-				        	$("#editleavetypename").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>leavetype');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
@@ -515,15 +367,11 @@
 
         $('.add').unbind('click').bind('click', function(){
 			var leavetypename = $('#leavetypename').val().trim();
-	        var noofdays = $('#noofdays').val().trim();
-	        var accumulation = $('#accumulation').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('leavetype/save');?>",
 	                method : "POST",
-	                data : {leavetypename:leavetypename,
-	                		noofdays:noofdays,
-	                		accumulation:accumulation
+	                data : {leavetypename:leavetypename
 	                		},
 	                async : true,
 	                dataType : 'json',
@@ -549,16 +397,12 @@
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
 	        var leavetypename = $('#editleavetypename').val().trim();
-	        var noofdays = $('#editnoofdays').val().trim();
-	        var accumulation = $('#editaccumulation').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('leavetype/update');?>",
 	                method : "POST",
 	                data : {id:id,
-	                		leavetypename:leavetypename,
-	                		noofdays:noofdays,
-	                		accumulation:accumulation},
+	                		leavetypename:leavetypename},
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
