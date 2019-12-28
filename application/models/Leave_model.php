@@ -20,7 +20,7 @@ class Leave_model extends CI_Model
 							el.leavefrom,el.leaveto,numberofdays,reason
 							FROM dm_employeeleave AS el
 							LEFT JOIN dm_leavetype AS lt ON el.leavetypeID = lt.leavetypeID
-							LEFT JOIN dm_employee as e ON el.employeeID = el.employeeID
+							LEFT JOIN dm_employee as e ON el.employeeID = e.employeeID
 							LEFT JOIN dm_employeecreditleave AS ec ON el.leavetypeID = ec.leavetypeID AND el.employeeID = ec.employeeID
 							GROUP  BY el.employeeID,el.leavetypeID,leavefrom
 							)a
@@ -78,5 +78,18 @@ class Leave_model extends CI_Model
 			return 'false|The employee has an existing leave on this day';
 			
 		}
+	}
+	function get_employeeleave($employeeID)
+	{
+
+		$query = $this->db->query('
+		SELECT * FROM
+		(
+		SELECT ecl.leavetypeID,l.leavetypename,ecl.totalleave FROM dm_employeecreditleave AS ecl
+		LEFT JOIN dm_employee AS e ON ecl.employeeID = e.employeeID
+		LEFT JOIN dm_leavetype AS l ON ecl.leavetypeID = l.leavetypeID
+		WHERE ecl.employeeID = '.$employeeID.'
+		)a');
+		return $query->result();
 	}
 }

@@ -99,8 +99,9 @@
 		$lastname 			= 	$this->input->post('lastname');
 		$username 			= 	$this->input->post('username');
 		$creditleaveID 		= 	$this->input->post('creditleaveID');
-		$leavetypeID 		= 	$this->input->post('editleave');
-		$totalleave 		=	$this->input->post('edittotalleave');
+		$leavetype 			= 	$this->input->post('leave');
+		$employee 			=	$this->input->post('employee');
+		$totalleave 		=	$this->input->post('totalleave');
 		$id 				=	$this->input->post('id');
 		$dataschedule = array(
 			'sunschedulefrom'	=>		$this->input->post('suntimefrom'),
@@ -156,7 +157,7 @@
 			'employeetypeID' 	=> 		$this->input->post('employeetypeid'),
 			'backaccountname' 	=> 		$this->input->post('backaccountname'),
 			'backaccountnumber' => 		$this->input->post('backaccountnumber'));
-	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetypeID, $totalleave,$dataschedule);
+	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$dataschedule,$employee);
 	$retval = explode("|",$data);
 
 	if($retval[0]=="false"){
@@ -197,6 +198,20 @@
 		$employeeID = $this->input->post('id');
 		$data = $this->employee->search_schedule($employeeID);
 		echo json_encode($data); 
+
+	}
+	public function leaverecord()
+	{
+		$employeeID = $this->input->post('idleave');
+		$data = $this->employee->search_leaverecord($employeeID);
+		echo json_encode($data); 
+		
+	}
+	public function get_client()
+	{
+			$clientID = $this->input->post('id');
+			$data = $this->employee->search_detachment($clientID);
+			echo json_encode($data);
 
 	}
 

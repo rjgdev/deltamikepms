@@ -83,17 +83,33 @@ class Employee_model extends CI_Model
 			return 'false|Employee name already exist!';
 		}   
   	}
-  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetypeID, $totalleave,$dataschedule)
+  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$dataschedule,$employee)
   	{
- 		 $query = $this->db->query('SELECT firstname, middlename,lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
+ 		 $query = $this->db->query('SELECT firstname, middlename, lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 			if($query->num_rows() == 0){
 				$this->db->where("employeeID", $id);  
 	            $this->db->update("dm_employee", $data); 
 	            $datacredit  = array();
-	             $creditID  = array();
-
+	            $creditID  = array();
+	            $this->db->where("employeeID", $id);  
+	            $this->db->update("dm_employeeschedule", $dataschedule);
 	            $this->db->where("employeeID", $id);  
 	            $this->db->update("dm_employeeschedule", $dataschedule); 
+	            $record  = array(); 
+	            $id = $this->input->post('id');
+	            for($count = 0; $count<count($employee); $count++)
+ 				{
+	 				$record[$count] 	= array (
+	 				'employeeleavecreditID'		=>  $employee[$count],
+ 					'leavetypeID'		=>	$leavetype[$count],
+					'totalleave'		=>	$totalleave[$count]);				
+				}
+				//print_r($record);
+				//exit;
+				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
+				
+	          
+
 				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
 	 	}
 		else 
@@ -129,6 +145,24 @@ class Employee_model extends CI_Model
    {
    	$query = $this->db->query('SELECT * FROM dm_employeeschedule WHERE employeeID ='.$employeeID.'');
    	return $query->result();
+
+   }
+    function search_leaverecord($employeeID)
+   {
+   		$query = $this->db->query('SELECT * FROM dm_employeecreditleave WHERE employeeID ='.$employeeID.'');
+   		return $query->result();
+
+   }
+   function search_detachment($clientID)
+   {
+
+   		$query = $this->db->query('SELECT d.detachmentID,d.postname,d.clientID FROM dm_detachment AS d
+								 LEFT JOIN dm_client AS c ON d.clientID = c.clientID
+								 WHERE c.clientID ='.$clientID.'');
+   								 return $query->result();
+
+ 
+
 
    }
 

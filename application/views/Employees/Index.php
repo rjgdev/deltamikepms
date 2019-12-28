@@ -174,21 +174,21 @@
   <div class="col-sm-12">
     <div class="form-group">
     <label for="firstname">First Name <span class="text-danger">*</span></label>
-    <input id="addfirstname" type="text" name="addfirstname" class="form-control input" autocomplete="off" description="first name" required>
+    <input id="addfirstname" type="text" name="addfirstname" class="form-control input lettersonly" autocomplete="off" description="first name" required>
     <div class="invalid-feedback" id="add-firstname"></div>
     </div>
   </div>
   <div class="col-sm-12">
     <div class="form-group">
     <label for="middlename">Middle Name</label>
-    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input" autocomplete="off">
+    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input lettersonly" autocomplete="off">
     <div class="invalid-feedback" id="add-middlename"></div>
   </div>
   </div>
   <div class="col-sm-12">
     <div class="form-group">
     <label for="lastname">Last Name  <span class="text-danger">*</span></label>
-    <input id="addlastname" type="text" name="addlastname" class="form-control input" autocomplete="off" description="last name" required>
+    <input id="addlastname" type="text" name="addlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
     <div class="invalid-feedback" id="add-lastname"></div>
     </div>
   </div>
@@ -206,27 +206,27 @@
   <div class="col-sm-12">
   <div class="form-group">
   <label for="housenumber">Unit/House No.</label>
-  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input" autocomplete="off">
+  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
   </div>
   </div>
   <div class="col-sm-12">
   <div class="form-group">
   <label for="streetname">Building/Street Name  <span class="text-danger">*</span></label>
-  <input id="addstreetname" type="text" name="addstreetname" class="form-control input" autocomplete="off" description="building/street name" required>
+  <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
   <div class="invalid-feedback" id="add-streetname"></div>
   </div>
   </div>
   <div class="col-sm-12">
   <div class="form-group">
   <label for="barangay">Barangay  <span class="text-danger">*</span></label>
-  <input id="addbarangay" type="text" name="addbarangay" class="form-control input" autocomplete="off" description="barangay" required>
+  <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
   <div class="invalid-feedback" id="add-barangay"></div>
   </div>
   </div>
   <div class="col-sm-12">
   <div class="form-group">
   <label for="city">City/Municipality  <span class="text-danger">*</span></label>
-  <input id="addcity" type="text" name="addcity" class="form-control input" autocomplete="off" description="city/municipality" required>
+  <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspace" autocomplete="off" description="city/municipality" required>
   <div class="invalid-feedback" id="add-city"></div>
   </div>
   </div>
@@ -258,7 +258,7 @@
   <div class="col-sm-12">
   <div class="form-group">
   <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
-  <input id="addcitizenship" type="text" name="addcitizenship" class="form-control input" autocomplete="off" description="citizenship" required>
+  <input id="addcitizenship" type="text" name="addcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
   <div class="invalid-feedback" id="add-citizenship"></div>
   </div>
   </div>
@@ -315,12 +315,6 @@
   <label for="adddetachment">Detachment <span class="text-danger">*</span></label>
   <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="detachment" required>
   <option value="">No Selected</option>
-  <?php
-  foreach($data['detachment'] as $item)
-  {
-  echo '<option value="'.$item->detachmentID.'">'.$item->postname.'</option>';
-  }
-  ?>
   </select>
   <div class="invalid-feedback" id="add-detachment"></div>
   </div>
@@ -373,10 +367,9 @@
                         <i class="la la-user"></i></span>
                        </div>
 
-                            <input type="text" class="form-control input" id="addusername" name="addusername" autocomplete="off" description="username" required>
+                            <input type="text" class="form-control input alphanumericwithspace" id="addusername" name="addusername" autocomplete="off" description="username" required>
                             <div class="invalid-feedback" id="add-username"></div>
                             </div>
-
                           <label for="addpassword">Password <span class="text-danger">*</span></label>
                           <div class="input-group">
                               <div class="input-group-prepend bg-transparent">
@@ -384,7 +377,7 @@
                           <i class="la la-lock"></i></span>
                       </div>
 
-                              <input type="password" class="form-control input border-right-0" id="addpassword" name="addpassword" autocomplete="off" description="password" required>
+                              <input type="password" class="form-control input border-right-0 alphanumericwithspace" id="addpassword" name="addpassword" autocomplete="off" description="password" required>
                               <div class="input-group-prepend bg-transparent">
                                 <span class="input-group-text bg-transparent border-left-0">
                                   <a href="#" id="show_hide_password"><i class="text-warning iconshowhide la la-eye"></i></a>
@@ -392,6 +385,7 @@
                               </div>
                                <div class="invalid-feedback" id="add-password"></div>
                           </div>
+                           <label for="caution"style="color:#ff0000;"  id="caution"name="caution">For detachment commander only</label>
                       </div>
                       </form>
                     </div>
@@ -703,7 +697,7 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="gender">Employee Type<span class="text-danger">*</span></label>
-          <select class="form-control" name="editemployeetype" id="editemployeetype" description="employee type" required>
+          <select class="form-control " name="editemployeetype" id="editemployeetype" description="employee type" required>
             <option value="">No Selected</option>
             <option value="1">Security Guard</option>
             <option value="2">Staff</option>
@@ -714,21 +708,21 @@
       <div class="col-sm-12">
         <div class="form-group">
         <label for="firstname">First Name <span class="text-danger">*</span></label>
-        <input id="editfirstname" type="text" name="editfirstname" class="form-control input" autocomplete="off" description="first name" required>
+        <input id="editfirstname" type="text" name="editfirstname " class="form-control input lettersonly" autocomplete="off" description="first name" required>
         <div class="invalid-feedback" id="edit-firstname"></div>
         </div>  
       </div>
       <div class="col-sm-12">
         <div class="form-group">
         <label for="middlename">Middle Name</label>
-        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input" autocomplete="off">
+        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input lettersonly" autocomplete="off">
         <div class="invalid-feedback" id="edit-middlename"></div>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
         <label for="lastname">Last Name <span class="text-danger">*</span></label>
-        <input id="editlastname" type="text" name="editlastname" class="form-control input" autocomplete="off" description="last name" required>
+        <input id="editlastname" type="text" name="editlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
         <div class="invalid-feedback" id="edit-lastname"></div>
         </div>
       </div>
@@ -746,27 +740,27 @@
       <div class="col-sm-12">
         <div class="form-group">
         <label for="housenumber">Unit/House No.</label>
-        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input" autocomplete="off">
+        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
         <label for="streetname">Building/Street Name <span class="text-danger">*</span></label>
-        <input id="editstreetname" type="text" name="editstreetname" class="form-control input" autocomplete="off" description="building/street name" required>
+        <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
         <div class="invalid-feedback" id="edit-streetname"></div>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
         <label for="barangay">Barangay <span class="text-danger">*</span></label>
-        <input id="editbarangay" type="text" name="editbarangay" class="form-control input" autocomplete="off" description="barangay" required>
+        <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
         <div class="invalid-feedback" id="edit-barangay"></div>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="form-group">
         <label for="city">City/Municipality <span class="text-danger">*</span></label>
-        <input id="editcity" type="text" name="editcity" class="form-control input" autocomplete="off" description="city/municipality" required>
+        <input id="editcity" type="text" name="editcity" class="form-control input letterswithspace" autocomplete="off" description="city/municipality" required>
         <div class="invalid-feedback" id="edit-city"></div>
         </div>
       </div>
@@ -798,7 +792,7 @@
       <div class="col-sm-12">
         <div class="form-group">
         <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
-        <input id="editcitizenship" type="text" name="editcitizenship" class="form-control input" autocomplete="off" description="citizenship" required>
+        <input id="editcitizenship" type="text" name="editcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
         <div class="invalid-feedback" id="edit-citizenship"></div>
         </div>
       </div>
@@ -835,7 +829,7 @@
       </div> 
   <div class="col-sm-12">
   <div class="form-group">
-  <label for="adddetachment">Client <span class="text-danger">*</span></label>
+  <label for="editdetachment">Client <span class="text-danger">*</span></label>
   <select class="form-control" id="editclient" name="editclient" style="width: 100%;" description="Client" required>
   <option value="">No Selected</option>
   <?php
@@ -851,14 +845,8 @@
       <div class="col-sm-12">
         <div class="form-group">
           <label for="editdetachment">Detachment <span class="text-danger">*</span></label>
+           <input type="hidden" id="edithiddenDetachment" name="edithiddenDetachment">
           <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required>
-            <option value="">No Selected</option>
-            <?php
-            foreach($data['detachment'] as $item)
-            {
-            echo '<option value="'.$item->detachmentID.'">'.$item->postname.'</option>';
-            }
-            ?>  
           </select>
           <div class="invalid-feedback" id="edit-detachment"></div>
         </div>
@@ -908,7 +896,7 @@
           <span class="input-group-text bg-transparent border-right-0">
           <i class="la la-user"></i></span>
           </div>
-          <input type="text" class="form-control input" id="editusername" name="editusername" autocomplete="off" description="username" required>
+          <input type="text" class="form-control input alphanumericwithspace" id="editusername" name="editusername" autocomplete="off" description="username" required>
           <div class="invalid-feedback" id="edit-username"></div>
         </div>
         <label for="editpassword">Password <span class="text-danger">*</span></label>
@@ -917,7 +905,7 @@
             <span class="input-group-text bg-transparent border-right-0">
             <i class="la la-lock"></i></span>
           </div>
-          <input type="password" class="form-control input  border-right-0" id="editpassword" name="editpassword" autocomplete="off" description="password" required>
+          <input type="password" class="form-control input  border-right-0 alphanumericwithspace" id="editpassword" name="editpassword" autocomplete="off" description="password" required>
           <div class="input-group-prepend bg-transparent">
           <span class="input-group-text bg-transparent border-left-0">
           <a href="#" id="edit_show_hide_password"><i class="text-warning iconshowhide la la-eye"></i></a>
@@ -925,6 +913,7 @@
           </div>
           <div class="invalid-feedback" id="edit-password"></div>
         </div>
+          <label for="caution"style="color:#ff0000;"  id="editcaution"name="editcaution">For detachment commander only</label>
       </div>
       </form>
     </div>
@@ -1009,6 +998,29 @@
     </div>
   </form>
   </div>
+  <!--  <div class="tab-pane fade" id="pills-detail" role="tabpanel" aria-labelledby="pills-detail-tab"> -->
+                <div class="tab-pane" id="bottom-justified-editleave">
+                 <form class="forms-group">
+                <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-review review-table mb-0" id="edittable_alterations">
+                      <thead>
+                        <tr>
+                          <th style="width:40px;">#</th>
+                          <th>Leave type</th>
+                          <th>Total Leave</th>
+                          <th style="width: 64px;"><button type="button" class="btn btn-primary btn-edit-row"><i class="fa fa-plus"></i></button></th>
+                        </tr>
+                      </thead>
+                      <tbody id="edittable_alterations_tbody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </form>
+               </div> 
 
                   <div class="tab-pane" id="bottom-justified-editschedule">
                    <form class="forms-group"> 
@@ -1361,6 +1373,42 @@
 
     }
   });
+    $(function () {
+    var counter = 0;
+    $(document).on("click", '.btn-edit-row', function () {
+      var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
+      var div = $("<tr />");
+      div.html(GetDynamicTextBox(id));
+      $("#"+id+"_tbody").append(div);
+    });
+    $(document).on("click", "#comments_remove", function () {
+      $(this).closest("tr").prev().find('td:last-child').html('<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button>');
+      $(this).closest("tr").remove();
+    });
+    function GetDynamicTextBox(table_id) {
+      $('#comments_remove').remove();
+      var ctr = counter++;
+      var editrowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0].getElementsByTagName("tr").length+1;
+      return '<td >'+editrowsLength+'</td>' + 
+            '<td>' +  '<div class="col-sm-12">' +
+              '<select class="form-control editleave" id="editleave' + editrowsLength + '" name="editleave' + editrowsLength + '" description="leave type">' +
+              '<option>No Selected</option>' + 
+                <?php foreach($data['leave'] as $leave) {   
+                  echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
+                } ?> 
+              '</select>' +  '<div class="invalid-feedback" id="edit-leave"></div></div>' +
+            '</td>' +
+            '<td> <div class="col-sm-12">' +
+             '<input type="text" name ="edittotalleave' + editrowsLength + '" id="edittotalleave' + editrowsLength + '" class="form-control edittotalleave" value = ""> <div class="invalid-feedback" id="edit-totalleave"></div></div></td>' + 
+             '<input type="hidden" name ="employee' + editrowsLength + '" id="employee' + editrowsLength + '" class="form-control employee" value = ""> <div class="invalid-feedback" id="edit-employee"></div></div>' + 
+
+          '<td>' + 
+          '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
+
+    }
+  });
+
+
 
   $("#sunrestdays").click(function(){
   var sunday = this.checked; 
@@ -1539,6 +1587,54 @@
       }
     });
 
+     //dropdown department ADD //
+  $('#addemployeetype').change(function(){
+    var employeetype =$(this).val();
+      if(employeetype==1){
+         $("#caution").show();
+         $("#addclient").prop("disabled", false);
+         $("#adddetachment").prop("disabled", false);
+
+      }else{
+        $("#caution").hide();
+        $("#addclient").prop("disabled", true);
+        $("#adddetachment").prop("disabled", true);
+      }
+
+  });
+     //dropdown department ADD //
+  $('#editemployeetype').change(function(){
+    var employeetype =$(this).val();
+      if(employeetype==1){
+         $("#editcaution").show();
+         $("#editclient").prop("disabled", false);
+         $("#editdetachment").prop("disabled", false);
+
+      }else{
+        $("#editcaution").hide();
+        $("#editclient").prop("disabled", true);
+        $("#editdetachment").prop("disabled", true);
+      }
+
+  });
+
+
+     //dropdown department ADD //
+  $('#editemployeetype').change(function(){
+    var employeetype =$(this).val();
+      if(employeetype==1){
+         $("#caution").show();
+         $("#addclient").prop("disabled", false);
+         $("#adddetachment").prop("disabled", false);
+
+      }else{
+        $("#caution").hide();
+        $("#addclient").prop("disabled", true);
+        $("#adddetachment").prop("disabled", true);
+      }
+
+  });
+
   //dropdown department ADD //
   $('#adddepartment').change(function(){ 
     var id=$(this).val();
@@ -1566,6 +1662,61 @@
 
   });
   // end of dropdown department//
+
+  //dropdown client ADD //
+  $('#addclient').change(function(){ 
+    var id=$(this).val();
+  
+    $.ajax({
+      url : "<?php echo site_url('Employees/get_client');?>",
+      method : "POST",
+      data : {id: id},
+      async : true,
+      dataType : 'json',
+      success: function(data){
+        var html = '';
+        var i;
+        for(i=0; i<data.length; i++){
+          if($("#adddetachment").val()==data[i].detachmentID){
+            html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+          }else{
+            html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+          }
+        }
+        $('#adddetachment').html(html);
+      }
+    });
+    return false;
+
+  });
+  // end of dropdown client//
+   //dropdown client edit //
+  $('#editclient').change(function(){ 
+    var id=$(this).val();
+  
+    $.ajax({
+      url : "<?php echo site_url('Employees/get_client');?>",
+      method : "POST",
+      data : {id: id},
+      async : true,
+      dataType : 'json',
+      success: function(data){
+        var html = '';
+        var i;
+        for(i=0; i<data.length; i++){
+          if($("#edithiddenDetachment").val()==data[i].detachmentID){
+            html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+          }else{
+            html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+          }
+        }
+        $('#editdetachment').html(html);
+      }
+    });
+    return false;
+
+  });
+  // end of dropdown client//
 
      //dropdown department edit //
    $('#editdepartment').change(function(){ 
@@ -1597,6 +1748,7 @@
         $(this).find('form')[0].reset();
         $(this).find('form')[1].reset();
         $(this).find('form')[2].reset();
+        $("#edittable_alterations_tbody").html("");
         $(".invalid-feedback").html("");
           $('input').removeClass('is-invalid');
           $('input').removeClass('is-valid');
@@ -1667,6 +1819,7 @@
       var city = $("#addcity").val();
       var citizenship = $("#addcitizenship").val();
       var middlename = $("#addmiddlename").val();
+      var basicsalary = $("#addbasicsalary").val();
 
     var IDArray = ['#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
                    '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
@@ -1693,87 +1846,28 @@
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
-      if(/^[a-zA-Z- ,_]*$/.test(firstname) == false){
-    document.getElementById(ErrorIDArray[0]).innerHTML = "Invalid input" ;
-    $(IDArray[0]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-     }else{
-     document.getElementById(ErrorIDArray[0]).innerHTML = "";
-      $(IDArray[0]).removeClass('is-invalid');
-      $(IDArray[0]).addClass('is-valid');
+    if($(IDArray[20]).val()=="0"){
+      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
+      $(IDArray[20]).addClass('is-invalid');
       event.preventDefault();
-  };
-  if(/^[a-zA-Z- ,_]*$/.test(lastname) == false){
-    document.getElementById(ErrorIDArray[2]).innerHTML = "Invalid input" ;
-    $(IDArray[2]).addClass('is-invalid');
-
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[2]).innerHTML = "";
-      $(IDArray[2]).removeClass('is-invalid');
-      $(IDArray[2]).addClass('is-valid');
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[20]).innerHTML = "";
+      $(IDArray[20]).removeClass('is-invalid');
+      $(IDArray[20]).addClass('is-valid');
       event.preventDefault();
-  };
-
-  if(/^[a-zA-Z0-9- ,_]*$/.test(streetname) == false){
-    document.getElementById(ErrorIDArray[5]).innerHTML = "Invalid input" ;
-    $(IDArray[5]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[5]).innerHTML = "";
-      $(IDArray[5]).removeClass('is-invalid');
-      $(IDArray[5]).addClass('is-valid');
+    };
+    if($(IDArray[21]).val()=="0"){
+      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
+      $(IDArray[21]).addClass('is-invalid');
       event.preventDefault();
-  };
-
-  if(/^[a-zA-Z0-9- ,_]*$/.test(barangay) == false){
-    document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
-    $(IDArray[6]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[6]).innerHTML = "";
-      $(IDArray[6]).removeClass('is-invalid');
-      $(IDArray[6]).addClass('is-valid');
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[21]).innerHTML = "";
+      $(IDArray[21]).removeClass('is-invalid');
+      $(IDArray[21]).addClass('is-valid');
       event.preventDefault();
-  };
-  if(/^[a-zA-Z0-9- ,_]*$/.test(city) == false){
-    document.getElementById(ErrorIDArray[7]).innerHTML = "Invalid input" ;
-    $(IDArray[7 ]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[7]).innerHTML = "";
-      $(IDArray[7]).removeClass('is-invalid');
-      $(IDArray[7]).addClass('is-valid');
-      event.preventDefault();
-  };
-
-  if(/^[a-zA-Z- ,_]*$/.test(citizenship) == false){
-    document.getElementById(ErrorIDArray[11]).innerHTML = "Invalid input" ;
-    $(IDArray[11]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[11]).innerHTML = "";
-      $(IDArray[11]).removeClass('is-invalid');
-      $(IDArray[11]).addClass('is-valid');
-      event.preventDefault();
-  };
-    if(/^[a-zA-Z- ,_]*$/.test(middlename) == false){
-    document.getElementById("add-middlename").innerHTML = "Invalid input" ;
-    $(IDArray[1]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById("add-middlename").innerHTML = "";
-      $(IDArray[1]).removeClass('is-invalid');
-      $(IDArray[1]).addClass('is-valid');
-      event.preventDefault();
-  };
+    };
   var phone = $("#addcontactinfo").val();
    if(phone.length<13){
      document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit " ;
@@ -1810,7 +1904,7 @@
         event.preventDefault();
       }
     }else{
-         if(i==1 || i==4 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==50 || i==51) continue;
+         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48  || i==50 || i==51) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -2066,7 +2160,6 @@
   /* end SAVE employee */
   $('.editemployee').unbind('click').bind('click', function(){
     $(".modal-body #editemployeetype").val($(this).data('employeetypeid'));
-     $(".modal-body #editclient").val($(this).data('clientid'));
     $(".modal-body #editfirstname").val($(this).data('firstname'));
     $(".modal-body #editrole").val( $(this).data('roleid'));
     $(".modal-body #editmiddlename").val( $(this).data('middlename'));
@@ -2085,6 +2178,9 @@
     $(".modal-body #editdepartment").trigger("change");
     $(".modal-body #edithiddenDesignation").val( $(this).data('designationid'));
     $(".modal-body #editdesignation").val( $(this).data('designationid'));
+    $(".modal-body #editclient").val($(this).data('clientid'));
+    $(".modal-body #editclient").trigger("change");
+    $(".modal-body #edithiddenDetachment").val( $(this).data('detachmentid'));
     $(".modal-body #editdetachment").val( $(this).data('detachmentid'));
     $(".modal-body #editstatus").val( $(this).data('employeestatus'));
     $(".modal-body #editusername").val( $(this).data('username'));
@@ -2210,6 +2306,29 @@
             }
       }
      });
+    var idleave = $(this).data('id');
+        $.ajax({
+              url : "<?php echo site_url('employees/leaverecord');?>",
+              method : "POST",
+              data : {idleave: idleave},
+              async : true,
+              dataType : 'json',
+              success: function(response){
+                var len ="";
+                var len = response.length;
+
+                  for(var i=0; i<len; i++){
+                      $(".btn-edit-row").trigger('click');
+                      var totalleave    =    response[i].totalleave;
+                      var leavetypeID   =    response[i].leavetypeID;
+                      var employeeID    =    response[i].employeeleavecreditID;
+                      $("#editleave" + (i+1)).val(leavetypeID);
+                      $("#edittotalleave" + (i+1)).val (totalleave);
+                      $("#employee" + (i+1)).val (employeeID);
+              } 
+            } 
+          });          
+
   });
   /* updated employee */
   $('.update').unbind('click').bind('click', function(){
@@ -2247,88 +2366,28 @@
       var city = $("#editcity").val();
       var citizenship = $("#editcitizenship").val();
       var middlename = $("#editmiddlename").val();
-
-      if(/^[a-zA-Z- ,_]*$/.test(firstname) == false){
-    document.getElementById(ErrorIDArray[0]).innerHTML = "Invalid input" ;
-    $(IDArray[0]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-     }else{
-     document.getElementById(ErrorIDArray[0]).innerHTML = "";
-      $(IDArray[0]).removeClass('is-invalid');
-      $(IDArray[0]).addClass('is-valid');
+      if($(IDArray[20]).val()=="0"){
+      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
+      $(IDArray[20]).addClass('is-invalid');
+                event.preventDefault();
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[20]).innerHTML = "";
+      $(IDArray[20]).removeClass('is-invalid');
+      $(IDArray[20]).addClass('is-valid');
       event.preventDefault();
-  };
-  if(/^[a-zA-Z- ,_]*$/.test(lastname) == false){
-    document.getElementById(ErrorIDArray[2]).innerHTML = "Invalid input" ;
-    $(IDArray[2]).addClass('is-invalid');
-
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[2]).innerHTML = "";
-      $(IDArray[2]).removeClass('is-invalid');
-      $(IDArray[2]).addClass('is-valid');
+    };
+    if($(IDArray[21]).val()=="0"){
+      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
+      $(IDArray[21]).addClass('is-invalid');
       event.preventDefault();
-  };
-
-  if(/^[a-zA-Z0-9- ,_]*$/.test(streetname) == false){
-    document.getElementById(ErrorIDArray[5]).innerHTML = "Invalid input" ;
-    $(IDArray[5]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[5]).innerHTML = "";
-      $(IDArray[5]).removeClass('is-invalid');
-      $(IDArray[5]).addClass('is-valid');
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[21]).innerHTML = "";
+      $(IDArray[21]).removeClass('is-invalid');
+      $(IDArray[21]).addClass('is-valid');
       event.preventDefault();
-  };
-
-  if(/^[a-zA-Z0-9- ,_]*$/.test(barangay) == false){
-    document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
-    $(IDArray[6]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[6]).innerHTML = "";
-      $(IDArray[6]).removeClass('is-invalid');
-      $(IDArray[6]).addClass('is-valid');
-      event.preventDefault();
-  };
-  if(/^[a-zA-Z0-9- ,_]*$/.test(city) == false){
-    document.getElementById(ErrorIDArray[7]).innerHTML = "Invalid input" ;
-    $(IDArray[7 ]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[7]).innerHTML = "";
-      $(IDArray[7]).removeClass('is-invalid');
-      $(IDArray[7]).addClass('is-valid');
-      event.preventDefault();
-  };
-
-  if(/^[a-zA-Z- ,_]*$/.test(citizenship) == false){
-    document.getElementById(ErrorIDArray[11]).innerHTML = "Invalid input" ;
-    $(IDArray[11]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById(ErrorIDArray[11]).innerHTML = "";
-      $(IDArray[11]).removeClass('is-invalid');
-      $(IDArray[11]).addClass('is-valid');
-      event.preventDefault();
-  };
-    if(/^[a-zA-Z- ,_]*$/.test(middlename) == false){
-    document.getElementById("edit-middlename").innerHTML = "Invalid input" ;
-    $(IDArray[1]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-  }else{
-     document.getElementById("edit-middlename").innerHTML = "";
-      $(IDArray[1]).removeClass('is-invalid');
-      $(IDArray[1]).addClass('is-valid');
-      event.preventDefault();
-  };
+    };
   var phone = $("#editcontactinfo").val();
    if(phone.length<13){
      document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit " ;
@@ -2364,7 +2423,7 @@
         event.preventDefault();
       }
        }else{
-         if(i==1 || i==4 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47) continue;
+         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -2401,6 +2460,18 @@
     });
   $('.edit').unbind('click').bind('click', function(){
         var id                =   $(this).attr('id');
+         var leave = [];
+         var employee = [];
+          $(".employee").each(function(){
+           employee.push($(this).val());
+        });
+        var totalleave = [];
+        $(".editleave").each(function(){
+           leave.push($(this).val());
+        });
+        $(".edittotalleave").each(function(){
+           totalleave.push($(this).val());
+        });
         var sunrestdays       =   $("#editsunrestdays").prop('checked')==true ? "1" : "0"; 
         var monrestday        =   $("#editmonrestdays").prop('checked')==true ? "1" : "0"; 
         var tuerestday        =   $("#edittuerestdays").prop('checked')==true ? "1" : "0"; 
@@ -2474,7 +2545,8 @@
                 fritimefrom:       fritimefrom,     fritimeto:        fritimeto,        frirestday:       frirestday,     
                 sattimefrom:       sattimefrom,     sattimeto:        sattimeto,        satrestday:       satrestday,      
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
-                backaccountnumber: backaccountnumber/*,leave:           leave,            totalleave:       totalleave*/},
+                backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
+                employee:     employee},
               async : true,
               dataType : 'json',
               success: function(data){

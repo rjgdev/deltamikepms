@@ -25,7 +25,7 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th>Leave #</th>
+								<th>Leave No</th>
 								<th>Employee</th>
 								<th>Leave Type</th>
 								<th>From</th>
@@ -93,22 +93,6 @@
 					<form>
 						<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Leave Type<code>*</code></label>
-							<select class="form-control" id="addleaveID" name="addleaveID" style="width: 100%;"description="leave type">
-								<option value="">No Selected</option>
-								<?php
-								foreach($data['leave'] as $item)
-								{
-								echo '<option value="'.$item->leavetypeID.'">'.$item->leavetypename.'</option>';
-								}
-								?>  
-							</select>
-							<div class="invalid-feedback" id="add-leave"></div>
-							</div>
-						</div> 
-
-						<div class="col-sm-12">
-							<div class="form-group">
 							<label for="description">Employee<code>*</code></label>
 							<select class="form-control" id="addemployeeID" name="addemployeeID" style="width: 100%;" description="employee name">
 								<option value="">No Selected</option>
@@ -121,14 +105,24 @@
 							</select>
 							<div class="invalid-feedback" id="add-employee"></div>
 							</div>
-						</div> 
+						</div>
 
+						<div class="col-sm-12">
+							<div class="form-group">
+							<label for="description">Leave Type<code>*</code></label>
+							<input type="hidden" id="hiddenaddleaveID" name="hiddenaddleaveID">
+							<select class="form-control" id="addleaveID" name="addleaveID" style="width: 100%;"description="leave type">
+								<option value="">No Selected</option>
+							</select>
+							<div class="invalid-feedback" id="add-leave"></div>
+							</div>
+						</div> 
 						<div class="col-sm-12">
 						<div class="form-group">
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="addfrom" name="addfrom" description="start date">
+								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="DD/MM/YYYY" description="start date">
 							</div>	
 							<div class="invalid-feedback" id="add-from"></div>	
 						</div>
@@ -137,7 +131,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="addto" name="addto" description="end date">
+								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="DD/MM/YYYY" description="end date">
 							</div>
 							<div class="invalid-feedback" id="add-to"></div>
 						</div>
@@ -160,7 +154,7 @@
 						<div class="col-sm-12">	
 						<div class="form-group">
 							<label>Leave Reason <span class="text-danger">*</span></label>
-							<input type="text" class="form-control"id="addreason"name="addreason" description="reason">
+							<input type="text" class="form-control alphanumericwithspace"id="addreason"name="addreason" description="reason">
 							<div class="invalid-feedback" id="add-reason"></div>
 						</div>
 						</div>
@@ -185,26 +179,10 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="col-sm-12">
-							<div class="form-group">
-							<label for="description">Leave Type<code>*</code></label>
-							<select class="form-control" id="editleaveID" name="editleaveID" style="width: 100%;"description="leave type">
-								<option value="">No Selected</option>
-								<?php
-								foreach($data['leave'] as $item)
-								{
-								echo '<option value="'.$item->leavetypeID.'">'.$item->leavetypename.'</option>';
-								}
-								?>  
-							</select>
-							<div class="invalid-feedback" id="edit-leave"></div>
-							</div>
-						</div> 
-
-						<div class="col-sm-12">
+							<div class="col-sm-12">
 							<div class="form-group">
 							<label for="description">Employee<code>*</code></label>
-							<select class="form-control" id="editemployeeID" name="editemployeeID" style="width: 100%;" description="employee name">
+							<select class="form-control" id="editemployee" name="editemployee" style="width: 100%;" description="employee name">
 								<option value="">No Selected</option>
 								<?php
 								foreach($data['employee'] as $item)
@@ -218,11 +196,20 @@
 						</div> 
 
 						<div class="col-sm-12">
+							<div class="form-group">
+							<label for="">Leave Type<code>*</code></label>
+							<input type="hidden" id="hiddeneditleaveID" name="hiddeneditleaveID">
+							<select class="form-control" id="editleaveID" name="editleaveID" style="width: 100%;"description="leave type">
+							</select>
+							<div class="invalid-feedback" id="edit-leave"></div>
+							</div>
+						</div> 
+						<div class="col-sm-12">
 						<div class="form-group">
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="editfrom" name="editfrom" description="start date">
+								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="DD/MM/YYYY" description="start date">
 							</div>	
 							<div class="invalid-feedback" id="edit-from"></div>	
 						</div>
@@ -231,7 +218,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="editto" name="editto" description="end date">
+								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="DD/MM/YYYY" description="end date">
 							</div>
 							<div class="invalid-feedback" id="edit-to"></div>
 						</div>
@@ -245,20 +232,21 @@
 						</div>
 						<div class="col-sm-12">	
 						<div class="form-group">
-							<input class="form-control"  name="editnumberofdaysnumber"id="editnumberofdaysnumber" type="hidden">
+							<input class="form-control "  name="editnumberofdaysnumber"id="editnumberofdaysnumber" type="hidden">
 						</div>
 						</div>
 							<div class="col-sm-12">	
 							<div class="form-group">
-								<label>Remaining Leaves</label>
+							<label>Remaining Leaves</label>
 							<input class="form-control" readonly="" id="editremainingleave" name="editremainingleave" description="remaining leave">
-							</div>
 							<div class="invalid-feedback" id="edit-remainingleave"></div>
+							</div>
+							
 							</div>				
 						<div class="col-sm-12">	
 						<div class="form-group">
 							<label>Leave Reason <span class="text-danger">*</span></label>
-							<input type="text" class="form-control"id="editreason"name="editreason" description="reason">
+							<input type="text" class="form-control alphanumericwithspace"id="editreason"name="editreason" description="reason">
 							<div class="invalid-feedback" id="edit-reason"></div>
 						</div>
 						</div>
@@ -380,6 +368,56 @@
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
   $(document).ready(function() {
+  	 $('#addemployeeID').change(function(){ 
+   	 var id=$(this).val();
+    $.ajax({
+      url : "<?php echo site_url('Leaves/get_employeeleave');?>",
+      method : "POST",
+      data : {id: id},
+      async : true,
+      dataType : 'json',
+      success: function(data){
+        var html = '';
+        var i;
+        for(i=0; i<data.length; i++){
+          if($("#addleaveID").val()==data[i].leavetypeID){
+            html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
+          }else{
+            html += '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+          }
+        }
+        $('#addleaveID').html(html);
+      }
+    });
+    return false;
+
+  });
+   $('#editemployee').change(function(){ 
+      var id=$(this).val();
+      $.ajax({
+          url : "<?php echo site_url('Leaves/get_employeeleave');?>",
+          method : "POST",
+          data : {id: id},
+          async : true,
+          dataType : 'json',
+          success: function(data){
+               
+              var html = '';
+              var i;
+              for(i=0; i<data.length; i++){
+              	console.log(data[i]);
+                if($("#hiddeneditleaveID").val()==data[i].leavetypeID){
+                  html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
+                }else{
+                  html += '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+                }
+              }
+              $('#editleaveID').html(html);
+          }
+      });
+      return false;
+    });
+  // end of dropdown EMPLOYEE//
 	$('#add_leave').on('hidden.bs.modal', function(){
 	    $(this).find('form')[0].reset();
 	    $(".invalid-feedback").html("");
@@ -404,7 +442,7 @@
 	});
 	$("#addemployeeID").change(function(){
 		var id = $(this).val(); 	
-	 	var leave = $("#addleaveID").val().trim();
+	 	var leave = $("#addleaveID").val();
 	 	if(leave!="") computeLeave(id,leave);
 	});	
 
@@ -482,13 +520,13 @@
    		 $("#editnumberofdays").val(days);
 	}
 	$("#editleaveID").change(function(){
-		var id 		= $("#addemployeeID").val().trim(); 
+		var id 		= $("#editemployee").val().trim(); 
 	 	var leave 	= $(this).val();
 	 	if(id!="") editcomputeLeave(id,leave);
 	});
-	$("#editemployeeID").change(function(){
+	$("#editemployee").change(function(){
 		var id 		= $(this).val(); 	
-	 	var leave 	= $("#addleaveID").val().trim();
+	 	var leave 	= $("#editleaveID").val();
 	 	if(leave!="") editcomputeLeave(id,leave);
 	});	
 
@@ -518,7 +556,7 @@
 		var firstRequired = "";
 		var navIndex = 0;
 		var reason = $("#addreason").val();
-		if(/^[a-zA-Z0-9,_]*$/.test(reason) == false){
+		if(/^[a-zA-Z0-9- ,_]*$/.test(reason) == false){
 			document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
 			$(IDArray[6]).addClass('is-invalid');
 
@@ -532,20 +570,20 @@
 		};
 
 		if($(IDArray[4]).val()=="0"){
-			document.getElementById(ErrorIDArray[4]).innerHTML = "Insufficient credit " + $(IDArray[4]).attr("description") +".";
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
 			$(IDArray[4]).addClass('is-invalid');
                 event.preventDefault();
 			return false;
 		}
 
 		if($(IDArray[5]).val()=="0"){
-			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient credit " + $(IDArray[5]).attr("description") +".";
+			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient  " + $(IDArray[5]).attr("description") +".";
 			$(IDArray[5]).addClass('is-invalid');
                 event.preventDefault();
 			return false;
 		}
 		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
-			document.getElementById("").innerHTML = "Insufficient " + $(IDArray[4]).attr("description") +".";
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Insufficient " + $(IDArray[4]).attr("description") +".";
 			$(IDArray[4]).addClass('is-invalid');
 			event.preventDefault();
 			return false;
@@ -628,8 +666,10 @@
 	  	});
 
 		$('.edit_leave').unbind('click').bind('click', function(){
+		$(".modal-body #hiddeneditleaveID").val( $(this).data('leavetypeid'));
 		$(".modal-body #editleaveID").val($(this).data('leavetypeid'));
-		$(".modal-body #editemployeeID").val($(this).data('employeeid'));
+		$(".modal-body #editemployee").val($(this).data('employeeid'));
+		$(".modal-body #editemployee").trigger("change");
 		$(".modal-body #editfrom").val($(this).data('leavefrom'));
 		$(".modal-body #editto").val($(this).data('leaveto'));
 		$(".modal-body #editnumberofdays").val($(this).data('numberofdays'));
@@ -641,13 +681,20 @@
      });
 		$('.update').unbind('click').bind('click', function(){
 		var id = $(this).attr('id');
-		var IDArray = ['#editleaveID', '#editemployeeID', '#editfrom', '#editto', '#editnumberofdays', '#editremainingleave', '#editreason'];
+		var IDArray = ['#editleaveID', '#editemployee', '#editfrom', '#editto', '#editnumberofdays', '#editremainingleave', '#editreason'];
 		var ErrorIDArray = ['edit-leave', 'edit-employee', 'edit-from', 'edit-to', 'edit-numberofdays', 'edit-remainingleave', 'edit-reason'];
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
 		var reason = $("#editreason").val();
-		if(/^[a-zA-Z0-9,_]*$/.test(reason) == false){
+		if($(IDArray[4]).val()=="0"){
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
+			$(IDArray[4]).addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		};
+
+		if(/^[a-zA-Z0-9- ,_]*$/.test(reason) == false){
 			document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
 			$(IDArray[6]).addClass('is-invalid');
 
@@ -659,7 +706,24 @@
 			$(IDArray[6]).addClass('is-valid');
 			event.preventDefault();
 		};
-
+		if($(IDArray[5]).val()=="0"){
+			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient  " + $(IDArray[5]).attr("description") +".";
+			$(IDArray[5]).addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		}else{
+			document.getElementById(ErrorIDArray[5]).innerHTML = "";
+			$(IDArray[5]).removeClass('is-invalid');
+			$(IDArray[5]).addClass('is-valid');
+			event.preventDefault();
+		};
+		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates";
+			$(IDArray[4]).addClass('is-invalid');
+			event.preventDefault();
+			return false;
+		}else{
+			
 		
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
@@ -685,7 +749,8 @@
 		$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 		event.preventDefault(); 
 		return false;
-		}		
+		}
+		}			
 	 });
 	$("#cncl-edit").unbind('click').bind('click', function(){
 			$('#confirmation_edit').modal('hide');
@@ -695,13 +760,12 @@
 	$('.edit').unbind('click').bind('click', function(){
 		var id 				= 	$(this).attr('id');
 		var leaveID 		= 	$('#editleaveID').val().trim();
-		var employeeID 		= 	$('#editemployeeID').val().trim();
+		var employeeID 		= 	$('#editemployee').val().trim();
 		var startdate 		= 	$('#editfrom').val().trim();
 		var enddate 		= 	$('#editto').val().trim();
 		var numberofdays 	= 	$('#editnumberofdays').val().trim();
 		var remainingleave 	= 	$('#editremainingleave').val().trim();
 		var reason 			= 	$('#editremainingleave').val().trim();
-
 		var originalvalue 	= 	$("#editnumberofdaysnumber").val();
 		var newvalue 		= 	$("#editnumberofdays").val();
 		var remainingLeaves = 	$("#editremainingleave").val()
@@ -726,12 +790,16 @@
 			}else{
 			var lessLeave1 	 =  	parseInt(newvalue,10) - parseInt(minusdays,10)  ;
 			var lessLeave 	 = 		parseInt(remainingLeaves,10) - parseInt(lessLeave1,10);
+
 			ifSuccess = true;
 			}
 		}else{
 		var lessLeave 		=  		parseInt(originalvalue,10);
+
 		ifSuccess = true;
 		}
+			/*var lessLeave = parseInt(originalvalue,10) - parseInt(newvalue,10)
+			alert(originalvalue + " " +  newvalue);*/
 		if(ifSuccess==true){
 		$.ajax({
 			url : "<?php echo site_url('Leaves/update');?>",
@@ -752,8 +820,8 @@
 			$('#edit-leave').addClass('invalid-feedback');
 			$("#editleaveID").focus();
 			document.getElementById("edit-employee").innerHTML = result[1];
-			$('#editemployeeID').removeClass('is-valid');
-			$('#editemployeeID').addClass('is-invalid');
+			$('#editemployee').removeClass('is-valid');
+			$('#editemployee').addClass('is-invalid');
 			$('#edit-employee').addClass('invalid-feedback');
 			}else{
 			window.location.replace('<?php echo base_url(); ?>leaves');
