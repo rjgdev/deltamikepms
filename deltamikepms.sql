@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2020 at 08:17 AM
+-- Generation Time: Jan 04, 2020 at 08:26 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -19,20 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `deltamikepms`
 --
-
-DELIMITER $$
---
--- Functions
---
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetEmployee` (`test` INT) RETURNS INT(11) BEGIN
-
-  DECLARE profit DECIMAL(9,2);
-  SET profit = price-cost;
-  RETURN profit;
-
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -1250,7 +1236,13 @@ ALTER TABLE `dm_designation`
 --
 ALTER TABLE `dm_detachment`
   ADD PRIMARY KEY (`detachmentID`);
-
+  
+--
+-- Indexes for table `dm_employeecreditleave`
+--
+ALTER TABLE `dm_employee`
+  ADD PRIMARY KEY (`employeeID`);
+  
 --
 -- Indexes for table `dm_employeecreditleave`
 --
@@ -1280,6 +1272,12 @@ ALTER TABLE `dm_holiday`
 --
 ALTER TABLE `dm_leavetype`
   ADD PRIMARY KEY (`leavetypeID`);
+
+--
+-- Indexes for table `dm_leavetype`
+--
+ALTER TABLE `dm_loan`
+  ADD PRIMARY KEY (`loanID`);
 
 --
 -- Indexes for table `dm_modulemstr`
