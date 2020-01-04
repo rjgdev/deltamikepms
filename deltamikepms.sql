@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2020 at 07:40 AM
+-- Generation Time: Jan 04, 2020 at 08:17 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -337,7 +337,7 @@ INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, 
 (4, 'Shinra', '', 'Kusakabe', 'Male', '666', 'Station 8', 'Shinkai', 'Tokyo', '20/12/1998', '0966-623-4567', 'Single', 'Japanese', '23/09/2015', 1, '1', 1, 17, 0, 'ffgenki', 'password1234', ' 12,223.0000', ' 214.0000', ' 322.0000', 'BDO', '2343211', '', '12-31', '13-214325365-4', '3243-5436-5442', 'Active', 2, '4.png', 1, '2019-12-20 07:50:01.399405'),
 (5, 'Curry Venti', 'The Cruise', 'Regionals', 'Female', '2811', 'Cup Point', 'Fashion Hall', 'Old Town Road', '2019-12-25', '3456-789-0987', 'Married', 'Italian', '2020-01-01', 1, '1', 1, 2, 0, 'currytheeggshell', 'nothingcanstopusnow', ' 1,321,324.0000', ' 1,232.0000', ' 21,422.0000', 'Curry Venti Regionas', '28201911155', '', '34-5654345-6', '45-654334567-6', '6534-5677-6543', 'Active', 2, '', 2, '2019-12-23 03:58:25.632917'),
 (6, 'as asd', 'as fs', 'saf ', 'Male', 'asr3', 'sadsfsd', 'asdsad', 'asdsf a', '2019-12-25', '1234-567-7654', 'Single', 'Japanese', '2019-12-26', 1, '2', 2, 0, 0, '<b>j.doe</b>', 'qwerty', ' 12,321.0000', ' 234.0000', ' 2,112.0000', 'test account', '12421423', '123-546', '42-11234', '54-678645', '4323-456', 'Terminated', 1, '', 1, '2019-12-23 06:11:05.731548'),
-(7, 'asdasd', 'asdq', 'sadrfsd', 'Male', '322', 'qe2 fd', 'd 3221f', '3 rwsdg', '02/01/2021', '2332-423-4354', 'Single', 'regg', '07/10/2019', 1, '2', 2, 2, 0, '', '', ' 231.0000', ' 54,633.0000', ' 2,142.0000', '35 rgff', '556354232', '678-765-476', '67-4675456-5', '56-546754676-5', '5676-5675-6765', 'Terminated', 1, '', 1, '2020-01-02 03:32:04.769082');
+(7, 'asdasd', 'asdq', 'sadrfsd', 'Male', '322', 'qe2 fd', 'd 3221f', '3 rwsdg', '02/01/2021', '2332-423-4354', 'Single', 'regg', '07/10/2019', 1, '2', 2, 2, 0, '', '', ' 231.0000', ' 54,633.0000', ' 2,142.0000', '35 rgff', '556354232', '678-765-476', '67-4675456-5', '56-546754676-5', '5676-5675-6765', 'Resigned', 1, '', 1, '2020-01-02 03:32:04.769082');
 
 -- --------------------------------------------------------
 
@@ -1352,25 +1352,95 @@ ALTER TABLE `dm_timesheet`
 --
 
 --
+-- AUTO_INCREMENT for table `dm_approval`
+--
+ALTER TABLE `dm_approval`
+  MODIFY `approvalID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+--
+-- AUTO_INCREMENT for table `dm_approvaldet`
+--
+ALTER TABLE `dm_approvaldet`
+  MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+--
+-- AUTO_INCREMENT for table `dm_approvalmodule`
+--
+ALTER TABLE `dm_approvalmodule`
+  MODIFY `approvalmoduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT for table `dm_bank`
 --
 ALTER TABLE `dm_bank`
   MODIFY `bankID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `dm_client`
+--
+ALTER TABLE `dm_client`
+  MODIFY `clientID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `dm_company`
 --
 ALTER TABLE `dm_company`
   MODIFY `companyID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `dm_department`
+--
+ALTER TABLE `dm_department`
+  MODIFY `departmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `dm_designation`
+--
+ALTER TABLE `dm_designation`
+  MODIFY `designationID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `dm_detachment`
+--
+ALTER TABLE `dm_detachment`
+  MODIFY `detachmentID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT for table `dm_employee`
 --
 ALTER TABLE `dm_employee`
   MODIFY `employeeID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `dm_employeecreditleave`
+--
+ALTER TABLE `dm_employeecreditleave`
+  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+--
+-- AUTO_INCREMENT for table `dm_employeeleave`
+--
+ALTER TABLE `dm_employeeleave`
+  MODIFY `employeeleaveID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+--
+-- AUTO_INCREMENT for table `dm_employeetype`
+--
+ALTER TABLE `dm_employeetype`
+  MODIFY `employeetypeID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `dm_holiday`
 --
 ALTER TABLE `dm_holiday`
   MODIFY `holidayID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT for table `dm_leavetype`
+--
+ALTER TABLE `dm_leavetype`
+  MODIFY `leavetypeID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `dm_loan`
+--
+ALTER TABLE `dm_loan`
+  MODIFY `loanID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dm_modulemstr`
+--
+ALTER TABLE `dm_modulemstr`
+  MODIFY `moduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+--
+-- AUTO_INCREMENT for table `dm_overtime`
+--
+ALTER TABLE `dm_overtime`
+  MODIFY `overtimeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `dm_payroll`
 --
@@ -1382,10 +1452,35 @@ ALTER TABLE `dm_payroll`
 ALTER TABLE `dm_payrolldetails`
   MODIFY `payrolldetailsID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `dm_philhealthtable`
+--
+ALTER TABLE `dm_philhealthtable`
+  MODIFY `philhealthID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT for table `dm_rolemodule`
+--
+ALTER TABLE `dm_rolemodule`
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+--
+-- AUTO_INCREMENT for table `dm_rolemstr`
+--
+ALTER TABLE `dm_rolemstr`
+  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
 -- AUTO_INCREMENT for table `dm_schedule`
 --
 ALTER TABLE `dm_schedule`
   MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dm_ssstable`
+--
+ALTER TABLE `dm_ssstable`
+  MODIFY `sssID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT for table `dm_taxtable`
+--
+ALTER TABLE `dm_taxtable`
+  MODIFY `taxID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `dm_timesheet`
 --
