@@ -80,11 +80,11 @@
 							<a href="#" class="payroll-header"><i class="fa fa-money"></i> <span>Payroll</span><span class="menu-arrow"></a>
 							<ul style="display: none;" class="menu-header" id="payroll-header">
 								<?php if($permission[9]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Process</a></li>
+									<li><a href="<?php echo base_url(); ?>payroll">Payroll Process</a></li>
 								<?php } if($permission[10]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Adjustment</a></li>
 								<?php } if($permission[11]){ ?>
-									<li><a href="<?php echo base_url(); ?>payroll/payslip">Generate Payslip</a></li>
+									<li><a href="<?php echo base_url(); ?>maintenance">Generate Payslip</a></li>
 								<?php } if($permission[12]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Report</a></li>
 								<?php } if($permission[13]){ ?>

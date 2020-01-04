@@ -23,7 +23,7 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
@@ -78,7 +78,7 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
+			</div>
 			</div>
 		</div>
     </div>
@@ -143,7 +143,7 @@
 						</div>
 						<div class="form-group">
 							<label>Department <span class="text-danger">*</span></label>
-							<select class="form-control select2" name="departmentID" id="editdepartmentID" style="width: 100%;">
+							<select class="form-control" name="departmentID" id="editdepartmentID" style="width: 100%;">
 								<option value="">Select Department</option>
 								<?php
 								foreach($data['department'] as $department)
@@ -289,8 +289,7 @@
 		/* EDIT BUTTON - PASS DATA TO MODAL */
 		$(document).on("click", ".editdesignation", function(){
 			$(".modal-body #editdesignationdescription").val( $(this).data('designationdescription') );
-			$(".modal-body #editdepartmentID").find( $(this).data('department') ).text();
-            $(".modal-body #editdepartmentID").val( $(this).data('department') );
+			$(".modal-body #editdepartmentID").val( $(this).data('department') );
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 

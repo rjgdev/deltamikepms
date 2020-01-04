@@ -23,11 +23,11 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 50px;">ID No.</th>
+								<th style="width: 30px;">ID No.</th>
 								<th style="width: 220px ! important;">Client Name</th>
 								<th style="width: 220px ! important;">Contact Person</th>
 								<th style="width: 170px ! important;">Contact No.</th>
@@ -94,8 +94,8 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
 			</div>
+		</div>
 		</div>
     </div>
 	<!-- /Page Content -->
@@ -120,7 +120,7 @@
 							</div>
 							<div class="form-group col-sm-6">
 								<label>Description </label>
-								<input class="form-control restrictspecchar" type="text" id="description">
+								<input class="form-control letterswithdotandcomma" type="text" id="description">
 								<div class="invalid-feedback" id="add-description"></div>
 							</div>
 							<div class="form-group col-sm-6">
@@ -194,7 +194,7 @@
 							</div>
 							<div class="form-group col-sm-6">
 								<label>Description </label>
-								<input class="form-control restrictspecchar" type="text" id="editdescription">
+								<input class="form-control letterswithdotandcomma" type="text" id="editdescription">
 								<div class="invalid-feedback" id="edit-description"></div>
 							</div>
 							<div class="form-group col-sm-6">

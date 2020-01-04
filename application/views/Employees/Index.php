@@ -67,11 +67,11 @@
     <?php if($item->employeestatus=="Active") 
     echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
     elseif($item->employeestatus=="Terminated")
-    echo '<i class="fa fa-dot-circle-o"></i> Terminated';
+    echo '<i class="fa fa-dot-circle-o text-danger"></i> Terminated';
     elseif($item->employeestatus=="Resigned")
-    echo '<i class="fa fa-dot-circle-o text-danger"></i> Resigned';
+    echo '<i class="fa fa-dot-circle-o text-purple"></i> Resigned';
     elseif($item->employeestatus=="End of Contract")
-    echo '<i class="fa fa-dot-circle-o text-purple"></i> End of Contract';
+    echo '<i class="fa fa-dot-circle-o text-danger"></i> End of Contract';
     ?>
     </a> 
     </div>
@@ -324,7 +324,7 @@
   <label for="addstatus">Status <span class="text-danger">*</span></label>
   <select class="form-control" name="addstatus" id="addstatus" description="status" required>
   <option value="">No Selected</option>
-  <option></option>
+   <option>Active</option>
   <option>Terminated</option>
   <option>End of Contract</option>
   <option>Resigned</option>
@@ -360,7 +360,7 @@
                        </div>
 
                           <div class="form-group">
-                          <label for="1addusername">Username <span class="text-danger">*</span></label>
+                          <label for="1addusername">Username <span id="lblusername" name="lblusername" class="text-danger">*</span></label>
                           <div class="input-group">
                             <div class="input-group-prepend bg-transparent">
                       <span class="input-group-text bg-transparent border-right-0">
@@ -370,7 +370,7 @@
                             <input type="text" class="form-control input alphanumericwithspace" id="addusername" name="addusername" autocomplete="off" description="username" required>
                             <div class="invalid-feedback" id="add-username"></div>
                             </div>
-                          <label for="addpassword">Password <span class="text-danger">*</span></label>
+                          <label for="addpassword">Password <span id="lblpassword" name="lblpassword" class="text-danger">*</span></label>
                           <div class="input-group">
                               <div class="input-group-prepend bg-transparent">
                         <span class="input-group-text bg-transparent border-right-0">
@@ -496,161 +496,64 @@
 
                       <div class="tab-pane" id="bottom-justified-tab5">
                        <form class="forms-group"> 
-                         <div class="card">
-                         <div class="card-body">
-                    <ul class="nav nav-tabs nav-tabs-solid">
-                      <li class="nav-item"><a class="nav-link active" href="#solid-sunday" data-toggle="tab">Sunday</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#solid-monday" data-toggle="tab">Monday</a></li>
-                      <li class="nav-item"><a class="nav-link" href="#solid-tuesday" data-toggle="tab">Tuesday</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#solid-wednesday" data-toggle="tab">Wednesday</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#solid-thursday" data-toggle="tab">Thursday</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#solid-friday" data-toggle="tab">Friday</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#solid-saturday" data-toggle="tab">Saturday</a></li>
-                    </ul>
-                    <div class="tab-content">
-                      <div class="tab-pane show active" id="solid-sunday">
-                        <div class="row">
-                            <div class="col">
-                           <input type="time" name="addsuntimefrom" id="addsuntimefrom" class="form-control input" description="start time"/>
-                             <div class="invalid-feedback" id="add-suntimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addsuntimeto" id="addsuntimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-suntimetocheck" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input checkbox" type="checkbox" id="sunrestdays" name="sunrestdays"  required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
-                      </div>
-                      <div class="tab-pane" id="solid-monday">
-                            <div class="row">
-                            <div class="col">
-                           <input type="time" name="addmontimefrom" id="addmontimefrom" class="form-control input" description="start time"/>
-                             <div class="invalid-feedback" id="add-montimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addmontimeto" id="addmontimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-montimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input checkbox" type="checkbox" value="1" id="monrestdays" name="monrestdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
-                      </div>
-                      <div class="tab-pane" id="solid-tuesday">
+<!--                          <div class="card">
+                         <div class="card-body"> -->
                           <div class="row">
-                            <div class="col">
-                           <input type="time" name="addtuetimefrom " id="addtuetimefrom" class="form-control input" description="start time"/>
-                             <div class="invalid-feedback" id="add-tuetimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addtuetimeto" id="addtuetimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-tuetimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input checkbox" type="checkbox" value="1" id="tuerestdays" name="tuerestdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
+                            <div class="col-sm-3">
+                            <div class="form-group">
+                          <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="add_Monday" class="addremoveLater" type="checkbox" value="1" />Monday
+                        </div>
                       </div>
-                       <div class="tab-pane" id="solid-wednesday">
-                        <div class="row">
-                            <div class="col">
-                           <input type="time" name="addwedtimefrom" id="addwedtimefrom" class="form-control input" description="start time"/>
-                             <div class="invalid-feedback" id="add-wedtimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addwedtimeto" id="addwedtimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-wedtimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input checkbox" type="checkbox" value="1" id="wedrestdays" name="wedrestdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
+                       </div>
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="add_Tuesday" class="addremoveLater" type="checkbox" value="2" />Tuesday
+                        
+                        </div>
                       </div>
-                       <div class="tab-pane" id="solid-thursday">
-                        <div class="row">
-                            <div class="col">
-                           <input type="time" name="addthtimefrom" id="addthtimefrom" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-thtimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addthtimeto" id="addthtimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-thtimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="threstdays" name="threstdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
                       </div>
-                        <div class="tab-pane" id="solid-friday">
-                        <div class="row">
-                            <div class="col">
-                           <input type="time" name="addfritimefrom" id="addfritimefrom" class="form-control input"  description="start time"/>
-                             <div class="invalid-feedback" id="add-fritimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addfritimeto" id="addfritimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-fritimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="frirestdays" name="frirestdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
+                      <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="add_Wednesday" class="addremoveLater" type="checkbox" value="3" />Wednesday
+                         
+                        </div>
                       </div>
-                        <div class="tab-pane" id="solid-saturday">
-                        <div class="row">
-                            <div class="col">
-                           <input type="time" name="addsattimefrom" id="addsattimefrom" class="form-control input"  description="start time"/>
-                             <div class="invalid-feedback" id="add-sattimefrom"></div>
-                           </div>
-                            <div class="col form-group">  
-                           <input type="time" name="addsattimetimeto" id="addsattimetimeto" class="form-control input" description="end time"/>
-                             <div class="invalid-feedback" id="add-sattimetimeto" ></div>
-                            </div>
-                          </div> 
-                          <div class="form-group">  
-                            <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="satrestdays" name="satrestdays" required="">
-                            <label class="form-check-label" for="invalidCheck2">
-                              Rest Day
-                            </label>
-                          </div>
-                           </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
+                      <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="add_Thursday" class="addremoveLater" type="checkbox" value="4" />Thursday
+                         
+                        </div>
+                      </div>
+                      </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="add_Friday" class="addremoveLater" type="checkbox" value="5" />Friday
+                          
+                        </div>
+                      </div>
+                      </div>
+                       <div class="col-sm-4">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="add_Saturday" class="addremoveLater" type="checkbox" value="6" />Saturday
+                          
+                        </div>
+                      </div>
+                      </div>
+                       <div class="col-sm-4">
+                           <input name="selector[]" id="add_Sunday" class="addremoveLater" type="checkbox" value="0" />Sunday
+                        </div>
+                      </div>
+                       <label for="caution"style="color:#ff0000;"  id="addcautionrestday"name="addcautionrestday">Check for restday</label>
+                      </div>
+                     
+                 
               </form>
               </div> 
 
@@ -890,7 +793,7 @@
           </div>
       </div>  
       <div class="form-group">
-        <label for="editusername">Username <span class="text-danger">*</span></label>
+        <label for="editusername">Username <span id="lbleditusername" name="lbleditusername" class="text-danger">*</span></label>
         <div class="input-group">
           <div class="input-group-prepend bg-transparent">
           <span class="input-group-text bg-transparent border-right-0">
@@ -899,7 +802,7 @@
           <input type="text" class="form-control input alphanumericwithspace" id="editusername" name="editusername" autocomplete="off" description="username" required>
           <div class="invalid-feedback" id="edit-username"></div>
         </div>
-        <label for="editpassword">Password <span class="text-danger">*</span></label>
+        <label for="editpassword">Password <span id="lbleditpassword" name="lbleditpassword" class="text-danger">*</span></label>
         <div class="input-group">
           <div class="input-group-prepend bg-transparent">
             <span class="input-group-text bg-transparent border-right-0">
@@ -1024,185 +927,72 @@
 
                   <div class="tab-pane" id="bottom-justified-editschedule">
                    <form class="forms-group"> 
-                     <div class="card">
-                     <div class="card-body">
-                <ul class="nav nav-tabs nav-tabs-solid">
-                  <li class="nav-item"><a class="nav-link active" href="#solid-editsunday" data-toggle="tab">Sunday</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#solid-editmonday" data-toggle="tab">Monday</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#solid-edittuesday" data-toggle="tab">Tuesday</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#solid-editwednesday" data-toggle="tab">Wednesday</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#solid-editthursday" data-toggle="tab">Thursday</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#solid-editfriday" data-toggle="tab">Friday</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#solid-editsaturday" data-toggle="tab">Saturday</a></li>
-                </ul>
-                <div class="tab-content">
-                  <div class="tab-pane show active" id="solid-editsunday">
-                    <div class="row">
-                        <div class="col">
-                        <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editsuntimefrom" id="editsuntimefrom" class="form-control input" description="start time"/>
-                       <div class="invalid-feedback" id="edit-suntimefrom"></div>
-                       </div>
-                        <div class="col form-group">  
-                           <label for="civilstatus">End Time</label>
-                       <input type="time" name="editsuntimeto" id="editsuntimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-suntimetocheck" ></div>
+                     <div class="row">
+                            <div class="col-sm-3">
+                            <div class="form-group">
+                          <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="edit_Monday" class="editremoveLater" type="checkbox" value="1" />Monday
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input checkbox" type="checkbox" id="editsunrestdays" name="editsunrestdays"  required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
                        </div>
-                  </div>
-                  <div class="tab-pane" id="solid-editmonday">
-                        <div class="row">
-                        <div class="col">
-                        <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editmontimefrom" id="editmontimefrom" class="form-control input" description="start time"/>
-                         <div class="invalid-feedback" id="edit-montimefrom"></div>
-                       </div>
-                        <div class="col form-group">
-                         <label for="civilstatus">End Time</label>  
-                       <input type="time" name="editmontimeto" id="editmontimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-montimeto" ></div>
+                         <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="edit_Tuesday" class="editremoveLater" type="checkbox" value="2" />Tuesday
+                        
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input checkbox" type="checkbox" value="1" id="editmonrestdays" name="editmonrestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
-                  </div>
-                  <div class="tab-pane" id="solid-edittuesday">
-                      <div class="row">
-                        <div class="col">
-                           <label for="civilstatus">Start Time</label>
-                       <input type="time" name="edittuetimefrom " id="edittuetimefrom" class="form-control input" description="start time"/>
-                         <div class="invalid-feedback" id="edit-tuetimefrom"></div>
-                       </div>
-                        <div class="col form-group">  
-                        <label for="civilstatus">End Time</label>
-                       <input type="time" name="edittuetimeto" id="edittuetimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-tuetimeto" ></div>
+                      </div>
+                      <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="edit_Wednesday" class="editremoveLater" type="checkbox" value="3" />Wednesday
+                         
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input checkbox" type="checkbox" value="1" id="edittuerestdays" name="edittuerestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
-                  </div>
-                   <div class="tab-pane" id="solid-editwednesday">
-                    <div class="row">
-                        <div class="col">
-                           <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editwedtimefrom" id="editwedtimefrom" class="form-control input" description="start time"/>
-                         <div class="invalid-feedback" id="edit-wedtimefrom"></div>
-                       </div>
-                        <div class="col form-group">  
-                           <label for="civilstatus">End Time</label>
-                       <input type="time" name="editwedtimeto" id="editwedtimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-wedtimeto" ></div>
+                      </div>
+                      <div class="col-sm-3">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="edit_Thursday" class="editremoveLater" type="checkbox" value="4" />Thursday
+                         
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input checkbox" type="checkbox" value="1" id="editwedrestdays" name="editwedrestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
-                  </div>
-                   <div class="tab-pane" id="solid-editthursday">
-                    <div class="row">
-                        <div class="col">
-                           <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editthtimefrom" id="editthtimefrom" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-thtimefrom"></div>
-                       </div>
-                        <div class="col form-group">  
-                           <label for="civilstatus">End Time</label>
-                       <input type="time" name="editthtimeto" id="editthtimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-thtimeto" ></div>
+                      </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                           <input name="selector[]" id="edit_Friday" class="editremoveLater" type="checkbox" value="5" />Friday
+                          
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="editthrestdays" name="editthrestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
-                  </div>
-                    <div class="tab-pane" id="solid-editfriday">
-                    <div class="row">
-                        <div class="col">
-                        <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editfritimefrom" id="editfritimefrom" class="form-control input"  description="start time"/>
-                         <div class="invalid-feedback" id="edit-fritimefrom"></div>
-                       </div>
-                        <div class="col form-group"> 
-                         <label for="civilstatus">End Time</label> 
-                       <input type="time" name="editfritimeto" id="editfritimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-fritimeto" ></div>
+                      </div>
+                       <div class="col-sm-4">
+                            <div class="form-group">
+                         <div class="custom-control custom-checkbox mb-1">
+                          <input name="selector[]" id="edit_Saturday" class="editremoveLater" type="checkbox" value="6" />Saturday
+                          
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="editfrirestdays" name="editfrirestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
-                  </div>
-                    <div class="tab-pane" id="solid-editsaturday">
-                    <div class="row">
-                        <div class="col">
-                           <label for="civilstatus">Start Time</label>
-                       <input type="time" name="editsattimefrom" id="editsattimefrom" class="form-control input"  description="start time"/>
-                         <div class="invalid-feedback" id="edit-sattimefrom"></div>
-                       </div>
-                        <div class="col form-group"> 
-                         <label for="civilstatus">End Time</label> 
-                       <input type="time" name="editsattimetimeto" id="editsattimetimeto" class="form-control input" description="end time"/>
-                         <div class="invalid-feedback" id="edit-sattimetimeto" ></div>
+                      </div>
+                       <div class="col-sm-4">
+                           <input name="selector[]" id="edit_Sunday" class="editremoveLater" type="checkbox" value="0" />Sunday
                         </div>
-                      </div> 
-                      <div class="form-group">  
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="1" id="editsatrestdays" name="editsatrestdays" required="">
-                        <label class="form-check-label" for="invalidCheck2">
-                          Rest Day
-                        </label>
                       </div>
-                       </div>
+                       <label for="caution"style="color:#ff0000;"  id="addcautionrestday"name="addcautionrestday">Check for restday</label>
+                      </div>
+                    </form>
+                    </div>  
                   </div>
-                </div>
-              </div>
-            </div>
-          </form>
-          </div>  
-        </div>
                     </div>    
-                  </div>
+                 
                  <div class="submit-section">
               <button class="btn btn-primary submit-btn update">Update</button>
         </div>
+         </div>
                 </div>
                 </div>
+
              
         </div>
       </div>
@@ -1248,16 +1038,8 @@
       <div class="modal-body">
         <div class="form-header">
           <h3>Change Status</h3>
-           <div class="col-sm-12">
+          <div class="col-sm-12">
                 <div class="dropdown">
-
-                <!-- <a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown" aria-expanded="false" name="changestatus" id="changestatus" description="status">Web Developer </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
-                  <a class="dropdown-item" href="#">Terminated</a>
-                  <a class="dropdown-item" href="#">End of Contract</a>
-                  <a class="dropdown-item" href="#">Resigned</a>
-                </div> -->
               <p>Are you sure you want to
                   <select class="selectstatus" name="changestatus" id="changestatus" description="status">
                       <option value="Active"> Activate</option>
@@ -1268,7 +1050,7 @@
                 this record?</p>
               </div>
                 </p>
-            </div>
+            </div>    
           <div class="invalid-feedback" id="status-invalid"></div>
         </div>
         <div class="modal-btn delete-action">
@@ -1340,7 +1122,7 @@
 ?>
 <!-- /Page Wrapper -->
 <script  type="text/javascript"> 
-
+var restdayid =[];
   $(function () {
     var counter = 0;
     $(document).on("click", '.btn-add-row', function () {
@@ -1408,108 +1190,6 @@
     }
   });
 
-
-
-  $("#sunrestdays").click(function(){
-  var sunday = this.checked; 
-  if(!sunday){
-    $("#addsuntimefrom").prop("hidden", false);
-    $("#addsuntimeto").prop("hidden", false);
-    $("#addsuntimefrom").prop("text", true);
-    $("#addsuntimefrom").val('');
-    $("#addsuntimeto").val('');
-  }else{
-    $("#addsuntimefrom").prop("hidden", true);
-    $("#addsuntimeto").prop("hidden", true); 
-    $("#addsuntimefrom").prop("text", true);
-    $("#addsuntimefrom").val('00:00');
-    $("#addsuntimeto").val('00:00');
-  }
-  });
-  $("#monrestdays").change(function(){
-  var monday = this.checked; 
-  if(!monday){
-    $("#addmontimefrom").prop("hidden", false);
-    $("#addmontimeto").prop("hidden", false);
-    $("#addmontimefrom").val('');
-    $("#addmontimeto").val('');
-  }else{
-    $("#addmontimefrom").prop("hidden", true);
-    $("#addmontimeto").prop("hidden", true); 
-    $("#addmontimefrom").val('00:00');
-    $("#addmontimeto").val('00:00');
-  }
-  });
-  $("#tuerestdays").change(function(){
-  var tuesday = this.checked; 
-  if(!tuesday){
-    $("#addtuetimefrom").prop("hidden", false);
-    $("#addtuetimeto").prop("hidden", false);
-    $("#addtuetimefrom").val('');
-    $("#addtuetimeto").val('');
-  }else{
-    $("#addtuetimefrom").prop("hidden", true);
-    $("#addtuetimeto").prop("hidden", true); 
-    $("#addtuetimefrom").val('00:00');
-    $("#addtuetimeto").val('00:00');
-  }
-  });
-  $("#wedrestdays").change(function(){
-  var wednesday = this.checked; 
-  if(!wednesday){
-    $("#addwedtimefrom").prop("hidden", false);
-    $("#addwedtimeto").prop("hidden", false);
-    $("#addwedtimefrom").val('');
-    $("#addwedtimeto").val('');
-  }else{
-    $("#addwedtimefrom").prop("hidden", true);
-    $("#addwedtimeto").prop("hidden", true); 
-    $("#addwedtimefrom").val('00:00');
-    $("#addwedtimeto").val('00:00');
-  }
-  });
-  $("#threstdays").change(function(){
-  var thursday = this.checked; 
-  if(!thursday){
-    $("#addthtimefrom").prop("hidden", false);
-    $("#addthtimeto").prop("hidden", false);
-    $("#addthtimefrom").val('');
-    $("#addthtimeto").val('');
-  }else{
-    $("#addthtimefrom").prop("hidden", true);
-    $("#addthtimeto").prop("hidden", true); 
-    $("#addthtimefrom").val('00:00');
-    $("#addthtimeto").val('00:00');
-  }
-});
-  $("#frirestdays").change(function(){
-  var friday = this.checked; 
-  if(!friday){
-    $("#addfritimefrom").prop("hidden", false);
-    $("#addfritimeto").prop("hidden", false);
-    $("#addfritimefrom").val('');
-    $("#addfritimeto").val('');
-  }else{
-  $("#addfritimefrom").prop("hidden", true);
-    $("#addfritimeto").prop("hidden", true); 
-    $("#addfritimefrom").val('00:00');
-    $("#addfritimeto").val('00:00');
-  }
-  });
-  $("#satrestdays").change(function(){
-  var sat = this.checked; 
-  if(!sat){
-    $("#addsattimefrom").prop("hidden", false);
-    $("#addsattimetimeto").prop("hidden", false);
-    $("#addsattimefrom").val('');
-    $("#addsattimetimeto").val('');
-  }else{
-  $("#addsattimefrom").prop("hidden", true);
-    $("#addsattimetimeto").prop("hidden", true); 
-    $("#addsattimefrom").val('00:00');
-    $("#addsattimetimeto").val('00:00');
-  }
-  });
   $('#employeetype').on('change', function() {
      if ( this.value == '1')
       {
@@ -1527,7 +1207,6 @@
          $("#addpassword").prop("disabled", false);
       }
     });
-
 
   $(document).ready(function(){
   $('#addcontactinfo').mask('0000-000-0000');
@@ -1592,11 +1271,15 @@
     var employeetype =$(this).val();
       if(employeetype==1){
          $("#caution").show();
+         $("#lblusername").hide();
+         $("#lblpassword").hide();
          $("#addclient").prop("disabled", false);
          $("#adddetachment").prop("disabled", false);
 
       }else{
         $("#caution").hide();
+         $("#lblusername").show();
+         $("#lblpassword").show();
         $("#addclient").prop("disabled", true);
         $("#adddetachment").prop("disabled", true);
       }
@@ -1607,11 +1290,15 @@
     var employeetype =$(this).val();
       if(employeetype==1){
          $("#editcaution").show();
-         $("#editclient").prop("disabled", false);
+         $("#lbleditusername").hide();
+         $("#lbleditpassword").hide();
+         $("#editclient").prop("disabled", false);lbleditusername
          $("#editdetachment").prop("disabled", false);
 
       }else{
         $("#editcaution").hide();
+        $("#lbleditusername").show();
+        $("#lbleditpassword").show();
         $("#editclient").prop("disabled", true);
         $("#editdetachment").prop("disabled", true);
       }
@@ -1748,12 +1435,16 @@
         $(this).find('form')[0].reset();
         $(this).find('form')[1].reset();
         $(this).find('form')[2].reset();
+         $(this).find('form')[3].reset();
+
         $("#edittable_alterations_tbody").html("");
         $(".invalid-feedback").html("");
           $('input').removeClass('is-invalid');
           $('input').removeClass('is-valid');
           $('select').removeClass('is-invalid');
           $('select').removeClass('is-valid');
+          $('checkbox').removeClass('is-invalid');
+          $('checkbox').removeClass('is-valid');
           
     });
 
@@ -1819,18 +1510,14 @@
       var city = $("#addcity").val();
       var citizenship = $("#addcitizenship").val();
       var middlename = $("#addmiddlename").val();
-      var basicsalary = $("#addbasicsalary").val();
+    
 
     var IDArray = ['#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
                    '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
                    '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
                    '#adddetachment', '#addstatus', '#addrole', '#addusername', '#addpassword', 
                    '#addbasicsalary', '#adddailyrate', '#addallowance', '#addtinnumber', '#addsssnumber',
-                   '#addphilhealthnumber', '#addpagibignumber', '#addsuntimefrom', '#addsuntimeto', '#sunrestdays',
-                   '#addmontimefrom', '#addmontimeto','#monrestdays','#addtuetimefrom', '#addtuetimeto',
-                   '#tuerestdays', '#addwedtimefrom', '#addwedtimeto', '#wedrestdays', '#addthtimefrom',
-                   '#addthtimeto', '#threstdays', '#addfritimefrom', '#addfritimeto', '#frirestdays',
-                   '#addsattimefrom', '#addsattimetimeto', '#satrestdays', '#addclient', '#addemployeetype',
+                   '#addphilhealthnumber', '#addpagibignumber', '#addclient', '#addemployeetype',
                    '#addbackaccountname','#addbackaccountnumber'];
 
     var ErrorIDArray = ['add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
@@ -1838,39 +1525,15 @@
                      'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
                      'add-detachment', 'add-status', 'add-role', 'add-username', 'add-password', 
                      'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-tinnumber', 'add-sssnumber',
-                     'add-philhealthnumber', 'add-pagibignumber', 'add-suntimefrom','add-suntimetocheck','add-sunrestdays',
-                     'add-montimefrom','add-montimeto','add-monrestdays','add-tuetimefrom','add-tuetimeto',
-                     'add-tuerestdays','add-wedtimefrom','add-wedtimeto','add-wedrestdays','add-thtimefrom',
-                     'add-thtimeto','add-threstdays','add-fritimefrom','add-fritimeto', 'add-frirestdays',
-                     'add-sattimefrom','add-sattimetimeto', 'add-satrestdays', 'add-client', 'add-employeetype','add-backaccountname','add-backaccountnumber'];
+                     'add-philhealthnumber', 'add-pagibignumber','add-client', 'add-employeetype','add-backaccountname','add-backaccountnumber'];
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
-    if($(IDArray[20]).val()=="0"){
-      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
-      $(IDArray[20]).addClass('is-invalid');
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[20]).innerHTML = "";
-      $(IDArray[20]).removeClass('is-invalid');
-      $(IDArray[20]).addClass('is-valid');
-      event.preventDefault();
-    };
-    if($(IDArray[21]).val()=="0"){
-      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
-      $(IDArray[21]).addClass('is-invalid');
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[21]).removeClass('is-invalid');
-      $(IDArray[21]).addClass('is-valid');
-      event.preventDefault();
-    };
+      var basicsalary = $("#addbasicsalary").val();
+      var dailyrate = $("#adddailyrate").val();
   var phone = $("#addcontactinfo").val();
    if(phone.length<13){
-     document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit " ;
+     document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit ";
     $(IDArray[9]).addClass('is-invalid');
     event.preventDefault();
     return false;
@@ -1880,11 +1543,50 @@
     $(IDArray[9]).addClass('is-valid');
     event.preventDefault();
     };
+    if($(IDArray[20]).val()==0){
+      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
+      $(IDArray[20]).addClass('is-invalid');
+       $("#addbasicsalary").focus();
+      event.preventDefault();
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[20]).innerHTML = "";
+      $(IDArray[20]).removeClass('is-invalid');
+      $(IDArray[20]).addClass('is-valid');
+      event.preventDefault();
+    }
+    if($(IDArray[21]).val()=="0"){
+      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
+      $(IDArray[21]).addClass('is-invalid');
+       $("#adddailyrate").focus();
+      event.preventDefault();
+      return false;
+    }else{
+      document.getElementById(ErrorIDArray[21]).innerHTML = "";
+      $(IDArray[21]).removeClass('is-invalid');
+      $(IDArray[21]).addClass('is-valid');
+      event.preventDefault();
+    }
+    if(basicsalary < dailyrate){
+            document.getElementById(ErrorIDArray[21]).innerHTML = "";
+      $(IDArray[21]).removeClass('is-invalid');
+      $(IDArray[21]).addClass('is-valid');
+      event.preventDefault();
+     }else{
+       document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
+        $(IDArray[21]).addClass('is-invalid');
+        $("#adddailyrate").focus();
+        event.preventDefault();
+       return false;
+
+
+ 
+     }; 
     
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val().trim();
     if(employeetype=='1'){
-      if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==50 || i==51) continue;
+      if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  || i==28 || i==29 || i==30  /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==50 || i==51*/) continue;
     
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
@@ -1895,8 +1597,8 @@
           else if(i<=47) navIndex = 3;
         };
         document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-            $(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
+        $(IDArray[i]).addClass('is-invalid');
+        event.preventDefault();
       }else{
          document.getElementById(ErrorIDArray[i]).innerHTML = "";
         $(IDArray[i]).removeClass('is-invalid');
@@ -1904,7 +1606,7 @@
         event.preventDefault();
       }
     }else{
-         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48  || i==50 || i==51) continue;
+         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48  || i==50 || i==51*/) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -1950,13 +1652,12 @@
         $(".addtotalleave").each(function(){
            totalleave.push($(this).val());
         });
-        var sunrestdays       =   $("#sunrestdays").prop('checked')==true ? "1" : "0"; 
-        var monrestday        =   $("#monrestdays").prop('checked')==true ? "1" : "0"; 
-        var tuerestday        =   $("#tuerestdays").prop('checked')==true ? "1" : "0"; 
-        var wedrestday        =   $("#wedrestdays").prop('checked')==true ? "1" : "0";
-        var thuresday         =   $("#threstdays").prop('checked')==true ? "1" : "0"; 
-        var frirestday        =   $("#frirestdays").prop('checked')==true ? "1" : "0";
-        var satrestday        =   $("#satrestdays").prop('checked')==true ? "1" : "0";    
+
+        var restdayresult = [];
+        $('input.addremoveLater:checked').map(function() {
+        restdayresult.push($(this).val());
+        });
+
         var firstname         =   $("#addfirstname").val();
         var middlename        =   $("#addmiddlename").val();
         var lastname          =   $("#addlastname").val();
@@ -1984,20 +1685,6 @@
         var sssnumber         =   $("#addsssnumber").val();
         var philhealthnumber  =   $("#addphilhealthnumber").val();
         var pagibignumber     =   $("#addpagibignumber").val();
-        var suntimefrom       =   $("#addsuntimefrom").val();
-        var suntimeto         =   $("#addsuntimeto").val();
-        var montimefrom       =   $("#addmontimefrom").val();
-        var montimeto         =   $("#addmontimeto").val();
-        var tuetimefrom       =   $("#addtuetimefrom").val();
-        var tuetimeto         =   $("#addtuetimeto").val();
-        var wedtimefrom       =   $("#addwedtimefrom").val();
-        var wedtimeto         =   $("#addwedtimeto").val();
-        var thutimefrom       =   $("#addthtimefrom").val();
-        var thutimeto         =   $("#addthtimeto").val();
-        var fritimefrom       =   $("#addfritimefrom").val();
-        var fritimeto         =   $("#addfritimeto").val();
-        var sattimefrom       =   $("#addsattimefrom").val();
-        var sattimeto         =   $("#addsattimetimeto").val();
         var clientID          =   $("#addclient").val();
         var employeetypeid    =   $("#addemployeetype").val();
         var backaccountname   =   $("#addbackaccountname").val();
@@ -2014,15 +1701,9 @@
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
                 dailyrate:         dailyrate,       allowance:        allowance,        tinnumber:        tinnumber,      
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,  
-                suntimefrom:       suntimefrom,     suntimeto:        suntimeto,        sunrestdays:      sunrestdays,     
-                montimefrom:       montimefrom,     montimeto:        montimeto,        monrestday:       monrestday,      
-                tuetimefrom:       tuetimefrom,     tuetimeto:        tuetimeto,        tuerestday:       tuerestday,     
-                wedtimefrom:       wedtimefrom,     wedtimeto:        wedtimeto,        wedrestday:       wedrestday,     
-                thutimefrom:       thutimefrom,     thutimeto:        thutimeto,        thuresday:        thuresday,       
-                fritimefrom:       fritimefrom,     fritimeto:        fritimeto,        frirestday:       frirestday,     
-                sattimefrom:       sattimefrom,     sattimeto:        sattimeto,        satrestday:       satrestday,      
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
-                backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave},
+                backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
+                restdayresult:     restdayresult},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -2033,6 +1714,8 @@
         $('#addfirstname').removeClass('is-valid');
         $('#addfirstname').addClass('is-invalid');
         $('#add-firstname').addClass('invalid-feedback');
+        $('#confirmation_add').modal('hide');
+        $('#add_employee').show();
         $("#addfirstname").focus();
         document.getElementById("add-lastname").innerHTML = result[1];
         $('#addlastname').removeClass('is-valid');
@@ -2057,105 +1740,7 @@
         return false;
       });
 
-    $("#editsunrestdays").click(function(){
-    var sunday = this.checked; 
-    if(!sunday){
-      $("#editsuntimefrom").prop("hidden", false);
-      $("#editsuntimeto").prop("hidden", false);
-      $("#editsuntimefrom").val('');
-      $("#editsuntimeto").val('');
-    }else{
-      $("#editsuntimefrom").prop("hidden", true);
-      $("#editsuntimeto").prop("hidden", true); 
-      $("#editsuntimefrom").val('00:00');
-      $("#editsuntimeto").val('00:00');
-    }
-    });
-    $("#editmonrestdays").change(function(){
-    var monday = this.checked; 
-    if(!monday){
-      $("#editmontimefrom").prop("hidden", false);
-      $("#editmontimeto").prop("hidden", false);
-      $("#editmontimefrom").val('');
-      $("#editmontimeto").val('');
-    }else{
-      $("#editmontimefrom").prop("hidden", true);
-      $("#editmontimeto").prop("hidden", true); 
-      $("#editmontimefrom").val('00:00');
-      $("#editmontimeto").val('00:00');
-    }
-    });
-    $("#edittuerestdays").change(function(){
-    var tuesday = this.checked; 
-    if(!tuesday){
-      $("#edittuetimefrom").prop("hidden", false);
-      $("#edittuetimeto").prop("hidden", false);
-      $("#edittuetimefrom").val('');
-      $("#addtuetimeto").val('');
-    }else{
-      $("#edittuetimefrom").prop("hidden", true);
-      $("#edittuetimeto").prop("hidden", true); 
-      $("#edittuetimefrom").val('00:00');
-      $("#edittuetimeto").val('00:00');
-    }
-    });
-    $("#editwedrestdays").change(function(){
-    var wednesday = this.checked; 
-    if(!wednesday){
-      $("#editwedtimefrom").prop("hidden", false);
-      $("#editwedtimeto").prop("hidden", false);
-      $("#editwedtimefrom").val('');
-      $("#editwedtimeto").val('');
-    }else{
-      $("#editwedtimefrom").prop("hidden", true);
-      $("#editwedtimeto").prop("hidden", true); 
-      $("#editwedtimefrom").val('00:00');
-      $("#editwedtimeto").val('00:00');
-    }
-    });
-    $("#editthrestdays").change(function(){
-    var thursday = this.checked; 
-    if(!thursday){
-      $("#editthtimefrom").prop("hidden", false);
-      $("#editthtimeto").prop("hidden", false);
-      $("#editthtimefrom").val('');
-      $("#editthtimeto").val('');
-    }else{
-      $("#editthtimefrom").prop("hidden", true);
-      $("#editthtimeto").prop("hidden", true); 
-      $("#editthtimefrom").val('00:00');
-      $("#editthtimeto").val('00:00');
-    }
-  });
-    $("#editfrirestdays").change(function(){
-    var friday = this.checked; 
-    if(!friday){
-      $("#editfritimefrom").prop("hidden", false);
-      $("#editfritimeto").prop("hidden", false);
-      $("#editfritimefrom").val('');
-      $("#editfritimeto").val('');
-    }else{
-    $("#editfritimefrom").prop("hidden", true);
-      $("#editfritimeto").prop("hidden", true); 
-      $("#editfritimefrom").val('00:00');
-      $("#editfritimeto").val('00:00');
-    }
-    });
-    $("#editsatrestdays").change(function(){
-    var sat = this.checked; 
-    if(!sat){
-      $("#editsattimefrom").prop("hidden", false);
-      $("#editsattimetimeto").prop("hidden", false);
-      $("#editsattimefrom").val('');
-      $("#editsattimetimeto").val('');
-    }else{
-    $("#editsattimefrom").prop("hidden", true);
-      $("#editsattimetimeto").prop("hidden", true); 
-      $("#editsattimefrom").val('00:00');
-      $("#editsattimetimeto").val('00:00');
-    }
-    });
-
+   
 
   /* end SAVE employee */
   $('.editemployee').unbind('click').bind('click', function(){
@@ -2205,107 +1790,35 @@
             var len ="";
             var len = response.length;
               for(var i=0; i<len; i++){
-              var sunschedulefrom1  =   response[i].sunschedulefrom;
-              var sunscheduleto1    =   response[i].sunscheduleto;
-              var sunrestday        =   response[i].sunrestday;
-              var monchedulefrom    =   response[i].monchedulefrom;
-              var monscheduleto     =   response[i].monscheduleto;
-              var monrestday        =   response[i].monrestday;
-              var tueschedulefrom   =   response[i].tueschedulefrom;
-              var tuescheduleto     =   response[i].tuescheduleto;
-              var tuerestday        =   response[i].tuerestday;
-              var wedschedulefrom   =   response[i].wedschedulefrom;
-              var wedscheduleto     =   response[i].wedscheduleto;
-              var wedrestday        =   response[i].wedrestday;
-              var thschedulefrom    =   response[i].thschedulefrom;
-              var thscheduleto      =   response[i].thscheduleto;
-              var threstday         =   response[i].threstday;
-              var frischedulefrom   =   response[i].frischedulefrom;
-              var frischeduleto     =   response[i].frischeduleto;
-              var frirestday        =   response[i].frirestday ;
-              var satschedulefrom   =   response[i].satschedulefrom;
-              var satscheduleto     =   response[i].satscheduleto ;
-              var satrestday        =   response[i].satrestday;
-              $('#editsuntimefrom').val(sunschedulefrom1);
-              $('#editsuntimeto').val(sunscheduleto1);
-              $('#editmontimefrom').val(monchedulefrom);
-              $('#editmontimeto').val(monscheduleto);
-              $('#edittuetimefrom').val(tueschedulefrom);
-              $('#edittuetimeto').val(tuescheduleto);
-              $('#editwedtimefrom').val(wedschedulefrom);
-              $('#editwedtimeto').val(wedscheduleto);
-              $('#editthtimefrom').val(thschedulefrom);
-              $('#editthtimeto').val(thscheduleto);
-              $('#editfritimefrom').val(frischedulefrom);
-              $('#editfritimeto').val(frischeduleto);
-              $('#editsattimefrom').val(satschedulefrom);
-              $('#editsattimetimeto').val(satscheduleto);
-              if (sunrestday == 1){
-              $("#editsunrestdays").prop("checked", true);
-              $("#editsuntimefrom").prop("hidden",  true);
-              $("#editsuntimeto").prop("hidden",    true); 
-              } else {
-              $("#editsunrestdays").prop("checked", false);
-              $("#editsuntimefrom").prop("hidden",  false);
-              $("#editsuntimeto").prop("hidden",    false);
-              }
-            if (monrestday == 1){
-            $("#editmonrestdays").prop("checked",   true);
-            $("#editmontimefrom").prop("hidden",    true);
-            $("#editmontimeto").prop("hidden",      true); 
-            } else {
-            $("#editmonrestdays").prop("checked",   false);
-            $("#editmontimefrom").prop("hidden",    false);
-            $("#editmontimeto").prop("hidden",      false);
+               var restday = response[i].restday;
+               var restdayid = response[i].scheduleID;
+             if (restday == 1){
+              $("#edit_Monday").prop("checked", true);
+            };
+            if (restday == 2){
+             $("#edit_Tuesday").prop("checked", true);
+            };
+            if (restday == 3){
+             $("#edit_Wednesday").prop("checked", true);
+            };
+            if (restday == 4){
+             $("#edit_Thursday").prop("checked", true);
+            };
+            if (restday == 5){
+             $("#edit_Friday").prop("checked", true);
+            };
+            if (restday == 6){
+             $("#edit_Saturday").prop("checked", true);
+            };
+            if (restday == 0){
+              $("#edit_Sunday").prop("checked", true);
+            };
+       
             }
-            if (tuerestday == 1){
-            $("#edittuerestdays").prop("checked",   true);
-            $("#edittuetimefrom").prop("hidden",    true);
-            $("#edittuetimeto").prop("hidden",      true); 
-            } else {
-            $("#edittuerestdays").prop("checked",   false);
-            $("#edittuetimefrom").prop("hidden",    false);
-            $("#edittuetimeto").prop("hidden",      false);
-            }
-            if (wedrestday == 1){
-            $("#editwedrestdays").prop("checked",   true);
-            $("#editwedtimefrom").prop("hidden",    true);
-            $("#editwedtimeto").prop("hidden",      true); 
-            } else {
-            $("#editwedrestdays").prop("checked",   false);
-            $("#editwedtimefrom").prop("hidden",    false);
-            $("#editwedtimeto").prop("hidden",      false);
-            }
-            if (threstday == 1){
-            $("#editthrestdays").prop("checked",    true);
-            $("#editthtimefrom").prop("hidden",     true);
-            $("#editthtimeto").prop("hidden",       true); 
-            } else {
-            $("#editthrestdays").prop("checked",    false);
-            $("#editthtimefrom").prop("hidden",     false);
-            $("#editthtimeto").prop("hidden",       false);
-            }
-            if (frirestday == 1){
-            $("#editfrirestdays").prop("checked",   true);
-            $("#editfritimefrom").prop("hidden",    true);
-            $("#editfritimeto").prop("hidden",      true); 
-            } else {
-            $("#editfrirestdays").prop("checked",   false);
-            $("#editfritimefrom").prop("hidden",    false);
-            $("#editfritimeto").prop("hidden",      false);
-            }
-            if (satrestday == 1){
-            $("#editsatrestdays").prop("checked",   true);
-            $("#editsattimefrom").prop("hidden",    true);
-            $("#editsattimetimeto").prop("hidden",  true); 
-            } else {
-            $("#editsatrestdays").prop("checked",   false);
-            $("#editsattimefrom").prop("hidden",    false);
-            $("#editsattimetimeto").prop("hidden",  false);
-            }
-            }
+
       }
-     });
+    });
+
     var idleave = $(this).data('id');
         $.ajax({
               url : "<?php echo site_url('employees/leaverecord');?>",
@@ -2337,22 +1850,14 @@
                    '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
                    '#editdetachment', '#editstatus', '#editrole', '#editusername', '#editpassword', 
                    '#editbasicsalary', '#editdailyrate', '#editallowance', '#edittinnumber', '#editsssnumber',
-                   '#editphilhealthnumber', '#editpagibignumber','#editsuntimefrom', '#editsuntimeto', '#editsunrestdays',
-                   '#editmontimefrom', '#editmontimeto','#editmonrestdays','#edittuetimefrom', '#edittuetimeto',
-                   '#edittuerestdays', '#editwedtimefrom', '#editwedtimeto', '#editwedrestdays', '#editthtimefrom',
-                   '#editthtimeto', '#editthrestdays', '#editfritimefrom', '#editfritimeto', '#editfrirestdaystdays',
-                   '#editsattimefrom', '#editsattimetimeto', '#editsatrestdays','#editclient','#editemployeetype','#editbackaccountname', '#editbackaccountnumber'];
+                   '#editphilhealthnumber', '#editpagibignumber','#editclient','#editemployeetype','#editbackaccountname', '#editbackaccountnumber'];
 
     var ErrorIDArray = ['edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
                        'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
                        'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
                        'edit-detachment', 'edit-status', 'edit-role', 'edit-username', 'edit-password', 
                        'edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-tinnumber', 'edit-sssnumber',
-                       'edit-philhealthnumber', 'edit-pagibignumber','edit-suntimefrom','edit-suntimetocheck','edit-sunrestday',
-                       'edit-montimefrom','edit-montimeto','edit-editmonrestdays','edit-tuetimefrom','edit-tuetimeto',
-                       'edit-tuerestdays','edit-wedtimefrom','edit-wedtimeto','edit-wedrestdays','edit-thtimefrom',
-                       'edit-thtimeto','edit-threstdays','edit-fritimefrom','edit-fritimeto','edit-frirestdays',
-                       'edit-sattimefrom','edit-sattimetimeto','edit-satrestdays', 'edit-client', 'edit-employeetype','edit-backaccountname','edit-backaccountnumber'];
+                       'edit-philhealthnumber', 'edit-pagibignumber', 'edit-client', 'edit-employeetype','edit-backaccountname','edit-backaccountnumber'];
 
       var ValueArray = [];
       var firstRequired = "";
@@ -2366,10 +1871,13 @@
       var city = $("#editcity").val();
       var citizenship = $("#editcitizenship").val();
       var middlename = $("#editmiddlename").val();
-      if($(IDArray[20]).val()=="0"){
+       var editbasicsalary = $("#editbasicsalary").val();
+      var editdailyrate = $("#editdailyrate").val();
+      if($(IDArray[20]).val()==0){
       document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
       $(IDArray[20]).addClass('is-invalid');
-                event.preventDefault();
+       $("#editbasicsalary").focus();
+      event.preventDefault();
       return false;
     }else{
       document.getElementById(ErrorIDArray[20]).innerHTML = "";
@@ -2377,9 +1885,10 @@
       $(IDArray[20]).addClass('is-valid');
       event.preventDefault();
     };
-    if($(IDArray[21]).val()=="0"){
+    if($(IDArray[21]).val()==0){
       document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
       $(IDArray[21]).addClass('is-invalid');
+       $("#editdailyrate").focus(); 
       event.preventDefault();
       return false;
     }else{
@@ -2388,23 +1897,35 @@
       $(IDArray[21]).addClass('is-valid');
       event.preventDefault();
     };
-  var phone = $("#editcontactinfo").val();
+    var phone = $("#editcontactinfo").val();
    if(phone.length<13){
      document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit " ;
     $(IDArray[9]).addClass('is-invalid');
     event.preventDefault();
     return false;
     }else{
-       document.getElementById(ErrorIDArray[9]).innerHTML = "";
+       document.getElementById(ErrorIDArray[9]).innerHTML = ""; 
     $(IDArray[9]).removeClass('is-invalid');
     $(IDArray[9]).addClass('is-valid');
     event.preventDefault();
     };
+     if( editbasicsalary < editdailyrate){
+       document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
+        $(IDArray[21]).addClass('is-invalid');
+        $("#editdailyrate").focus();
+        event.preventDefault();
+      return false;
+     }else{
+       document.getElementById(ErrorIDArray[21]).innerHTML = "";
+      $(IDArray[21]).removeClass('is-invalid');
+      $(IDArray[21]).addClass('is-valid');
+      event.preventDefault();
+     }; 
 
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val();
       if(employeetype=='1'){
-       if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47) continue;
+       if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47*/) continue;
       
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
@@ -2423,7 +1944,7 @@
         event.preventDefault();
       }
        }else{
-         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48) continue;
+         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48*/) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -2460,8 +1981,10 @@
     });
   $('.edit').unbind('click').bind('click', function(){
         var id                =   $(this).attr('id');
-         var leave = [];
+        var restdayid1 = restdayid;
+         var leave = [];  
          var employee = [];
+        var restdayresult = [];
           $(".employee").each(function(){
            employee.push($(this).val());
         });
@@ -2471,6 +1994,9 @@
         });
         $(".edittotalleave").each(function(){
            totalleave.push($(this).val());
+        });
+        $('input.editremoveLater:checked').map(function() {
+        restdayresult.push($(this).val());
         });
         var sunrestdays       =   $("#editsunrestdays").prop('checked')==true ? "1" : "0"; 
         var monrestday        =   $("#editmonrestdays").prop('checked')==true ? "1" : "0"; 
@@ -2506,20 +2032,6 @@
         var sssnumber         =   $("#editsssnumber").val();
         var philhealthnumber  =   $("#editphilhealthnumber").val();
         var pagibignumber     =   $("#editpagibignumber").val();
-        var suntimefrom       =   $("#editsuntimefrom").val();
-        var suntimeto         =   $("#editsuntimeto").val();
-        var montimefrom       =   $("#editmontimefrom").val();
-        var montimeto         =   $("#editmontimeto").val();
-        var tuetimefrom       =   $("#edittuetimefrom").val();
-        var tuetimeto         =   $("#edittuetimeto").val();
-        var wedtimefrom       =   $("#editwedtimefrom").val();
-        var wedtimeto         =   $("#editwedtimeto").val();
-        var thutimefrom       =   $("#editthtimefrom").val();
-        var thutimeto         =   $("#editthtimeto").val();
-        var fritimefrom       =   $("#editfritimefrom").val();
-        var fritimeto         =   $("#editfritimeto").val();
-        var sattimefrom       =   $("#editsattimefrom").val();
-        var sattimeto         =   $("#editsattimetimeto").val();
         var clientID          =   $("#editclient").val();
         var employeetypeid    =   $("#editemployeetype").val();
         var backaccountname   =   $("#editbackaccountname").val();
@@ -2536,17 +2048,10 @@
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
                 dailyrate:         dailyrate,       allowance:        allowance,        tinnumber:        tinnumber,      
-                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,  
-                suntimefrom:       suntimefrom,     suntimeto:        suntimeto,        sunrestdays:      sunrestdays,     
-                montimefrom:       montimefrom,     montimeto:        montimeto,        monrestday:       monrestday,      
-                tuetimefrom:       tuetimefrom,     tuetimeto:        tuetimeto,        tuerestday:       tuerestday,     
-                wedtimefrom:       wedtimefrom,     wedtimeto:        wedtimeto,        wedrestday:       wedrestday,     
-                thutimefrom:       thutimefrom,     thutimeto:        thutimeto,        thuresday:        thuresday,       
-                fritimefrom:       fritimefrom,     fritimeto:        fritimeto,        frirestday:       frirestday,     
-                sattimefrom:       sattimefrom,     sattimeto:        sattimeto,        satrestday:       satrestday,      
+                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                 backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
-                employee:     employee},
+                employee:          employee,        restdayresult:    restdayresult},
               async : true,
               dataType : 'json',
               success: function(data){
@@ -2557,6 +2062,8 @@
                     $('#editfirstname').removeClass('is-valid');
                     $('#editfirstname').addClass('is-invalid');
                     $('#edit-firstname').addClass('invalid-feedback');
+                    $('#confirmation_edit').modal('hide');
+                    $('#edit_employee').show();
                     $("#editfirstname").focus();
                     document.getElementById("edit-lastname").innerHTML = result[1];
                     $('#editlastname').removeClass('is-valid');

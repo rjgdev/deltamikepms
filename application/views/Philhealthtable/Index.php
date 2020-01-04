@@ -23,17 +23,17 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
 								<th style="width: 50px;">ID No.</th>
-								<th>Minimum Range</th>
-								<th>Maximum Range</th>
-								<th>Percentage</th>
-								<th>Employer Contribution</th>
-								<th>Employee Contribution</th>
-								<th>Total Premium Payment</th>
+								<th class="text-right">Minimum Range</th>
+								<th class="text-right">Maximum Range</th>
+								<th class="text-right">Percentage</th>
+								<th class="text-right">Employer Contribution</th>
+								<th class="text-right">Employee Contribution</th>
+								<th class="text-right">Total Premium Payment</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -67,7 +67,7 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
+			</div>
 			</div>
 		</div>
     </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="form-group">
 							<label>Percentage <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="percent" description=" percent">
+							<input class="form-control percentage" type="text" id="percent" description=" percent">
 							<div class="invalid-feedback" id="add-percent"></div>
 						</div>
                         <div class="form-group">
@@ -184,7 +184,7 @@
                         </div>
                         <div class="form-group">
 							<label>Percentage <span class="text-danger">*</span></label>
-							<input class="form-control" type="text" id="editpercent">
+							<input class="form-control percentage" type="text" id="editpercent">
 							<div class="invalid-feedback" id="edit-percent"></div>
 						</div>
                         <div class="form-group">

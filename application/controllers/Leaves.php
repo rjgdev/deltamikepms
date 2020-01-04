@@ -76,6 +76,12 @@
 	    	echo json_encode($data);  
 		
 
+	}
+	public function get_employeeleave()
+	{
+		$employeeID = $this->input->post('id',TRUE);
+		$data = $this->leave->get_employeeleave($employeeID);
+		echo json_encode($data);
 	}	
 
 	}     

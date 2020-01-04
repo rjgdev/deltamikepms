@@ -28,7 +28,6 @@
 			'province' 		=> 		$this->input->post('province'),
 			'postalcode' 	=> 		$this->input->post('postalcode'),
 			'email' 		=> 		$this->input->post('email'),
-			'phonenumber' 	=> 		$this->input->post('phonenumber'),
 			'mobilenumber' 	=> 		$this->input->post('mobilenumber'),
 			'Fax' 			=> 		$this->input->post('fax'),
 			'website' 		=> 		$this->input->post('website'));

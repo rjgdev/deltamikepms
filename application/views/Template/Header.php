@@ -69,9 +69,9 @@
 						<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 							<span class="user-img">
 								<?php if($this->session->userdata('photo')==""){
-				                      echo '<img src="uploads/profileimg.png" alt=""/>';
+				                      echo '<img src="'.base_url().'uploads/profileimg.png" alt=""/>';
 				                    }else{
-				                      echo '<img src="uploads/'.$this->session->userdata('photo').'" alt=""/>';
+				                      echo '<img src="'.base_url().'uploads/'.$this->session->userdata('photo').'" alt=""/>';
 				                    }
 					            ?>
 							<span class="status online"></span></span>

@@ -1,3 +1,7 @@
+
+
+
+
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Employee_model extends CI_Model
@@ -32,7 +36,7 @@ class Employee_model extends CI_Model
 
 	}
 
-	function save_employee($data, $firstname, $middlename, $lastname, $username, $leavetypeID, $totalleave, $sunschedulefrom,$sunscheduleto,$sunrestday,$monchedulefrom, $monscheduleto, $monrestday, $tueschedulefrom, $tuescheduleto, $tuerestday,$wedschedulefrom, $wedscheduleto, $wedrestday, $thschedulefrom, $thscheduleto, $threstday, $frischedulefrom, $frischeduleto, $frirestday, $satschedulefrom, $satscheduleto, $satrestday)
+	function save_employee($data, $firstname, $middlename, $lastname, $username, $leavetypeID, $totalleave, $restdayresult /*$sunschedulefrom,$sunscheduleto,$sunrestday,$monchedulefrom, $monscheduleto, $monrestday, $tueschedulefrom, $tuescheduleto, $tuerestday,$wedschedulefrom, $wedscheduleto, $wedrestday, $thschedulefrom, $thscheduleto, $threstday, $frischedulefrom, $frischeduleto, $frirestday, $satschedulefrom, $satscheduleto, $satrestday*/)
 	{	
 		$query = $this->db->query('SELECT firstname, middlename,lastname FROM dm_employee WHERE firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 
@@ -40,6 +44,7 @@ class Employee_model extends CI_Model
 				$this->db->insert('dm_employee', $data);
 				$last_id				=	$this->db->insert_id();
 				$record  = array();
+				$dataschedule = array();
 
 				for($count = 0; $count<count($totalleave); $count++)
  				{
@@ -50,31 +55,14 @@ class Employee_model extends CI_Model
 				}		
 				$this->db->insert_batch('dm_employeecreditleave',$record);
 
-				$dataschedule = array(
+					for($count = 0; $count<count($restdayresult); $count++)
+ 				{
+				$dataschedule[$count]  = array(
 				'employeeID'		=>	$last_id,
-				'sunschedulefrom'	=>	$sunschedulefrom,
-				'sunscheduleto'		=>  $sunscheduleto,
-				'sunrestday'		=> 	$sunrestday,
-				'monchedulefrom'	=>	$monchedulefrom,
-				'monscheduleto'		=>	$monscheduleto,
-				'monrestday'		=>	$monrestday,
-				'tueschedulefrom'	=>	$tueschedulefrom,
-				'tuescheduleto'		=>	$tuescheduleto,
-				'tuerestday'		=>	$tuerestday,
-				'wedschedulefrom'	=>	$wedschedulefrom,
-				'wedscheduleto'		=>	$wedscheduleto,
-				'wedrestday'		=>	$wedrestday,
-				'thschedulefrom'	=>	$thschedulefrom,
-				'thscheduleto'		=>	$thscheduleto,
-				'threstday'			=> 	$threstday,
-				'frischedulefrom'	=>	$frischedulefrom,
-				'frischeduleto'		=>	$frischeduleto,
-				'frirestday'		=>	$frirestday,
-				'satschedulefrom'	=>	$satschedulefrom,
-				'satscheduleto'		=>	$satscheduleto,
-				'satrestday'		=>	$satrestday);
+				'restday'			=>	$restdayresult[$count]);
+			}	
 
-				$this->db->insert('dm_employeeschedule', $dataschedule);
+				$this->db->insert_batch('dm_schedule', $dataschedule);
 
 				return 'true|  '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
 	 	}
@@ -83,7 +71,7 @@ class Employee_model extends CI_Model
 			return 'false|Employee name already exist!';
 		}   
   	}
-  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$dataschedule,$employee)
+  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult)
   	{
  		 $query = $this->db->query('SELECT firstname, middlename, lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 			if($query->num_rows() == 0){
@@ -91,12 +79,11 @@ class Employee_model extends CI_Model
 	            $this->db->update("dm_employee", $data); 
 	            $datacredit  = array();
 	            $creditID  = array();
-	            $this->db->where("employeeID", $id);  
-	            $this->db->update("dm_employeeschedule", $dataschedule);
-	            $this->db->where("employeeID", $id);  
-	            $this->db->update("dm_employeeschedule", $dataschedule); 
+	          	$dataschedule = array();
 	            $record  = array(); 
 	            $id = $this->input->post('id');
+
+
 	            for($count = 0; $count<count($employee); $count++)
  				{
 	 				$record[$count] 	= array (
@@ -107,8 +94,15 @@ class Employee_model extends CI_Model
 				//print_r($record);
 				//exit;
 				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
-				
-	          
+				/*$query = $this->db->query('SELECT * FROM dm_schedule WHERE 
+					'*/
+			/*	for($count = 0; $count<count($restdayresult); $count++)
+ 				{
+ 				$dataschedule[$count]  = array(
+				'employeeID'		=>	$id,
+				'restday'			=>	$restdayresult[$count]);
+ 				}	
+	          	$this->db->update_batch('dm_schedule', $dataschedule);*/
 
 				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
 	 	}
@@ -143,7 +137,7 @@ class Employee_model extends CI_Model
    }
    function search_schedule($employeeID)
    {
-   	$query = $this->db->query('SELECT * FROM dm_employeeschedule WHERE employeeID ='.$employeeID.'');
+   	$query = $this->db->query('SELECT * FROM dm_schedule WHERE employeeID ='.$employeeID.'');
    	return $query->result();
 
    }

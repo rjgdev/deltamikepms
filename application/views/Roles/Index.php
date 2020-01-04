@@ -16,7 +16,7 @@
 		
 		<div class="row">
 			<div class="col-sm-4 col-md-4 col-lg-4 col-xl-3">
-				<a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_role"><i class="fa fa-plus"></i> Add Roles</a>
+				<a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#add_role" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Roles</a>
 				<div class="roles-menu">
 					<ul id="roles">
 						<?php foreach ($role as $item) { ?> 
@@ -24,10 +24,10 @@
 								<a href="javascript:void(0);"><?php echo $item->roleDescription; ?>
 									<span class="role-action">
 										<?php if($item->roleID!=1 && $item->roleID!=2){ ?>
-											<span class="action-circle large iconedit" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#edit_role">
+											<span class="action-circle large iconedit" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#edit_role" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false">
 												<i class="material-icons">edit</i>
 											</span>
-											<span class="action-circle large delete-btn icondelete" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#delete_role">
+											<span class="action-circle large delete-btn icondelete" id="<?php echo $item->roleID; ?>" data-description="<?php echo $item->roleDescription; ?>" data-toggle="modal" data-target="#delete_role" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false">
 												<i class="material-icons">delete</i>
 											</span>
 										<?php } ?>
@@ -136,6 +136,57 @@
 		</div>
 	</div>
 	<!-- /Delete Role Modal -->
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary continue-btn add" >Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Confirmation Modal -->
+	<div id="confirmation_edit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to update this record?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary continue-btn edit" >Update</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-edit">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	
  </div>
 
@@ -188,8 +239,22 @@
 	        	$('#addrole').addClass('is-invalid');
 	        	$("#addrole").focus(); 
                 event.preventDefault();
-	        }else{
-	        	$.ajax({
+	        }
+
+        	$('#add_role').hide();
+			$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+
+    		event.preventDefault(); 
+    		return false;
+	    });
+
+        $("#cncl-add").unbind('click').bind('click', function(){
+
+			$('#confirmation_add').modal('hide');
+			$('#add_role').show();
+		});
+
+	        	/*$.ajax({
 	                url : "<?php echo site_url('roles/save');?>",
 	                method : "POST",
 	                data : {description:description},
@@ -211,7 +276,7 @@
 	            });
 	            return false;
 	        }
-        });
+        });*/
 
 		/* DELETE BUTTON - PASS DATA TO MODAL */
         $('.icondelete').unbind('click').bind('click', function(){
@@ -250,7 +315,7 @@
         /* EDIT BUTTON - PASS DATA TO MODAL */
 		$('.iconedit').unbind('click').bind('click', function(){
 			$(".modal-body #editdescription").val( $(this).data('description'));
-			$('.update').attr('id', $(this).attr('id'));
+			$('.edit').attr('id', $(this).attr('id'));
 		});
 
 		/* UPDATE DESCIPTION */
@@ -263,8 +328,21 @@
 	        	$('#editdescription').addClass('is-invalid');
 	        	$("#editdescription").focus(); 
                 event.preventDefault();
-	        }else{
-	        	$.ajax({
+	        }
+
+	        $('#edit_role').hide();
+			$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+
+    		event.preventDefault(); 
+    		return false;
+        });
+
+        $("#cncl-edit").unbind('click').bind('click', function(){
+			$('#confirmation_edit').modal('hide');
+			$('#edit_role').show();
+
+    	});
+	        	/*$.ajax({
 	                url : "<?php echo site_url('roles/update');?>",
 	                method : "POST",
 	                data : {id:id,
@@ -287,7 +365,7 @@
 	            });
 	            return false;
 	        }
-        });
+        });*/
 
 		/* UPDATE MODULE */
 		$(document).on("click", ".check", function(){
@@ -357,5 +435,64 @@
             });
 
 		});
+
+		$('.add').unbind('click').bind('click', function(){
+			var description = $('#addrole').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('roles/save');?>",
+	                method : "POST",
+	                data : {description:description},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("add-invalid").innerHTML = result[1];
+				        	$('#addrole').addClass('is-invalid');
+							$('#confirmation_add').modal('hide');
+				        	$('#add_role').show();
+				        	$("#addrole").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>roles');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
+        $('.edit').unbind('click').bind('click', function(){
+        	var id = $(this).attr('id');
+	        var description = $('#editdescription').val().trim();
+
+        	$.ajax({
+	                url : "<?php echo site_url('roles/update');?>",
+	                method : "POST",
+	                data : {id:id,
+	                		description:description},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+	                	var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-invalid").innerHTML = result[1];
+				        	$('#editdescription').addClass('is-invalid');
+							$('#confirmation_edit').modal('hide');
+				        	$('#edit_role').show();
+				        	$("#editdescription").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>roles');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;
+        });
+
 	});
 </script>

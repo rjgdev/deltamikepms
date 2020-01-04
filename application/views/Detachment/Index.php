@@ -23,7 +23,7 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
@@ -98,7 +98,7 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
+			</div>
 			</div>
 		</div>
     </div>
@@ -354,6 +354,11 @@
 ?>
 <!-- /Page Wrapper -->
 
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
+type="text/javascript"></script>
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+rel="Stylesheet"type="text/css"/>
 <script>
 	$(document).ready(function() {
 		$('.select2').select2();
@@ -926,18 +931,22 @@
 	            return false;
         });
 
-         $("#startdate").datepicker({
-                maxDate: 0,
-                onClose: function (selectedDate) {
-                    $("#enddate").datepicker("option", "minDate", selectedDate);
-                }
-            });
-            $("#enddate").datepicker({
-                maxDate: 0,
-                onClose: function (selectedDate) {
-                    $("#startdate").datepicker("option", "maxDate", selectedDate);
-                }
-            });
+          $("#editstartdate").datepicker({
+        numberOfMonths: 2,
+        onSelect: function (selected) {
+            var dt = new Date(selected);
+            dt.setDate(dt.getDate() + 1);
+            $("#editenddate").datepicker("option", "minDate", dt);
+        }
+    });
+    $("#editenddate").datepicker({
+        numberOfMonths: 2,
+        onSelect: function (selected) {
+            var dt = new Date(selected);
+            dt.setDate(dt.getDate() - 1);
+            $("#editstartdate").datepicker("option", "maxDate", dt);
+        }
+    });
        
 	});
 </script>

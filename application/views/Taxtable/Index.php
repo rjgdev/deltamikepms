@@ -8,10 +8,10 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Tax table</h3>
+					<h3 class="page-title">Tax Table</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Tax table</li>
+						<li class="breadcrumb-item active">Tax Table</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
@@ -23,15 +23,15 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
 								<th style="width: 50px;">ID No.</th>
-								<th>Minimum Range</th>
-								<th>Maximum Range</th>
-								<th>Additional Tax</th>
-								<th>Percentage</th>
+								<th class="text-right">Minimum Range</th>
+								<th class="text-right">Maximum Range</th>
+								<th class="text-right">Additional Tax</th>
+								<th class="text-right">Percentage</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -61,7 +61,7 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
+			</div>
 			</div>
 		</div>
     </div>
@@ -111,7 +111,7 @@
                         </div>
 						<div class="form-group">
 							<label>Percentage <span class="text-danger">*</span></label>
-							<input class="form-control numbersonly" type="text" id="percent">
+							<input class="form-control percentage" type="text" id="percent">
 							<div class="invalid-feedback" id="add-percent"></div>
 						</div>
 						<div class="submit-section">
@@ -168,7 +168,7 @@
                         </div>
 						<div class="form-group">
 							<label>Percentage <span class="text-danger">*</span></label>
-							<input class="form-control numbersonly" type="text" id="editpercent">
+							<input class="form-control percentage" type="text" id="editpercent">
 							<div class="invalid-feedback" id="edit-percent"></div>
 						</div>
 						<div class="submit-section">
@@ -328,7 +328,7 @@
 	        	$('#aboverange').addClass('is-valid');
 	        }
 
-	        if(additionaltax=="" || additionaltax=="0.0000"){
+	        if(additionaltax==""){
 	        	document.getElementById("add-additionaltax").innerHTML = "Please provide an additional tax.";
 	        	$('#additionaltax').addClass('is-invalid');
 	        	event.preventDefault();
@@ -348,7 +348,7 @@
 	        	$('#percent').addClass('is-valid');
 	        }
 
-	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || additionaltax=="0.0000" || percent=="" ) return false;
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || percent=="" ) return false;
 
 	        $('#add_tax').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -362,34 +362,6 @@
 			$('#add_tax').show();
 
 		});
-
-	        	/*$.ajax({
-	                url : "<?php echo site_url('taxtable/save');?>",
-	                method : "POST",
-	                data : {belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		additionaltax:additionaltax,
-	                		percent:percent
-	                		},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-belowrange").innerHTML = result[1];
-				        	$('#belowrange').addClass('is-invalid');
-				        	$("#belowrange").focus(); 
-				        	$('#aboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>taxtable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
 
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
@@ -418,7 +390,7 @@
 	        	$('#editaboverange').addClass('is-valid');
 	        }
 
-	        if(additionaltax=="" || additionaltax=="0.0000"){
+	        if(additionaltax==""){
 	        	document.getElementById("edit-additionaltax").innerHTML = "Please provide an additional tax.";
 	        	$('#editadditionaltax').addClass('is-invalid');
 	        	event.preventDefault();
@@ -438,7 +410,7 @@
 	        	$('#editpercent').addClass('is-valid');
 	        }
 
-	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || additionaltax=="0.0000" || percent=="" ) return false;
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || additionaltax=="" || percent=="" ) return false;
 
 	        $('#edit_tax').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -452,34 +424,6 @@
 			$('#edit_tax').show();
 
 		});
-
-	        	/*$.ajax({
-	                url : "<?php echo site_url('taxtable/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		belowrange:belowrange,
-	                		aboverange:aboverange,
-	                		additionaltax:additionaltax,
-	                		percent:percent},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-belowrange").innerHTML = result[1];
-				        	$('#editbelowrange').addClass('is-invalid');
-				        	$("#editbelowrange").focus(); 
-				        	$('#editaboverange').addClass('is-invalid');
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>taxtable');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-        });*/
 
         $('.add').unbind('click').bind('click', function(){
 			var belowrange = $('#belowrange').val().trim();

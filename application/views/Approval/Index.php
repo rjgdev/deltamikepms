@@ -197,7 +197,7 @@ $(document).ready(function() {
 											'<i class="material-icons">delete</i>' +
 										'</span>' +
 									'</span>' + data['approval'][i].approvalDescription +
-									'<span style="color:#888;display: block; font-size: 12px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
+									'<span style="color:#888;display: block; font-size: 11px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
 								'</a>' + 
 							'</li>';
 				}
@@ -364,7 +364,7 @@ $(document).ready(function() {
 											'<i class="material-icons">delete</i>' +
 										'</span>' +
 									'</span>' + data['approval'][i].approvalDescription +
-									'<span style="color:#888;display: block; font-size: 12px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
+									'<span style="color:#888;display: block; font-size: 11px;">' + data['approval'][i].employeeTypeDescription + '</span>' +
 								'</a>' + 
 							'</li>';
 				}

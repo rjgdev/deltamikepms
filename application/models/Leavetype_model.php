@@ -21,8 +21,6 @@ class Leavetype_model extends CI_Model
 
 			$data = array(
 				'leavetypename' => $leavetypename,
-				'noofdays' => $this->input->post('noofdays'),
-				'accumulation' => $this->input->post('accumulation'),
 				'leavetypestatus' => 'Active'
 			 );
 
@@ -42,9 +40,7 @@ class Leavetype_model extends CI_Model
 		if($query->num_rows() == 0){
 
 			$data = array(
-				'leavetypename' => $leavetypename,
-				'noofdays' => $this->input->post('noofdays'),
-				'accumulation' => $this->input->post('accumulation')
+				'leavetypename' => $leavetypename
 			 );
 
 			$this->db->where("leavetypeID", $id);  
@@ -86,4 +82,3 @@ class Leavetype_model extends CI_Model
   	}
 }
 ?>
-

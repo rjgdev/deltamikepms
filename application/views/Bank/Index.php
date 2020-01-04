@@ -23,15 +23,15 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
 								<th style="width: 50px;">ID No.</th>
-								<th style="width: 300px;">Bank Name</th>
-								<th style="width: 300px;">Account Number Format</th>
-								<th style="width: 100px;">Status</th>
-								<th class="text-right" style="width: 100px;">Action</th>
+								<th>Bank Name</th>
+								<th>Account Number Format</th>
+								<th>Status</th>
+								<th class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody id="show_data">
@@ -79,8 +79,8 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
 			</div>
+		</div>
 		</div>
     </div>
 	<!-- /Page Content -->

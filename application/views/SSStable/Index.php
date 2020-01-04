@@ -23,16 +23,16 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div>
+				<div class="table-responsive">
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
 								<th style="width: 50px;">ID No.</th>
-								<th>Minimum Range</th>
-								<th>Maximum Range</th>
-								<th>Employer Contribution</th>
-								<th>Employee Contribution</th>
-								<th>Total</th>
+								<th class="text-right">Minimum Range</th>
+								<th class="text-right">Maximum Range</th>
+								<th class="text-right">Employer Contribution</th>
+								<th class="text-right">Employee Contribution</th>
+								<th class="text-right">Total</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -64,7 +64,7 @@
 							<?php } ?>
 						</tbody>
 					</table>
-				</div>
+			</div>
 			</div>
 		</div>
     </div>
