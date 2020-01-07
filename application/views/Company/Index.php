@@ -31,7 +31,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label>Contact Person</label>
-								<input class="form-control alphanumericwithspace" id="editcontactperson"name="editcontactperson" value="<?php echo $record->contactperson; ?>" type="text">
+								<input class="form-control letterswithspace" id="editcontactperson"name="editcontactperson" value="<?php echo $record->contactperson; ?>" type="text">
 								<div class="invalid-feedback" id="edit-contactperson"></div>
 							</div>
 						</div>
@@ -109,7 +109,7 @@
 						<div class="col-sm-12">
 							<div class="form-group">
 								<label>Website Url</label>
-								<input class="form-control" id="editwebsite"name="editwebsite" value="<?php echo $record->website; ?>" type="text">
+								<input class="form-control withoutspace" id="editwebsite"name="editwebsite" value="<?php echo $record->website; ?>" type="text">
 								<div class="invalid-feedback" id="edit-website"></div>
 							</div>
 						</div>
@@ -209,14 +209,14 @@ $(document).ready(function() {
 			var editmobile = $("#editmobilenumber").val();
 			var editpostal = $("#editpostalcode").val();
 			if(editmobile.length<13){
-				document.getElementById(ErrorIDArray[8]).innerHTML = "Mobile number must be 11 digit " ;
-				$(IDArray[8]).addClass('is-invalid');
+				document.getElementById(ErrorIDArray[7]).innerHTML = "Mobile number must be 11 digit " ;
+				$(IDArray[7]).addClass('is-invalid');
 				event.preventDefault();
 				return false;
 			}else{
-				document.getElementById(ErrorIDArray[8]).innerHTML = "";
-				$(IDArray[8]).removeClass('is-invalid');
-				$(IDArray[8]).addClass('is-valid');
+				document.getElementById(ErrorIDArray[7]).innerHTML = "";
+				$(IDArray[7]).removeClass('is-invalid');
+				$(IDArray[7]).addClass('is-valid');
 				event.preventDefault();
 			};
 			if(editpostal.length<4){

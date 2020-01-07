@@ -678,6 +678,8 @@ INSERT INTO `dm_payroll` (`payrollID`, `datefrom`, `dateto`) VALUES
 CREATE TABLE `dm_payrolldetails` (
   `payrolldetailsID` bigint(20) NOT NULL,
   `payrollID` bigint(20) NOT NULL,
+  `datefrom` date NOT NULL,
+  `dateto` date NOT NULL,
   `employeeID` bigint(20) NOT NULL,
   `daysofwork` decimal(10,1) NOT NULL,
   `regularhours` decimal(10,2) NOT NULL,
@@ -705,6 +707,13 @@ CREATE TABLE `dm_payrolldetails` (
   `hdmfloan` decimal(10,4) NOT NULL,
   `netpay` decimal(10,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_payrolldetails`
+--
+
+INSERT INTO `dm_payrolldetails` (`payrolldetailsID`, `payrollID`, `datefrom`, `dateto`, `employeeID`, `daysofwork`, `regularhours`, `overtimehours`, `dailyrate`, `hourlyrate`, `basicpay`, `ordinaryot`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `cola`, `incentives`, `nightdiff`, `uniformallowance`, `wtax`, `sss`, `phic`, `hdmf`, `sssloan`, `hdmfloan`, `netpay`) VALUES
+(1, 1, '2020-01-01', '2020-01-15', 1, '13.0', '104.00', '52.0000', '386.0000', '48.2500', '5018.0000', '3136.2500', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000');
 
 -- --------------------------------------------------------
 

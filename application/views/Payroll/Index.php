@@ -18,12 +18,12 @@
 		</div>
 		<!-- /Page Header -->
 		
-		<!-- Search Filter -->
+		<!-- PROCESS -->
 		<div class="row filter-row">
    		   <div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
 				<div class="form-group form-focus">
 					<div class="cal-icon">
-						<input class="form-control floating datetimepicker" type="text">
+						<input class="form-control floating datetimepicker" id="fromcutoff" type="text">
 					</div>
 					<label class="focus-label">From</label>
 				</div>
@@ -31,7 +31,7 @@
 		   <div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
 				<div class="form-group form-focus">
 					<div class="cal-icon">
-						<input class="form-control floating datetimepicker" type="text">
+						<input class="form-control floating datetimepicker" id="tocutoff" type="text">
 					</div>
 					<label class="focus-label">To</label>
 				</div>
@@ -40,7 +40,7 @@
 				<button type="button" class="btn btn-info btn-block processpayroll"> Process Payroll </button>
 			</div>     
         </div>
-		<!-- /Search Filter -->
+		<!-- /PROCESS -->
 		
 		<div class="row">
 			<div class="col-md-12">
@@ -101,12 +101,15 @@
 
 <script  type="text/javascript">  
 $(document).ready(function() {
-	//Clear Modal//
 	$('.processpayroll').unbind('click').bind('click', function(){
+		var fromcutoff = $("#fromcutoff").val();
+		var tocutoff = $("#tocutoff").val();
+
 		$.ajax({
             url : "<?php echo site_url('payroll/process');?>",
             method : "POST",
-            data : {},
+            data : {fromcutoff: fromcutoff,
+            		tocutoff: tocutoff},
             async : true,
             dataType : 'json',
             success: function(data){

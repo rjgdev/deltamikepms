@@ -1511,21 +1511,19 @@ var restdayid =[];
       var citizenship = $("#addcitizenship").val();
       var middlename = $("#addmiddlename").val();
     
-
-    var IDArray = ['#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
+    var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
                    '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
                    '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
-                   '#adddetachment', '#addstatus', '#addrole', '#addusername', '#addpassword', 
-                   '#addbasicsalary', '#adddailyrate', '#addallowance', '#addtinnumber', '#addsssnumber',
-                   '#addphilhealthnumber', '#addpagibignumber', '#addclient', '#addemployeetype',
-                   '#addbackaccountname','#addbackaccountnumber'];
+                   '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
+                   '#addpassword','#addbasicsalary', '#adddailyrate', '#addallowance', '#addtinnumber', 
+                   '#addsssnumber','#addphilhealthnumber', '#addpagibignumber',  '#addbackaccountname','#addbackaccountnumber'];
 
-    var ErrorIDArray = ['add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
-                     'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
-                     'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
-                     'add-detachment', 'add-status', 'add-role', 'add-username', 'add-password', 
-                     'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-tinnumber', 'add-sssnumber',
-                     'add-philhealthnumber', 'add-pagibignumber','add-client', 'add-employeetype','add-backaccountname','add-backaccountnumber'];
+    var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
+                        'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
+                        'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
+                        'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
+                        'add-password','add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-tinnumber', 
+                        'add-sssnumber', 'add-philhealthnumber', 'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber'];
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
@@ -1533,68 +1531,67 @@ var restdayid =[];
       var dailyrate = $("#adddailyrate").val();
   var phone = $("#addcontactinfo").val();
    if(phone.length<13){
-     document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit ";
-    $(IDArray[9]).addClass('is-invalid');
+     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit ";
+    $(IDArray[10]).addClass('is-invalid');
     event.preventDefault();
     return false;
     }else{
-       document.getElementById(ErrorIDArray[9]).innerHTML = "";
-    $(IDArray[9]).removeClass('is-invalid');
-    $(IDArray[9]).addClass('is-valid');
+       document.getElementById(ErrorIDArray[10]).innerHTML = "";
+    $(IDArray[10]).removeClass('is-invalid');
+    $(IDArray[10]).addClass('is-valid');
     event.preventDefault();
     };
-    if($(IDArray[20]).val()==0){
-      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
-      $(IDArray[20]).addClass('is-invalid');
+    if($(IDArray[22]).val()==0){
+      document.getElementById(ErrorIDArray[22]).innerHTML = "Invalid input  " + $(IDArray[22]).attr("description") +".";
+      $(IDArray[22]).addClass('is-invalid');
        $("#addbasicsalary").focus();
       event.preventDefault();
       return false;
     }else{
-      document.getElementById(ErrorIDArray[20]).innerHTML = "";
-      $(IDArray[20]).removeClass('is-invalid');
-      $(IDArray[20]).addClass('is-valid');
+      document.getElementById(ErrorIDArray[22]).innerHTML = "";
+      $(IDArray[22]).removeClass('is-invalid');
+      $(IDArray[22]).addClass('is-valid');
       event.preventDefault();
-    }
-    if($(IDArray[21]).val()=="0"){
-      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
-      $(IDArray[21]).addClass('is-invalid');
+    };
+    if($(IDArray[23]).val()=="0"){
+      document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
+      $(IDArray[23]).addClass('is-invalid');
        $("#adddailyrate").focus();
       event.preventDefault();
       return false;
     }else{
-      document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[21]).removeClass('is-invalid');
-      $(IDArray[21]).addClass('is-valid');
+      document.getElementById(ErrorIDArray[23]).innerHTML = "";
+      $(IDArray[23]).removeClass('is-invalid');
+      $(IDArray[23]).addClass('is-valid');
       event.preventDefault();
-    }
+    };
     if(basicsalary < dailyrate){
-            document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[21]).removeClass('is-invalid');
-      $(IDArray[21]).addClass('is-valid');
+            document.getElementById(ErrorIDArray[23]).innerHTML = "";
+      $(IDArray[23]).removeClass('is-invalid');
+      $(IDArray[23]).addClass('is-valid');
       event.preventDefault();
+      return false;
      }else{
-       document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
-        $(IDArray[21]).addClass('is-invalid');
+       document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
+        $(IDArray[23]).addClass('is-invalid');
         $("#adddailyrate").focus();
         event.preventDefault();
-       return false;
+      
+     };  
 
-
- 
-     }; 
     
+
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val().trim();
     if(employeetype=='1'){
-      if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  || i==28 || i==29 || i==30  /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==50 || i==51*/) continue;
+      if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
     
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
-             if(i<=16) navIndex = 0;
-          /*else if(i<=19) navIndex = 1;*/
-          else if(i<=26) navIndex = 2;
-          else if(i<=47) navIndex = 3;
+             if(i<=19) navIndex = 0;
+            else if(i<=22) navIndex = 1;
+
         };
         document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
         $(IDArray[i]).addClass('is-invalid');
@@ -1606,14 +1603,13 @@ var restdayid =[];
         event.preventDefault();
       }
     }else{
-         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48  || i==50 || i==51*/) continue;
+         if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
-             if(i<=16) navIndex = 0;
-          else if(i<=19) navIndex = 1;
-          else if(i<=26) navIndex = 2;
-          else if(i<=47) navIndex = 3;
+             if(i<=19) navIndex = 0;
+             else if(i<=22) navIndex = 1;
+            else if(i<=30) navIndex = 2;
         };
         document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
             $(IDArray[i]).addClass('is-invalid');
@@ -1637,6 +1633,7 @@ var restdayid =[];
     } 
     
   });
+
    $("#cncl-add").unbind('click').bind('click', function(){
       $('#confirmation_add').modal('hide');
       $('#add_employee').show();
@@ -1791,7 +1788,7 @@ var restdayid =[];
             var len = response.length;
               for(var i=0; i<len; i++){
                var restday = response[i].restday;
-               var restdayid = response[i].scheduleID;
+               restdayid[i] = response[i].scheduleID;
              if (restday == 1){
               $("#edit_Monday").prop("checked", true);
             };
@@ -1845,19 +1842,20 @@ var restdayid =[];
   });
   /* updated employee */
   $('.update').unbind('click').bind('click', function(){
-    var IDArray = ['#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
+     var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
                    '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
-                   '#editdetachment', '#editstatus', '#editrole', '#editusername', '#editpassword', 
-                   '#editbasicsalary', '#editdailyrate', '#editallowance', '#edittinnumber', '#editsssnumber',
-                   '#editphilhealthnumber', '#editpagibignumber','#editclient','#editemployeetype','#editbackaccountname', '#editbackaccountnumber'];
+                   '#editclient', '#editdetachment', '#editstatus', '#editrole', '#editusername', 
+                   '#editpassword','#editbasicsalary', '#editdailyrate', '#editallowance', '#edittinnumber', 
+                   '#editsssnumber','#editphilhealthnumber', '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber'];
 
-    var ErrorIDArray = ['edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
-                       'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
-                       'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
-                       'edit-detachment', 'edit-status', 'edit-role', 'edit-username', 'edit-password', 
-                       'edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-tinnumber', 'edit-sssnumber',
-                       'edit-philhealthnumber', 'edit-pagibignumber', 'edit-client', 'edit-employeetype','edit-backaccountname','edit-backaccountnumber'];
+    var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
+                        'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
+                        'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
+                        'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
+                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-tinnumber', 
+                        'edit-sssnumber', 'edit-philhealthnumber', 'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber'];
+      var ValueArray = [];
 
       var ValueArray = [];
       var firstRequired = "";
@@ -1873,59 +1871,59 @@ var restdayid =[];
       var middlename = $("#editmiddlename").val();
        var editbasicsalary = $("#editbasicsalary").val();
       var editdailyrate = $("#editdailyrate").val();
-      if($(IDArray[20]).val()==0){
-      document.getElementById(ErrorIDArray[20]).innerHTML = "Invalid input  " + $(IDArray[20]).attr("description") +".";
-      $(IDArray[20]).addClass('is-invalid');
+      if($(IDArray[22]).val()==0){
+      document.getElementById(ErrorIDArray[22]).innerHTML = "Invalid input  " + $(IDArray[22]).attr("description") +".";
+      $(IDArray[22]).addClass('is-invalid');
        $("#editbasicsalary").focus();
       event.preventDefault();
       return false;
     }else{
-      document.getElementById(ErrorIDArray[20]).innerHTML = "";
-      $(IDArray[20]).removeClass('is-invalid');
-      $(IDArray[20]).addClass('is-valid');
+      document.getElementById(ErrorIDArray[22]).innerHTML = "";
+      $(IDArray[22]).removeClass('is-invalid');
+      $(IDArray[22]).addClass('is-valid');
       event.preventDefault();
     };
-    if($(IDArray[21]).val()==0){
-      document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
-      $(IDArray[21]).addClass('is-invalid');
+    if($(IDArray[23]).val()==0){
+      document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
+      $(IDArray[23]).addClass('is-invalid');
        $("#editdailyrate").focus(); 
       event.preventDefault();
       return false;
     }else{
       document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[21]).removeClass('is-invalid');
-      $(IDArray[21]).addClass('is-valid');
+      $(IDArray[23]).removeClass('is-invalid');
+      $(IDArray[23]).addClass('is-valid');
       event.preventDefault();
     };
     var phone = $("#editcontactinfo").val();
    if(phone.length<13){
-     document.getElementById(ErrorIDArray[9]).innerHTML = "Mobile number must be 11 digit " ;
-    $(IDArray[9]).addClass('is-invalid');
+     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit " ;
+    $(IDArray[10]).addClass('is-invalid');
     event.preventDefault();
     return false;
     }else{
-       document.getElementById(ErrorIDArray[9]).innerHTML = ""; 
-    $(IDArray[9]).removeClass('is-invalid');
-    $(IDArray[9]).addClass('is-valid');
+       document.getElementById(ErrorIDArray[10]).innerHTML = ""; 
+    $(IDArray[10]).removeClass('is-invalid');
+    $(IDArray[10]).addClass('is-valid');
     event.preventDefault();
     };
      if( editbasicsalary < editdailyrate){
-       document.getElementById(ErrorIDArray[21]).innerHTML = "Invalid input  " + $(IDArray[21]).attr("description") +".";
-        $(IDArray[21]).addClass('is-invalid');
+       document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
+        $(IDArray[23]).addClass('is-invalid');
         $("#editdailyrate").focus();
         event.preventDefault();
       return false;
      }else{
-       document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[21]).removeClass('is-invalid');
-      $(IDArray[21]).addClass('is-valid');
+       document.getElementById(ErrorIDArray[23]).innerHTML = "";
+      $(IDArray[23]).removeClass('is-invalid');
+      $(IDArray[23]).addClass('is-valid');
       event.preventDefault();
      }; 
 
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val();
       if(employeetype=='1'){
-       if(i==1 || i==4 || i==17 || i==18 || i==19 || i==22 || i==23 || i==24 || i==25 || i==26  /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47*/) continue;
+       if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
       
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
@@ -1944,7 +1942,7 @@ var restdayid =[];
         event.preventDefault();
       }
        }else{
-         if(i==1 || i==4 || i==15 || i==22 || i==23 || i==24 || i==25 || i==26 /*|| i==29 || i==32 || i==35 || i==38 || i==41 || i==44 || i==47 || i==48*/) continue;
+        if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -2051,7 +2049,7 @@ var restdayid =[];
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                 backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
-                employee:          employee,        restdayresult:    restdayresult},
+                employee:          employee,        restdayresult:    restdayresult,    restdayid1:       restdayid1},
               async : true,
               dataType : 'json',
               success: function(data){

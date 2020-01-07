@@ -18,9 +18,10 @@
 
 		public function process() 
 		{ 
-			/*$description = $this->input->post('description');*/
+			$fromcutoff = date_format(date_create($this->input->post('fromcutoff')),"Y-m-d");
+			$tocutoff = date_format(date_create($this->input->post('tocutoff')),"Y-m-d");
 
-       		$data=$this->payroll->processpayroll();
+       		$data=$this->payroll->processpayroll($fromcutoff,$tocutoff);
        		/*$retval = explode("|",$data);*/
 
             /*if($retval[0] == "false" && $retval[1] == "Department name already exist!"){

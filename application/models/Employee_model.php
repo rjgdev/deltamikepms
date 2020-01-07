@@ -71,8 +71,10 @@ class Employee_model extends CI_Model
 			return 'false|Employee name already exist!';
 		}   
   	}
-  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult)
+  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult,$scheduleID)
   	{
+
+
  		 $query = $this->db->query('SELECT firstname, middlename, lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 			if($query->num_rows() == 0){
 				$this->db->where("employeeID", $id);  
@@ -91,20 +93,37 @@ class Employee_model extends CI_Model
  					'leavetypeID'		=>	$leavetype[$count],
 					'totalleave'		=>	$totalleave[$count]);				
 				}
-				//print_r($record);
-				//exit;
+			
 				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
-				/*$query = $this->db->query('SELECT * FROM dm_schedule WHERE 
-					'*/
-			/*	for($count = 0; $count<count($restdayresult); $count++)
+
+				$endresult = implode(',' , $scheduleID);
+				$query = $this->db->query('SELECT * FROM dm_schedule WHERE scheduleID IN('.$endresult.')');
+				if($query->num_rows() == 0){
+				for($count = 0; $count<count($restdayresult); $count++)
+ 				{
+ 				$dataschedule[$count]  = array(
+ 				'scheduleID'		=>	$scheduleID[$count],
+				'employeeID'		=>	$id,
+				'restday'			=>	$restdayresult[$count]);
+ 				}	
+	          	$this->db->update_batch('dm_schedule', $dataschedule,'scheduleID');
+
+				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';	
+		}
+		else
+		{	
+			$endresult = implode(',' , $scheduleID);
+			$query = $this->db->query('DELETE FROM dm_schedule WHERE scheduleID IN('.$endresult.')');
+			for($count = 0; $count<count($restdayresult); $count++)
  				{
  				$dataschedule[$count]  = array(
 				'employeeID'		=>	$id,
 				'restday'			=>	$restdayresult[$count]);
  				}	
-	          	$this->db->update_batch('dm_schedule', $dataschedule);*/
+	          	$this->db->insert_batch('dm_schedule', $dataschedule);
 
 				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
+		}
 	 	}
 		else 
 		{

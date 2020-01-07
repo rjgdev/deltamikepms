@@ -25,31 +25,7 @@
 		$middlename			= 		$this->input->post('middlename');
 		$lastname			= 		$this->input->post('lastname');
 		$username			= 		$this->input->post('username');
-
 		$restdayresult 		=		$this->input->post('restdayresult');
-		//schedule
-		/*$sunschedulefrom	=	$this->input->post('suntimefrom');
-		$sunscheduleto		=	$this->input->post('suntimeto');
-		$sunrestday			= 	$this->input->post('sunrestdays');
-		$monchedulefrom		=	$this->input->post('montimefrom');
-		$monscheduleto		=	$this->input->post('montimeto');
-		$monrestday			=	$this->input->post('monrestday');
-		$tueschedulefrom	=	$this->input->post('tuetimefrom');
-		$tuescheduleto		=	$this->input->post('tuetimeto');
-		$tuerestday			=	$this->input->post('tuerestday');
-		$wedschedulefrom	=	$this->input->post('wedtimefrom');
-		$wedscheduleto		=	$this->input->post('wedtimeto');
-		$wedrestday			=	$this->input->post('wedrestday');
-		$thschedulefrom		=	$this->input->post('thutimefrom');
-		$thscheduleto		=	$this->input->post('thutimeto');
-		$threstday			= 	$this->input->post('thuresday');
-		$frischedulefrom	=	$this->input->post('fritimefrom');
-		$frischeduleto		=	$this->input->post('fritimeto');
-		$frirestday			=	$this->input->post('frirestday');
-		$satschedulefrom	=	$this->input->post('sattimefrom');
-		$satscheduleto		=	$this->input->post('sattimeto');
-		$satrestday			=	$this->input->post('satrestday');*/
-		//end of schedule
 		$data = array (
 		'roleID'			=>		$this->input->post('roleDescription'),
 		'firstname'			=>		$this->input->post('firstname'),
@@ -106,6 +82,7 @@
 		$totalleave 		=	$this->input->post('totalleave');
 		$id 				=	$this->input->post('id');
 		$restdayresult 		=	$this->input->post('restdayresult');
+		$scheduleID 		=	$this->input->post('restdayid1');
 		$data = array (
 			'firstname' 		=> 		$this->input->post('firstname'),
 			'middlename'		=>		$this->input->post('middlename'),
@@ -138,7 +115,7 @@
 			'employeetypeID' 	=> 		$this->input->post('employeetypeid'),
 			'backaccountname' 	=> 		$this->input->post('backaccountname'),
 			'backaccountnumber' => 		$this->input->post('backaccountnumber'));
-	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult);
+	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult,$scheduleID);
 	$retval = explode("|",$data);
 
 	if($retval[0]=="false"){

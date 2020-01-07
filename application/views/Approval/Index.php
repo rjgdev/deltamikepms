@@ -206,7 +206,7 @@ $(document).ready(function() {
 				if(data['approval'].length==0){
 					var norecord = "";
 						norecord += '<div class="main-wrapper">' +
-										'<div class="error-box" style="padding-top: 120px;">' +
+										'<div class="error-box" style="padding-top: 70px;">' +
 											'<img class="isometric" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.png">' + 
 											'<h3></i>No records found!</h3>' +
 											'<p style="color:#888">Setup new approval!</p>' +
