@@ -13,10 +13,13 @@ class Employee_model extends CI_Model
 
 	function get_all_employee()
 	{
-		$dataemployee = $this->db->query('SELECT * FROM dm_employee as emp
-				LEFT JOIN dm_designation as p on emp.designationID = p.designationID
-				LEFT JOIN dm_department as d on emp.departmentid = d.departmentid 
-				ORDER BY employeeid DESC');
+		$dataemployee = $this->db->query('SELECT *, CASE employeetypeID
+   										 WHEN "1" THEN "Security Guard"
+   										 WHEN "2" THEN "Staff"  ELSE employeetypeID
+                                         END employeetypeID FROM dm_employee as emp
+										LEFT JOIN dm_designation as p on emp.designationID = p.designationID
+										LEFT JOIN dm_department as d on emp.departmentid = d.departmentid 
+										ORDER BY employeeid DESC');
 				$datadepartment = $this->db->query("SELECT * FROM dm_department");
   		 		$datarole = $this->db->query("SELECT * FROM dm_rolemstr");
   		 		$datadepartment = $this->db->query("SELECT * FROM dm_department");

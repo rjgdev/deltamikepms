@@ -40,11 +40,11 @@
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->sssID; ?></td>
-									<td class="text-right"><?php echo $item->belowrange; ?></td>
-									<td class="text-right"><?php echo $item->aboverange; ?></td>
-									<td class="text-right"><?php echo $item->employer; ?></td>
-									<td class="text-right"><?php echo $item->employee; ?></td>
-									<td class="text-right"><?php echo $item->total; ?></td>
+									<td class="text-right"><?php echo number_format($item->belowrange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->aboverange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->employer,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->employee,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->total,4,".",","); ?></td>
 									<td class="text-right">
 										<button type="button" id="<?php echo $item->sssID; ?>" class="btn btn-info btn-sm editsss"
 												data-toggle="modal"
@@ -490,11 +490,11 @@
 		});
 
 		$('.add').unbind('click').bind('click', function(){
-			var belowrange = $('#belowrange').val().trim();
-	        var aboverange = $('#aboverange').val().trim();
-	        var employer = $('#employer').val().trim();
-	        var employee = $('#employee').val().trim();
-	        var total = $('#total').val().trim();
+			var belowrange = $('#belowrange').val().trim().replace(",","");
+	        var aboverange = $('#aboverange').val().trim().replace(",","");
+	        var employer = $('#employer').val().trim().replace(",","");
+	        var employee = $('#employee').val().trim().replace(",","");
+	        var total = $('#total').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('SSStable/save');?>",
@@ -529,11 +529,11 @@
 
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
-	        var belowrange = $('#editbelowrange').val().trim();
-	        var aboverange = $('#editaboverange').val().trim();
-	        var employer = $('#editemployer').val().trim();
-	        var employee = $('#editemployee').val().trim();
-	        var total = $('#edittotal').val().trim();
+	        var belowrange = $('#editbelowrange').val().trim().replace(",","");
+	        var aboverange = $('#editaboverange').val().trim().replace(",","");
+	        var employer = $('#editemployer').val().trim().replace(",","");
+	        var employee = $('#editemployee').val().trim().replace(",","");
+	        var total = $('#edittotal').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('SSStable/update');?>",

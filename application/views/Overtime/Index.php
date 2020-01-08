@@ -28,31 +28,30 @@ $end   = strtotime('11:59 PM');
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th>Overtime No.</th>
-								<th>Employee Name</th>
-								<th>Department/Position</th>
-								<th>Overtime Date</th>
-								<th>Start Time</th>
-								<th>End Time</th>
-								<th>Total Hour</th>
-								<th>Actions</th>
+								<th style="width: 90px ! important;">Overtime No.</th>
+								<th style="width: 220px ! important;">Employee Name</th>
+								<th style="width: 190px ! important;">Overtime Date</th>
+								<th style="width: 100px ! important;">Start Time</th>
+								<th style="width: 100px ! important;">End Time</th>
+								<th style="width: 50px ! important;">Total Hour</th>
+								<th style="width: 50px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
 							<?php foreach ($data['record'] as $item): ?>
 							<tr>
-								<td><?php echo str_pad($item->overtimeid, 6, "0", STR_PAD_LEFT);  ?></td>
+								<td><?php echo 'OT-', str_pad($item->overtimeid, 6, "0", STR_PAD_LEFT);  ?></td>
 							<td>
+							<div class="dash-card-content">	
                             <a id="<?php echo $item->employeeID; ?>" class="avatar">
                             <?php	
                             if($item->photo==""){
-                              echo '<img alt="" src="uploads/profileimg.png"></a>'.' '.$item->fullname.'</td>';
+                              echo '<img alt="" src="uploads/profileimg.png"></a> <p style="margin-left: 10px; color: black;">'.' '.$item->fullname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->department.' | ' .$item->designationdescription.'</span> </p> </div</td>';
                             }else{
-                              echo '<img alt="" src="uploads/'.$item->photo.'" ></a>'.' '.$item->fullname.'</td>';
+                              echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->fullname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->department.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
                             } ?>
                            </td> 
-								<td><?php echo $item->positionDescription ?></td>
-								 <td><?php echo $item->overtimedate ?></td>
+								 <td><?php echo  date("F d, Y", strtotime($item->overtimedate)) ?></td>
 								<td><?php echo $item->starttime ?></td>
 								<td><?php echo $item->endtime ?></td>
 								<td><?php echo $item->totalhour ?></td>

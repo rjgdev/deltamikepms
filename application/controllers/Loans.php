@@ -26,7 +26,8 @@
 			'enddate' => $this->input->post('enddate'),
 			'amount' => $this->input->post('amount'),
 			'deduction' => $this->input->post('deduction'),
-			'termofpaymentID' => $this->input->post('termofpaymentID'));
+			'termofpaymentID' => $this->input->post('termofpaymentID'),
+			'paid' => $this->input->post('paid'));
 	   		$employeeID = $this->input->post('employeeID');
 			$loantypeID = $this->input->post('loantypeID');
 			$dategranted = $this->input->post('dategranted');
@@ -65,6 +66,12 @@
 	    	echo json_encode($data);  
 
 			
+		}
+		public function get_loan_data()
+		{
+			$id = $this->input->post('id');
+			$data = $this->loan->get_loan_data_model($id);
+	    	echo json_encode($data);  
 		}
 		
 	}     

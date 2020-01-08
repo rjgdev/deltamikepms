@@ -25,32 +25,33 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th>Leave No</th>
-								<th>Employee</th>
-								<th>Leave Type</th>
-								<th>From</th>
-								<th>To</th>
-								<th>No of Days</th>
-								<th>Reason</th>
-								<th class="text-right">Actions</th>
+								<th style="width: 110px ! important;">Leave No.</th>
+								<th style="width: 220px ! important;">Employee</th>
+								<th style="width: 150px ! important;">Leave Type</th>
+								<th style="width: 190px ! important;">From</th>
+								<th style="width: 190px ! important;">To</th>
+								<th style="width: 50px ! important;">No. of Days</th>
+								<th style="width: 220px ! important;">Reason</th>
+								<th style="width: 50px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($data['record'] as $record):?>
 							<tr>
-								<td><?php echo $record->employeeleaveID ?></td>
+								<td><?php echo 'LV-', str_pad($record->employeeleaveID, 6, "0", STR_PAD_LEFT); ?></td>
 								<td>
+								<div class="dash-card-content">	
 								<a id="<?php echo $record->employeeleaveID ?>" class="avatar">
 								 <?php	
 	                            if($record->photo==""){
-	                              echo '<img alt="" src="uploads/profileimg.png"></a>'.' '.$record->fullname.'</td>';
+	                              echo '<img alt="" src="uploads/profileimg.png"></a> <p style="margin-left: 10px; color: black;">'.' '.$record->fullname.' <br> <span style="color:#888;display: block; font-size: 11px;">'.$record->department.' | ' .$record->designationdescription.'</span> </p> </div</td>';
 	                            }else{
-	                              echo '<img alt="" src="uploads/'.$record->photo.'" ></a>'.' '.$record->fullname.'</td>';
+	                              echo '<img alt="" src="uploads/'.$record->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$record->fullname. ' <br> <span style="color:#888;display: block; font-size: 11px;">'.$record->department.' | ' .$record->designationdescription.' </span> </p> </div></div></td>';
 	                            } ?>	
 	                       	 </td>
 								<td><?php echo $record->leavetypename ?></td>
-								<td><?php echo $record->leavefrom ?></td>
-								<td><?php echo $record->leaveto ?></td>
+								<td><?php echo  date("F d, Y", strtotime($record->leavefrom)) ?></td>
+								<td><?php echo  date("F d, Y", strtotime($record->leaveto)) ?></td>
 								<td><?php echo $record->numberofdays ?></td>
 								<td><?php echo $record->reason ?></td>
 								<td class="text-right">
@@ -122,7 +123,7 @@
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="DD/MM/YYYY" description="start date">
+								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="DD-MM-YYYY" description="start date">
 							</div>	
 							<div class="invalid-feedback" id="add-from"></div>	
 						</div>
@@ -131,7 +132,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="DD/MM/YYYY" description="end date">
+								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="DD-MM-YYYY" description="end date">
 							</div>
 							<div class="invalid-feedback" id="add-to"></div>
 						</div>
@@ -209,7 +210,7 @@
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="DD/MM/YYYY" description="start date">
+								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="DD-MM-YYYY" description="start date">
 							</div>	
 							<div class="invalid-feedback" id="edit-from"></div>	
 						</div>
@@ -218,7 +219,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="DD/MM/YYYY" description="end date">
+								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="DD-MM-YYYY" description="end date">
 							</div>
 							<div class="invalid-feedback" id="edit-to"></div>
 						</div>

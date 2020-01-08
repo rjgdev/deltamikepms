@@ -33,14 +33,14 @@
     <span><?php if($this->session->flashdata('empstatus')=="empsuccess") echo '<script type="text/javascript"> showdataSuccessToast() </script>';?></span>
     <thead>
     <tr>
-    <th style="width: 110px ! important;">Employee No.</th>
-    <th>Employee Name</th>
-    <th>Designation</th>
-    <th>Department</th>
-    <th>Contact No.</th>
-    <th>Hired Date</th>
-    <th>Status</th>
-    <th>Action</th>
+    <th style="width: 80px ! important;">Employee No.</th>
+    <th style="width: 220px ! important;">Employee Name</th>
+    <th style="width: 150px ! important;">Employee Type</th>
+    <th style="width: 70px ! important;">Birth Date</th>
+    <th style="width: 110px ! important;">Contact No.</th>
+    <th style="width: 110px ! important;">Hired Date</th>
+    <th style="width: 50px ! important;">Status</th>
+    <th style="width: 50px ! important;">Action</th>
     </tr>
     </thead>
     <tbody id="showdata">
@@ -48,16 +48,17 @@
     <tr>
     <td><?php echo str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);  ?></td>
     <td>
+    <div class="dash-card-content">
     <a id="<?php echo $item->employeeID; ?>" class="avatar">
     <?php 
     if($item->photo==""){
-    echo '<img alt="" src="uploads/profileimg.png"></a>'.' '.$item->firstname.' '.$item->lastname.'</td>';
+    echo '<img alt="" src="uploads/profileimg.png"></a><p style="margin-left: 10px; color: black;"> '.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | ' .$item->designationdescription.'</span> </p> </div</td>';
     }else{
-    echo '<img alt="" src="uploads/'.$item->photo.'" ></a>'.' '.$item->firstname.' '.$item->lastname.'</td>';
+    echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
     } ?>
     </td> 
-    <td><?php echo $item->designationdescription ?></td>
-    <td><?php echo $item->description ?></td>  
+    <td><?php echo $item->employeetypeID ?></td>
+    <td><?php echo date("F d, Y",strtotime($item->birthdate)) ?></td>  
     <td><?php echo  $item->contactinfo ?></td>
     <td><?php echo date("F d, Y",strtotime($item->hireddate)) ?></td>
 
@@ -114,6 +115,9 @@
     data-basicsalary="<?php echo $item->basicsalary; ?>" 
     data-dailyrate="<?php echo $item->dailyrate; ?>" 
     data-allowance="<?php echo $item->allowance; ?>" 
+    data-cola="<?php echo $item->cola; ?>" 
+    data-incentive="<?php echo $item->incentive; ?>" 
+    data-uniformallowance="<?php echo $item->uniformallowance; ?>" 
     data-backaccountname="<?php echo $item->backaccountname; ?>" 
     data-backaccountnumber="<?php echo $item->backaccountnumber; ?>" 
     data-tinnumber="<?php echo $item->tinnumber; ?>" 
@@ -160,8 +164,7 @@
   <div class="tab-pane show active" id="bottom-justified-tab1">
   <form class="form-group">
   <div class="row">
-    <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
     <label for="gender">Employee Type<span class="text-danger">*</span></label>
     <select class="form-control" name="addemployeetype" id="addemployeetype" description="employee type" required>
     <option value="">No Selected</option>
@@ -170,30 +173,22 @@
     </select>
     <div class="invalid-feedback" id="add-employeetype"></div>
     </div>
-  </div>
-  <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
     <label for="firstname">First Name <span class="text-danger">*</span></label>
     <input id="addfirstname" type="text" name="addfirstname" class="form-control input lettersonly" autocomplete="off" description="first name" required>
     <div class="invalid-feedback" id="add-firstname"></div>
     </div>
-  </div>
-  <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
     <label for="middlename">Middle Name</label>
     <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input lettersonly" autocomplete="off">
     <div class="invalid-feedback" id="add-middlename"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
     <label for="lastname">Last Name  <span class="text-danger">*</span></label>
     <input id="addlastname" type="text" name="addlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
     <div class="invalid-feedback" id="add-lastname"></div>
     </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="gender">Gender  <span class="text-danger">*</span></label>
   <select class="form-control" name="addgender" id="addgender" description="gender" required>
   <option value="">No Selected</option>
@@ -202,50 +197,36 @@
   </select>
   <div class="invalid-feedback" id="add-gender"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="housenumber">Unit/House No.</label>
   <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="streetname">Building/Street Name  <span class="text-danger">*</span></label>
   <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
   <div class="invalid-feedback" id="add-streetname"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="barangay">Barangay  <span class="text-danger">*</span></label>
   <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
   <div class="invalid-feedback" id="add-barangay"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="city">City/Municipality  <span class="text-danger">*</span></label>
   <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspace" autocomplete="off" description="city/municipality" required>
   <div class="invalid-feedback" id="add-city"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="birthdate">Birthdate  <span class="text-danger">*</span></label>
   <input id="addbirthdate" name="addbirthdate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="birthdate">
   <div class="invalid-feedback" id="add-birthdate"></div>
   </div>
-  </div> 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="">Contact No. <span class="text-danger">*</span></label>
   <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no" required>
   <div class="invalid-feedback" id="add-contactinfo"></div>
   </div>
-  </div>  
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
   <select class="form-control" name="addcivilstatus" id="addcivilstatus" description="civil status" required>
   <option value="">No Selected</option>
@@ -253,25 +234,19 @@
   <option>Married</option>
   </select>
   <div class="invalid-feedback" id="add-civilstatus"></div>
-  </div>
   </div>  
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
   <input id="addcitizenship" type="text" name="addcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
   <div class="invalid-feedback" id="add-citizenship"></div>
   </div>
-  </div>
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="hireddate">Hired Date  <span class="text-danger">*</span></label>
   <input id="addhireddate"  name="addhireddate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="hired date">
   <div class="invalid-feedback" id="add-hireddate"></div>
   </div>
-  </div> 
 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="description">Department <span class="text-danger">*</span></label>
   <select class="form-control" id="adddepartment" name="adddepartment" style="width: 100%;" description="department" required>
   <option value="">No Selected</option>
@@ -284,9 +259,7 @@
   </select>
   <div class="invalid-feedback" id="add-department"></div>
   </div>
-  </div> 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="designation">Designation <span class="text-danger">*</span></label>
   <input type="hidden" id="hiddenDesignation" name="hiddenDesignation">
   <select class="form-control" id="adddesignation" name="adddesignation" style="width: 100%;" description="designation" required>
@@ -294,9 +267,7 @@
   </select>
   <div class="invalid-feedback" id="add-designation"></div>
   </div>
-  </div>
-    <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="adddetachment">Client <span class="text-danger">*</span></label>
   <select class="form-control" id="addclient" name="addclient" style="width: 100%;" description="Client" required>
   <option value="">No Selected</option>
@@ -308,19 +279,15 @@
   ?>
   </select>
   <div class="invalid-feedback" id="add-client"></div>
-  </div>
   </div> 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="adddetachment">Detachment <span class="text-danger">*</span></label>
   <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="detachment" required>
   <option value="">No Selected</option>
   </select>
   <div class="invalid-feedback" id="add-detachment"></div>
-  </div>
   </div> 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="addstatus">Status <span class="text-danger">*</span></label>
   <select class="form-control" name="addstatus" id="addstatus" description="status" required>
   <option value="">No Selected</option>
@@ -330,7 +297,6 @@
   <option>Resigned</option>
   </select>
   <div class="invalid-feedback" id="add-status"></div>
-  </div>
   </div>
   </div>
   </form>
@@ -394,8 +360,7 @@
                     <div class="tab-pane" id="bottom-justified-tab3">
                       <form class="forms-group">
                         <div class="row">
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="basicsalary">Basic Salary <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
@@ -405,9 +370,7 @@
                                <div class="invalid-feedback" id="add-basicsalary"></div>
                             </div>
                            </div>
-                          </div>
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="dailyrate">Daily Rate <span class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
@@ -417,10 +380,7 @@
                             <div class="invalid-feedback" id="add-dailyrate"></div>
                            </div>
                           </div>
-                         </div> 
-
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="allowance">Allowance</label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
@@ -429,42 +389,41 @@
                             <input id="addallowance" name="addallowance" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off">
                           </div>
                           </div>
-                        </div>
-                         <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Name</label>                       
                             <input id="addbackaccountname" name="addbackaccountname" class="form-control input" autocomplete="off">
                           </div>
-                        </div>
-                         <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Number</label>
                             <input id="addbackaccountnumber" name="addbackaccountnumber" class="form-control input"  autocomplete="off">
                           </div>
-                        </div>
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                            <div class="form-group col-sm-6">
+                            <label for="allowance">Cola</label>
+                            <input id="addcola" name="addcola" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Cola">
+                          </div>
+                            <div class="form-group col-sm-6">
+                            <label for="allowance">Incentives</label>
+                            <input id="addincentive" name="addincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
+                          </div>
+                          <div class="form-group col-sm-6">
+                            <label for="allowance">Uniform Allowances</label>
+                            <input id="adduniformallowance" name="adduniformallowance" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Uniform Allowances">
+                          </div>
+                           <div class="form-group col-sm-6">
                             <label for="tinnumber">TIN</label>
                             <input id="addtinnumber" type="text" name="addtinnumber" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
-                            </div>
-                           </div> 
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                            </div> 
+                           <div class="form-group col-sm-6">
                             <label for="sssnumber">SSS No.</label>
                             <input id="addsssnumber" type="text" name="addsssnumber" class="form-control input" placeholder="00-0000000-0"  minlength=12 autocomplete="off">
                            </div>
-                          </div>
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="philhealthnumber">Philhealth No.</label>
                             <input id="addphilhealthnumber" type="text" name="addphilhealthnumber" class="form-control input" placeholder="00-000000000-0" minlength=14 autocomplete="off">
                            </div>
-                          </div> 
-                           <div class="col-sm-12">
-                           <div class="form-group">
+                           <div class="form-group col-sm-6">
                             <label for="pagibignumber">Pag-IBIG MID No.</label>
                             <input id="addpagibignumber" type="text" name="addpagibignumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
-                           </div>
                           </div>
                         </div>
                       </form>
@@ -597,8 +556,7 @@
     <div class="tab-pane show active" id="bottom-justified-editinfo">
       <div class="form-group">
       <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
           <label for="gender">Employee Type<span class="text-danger">*</span></label>
           <select class="form-control " name="editemployeetype" id="editemployeetype" description="employee type" required>
             <option value="">No Selected</option>
@@ -607,30 +565,22 @@
           </select>
           <div class="invalid-feedback" id="edit-employeetype"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="firstname">First Name <span class="text-danger">*</span></label>
         <input id="editfirstname" type="text" name="editfirstname " class="form-control input lettersonly" autocomplete="off" description="first name" required>
         <div class="invalid-feedback" id="edit-firstname"></div>
         </div>  
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="middlename">Middle Name</label>
         <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input lettersonly" autocomplete="off">
         <div class="invalid-feedback" id="edit-middlename"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="lastname">Last Name <span class="text-danger">*</span></label>
         <input id="editlastname" type="text" name="editlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
         <div class="invalid-feedback" id="edit-lastname"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="gender">Gender <span class="text-danger">*</span></label>
         <select class="form-control" name="editgender" id="editgender" description="gender" required>
         <option value="">No Selected</option>
@@ -639,50 +589,36 @@
         </select>
         <div class="invalid-feedback" id="edit-gender"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="housenumber">Unit/House No.</label>
         <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
-        </div>
       </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="streetname">Building/Street Name <span class="text-danger">*</span></label>
         <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
         <div class="invalid-feedback" id="edit-streetname"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="barangay">Barangay <span class="text-danger">*</span></label>
         <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
         <div class="invalid-feedback" id="edit-barangay"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="city">City/Municipality <span class="text-danger">*</span></label>
         <input id="editcity" type="text" name="editcity" class="form-control input letterswithspace" autocomplete="off" description="city/municipality" required>
         <div class="invalid-feedback" id="edit-city"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="birthdate">Birthdate</label>
         <input id="editbirthdate" name="editbirthdate" class="form-control datetimepicker">
         <div class="invalid-feedback" id="edit-birthdate"></div>
         </div>
-      </div> 
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="">Contact No. <span class="text-danger">*</span></label>
         <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no." required>
         <div class="invalid-feedback" id="edit-contactinfo"></div>
-        </div>
-      </div>  
-      <div class="col-sm-12">
-        <div class="form-group">
+        </div> 
+        <div class="form-group col-sm-6">
         <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
         <select class="form-control" name="editcivilstatus" id="editcivilstatus" description="civil status" required>
         <option value="">No Selected</option>
@@ -690,24 +626,18 @@
         <option>Married</option>
         </select>
         <div class="invalid-feedback" id="edit-civilstatus"></div>
-        </div>
-      </div>  
-      <div class="col-sm-12">
-        <div class="form-group">
+        </div> 
+        <div class="form-group col-sm-6">
         <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
         <input id="editcitizenship" type="text" name="editcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
         <div class="invalid-feedback" id="edit-citizenship"></div>
         </div>
-      </div>
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="hireddate">Hired Date</label>
         <input id="edithireddate" name="edithireddate" class="form-control datetimepicker">
         <div class="invalid-feedback" id="edit-hireddate"></div>
         </div>
-      </div>  
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="editdepartment">Department <span class="text-danger">*</span></label>
         <select class="form-control" id="editdepartment" name="editdepartment" style="width: 100%;" description="department" required>
           <option value="">No Selected</option>
@@ -719,19 +649,15 @@
           ?>  
         </select>
         <div class="invalid-feedback" id="edit-department"></div>
-        </div>
-      </div> 
-      <div class="col-sm-12">
-        <div class="form-group">
+        </div> 
+        <div class="form-group col-sm-6">
           <label for="editdesignation">Designation <span class="text-danger">*</span></label>
           <input type="hidden" id="edithiddenDesignation" name="edithiddenDesignation">
           <select class="form-control" id="editdesignation" name="editdesignation" description="designation" style="width: 100%;">
           </select>
           <div class="invalid-feedback" id="edit-designation"></div>
           </div>
-      </div> 
-  <div class="col-sm-12">
-  <div class="form-group">
+  <div class="form-group col-sm-6">
   <label for="editdetachment">Client <span class="text-danger">*</span></label>
   <select class="form-control" id="editclient" name="editclient" style="width: 100%;" description="Client" required>
   <option value="">No Selected</option>
@@ -744,18 +670,14 @@
   </select>
   <div class="invalid-feedback" id="edit-client"></div>
   </div>
-  </div> 
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
           <label for="editdetachment">Detachment <span class="text-danger">*</span></label>
            <input type="hidden" id="edithiddenDetachment" name="edithiddenDetachment">
           <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required>
           </select>
           <div class="invalid-feedback" id="edit-detachment"></div>
-        </div>
-      </div> 
-      <div class="col-sm-12">
-        <div class="form-group">
+        </div> 
+        <div class="form-group col-sm-6">
           <label for="editstatus">Status <span class="text-danger">*</span></label>
           <select class="form-control" name="editstatus" id="editstatus" description="status" required>
           <option value="">No Selected</option>
@@ -766,7 +688,6 @@
           </select>
           <div class="invalid-feedback" id="edit-status"></div>
         </div>
-      </div>
       </div>
       </div>
     </div>     
@@ -825,8 +746,7 @@
   <div class="tab-pane" id="bottom-justified-editdetail">
   <form>
     <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
+        <div class="form-group col-sm-6">
         <label for="basicsalary">Basic Salary <span class="text-danger">*</span></label>
         <div class="input-group mr-sm-2 mb-sm-0">
         <div class="input-group-prepend">
@@ -836,9 +756,7 @@
         <div class="invalid-feedback" id="edit-basicsalary"></div>
         </div>
         </div>
-      </div>
-    <div class="col-sm-12">
-      <div class="form-group">
+      <div class="form-group col-sm-6">
       <label for="dailyrate">Daily Rate <span class="text-danger">*</span></label>
       <div class="input-group mr-sm-2 mb-sm-0">
       <div class="input-group-prepend">
@@ -847,10 +765,8 @@
       <input id="editdailyrate" name="editdailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" required>
       <div class="invalid-feedback" id="edit-dailyrate"></div>
       </div>
-      </div>
-    </div> 
-    <div class="col-sm-12">
-      <div class="form-group">
+      </div> 
+      <div class="form-group col-sm-6">
       <label for="allowance">Allowance</label>
       <div class="input-group mr-sm-2 mb-sm-0">
       <div class="input-group-prepend">
@@ -859,45 +775,44 @@
       <input id="editallowance" name="editallowance" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off">
       </div>
       </div>
-    </div>
-    <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
       <label for="allowance">Bank Account Name</label>                       
       <input id="editbackaccountname" name="editbackaccountname" class="form-control input" autocomplete="off">
         <div class="invalid-feedback" id="edit-backaccountname"></div>
     </div>
-    </div>
-    <div class="col-sm-12">
-    <div class="form-group">
+    <div class="form-group col-sm-6">
       <label for="allowance">Bank Account Number</label>
       <input id="editbackaccountnumber" name="editbackaccountnumber" class="form-control input"  autocomplete="off">
       <div class="invalid-feedback" id="edit-backaccountnumber"></div>
     </div>
-    </div>
-    <div class="col-sm-12">
-      <div class="form-group">
+        <div class="form-group col-sm-6">
+        <label for="allowance">Cola</label>
+        <input id="editcola" name="editcola" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Cola">
+        </div>
+        <div class="form-group col-sm-6">
+        <label for="allowance">Incentives</label>
+        <input id="editincentive" name="editincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="allowance">Uniform Allowances</label>
+        <input id="edituniformallowance" name="edituniformallowance" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Uniform Allowances">
+      </div>
+      <div class="form-group col-sm-6">
       <label for="tinnumber">TIN</label>
       <input id="edittinnumber" type="text" name="edittinnumber" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
       </div>
-    </div> 
-    <div class="col-sm-12">
-      <div class="form-group">
+      <div class="form-group col-sm-6">
       <label for="sssnumber">SSS No.</label>
       <input id="editsssnumber" type="text" name="editsssnumber" class="form-control input" placeholder="00-0000000-0" minlength=12 autocomplete="off">
       </div>
-    </div>
-    <div class="col-sm-12">
-      <div class="form-group">
+      <div class="form-group col-sm-6">
       <label for="philhealthnumber">Philhealth No.</label>
       <input id="editphilhealthnumber" type="text" name="editphilhealthnumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
       </div>
-    </div> 
-    <div class="col-sm-12">
-      <div class="form-group">
+      <div class="form-group col-sm-6">
       <label for="pagibignumber">Pag-IBIG MID No.</label>
       <input id="editpagibignumber" type="text" name="editpagibignumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
       </div>
-    </div>
     </div>
   </form>
   </div>
@@ -1512,35 +1427,26 @@ var restdayid =[];
       var middlename = $("#addmiddlename").val();
     
     var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
-                   '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
-                   '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
-                   '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
-                   '#addpassword','#addbasicsalary', '#adddailyrate', '#addallowance', '#addtinnumber', 
-                   '#addsssnumber','#addphilhealthnumber', '#addpagibignumber',  '#addbackaccountname','#addbackaccountnumber'];
+                  '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
+                  '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
+                  '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
+                  '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addcola',
+                  '#addincentive', '#adduniformallowance', '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
+                  '#addpagibignumber', '#addbackaccountname', '#addbackaccountnumber'];
 
     var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
                         'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
                         'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
                         'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
-                        'add-password','add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-tinnumber', 
-                        'add-sssnumber', 'add-philhealthnumber', 'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber'];
+                        'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-cola', 
+                        'add-incentive', 'add-uniformallowance', 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
+                        'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber'];
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
       var basicsalary = $("#addbasicsalary").val();
       var dailyrate = $("#adddailyrate").val();
   var phone = $("#addcontactinfo").val();
-   if(phone.length<13){
-     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit ";
-    $(IDArray[10]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-    }else{
-       document.getElementById(ErrorIDArray[10]).innerHTML = "";
-    $(IDArray[10]).removeClass('is-invalid');
-    $(IDArray[10]).addClass('is-valid');
-    event.preventDefault();
-    };
     if($(IDArray[22]).val()==0){
       document.getElementById(ErrorIDArray[22]).innerHTML = "Invalid input  " + $(IDArray[22]).attr("description") +".";
       $(IDArray[22]).addClass('is-invalid');
@@ -1579,12 +1485,10 @@ var restdayid =[];
       
      };  
 
-    
-
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val().trim();
     if(employeetype=='1'){
-      if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
+      if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33) continue;
     
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
@@ -1596,6 +1500,17 @@ var restdayid =[];
         document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
         $(IDArray[i]).addClass('is-invalid');
         event.preventDefault();
+        if($(IDArray[10]).val().length<13){
+     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit ";
+    $(IDArray[10]).addClass('is-invalid');
+    event.preventDefault();
+    return false;
+     }else{
+       document.getElementById(ErrorIDArray[10]).innerHTML = "";
+    $(IDArray[10]).removeClass('is-invalid');
+    $(IDArray[10]).addClass('is-valid');
+    event.preventDefault();
+    }
       }else{
          document.getElementById(ErrorIDArray[i]).innerHTML = "";
         $(IDArray[i]).removeClass('is-invalid');
@@ -1603,7 +1518,7 @@ var restdayid =[];
         event.preventDefault();
       }
     }else{
-         if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
+         if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -1678,6 +1593,9 @@ var restdayid =[];
         var basicsalary       =   $("#addbasicsalary").val();
         var dailyrate         =   $("#adddailyrate").val();
         var allowance         =   $("#addallowance").val();
+        var cola              =   $("#addcola").val();
+        var incentive         =   $("#addincentive").val();
+        var uniformallowance  =   $("#adduniformallowance").val();
         var tinnumber         =   $("#addtinnumber").val();
         var sssnumber         =   $("#addsssnumber").val();
         var philhealthnumber  =   $("#addphilhealthnumber").val();
@@ -1696,10 +1614,11 @@ var restdayid =[];
                 hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        tinnumber:        tinnumber,      
-                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,  
-                clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
-                backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
+                dailyrate:         dailyrate,       allowance:        allowance,        cola:             cola,    
+                incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,              
+                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
+                clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
+                backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
                 restdayresult:     restdayresult},
         async : true,
         dataType : 'json',
@@ -1739,7 +1658,7 @@ var restdayid =[];
 
    
 
-  /* end SAVE employee */
+  // end SAVE employee 
   $('.editemployee').unbind('click').bind('click', function(){
     $(".modal-body #editemployeetype").val($(this).data('employeetypeid'));
     $(".modal-body #editfirstname").val($(this).data('firstname'));
@@ -1770,6 +1689,9 @@ var restdayid =[];
     $(".modal-body #editbasicsalary").val( $(this).data('basicsalary'));
     $(".modal-body #editdailyrate").val( $(this).data('dailyrate'));
     $(".modal-body #editallowance").val( $(this).data('allowance'));
+    $(".modal-body #editcola").val( $(this).data('cola'));
+    $(".modal-body #editincentive").val( $(this).data('incentive'));
+    $(".modal-body #edituniformallowance").val( $(this).data('uniformallowance'))
     $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
     $(".modal-body #editbackaccountnumber").val( $(this).data('backaccountnumber'));
     $(".modal-body #editsssnumber").val( $(this).data('sssnumber'));
@@ -1845,16 +1767,18 @@ var restdayid =[];
      var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
                    '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
-                   '#editclient', '#editdetachment', '#editstatus', '#editrole', '#editusername', 
-                   '#editpassword','#editbasicsalary', '#editdailyrate', '#editallowance', '#edittinnumber', 
-                   '#editsssnumber','#editphilhealthnumber', '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber'];
+                   '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
+                   '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editcola', 
+                   '#editincentive', '#edituniformallowance', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
+                   '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber'];
 
     var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
                         'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
                         'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
                         'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
-                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-tinnumber', 
-                        'edit-sssnumber', 'edit-philhealthnumber', 'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber'];
+                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-cola', 
+                        'edit-incentive', 'edit-uniformallowance', 'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
+                        'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber'];
       var ValueArray = [];
 
       var ValueArray = [];
@@ -1923,7 +1847,7 @@ var restdayid =[];
     for(var i=0;i<IDArray.length;i++){
       ValueArray[i] = $(IDArray[i]).val();
       if(employeetype=='1'){
-       if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
+       if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 || i==31 || i==32 || i==33) continue;
       
       if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
@@ -1942,7 +1866,7 @@ var restdayid =[];
         event.preventDefault();
       }
        }else{
-        if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30) continue;
+        if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 || i==31 || i==32 || i==33) continue;
         if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
         if(firstRequired==""){
           firstRequired = IDArray[i]
@@ -2026,6 +1950,9 @@ var restdayid =[];
         var basicsalary       =   $("#editbasicsalary").val();
         var dailyrate         =   $("#editdailyrate").val();
         var allowance         =   $("#editallowance").val();
+        var cola              =   $("#editcola").val();
+        var incentive         =   $("#editincentive").val();
+        var uniformallowance  =   $("#edituniformallowance").val();
         var tinnumber         =   $("#edittinnumber").val();
         var sssnumber         =   $("#editsssnumber").val();
         var philhealthnumber  =   $("#editphilhealthnumber").val();
@@ -2045,7 +1972,8 @@ var restdayid =[];
                 hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        tinnumber:        tinnumber,      
+                dailyrate:         dailyrate,       allowance:        allowance,        cola:             cola,    
+                incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,      
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                 backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,

@@ -25,36 +25,58 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								  <th style="width: 20px ! important;">Reference NO</th>
-								  <th>Employee Name</th>
-			                      <th>Loan Type</th>
-			                      <th>Term of Payment</th>
-			                      <th>Start Date</th>
-			                      <th>End Date</th>
-			                      <th>Amount</th>
-			                      <th>Deduction</th>
-			                      <th>Balance</th>  
-								<th>Actions</th>
+								  <th style="width: 220px ! important;">Loan No.</th>
+								  <th style="width: 700px ! important;">Employee Name</th>
+			                      <th style="width: 150px ! important;">Loan Type</th>
+			                      <th style="width: 350px ! important;">Term of Payment</th>
+			                      <th style="width: 250px ! important;">Start Date</th>
+			                      <th style="width: 250px ! important;">End Date</th>
+			                      <th style="width: 70px ! important;">Amount</th>
+			                      <th style="width: 70px ! important;">Deduction</th>
+			                      <th style="width: 30px ! important;">Paid</th> 
+								<th style="width: 30px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
 							<?php foreach ($data['loanrecord'] as $item){ ?>
 							<tr>
-								<td><?php echo $item->loanid ?></td>
-								<td><?php echo $item->fullname ?></td>
-								<td><?php echo $item->loantype ?></td>
-								<td><?php echo $item->termofpaymentID ?></td>
-								<td><?php echo $item->dategranted ?></td>
-								<td><?php echo $item->enddate ?></td>
-								<td class="text-right"><?php echo $item->amount ?></td>
-								<td class="text-right"><?php echo $item->deduction ?></td>
-								<td class="text-right"><?php echo $item->balance ?></td>
-								<div class="dropdown dropdown-action">
+
+								<td><?php echo 'LN-', str_pad($item->loanid, 6, "0", STR_PAD_LEFT) ?></td>
+								<td>
+								<div class="dash-card-content">	
+								<a id="<?php echo $item->loanid ?>" class="avatar">
+								<?php	
+	                            if($item->photo==""){
+	                              echo '<img alt="" src="uploads/profileimg.png"></a> <p style="margin-left: 10px; color: black;">'.' '.$item->fullname.' <br> <span style="color:#888;display: block; font-size: 11px;">'.$item->department.' | ' .$item->designationdescription.'</span> </p> </div</td>';
+	                            }else{
+	                              echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->fullname. ' <br> <span style="color:#888;display: block; font-size: 11px;">'.$item->department.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
+	                            } ?>	
+								<td><?php echo $item->loantype; ?></td>
+								<td><?php echo $item->termofpaymentID; ?></td>
+								<td><?php echo date("F d, Y",strtotime($item->dategranted)) ;?></td>
+								<td><?php echo date("F d, Y",strtotime($item->enddate)); ?></td>
+								<td class="text-right"><?php  echo $item->amount; ?></td>
+								<td class="text-right"><?php echo $item->deduction; ?></td>
+								<td>
+								<div class="action-label">
+										<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
+											<?php if($item->paid=="1") 
+													   echo '<i class="fa fa-dot-circle-o text-success"></i> paid';
+												  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Unpaid';
+										    ?>
+										</a>
+									</div>
+								</td>	
 								</div>
-								<td class="text-right">
-									<button type="button" id="<?php echo $item->loanid; ?>" 
-										class="btn btn-info btn-sm edit_loan" 
-										data-toggle="modal" data-target="#edit_loan" 
+									<td class="text-right">
+								    <div class="dropdown dropdown-action">
+								    <a href="" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+								    <div class="dropdown-menu dropdown-menu-right">
+								    <a class="dropdown-item editloan" href="#"
+									    id="<?php echo $item->loanid; ?>"
+									    class="btn btn-info btn-sm editloan"
+									    data-toggle="modal" 
+									    data-target="#edit_loan"
 										data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
 										data-id="<?php echo $item->loanid; ?>" 
 										data-employeeid="<?php echo $item->employeeID; ?>" 
@@ -66,7 +88,12 @@
 										data-loantypeid1="<?php echo $item->loantypeid1; ?>" 
 										data-amount="<?php echo $item->amount; ?>" 
 										data-deduction="<?php echo $item->deduction; ?>" 
-										data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
+										data-tog="tooltip"data-placement="top" title="Edit"> 
+									<i class="fa fa-pencil m-r-5"></i> Edit</a>
+								<a class="dropdown-item viewrecord" href="#" data-toggle="modal" data-target="#view_record" loanid="<?php echo $item->loanid; ?>"><i class="fa fa-toggle-on m-r-5"></i> view</a>
+    							</div>	
+    							</div>	
+    						</td>		  
 							</tr>
 
 							<?php } ?>
@@ -120,7 +147,7 @@
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted" data-date-format="DD/MM/YYYY" description="start date">
+								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted" data-date-format="DD-MM-YYYY" description="start date">
 								 <div class="invalid-feedback" id="add-dategranted"></div>
 							</div>
 						</div>
@@ -129,7 +156,7 @@
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" data-date-format="DD/MM/YYYY" description="end date">
+								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" data-date-format="DD-MM-YYYY" description="end date">
 								 <div class="invalid-feedback" id="add-addenddate"></div>
 							</div>
 						</div>
@@ -167,6 +194,7 @@
             <option value="3">Yearly</option>
             </select>   
            <!--  <div class="invalid-feedback" id="add-termofpaymentID"></div>      -->
+           <input id="addpaid" name="addpaid" value="0" type="hidden" class="form-control input">
         </div>
         </div>            
 		<div class="submit-section">
@@ -219,7 +247,7 @@
 					<div class="form-group">
 					<label>Start Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editdategranted" data-date-format="DD/MM/YYYY" name="editdategranted">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" data-date-format="DD-MM-YYYY" name="editdategranted">
 					<div class="invalid-feedback" id="edit-dategranted"></div>
 					</div>
 					</div>
@@ -228,7 +256,7 @@
 					<div class="form-group">
 					<label>End Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editenddate" data-date-format="DD/MM/YYYY" name="editenddate">
+					<input class="form-control datetimepicker" type="text" id="editenddate" data-date-format="DD-MM-YYYY" name="editenddate">
 					<div class="invalid-feedback" id="edit-enddate"></div>
 					</div>
 					</div>
@@ -321,13 +349,81 @@
 			</div>
 		</div>
 	</div>
+		<div id="view_record" class="modal custom-modal fade" role="dialog">
+			<div class="col-md-12">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View Record</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+			
+				<div class="table-responsive">
+					<table class="table table-striped custom-table datatable">
+						<thead>
+							<tr>
+								  <th >Deduction No.</th>
+								  <th >Employee Name</th>
+			                      <th >Deduction Date</th>
+			                      <th >Loan Type</th>
+							</tr>
+						</thead>
+						<tbody id="showdata">
+							<tr>
+				              <td id="deductionNo"></td> 
+				              <td id="employeename"></td>
+				              <td><p id="deductiondate"></p></td>
+				              <td><p id="loantype"></p></td>
+				            </tr>
+						</tbody>
+					</table>
+				</div>
+			</div>			
+				</div>
+			</div>
+		</div>
+		</div>	
+				
+					
        <?php 
 	if($this->session->flashdata('success')!=""){
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
 	}
 ?>
  <script  type="text/javascript">
-   $(document).ready(function() { 
+   $(document).ready(function() {
+
+   		$('.viewrecord').click(function(){
+   			var id = $(this).attr('loanid'); //get the attribute value
+   			 $.ajax({
+              url : "<?php echo base_url(); ?>Loans/get_loan_data",
+              method : "POST",
+	          data : {id: id},
+	          async : true,
+	          dataType : 'json',
+          	success: function(response){
+            var len ="";
+            var len = response.length;
+
+              for(var i=0; i<len; i++){
+              	//console.log(len);
+                 var loandeduction = response[i].loandeductionID;
+                 //$("#deductionNo").val()==data[i].loandeductionID;
+                 console.log(loandeduction);
+                 //alert("Wilson");
+                 // $("#deductionNo").val(loandeduction);
+             	// $('#deductionNo' + (i).response[i].loandeductionID;
+             	 //var loanid = html(response.loandeductionID);
+              	//console.log(loanid);
+              } 
+
+         	 }
+          });
+      });     	
+
    		/* CLEAR MODAL */
 		$('#edit_loan').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
@@ -357,8 +453,8 @@
 		var deduction = $("#adddeduction").val();
 		var enddate = $("#addenddate").val();
 		var adddategranted = $("#adddategranted").val();
-		var arrtodate = adddategranted.split("/");
-		var arrt1odate = enddate.split("/");
+		var arrtodate = adddategranted.split("-");
+		var arrt1odate = enddate.split("-");
 		var tdate = arrt1odate[0];
 		var tmonth = arrt1odate[1];
 		var tyear = arrt1odate[2]; 
@@ -438,6 +534,7 @@
 	 	 	var amount 			= 		$("#addamount").val();
 	 	 	var deduction 		= 		$("#adddeduction").val();
 	 	 	var termofpaymentID = 		$("#addtermofpaymentID").val();
+	 	 	var paid 			= 		$("#addpaid").val();
 
     		$.ajax({
                 url : "<?php echo site_url('Loans/save');?>",
@@ -445,7 +542,7 @@
                 data : {employeeID: 		employeeID, 		loantypeID: loantypeID,
                 		dategranted: 		dategranted, 		enddate: 	enddate,
                 		amount: 			amount, 	        deduction:  deduction, 
-                		termofpaymentID: 	termofpaymentID},
+                		termofpaymentID: 	termofpaymentID, 	paid: 		paid},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -484,7 +581,7 @@
         	$('select').removeClass('is-valid');
         	
 		});
-		$('.edit_loan').unbind('click').bind('click', function(){
+		$('.editloan').unbind('click').bind('click', function(){
 		$(".modal-body #editemployeeID").val($(this).data('employeeid'));
 		$(".modal-body #editloantypeID").val( $(this).data('loantypeid1'));
 		$(".modal-body #editdategranted").val( $(this).data('dategranted'));
@@ -509,8 +606,8 @@ $('.update').unbind('click').bind('click', function(){
 		var editdeduction = $("#editdeduction").val();
 		var enddate = $("#editenddate").val();
 		var dategranted = $("#editdategranted").val();
-		var arrtodate = dategranted.split("/");
-		var arrt1odate = enddate.split("/");
+		var arrtodate = dategranted.split("-");
+		var arrt1odate = enddate.split("-");
 		var tdate = arrt1odate[0];
 		var tmonth = arrt1odate[1];
 		var tyear = arrt1odate[2]; 

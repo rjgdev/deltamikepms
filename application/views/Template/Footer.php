@@ -58,6 +58,12 @@
 		      e.preventDefault();
 		    }
 		});
+		 $(".withoutspace").keypress(function(e){
+		    var keyCode = e.which;
+		    if ( !( (keyCode >= 48 && keyCode <= 59) || (keyCode >= 97 && keyCode <= 122 ) || (keyCode >= 64 && keyCode <= 90 || (keyCode >= 33 && keyCode <= 47 ) )) &&  keyCode != 13) {
+		      e.preventDefault();
+		    }
+		});
 
 		$(".percentage").keypress(function(e){
 		    var keyCode = e.which;

@@ -11,11 +11,11 @@ class Loan_model extends CI_Model
 		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
 		$loandata = $this->db->query("
              SELECT 
-            loanid,employeeID,fullname,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2
+            loanid,employeeID,photo,fullname,department,designationdescription,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2,paid
             FROM
             (
                 SELECT
-                srln.loanid,
+                srln.loanid,usrs.photo,d.description as department,dsg.designationdescription,
                 CONCAT(usrs.firstname,' ', usrs.middlename,' ', usrs.lastname) as fullname,srln.employeeID,
                 case
                 WHEN srln.loantypeid = 1 THEN 'Social Security System(SSS)'
@@ -31,12 +31,14 @@ class Loan_model extends CI_Model
                 ELSE NULL
                 END AS termofpaymentID,termofpaymentID as termofpaymentID2,
                 srln.dategranted as dategranted,
-                amount,enddate,
+                amount,enddate,paid,
                 srln.balance
                 FROM dm_loan as srln 
-                LEFT JOIN dm_employee as usrs on srln.employeeID = usrs.employeeID
+                LEFT JOIN dm_employee as usrs ON srln.employeeID = usrs.employeeID
+                LEFT JOIN dm_department as d ON usrs.departmentID = d.departmentID
+                LEFT JOIN dm_designation as dsg ON usrs.designationID = dsg.designationID
                 ORDER BY loanid DESC
-            )a
+            )a;
         ");
 		 $dropdownemp = $query->result();	 
 	     $dataloan = $loandata->result();
@@ -78,5 +80,15 @@ class Loan_model extends CI_Model
         {
             return 'false|Employee name and dategranted date already exist!';
         }        
-    }	
+    }
+    function get_loan_data_model($id)
+    {
+    $query = $this->db->query('SELECT * FROM dm_loandeduction WHERE loanID = '.$id.'');
+    return $query->result();
+    //print_r($query->result());
+    //exit;
+    
+
+    }
+
 }	

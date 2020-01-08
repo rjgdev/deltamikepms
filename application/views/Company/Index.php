@@ -47,14 +47,14 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label>City<code>*</code></label>
-								<input class="form-control alphanumericwithspace"id="editcity"name="editcity" value="<?php echo $record->city; ?>" type="text">
+								<input class="form-control letterswithspace"id="editcity"name="editcity" value="<?php echo $record->city; ?>" type="text">
 								<div class="invalid-feedback" id="edit-city"></div>
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label>State/Province<code>*</code></label>
-								<input type="text" class="form-control alphanumericwithspace"id="editprovince"name="editprovince" description="State/Province" value="<?php echo $record->province; ?>">
+								<input type="text" class="form-control letterswithspace"id="editprovince"name="editprovince" description="State/Province" value="<?php echo $record->province; ?>">
 								<div class="invalid-feedback" id="edit-province"></div>
 							</div>
 						</div>
@@ -70,7 +70,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label>Email<code>*</code></label>
-								<input class="form-control" id="editemail"name="editemail" value="<?php echo $record->email; ?>" type="email">
+								<input class="form-control withoutspace" id="editemail"name="editemail" value="<?php echo $record->email; ?>" type="email">
 								<div class="invalid-feedback" id="edit-email"></div>
 							</div>
 						</div>
@@ -208,6 +208,7 @@ $(document).ready(function() {
 			var navIndex = 0;
 			var editmobile = $("#editmobilenumber").val();
 			var editpostal = $("#editpostalcode").val();
+			var fax = $("#editfax").val();
 			if(editmobile.length<13){
 				document.getElementById(ErrorIDArray[7]).innerHTML = "Mobile number must be 11 digit " ;
 				$(IDArray[7]).addClass('is-invalid');
@@ -230,6 +231,18 @@ $(document).ready(function() {
 				$(IDArray[5]).addClass('is-valid');
 				event.preventDefault();
 			};
+
+		   if(fax.length<12){
+		     document.getElementById(ErrorIDArray[8]).innerHTML = "Fax number must be 12 digit ";
+		    $(IDArray[8]).addClass('is-invalid');
+		    event.preventDefault();
+		    return false;
+		    }else{
+		       document.getElementById(ErrorIDArray[8]).innerHTML = "";
+		    $(IDArray[8]).removeClass('is-invalid');
+		    $(IDArray[8]).addClass('is-valid');
+		    event.preventDefault();
+		    };
 			for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
 			if(i==9)  continue;

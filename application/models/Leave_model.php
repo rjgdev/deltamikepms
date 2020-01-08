@@ -17,14 +17,16 @@ class Leave_model extends CI_Model
 							FROM
 							(
 							SELECT  el.leavetypeID,el.employeeID,photo, totalleave as remainingleave,  el.employeeleaveID, lt.leavetypename, concat(e.firstname, ' ', e.middlename,' ',lastname) as fullname,
-							el.leavefrom,el.leaveto,numberofdays,reason
+							el.leavefrom,el.leaveto,numberofdays,reason,d.description as department,dsg.designationdescription
 							FROM dm_employeeleave AS el
 							LEFT JOIN dm_leavetype AS lt ON el.leavetypeID = lt.leavetypeID
 							LEFT JOIN dm_employee as e ON el.employeeID = e.employeeID
+							LEFT JOIN dm_department as d ON e.departmentID = d.departmentID
+							LEFT JOIN dm_designation as dsg ON e.designationID = dsg.designationID
 							LEFT JOIN dm_employeecreditleave AS ec ON el.leavetypeID = ec.leavetypeID AND el.employeeID = ec.employeeID
 							GROUP  BY el.employeeID,el.leavetypeID,leavefrom
 							)a
-							order by employeeID
+							order by employeeID;
 							");
 		$employeerecord = $employeerecord->result();
 		$queryemployee = $dataemployee->result();

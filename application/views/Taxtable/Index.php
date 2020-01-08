@@ -39,10 +39,10 @@
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->taxID; ?></td>
-									<td class="text-right"><?php echo $item->belowrange; ?></td>
-									<td class="text-right"><?php echo $item->aboverange; ?></td>
-									<td class="text-right"><?php echo $item->additionaltax; ?></td>
-									<td class="text-right"><?php echo $item->percent; ?>%</td>
+									<td class="text-right"><?php echo number_format($item->belowrange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->aboverange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->additionaltax,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->percent,4,".",","); ?>%</td>
 									<td class="text-right">
 										<button type="button" id="<?php echo $item->taxID; ?>" class="btn btn-info btn-sm edittax"
 												data-toggle="modal"
@@ -426,10 +426,10 @@
 		});
 
         $('.add').unbind('click').bind('click', function(){
-			var belowrange = $('#belowrange').val().trim();
-	        var aboverange = $('#aboverange').val().trim();
-	        var additionaltax = $('#additionaltax').val().trim();
-	        var percent = $('#percent').val().trim();
+			var belowrange = $('#belowrange').val().trim().replace(",","");
+	        var aboverange = $('#aboverange').val().trim().replace(",","");
+	        var additionaltax = $('#additionaltax').val().trim().replace(",","");
+	        var percent = $('#percent').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('taxtable/save');?>",
@@ -463,10 +463,10 @@
 
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
-	        var belowrange = $('#editbelowrange').val().trim();
-	        var aboverange = $('#editaboverange').val().trim();
-	        var additionaltax = $('#editadditionaltax').val().trim();
-	        var percent = $('#editpercent').val().trim();
+	        var belowrange = $('#editbelowrange').val().trim().replace(",","");
+	        var aboverange = $('#editaboverange').val().trim().replace(",","");
+	        var additionaltax = $('#editadditionaltax').val().trim().replace(",","");
+	        var percent = $('#editpercent').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('taxtable/update');?>",
