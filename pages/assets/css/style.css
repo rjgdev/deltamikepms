@@ -98,6 +98,7 @@ Version      : 3.3
 
 input[type="search"] {
   border-radius: 5px !important;
+  width: 250px !important;
 }
 
 a.action-status {
@@ -207,6 +208,32 @@ tr.shown td.details-control {
 
 .selectstatus:focus {
 	outline: none;
+}
+
+.DTFC_ScrollWrapper{
+	margin-bottom:13px;
+}
+
+.custom-status{
+	width: 100%; 
+	line-height: 1.7; 
+	display:inline-block;
+	font-weight: 400;
+	border:solid 1px #ccc;
+	border-radius: .50rem;
+    font-size: 11px;
+}
+
+.tsdata{
+	text-align: center;
+}
+.dash-card-header{
+	margin-left: 17px;
+}
+
+.submit, .cancel{
+	padding: 10px !important;
+    text-transform: none !important;
 }
 /* End of Customize*/
 
@@ -326,9 +353,9 @@ a:focus {
     height: 44px;
 }
 .form-control:focus {
-	border-color: #ccc;
-	box-shadow: none;
-	outline: 0 none;
+	outline: none !important;
+	border:1px solid #9e9edf;
+	box-shadow: 0 0 5px #719ECE;
 }
 .form-control[disabled], fieldset[disabled] .form-control {
     cursor: not-allowed;
@@ -454,7 +481,7 @@ table.table td h2 span {
 }
 table.dataTable {
 	margin-bottom: 15px !important;
-	margin-top: 15px !important;
+	margin-top: 0px !important;
 }
 .table-nowrap td,
 .table-nowrap th {
@@ -471,6 +498,7 @@ table.dataTable thead > tr > td.sorting_asc,
 table.dataTable thead > tr > td.sorting_desc, 
 table.dataTable thead > tr > td.sorting {
 	padding-right: 30px !important;
+	color: rgb(224, 77, 69);
 }
 
 /*-----------------
@@ -946,20 +974,23 @@ table.dataTable thead > tr > td.sorting {
 	color: #c2c6d1 !important;
 }
 .bg-inverse-success {
-	background-color:rgba(15, 183, 107,0.12) !important;
-	color: #26af48 !important;
+	background-color:rgba(255, 255, 255, 0.74) !important;
+	color: #000000  !important;
+	border: solid 1px #85c08c;
 }
 .bg-inverse-purple {
-	background: rgba(108, 97, 246, .2) !important;
-	color: #6c61f6 !important;
+	background: rgba(255, 255, 255, 0.74) !important;
+	color: #000000 !important;
+	border: solid 1px #8979eb;
 }
 .bg-inverse-warning {
 	background-color: rgba(255, 152, 0,0.12) !important;
 	color: #f39c12 !important;
 }
 .bg-inverse-danger {
-	background-color: rgba(242, 17, 54,0.12) !important;
-	color: #e63c3c !important;
+	background-color: rgba(255, 255, 255, 0.74) !important;
+	color: #000000 !important;
+	border: solid 1px #ff8197;
 }
 .bg-inverse-light {
 	background: rgba(223, 223, 223, .2) !important;
@@ -971,11 +1002,12 @@ table.dataTable thead > tr > td.sorting {
 }
 .bg-inverse-white {
 	background: rgba(255, 255, 255, .2) !important;
-	color: #fff !important;
+	color: #000000 !important;
 }
 .bg-inverse-info {
-    background-color: rgba(2, 182, 179,0.12) !important;
-    color: #1db9aa !important;
+    background-color: rgba(255, 255, 255, 0.74) !important;
+    color: #000000 !important;
+	border: solid 1px #50a5d6;
 }
 .bg-inverse-default {
 	background-color: rgba(40, 52, 71,0.12) !important;
@@ -1192,9 +1224,16 @@ table.dataTable thead > tr > td.sorting {
 	7. Modal
 -----------------------*/
 
-.modal {
+.modal-upload {
 	-webkit-overflow-scrolling: touch;
+	position: absolute;
+	float: left;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
+
+
 .modal-footer.text-center {
     justify-content: center;
 }
@@ -1389,6 +1428,7 @@ table.dataTable thead > tr > td.sorting {
 	border-radius: 50%;
     width: 34px;
     height: 34px;
+    border: 2px solid #c6c6c6;
 }
 .user-img .status {
 	border: 2px solid #fff;
@@ -2616,7 +2656,7 @@ table.dataTable thead > tr > td.sorting {
 	width: 34px;
     height: 34px;
 	display: block;
-
+	border: 2px solid #c6c6c6;
 }
 .chat.chat-left .chat-bubble:first-child .chat-content {
 	border-top-left-radius: 20px;
@@ -4825,6 +4865,70 @@ html.menu-opened body {
 	padding-right: 0;
 }
 
+table.DTFC_Cloned tr {
+  background-color: white;
+  margin-bottom: 0;
+}
+
+div.DTFC_LeftHeadWrapper table,
+div.DTFC_RightHeadWrapper table {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  background-color: white;
+}
+
+div.DTFC_LeftBodyWrapper table,
+div.DTFC_RightBodyWrapper table {
+  border-top: none;
+  margin: 0 !important;
+  z-index: 2;
+}
+div.DTFC_LeftBodyWrapper table thead .sorting:before, div.DTFC_LeftBodyWrapper table thead .sorting:after,
+div.DTFC_LeftBodyWrapper table thead .sorting_asc:before,
+div.DTFC_LeftBodyWrapper table thead .sorting_asc:after,
+div.DTFC_LeftBodyWrapper table thead .sorting_desc:before,
+div.DTFC_LeftBodyWrapper table thead .sorting_desc:after,
+div.DTFC_LeftBodyWrapper table thead .sorting:before,
+div.DTFC_LeftBodyWrapper table thead .sorting:after,
+div.DTFC_LeftBodyWrapper table thead .sorting_asc:before,
+div.DTFC_LeftBodyWrapper table thead .sorting_asc:after,
+div.DTFC_LeftBodyWrapper table thead .sorting_desc:before,
+div.DTFC_LeftBodyWrapper table thead .sorting_desc:after,
+div.DTFC_RightBodyWrapper table thead .sorting:before,
+div.DTFC_RightBodyWrapper table thead .sorting:after,
+div.DTFC_RightBodyWrapper table thead .sorting_asc:before,
+div.DTFC_RightBodyWrapper table thead .sorting_asc:after,
+div.DTFC_RightBodyWrapper table thead .sorting_desc:before,
+div.DTFC_RightBodyWrapper table thead .sorting_desc:after,
+div.DTFC_RightBodyWrapper table thead .sorting:before,
+div.DTFC_RightBodyWrapper table thead .sorting:after,
+div.DTFC_RightBodyWrapper table thead .sorting_asc:before,
+div.DTFC_RightBodyWrapper table thead .sorting_asc:after,
+div.DTFC_RightBodyWrapper table thead .sorting_desc:before,
+div.DTFC_RightBodyWrapper table thead .sorting_desc:after {
+  display: none;
+}
+div.DTFC_LeftBodyWrapper table tbody tr:first-child th,
+div.DTFC_LeftBodyWrapper table tbody tr:first-child td,
+div.DTFC_RightBodyWrapper table tbody tr:first-child th,
+div.DTFC_RightBodyWrapper table tbody tr:first-child td {
+  border-top: none;
+}
+
+div.DTFC_LeftFootWrapper table,
+div.DTFC_RightFootWrapper table {
+  border-top: none;
+  margin-top: 0 !important;
+  background-color: white;
+}
+
+div.DTFC_Blocker {
+  background-color: white;
+}
+
+table.dataTable.table-striped.DTFC_Cloned tbody {
+  background-color: white;
+}
 /*-----------------
 	35. Client Profile
 -----------------------*/
@@ -6495,7 +6599,7 @@ ul.comment-list li ul.children {
 
 .faq-card .card-header {
     background-color: #fff;
-    padding: 20px;
+    padding: 15px;
     position: relative;
 }
 .faq-card .card {
@@ -6511,7 +6615,7 @@ ul.comment-list li ul.children {
 .faq-card .card .card-header h4 > a {
     color: #090909;
     display: block;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 400;
     padding-right: 60px;
     position: relative;
@@ -6524,9 +6628,9 @@ ul.comment-list li ul.children {
 	font-weight: 400;
 }
 .faq-card .card .card-header h4 > a.collapsed:after {
-	content: "\f067"; }
+	content: "\f103"; }
 .faq-card .card .card-header h4 > a:not(.collapsed):after {
-	content: "\f068";
+	content: "\f102";
 }
 .faq-card .card .card-header h4 > label {
     color: #fff;
@@ -6613,7 +6717,9 @@ ul.comment-list li ul.children {
     align-items: center;
     display: flex;
     flex-direction: row;
+    
 }
+
 .e-avatar {
     background-color: #fff;
     border: 3px solid #e7e7e7;
@@ -6656,12 +6762,17 @@ ul.comment-list li ul.children {
     flex-direction: column;
     flex-grow: 1;
     height: auto;
-    padding: 14px;
+    padding: 8px;
 }
 .dash-card-content p {
 	font-size: 13px;
 	margin-bottom: 0;
 }
+.dash-title{
+    margin-bottom: .1rem;
+    font-size: 0.775rem;
+}
+
 .dash-sec-content .dash-info-list + .dash-info-list {
 	margin-top: 15px;
 }

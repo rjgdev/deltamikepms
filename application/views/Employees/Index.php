@@ -1,5 +1,6 @@
   <style>
   a.avatar { cursor: pointer; }
+  .custom-file-input{ cursor: pointer; }
   </style>
   <!-- Page Wrapper -->
   <div class="page-wrapper">
@@ -28,19 +29,17 @@
   <div class="col-md-12">
   <div class="table-responsive">
     <table class="table table-striped custom-table datatable">
-    <span><?php if($this->session->flashdata('img')=="error") echo '<script type="text/javascript"> showUploadPhotoError() </script>';?></span>
-    <span><?php if($this->session->flashdata('photo')=="upload") echo '<script type="text/javascript"> showPhotoToast() </script>';?></span>
-    <span><?php if($this->session->flashdata('empstatus')=="empsuccess") echo '<script type="text/javascript"> showdataSuccessToast() </script>';?></span>
+    
     <thead>
     <tr>
-    <th style="width: 80px ! important;">Employee No.</th>
+    <th style="width: 100px ! important;">Employee No.</th>
     <th style="width: 220px ! important;">Employee Name</th>
-    <th style="width: 150px ! important;">Employee Type</th>
-    <th style="width: 70px ! important;">Birth Date</th>
+    <th style="width: 150px ! important;">Client</th>
+    <th style="width: 100px ! important;">Employee Type</th>
     <th style="width: 110px ! important;">Contact No.</th>
     <th style="width: 110px ! important;">Hired Date</th>
     <th style="width: 50px ! important;">Status</th>
-    <th style="width: 50px ! important;">Action</th>
+    <th style="width: 30px ! important;">Action</th>
     </tr>
     </thead>
     <tbody id="showdata">
@@ -52,30 +51,31 @@
     <a id="<?php echo $item->employeeID; ?>" class="avatar">
     <?php 
     if($item->photo==""){
-    echo '<img alt="" src="uploads/profileimg.png"></a><p style="margin-left: 10px; color: black;"> '.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | ' .$item->designationdescription.'</span> </p> </div</td>';
+    echo '<img alt="" src="uploads/profileimg.png"></a><p style="margin-left: 10px; color: black;"> '.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.'</span> </p> </div</td>';
     }else{
-    echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
+    echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
     } ?>
     </td> 
-    <td><?php echo $item->employeetypeID ?></td>
-    <td><?php echo date("F d, Y",strtotime($item->birthdate)) ?></td>  
+    <td>
+        <div class="dash-card-content">  
+          <p style="color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> <?php echo $item->postname; ?> </span></p>   
+        </div>
+    </td>  
+    <td><?php echo $item->employeetypeDesc ?></td>
     <td><?php echo  $item->contactinfo ?></td>
     <td><?php echo date("F d, Y",strtotime($item->hireddate)) ?></td>
 
     <td>
-    <div class="dropdown action-label">
-    <a class="btn btn-white btn-sm btn-rounded action-status" href="#">
+
     <?php if($item->employeestatus=="Active") 
-    echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
+      echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
     elseif($item->employeestatus=="Terminated")
-    echo '<i class="fa fa-dot-circle-o text-danger"></i> Terminated';
+      echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> Terminated</span>';
     elseif($item->employeestatus=="Resigned")
-    echo '<i class="fa fa-dot-circle-o text-purple"></i> Resigned';
+      echo '<span class="badge bg-inverse-danger custom-status"><i class="fa fa-dot-circle-o text-danger"></i> Resigned</span>';
     elseif($item->employeestatus=="End of Contract")
-    echo '<i class="fa fa-dot-circle-o text-danger"></i> End of Contract';
+      echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> End of Contract</span>';
     ?>
-    </a> 
-    </div>
     </td> 
     <td class="text-right">
     <div class="dropdown dropdown-action">
@@ -115,9 +115,10 @@
     data-basicsalary="<?php echo $item->basicsalary; ?>" 
     data-dailyrate="<?php echo $item->dailyrate; ?>" 
     data-allowance="<?php echo $item->allowance; ?>" 
-    data-cola="<?php echo $item->cola; ?>" 
+    data-retfund="<?php echo $item->retfund; ?>" 
     data-incentive="<?php echo $item->incentive; ?>" 
-    data-uniformallowance="<?php echo $item->uniformallowance; ?>" 
+    data-uniformallowance="<?php echo $item->uniformallowance; ?>"
+    data-bankname="<?php echo $item->bankname; ?>"  
     data-backaccountname="<?php echo $item->backaccountname; ?>" 
     data-backaccountnumber="<?php echo $item->backaccountnumber; ?>" 
     data-tinnumber="<?php echo $item->tinnumber; ?>" 
@@ -154,10 +155,10 @@
   <div class="col-lg-12">
   <ul class="nav nav-tabs nav-tabs-bottom nav-justified" id="addtabs">
   <li class="nav-item"><a class="nav-link active" href="#bottom-justified-tab1" data-toggle="tab">Information</a></li>
-  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab2" data-toggle="tab">User Account</a></li>
+  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab2" data-toggle="tab">Account</a></li>
   <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab3" data-toggle="tab">Payroll</a></li>
-  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab4" data-toggle="tab">Leave Credits</a></li>
-  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab5" data-toggle="tab">Schedule</a></li>
+  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab4" data-toggle="tab">Leave Balance</a></li>
+  <li class="nav-item"><a class="nav-link" href="#bottom-justified-tab5" data-toggle="tab">Restday</a></li>
   </ul>
 
   <div class="tab-content" id="pills-tabContent">
@@ -165,8 +166,8 @@
   <form class="form-group">
   <div class="row">
     <div class="form-group col-sm-6">
-    <label for="gender">Employee Type<span class="text-danger">*</span></label>
-    <select class="form-control" name="addemployeetype" id="addemployeetype" description="employee type" required>
+    <label for="addemployeetype">Employee Type <span class="text-danger">*</span></label>
+    <select class="form-control" name="addemployeetype" id="addemployeetype" description="employee type" required tabindex="1">
     <option value="">No Selected</option>
     <option value="1">Security Guard</option>
     <option value="2">Staff</option>
@@ -174,23 +175,47 @@
     <div class="invalid-feedback" id="add-employeetype"></div>
     </div>
     <div class="form-group col-sm-6">
+    <label for="">Contact No. <span class="text-danger">*</span></label>
+    <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no" required tabindex="10">
+    <div class="invalid-feedback" id="add-contactinfo"></div>
+  </div>
+    <div class="form-group col-sm-6">
     <label for="firstname">First Name <span class="text-danger">*</span></label>
-    <input id="addfirstname" type="text" name="addfirstname" class="form-control input lettersonly" autocomplete="off" description="first name" required>
+    <input id="addfirstname" type="text" name="addfirstname" class="form-control input lettersonly" autocomplete="off" description="first name" required tabindex="1">
     <div class="invalid-feedback" id="add-firstname"></div>
     </div>
     <div class="form-group col-sm-6">
+  <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
+  <select class="form-control" name="addcivilstatus" id="addcivilstatus" description="civil status" required tabindex="11">
+  <option value="">No Selected</option>
+  <option>Single</option>
+  <option>Married</option>
+  </select>
+  <div class="invalid-feedback" id="add-civilstatus"></div>
+  </div>  
+    <div class="form-group col-sm-6">
     <label for="middlename">Middle Name</label>
-    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input lettersonly" autocomplete="off">
+    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input lettersonly" autocomplete="off" tabindex="2">
     <div class="invalid-feedback" id="add-middlename"></div>
+  </div>
+   <div class="form-group col-sm-6">
+  <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
+  <input id="addcitizenship" type="text" name="addcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required tabindex="12">
+  <div class="invalid-feedback" id="add-citizenship"></div>
   </div>
     <div class="form-group col-sm-6">
     <label for="lastname">Last Name  <span class="text-danger">*</span></label>
-    <input id="addlastname" type="text" name="addlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
+    <input id="addlastname" type="text" name="addlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required tabindex="3">
     <div class="invalid-feedback" id="add-lastname"></div>
     </div>
+     <div class="form-group col-sm-6">
+  <label for="hireddate">Hired Date  <span class="text-danger">*</span></label>
+  <input id="addhireddate"  name="addhireddate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="hired date" tabindex="13">
+  <div class="invalid-feedback" id="add-hireddate"></div>
+  </div>
   <div class="form-group col-sm-6">
   <label for="gender">Gender  <span class="text-danger">*</span></label>
-  <select class="form-control" name="addgender" id="addgender" description="gender" required>
+  <select class="form-control" name="addgender" id="addgender" description="gender" required tabindex="4">
   <option value="">No Selected</option>
   <option>Male</option>
   <option>Female</option>
@@ -198,57 +223,8 @@
   <div class="invalid-feedback" id="add-gender"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="housenumber">Unit/House No.</label>
-  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="streetname">Building/Street Name  <span class="text-danger">*</span></label>
-  <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
-  <div class="invalid-feedback" id="add-streetname"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="barangay">Barangay  <span class="text-danger">*</span></label>
-  <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
-  <div class="invalid-feedback" id="add-barangay"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="city">City/Municipality  <span class="text-danger">*</span></label>
-  <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspace" autocomplete="off" description="city/municipality" required>
-  <div class="invalid-feedback" id="add-city"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="birthdate">Birthdate  <span class="text-danger">*</span></label>
-  <input id="addbirthdate" name="addbirthdate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="birthdate">
-  <div class="invalid-feedback" id="add-birthdate"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="">Contact No. <span class="text-danger">*</span></label>
-  <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no" required>
-  <div class="invalid-feedback" id="add-contactinfo"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
-  <select class="form-control" name="addcivilstatus" id="addcivilstatus" description="civil status" required>
-  <option value="">No Selected</option>
-  <option>Single</option>
-  <option>Married</option>
-  </select>
-  <div class="invalid-feedback" id="add-civilstatus"></div>
-  </div>  
-  <div class="form-group col-sm-6">
-  <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
-  <input id="addcitizenship" type="text" name="addcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
-  <div class="invalid-feedback" id="add-citizenship"></div>
-  </div>
-  <div class="form-group col-sm-6">
-  <label for="hireddate">Hired Date  <span class="text-danger">*</span></label>
-  <input id="addhireddate"  name="addhireddate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="hired date">
-  <div class="invalid-feedback" id="add-hireddate"></div>
-  </div>
-
-  <div class="form-group col-sm-6">
   <label for="description">Department <span class="text-danger">*</span></label>
-  <select class="form-control" id="adddepartment" name="adddepartment" style="width: 100%;" description="department" required>
+  <select class="form-control" id="adddepartment" name="adddepartment" style="width: 100%;" description="department" required tabindex="14">
   <option value="">No Selected</option>
   <?php
   foreach($data['department'] as $item)
@@ -260,36 +236,56 @@
   <div class="invalid-feedback" id="add-department"></div>
   </div>
   <div class="form-group col-sm-6">
+  <label for="housenumber">Unit/House No.</label>
+  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="5">
+  </div>
+
+  <div class="form-group col-sm-6">
   <label for="designation">Designation <span class="text-danger">*</span></label>
   <input type="hidden" id="hiddenDesignation" name="hiddenDesignation">
-  <select class="form-control" id="adddesignation" name="adddesignation" style="width: 100%;" description="designation" required>
+  <select class="form-control" id="adddesignation" name="adddesignation" style="width: 100%;" description="designation" required tabindex="15">
   <option value="">No Selected</option>
   </select>
   <div class="invalid-feedback" id="add-designation"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="adddetachment">Client <span class="text-danger">*</span></label>
-  <select class="form-control" id="addclient" name="addclient" style="width: 100%;" description="Client" required>
+  <label for="streetname">Building/Street Name  <span class="text-danger">*</span></label>
+  <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required tabindex="6">
+  <div class="invalid-feedback" id="add-streetname"></div>
+  </div>
+   <div class="form-group col-sm-6">
+  <label for="adddetachment">Client <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
+  <select class="form-control" id="addclient" name="addclient" style="width: 100%;" description="client" required tabindex="16">
   <option value="">No Selected</option>
   <?php
   foreach($data['client'] as $client)
   {
-  echo '<option value="'.$client->clientID.'">'.$client->description.'</option>';
+  echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
   }
   ?>
   </select>
   <div class="invalid-feedback" id="add-client"></div>
   </div> 
   <div class="form-group col-sm-6">
-  <label for="adddetachment">Detachment <span class="text-danger">*</span></label>
-  <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="detachment" required>
+  <label for="barangay">Barangay  <span class="text-danger">*</span></label>
+  <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required tabindex="7">
+  <div class="invalid-feedback" id="add-barangay"></div>
+  </div>
+  <div class="form-group col-sm-6">
+  <label for="adddetachment">Detachment <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
+  <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="detachment" required tabindex="17">
   <option value="">No Selected</option>
   </select>
   <div class="invalid-feedback" id="add-detachment"></div>
   </div> 
   <div class="form-group col-sm-6">
+  <label for="city">City/Municipality  <span class="text-danger">*</span></label>
+  <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspace" autocomplete="off" description="city/municipality" required tabindex="8">
+  <div class="invalid-feedback" id="add-city"></div>
+  </div>
+    <div class="form-group col-sm-6">
   <label for="addstatus">Status <span class="text-danger">*</span></label>
-  <select class="form-control" name="addstatus" id="addstatus" description="status" required>
+  <select class="form-control" name="addstatus" id="addstatus" description="status" required tabindex="18">
   <option value="">No Selected</option>
    <option>Active</option>
   <option>Terminated</option>
@@ -298,10 +294,14 @@
   </select>
   <div class="invalid-feedback" id="add-status"></div>
   </div>
+  <div class="form-group col-sm-6">
+  <label for="birthdate">Birthdate  <span class="text-danger">*</span></label>
+  <input id="addbirthdate" name="addbirthdate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="birthdate" tabindex="9">
+  <div class="invalid-feedback" id="add-birthdate"></div>
+  </div>
   </div>
   </form>
   </div>
-
                    <!--  <div class="tab-pane fade" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">  -->
                     <div class="tab-pane" id="bottom-justified-tab2">
                       <form class="forms-group">
@@ -351,7 +351,7 @@
                               </div>
                                <div class="invalid-feedback" id="add-password"></div>
                           </div>
-                           <label for="caution"style="color:#ff0000;"  id="caution"name="caution">For detachment commander only</label>
+                            <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;">NOTE: Provide username and password if the user is autorized to access the system.</span>
                       </div>
                       </form>
                     </div>
@@ -389,17 +389,31 @@
                             <input id="addallowance" name="addallowance" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off">
                           </div>
                           </div>
-                           <div class="form-group col-sm-6">
+                          <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Name</label>                       
-                            <input id="addbackaccountname" name="addbackaccountname" class="form-control input" autocomplete="off">
+                            <input id="addbankaccountname" type="text" name="addbankaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
+                           <div class="invalid-feedback" id="add-bankaccountname"></div>
+                          </div>
+                           <div class="form-group col-sm-6">
+                            <label for="allowance">Bank Name</label>                       
+                             <select class="form-control" id="addbankname" name="addbankname" style="width: 100%;" description="bank account name" required>
+                            <option value="">No Selected</option>
+                            <?php
+                            foreach($data['bank'] as $bank)
+                            {
+                            echo '<option value="'.$bank->bankID.'">'.$bank->bankname.'</option>';
+                            }
+                            ?>
+                          </select>
+                           <div class="invalid-feedback" id="add-bankname"></div>
                           </div>
                            <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Number</label>
-                            <input id="addbackaccountnumber" name="addbackaccountnumber" class="form-control input"  autocomplete="off">
+                            <input id="addbackaccountnumber" name="addbackaccountnumber" class="form-control input accountnumber"  autocomplete="off">
                           </div>
                             <div class="form-group col-sm-6">
-                            <label for="allowance">Cola</label>
-                            <input id="addcola" name="addcola" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Cola">
+                            <label for="allowance">Retirement Fund</label>
+                            <input id="addretfund" name="addretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
                           </div>
                             <div class="form-group col-sm-6">
                             <label for="allowance">Incentives</label>
@@ -455,64 +469,76 @@
 
                       <div class="tab-pane" id="bottom-justified-tab5">
                        <form class="forms-group"> 
-<!--                          <div class="card">
-                         <div class="card-body"> -->
-                          <div class="row">
-                            <div class="col-sm-3">
-                            <div class="form-group">
-                          <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="add_Monday" class="addremoveLater" type="checkbox" value="1" />Monday
-                        </div>
-                      </div>
-                       </div>
-                         <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="add_Tuesday" class="addremoveLater" type="checkbox" value="2" />Tuesday
-                        
-                        </div>
-                      </div>
-                      </div>
-                      <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="add_Wednesday" class="addremoveLater" type="checkbox" value="3" />Wednesday
-                         
-                        </div>
-                      </div>
-                      </div>
-                      <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="add_Thursday" class="addremoveLater" type="checkbox" value="4" />Thursday
-                         
-                        </div>
-                      </div>
-                      </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="add_Friday" class="addremoveLater" type="checkbox" value="5" />Friday
-                          
-                        </div>
-                      </div>
-                      </div>
-                       <div class="col-sm-4">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="add_Saturday" class="addremoveLater" type="checkbox" value="6" />Saturday
-                          
-                        </div>
-                      </div>
-                      </div>
-                       <div class="col-sm-4">
-                           <input name="selector[]" id="add_Sunday" class="addremoveLater" type="checkbox" value="0" />Sunday
-                        </div>
-                      </div>
-                       <label for="caution"style="color:#ff0000;"  id="addcautionrestday"name="addcautionrestday">Check for restday</label>
-                      </div>
-                     
-                 
+                            <div class="col-sm-12">
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Monday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Monday" class="check addremoveLater" type="checkbox" value="1">
+                                    <label for="add_Monday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Tuesday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Tuesday" class="check addremoveLater" type="checkbox" value="2">
+                                    <label for="add_Tuesday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Wednesday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Wednesday" class="check addremoveLater" type="checkbox" value="3">
+                                    <label for="add_Wednesday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Thursday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Thursday" class="check addremoveLater" type="checkbox" value="4">
+                                    <label for="add_Thursday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Friday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Friday" class="check addremoveLater" type="checkbox" value="5">
+                                    <label for="add_Friday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Saturday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Saturday" class="check addremoveLater" type="checkbox" value="6">
+                                    <label for="add_Saturday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Sunday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="add_Sunday" class="check addremoveLater" type="checkbox" value="7">
+                                    <label for="add_Sunday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
               </form>
               </div> 
 
@@ -545,10 +571,10 @@
           <div class="col-lg-12">
           <ul class="nav nav-tabs nav-tabs-bottom nav-justified" id="edittabs">
             <li class="nav-item"><a class="nav-link active" href="#bottom-justified-editinfo" data-toggle="tab">Information</a></li>
-            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editlogin" data-toggle="tab">User Account</a></li>
+            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editlogin" data-toggle="tab">Account</a></li>
             <li class="nav-item"><a class="nav-link" href="#bottom-justified-editdetail" data-toggle="tab">Payroll</a></li>
-            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editleave" data-toggle="tab">Leave Credits</a></li>
-            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editschedule" data-toggle="tab">Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editleave" data-toggle="tab">Leave Balance</a></li>
+            <li class="nav-item"><a class="nav-link" href="#bottom-justified-editschedule" data-toggle="tab">Restday</a></li>
           </ul>
     <div class="tab-content" id="pills-tabContent">
     <!-- EMPLOYEE INFO -->
@@ -557,89 +583,65 @@
       <div class="form-group">
       <div class="row">
         <div class="form-group col-sm-6">
-          <label for="gender">Employee Type<span class="text-danger">*</span></label>
-          <select class="form-control " name="editemployeetype" id="editemployeetype" description="employee type" required>
+          <label for="gender">Employee Type <span class="text-danger">*</span></label>
+          <select class="form-control " name="editemployeetype" id="editemployeetype" description="employee type" required tabindex="1">
             <option value="">No Selected</option>
             <option value="1">Security Guard</option>
             <option value="2">Staff</option>
           </select>
           <div class="invalid-feedback" id="edit-employeetype"></div>
         </div>
+         <div class="form-group col-sm-6">
+        <label for="">Contact No. <span class="text-danger">*</span></label>
+        <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no." required tabindex="11">
+        <div class="invalid-feedback" id="edit-contactinfo"></div>
+        </div> 
         <div class="form-group col-sm-6">
         <label for="firstname">First Name <span class="text-danger">*</span></label>
-        <input id="editfirstname" type="text" name="editfirstname " class="form-control input lettersonly" autocomplete="off" description="first name" required>
+        <input id="editfirstname" type="text" name="editfirstname " class="form-control input lettersonly" autocomplete="off" description="first name" required tabindex="2">
         <div class="invalid-feedback" id="edit-firstname"></div>
+        </div> 
+         <div class="form-group col-sm-6">
+        <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
+        <select class="form-control" name="editcivilstatus" id="editcivilstatus" description="civil status" required tabindex="12">
+        <option value="">No Selected</option>
+        <option>Single</option>
+        <option>Married</option>
+        </select>
+        <div class="invalid-feedback" id="edit-civilstatus"></div>
         </div>  
         <div class="form-group col-sm-6">
         <label for="middlename">Middle Name</label>
-        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input lettersonly" autocomplete="off">
+        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input lettersonly" autocomplete="off" tabindex="3">
         <div class="invalid-feedback" id="edit-middlename"></div>
         </div>
         <div class="form-group col-sm-6">
+        <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
+        <input id="editcitizenship" type="text" name="editcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required tabindex="13">
+        <div class="invalid-feedback" id="edit-citizenship"></div>
+        </div>
+        <div class="form-group col-sm-6">
         <label for="lastname">Last Name <span class="text-danger">*</span></label>
-        <input id="editlastname" type="text" name="editlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required>
+        <input id="editlastname" type="text" name="editlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required tabindex="4">
         <div class="invalid-feedback" id="edit-lastname"></div>
         </div>
         <div class="form-group col-sm-6">
+        <label for="hireddate">Hired Date</label>
+        <input id="edithireddate" name="edithireddate" class="form-control datetimepicker" tabindex="14">
+        <div class="invalid-feedback" id="edit-hireddate"></div>
+        </div>
+        <div class="form-group col-sm-6">
         <label for="gender">Gender <span class="text-danger">*</span></label>
-        <select class="form-control" name="editgender" id="editgender" description="gender" required>
+        <select class="form-control" name="editgender" id="editgender" description="gender" required tabindex="5">
         <option value="">No Selected</option>
         <option>Male</option>
         <option>Female</option>
         </select>
         <div class="invalid-feedback" id="edit-gender"></div>
         </div>
-        <div class="form-group col-sm-6">
-        <label for="housenumber">Unit/House No.</label>
-        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off">
-      </div>
-        <div class="form-group col-sm-6">
-        <label for="streetname">Building/Street Name <span class="text-danger">*</span></label>
-        <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required>
-        <div class="invalid-feedback" id="edit-streetname"></div>
-        </div>
-        <div class="form-group col-sm-6">
-        <label for="barangay">Barangay <span class="text-danger">*</span></label>
-        <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required>
-        <div class="invalid-feedback" id="edit-barangay"></div>
-        </div>
-        <div class="form-group col-sm-6">
-        <label for="city">City/Municipality <span class="text-danger">*</span></label>
-        <input id="editcity" type="text" name="editcity" class="form-control input letterswithspace" autocomplete="off" description="city/municipality" required>
-        <div class="invalid-feedback" id="edit-city"></div>
-        </div>
-        <div class="form-group col-sm-6">
-        <label for="birthdate">Birthdate</label>
-        <input id="editbirthdate" name="editbirthdate" class="form-control datetimepicker">
-        <div class="invalid-feedback" id="edit-birthdate"></div>
-        </div>
-        <div class="form-group col-sm-6">
-        <label for="">Contact No. <span class="text-danger">*</span></label>
-        <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no." required>
-        <div class="invalid-feedback" id="edit-contactinfo"></div>
-        </div> 
-        <div class="form-group col-sm-6">
-        <label for="civilstatus">Civil Status <span class="text-danger">*</span></label>
-        <select class="form-control" name="editcivilstatus" id="editcivilstatus" description="civil status" required>
-        <option value="">No Selected</option>
-        <option>Single</option>
-        <option>Married</option>
-        </select>
-        <div class="invalid-feedback" id="edit-civilstatus"></div>
-        </div> 
-        <div class="form-group col-sm-6">
-        <label for="citizenship">Citizenship <span class="text-danger">*</span></label>
-        <input id="editcitizenship" type="text" name="editcitizenship" class="form-control input letterswithspace" autocomplete="off" description="citizenship" required>
-        <div class="invalid-feedback" id="edit-citizenship"></div>
-        </div>
-        <div class="form-group col-sm-6">
-        <label for="hireddate">Hired Date</label>
-        <input id="edithireddate" name="edithireddate" class="form-control datetimepicker">
-        <div class="invalid-feedback" id="edit-hireddate"></div>
-        </div>
-        <div class="form-group col-sm-6">
+          <div class="form-group col-sm-6">
         <label for="editdepartment">Department <span class="text-danger">*</span></label>
-        <select class="form-control" id="editdepartment" name="editdepartment" style="width: 100%;" description="department" required>
+        <select class="form-control" id="editdepartment" name="editdepartment" style="width: 100%;" description="department" required tabindex="15">
           <option value="">No Selected</option>
           <?php
           foreach($data['department'] as $department)
@@ -651,35 +653,56 @@
         <div class="invalid-feedback" id="edit-department"></div>
         </div> 
         <div class="form-group col-sm-6">
+        <label for="housenumber">Unit/House No.</label>
+        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="6">
+      </div>
+        <div class="form-group col-sm-6">
           <label for="editdesignation">Designation <span class="text-danger">*</span></label>
           <input type="hidden" id="edithiddenDesignation" name="edithiddenDesignation">
-          <select class="form-control" id="editdesignation" name="editdesignation" description="designation" style="width: 100%;">
+          <select class="form-control" id="editdesignation" name="editdesignation" description="designation" style="width: 100%;" tabindex="16">
           </select>
           <div class="invalid-feedback" id="edit-designation"></div>
           </div>
-  <div class="form-group col-sm-6">
-  <label for="editdetachment">Client <span class="text-danger">*</span></label>
-  <select class="form-control" id="editclient" name="editclient" style="width: 100%;" description="Client" required>
+        <div class="form-group col-sm-6">
+        <label for="streetname">Building/Street Name <span class="text-danger">*</span></label>
+        <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required tabindex="7">
+        <div class="invalid-feedback" id="edit-streetname"></div>
+        </div>
+    <div class="form-group col-sm-6">
+  <label for="editclient">Client <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
+  <select class="form-control" id="editclient" name="editclient" style="width: 100%;" description="Client" required tabindex="17">
   <option value="">No Selected</option>
   <?php
   foreach($data['client'] as $client)
   {
-  echo '<option value="'.$client->clientID.'">'.$client->description.'</option>';
+  echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
   }
   ?>
   </select>
   <div class="invalid-feedback" id="edit-client"></div>
   </div>
         <div class="form-group col-sm-6">
-          <label for="editdetachment">Detachment <span class="text-danger">*</span></label>
+        <label for="barangay">Barangay <span class="text-danger">*</span></label>
+        <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required tabindex="8">
+        <div class="invalid-feedback" id="edit-barangay"></div>
+        </div>
+
+        <div class="form-group col-sm-6">
+          <label for="editdetachment">Detachment <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
            <input type="hidden" id="edithiddenDetachment" name="edithiddenDetachment">
-          <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required>
+          <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required tabindex="18">
           </select>
           <div class="invalid-feedback" id="edit-detachment"></div>
         </div> 
         <div class="form-group col-sm-6">
+        <label for="city">City/Municipality <span class="text-danger">*</span></label>
+        <input id="editcity" type="text" name="editcity" class="form-control input letterswithspace" autocomplete="off" description="city/municipality" required tabindex="9">
+        <div class="invalid-feedback" id="edit-city"></div>
+        </div>
+        
+         <div class="form-group col-sm-6">
           <label for="editstatus">Status <span class="text-danger">*</span></label>
-          <select class="form-control" name="editstatus" id="editstatus" description="status" required>
+          <select class="form-control" name="editstatus" id="editstatus" description="status" required tabindex="19">
           <option value="">No Selected</option>
           <option value="Active">Active</option>
           <option value="Terminated">Terminated</option>
@@ -688,6 +711,15 @@
           </select>
           <div class="invalid-feedback" id="edit-status"></div>
         </div>
+        <div class="form-group col-sm-6">
+        <label for="birthdate">Birthdate</label>
+        <input id="editbirthdate" name="editbirthdate" class="form-control datetimepicker" tabindex="10">
+        <div class="invalid-feedback" id="edit-birthdate"></div>
+        </div>
+      
+      
+
+      
       </div>
       </div>
     </div>     
@@ -737,7 +769,7 @@
           </div>
           <div class="invalid-feedback" id="edit-password"></div>
         </div>
-          <label for="caution"style="color:#ff0000;"  id="editcaution"name="editcaution">For detachment commander only</label>
+          <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;">NOTE: Provide username and password if the user is autorized to access the system.</span>
       </div>
       </form>
     </div>
@@ -776,9 +808,22 @@
       </div>
       </div>
     <div class="form-group col-sm-6">
-      <label for="allowance">Bank Account Name</label>                       
-      <input id="editbackaccountname" name="editbackaccountname" class="form-control input" autocomplete="off">
-        <div class="invalid-feedback" id="edit-backaccountname"></div>
+    <label for="allowance">Bank Account Name</label>                       
+      <input id="editbackaccountname" type="text" name="editbackaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
+      <div class="invalid-feedback" id="edit-bankaccountname"></div>
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="allowance">Bank Name</label>                       
+       <select class="form-control" id="editbankname" name="editbankname" style="width: 100%;" description="Client" required>
+        <option value="">No Selected</option>
+        <?php
+        foreach($data['bank'] as $bank)
+        {
+        echo '<option value="'.$bank->bankID.'">'.$bank->bankname.'</option>';
+        }
+        ?>
+      </select>
+        <div class="invalid-feedback" id="edit-bankname"></div>
     </div>
     <div class="form-group col-sm-6">
       <label for="allowance">Bank Account Number</label>
@@ -786,8 +831,8 @@
       <div class="invalid-feedback" id="edit-backaccountnumber"></div>
     </div>
         <div class="form-group col-sm-6">
-        <label for="allowance">Cola</label>
-        <input id="editcola" name="editcola" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Cola">
+        <label for="allowance">Retirment Fund</label>
+        <input id="editretfund" name="editretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
         </div>
         <div class="form-group col-sm-6">
         <label for="allowance">Incentives</label>
@@ -840,67 +885,80 @@
             </form>
                </div> 
 
-                  <div class="tab-pane" id="bottom-justified-editschedule">
-                   <form class="forms-group"> 
-                     <div class="row">
-                            <div class="col-sm-3">
-                            <div class="form-group">
-                          <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="edit_Monday" class="editremoveLater" type="checkbox" value="1" />Monday
-                        </div>
-                      </div>
-                       </div>
-                         <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="edit_Tuesday" class="editremoveLater" type="checkbox" value="2" />Tuesday
-                        
-                        </div>
-                      </div>
-                      </div>
-                      <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="edit_Wednesday" class="editremoveLater" type="checkbox" value="3" />Wednesday
-                         
-                        </div>
-                      </div>
-                      </div>
-                      <div class="col-sm-3">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="edit_Thursday" class="editremoveLater" type="checkbox" value="4" />Thursday
-                         
-                        </div>
-                      </div>
-                      </div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                           <input name="selector[]" id="edit_Friday" class="editremoveLater" type="checkbox" value="5" />Friday
-                          
-                        </div>
-                      </div>
-                      </div>
-                       <div class="col-sm-4">
-                            <div class="form-group">
-                         <div class="custom-control custom-checkbox mb-1">
-                          <input name="selector[]" id="edit_Saturday" class="editremoveLater" type="checkbox" value="6" />Saturday
-                          
-                        </div>
-                      </div>
-                      </div>
-                       <div class="col-sm-4">
-                           <input name="selector[]" id="edit_Sunday" class="editremoveLater" type="checkbox" value="0" />Sunday
-                        </div>
-                      </div>
-                       <label for="caution"style="color:#ff0000;"  id="addcautionrestday"name="addcautionrestday">Check for restday</label>
-                      </div>
-                    </form>
-                    </div>  
-                  </div>
-                    </div>    
-                 
+               <div class="tab-pane" id="bottom-justified-editschedule">
+                       <form class="forms-group"> 
+                            <div class="col-sm-12">
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Monday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Monday" class="check editremoveLater" type="checkbox" value="1">
+                                    <label for="edit_Monday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Tuesday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Tuesday" class="check editremoveLater" type="checkbox" value="2">
+                                    <label for="edit_Tuesday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Wednesday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Wednesday" class="check editremoveLater" type="checkbox" value="3">
+                                    <label for="edit_Wednesday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Thursday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Thursday" class="check editremoveLater" type="checkbox" value="4">
+                                    <label for="edit_Thursday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Friday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Friday" class="check editremoveLater" type="checkbox" value="5">
+                                    <label for="edit_Friday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Saturday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Saturday" class="check editremoveLater" type="checkbox" value="6">
+                                    <label for="edit_Saturday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+
+                            <ul class="list-group notification-list" style="margin-bottom:5px;">
+                              <li class="list-group-item">
+                                  Sunday               
+                                  <div class="status-toggle">
+                                    <input name="selector[]" id="edit_Sunday" class="check editremoveLater" type="checkbox" value="7">
+                                    <label for="edit_Sunday" class="checktoggle">checkbox</label>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+              </form>
+              </div> 
                  <div class="submit-section">
               <button class="btn btn-primary submit-btn update">Update</button>
         </div>
@@ -916,20 +974,20 @@
   <!-- /Edit Employee Modal -->
   <!-- upload picture  -->
 <div class="modal custom-modal fade" id="uploadpicture" role="dialog">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-xs" role="document">
     <form id="commentForm" method="post" enctype="multipart/form-data" action="<?php echo site_url('Uploadphoto/do_upload'); ?>">
-    <div class="modal-content">
+    <div class="modal-content modal-upload">
       <div class="modal-header">
         <h5 class="modal-title" id="uploadpictureModalLabel">Select photo to upload</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body">         
         <div class="col form-group">
           <label>Filename:</label>
          <div class="custom-file">
-      <input type="file" class="custom-file-input" id="photo"name="photo" required="">
+      <input type="file" class="custom-file-input" id="photo" name="photo" accept="image/png,image/jpeg" required="">
        <div class="invalid-feedback" id="add-photo"></div>
       <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
       <div class="invalid-feedback">Example invalid custom file feedback</div>
@@ -1029,7 +1087,9 @@
       </div>
     </div>
   </div>
-
+<span><?php if($this->session->flashdata('img')=="error") echo '<script type="text/javascript"> showUploadPhotoError() </script>';?></span>
+<span><?php if($this->session->flashdata('photoupload')=="upload") echo '<script type="text/javascript"> showPhotoToast() </script>';?></span>
+<span><?php if($this->session->flashdata('empstatus')=="empsuccess") echo '<script type="text/javascript"> showdataSuccessToast() </script>';?></span>
 <?php 
   if($this->session->flashdata('success')!=""){
     echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
@@ -1105,50 +1165,55 @@ var restdayid =[];
     }
   });
 
-  $('#employeetype').on('change', function() {
-     if ( this.value == '1')
-      {
-         $("#addrole").prop("disabled", true);
-         $("#addusername").prop("disabled", true);
-         $("#addpassword").prop("disabled", true);
-         $("#addrole").val('');
-         $("#addusername").val('');
-         $("#addpassword").val('');
-      }
-      else
-      {
-         $("#addrole").prop("disabled", false);
-         $("#addusername").prop("disabled", false);
-         $("#addpassword").prop("disabled", false);
-      }
+  $(document).ready(function(){
+
+    $('#photo').change(function(){
+      var name = document.getElementById('photo'); 
+      $(".custom-file-label").text(name.files.item(0).name);
     });
 
-  $(document).ready(function(){
-  $('#addcontactinfo').mask('0000-000-0000');
-  $('#addtinnumber').mask('000-000-000');
-  $('#addsssnumber').mask('00-0000000-0');
-  $('#addphilhealthnumber').mask('00-000000000-0');
-  $('#addpagibignumber').mask('0000-0000-0000');
-  $('#editcontactinfo').mask('0000-000-0000');
-  $('#edittinnumber').mask('000-000-000');
-  $('#editsssnumber').mask('00-0000000-0');
-  $('#editphilhealthnumber').mask('00-000000000-0');
-  $('#editpagibignumber').mask('0000-0000-0000');
-  });
-  $('#add_employee').on('shown.bs.modal', function(){
-  $("#addfirstname").focus(); 
-  });
+    $('#addcontactinfo').mask('0000-000-0000');
+    $('#addtinnumber').mask('000-000-000');
+    $('#addsssnumber').mask('00-0000000-0');
+    $('#addphilhealthnumber').mask('00-000000000-0');
+    $('#addpagibignumber').mask('0000-0000-0000');
+    $('#editcontactinfo').mask('0000-000-0000');
+    $('#edittinnumber').mask('000-000-000');
+    $('#editsssnumber').mask('00-0000000-0');
+    $('#editphilhealthnumber').mask('00-000000000-0');
+    $('#editpagibignumber').mask('0000-0000-0000');
+    });
 
-  $('#add_employee').on('show.bs.modal', function(){
+    $('#add_employee').on('shown.bs.modal', function(){
+      $("#addemployeetype").focus(); 
+    });
+
+  $('#add_employee').on('show.bs.modal', function(){  
       $('#addtabs li:eq(0) a').tab('show');
+      $("#addemployeetype").trigger("change");
   });
 
   $('#edit_employee').on('shown.bs.modal', function(){
-      $("#editfirstname").focus(); 
+      $("#editemployeetype").focus(); 
   });
 
   $('#edit_employee').on('show.bs.modal', function(){
       $('#edittabs li:eq(0) a').tab('show');
+      var employeetype = $("#editemployeetype").val();
+
+      if(employeetype==1){
+         $("#lbleditusername").hide();
+         $("#lbleditpassword").hide();
+         $("#editclient").prop("disabled", false);
+         $("#editdetachment").prop("disabled", false);
+
+      }else{
+        $("#editdetachment").val($("#editdetachment option:first").val());
+        $("#lbleditusername").show();
+        $("#lbleditpassword").show();
+        $("#editclient").prop("disabled", true);
+        $("#editdetachment").prop("disabled", true);
+      }
   });
 
   // upload picture //
@@ -1185,14 +1250,12 @@ var restdayid =[];
   $('#addemployeetype').change(function(){
     var employeetype =$(this).val();
       if(employeetype==1){
-         $("#caution").show();
          $("#lblusername").hide();
          $("#lblpassword").hide();
          $("#addclient").prop("disabled", false);
          $("#adddetachment").prop("disabled", false);
 
       }else{
-        $("#caution").hide();
          $("#lblusername").show();
          $("#lblpassword").show();
         $("#addclient").prop("disabled", true);
@@ -1202,37 +1265,20 @@ var restdayid =[];
   });
      //dropdown department ADD //
   $('#editemployeetype').change(function(){
-    var employeetype =$(this).val();
+    var employeetype = $(this).val();
+    $("#editclient").prop("selectedIndex", 0);
+    $("#editdetachment").val($("#editdetachment option:first").val());
       if(employeetype==1){
-         $("#editcaution").show();
          $("#lbleditusername").hide();
          $("#lbleditpassword").hide();
-         $("#editclient").prop("disabled", false);lbleditusername
+         $("#editclient").prop("disabled", false);
          $("#editdetachment").prop("disabled", false);
 
       }else{
-        $("#editcaution").hide();
         $("#lbleditusername").show();
         $("#lbleditpassword").show();
         $("#editclient").prop("disabled", true);
         $("#editdetachment").prop("disabled", true);
-      }
-
-  });
-
-
-     //dropdown department ADD //
-  $('#editemployeetype').change(function(){
-    var employeetype =$(this).val();
-      if(employeetype==1){
-         $("#caution").show();
-         $("#addclient").prop("disabled", false);
-         $("#adddetachment").prop("disabled", false);
-
-      }else{
-        $("#caution").hide();
-        $("#addclient").prop("disabled", true);
-        $("#adddetachment").prop("disabled", true);
       }
 
   });
@@ -1250,6 +1296,7 @@ var restdayid =[];
       success: function(data){
         var html = '';
         var i;
+        html += '<option value="">No Selected</option>';
         for(i=0; i<data.length; i++){
           if($("#editDesignation").val()==data[i].designationID){
             html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
@@ -1278,6 +1325,7 @@ var restdayid =[];
       success: function(data){
         var html = '';
         var i;
+        html += '<option value="">No Selected</option>';
         for(i=0; i<data.length; i++){
           if($("#adddetachment").val()==data[i].detachmentID){
             html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
@@ -1295,26 +1343,34 @@ var restdayid =[];
    //dropdown client edit //
   $('#editclient').change(function(){ 
     var id=$(this).val();
-  
-    $.ajax({
-      url : "<?php echo site_url('Employees/get_client');?>",
-      method : "POST",
-      data : {id: id},
-      async : true,
-      dataType : 'json',
-      success: function(data){
-        var html = '';
-        var i;
-        for(i=0; i<data.length; i++){
-          if($("#edithiddenDetachment").val()==data[i].detachmentID){
-            html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
-          }else{
-            html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+    if(id!=null){
+      $.ajax({
+        url : "<?php echo site_url('Employees/get_client');?>",
+        method : "POST",
+        data : {id: id},
+        async : true,
+        dataType : 'json',
+        success: function(data){
+          var html = '';
+          var i;
+          html += '<option value="">No Selected</option>';
+          for(i=0; i<data.length; i++){
+            if($("#edithiddenDetachment").val()==data[i].detachmentID){
+              html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+            }else{
+              html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+            }
           }
+          $('#editdetachment').html(html);
         }
+      });
+    }else{
+        var html = '<option value="">No Selected</option>';
         $('#editdetachment').html(html);
-      }
-    });
+
+      $("#editclient").prop("selectedIndex", 0);
+      $("#editdetachment").val($("#editdetachment option:first").val());
+    }
     return false;
 
   });
@@ -1330,9 +1386,10 @@ var restdayid =[];
           async : true,
           dataType : 'json',
           success: function(data){
-               
               var html = '';
               var i;
+
+              html += '<option value="">No Selected</option>';
               for(i=0; i<data.length; i++){
                 if($("#edithiddenDesignation").val()==data[i].designationID){
                   html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
@@ -1417,143 +1474,130 @@ var restdayid =[];
 
   /* SAVE EMPLOYEE */
   $('#save').unbind('click').bind('click', function(){
-      var employeetype = $("#addemployeetype").val();
-      var firstname = $("#addfirstname").val();
-      var lastname = $("#addlastname").val();
-      var streetname = $("#addstreetname").val();
-      var barangay = $("#addbarangay").val();
-      var city = $("#addcity").val();
-      var citizenship = $("#addcitizenship").val();
-      var middlename = $("#addmiddlename").val();
-    
-    var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
-                  '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
-                  '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
-                  '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
-                  '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addcola',
-                  '#addincentive', '#adduniformallowance', '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
-                  '#addpagibignumber', '#addbackaccountname', '#addbackaccountnumber'];
+      var employeetype  = $("#addemployeetype").val();
+      var firstname     = $("#addfirstname").val();
+      var lastname      = $("#addlastname").val();
+      var streetname    = $("#addstreetname").val();
+      var barangay      = $("#addbarangay").val();
+      var city          = $("#addcity").val();
+      var citizenship   = $("#addcitizenship").val();
+      var middlename    = $("#addmiddlename").val();
+      var basicsalary   = $("#addbasicsalary").val();
+      var dailyrate     = $("#adddailyrate").val();
+      var phone         = $("#addcontactinfo").val();
 
-    var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
-                        'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
-                        'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
-                        'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
-                        'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-cola', 
-                        'add-incentive', 'add-uniformallowance', 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
-                        'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber'];
+      /* 
+         0 = addemployeetype         1 = addfirstname        2 = addmiddlename         3 = addlastname            4 = addgender           5 = addhousenumber
+         6 = addstreetname           7 = addbarangay         8 = addcity               9 = addbirthdate          10 = addcontactinfo     11 = addcivilstatus
+         12 = addcitizenship        13 = addhireddate       14 = adddepartment        15 = adddesignation        16 = addclient          17 = adddetachment
+         18 = addstatus             19 = addrole            20 = addusername          21 = addpassword           22 = addbasicsalary     23 = adddailyrate 
+         24 = addallowance          25 = addretfund         26 = addincentive         27 = adduniformallowance   28 = addtinnumber       29 = addsssnumber
+         30 = addphilhealthnumber   31 = addpagibignumber   32 = addbankaccountname   33 = addbackaccountnumber  34 = addbankname
+      */
+      
+      var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
+                    '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
+                    '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
+                    '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
+                    '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addretfund',
+                    '#addincentive', '#adduniformallowance', '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
+                    '#addpagibignumber', '#addbankaccountname', '#addbackaccountnumber','#addbankname'];
+
+      var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
+                          'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
+                          'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
+                          'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
+                          'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-retfund', 
+                          'add-incentive', 'add-uniformallowance', 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
+                          'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber','add-bankname'];
+
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
-      var basicsalary = $("#addbasicsalary").val();
-      var dailyrate = $("#adddailyrate").val();
-  var phone = $("#addcontactinfo").val();
-    if($(IDArray[22]).val()==0){
-      document.getElementById(ErrorIDArray[22]).innerHTML = "Invalid input  " + $(IDArray[22]).attr("description") +".";
-      $(IDArray[22]).addClass('is-invalid');
-       $("#addbasicsalary").focus();
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[22]).innerHTML = "";
-      $(IDArray[22]).removeClass('is-invalid');
-      $(IDArray[22]).addClass('is-valid');
-      event.preventDefault();
-    };
-    if($(IDArray[23]).val()=="0"){
-      document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
-      $(IDArray[23]).addClass('is-invalid');
-       $("#adddailyrate").focus();
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[23]).innerHTML = "";
-      $(IDArray[23]).removeClass('is-invalid');
-      $(IDArray[23]).addClass('is-valid');
-      event.preventDefault();
-    };
-    if(basicsalary < dailyrate){
-            document.getElementById(ErrorIDArray[23]).innerHTML = "";
-      $(IDArray[23]).removeClass('is-invalid');
-      $(IDArray[23]).addClass('is-valid');
-      event.preventDefault();
-      return false;
-     }else{
-       document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
-        $(IDArray[23]).addClass('is-invalid');
-        $("#adddailyrate").focus();
-        event.preventDefault();
-      
-     };  
 
-    for(var i=0;i<IDArray.length;i++){
-      ValueArray[i] = $(IDArray[i]).val().trim();
-    if(employeetype=='1'){
-      if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33) continue;
-    
-      if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-        if(firstRequired==""){
-          firstRequired = IDArray[i]
-             if(i<=19) navIndex = 0;
-            else if(i<=22) navIndex = 1;
+      for(var i=0;i<IDArray.length;i++){
+          ValueArray[i] = $(IDArray[i]).val().trim();
+          if(employeetype==1){
+            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+          }else{
+            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+          }
 
-        };
-        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-        $(IDArray[i]).addClass('is-invalid');
-        event.preventDefault();
-        if($(IDArray[10]).val().length<13){
-     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit ";
-    $(IDArray[10]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-     }else{
-       document.getElementById(ErrorIDArray[10]).innerHTML = "";
-    $(IDArray[10]).removeClass('is-invalid');
-    $(IDArray[10]).addClass('is-valid');
-    event.preventDefault();
-    }
-      }else{
-         document.getElementById(ErrorIDArray[i]).innerHTML = "";
-        $(IDArray[i]).removeClass('is-invalid');
-        $(IDArray[i]).addClass('is-valid');
-        event.preventDefault();
-      }
-    }else{
-         if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33) continue;
-        if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-        if(firstRequired==""){
-          firstRequired = IDArray[i]
-             if(i<=19) navIndex = 0;
-             else if(i<=22) navIndex = 1;
-            else if(i<=30) navIndex = 2;
-        };
-        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-            $(IDArray[i]).addClass('is-invalid');
+          if(i==10){
+            if($(IDArray[i]).val().length<13){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+            }
+          }else if(i==22 || i==23){
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || editbasicsalary < editdailyrate){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                $('#addtabs li:eq(2) a').tab('show');
+                $("#adddailyrate").focus();
+            }else{
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
-      }else{
-         document.getElementById(ErrorIDArray[i]).innerHTML = "";
-        $(IDArray[i]).removeClass('is-invalid');
-        $(IDArray[i]).addClass('is-valid');
-        event.preventDefault();
+            }
+          }else{
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                event.preventDefault();
+            }else{
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
+                event.preventDefault();
+            }
+          }
       }
-    }
-    }
-    $('#addtabs li:eq('+navIndex+') a').tab('show');
-    $(firstRequired).focus();
-    if(firstRequired==""){
-    if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
-    $('#add_employee').hide();
-    $('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
-    event.preventDefault(); 
-    return false;
-    } 
-    
+
+      $('#addtabs li:eq('+navIndex+') a').tab('show');
+      $(firstRequired).focus();
+      if(firstRequired==""){
+        $('#add_employee').hide();
+        $('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+        event.preventDefault(); 
+        return false;
+      } 
   });
 
-   $("#cncl-add").unbind('click').bind('click', function(){
-      $('#confirmation_add').modal('hide');
-      $('#add_employee').show();
+      $("#cncl-add").unbind('click').bind('click', function(){
+        $('#confirmation_add').modal('hide');
+        $('#add_employee').show()
 
-    }); 
+      }); 
 
       $('.add').unbind('click').bind('click', function(){
         var leave = [];
@@ -1590,20 +1634,21 @@ var restdayid =[];
         var roleDescription   =   $("#addrole").val();
         var username          =   $("#addusername").val();
         var password          =   $("#addpassword").val();
-        var basicsalary       =   $("#addbasicsalary").val();
-        var dailyrate         =   $("#adddailyrate").val();
-        var allowance         =   $("#addallowance").val();
-        var cola              =   $("#addcola").val();
-        var incentive         =   $("#addincentive").val();
-        var uniformallowance  =   $("#adduniformallowance").val();
+        var basicsalary       =   $("#addbasicsalary").val().replace(",","");
+        var dailyrate         =   $("#adddailyrate").val().replace(",","");
+        var allowance         =   $("#addallowance").val().replace(",","");
+        var retfund           =   $("#addretfund").val().replace(",","");
+        var incentive         =   $("#addincentive").val().replace(",","");
+        var uniformallowance  =   $("#adduniformallowance").val().replace(",","");
         var tinnumber         =   $("#addtinnumber").val();
         var sssnumber         =   $("#addsssnumber").val();
         var philhealthnumber  =   $("#addphilhealthnumber").val();
         var pagibignumber     =   $("#addpagibignumber").val();
         var clientID          =   $("#addclient").val();
         var employeetypeid    =   $("#addemployeetype").val();
-        var backaccountname   =   $("#addbackaccountname").val();
+        var backaccountname   =   $("#addbankaccountname").val();
         var backaccountnumber =    $("#addbackaccountnumber").val();
+        var bankname          =    $("#addbankname").val();
         $.ajax({
         url : "<?php echo site_url('employees/save');?>",
         method : "POST",
@@ -1614,12 +1659,12 @@ var restdayid =[];
                 hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        cola:             cola,    
+                dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
                 incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,              
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
                 clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
                 backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
-                restdayresult:     restdayresult},
+                restdayresult:     restdayresult,   bankname:          bankname},
         async : true,
         dataType : 'json',
         success: function(data){
@@ -1674,7 +1719,7 @@ var restdayid =[];
     $(".modal-body #editcontactinfo").val( $(this).data('contactinfo'));
     $(".modal-body #editcivilstatus").val( $(this).data('civilstatus'));
     $(".modal-body #editcitizenship").val( $(this).data('citizenship'));
-    $(".modal-body #edithireddate").val( $(this).data('hireddate'));
+    $(".modal-body #edithireddate").val($(this).data('hireddate'));
     $(".modal-body #editdepartment").val( $(this).data('departmentid'));
     $(".modal-body #editdepartment").trigger("change");
     $(".modal-body #edithiddenDesignation").val( $(this).data('designationid'));
@@ -1689,16 +1734,19 @@ var restdayid =[];
     $(".modal-body #editbasicsalary").val( $(this).data('basicsalary'));
     $(".modal-body #editdailyrate").val( $(this).data('dailyrate'));
     $(".modal-body #editallowance").val( $(this).data('allowance'));
-    $(".modal-body #editcola").val( $(this).data('cola'));
+    $(".modal-body #editretfund").val( $(this).data('retfund'));
     $(".modal-body #editincentive").val( $(this).data('incentive'));
     $(".modal-body #edituniformallowance").val( $(this).data('uniformallowance'))
+     $(".modal-body #editbankname").val( $(this).data('bankname'));
     $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
     $(".modal-body #editbackaccountnumber").val( $(this).data('backaccountnumber'));
+    $(".modal-body #edittinnumber").val( $(this).data('tinnumber'));
     $(".modal-body #editsssnumber").val( $(this).data('sssnumber'));
     $(".modal-body #editphilhealthnumber").val( $(this).data('philhealthnumber'));
     $(".modal-body #editpagibignumber").val( $(this).data('pagibignumber'));
     $('.edit').attr('id', $(this).data('id'));
     var id = $(this).data('id');
+
     $.ajax({
           url : "<?php echo site_url('employees/Schedule');?>",
           method : "POST",
@@ -1710,7 +1758,7 @@ var restdayid =[];
             var len = response.length;
               for(var i=0; i<len; i++){
                var restday = response[i].restday;
-               restdayid[i] = response[i].scheduleID;
+               restdayid[i] = response[i].restday;
              if (restday == 1){
               $("#edit_Monday").prop("checked", true);
             };
@@ -1729,7 +1777,7 @@ var restdayid =[];
             if (restday == 6){
              $("#edit_Saturday").prop("checked", true);
             };
-            if (restday == 0){
+            if (restday == 7){
               $("#edit_Sunday").prop("checked", true);
             };
        
@@ -1764,152 +1812,142 @@ var restdayid =[];
   });
   /* updated employee */
   $('.update').unbind('click').bind('click', function(){
+
+    /* 
+       0 = editemployeetype         1 = editfirstname        2 = editmiddlename         3 = editlastname            4 = editgender           5 = edithousenumber
+       6 = editstreetname           7 = editbarangay         8 = editcity               9 = editbirthdate          10 = editcontactinfo     11 = editcivilstatus
+       12 = editcitizenship        13 = edithireddate       14 = editdepartment        15 = editdesignation        16 = editclient          17 = editdetachment
+       18 = editstatus             19 = editrole            20 = editusername          21 = editpassword           22 = editbasicsalary     23 = editdailyrate 
+       24 = editallowance          25 = editretfund         26 = editincentive         27 = edituniformallowance   28 = edittinnumber       29 = editsssnumber
+       30 = editphilhealthnumber   31 = editpagibignumber   32 = editbankaccountname   33 = editbackaccountnumber  34 = editbankname
+    */
+
      var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
                    '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
                    '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
-                   '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editcola', 
+                   '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editretfund', 
                    '#editincentive', '#edituniformallowance', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
-                   '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber'];
+                   '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber','#editbankname'];
 
     var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
                         'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
                         'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
                         'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
-                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-cola', 
+                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-retfund', 
                         'edit-incentive', 'edit-uniformallowance', 'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
-                        'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber'];
-      var ValueArray = [];
+                        'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber','edit-backaccountnumber','edit-bankname'];
 
       var ValueArray = [];
       var firstRequired = "";
       var navIndex = 0;
-      var id = $(this).attr('id');
+
       var employeetype = $("#editemployeetype").val();
-      var firstname = $("#editfirstname").val();
-      var lastname = $("#editlastname").val();
-      var streetname = $("#editstreetname").val();
-      var barangay = $("#editbarangay").val();
-      var city = $("#editcity").val();
-      var citizenship = $("#editcitizenship").val();
-      var middlename = $("#editmiddlename").val();
-       var editbasicsalary = $("#editbasicsalary").val();
-      var editdailyrate = $("#editdailyrate").val();
-      if($(IDArray[22]).val()==0){
-      document.getElementById(ErrorIDArray[22]).innerHTML = "Invalid input  " + $(IDArray[22]).attr("description") +".";
-      $(IDArray[22]).addClass('is-invalid');
-       $("#editbasicsalary").focus();
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[22]).innerHTML = "";
-      $(IDArray[22]).removeClass('is-invalid');
-      $(IDArray[22]).addClass('is-valid');
-      event.preventDefault();
-    };
-    if($(IDArray[23]).val()==0){
-      document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
-      $(IDArray[23]).addClass('is-invalid');
-       $("#editdailyrate").focus(); 
-      event.preventDefault();
-      return false;
-    }else{
-      document.getElementById(ErrorIDArray[21]).innerHTML = "";
-      $(IDArray[23]).removeClass('is-invalid');
-      $(IDArray[23]).addClass('is-valid');
-      event.preventDefault();
-    };
-    var phone = $("#editcontactinfo").val();
-   if(phone.length<13){
-     document.getElementById(ErrorIDArray[10]).innerHTML = "Mobile number must be 11 digit " ;
-    $(IDArray[10]).addClass('is-invalid');
-    event.preventDefault();
-    return false;
-    }else{
-       document.getElementById(ErrorIDArray[10]).innerHTML = ""; 
-    $(IDArray[10]).removeClass('is-invalid');
-    $(IDArray[10]).addClass('is-valid');
-    event.preventDefault();
-    };
-     if( editbasicsalary < editdailyrate){
-       document.getElementById(ErrorIDArray[23]).innerHTML = "Invalid input  " + $(IDArray[23]).attr("description") +".";
-        $(IDArray[23]).addClass('is-invalid');
-        $("#editdailyrate").focus();
-        event.preventDefault();
-      return false;
-     }else{
-       document.getElementById(ErrorIDArray[23]).innerHTML = "";
-      $(IDArray[23]).removeClass('is-invalid');
-      $(IDArray[23]).addClass('is-valid');
-      event.preventDefault();
-     }; 
 
-    for(var i=0;i<IDArray.length;i++){
-      ValueArray[i] = $(IDArray[i]).val();
-      if(employeetype=='1'){
-       if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 || i==31 || i==32 || i==33) continue;
-      
-      if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-        if(firstRequired==""){
-          firstRequired = IDArray[i];
-             if(i<=16) navIndex = 0;
-          else if(i<=19) navIndex = 1;
-          else if(i<=26) navIndex = 2;
-        };
-        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-            $(IDArray[i]).addClass('is-invalid');
+      for(var i=0;i<IDArray.length;i++){
+          
+          if(employeetype==1){
+            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+          }else{
+            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+          }
+
+          ValueArray[i] = $(IDArray[i]).val().trim();
+
+          if(i==10){
+            if($(IDArray[i]).val().length<13){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+            }
+          }else if(i==22 || i==23){
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                $('#edittabs li:eq(2) a').tab('show');
+                $("#editdailyrate").focus();
+            }else{
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
-      }else{
-          document.getElementById(ErrorIDArray[i]).innerHTML = "";
-        $(IDArray[i]).removeClass('is-invalid');
-        $(IDArray[i]).addClass('is-valid');
-        event.preventDefault();
-      }
-       }else{
-        if(i==2 || i==5 || i==15 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30 || i==31 || i==32 || i==33) continue;
-        if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-        if(firstRequired==""){
-          firstRequired = IDArray[i]
-             if(i<=16) navIndex = 0;
-          else if(i<=19) navIndex = 1;
-          else if(i<=26) navIndex = 2;
-          else if(i<=47) navIndex = 3;
-        };
-        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-            $(IDArray[i]).addClass('is-invalid');
+            }
+          }else{
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
-      }else{
-         document.getElementById(ErrorIDArray[i]).innerHTML = "";
-        $(IDArray[i]).removeClass('is-invalid');
-        $(IDArray[i]).addClass('is-valid');
-        event.preventDefault();
+            }else{
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
+                event.preventDefault();
+            }
+          }
       }
 
-    }
-    }
-    $('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
-    $(firstRequired).focus();
-    if(firstRequired==""){
-    if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
-    $('#edit_employee').hide();
-    $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
-    event.preventDefault(); 
-    return false;
-    }   
-   });
+      $('#edittabs li:eq('+navIndex+') a').tab('show');
+      $(firstRequired).focus();
+      if(firstRequired==""){
+        $('#edit_employee').hide();
+        $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+        event.preventDefault(); 
+        return false;
+      } 
+
+        $('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
+        $(firstRequired).focus();
+        if(firstRequired==""){
+          $('#edit_employee').hide();
+          $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+          event.preventDefault(); 
+          return false;
+        }   
+    });
+
   $("#cncl-edit").unbind('click').bind('click', function(){
       $('#confirmation_edit').modal('hide');
       $('#edit_employee').show();
     });
+
   $('.edit').unbind('click').bind('click', function(){
-        var id                =   $(this).attr('id');
-        var restdayid1 = restdayid;
-         var leave = [];  
-         var employee = [];
+        var id    =   $(this).attr('id');
+        var leave = [];  
+        var employee      = [];
         var restdayresult = [];
+
           $(".employee").each(function(){
            employee.push($(this).val());
         });
+
         var totalleave = [];
         $(".editleave").each(function(){
            leave.push($(this).val());
@@ -1918,8 +1956,9 @@ var restdayid =[];
            totalleave.push($(this).val());
         });
         $('input.editremoveLater:checked').map(function() {
-        restdayresult.push($(this).val());
+          restdayresult.push($(this).val());
         });
+
         var sunrestdays       =   $("#editsunrestdays").prop('checked')==true ? "1" : "0"; 
         var monrestday        =   $("#editmonrestdays").prop('checked')==true ? "1" : "0"; 
         var tuerestday        =   $("#edittuerestdays").prop('checked')==true ? "1" : "0"; 
@@ -1947,18 +1986,19 @@ var restdayid =[];
         var roleDescription   =   $("#editrole").val();
         var username          =   $("#editusername").val();
         var password          =   $("#editpassword").val();
-        var basicsalary       =   $("#editbasicsalary").val();
-        var dailyrate         =   $("#editdailyrate").val();
-        var allowance         =   $("#editallowance").val();
-        var cola              =   $("#editcola").val();
-        var incentive         =   $("#editincentive").val();
-        var uniformallowance  =   $("#edituniformallowance").val();
+        var basicsalary       =   $("#editbasicsalary").val().replace(",","");
+        var dailyrate         =   $("#editdailyrate").val().replace(",","");
+        var allowance         =   $("#editallowance").val().replace(",","");
+        var retfund           =   $("#editretfund").val().replace(",","");
+        var incentive         =   $("#editincentive").val().replace(",","");
+        var uniformallowance  =   $("#edituniformallowance").val().replace(",","");
         var tinnumber         =   $("#edittinnumber").val();
         var sssnumber         =   $("#editsssnumber").val();
         var philhealthnumber  =   $("#editphilhealthnumber").val();
         var pagibignumber     =   $("#editpagibignumber").val();
         var clientID          =   $("#editclient").val();
         var employeetypeid    =   $("#editemployeetype").val();
+        var bankname          =   $("#editbankname").val();
         var backaccountname   =   $("#editbackaccountname").val();
         var backaccountnumber =   $("#editbackaccountnumber").val();
         $.ajax({
@@ -1972,12 +2012,12 @@ var restdayid =[];
                 hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        cola:             cola,    
+                dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
                 incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,      
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                 backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
-                employee:          employee,        restdayresult:    restdayresult,    restdayid1:       restdayid1},
+                employee:          employee,        restdayresult:    restdayresult,    bankname:          bankname},
               async : true,
               dataType : 'json',
               success: function(data){

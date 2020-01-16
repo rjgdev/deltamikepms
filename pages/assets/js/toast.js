@@ -59,8 +59,11 @@
       text: "Photo successfully uploaded!",
       showHideTransition: 'slide',
       icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
       loaderBg: '#ffffff',
-      position: 'top-right',
       hideAfter: 7000, 
     })
   };
@@ -74,8 +77,29 @@
       text: 'File not supported! Please select a JPEG or PNG File and try again.',
       showHideTransition: 'slide',
       icon: 'error',
+      position: {
+        right: 3,
+        top: 63
+      },
       loaderBg: '#ffffff',
-      position: 'top-right',
+      hideAfter: 7000 
+    });
+  }
+
+  showUploadTimekeepingError = function(text) {
+    'use strict';
+
+    resetToastPosition();
+    $.toast({
+      heading: 'Error',
+      text: text,
+      showHideTransition: 'slide',
+      icon: 'error',
+      position: {
+        right: 3,
+        top: 63
+      },
+      loaderBg: '#ffffff',
       hideAfter: 7000 
     });
   }
@@ -88,8 +112,11 @@
       text: 'employee status successfully saved!',
       showHideTransition: 'slide',
       icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
       loaderBg: '#ffffff',
-      position: 'top-right',
       hideAfter: 7000, 
     });
   };

@@ -42,7 +42,7 @@
 									<td class="text-right"><?php echo number_format($item->belowrange,4,".",","); ?></td>
 									<td class="text-right"><?php echo number_format($item->aboverange,4,".",","); ?></td>
 									<td class="text-right"><?php echo number_format($item->additionaltax,4,".",","); ?></td>
-									<td class="text-right"><?php echo number_format($item->percent,4,".",","); ?>%</td>
+									<td class="text-right"><?php echo number_format($item->percent,2,".",","); ?>%</td>
 									<td class="text-right">
 										<button type="button" id="<?php echo $item->taxID; ?>" class="btn btn-info btn-sm edittax"
 												data-toggle="modal"

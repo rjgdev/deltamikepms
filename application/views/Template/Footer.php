@@ -17,10 +17,18 @@
 	<script src="<?php echo base_url(); ?>pages\assets\inputmask\jquery.inputmask.bundle.js"></script>
     <script src="<?php echo base_url(); ?>pages\assets\js\inputmask.js"></script>
     <script src="<?php echo base_url(); ?>pages\assets\js\bootstrap-show-password.min.js"></script>
+    <script src="<?php echo base_url(); ?>pages\assets\js\dataTables.fixedColumns.min.js"></script>
+    <script src="<?php echo base_url(); ?>pages\assets\js\accounting.js"></script>
 
 	<script  type="text/javascript">  
     $(document).ready(function() {
 		$('.select2').select2();
+
+		$('.modal').on("hidden.bs.modal", function (e) { //fire on closing modal box
+	        if ($('.modal:visible').length) { // check whether parent modal is opend after child modal close
+	            $('body').addClass('modal-open'); // if open mean length is 1 then add a bootstrap css class to body of the page
+	        }
+	    });
 		
 		var current = location.pathname;
 	    $('#sidebar-menu li a').each(function(){

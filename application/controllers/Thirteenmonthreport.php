@@ -9,7 +9,7 @@
 		}
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Thirteen month report');
+	  		$data = array('title' => '13th month report');
 	  		$data['data']=$this->Thirteenmonthreport->get_all_Thirteenmonthreport();
 			$this->load->view('Template/Header',$data);
 			$this->load->view("Thirteenmonthreport/Index",$data);
@@ -28,13 +28,29 @@
 		{
 
 			$data = array('title' => 'Thirteen month report Record');
-				$auth = $this->input->get('auth');
 				$id = $this->input->get('id');
-				$data['data']=$this->Thirteenmonthreport->get_recorddata($id);
+				$from = $this->input->get('from');
+				$to = $this->input->get('to');
+				$data['data']=$this->Thirteenmonthreport->get_recorddatamonth($id,$from,$to);
 				$this->load->view('Template/Printstyle',$data);
 				$this->load->view('Thirteenmonthreport/recorddata',$data);
 				$this->load->view('Template/Footer',$data);
+				//echo json_encode($data);
 			
+			}
+	public function search_Thirteenmonthreport()
+	{
+
+
+		$fromdate = $this->input->post('fromdate');
+		$todate = $this->input->post('todate');
+		$searchemployeetype = $this->input->post('searchemployeetype');
+		$searchclient = $this->input->post('searchclient');
+		$searchdetachment = $this->input->post('searchdetachment');
+
+		$data = $this->Thirteenmonthreport->searchrecord($fromdate, $todate, $searchemployeetype,$searchclient,$searchdetachment);
+		echo json_encode($data);
+
 	}
 
 	}	

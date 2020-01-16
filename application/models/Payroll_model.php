@@ -7,6 +7,25 @@ class Payroll_model extends CI_Model
 	 parent::__construct(); 
 	}
 
+	function get_payroll(){
+		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE (timekeepingstatus=1 OR timekeepingstatus=2) AND payrollstatus=0 LIMIT 1");
+
+		$datefrom = "";
+		$dateto = "";
+
+		if($query->num_rows()!=0){
+			 $datefrom = $query->row()->datefrom;
+			 $dateto = $query->row()->dateto;
+		}
+
+		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
+												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
+												 WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");
+		
+
+		return array('cutoff' => $query->result(),'payrolldetails' =>  $queryPayrolldetails->result());
+	}
+
 	function getWTAX($fromcutoff,$employeeID,$netpay){ //FOR STAFF ONLY
 
 		/*$netpay = Monthly Basic Pay + Overtime Pay + Holiday Pay + Night Differential 
@@ -49,7 +68,7 @@ class Payroll_model extends CI_Model
 
 
 		$basicsalary = $salary + $query->row()->basicpay;
-
+		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
 
 		return $querySSS->row()->employee;
@@ -78,138 +97,158 @@ class Payroll_model extends CI_Model
 		return $hdmf;
 	}
 
-	function processpayroll($fromcutoff,$tocutoff)
+	function processpayroll($timekeepingID,$fromcutoff,$tocutoff,$payperiod)
 	{
-		$payperiod = 1;
-		$hdmf = 0;
-		$phic = 0;
-		$wtax = 0;
-		$sss = 0;
 
-		$data = array('datefrom' => $fromcutoff,
-					  'dateto'	 => $tocutoff
-					 );
+		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
 
-		$this->db->insert('dm_payroll', $data);
-		$last_id = $this->db->insert_id();
+		if($queryPayroll->num_rows()==0){
+			$data = array('datefrom' 	=> $fromcutoff,
+						  'dateto'	 	=> $tocutoff,
+						  'payperiod'	=> $payperiod
+						 );
 
-		$query = $this->db->query("SELECT dm_employee.employeeID,
-										  basicsalary,
-										  restot,
-										  specialot,
-										  specialrestot,
-										  regularot,
-										  regularrestot,
-										  doubleot,
-										  doublerestot,
-									  	  nightdiff,
-										  employeetypeID,
-										  COUNT(datesched) - SUM(absent)  AS 'daysofwork',
-									      SUM(absent) 		AS 'daysofabsent',
-										  SUM(regularhours) AS 'regularhours',
-									      SUM(latehours)  	AS 'latehours',
-									      SUM(latehours) * (dailyrate / 8)  AS 'late',
-									      SUM(absent) * (dailyrate) 		AS 'absent',
-									      SUM(othours) 		AS 'overtimehours',
-									      dailyrate,
-									      (dailyrate / 8) AS 'hourlyrate',
-								      	  (CASE employeetypeID
-							      	  		WHEN 1 THEN SUM(regularhours) * (dailyrate / 8) 
-							      	  		WHEN 2 THEN basicsalary / 2
-							      	  	  END) AS 'basicpay',
-									      (SUM(othours) * 1.25) * (dailyrate / 8) 		AS 'ordinaryot',
-									      (SUM(restot) * 1.69) * (dailyrate / 8)		AS 'restot',
-									      (SUM(specialot) * 1.69) * (dailyrate / 8) 	AS 'specialot',
-									      (SUM(specialrestot) * 1.95) * (dailyrate / 8) AS 'specialrestot',
-									      (SUM(regularot) * 2.6) * (dailyrate / 8) 		AS 'regularot',
-									      (SUM(regularrestot) * 3.38) * (dailyrate / 8) AS 'regularrestot',
-									      (SUM(doubleot) * 3.9) * (dailyrate / 8) 		AS 'doubleot',
-									      (SUM(doublerestot) * 5.07) * (dailyrate / 8) 	AS 'doublerestot',
-									      0 AS 'regholiday',
-									      0 AS 'speholiday',
-									      0 AS 'cola',
-									      0 AS 'incentives',
-									      0 AS 'uniformallowance'
-								   FROM dm_timesheet
-								   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timesheet.employeeID
-								   WHERE (datesched >= '".$fromcutoff."' AND 
-								   	      datesched <= '".$tocutoff."') AND
-										  dm_timesheet.employeeID = 1");
-
-		$basicsalary = ($query->row()->employeetypeID==1 ? $query->row()->basicpay : $query->row()->basicsalary);
-
-		/************************   INCOME  *************************/
-		$totalOTpay = $query->row()->ordinaryot 	+ 
-					  $query->row()->restot 		+ 
-					  $query->row()->specialot 		+ 
-					  $query->row()->specialrestot 	+ 
-					  $query->row()->regularot 		+ 
-					  $query->row()->regularrestot 	+ 
-				      $query->row()->doubleot 		+ 
-				      $query->row()->doublerestot;
-
-	    $totalHolidaypay = $query->row()->regholiday + 
-						   $query->row()->speholiday;
-
-	    $thirteenmonth 	= 0;
-	    $cola 			= 0;
-	    $incentive 		= 0;
-	    $allowances 	= 0;
-	    $nightdiff 		= $query->row()->nightdiff;
-
-	    $taxEarnings  	= $query->row()->basicpay + $totalOTpay + $totalHolidaypay + $nightdiff;
-	    $TOTALINCOME    = $taxEarnings + $thirteenmonth + $cola + $incentive + $allowances;
-
-	    /************************  DEDUCTION *************************/
-		if($payperiod==1){
-			$hdmf = $this->getHDMF($basicsalary);
-			$phic = $this->getPHIC($basicsalary);
-		}else if($payperiod==2){
-			$sss  = $this->getSSS($query->row()->basicpay, $fromcutoff, $query->row()->employeeID);
+			$this->db->insert('dm_payroll', $data);
+			$last_id = $this->db->insert_id();
+		}else{
+			$last_id = $queryPayroll->row()->payrollID;
+			$queryDeletePayroll = $this->db->query("DELETE FROM dm_payrolldetails WHERE payrollID=".$last_id);
 		}
 
-		$late	  = $query->row()->late;
-		$absent   = $query->row()->absent;
-		$sssloan  = 0;
-		$hdmfloan = 0;
+			$hdmf = 0;
+			$phic = 0;
+			$wtax = 0;
+			$sss = 0;
+			
+			$query = $this->db->query("SELECT dm_employee.employeeID,
+											  dm_employee.firstname,
+											  dm_employee.lastname,
+											  basicsalary,
+											  restot,
+											  specialot,
+											  specialrestot,
+											  regularot,
+											  regularrestot,
+											  doubleot,
+											  doublerestot,
+										  	  nightdiff,
+											  employeetypeID,
+											  COUNT(datesched) - SUM(absent)  AS 'daysofwork',
+										      SUM(absent) 		AS 'daysofabsent',
+											  SUM(regularhours) AS 'regularhours',
+										      SUM(latehours)  	AS 'latehours',
+										      SUM(latehours) * (dailyrate / 8)  AS 'late',
+										      SUM(absent) * (dailyrate) 		AS 'absent',
+										      SUM(othours) 		AS 'overtimehours',
+										      dailyrate,
+										      (dailyrate / 8) AS 'hourlyrate',
+									      	  (CASE employeetypeID
+								      	  		WHEN 1 THEN SUM(regularhours) * (dailyrate / 8) 
+								      	  		WHEN 2 THEN basicsalary / 2
+								      	  	  END) AS 'basicpay',
+										      (SUM(othours) * 1.25) * (dailyrate / 8) 		AS 'ordinaryot',
+										      (SUM(restot) * 1.30) * (dailyrate / 8)		AS 'restot',
+										      (SUM(specialot) * 1.30) * (dailyrate / 8) 	AS 'specialot',
+										      (SUM(specialrestot) * 1.95) * (dailyrate / 8) AS 'specialrestot',
+										      (SUM(regularot) * 2.6) * (dailyrate / 8) 		AS 'regularot',
+										      (SUM(regularrestot) * 3.38) * (dailyrate / 8) AS 'regularrestot',
+										      (SUM(doubleot) * 3.9) * (dailyrate / 8) 		AS 'doubleot',
+										      (SUM(doublerestot) * 5.07) * (dailyrate / 8) 	AS 'doublerestot',
+										      0 AS 'regholiday',
+										      0 AS 'speholiday',
+										      0 AS 'cola',
+										      0 AS 'incentives',
+										      0 AS 'uniformallowance'
+									   FROM dm_timekeepingdetails
+									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
+									   WHERE (datesched >= '".$fromcutoff."' AND 
+									   	      datesched <= '".$tocutoff."') GROUP BY dm_timekeepingdetails.employeeID");
 
-		$taxDeduction   = $late + $absent + $hdmf + $phic + $sss;
-	    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
+			if ($query->num_rows() > 0)
+			{
+			   foreach ($query->result() as $row)
+			   {
+			      	$basicsalary = ($row->employeetypeID==1 ? $row->basicpay : $row->basicsalary);
 
-		/************************  TOTAL  *************************/
-		$taxableIncome = $taxEarnings - $taxDeduction;
+					/************************  DEDUCTION *************************/
+					if($payperiod=="1"){
+						$hdmf = $this->getHDMF($basicsalary);
+						$phic = $this->getPHIC($basicsalary);
+					}else if($payperiod=="2"){
+						$sss  = $this->getSSS($row->basicpay, $fromcutoff, $row->employeeID);
+					}
 
-		if($payperiod==2 && $query->row()->employeetypeID==2){ // FOR STAFF ONLY
-			$wtax = $this->getWTAX($fromcutoff, $query->row()->employeeID, $taxableIncome);
-		}
+					$late	  = $row->late;
+					$absent   = $row->absent;
+					$sssloan  = 0;
+					$hdmfloan = 0;
 
-	    $netpay = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
+					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss;
+				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
 
-		$data = array('payrollID'		=> $last_id,
-					  'datefrom'		=> $fromcutoff,
-					  'dateto'			=> $tocutoff,
-					  'employeeID'		=> 1,
-					  'daysofwork' 		=> $query->row()->daysofwork,
-					  'daysofabsent' 	=> $query->row()->daysofabsent,
-					  'regularhours' 	=> $query->row()->regularhours,
-					  'latehours' 		=> $query->row()->latehours,
-					  'overtimehours' 	=> $query->row()->overtimehours,
-					  'dailyrate' 		=> $query->row()->dailyrate,
-					  'hourlyrate' 		=> $query->row()->hourlyrate,
-					  'basicpay' 		=> $query->row()->basicpay,
-					  'late' 			=> $query->row()->late,
-					  'absent' 			=> $query->row()->absent,
-					  'ordinaryot' 		=> $query->row()->ordinaryot,
-					  'hdmf' 			=> $hdmf,
-					  'phic' 			=> $phic,
-					  'sss'				=> $sss,
-					  'wtax'			=> $wtax,
-					  'netpay'			=> $netpay
-					 );
+					/************************   INCOME  *************************/
+					$totalOTpay = $row->ordinaryot 	+ 
+								  $row->restot 		+ 
+								  $row->specialot 		+ 
+								  $row->specialrestot 	+ 
+								  $row->regularot 		+ 
+								  $row->regularrestot 	+ 
+							      $row->doubleot 		+ 
+							      $row->doublerestot;
 
-		$this->db->insert('dm_payrolldetails', $data);
+				    $totalHolidaypay = $row->regholiday + 
+									   $row->speholiday;
 
-    	return $query->result();
+				    $thirteenmonth 	= ($row->basicpay - ($late + $absent)) / 12;
+				    $cola 			= 0;
+				    $incentive 		= 0;
+				    $allowances 	= 0;
+				    $nightdiff 		= $row->nightdiff;
+
+				    $taxEarnings  	= $row->basicpay + $totalOTpay + $totalHolidaypay + $nightdiff;
+				    $TOTALINCOME    = $taxEarnings + $cola + $incentive + $allowances;
+
+					/************************  TOTAL  *************************/
+					$taxableIncome = $taxEarnings - $taxDeduction;
+
+					if($payperiod=="2" && $row->employeetypeID==2){ // FOR STAFF ONLY
+						$wtax = $this->getWTAX($fromcutoff, $row->employeeID, $taxableIncome);
+					}
+
+				    $netpay = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
+
+					$data = array('payrollID'		=> $last_id,
+								  'datefrom'		=> $fromcutoff,
+								  'dateto'			=> $tocutoff,
+								  'employeeID'		=> $row->employeeID,
+								  'daysofwork' 		=> $row->daysofwork,
+								  'daysofabsent' 	=> $row->daysofabsent,
+								  'regularhours' 	=> $row->regularhours,
+								  'latehours' 		=> $row->latehours,
+								  'overtimehours' 	=> $row->overtimehours,
+								  'dailyrate' 		=> $row->dailyrate,
+								  'hourlyrate' 		=> $row->hourlyrate,
+								  'basicpay' 		=> $row->basicpay,
+								  'late' 			=> $row->late,
+								  'absent' 			=> $row->absent,
+								  'ordinaryot' 		=> $row->ordinaryot,
+								  'hdmf' 			=> $hdmf,
+								  'phic' 			=> $phic,
+								  'sss'				=> $sss,
+								  'wtax'			=> $wtax,
+								  'netpay'			=> $netpay,
+								  'thrmonth'		=> $thirteenmonth
+								 );
+
+					$this->db->insert('dm_payrolldetails', $data);
+			   }
+			}
+
+		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
+												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
+												 WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
+
+    	return $queryPayrolldetails->result();
   	}
 }
 ?>

@@ -187,12 +187,14 @@
 			</div>
            <div class="col-sm-12">
           	 <div class="form-group">
-             <label for="exampleInputPassword1">Term of Payments</label>
-            <select class="form-control" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;">
+             <label for="exampleInputPassword1">Term of Payment<code>*</code></label>
+            <select class="form-control" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;"  description="Term of Payment">
+            <option value="">No Selected</option>
             <option value="1">Monthly</option>
             <option value="2">Payday</option>
             <option value="3">Yearly</option>
-            </select>   
+            </select> 
+            <div class="invalid-feedback" id="add-termofpaymentID"></div>    
            <!--  <div class="invalid-feedback" id="add-termofpaymentID"></div>      -->
            <input id="addpaid" name="addpaid" value="0" type="hidden" class="form-control input">
         </div>
@@ -287,12 +289,14 @@
 				</div>
 				<div class="col-sm-12">
 					<div class="form-group">
-					<label for="exampleInputPassword1">Term of Payments</label>
-					<select class="form-control" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;">
+					<label for="exampleInputPassword1">Term of Payment</label>
+					<select class="form-control" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;" description="Term of Payment">
+					<option value="">No Selected</option>
 					<option value="1">Monthly</option>
 					<option value="2">Payday</option>
 					<option value="3">Yearly</option>
-					</select>      
+					</select> 
+					<div class="invalid-feedback" id="edit-termofpaymentID"></div>     
 					</div>
 				</div>            
 				<div class="submit-section">
@@ -469,14 +473,14 @@
 		$(IDArray[3]).addClass('is-valid');
 		event.preventDefault();
 		}else{
-		document.getElementById("add-addenddate").innerHTML = "invalid dates";
+		document.getElementById("add-addenddate").innerHTML = "Invalid dates.";
 		$(IDArray[3]).addClass('is-invalid');
 		event.preventDefault();
 		return false;
 		};
 		if(amount ==0){
 			
-		document.getElementById("add-amount").innerHTML = "invalid input";
+		document.getElementById("add-amount").innerHTML = "Invalid input.";
 		$(IDArray[4]).addClass('is-invalid');
 		return false;
 		}else{
@@ -486,7 +490,7 @@
 		event.preventDefault();
 		};
 		if(deduction > amount){
-		document.getElementById("add-deduction").innerHTML = "deduction amount is to high";
+		document.getElementById("add-deduction").innerHTML = "Deduction amount is to high.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
 		}else{
@@ -497,7 +501,7 @@
 		};
 		for(var i=0;i<IDArray.length;i++){
 		ValueArray[i] = $(IDArray[i]).val().trim()
-		if(i==6) continue;
+		if(i==7) continue;
 		if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 			if(firstRequired==""){
 			firstRequired = IDArray[i]
@@ -622,13 +626,13 @@ $('.update').unbind('click').bind('click', function(){
 		$(IDArray[3]).addClass('is-valid');
 		event.preventDefault();
 		}else{
-		document.getElementById("edit-enddate").innerHTML = "invalid dates";
+		document.getElementById("edit-enddate").innerHTML = "Invalid dates.";
 		$(IDArray[3]).addClass('is-invalid');
 		event.preventDefault();
 		return false;
 		};
 		if(editamount ==0){
-		document.getElementById("edit-amount").innerHTML = "invalid input";
+		document.getElementById("edit-amount").innerHTML = "Invalid input.";
 		$(IDArray[4]).addClass('is-invalid');
 		return false;
 		}else{
@@ -638,7 +642,7 @@ $('.update').unbind('click').bind('click', function(){
 		event.preventDefault();
 		};
 		if(editdeduction ==0){
-		document.getElementById("edit-deduction").innerHTML = "invalid input";
+		document.getElementById("edit-deduction").innerHTML = "Invalid input.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
 		}else{
@@ -648,7 +652,7 @@ $('.update').unbind('click').bind('click', function(){
 		event.preventDefault();
 		};
 		if(editdeduction > editamount){
-		document.getElementById("edit-deduction").innerHTML = "deduction amount is to high";
+		document.getElementById("edit-deduction").innerHTML = "Deduction amount is to high.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
 		}else{
@@ -659,7 +663,7 @@ $('.update').unbind('click').bind('click', function(){
 		};
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==6) continue;
+			if(i==7) continue;
 			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]

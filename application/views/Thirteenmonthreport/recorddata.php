@@ -1,4 +1,23 @@
+<?php 
+foreach ($data['record'] as $record):
+	$employeename = $record->employeename;
+	$department = $record->department.' | '.  $record->designation;
+	$designation = $record->designation;
+	$clientname = $record->clientname.' | '. $record->detachment;
+	$detachment = $record->detachment;
+	$hireddate = $record->hireddate;
+	$thrmonth[] = $record->thrmonth;
+endforeach;
 
+foreach ($data['company'] as $company):
+	$companyname = $company->company;
+	$mobilenumber = $company->mobilenumber.' | '. $company->email;
+	$email = $company->email;
+	$address = $company->address;
+	$website = $company->website;
+
+endforeach;
+?>	
 			<br>
 			<br>
 			<br>
@@ -6,106 +25,61 @@
 			<br>
 			<br>
 			<div align="center">
-						<div class="col-sm-10">
+						<div class="col-sm-12">
 							<div class="card">
 								<div class="card-body">
 									
 
-									<h4 class="payslip-title">Thirteen month for the year of 2019</h4>
 									<div class="row">
-										<div class="col-sm-6 m-b-20">
-											<img src="assets\img\logo2.png" class="inv-logo" alt="">
-											<?php foreach ($data['company'] as $record):?>
-												
-											<ul class="list-unstyled mb-0">
-												<li><?php echo $record->company ?></li>
-												<li><?php echo $record->firstletter ?></li>
-												<li><?php echo $record->firstletter1 ?></li>
-												<li><?php echo $record->website ?></li>
-											</ul>
-										<?php endforeach; ?>
-										</div>
-										<div class="col-sm-6 m-b-20">
-											<div class="invoice-details">
-												<h4 class="text-uppercase">Thirteen Month #49029</h4>
-												<ul class="list-unstyled">
-													<li>Thirteen Month: <span>December, 2019</span></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-
-										<div class="col-lg-12 m-b-20">
-											<?php foreach ($data['employee'] as $record):?>
-											<ul class="list-unstyled">
-												<li><h5 class="mb-0"><strong><?php echo $record->employeename ?></strong></h5></li>
-												<li><span><?php echo $record->designationdescription ?></span></li>
-												<li>Employee ID: FT-0009</li>
-												<li>Joining Date: <?php echo $record->hireddate ?></li>
-											</ul>
-											<?php endforeach; ?>
-										</div>
 									</div>
 									<div align="center">
 									
 										
 										<div class="col-sm-20">
 											<div>
-												<table class="table table-striped custom-table mb-0 datatable">
-													<th>Month</th>
-													<th>Number of Absent</th>
-													<th>Gross</th>
-													<tbody>
-														<?php
-														for($i=0;$i<=11;$i++){
-														$month=date('M',strtotime("first day of -$i month"));
-														
-														?>
+												<table class="table table-striped custom-table mb-0 ">
+
+													<thead> 
 														<tr>
-															<td><?php echo $month; ?></td>
-															<td></td>
-															<td></td>
-														</tr>
-													<?php } ?>
-													</tbody>
-													<tfoot>
-														<td>Total</td>
-														<td></td>
-														<td></td>
-													</tfoot>	
+															<th colspan="3">13th Month Report</th> 
+															
+														</tr> 
+														<tr> 
+															<td colspan="2"> <strong>Employee Name:</strong><br><p style="font-size:16px;"> <?php echo $employeename; ?><br><?php echo $department ; ?><br><?php echo $clientname; ?><br><strong>Hired Date: <?php echo $hireddate ; ?></p></strong> </td> 
+															<td colspan="1"> <strong>Company Name:</strong><br><p style="font-size:16px;"><?php echo $companyname; ?><br> <?php echo $mobilenumber; ?><br> <?php echo $website; ?><br> <?php echo $address; ?></p> </td> 
+														</tr> 
+													</thead> 
+													<tbody> 
+														<tr> <th>Month</th>
+														<th>Late</th>  
+														<th>Absent</th> 
+														<th style ="text-align: center;">Netpay</th> 
+													</tr>
+													<?php 
+														foreach ($data['record'] as $record): 
+													?>		
+													<tr> 
+														<td><?php echo $record->datepayrol; ?></td> 
+														<td><?php echo number_format($record->late, 4, '.', ','); ?></td> 
+														<td><?php echo number_format($record->daysofabsent, 0,'',''); ?></td> 
+														<td  style ="text-align: right;"><?php echo number_format($record->thrmonth, 4, '.', ','); ?></td> 
+													<?php endforeach; ?>
+													</tr> 
+												</tbody> 
+												<tfoot> 
+													<tr> 
+														<td></td> 
+														<td></td> 
+														<th ><center>Subtotal:</center> <p style ="text-align: right;"><?php echo number_format(array_sum($thrmonth), 4, '.', ','); ?> </p></th>
+														  
+														</tr> 
+														
+													</tfoot>
 												</table>
 											</div>
 										</div>
 										
-										<!-- <div class="col-sm-6">
-											<div>
-												<h4 class="m-b-10"><strong>Deductions</strong></h4>
-												<table class="table table-bordered">
-													<tbody>
-														<tr>
-															<td><strong>Tax Deducted at Source (T.D.S.)</strong> <span class="float-right">$0</span></td>
-														</tr>
-														<tr>
-															<td><strong>Provident Fund</strong> <span class="float-right">$0</span></td>
-														</tr>
-														<tr>
-															<td><strong>ESI</strong> <span class="float-right">$0</span></td>
-														</tr>
-														<tr>
-															<td><strong>Loan</strong> <span class="float-right">$300</span></td>
-														</tr>
-														<tr>
-															<td><strong>Total Deductions</strong> <span class="float-right"><strong>$59698</strong></span></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
-										</div> -->
-										<div class="col-sm-12">
-											<p><strong>Net Salary: $59698</strong> (Fifty nine thousand six hundred and ninety eight only.)<a href=""  value="Print" onclick="window.print()"><i class="fa fa-print fa-lg"> Print</i></a></p>
-
-										</div>
+										
 									</div>
 								</div>
 							</div>

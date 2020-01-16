@@ -31,9 +31,6 @@
 								<th class="text-right">Minimum Range</th>
 								<th class="text-right">Maximum Range</th>
 								<th class="text-right">Percentage</th>
-								<th class="text-right">Employer Contribution</th>
-								<th class="text-right">Employee Contribution</th>
-								<th class="text-right">Total Premium Payment</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -41,12 +38,9 @@
 						 	<?php foreach ($data as $item) { ?>    
 								<tr>
 									<td><?php echo $item->philhealthID; ?></td>
-									<td class="text-right"><?php echo $item->belowrange; ?></td>
-									<td class="text-right"><?php echo $item->aboverange; ?></td>
-									<td class="text-right"><?php echo $item->percent; ?>%</td>
-									<td class="text-right"><?php echo $item->employer; ?></td>
-									<td class="text-right"><?php echo $item->employee; ?></td>
-									<td class="text-right"><?php echo $item->total; ?></td>
+									<td class="text-right"><?php echo number_format($item->belowrange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->aboverange,4,".",","); ?></td>
+									<td class="text-right"><?php echo number_format($item->percent,2,".",","); ?>%</td>
 									<td class="text-right">
 										<button type="button" id="<?php echo $item->philhealthID; ?>" class="btn btn-info btn-sm editphilhealth"
 												data-toggle="modal"
@@ -56,9 +50,6 @@
 												data-belowrange="<?php echo $item->belowrange; ?>"
 												data-aboverange="<?php echo $item->aboverange; ?>"
 												data-percent="<?php echo $item->percent; ?>"
-												data-employer="<?php echo $item->employer; ?>"
-												data-employee="<?php echo $item->employee; ?>"
-												data-total="<?php echo $item->total; ?>"
 												data-tog="tooltip"
 												data-placement="top"
 												title="Edit"> <i class="fa fa-pencil"></i> </button>
@@ -110,36 +101,6 @@
 							<input class="form-control percentage" type="text" id="percent" description=" percent">
 							<div class="invalid-feedback" id="add-percent"></div>
 						</div>
-                        <div class="form-group">
-                            <label>Employer Contribution <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="employer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employer contribution" required>
-                              <div class="invalid-feedback" id="add-employer"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Employee Contribution <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="employee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="n employee contribution" readonly="true" required>
-                              <div class="invalid-feedback" id="add-employee"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Total Premium Payment <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="total" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description=" total" readonly="true" required>
-                              <div class="invalid-feedback" id="add-total"></div>
-                            </div>
-                        </div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -187,36 +148,6 @@
 							<input class="form-control percentage" type="text" id="editpercent">
 							<div class="invalid-feedback" id="edit-percent"></div>
 						</div>
-                        <div class="form-group">
-                            <label>Employer Contribution <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="editemployer" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" required>
-                              <div class="invalid-feedback" id="edit-employer"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Employee Contribution <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="editemployee" class="form-control input sum" data-inputmask="'alias': 'currency'" autocomplete="off" description="above range" readonly="true" required>
-                              <div class="invalid-feedback" id="edit-employee"></div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Total Premium Payment <span class="text-danger">*</span></label>
-                            <div class="input-group mr-sm-2 mb-sm-0">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">₱</span>
-                              </div>
-                              <input id="edittotal" class="form-control input total" data-inputmask="'alias': 'currency'" autocomplete="off" description="additional tax" readonly="true" required>
-                              <div class="invalid-feedback" id="edit-total"></div>
-                            </div>
-                        </div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
@@ -311,18 +242,6 @@
 		    document.getElementById("add-percent").innerHTML = "";
         	$('#percent').removeClass('is-invalid');
         	$('#percent').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-employer").innerHTML = "";
-        	$('#employer').removeClass('is-invalid');
-        	$('#employer').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-employee").innerHTML = "";
-        	$('#employee').removeClass('is-invalid');
-        	$('#employee').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-total").innerHTML = "";
-        	$('#total').removeClass('is-invalid');
-        	$('#total').removeClass('is-valid');
 		});
 
 		$('#edit_philhealth').on('hidden.bs.modal', function(){
@@ -338,18 +257,6 @@
 		    document.getElementById("edit-percent").innerHTML = "";
         	$('#editpercent').removeClass('is-invalid');
         	$('#editpercent').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-employer").innerHTML = "";
-        	$('#editemployer').removeClass('is-invalid');
-        	$('#editemployer').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-employee").innerHTML = "";
-        	$('#editemployee').removeClass('is-invalid');
-        	$('#editemployee').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-total").innerHTML = "";
-        	$('#edittotal').removeClass('is-invalid');
-        	$('#edittotal').removeClass('is-valid');
 		});
 
 	    /* EDIT BUTTON - PASS DATA TO MODAL */
@@ -357,9 +264,6 @@
 			$(".modal-body #editbelowrange").val( $(this).data('belowrange') );
 			$(".modal-body #editaboverange").val( $(this).data('aboverange') );
 			$(".modal-body #editpercent").val( $(this).data('percent') );
-            $(".modal-body #editemployer").val( $(this).data('employer') );
-            $(".modal-body #editemployee").val( $(this).data('employee') );
-            $(".modal-body #edittotal").val( $(this).data('total') );
 			$('.edit').attr('id', $(this).data('id'));
 		});
 
@@ -368,9 +272,6 @@
 	        var belowrange = $('#belowrange').val().trim();
 	        var aboverange = $('#aboverange').val().trim();
 	        var percent = $('#percent').val().trim();
-	        var employer = $('#employer').val().trim();
-	        var employee = $('#employee').val().trim();
-	        var total = $('#total').val().trim();
 
 	        if(belowrange==""){
 	        	document.getElementById("add-belowrange").innerHTML = "Please provide a below range.";
@@ -404,37 +305,7 @@
 	        	$('#percent').addClass('is-valid');
 	        }
 
-	        if(employer=="" || employer=="0.0000"){
-	        	document.getElementById("add-employer").innerHTML = "Please provide an employer contribution.";
-	        	$('#employer').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-employer").innerHTML = "";
-	        	$('#employer').removeClass('is-invalid');
-	        	$('#employer').addClass('is-valid');
-	        }
-
-	        if(employee=="" || employee=="0.0000"){
-	        	document.getElementById("add-employee").innerHTML = "Please provide an employee contribution.";
-	        	$('#employee').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-employee").innerHTML = "";
-	        	$('#employee').removeClass('is-invalid');
-	        	$('#employee').addClass('is-valid');
-	        }
-
-	        if(total=="" || total=="0.0000"){
-	        	document.getElementById("add-total").innerHTML = "Please provide a total.";
-	        	$('#total').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-total").innerHTML = "";
-	        	$('#total').removeClass('is-invalid');
-	        	$('#total').addClass('is-valid');
-	        }
-
-	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || percent=="" || employer=="" || employer=="0.0000" || employee=="" || employee=="0.0000" || total=="" || total=="0.0000" ) return false;
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || percent=="" ) return false;
 
 	        	$('#add_philhealth').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -454,9 +325,6 @@
 	        var belowrange = $('#editbelowrange').val().trim();
 	        var aboverange = $('#editaboverange').val().trim();
 	        var percent = $('#editpercent').val().trim();
-	        var employer = $('#editemployer').val().trim();
-	        var employee = $('#editemployee').val().trim();
-	        var total = $('#edittotal').val().trim();
 
 	        if(belowrange==""){
 	        	document.getElementById("edit-belowrange").innerHTML = "Please provide a percent.";
@@ -488,37 +356,7 @@
 	        	$('#editpercent').addClass('is-valid');
 	        }
 
-	        if(employer=="" || employer=="0.0000"){
-	        	document.getElementById("edit-employer").innerHTML = "Please provide an employer contribution.";
-	        	$('#editemployer').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-employer").innerHTML = "";
-	        	$('#editemployer').removeClass('is-invalid');
-	        	$('#editemployer').addClass('is-valid');
-	        }
-
-	        if(employee=="" || employee=="0.0000"){
-	        	document.getElementById("edit-employee").innerHTML = "Please provide an employee contribution.";
-	        	$('#editemployee').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-employee").innerHTML = "";
-	        	$('#editemployee').removeClass('is-invalid');
-	        	$('#editemployee').addClass('is-valid');
-	        }
-
-	        if(total=="" || total=="0.0000"){
-	        	document.getElementById("edit-total").innerHTML = "Please provide a total.";
-	        	$('#edittotal').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-total").innerHTML = "";
-	        	$('#edittotal').removeClass('is-invalid');
-	        	$('#edittotal').addClass('is-valid');
-	        }
-
-	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || percent=="" || employer=="" || employer=="0.0000" || employee=="" || employee=="0.0000" || total=="" || total=="0.0000" ) return false;
+	        if(belowrange=="" || aboverange=="" || aboverange=="0.0000" || percent=="" ) return false;
 
 	        $('#edit_philhealth').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -534,22 +372,16 @@
 		});
 
         $('.add').unbind('click').bind('click', function(){
-			var belowrange = $('#belowrange').val().trim();
-	        var aboverange = $('#aboverange').val().trim();
-	        var percent = $('#percent').val().trim();
-	        var employer = $('#employer').val().trim();
-	        var employee = $('#employee').val().trim();
-	        var total = $('#total').val().trim();
+			var belowrange = $('#belowrange').val().trim().replace(",","");
+	        var aboverange = $('#aboverange').val().trim().replace(",","")
+	        var percent = $('#percent').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('philhealthtable/save');?>",
 	                method : "POST",
 	                data : {belowrange:belowrange,
 	                		aboverange:aboverange,
-	                		percent:percent,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
+	                		percent:percent
 	                		},
 	                async : true,
 	                dataType : 'json',
@@ -575,12 +407,9 @@
 
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
-	        var belowrange = $('#editbelowrange').val().trim();
-	        var aboverange = $('#editaboverange').val().trim();
-	        var percent = $('#editpercent').val().trim();
-	        var employer = $('#editemployer').val().trim();
-	        var employee = $('#editemployee').val().trim();
-	        var total = $('#edittotal').val().trim();
+	        var belowrange = $('#editbelowrange').val().trim().replace(",","");
+	        var aboverange = $('#editaboverange').val().trim().replace(",","");
+	        var percent = $('#editpercent').val().trim().replace(",","");
 
         	$.ajax({
 	                url : "<?php echo site_url('philhealthtable/update');?>",
@@ -588,10 +417,7 @@
 	                data : {id:id,
 	                		belowrange:belowrange,
 	                		aboverange:aboverange,
-	                		percent:percent,
-	                		employer:employer,
-	                		employee:employee,
-	                		total:total
+	                		percent:percent
 	                	},
 	                async : true,
 	                dataType : 'json',

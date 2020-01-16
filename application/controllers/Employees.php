@@ -26,6 +26,7 @@
 		$lastname			= 		$this->input->post('lastname');
 		$username			= 		$this->input->post('username');
 		$restdayresult 		=		$this->input->post('restdayresult');
+
 		$data = array (
 		'roleID'			=>		$this->input->post('roleDescription'),
 		'firstname'			=>		$this->input->post('firstname'),
@@ -52,7 +53,7 @@
 		'dailyrate'			=>		$this->input->post('dailyrate'),
 		'allowance'			=>		$this->input->post('allowance'),
 		'tinnumber'			=>		$this->input->post('tinnumber'),
-		'cola'				=>		$this->input->post('cola'),
+		'retfund'			=>		$this->input->post('retfund'),
 		'incentive'			=>		$this->input->post('incentive'),
 		'uniformallowance'	=>		$this->input->post('uniformallowance'),
 		'sssnumber'			=>		$this->input->post('sssnumber'),
@@ -60,7 +61,8 @@
 		'pagibignumber'		=>		$this->input->post('pagibignumber'),
 		'employeetypeID'    =>		$this->input->post('employeetypeid'),
 		'backaccountname'   =>		$this->input->post('backaccountname'),
-		'backaccountnumber' =>		$this->input->post('backaccountnumber'));
+		'backaccountnumber' =>		$this->input->post('backaccountnumber'),
+		'bankname' =>		$this->input->post('bankname'));
 		
    		$data   			= 		$this->employee->save_employee($data,$firstname,$middlename,$lastname,$username,$leavetypeID,$totalleave ,$restdayresult/*, $sunschedulefrom,$sunscheduleto,$sunrestday,$monchedulefrom, $monscheduleto, $monrestday, $tueschedulefrom, $tuescheduleto, $tuerestday,$wedschedulefrom, $wedscheduleto, $wedrestday, $thschedulefrom, $thscheduleto, $threstday, $frischedulefrom, $frischeduleto, $frirestday, $satschedulefrom, $satscheduleto, $satrestday*/);
    		$retval = explode("|",$data);
@@ -85,7 +87,7 @@
 		$totalleave 		=	$this->input->post('totalleave');
 		$id 				=	$this->input->post('id');
 		$restdayresult 		=	$this->input->post('restdayresult');
-		$scheduleID 		=	$this->input->post('restdayid1');
+		
 		$data = array (
 			'firstname' 		=> 		$this->input->post('firstname'),
 			'middlename'		=>		$this->input->post('middlename'),
@@ -110,7 +112,7 @@
 			'basicsalary' 		=> 		$this->input->post('basicsalary'),
 			'dailyrate' 		=> 		$this->input->post('dailyrate'),
 			'allowance' 		=> 		$this->input->post('allowance'),
-			'cola' 				=> 		$this->input->post('cola'),
+			'retfund' 			=> 		$this->input->post('retfund'),
 			'incentive' 		=> 		$this->input->post('incentive'),
 			'uniformallowance' 	=> 		$this->input->post('uniformallowance'),
 			'tinnumber' 		=> 		$this->input->post('tinnumber'),
@@ -119,9 +121,10 @@
 			'pagibignumber' 	=> 		$this->input->post('pagibignumber'),
 			'clientID' 			=> 		$this->input->post('clientID'),
 			'employeetypeID' 	=> 		$this->input->post('employeetypeid'),
+			'bankname' 			=> 		$this->input->post('bankname'),
 			'backaccountname' 	=> 		$this->input->post('backaccountname'),
 			'backaccountnumber' => 		$this->input->post('backaccountnumber'));
-	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult,$scheduleID);
+	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult);
 	$retval = explode("|",$data);
 
 	if($retval[0]=="false"){

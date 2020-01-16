@@ -1,3 +1,24 @@
+<?php
+	$timekeepingNo 		= "-----"; 
+	$datefrom 			= "-----"; 
+	$dateto 			= "";
+	$payperiod 			= "";
+	$payperiodrange		= "-----";
+	$timekeepingstatus  = "-----";
+	$tkstatus 			= "";
+
+	foreach ($data['cutoff'] as $item) {
+		$timekeepingNo 		= "TK-".str_pad($item->timekeepingID, 6, "0", STR_PAD_LEFT);
+		$datefrom 			= date("F d, Y",strtotime($item->datefrom)); 
+		$dateto 			= date("F d, Y",strtotime($item->dateto));
+		$payperiod 			= $item->payperiod;
+		$payperiodrange		= date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$payperiod.')';
+		$tkstatus 			= $item->timekeepingstatus;
+		if($item->timekeepingstatus==1) $timekeepingstatus = "PENDING";
+		else if($item->timekeepingstatus==2) $timekeepingstatus = "APPROVED";
+	}
+?>
+
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 
@@ -14,81 +35,137 @@
 						<li class="breadcrumb-item active">Payroll Process</li>
 					</ul>
 				</div>
+				<!-- <div class="col-auto float-right ml-auto align-items-center">
+					<button class="btn add-btn processpayroll" style="border-radius: 5px; padding: .68rem;"><i class="fa fa-forward"></i> Process Payroll </button>
+
+					<div class="view-icons" style="width:280px;">
+						<select class="form-control select2" id="cutoff" description="employee type" required>
+							    <option value="">Please select pay period</option>
+							    <?php foreach ($cutoff as $item) { 
+	                                echo '<option value="'.$item->cutoffID.'" datefrom="'.$item->datefrom.'" dateto="'.$item->dateto.'" payperiod="'.$item->payperiod.'">'.date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$item->payperiod.')'.'</option>';
+	                            } ?>  
+					    </select>
+					    <p style="font-size: 90%; color: #dc3545; margin: 5px;">Please select a pay period!</p>
+					</div>
+				</div> -->
+
+				<!-- <div class="col-auto float-right ml-auto">
+			   		   	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-7 col-12">  
+							<select class="form-control select2" id="cutoff" description="employee type" required>
+							    <option value="">Please select cutoff</option>
+							    <option value="1">Security Guard</option>
+							    <option value="2">Staff</option>
+						    </select>
+						</div>   
+
+						<div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
+							<button type="button" class="btn btn-info btn-block processpayroll"> Process Payroll </button>
+						</div> 
+				</div> -->
 			</div>
+
 		</div>
+
 		<!-- /Page Header -->
 		
 		<!-- PROCESS -->
-		<div class="row filter-row">
-   		   <div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
-				<div class="form-group form-focus">
-					<div class="cal-icon">
-						<input class="form-control floating datetimepicker" id="fromcutoff" type="text">
+			<div class="row filter-row" style="margin-bottom: 20px;">
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Timekeeping No.</h5>
+							<div class="dash-card-container">
+								
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"><?php echo $timekeepingNo; ?></p>
+								</div>
+							</div>
+						</div>
 					</div>
-					<label class="focus-label">From</label>
 				</div>
-			</div>
-		   <div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
-				<div class="form-group form-focus">
-					<div class="cal-icon">
-						<input class="form-control floating datetimepicker" id="tocutoff" type="text">
+				
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<h5 class="dash-title">
+									<i class="la la-calendar"></i>
+								Timekeeping Status</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header" >
+									<p id="status" status="<?php echo $tkstatus; ?>" style="color:#e04d45;"><?php echo $timekeepingstatus; ?></p>
+								</div>
+							</div>
+						</div>
 					</div>
-					<label class="focus-label">To</label>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
-				<button type="button" class="btn btn-info btn-block processpayroll"> Process Payroll </button>
-			</div>     
-        </div>
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<h5 class="dash-title">
+									<i class="la la-calendar"></i>
+								Pay Period</h5>
+							<div class="dash-card-container">
+								
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"
+									   id="cutoff" 
+									   timekeepingID="<?php echo $timekeepingNo; ?>" 
+									   datefrom="<?php echo $datefrom; ?>" dateto="<?php echo $dateto; ?>" payperiod="<?php echo $payperiod; ?>">
+									<?php echo $payperiodrange; ?></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<div class="dash-card-container">
+									<button class="btn add-btn processpayroll" style="border-radius: 5px; width:100%;"><i class="fa fa-forward"></i> Process Payroll </button>
+							</div>
+						</div>
+					</div>
+				</div>
+	        </div>
 		<!-- /PROCESS -->
 		
 		<div class="row">
 			<div class="col-md-12">
-				<div class="table-responsive">
-					<table class="table table-striped custom-table datatable">
+				<div class="table-responsive"  id="show_data">
+					<table class="table table-striped custom-table" id="datatable1">
 						<thead>
 							<tr>
-								<th style="width: 110px ! important;">Employee No.</th>
-								<th>Employee Name</th>
-								<th>Regular Hours</th>
-								<th>Overtime Hours</th>
-								<th>Basic Pay</th>
+								<th style="width: 100px ! important;">Employee No.</th>
+								<th style="width: 250px;">Employee Name</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">W/holding Tax</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>
 							</tr>
 						</thead>
 						<tbody>
-							<!-- <tr>
-								<td>
-									<h2 class="table-avatar">
-										<a href="profile.html" class="avatar"><img alt="" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-02.jpg"></a>
-										<a href="profile.html">John Doe <span>Web Designer</span></a>
-									</h2>
-								</td>
-								<td>FT-0001</td>
-								<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e68c898e88828983a6839e878b968a83c885898b">[email&#160;protected]</a></td>
-								<td>1 Jan 2013</td>
-								<td>
-									<div class="dropdown">
-										<a href="" class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Web Designer </a>
-										<div class="dropdown-menu">
-											<a class="dropdown-item" href="#">Software Engineer</a>
-											<a class="dropdown-item" href="#">Software Tester</a>
-											<a class="dropdown-item" href="#">Frontend Developer</a>
-											<a class="dropdown-item" href="#">UI/UX Developer</a>
-										</div>
-									</div>
-								</td>
-								<td>$59698</td>
-								<td><a class="btn btn-sm btn-primary" href="salary-view.html">Generate Slip</a></td>
-								<td class="text-right">
-									<div class="dropdown dropdown-action">
-										<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#edit_salary"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-											<a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_salary"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-										</div>
-									</div>
-								</td>
-							</tr> -->
+							<?php foreach ($data['payrolldetails'] as $item) { ?>
+									<tr>
+	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?></td>
+	    								<td><?=$item->firstname.' '.$item->lastname;?></td>
+	    								<td class="text-right" style="color:#0ebe0e;"><?=number_format($item->basicpay,4,".",",")?></td>
+	    								<td class="text-right" style="color:#0ebe0e;"><?=number_format($item->ordinaryot,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->late,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->absent,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->wtax,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->sss,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->phic,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->hdmf,4,".",",")?></td>
+	    								<td class="text-right" style="color:#0ebe0e; font-weight: 500;"><?=number_format($item->netpay,4,".",",")?></td>
+									</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 				</div>
@@ -101,25 +178,95 @@
 
 <script  type="text/javascript">  
 $(document).ready(function() {
+
+	var table = $('#datatable1').DataTable( {
+        scrollX: true,
+        scrollCollapse: true,
+        fixedColumns:   {
+		    leftColumns: 2,
+		    rightColumns: 1
+		}
+    } );
+
 	$('.processpayroll').unbind('click').bind('click', function(){
-		var fromcutoff = $("#fromcutoff").val();
-		var tocutoff = $("#tocutoff").val();
+		if($('#status').attr('status')=="2"){
+			var timekeepingID = $('#cutoff').attr('timekeepingID');
+			var fromcutoff = $('#cutoff').attr('datefrom');
+			var tocutoff = $('#cutoff').attr('dateto');
+			var payperiod = $('#cutoff').attr('payperiod');
 
-		$.ajax({
-            url : "<?php echo site_url('payroll/process');?>",
-            method : "POST",
-            data : {fromcutoff: fromcutoff,
-            		tocutoff: tocutoff},
-            async : true,
-            dataType : 'json',
-            success: function(data){
-            	console.log(data);
-        	},
-            error: function(request, textStatus, error) {
+			var html ="";
 
-        	}
-        });
-        return false;
+			$.ajax({
+	            url : "<?php echo site_url('payroll/process');?>",
+	            method : "POST",
+	            data : {timekeepingID:timekeepingID,
+            			fromcutoff: fromcutoff,
+	            		tocutoff: tocutoff,
+	            		payperiod: payperiod},
+	            async : true,
+	            dataType : 'json',
+	            success: function(data){
+	            	html =  '<table class="table table-striped custom-table" id="datatable1">' + 
+	            			'<thead>' +
+							'<tr>' + 
+								'<th style="width: 100px ! important;">Employee No.</th>' +
+								'<th style="width: 250px;">Employee Name</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">W/holding Tax</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>' +
+								'<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>';
+
+	            	for(var i=0; i<data.length; i++){
+    					html += '<tr>' +
+    								'<td>' + data[i].employeeID.padStart(6,'0') 													+ '</td>' +
+    								'<td>' + data[i].firstname + ' ' + data[i].lastname 											+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data[i].basicpay)		+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data[i].ordinaryot) 	+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].late) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].absent) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].wtax) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].sss) 			+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].phic) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].hdmf) 		+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e; font-weight: 500;">' + accounting.formatMoney(data[i].netpay) + '</td>';
+								'</tr>';
+            		}
+
+            		html += '</tbody></table>';
+
+			        if ($.fn.DataTable.isDataTable('#datatable1')){
+			           $('#datatable1').DataTable().destroy();
+			        };
+
+            		$("#show_data").html(html);
+			        $('#datatable1').DataTable({
+				        scrollX: true,
+			        	scrollCollapse: true,
+				        fixedColumns:   {
+						    leftColumns: 2,
+						    rightColumns: 1
+						}
+				    });
+	        	},
+	            error: function(request, textStatus, error) {
+
+	        	}
+	        });
+	        return false;
+    	}else{
+    		if($('#status').attr('status')=="1")
+				 showErrorToast("Cannot process, timekeeping is still pending!");
+			else showErrorToast("No available payroll to process!");
+    	}
 	});
 }); 		 
 </script>

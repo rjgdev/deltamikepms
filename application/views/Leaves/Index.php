@@ -124,8 +124,9 @@
 							
 							<div class="cal-icon">
 								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="DD-MM-YYYY" description="start date">
+								<div class="invalid-feedback" id="add-from"></div>	
 							</div>	
-							<div class="invalid-feedback" id="add-from"></div>	
+							
 						</div>
 						</div>
 						<div class="col-sm-12">	
@@ -133,8 +134,8 @@
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
 								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="DD-MM-YYYY" description="end date">
+								<div class="invalid-feedback" id="add-to"></div>
 							</div>
-							<div class="invalid-feedback" id="add-to"></div>
 						</div>
 						</div>
 						<div class="col-sm-12">	

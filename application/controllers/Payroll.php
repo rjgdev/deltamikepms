@@ -11,6 +11,8 @@
 		{ 
 	  		$data = array('title' => 'Payroll Process');
 
+	  		$data['data']=$this->payroll->get_payroll();
+
 			$this->load->view('Template/Header',$data);
 			$this->load->view("Payroll/Index",$data);
 			$this->load->view('Template/Footer',$data);
@@ -18,10 +20,12 @@
 
 		public function process() 
 		{ 
+			$timekeepingID   = $this->input->post('timekeepingID');
 			$fromcutoff = date_format(date_create($this->input->post('fromcutoff')),"Y-m-d");
-			$tocutoff = date_format(date_create($this->input->post('tocutoff')),"Y-m-d");
+			$tocutoff   = date_format(date_create($this->input->post('tocutoff')),"Y-m-d");
+			$payperiod  = $this->input->post('payperiod');
 
-       		$data=$this->payroll->processpayroll($fromcutoff,$tocutoff);
+       		$data=$this->payroll->processpayroll($timekeepingID,$fromcutoff,$tocutoff,$payperiod);
        		/*$retval = explode("|",$data);*/
 
             /*if($retval[0] == "false" && $retval[1] == "Department name already exist!"){

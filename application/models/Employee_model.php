@@ -1,7 +1,3 @@
-
-
-
-
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Employee_model extends CI_Model
@@ -13,14 +9,22 @@ class Employee_model extends CI_Model
 
 	function get_all_employee()
 	{
-		$dataemployee = $this->db->query('SELECT *, CASE employeetypeID
+		$dataemployee = $this->db->query('SELECT emp.*,d.description as "deptdesc",
+										c.housenumber 	as "clienthouse",
+										c.streetname 	as "clientstreetname",
+										c.barangay 	as "clientbarangay",
+										c.city 		as "clientcity",
+										 CASE employeetypeID
    										 WHEN "1" THEN "Security Guard"
    										 WHEN "2" THEN "Staff"  ELSE employeetypeID
-                                         END employeetypeID FROM dm_employee as emp
-										LEFT JOIN dm_designation as p on emp.designationID = p.designationID
-										LEFT JOIN dm_department as d on emp.departmentid = d.departmentid 
+                                         END employeetypeDesc,c.clientname,de.postname,p.designationdescription FROM dm_employee as emp
+										LEFT JOIN dm_designation as p 	on emp.designationID = p.designationID
+										LEFT JOIN dm_department as d 	on emp.departmentid = d.departmentid 
+										LEFT JOIN dm_client 	as c 	on c.clientID = emp.clientID 
+										LEFT JOIN dm_detachment as de 	on de.detachmentID = emp.clientID 
 										ORDER BY employeeid DESC');
 				$datadepartment = $this->db->query("SELECT * FROM dm_department");
+				$querybank = $this->db->query("SELECT * FROM dm_bank WHERE bankstatus like 'Active'");
   		 		$datarole = $this->db->query("SELECT * FROM dm_rolemstr");
   		 		$datadepartment = $this->db->query("SELECT * FROM dm_department");
   		 		$dataclient = $this->db->query("SELECT * FROM dm_client");
@@ -30,12 +34,13 @@ class Employee_model extends CI_Model
 				LEFT JOIN dm_employee as e ON ecl.employeeID = e.employeeID");
 
     			$queryleave = $dataleave->result();
+    			$databank = $querybank->result();
     			$queryemployee = $dataemployee->result();
      			$querydepartment = $datadepartment->result();
      			$queryroleaccess = $datarole->result();
      			$querydetachment = $datadetachment->result();
      			$queryclient = $dataclient->result();
-	     return array('employee' => $queryemployee, 'department' => $querydepartment, 'roleaccess' => $queryroleaccess, 'detachment' => $querydetachment, 'leave' => $queryleave , 'client' => $queryclient);
+	     return array('employee' => $queryemployee, 'department' => $querydepartment, 'roleaccess' => $queryroleaccess, 'detachment' => $querydetachment, 'leave' => $queryleave , 'client' => $queryclient, 'bank' => $databank);
 
 	}
 
@@ -44,89 +49,72 @@ class Employee_model extends CI_Model
 		$query = $this->db->query('SELECT firstname, middlename,lastname FROM dm_employee WHERE firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 
 		if($query->num_rows() == 0){
-				$this->db->insert('dm_employee', $data);
-				$last_id				=	$this->db->insert_id();
-				$record  = array();
-				$dataschedule = array();
+			$this->db->insert('dm_employee', $data);
+			$last_id				=	$this->db->insert_id();
+			$record  = array();
+			$dataschedule = array();
 
+			if(count($totalleave)!=0){
 				for($count = 0; $count<count($totalleave); $count++)
- 				{
-	 				$record[$count] 	= array (
-	 				'employeeID'		=>	$last_id,
- 					'leavetypeID'		=>	$leavetypeID[$count],
-					'totalleave'		=>	$totalleave[$count]);				
-				}		
+				{
+	 				$record[$count] = array ('employeeID'   =>	$last_id,
+											 'leavetypeID'	=>	$leavetypeID[$count],
+											 'totalleave'	=>	$totalleave[$count]);				
+				}	
 				$this->db->insert_batch('dm_employeecreditleave',$record);
-
-					for($count = 0; $count<count($restdayresult); $count++)
- 				{
-				$dataschedule[$count]  = array(
-				'employeeID'		=>	$last_id,
-				'restday'			=>	$restdayresult[$count]);
 			}	
 
+			if(count($restdayresult)!=0){
+				for($count = 0; $count<count($restdayresult); $count++)
+				{
+					$dataschedule[$count]  = array(
+					'employeeID'		=>	$last_id,
+					'restday'			=>	$restdayresult[$count]);
+				}	
 				$this->db->insert_batch('dm_schedule', $dataschedule);
+			}
 
-				return 'true|  '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
+			return 'true|  '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
 	 	}
 		else 
 		{
 			return 'false|Employee name already exist!';
 		}   
   	}
-  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult,$scheduleID)
+  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult)
   	{
-
-
  		 $query = $this->db->query('SELECT firstname, middlename, lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
-			if($query->num_rows() == 0){
-				$this->db->where("employeeID", $id);  
-	            $this->db->update("dm_employee", $data); 
-	            $datacredit  = array();
-	            $creditID  = array();
-	          	$dataschedule = array();
-	            $record  = array(); 
-	            $id = $this->input->post('id');
+		if($query->num_rows() == 0){
+			$this->db->where("employeeID", $id);  
+            $this->db->update("dm_employee", $data); 
+            $datacredit  = array();
+            $creditID  = array();
+          	$dataschedule = array();
+            $record  = array(); 
+            $id = $this->input->post('id');
 
-
-	            for($count = 0; $count<count($employee); $count++)
+            if($employee!=0){
+        		for($count = 0; $count<count($employee); $count++)
  				{
-	 				$record[$count] 	= array (
-	 				'employeeleavecreditID'		=>  $employee[$count],
- 					'leavetypeID'		=>	$leavetype[$count],
-					'totalleave'		=>	$totalleave[$count]);				
+	 				$record[$count] 	= array ('employeeleavecreditID' =>  $employee[$count],
+								 				 'leavetypeID'	=>	$leavetype[$count],
+												 'totalleave'	=>	$totalleave[$count]);				
 				}
-			
-				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
 
-				$endresult = implode(',' , $scheduleID);
-				$query = $this->db->query('SELECT * FROM dm_schedule WHERE scheduleID IN('.$endresult.')');
-				if($query->num_rows() == 0){
+				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
+            }
+
+            $query = $this->db->query('DELETE FROM dm_schedule WHERE employeeID='.$id);
+
+            if($restdayresult!=null){
 				for($count = 0; $count<count($restdayresult); $count++)
  				{
- 				$dataschedule[$count]  = array(
- 				'scheduleID'		=>	$scheduleID[$count],
-				'employeeID'		=>	$id,
-				'restday'			=>	$restdayresult[$count]);
- 				}	
-	          	$this->db->update_batch('dm_schedule', $dataschedule,'scheduleID');
-
-				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';	
-		}
-		else
-		{	
-			$endresult = implode(',' , $scheduleID);
-			$query = $this->db->query('DELETE FROM dm_schedule WHERE scheduleID IN('.$endresult.')');
-			for($count = 0; $count<count($restdayresult); $count++)
- 				{
- 				$dataschedule[$count]  = array(
-				'employeeID'		=>	$id,
-				'restday'			=>	$restdayresult[$count]);
+	 				$dataschedule[$count]  = array('employeeID'		=>	$id,
+											       'restday'		=>	$restdayresult[$count]);
  				}	
 	          	$this->db->insert_batch('dm_schedule', $dataschedule);
-
-				return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
-		}
+            }
+			return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
 	 	}
 		else 
 		{

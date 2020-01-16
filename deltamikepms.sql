@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2020 at 08:26 AM
+-- Generation Time: Jan 16, 2020 at 01:58 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -57,25 +57,26 @@ CREATE TABLE `dm_approvaldet` (
   `approvaldetID` bigint(20) NOT NULL,
   `approvalID` bigint(20) NOT NULL,
   `employeeID` bigint(20) NOT NULL,
-  `approvalLevel` int(11) NOT NULL
+  `approvalLevel` int(11) NOT NULL,
+  `lastapprover` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dm_approvaldet`
 --
 
-INSERT INTO `dm_approvaldet` (`approvaldetID`, `approvalID`, `employeeID`, `approvalLevel`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 2),
-(3, 2, 2, 1),
-(4, 2, 3, 2),
-(30, 25, 1, 1),
-(33, 28, 1, 1),
-(36, 31, 1, 1),
-(37, 31, 3, 2),
-(38, 31, 2, 3),
-(39, 33, 2, 1),
-(40, 33, 3, 2);
+INSERT INTO `dm_approvaldet` (`approvaldetID`, `approvalID`, `employeeID`, `approvalLevel`, `lastapprover`) VALUES
+(1, 1, 1, 1, 0),
+(2, 1, 3, 2, 1),
+(3, 2, 2, 1, 0),
+(4, 2, 3, 2, 1),
+(30, 25, 1, 1, 1),
+(33, 28, 1, 1, 1),
+(36, 31, 1, 1, 0),
+(37, 31, 3, 2, 0),
+(38, 31, 2, 3, 1),
+(39, 33, 2, 1, 0),
+(40, 33, 3, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -177,7 +178,7 @@ CREATE TABLE `dm_company` (
 --
 
 INSERT INTO `dm_company` (`companyID`, `company`, `contactperson`, `address`, `city`, `province`, `postalcode`, `email`, `phonenumber`, `mobilenumber`, `Fax`, `website`) VALUES
-(1, 'DeltaMike Security Agency', 'Dominador Pacheco', '86 Sct Ojeda Street Diliman Quezon City', 'Quezon City', 'Metro Manila', '1103', 'dpachec@deltamikesekyu.com', '', '0987-095-4362', '63-12-09325838', 'deltamikesecurity.com');
+(1, 'DeltaMike Security', 'Dominador Pacheco', '86 Sct Ojeda Street Diliman Quezon City', 'Quezon City', 'Metro Manila', '1103', 'dpachec@deltamikesekyu.com', '', '0987-095-4362', '63-12-09325838', 'deltamikesecurity.com');
 
 -- --------------------------------------------------------
 
@@ -284,11 +285,11 @@ CREATE TABLE `dm_employee` (
   `streetname` varchar(50) NOT NULL,
   `barangay` varchar(50) NOT NULL,
   `city` varchar(50) NOT NULL,
-  `birthdate` varchar(60) NOT NULL,
+  `birthdate` date NOT NULL,
   `contactinfo` varchar(30) NOT NULL,
   `civilstatus` varchar(30) NOT NULL,
   `citizenship` varchar(30) NOT NULL,
-  `hireddate` varchar(60) NOT NULL,
+  `hireddate` date NOT NULL,
   `departmentID` int(11) NOT NULL,
   `designationID` varchar(50) NOT NULL,
   `detachmentID` bigint(20) NOT NULL,
@@ -296,9 +297,13 @@ CREATE TABLE `dm_employee` (
   `approvalID` bigint(20) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `basicsalary` varchar(50) NOT NULL,
-  `dailyrate` varchar(50) NOT NULL,
-  `allowance` varchar(50) NOT NULL,
+  `basicsalary` decimal(15,4) NOT NULL,
+  `dailyrate` decimal(15,4) NOT NULL,
+  `allowance` decimal(15,4) NOT NULL,
+  `retfund` decimal(15,4) NOT NULL,
+  `incentive` decimal(15,4) NOT NULL,
+  `uniformallowance` decimal(15,4) NOT NULL,
+  `bankname` bigint(20) NOT NULL,
   `backaccountname` varchar(255) NOT NULL,
   `backaccountnumber` varchar(25) NOT NULL,
   `tinnumber` varchar(30) NOT NULL,
@@ -316,14 +321,23 @@ CREATE TABLE `dm_employee` (
 -- Dumping data for table `dm_employee`
 --
 
-INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `backaccountname`, `backaccountnumber`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `employeetypeID`, `photo`, `clientID`, `datecreated`) VALUES
-(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '28/12/2019', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '2', 2, 1, 1, 'admin', 'admin', ' 10,000.0000', ' 500.0000', ' 0.0000', 'Wilson', '12', '', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 1, '1.jpg', 1, '2019-11-25 08:26:51.905646'),
-(2, 'Cardo', '', 'Dalisay', 'Female', '', 'Opel', '175', 'Caloocan', '1994-02-20', '0927-947-5792', 'Single', 'Filipino', '2019-04-22', 1, '1', 1, 2, 2, 'staff', 'staff', ' 10,000.0000', ' 100.0000', '', '', '', '', '', '', '', 'Active', 0, '2.jpg', 0, '2019-11-25 08:26:54.102823'),
-(3, 'John', '', 'Wick', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '07/10/2019', '0912-345-6789', 'Married', 'Fiipino', '2013-11-25', 1, '1', 0, 2, 2, 'exe', 'exe', ' 20,000.0000', ' 123,456,789.0000', '', 'SQWE RW', '243564323', '123-456-787', '23-4567893-2', '23-456787654-3', '5432-1234-5643', 'Active', 2, '3.png', 0, '2019-12-03 11:56:31.366887'),
-(4, 'Shinra', '', 'Kusakabe', 'Male', '666', 'Station 8', 'Shinkai', 'Tokyo', '20/12/1998', '0966-623-4567', 'Single', 'Japanese', '23/09/2015', 1, '1', 1, 17, 0, 'ffgenki', 'password1234', ' 12,223.0000', ' 214.0000', ' 322.0000', 'BDO', '2343211', '', '12-31', '13-214325365-4', '3243-5436-5442', 'Active', 2, '4.png', 1, '2019-12-20 07:50:01.399405'),
-(5, 'Curry Venti', 'The Cruise', 'Regionals', 'Female', '2811', 'Cup Point', 'Fashion Hall', 'Old Town Road', '2019-12-25', '3456-789-0987', 'Married', 'Italian', '2020-01-01', 1, '1', 1, 2, 0, 'currytheeggshell', 'nothingcanstopusnow', ' 1,321,324.0000', ' 1,232.0000', ' 21,422.0000', 'Curry Venti Regionas', '28201911155', '', '34-5654345-6', '45-654334567-6', '6534-5677-6543', 'Active', 2, '', 2, '2019-12-23 03:58:25.632917'),
-(6, 'as asd', 'as fs', 'saf ', 'Male', 'asr3', 'sadsfsd', 'asdsad', 'asdsf a', '2019-12-25', '1234-567-7654', 'Single', 'Japanese', '2019-12-26', 1, '2', 2, 0, 0, '<b>j.doe</b>', 'qwerty', ' 12,321.0000', ' 234.0000', ' 2,112.0000', 'test account', '12421423', '123-546', '42-11234', '54-678645', '4323-456', 'Terminated', 1, '', 1, '2019-12-23 06:11:05.731548'),
-(7, 'asdasd', 'asdq', 'sadrfsd', 'Male', '322', 'qe2 fd', 'd 3221f', '3 rwsdg', '02/01/2021', '2332-423-4354', 'Single', 'regg', '07/10/2019', 1, '2', 2, 2, 0, '', '', ' 231.0000', ' 54,633.0000', ' 2,142.0000', '35 rgff', '556354232', '678-765-476', '67-4675456-5', '56-546754676-5', '5676-5675-6765', 'Resigned', 1, '', 1, '2020-01-02 03:32:04.769082');
+INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `retfund`, `incentive`, `uniformallowance`, `bankname`, `backaccountname`, `backaccountnumber`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `employeetypeID`, `photo`, `clientID`, `datecreated`) VALUES
+(1, 'Administrator', '', 'Account', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '2020-01-21', '0927-947-5792', 'Single', 'Filipino', '2011-03-14', 1, '2', 0, 2, 1, 'admin', 'admin', '22000.0000', '1000.0000', '111111.0000', '222222.0000', '0.0000', '33333.0000', 1, '', '12', '666-666-666', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 2, '1.jpg', 0, '2019-11-25 08:26:51.905646'),
+(2, 'Cardo', '', 'Dalisay', 'Female', '', 'Opel', '175', 'Caloocan', '2020-02-20', '0927-947-5792', 'Single', 'Filipino', '2014-06-25', 1, '1', 3, 2, 2, 'staff', 'staff', '10.0000', '386.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 1, '2.jpg', 3, '2019-11-25 08:26:54.102823'),
+(3, 'John', '', 'Wick', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '0000-00-00', '0912-345-6789', 'Married', 'Fiipino', '0000-00-00', 1, '1', 1, 2, 2, 'exe', 'exe', '20.0000', '620.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, 'SQWE RW', '243564323', '', '23-4567893-2', '23-456787654-3', '5432-1234-5643', 'Active', 1, '3.jpg', 1, '2019-12-03 11:56:31.366887'),
+(4, 'Shinra', '', 'Kusakabe', 'Male', '', 'Sapang Hari', 'Newtown', 'Lapu-Lapu City', '0000-00-00', '0966-623-4567', 'Single', 'Japanese', '0000-00-00', 1, '1', 0, 17, 0, 'ffgenki', 'password1234', '12.0000', '214.0000', '322.0000', '0.0000', '0.0000', '0.0000', 0, 'BDO', '2343211', '', '12-31', '13-214325365-4', '3243-5436-5442', 'Active', 2, '4.jpg', 0, '2019-12-20 07:50:01.399405'),
+(5, 'Curry Venti', 'The Cruise', 'Regionals', 'Female', '2811', 'Cup Point', 'Fashion Hall', 'Old Town Road', '0000-00-00', '3456-789-0987', 'Married', 'Italian', '0000-00-00', 1, '1', 0, 2, 0, 'currytheeggshell', 'nothingcanstopusnow', '1.0000', '1.0000', '21.0000', '0.0000', '0.0000', '0.0000', 0, 'Curry Venti Regionas', '28201911155', '', '34-5654345-6', '45-654334567-6', '6534-5677-6543', 'Active', 2, '', 0, '2019-12-23 03:58:25.632917'),
+(6, 'as asd', 'as fs', 'saf ', 'Male', 'asr3', 'sadsfsd', 'asdsad', 'asdsf a', '0000-00-00', '1234-567-7654', 'Single', 'Japanese', '0000-00-00', 1, '2', 2, 0, 0, '<b>j.doe</b>', 'qwerty', '12.0000', '234.0000', '2.0000', '0.0000', '0.0000', '0.0000', 0, 'test account', '12421423', '123-546', '42-11234', '54-678645', '4323-456', 'Terminated', 1, '', 1, '2019-12-23 06:11:05.731548'),
+(7, 'asdasd', 'asdq', 'sadrfsd', 'Male', '322', 'qe2 fd', 'd 3221f', '3 rwsdg', '0000-00-00', '2332-423-4354', 'Single', 'regg', '0000-00-00', 1, '2', 2, 2, 0, '', '', '231.0000', '54.0000', '2.0000', '0.0000', '0.0000', '0.0000', 0, '35 rgff', '556354232', '678-765-476', '67-4675456-5', '56-546754676-5', '5676-5675-6765', 'End of Contract', 1, '', 1, '2020-01-02 03:32:04.769082'),
+(8, 'TEST', '', 'TEST', 'Male', '', 'TEST', 'TEST', 'TEST', '0000-00-00', '1111-111-1111', 'Single', 'TEST', '0000-00-00', 5, '15', 1, 2, 0, '', '', '1.0000', '1.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Resigned', 1, '', 1, '2020-01-09 11:36:25.875891'),
+(9, 'SAMPLE', '', 'SAMPLE', 'Male', '', 'SAMPLE', 'SAMPLE', 'SAMPLE', '0000-00-00', '1111-111-1111', 'Single', 'SAMPLE', '0000-00-00', 1, '1', 0, 2, 0, '', '', '2.0000', '2.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 11:40:54.965467'),
+(10, 'JUAN', '', 'JUAN', 'Male', '', 'JUAN', 'JUAN', 'JUAN', '0000-00-00', '1111-111-1111', 'Single', 'JUAN', '0000-00-00', 1, '1', 0, 2, 0, '', '', '2.0000', '2.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 11:46:07.385507'),
+(11, 'WEW', '', 'WEW', 'Male', 'WEW', 'WEW', 'WEW', 'WEW', '0000-00-00', '1111-111-1111', 'Single', 'WEW', '0000-00-00', 1, '1', 0, 2, 0, '', '', '1.0000', '1.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 11:50:25.340515'),
+(12, 'WOW', '', 'WOW', 'Male', '', 'WOW', 'WOW', 'WOW', '0000-00-00', '1111-111-1111', 'Single', 'WOW', '0000-00-00', 1, '1', 0, 2, 0, '', '', '3.0000', '3.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 11:53:12.623726'),
+(13, 'YEY', '', 'YEY', 'Male', '', 'YEY', 'YEY', 'YEY', '0000-00-00', '1111-111-1111', 'Single', 'YEY', '0000-00-00', 1, '1', 0, 2, 0, '', '', '5.0000', '5.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 11:54:58.434185'),
+(14, 'law', '', 'law', 'Female', '', 'law', 'law', 'law', '0000-00-00', '2222-222-2222', 'Single', 'law', '0000-00-00', 1, '1', 0, 2, 0, '', '', '23.0000', '14.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-09 13:11:56.434744'),
+(15, 'kik', '', 'kik', 'Male', 'kik', 'kik', 'kik', 'kik', '0000-00-00', '1111-111-1111', 'Single', 'kik', '0000-00-00', 1, '1', 0, 2, 0, '', '', '1.0000', '1.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '', '', '', '', 'Active', 2, '', 0, '2020-01-10 06:36:31.166842'),
+(16, 'EMP', '', 'EMP', 'Male', '', 'EMP', 'EMP', 'EMP', '0000-00-00', '1111-111-1111', 'Single', 'EMP', '0000-00-00', 1, '1', 0, 2, 0, '', '', '123456.7800', '876543.2100', '1111.0000', '2222.0000', '4444.0000', '3333.0000', 2, 'BANK ACCOUNTNAME', '0000000000', '666-666-666', '77-7777777-7', '88-888888888-8', '6666-6666-6666', 'Active', 2, '', 0, '2020-01-10 09:25:43.559167');
 
 -- --------------------------------------------------------
 
@@ -351,8 +365,8 @@ INSERT INTO `dm_employeecreditleave` (`employeeleavecreditID`, `employeeID`, `le
 (10, 3, 1, 0),
 (11, 4, 0, 1),
 (12, 4, 0, 12),
-(13, 5, 0, 1),
-(14, 5, 0, 4),
+(13, 5, 2, 1),
+(14, 5, 2, 4),
 (15, 6, 2, 3),
 (16, 6, 1, 3),
 (17, 7, 5, 5),
@@ -406,7 +420,9 @@ INSERT INTO `dm_employeecreditleave` (`employeeleavecreditID`, `employeeID`, `le
 (65, 5, 5, 15),
 (66, 5, 2, 20),
 (67, 5, 3, 5),
-(68, 7, 2, 1);
+(68, 7, 2, 1),
+(69, 9, 1, 1),
+(70, 12, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -527,12 +543,13 @@ CREATE TABLE `dm_loan` (
   `loanID` int(11) NOT NULL,
   `employeeID` int(11) NOT NULL,
   `loantypeID` int(11) NOT NULL,
-  `dategranted` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enddate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dategranted` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enddate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `termofpaymentID` int(11) NOT NULL,
-  `amount` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deduction` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `balance` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deduction` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `balance` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paid` int(11) NOT NULL,
   `datecreated` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ;
 
@@ -540,19 +557,42 @@ CREATE TABLE `dm_loan` (
 -- Dumping data for table `dm_loan`
 --
 
-INSERT INTO `dm_loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `enddate`, `termofpaymentID`, `amount`, `deduction`, `balance`, `datecreated`) VALUES
-(1, 1, 1, '21/11/2019', '08/02/2020', 1, '5,000.00', '400.00', '', '2019-11-20 06:19:30.733972'),
-(2, 1, 2, '21/11/2019', '20/11/2019', 1, '2.00', '1.00', '', '2019-11-20 06:27:44.347017'),
-(3, 4, 2, '15/01/2020', '14/02/2020', 1, '11,028.0000', '1,098.0000', '', '2019-12-21 07:08:25.393792'),
-(4, 4, 1, '24/12/2019', '25/12/2019', 2, '122,342.0000', '32,423.0000', '', '2019-12-21 07:18:44.049330'),
-(5, 3, 4, '20/12/2019', '01/12/2019', 2, '13,211.0000', '1,232.0000', '', '2019-12-21 07:37:43.622481'),
-(6, 2, 3, '23/12/2019', '25/12/2019', 2, '5,500.0000', '55,000.0000', '', '2019-12-21 07:48:17.549156'),
-(7, 3, 3, '18/12/2019', '19/12/2019', 2, '21,312.0000', '0.0000', '', '2019-12-21 07:56:02.290219'),
-(8, 3, 2, '20/12/2019', '27/12/2019', 2, '0.0000', '12,321.0000', '', '2019-12-21 07:57:19.454716'),
-(9, 4, 1, '18/12/2019', '26/12/2019', 2, '21,312.0000', '0.0000', '', '2019-12-21 08:00:44.984454'),
-(10, 5, 2, '25/12/2019', '15/01/2020', 1, '12,130.0000', '1,500.0000', '', '2019-12-24 01:16:36.871312'),
-(11, 4, 2, '26/02/2020', '14/05/2020', 1, ' 12.0000', ' 12,312.0000', '', '2019-12-24 01:22:15.033243'),
-(12, 4, 3, '13/12/2019', '24/01/2020', 2, '12.0000', '12,321.0000', '', '2019-12-24 01:23:33.097915');
+INSERT INTO `dm_loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `enddate`, `termofpaymentID`, `amount`, `deduction`, `balance`, `paid`, `datecreated`) VALUES
+(1, 1, 1, '21/11/2019', '08/02/2020', 1, '5,000.00', '400.00', '', 0, '2019-11-20 06:19:30.733972'),
+(2, 1, 2, '21/11/2019', '20/11/2019', 1, '2.00', '1.00', '', 0, '2019-11-20 06:27:44.347017'),
+(3, 4, 2, '15/01/2020', '14/02/2020', 1, '11,028.0000', '1,098.0000', '', 0, '2019-12-21 07:08:25.393792'),
+(4, 4, 1, '24/12/2019', '25/12/2019', 2, '122,342.0000', '32,423.0000', '', 0, '2019-12-21 07:18:44.049330'),
+(5, 3, 4, '20/12/2019', '01/12/2019', 2, '13,211.0000', '1,232.0000', '', 0, '2019-12-21 07:37:43.622481'),
+(6, 2, 3, '23/12/2019', '25/12/2019', 2, '5,500.0000', '55,000.0000', '', 0, '2019-12-21 07:48:17.549156'),
+(7, 3, 3, '18/12/2019', '19/12/2019', 2, '21,312.0000', '0.0000', '', 0, '2019-12-21 07:56:02.290219'),
+(8, 3, 2, '20/12/2019', '27/12/2019', 2, '0.0000', '12,321.0000', '', 0, '2019-12-21 07:57:19.454716'),
+(9, 4, 1, '18/12/2019', '26/12/2019', 2, '21,312.0000', '0.0000', '', 0, '2019-12-21 08:00:44.984454'),
+(10, 5, 2, '25/12/2019', '15/01/2020', 1, '12,130.0000', '1,500.0000', '', 0, '2019-12-24 01:16:36.871312'),
+(11, 4, 2, '26/02/2020', '14/05/2020', 1, ' 12.0000', ' 12,312.0000', '', 0, '2019-12-24 01:22:15.033243'),
+(12, 4, 3, '13/12/2019', '24/01/2020', 2, '12.0000', '12,321.0000', '', 0, '2019-12-24 01:23:33.097915'),
+(13, 1, 1, '06/01/2020', '07/01/2020', 1, ' 10,000.0000', ' 1,000.0000', '', 0, '2020-01-06 08:52:09.170966');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_loandeduction`
+--
+
+CREATE TABLE `dm_loandeduction` (
+  `loandeductionID` bigint(20) NOT NULL,
+  `loanID` bigint(20) NOT NULL,
+  `employeeID` bigint(20) NOT NULL,
+  `datedection` date NOT NULL,
+  `amount` decimal(15,4) NOT NULL,
+  `loantypeID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_loandeduction`
+--
+
+INSERT INTO `dm_loandeduction` (`loandeductionID`, `loanID`, `employeeID`, `datedection`, `amount`, `loantypeID`) VALUES
+(1, 25, 1, '2020-01-08', '1.0000', 1);
 
 -- --------------------------------------------------------
 
@@ -659,15 +699,16 @@ INSERT INTO `dm_overtime` (`overtimeID`, `employeeID`, `description`, `overtimed
 CREATE TABLE `dm_payroll` (
   `payrollID` bigint(20) NOT NULL,
   `datefrom` date NOT NULL,
-  `dateto` date NOT NULL
+  `dateto` date NOT NULL,
+  `payperiod` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dm_payroll`
 --
 
-INSERT INTO `dm_payroll` (`payrollID`, `datefrom`, `dateto`) VALUES
-(1, '2020-01-01', '2020-01-15');
+INSERT INTO `dm_payroll` (`payrollID`, `datefrom`, `dateto`, `payperiod`) VALUES
+(1, '2020-01-01', '2020-01-15', 1);
 
 -- --------------------------------------------------------
 
@@ -682,11 +723,25 @@ CREATE TABLE `dm_payrolldetails` (
   `dateto` date NOT NULL,
   `employeeID` bigint(20) NOT NULL,
   `daysofwork` decimal(10,1) NOT NULL,
+  `daysofabsent` decimal(3,1) NOT NULL,
   `regularhours` decimal(10,2) NOT NULL,
-  `overtimehours` decimal(10,4) NOT NULL,
+  `regholidayhours` decimal(10,2) NOT NULL,
+  `speholidayhours` decimal(10,2) NOT NULL,
+  `latehours` decimal(10,2) NOT NULL,
+  `overtimehours` decimal(10,2) NOT NULL,
+  `restothours` decimal(10,2) NOT NULL,
+  `specialothours` decimal(10,2) NOT NULL,
+  `specialrestothours` decimal(10,2) NOT NULL,
+  `regularothours` decimal(10,2) NOT NULL,
+  `regularrestothours` decimal(10,2) NOT NULL,
+  `doubleothours` decimal(10,2) NOT NULL,
+  `doublerestothours` decimal(10,2) NOT NULL,
+  `nightdiffhours` decimal(10,2) NOT NULL,
   `dailyrate` decimal(10,4) NOT NULL,
   `hourlyrate` decimal(10,4) NOT NULL,
   `basicpay` decimal(10,4) NOT NULL,
+  `regholiday` decimal(10,4) NOT NULL,
+  `speholiday` decimal(10,4) NOT NULL,
   `ordinaryot` decimal(10,4) NOT NULL,
   `restot` decimal(10,4) NOT NULL,
   `specialot` decimal(10,4) NOT NULL,
@@ -699,21 +754,25 @@ CREATE TABLE `dm_payrolldetails` (
   `incentives` decimal(10,4) NOT NULL,
   `nightdiff` decimal(10,4) NOT NULL,
   `uniformallowance` decimal(10,4) NOT NULL,
+  `late` decimal(10,4) NOT NULL,
+  `absent` decimal(10,4) NOT NULL,
   `wtax` decimal(10,4) NOT NULL,
   `sss` decimal(10,4) NOT NULL,
   `phic` decimal(10,4) NOT NULL,
   `hdmf` decimal(10,4) NOT NULL,
   `sssloan` decimal(10,4) NOT NULL,
   `hdmfloan` decimal(10,4) NOT NULL,
-  `netpay` decimal(10,4) NOT NULL
+  `netpay` decimal(10,4) NOT NULL,
+  `thrmonth` decimal(10,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dm_payrolldetails`
 --
 
-INSERT INTO `dm_payrolldetails` (`payrolldetailsID`, `payrollID`, `datefrom`, `dateto`, `employeeID`, `daysofwork`, `regularhours`, `overtimehours`, `dailyrate`, `hourlyrate`, `basicpay`, `ordinaryot`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `cola`, `incentives`, `nightdiff`, `uniformallowance`, `wtax`, `sss`, `phic`, `hdmf`, `sssloan`, `hdmfloan`, `netpay`) VALUES
-(1, 1, '2020-01-01', '2020-01-15', 1, '13.0', '104.00', '52.0000', '386.0000', '48.2500', '5018.0000', '3136.2500', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000');
+INSERT INTO `dm_payrolldetails` (`payrolldetailsID`, `payrollID`, `datefrom`, `dateto`, `employeeID`, `daysofwork`, `daysofabsent`, `regularhours`, `regholidayhours`, `speholidayhours`, `latehours`, `overtimehours`, `restothours`, `specialothours`, `specialrestothours`, `regularothours`, `regularrestothours`, `doubleothours`, `doublerestothours`, `nightdiffhours`, `dailyrate`, `hourlyrate`, `basicpay`, `regholiday`, `speholiday`, `ordinaryot`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `cola`, `incentives`, `nightdiff`, `uniformallowance`, `late`, `absent`, `wtax`, `sss`, `phic`, `hdmf`, `sssloan`, `hdmfloan`, `netpay`, `thrmonth`) VALUES
+(3, 1, '2020-01-01', '2020-01-15', 1, '12.0', '1.0', '94.75', '0.00', '0.00', '1.25', '48.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '1000.0000', '125.0000', '11000.0000', '0.0000', '0.0000', '7500.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '156.2500', '1000.0000', '0.0000', '0.0000', '330.0000', '100.0000', '0.0000', '0.0000', '16913.7500', '820.3125'),
+(4, 1, '2020-01-01', '2020-01-15', 3, '10.0', '2.0', '64.00', '0.00', '0.00', '0.00', '30.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '620.0000', '77.5000', '4960.0000', '0.0000', '0.0000', '2906.2500', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '1240.0000', '0.0000', '0.0000', '150.0000', '99.2000', '0.0000', '0.0000', '6377.0500', '310.0000');
 
 -- --------------------------------------------------------
 
@@ -723,47 +782,19 @@ INSERT INTO `dm_payrolldetails` (`payrolldetailsID`, `payrollID`, `datefrom`, `d
 
 CREATE TABLE `dm_philhealthtable` (
   `philhealthID` int(11) NOT NULL,
-  `belowrange` varchar(50) NOT NULL,
-  `aboverange` varchar(50) NOT NULL,
-  `percent` decimal(3,2) NOT NULL,
-  `employer` varchar(50) NOT NULL,
-  `employee` varchar(50) NOT NULL,
-  `total` varchar(50) NOT NULL
+  `belowrange` decimal(15,4) NOT NULL,
+  `aboverange` decimal(15,4) NOT NULL,
+  `percent` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dm_philhealthtable`
 --
 
-INSERT INTO `dm_philhealthtable` (`philhealthID`, `belowrange`, `aboverange`, `percent`, `employer`, `employee`, `total`) VALUES
-(1, '1.0000', '8,999.0000', '3.00', '100.0000', '100.0000', '200.0000'),
-(5, '9,000.0000', '9,999.9900', '3.00', '112.5000', '112.5000', '225.0000'),
-(6, '10,000.0000', '10,999.9900', '3.00', '125.0000', '125.0000', '250.0000'),
-(7, '11,000.0000', '11,999.9900', '3.00', '137.5000', '137.5000', '275.0000'),
-(8, '12,000.0000', '12,999.9900', '3.00', '150.0000', '150.0000', '300.0000'),
-(9, '13,000.0000', '13,999.9900', '3.00', '162.5000', '162.5000', '325.0000'),
-(10, '14,000.0000', '14,999.9900', '3.00', '175.0000', '175.0000', '350.0000'),
-(11, '15,000.0000', '15,999.9900', '3.00', '187.5000', '187.5000', '375.0000'),
-(12, '16,000.0000', '16,999.9900', '3.00', '200.0000', '200.0000', '400.0000'),
-(13, '17,000.0000', '17,999.9900', '3.00', '212.5000', '212.5000', '425.0000'),
-(14, '18,000.0000', '18,999.9900', '3.00', '225.0000', '225.0000', '450.0000'),
-(15, '19,000.0000', '19,999.9900', '3.00', '237.5000', '237.5000', '475.0000'),
-(16, '20,000.0000', '20,999.9900', '3.00', '250.0000', '250.0000', '500.0000'),
-(17, '21,000.0000', '21,999.9900', '3.00', '262.5000', '262.5000', '525.0000'),
-(18, '22,000.0000', '22,999.9900', '3.00', '275.0000', '275.0000', '550.0000'),
-(19, '23,000.0000', '23,999.9900', '3.00', '287.5000', '287.5000', '575.0000'),
-(20, '24,000.0000', '24,999.9900', '3.00', '300.0000', '300.0000', '600.0000'),
-(21, '25,000.0000', '25,999.9900', '3.00', '312.5000', '312.5000', '625.0000'),
-(22, '26,000.0000', '26,999.9900', '3.00', '325.0000', '325.0000', '650.0000'),
-(23, '27,000.0000', '27,999.9900', '3.00', '337.5000', '337.5000', '675.0000'),
-(24, '28,000.0000', '28,999.9900', '3.00', '350.0000', '350.0000', '700.0000'),
-(25, '29,000.0000', '29,999.9900', '3.00', '362.5000', '362.5000', '725.0000'),
-(26, '30,000.0000', '30,999.9900', '3.00', '375.0000', '375.0000', '750.0000'),
-(27, '31,000.0000', '31,999.9900', '3.00', '387.5000', '387.5000', '775.0000'),
-(28, '32,000.0000', '32,999.9900', '3.00', '400.0000', '400.0000', '800.0000'),
-(29, '33,000.0000', '33,999.9900', '3.00', '412.5000', '412.5000', '825.0000'),
-(30, '34,000.0000', '34,999.9900', '3.00', '425.0000', '425.0000', '850.0000'),
-(31, '35,000.0000', '9,999,999.9900', '3.00', '437.5000', '437.5000', '875.0000');
+INSERT INTO `dm_philhealthtable` (`philhealthID`, `belowrange`, `aboverange`, `percent`) VALUES
+(1, '1.0000', '10000.0000', '3.00'),
+(2, '10000.0100', '59999.9900', '3.00'),
+(3, '60000.0000', '999999.9900', '3.00');
 
 -- --------------------------------------------------------
 
@@ -1054,7 +1085,82 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (269, 18, 22, 0),
 (270, 18, 23, 0),
 (271, 18, 24, 0),
-(272, 18, 25, 0);
+(272, 18, 25, 0),
+(273, 18, 1, 0),
+(274, 18, 2, 0),
+(275, 18, 3, 0),
+(276, 18, 4, 0),
+(277, 18, 5, 0),
+(278, 18, 6, 0),
+(279, 18, 7, 0),
+(280, 18, 8, 0),
+(281, 18, 9, 0),
+(282, 18, 10, 0),
+(283, 18, 11, 0),
+(284, 18, 12, 0),
+(285, 18, 13, 0),
+(286, 18, 14, 0),
+(287, 18, 15, 0),
+(288, 18, 16, 0),
+(289, 18, 17, 0),
+(290, 18, 18, 0),
+(291, 18, 19, 0),
+(292, 18, 20, 0),
+(293, 18, 21, 0),
+(294, 18, 22, 0),
+(295, 18, 23, 0),
+(296, 18, 24, 0),
+(297, 18, 25, 0),
+(298, 19, 1, 0),
+(299, 19, 2, 0),
+(300, 19, 3, 0),
+(301, 19, 4, 0),
+(302, 19, 5, 0),
+(303, 19, 6, 0),
+(304, 19, 7, 0),
+(305, 19, 8, 0),
+(306, 19, 9, 0),
+(307, 19, 10, 0),
+(308, 19, 11, 0),
+(309, 19, 12, 0),
+(310, 19, 13, 0),
+(311, 19, 14, 0),
+(312, 19, 15, 0),
+(313, 19, 16, 0),
+(314, 19, 17, 0),
+(315, 19, 18, 0),
+(316, 19, 19, 0),
+(317, 19, 20, 0),
+(318, 19, 21, 0),
+(319, 19, 22, 0),
+(320, 19, 23, 0),
+(321, 19, 24, 0),
+(322, 19, 25, 0),
+(323, 20, 1, 0),
+(324, 20, 2, 0),
+(325, 20, 3, 0),
+(326, 20, 4, 0),
+(327, 20, 5, 0),
+(328, 20, 6, 0),
+(329, 20, 7, 0),
+(330, 20, 8, 0),
+(331, 20, 9, 0),
+(332, 20, 10, 0),
+(333, 20, 11, 0),
+(334, 20, 12, 0),
+(335, 20, 13, 0),
+(336, 20, 14, 0),
+(337, 20, 15, 0),
+(338, 20, 16, 0),
+(339, 20, 17, 0),
+(340, 20, 18, 0),
+(341, 20, 19, 0),
+(342, 20, 20, 0),
+(343, 20, 21, 0),
+(344, 20, 22, 0),
+(345, 20, 23, 0),
+(346, 20, 24, 0),
+(347, 20, 25, 0);
 
 -- --------------------------------------------------------
 
@@ -1077,8 +1183,8 @@ INSERT INTO `dm_rolemstr` (`roleID`, `roleDescription`) VALUES
 (11, '1234567'),
 (12, 'test account'),
 (15, 'Plumber'),
-(16, 'Astronaut'),
-(17, 'Firefighter');
+(17, 'Firefighter'),
+(20, 'Jamie');
 
 -- --------------------------------------------------------
 
@@ -1092,6 +1198,19 @@ CREATE TABLE `dm_schedule` (
   `restday` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `dm_schedule`
+--
+
+INSERT INTO `dm_schedule` (`scheduleID`, `employeeID`, `restday`) VALUES
+(18, 15, 1),
+(19, 15, 2),
+(20, 15, 3),
+(21, 15, 4),
+(22, 15, 6),
+(23, 15, 7),
+(30, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1100,11 +1219,11 @@ CREATE TABLE `dm_schedule` (
 
 CREATE TABLE `dm_ssstable` (
   `sssID` int(11) NOT NULL,
-  `belowrange` varchar(50) NOT NULL,
-  `aboverange` varchar(50) NOT NULL,
-  `employer` varchar(50) NOT NULL,
-  `employee` varchar(50) NOT NULL,
-  `total` varchar(50) NOT NULL
+  `belowrange` decimal(15,4) NOT NULL,
+  `aboverange` decimal(15,4) NOT NULL,
+  `employer` decimal(15,4) NOT NULL,
+  `employee` decimal(15,4) NOT NULL,
+  `total` decimal(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1112,38 +1231,43 @@ CREATE TABLE `dm_ssstable` (
 --
 
 INSERT INTO `dm_ssstable` (`sssID`, `belowrange`, `aboverange`, `employer`, `employee`, `total`) VALUES
-(1, '1,000.0000', '1,249.9900', '73.7000', '36.3000', '110.0000'),
-(2, '1,250.0000', '1,749.9900', '110.5000', '54.5000', '165.0000'),
-(3, '1,750.0000', '2,249.9900', '147.3000', '72.7000', '220.0000'),
-(4, '2,250.0000', '2,749.9900', '184.2000', '90.8000', '275.0000'),
-(5, '2,750.0000', '3,249.9900', '221.0000', '109.0000', '330.0000'),
-(6, '3,250.0000', '3,749.9900', '257.8000', '127.2000', '385.0000'),
-(7, '3,750.0000', '4,249.9900', '294.7000', '145.3000', '440.0000'),
-(8, '4,250.0000', '4,749.9900', '331.5000', '163.5000', '495.0000'),
-(9, '4,750.0000', '5,249.9900', '368.3000', '181.7000', '550.0000'),
-(10, '5,250.0000', '5,749.9900', '405.2000', '199.8000', '605.0000'),
-(11, '5,750.0000', '6,249.9900', '442.0000', '218.0000', '660.0000'),
-(12, '6,250.0000', '6,749.9900', '478.8000', '236.2000', '715.0000'),
-(13, '6,750.0000', '7,249.9900', '515.7000', '254.3000', '770.0000'),
-(14, '7,250.0000', '7,749.9900', '552.5000', '272.5000', '825.0000'),
-(15, '7,750.0000', '8,249.9900', '589.3000', '290.7000', '880.0000'),
-(16, '8,250.0000', '8,749.9900', '626.2000', '308.8000', '935.0000'),
-(17, '8,750.0000', '9,249.9900', '663.0000', '327.0000', '990.0000'),
-(18, '9,250.0000', '9,749.9900', '699.8000', '345.2000', '1,045.0000'),
-(19, '9,750.0000', '10,249.9900', '736.7000', '363.3000', '1,100.0000'),
-(20, '10,250.0000', '10,749.9900', '773.5000', '381.5000', '1,155.0000'),
-(21, '10,750.0000', '11,249.9900', '810.3000', '399.7000', '1,210.0000'),
-(22, '11,250.0000', '11,749.9900', '847.2000', '417.8000', '1,265.0000'),
-(23, '11,750.0000', '12,249.9900', '884.0000', '436.0000', '1,320.0000'),
-(24, '12,250.0000', '12,749.9900', '920.8000', '454.2000', '1,375.0000'),
-(25, '12,750.0000', '13,249.9900', '957.7000', '472.3000', '1,430.0000'),
-(26, '13,250.0000', '13,749.9900', '994.5000', '490.5000', '1,485.0000'),
-(27, '13,750.0000', '14,249.9900', '1,031.3000', '508.7000', '1,540.0000'),
-(28, '14,250.0000', '14,749.9900', '1,068.2000', '526.8000', '1,595.0000'),
-(29, '14,750.0000', '15,249.9900', '1,105.0000', '545.0000', '1,650.0000'),
-(30, '15,250.0000', '15,749.9900', '1,141.8000', '563.2000', '1,705.0000'),
-(31, '15,750.0000', '9,999,999.9900', '1,178.7000', '581.3000', '1,760.0000'),
-(32, '14,234.0000', '213.0000', '1,244.0000', '22.0000', '1,266.0000');
+(1, '1.0000', '2250.0000', '160.0000', '80.0000', '240.0000'),
+(2, '2250.0000', '2749.9900', '200.0000', '100.0000', '300.0000'),
+(3, '2750.0000', '3249.9900', '240.0000', '120.0000', '360.0000'),
+(4, '3250.0000', '3749.9900', '280.0000', '140.0000', '420.0000'),
+(5, '3750.0000', '4249.9900', '320.0000', '160.0000', '480.0000'),
+(6, '4250.0000', '4749.9900', '360.0000', '180.0000', '540.0000'),
+(7, '4750.0000', '5249.9900', '400.0000', '200.0000', '600.0000'),
+(8, '5250.0000', '5749.9900', '440.0000', '220.0000', '660.0000'),
+(9, '5750.0000', '6249.9900', '480.0000', '220.0000', '700.0000'),
+(10, '6250.0000', '6749.9900', '520.0000', '260.0000', '780.0000'),
+(11, '6750.0000', '7249.9900', '560.0000', '280.0000', '840.0000'),
+(12, '7250.0000', '7749.9900', '600.0000', '300.0000', '900.0000'),
+(13, '7750.0000', '8249.9900', '640.0000', '320.0000', '960.0000'),
+(14, '8250.0000', '8749.9900', '680.0000', '320.0000', '1000.0000'),
+(15, '8750.0000', '9249.9900', '680.0000', '340.0000', '1020.0000'),
+(16, '9250.0000', '9749.9900', '760.0000', '380.0000', '1140.0000'),
+(17, '9750.0000', '10249.9900', '800.0000', '400.0000', '1200.0000'),
+(18, '10250.0000', '10749.9900', '840.0000', '420.0000', '1260.0000'),
+(19, '10750.0000', '11249.9900', '880.0000', '440.0000', '1320.0000'),
+(20, '11250.0000', '11749.9900', '920.0000', '460.0000', '1380.0000'),
+(21, '11750.0000', '12249.9900', '960.0000', '480.0000', '1440.0000'),
+(22, '12250.0000', '12749.9900', '960.0000', '480.0000', '1440.0000'),
+(23, '12750.0000', '13249.9900', '1000.0000', '500.0000', '1500.0000'),
+(24, '13250.0000', '13749.9900', '1080.0000', '540.0000', '1620.0000'),
+(25, '13750.0000', '14249.9900', '1120.0000', '560.0000', '1680.0000'),
+(26, '14250.0000', '14749.9900', '1160.0000', '580.0000', '1740.0000'),
+(27, '14740.0000', '15249.9900', '1200.0000', '600.0000', '1800.0000'),
+(28, '15250.0000', '15749.9900', '1240.0000', '620.0000', '1860.0000'),
+(29, '15750.0000', '16249.9900', '1280.0000', '640.0000', '1920.0000'),
+(30, '16250.0000', '16749.9900', '1320.0000', '660.0000', '1980.0000'),
+(31, '16750.0000', '17249.9900', '1360.0000', '680.0000', '2040.0000'),
+(32, '17250.0000', '17749.9900', '1400.0000', '700.0000', '2100.0000'),
+(33, '17750.0000', '18249.9900', '1440.0000', '720.0000', '2160.0000'),
+(34, '18250.0000', '18749.9900', '1480.0000', '740.0000', '2220.0000'),
+(35, '18750.0000', '19249.9900', '1520.0000', '760.0000', '2280.0000'),
+(36, '19250.0000', '19749.9900', '1560.0000', '780.0000', '2340.0000'),
+(37, '19750.0000', '999999.0000', '1600.0000', '800.0000', '2400.0000');
 
 -- --------------------------------------------------------
 
@@ -1153,10 +1277,10 @@ INSERT INTO `dm_ssstable` (`sssID`, `belowrange`, `aboverange`, `employer`, `emp
 
 CREATE TABLE `dm_taxtable` (
   `taxID` int(11) NOT NULL,
-  `belowrange` varchar(30) NOT NULL,
-  `aboverange` varchar(30) NOT NULL,
-  `additionaltax` varchar(30) NOT NULL,
-  `percent` varchar(30) NOT NULL
+  `belowrange` decimal(15,4) NOT NULL,
+  `aboverange` decimal(15,4) NOT NULL,
+  `additionaltax` decimal(15,4) NOT NULL,
+  `percent` decimal(5,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1164,29 +1288,165 @@ CREATE TABLE `dm_taxtable` (
 --
 
 INSERT INTO `dm_taxtable` (`taxID`, `belowrange`, `aboverange`, `additionaltax`, `percent`) VALUES
-(1, '1.0000', '10,416.0000', '1.0000', '0'),
-(2, '10,417.0000', '16,666.0000', '1.0000', '20'),
-(5, '16,667.0000', '33,332.0000', '1,250.0000', '25'),
-(6, '33,333.0000', '83,332.0000', '5,416.6700', '30'),
-(7, '83,333.0000', '333,332.0000', '20,416.6700', '32'),
-(8, '333,333.0000', '9,999,999.9900', '100,416.6700', '35'),
-(9, '11.0000', '11.0000', '1.0000', '1');
+(1, '1.0000', '20832.0000', '0.0000', '0.00'),
+(2, '20833.0000', '33332.0000', '0.0000', '20.00'),
+(3, '33333.0000', '66666.0000', '2500.0000', '25.00'),
+(4, '66667.0000', '166666.0000', '10833.3300', '30.00'),
+(5, '166667.0000', '666666.0000', '40833.3300', '32.00'),
+(6, '666667.0000', '999999.0000', '200833.3300', '35.00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dm_timesheet`
+-- Table structure for table `dm_thrmonth`
 --
 
-CREATE TABLE `dm_timesheet` (
+CREATE TABLE `dm_thrmonth` (
+  `thrmonthID` bigint(20) NOT NULL,
+  `datefrom` date NOT NULL,
+  `dateto` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_thrmonth`
+--
+
+INSERT INTO `dm_thrmonth` (`thrmonthID`, `datefrom`, `dateto`) VALUES
+(3, '2020-01-01', '2020-07-28'),
+(4, '2020-01-01', '2020-01-28'),
+(5, '2020-01-01', '2020-01-28'),
+(6, '2020-01-01', '2020-01-28'),
+(7, '2020-01-01', '2020-01-28'),
+(8, '2020-01-01', '2020-01-28'),
+(9, '2020-01-01', '2020-01-28'),
+(10, '2020-01-01', '2020-01-28'),
+(11, '2020-01-01', '2020-01-28'),
+(12, '2020-01-01', '2020-01-28'),
+(13, '2020-01-01', '2020-01-28'),
+(14, '2020-01-01', '2020-01-28'),
+(15, '2020-01-01', '2020-01-28'),
+(16, '2020-01-01', '2020-01-28'),
+(17, '2020-01-01', '2020-01-28'),
+(18, '2020-01-01', '2020-01-28'),
+(19, '2020-01-01', '2020-01-28'),
+(20, '2020-01-01', '2020-01-28'),
+(21, '2020-01-01', '2020-01-28'),
+(22, '2020-01-01', '2020-01-28'),
+(23, '2020-01-01', '2020-01-28'),
+(24, '2020-01-01', '2020-01-28'),
+(25, '2020-01-01', '2020-01-28'),
+(26, '2020-01-01', '2020-01-28'),
+(27, '2020-01-01', '2020-01-28'),
+(28, '2020-01-01', '2020-01-28'),
+(29, '2020-01-01', '2020-01-28'),
+(30, '2020-01-01', '2020-01-28'),
+(31, '2020-01-01', '2020-01-28'),
+(32, '2020-01-01', '2020-01-28'),
+(33, '2020-01-01', '2020-01-28'),
+(34, '2020-01-01', '2020-01-28'),
+(35, '2020-01-01', '2020-01-28'),
+(36, '2020-01-01', '2020-01-28'),
+(37, '2020-01-01', '2020-01-28'),
+(38, '2020-01-01', '2020-01-28'),
+(39, '2020-01-01', '2020-01-28'),
+(40, '2020-01-01', '2020-01-28'),
+(41, '2020-01-01', '2020-01-28'),
+(42, '2020-01-01', '2020-01-28'),
+(43, '2020-01-01', '2020-01-28'),
+(44, '2020-01-01', '2020-01-28'),
+(45, '2020-01-01', '2020-01-28'),
+(46, '2020-01-01', '2020-01-28'),
+(47, '2020-01-01', '2020-01-28'),
+(48, '2020-01-01', '2020-01-28'),
+(49, '2020-01-01', '2020-01-28'),
+(50, '2020-01-01', '2020-01-28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_timekeeping`
+--
+
+CREATE TABLE `dm_timekeeping` (
+  `timekeepingID` bigint(20) NOT NULL,
+  `datefrom` date NOT NULL,
+  `dateto` date NOT NULL,
+  `payperiod` int(11) NOT NULL,
+  `usersubmitted` bigint(20) DEFAULT NULL,
+  `datesubmitted` datetime DEFAULT NULL,
+  `userapproved` varchar(255) DEFAULT NULL,
+  `dateapproved` varchar(255) DEFAULT NULL,
+  `level` int(11) NOT NULL,
+  `approvalID` bigint(20) NOT NULL,
+  `timekeepingstatus` int(11) NOT NULL,
+  `payrollstatus` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_timekeeping`
+--
+
+INSERT INTO `dm_timekeeping` (`timekeepingID`, `datefrom`, `dateto`, `payperiod`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `timekeepingstatus`, `payrollstatus`) VALUES
+(1, '2020-01-01', '2020-01-15', 1, 3, '2020-01-16 08:43:01', '13', '2020-01-16 08:44:072020-01-16 08:44:57', 3, 1, 2, 0),
+(2, '2020-01-16', '2020-01-31', 2, NULL, NULL, NULL, NULL, 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_timekeepingdetails`
+--
+
+CREATE TABLE `dm_timekeepingdetails` (
   `timesheetID` bigint(20) NOT NULL,
+  `timekeepingID` bigint(20) NOT NULL,
   `employeeID` bigint(20) NOT NULL,
   `datesched` date NOT NULL,
   `regularhours` decimal(10,2) NOT NULL,
+  `regholidayhours` decimal(10,2) NOT NULL,
+  `speholidayhours` decimal(10,2) NOT NULL,
+  `latehours` decimal(10,2) NOT NULL,
+  `absent` decimal(10,2) NOT NULL,
   `othours` decimal(10,2) NOT NULL,
-  `nightdiff` decimal(10,2) NOT NULL,
-  `late` decimal(10,2) NOT NULL
+  `restot` decimal(10,2) NOT NULL,
+  `specialot` decimal(10,2) NOT NULL,
+  `specialrestot` decimal(10,2) NOT NULL,
+  `regularot` decimal(10,2) NOT NULL,
+  `regularrestot` decimal(10,2) NOT NULL,
+  `doubleot` decimal(10,2) NOT NULL,
+  `doublerestot` decimal(10,2) NOT NULL,
+  `nightdiff` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_timekeepingdetails`
+--
+
+INSERT INTO `dm_timekeepingdetails` (`timesheetID`, `timekeepingID`, `employeeID`, `datesched`, `regularhours`, `regholidayhours`, `speholidayhours`, `latehours`, `absent`, `othours`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `nightdiff`) VALUES
+(1, 1, 1, '2020-01-01', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(2, 1, 1, '2020-01-02', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(3, 1, 1, '2020-01-03', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(4, 1, 1, '2020-01-04', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(5, 1, 1, '2020-01-06', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(6, 1, 1, '2020-01-07', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(7, 1, 1, '2020-01-08', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(8, 1, 1, '2020-01-09', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(9, 1, 1, '2020-01-10', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(10, 1, 1, '2020-01-11', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(11, 1, 1, '2020-01-13', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(12, 1, 1, '2020-01-14', '7.75', '0.00', '0.00', '0.25', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(13, 1, 1, '2020-01-15', '7.00', '0.00', '0.00', '1.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(14, 1, 3, '2020-01-01', '6.00', '0.00', '0.00', '0.00', '0.00', '2.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(15, 1, 3, '2020-01-02', '7.00', '0.00', '0.00', '0.00', '0.00', '3.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(16, 1, 3, '2020-01-03', '5.00', '0.00', '0.00', '0.00', '0.00', '3.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(17, 1, 3, '2020-01-04', '7.00', '0.00', '0.00', '0.00', '0.00', '3.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(18, 1, 3, '2020-01-06', '6.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(19, 1, 3, '2020-01-07', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(20, 1, 3, '2020-01-08', '8.00', '0.00', '0.00', '0.00', '0.00', '2.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(21, 1, 3, '2020-01-09', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(22, 1, 3, '2020-01-10', '1.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(23, 1, 3, '2020-01-11', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(24, 1, 3, '2020-01-13', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(25, 1, 3, '2020-01-15', '8.00', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00');
 
 --
 -- Indexes for dumped tables
@@ -1245,13 +1505,7 @@ ALTER TABLE `dm_designation`
 --
 ALTER TABLE `dm_detachment`
   ADD PRIMARY KEY (`detachmentID`);
-  
---
--- Indexes for table `dm_employeecreditleave`
---
-ALTER TABLE `dm_employee`
-  ADD PRIMARY KEY (`employeeID`);
-  
+
 --
 -- Indexes for table `dm_employeecreditleave`
 --
@@ -1283,10 +1537,10 @@ ALTER TABLE `dm_leavetype`
   ADD PRIMARY KEY (`leavetypeID`);
 
 --
--- Indexes for table `dm_leavetype`
+-- Indexes for table `dm_loandeduction`
 --
-ALTER TABLE `dm_loan`
-  ADD PRIMARY KEY (`loanID`);
+ALTER TABLE `dm_loandeduction`
+  ADD PRIMARY KEY (`loandeductionID`);
 
 --
 -- Indexes for table `dm_modulemstr`
@@ -1349,9 +1603,21 @@ ALTER TABLE `dm_taxtable`
   ADD PRIMARY KEY (`taxID`);
 
 --
--- Indexes for table `dm_timesheet`
+-- Indexes for table `dm_thrmonth`
 --
-ALTER TABLE `dm_timesheet`
+ALTER TABLE `dm_thrmonth`
+  ADD PRIMARY KEY (`thrmonthID`);
+
+--
+-- Indexes for table `dm_timekeeping`
+--
+ALTER TABLE `dm_timekeeping`
+  ADD PRIMARY KEY (`timekeepingID`);
+
+--
+-- Indexes for table `dm_timekeepingdetails`
+--
+ALTER TABLE `dm_timekeepingdetails`
   ADD PRIMARY KEY (`timesheetID`);
 
 --
@@ -1412,7 +1678,7 @@ ALTER TABLE `dm_employee`
 -- AUTO_INCREMENT for table `dm_employeecreditleave`
 --
 ALTER TABLE `dm_employeecreditleave`
-  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 --
 -- AUTO_INCREMENT for table `dm_employeeleave`
 --
@@ -1439,6 +1705,11 @@ ALTER TABLE `dm_leavetype`
 ALTER TABLE `dm_loan`
   MODIFY `loanID` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `dm_loandeduction`
+--
+ALTER TABLE `dm_loandeduction`
+  MODIFY `loandeductionID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `dm_modulemstr`
 --
 ALTER TABLE `dm_modulemstr`
@@ -1457,42 +1728,52 @@ ALTER TABLE `dm_payroll`
 -- AUTO_INCREMENT for table `dm_payrolldetails`
 --
 ALTER TABLE `dm_payrolldetails`
-  MODIFY `payrolldetailsID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `payrolldetailsID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `dm_philhealthtable`
 --
 ALTER TABLE `dm_philhealthtable`
-  MODIFY `philhealthID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `philhealthID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `dm_rolemodule`
 --
 ALTER TABLE `dm_rolemodule`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=273;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=348;
 --
 -- AUTO_INCREMENT for table `dm_rolemstr`
 --
 ALTER TABLE `dm_rolemstr`
-  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `dm_schedule`
 --
 ALTER TABLE `dm_schedule`
-  MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `dm_ssstable`
 --
 ALTER TABLE `dm_ssstable`
-  MODIFY `sssID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `sssID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT for table `dm_taxtable`
 --
 ALTER TABLE `dm_taxtable`
-  MODIFY `taxID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `taxID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
--- AUTO_INCREMENT for table `dm_timesheet`
+-- AUTO_INCREMENT for table `dm_thrmonth`
 --
-ALTER TABLE `dm_timesheet`
-  MODIFY `timesheetID` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `dm_thrmonth`
+  MODIFY `thrmonthID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+--
+-- AUTO_INCREMENT for table `dm_timekeeping`
+--
+ALTER TABLE `dm_timekeeping`
+  MODIFY `timekeepingID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `dm_timekeepingdetails`
+--
+ALTER TABLE `dm_timekeepingdetails`
+  MODIFY `timesheetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

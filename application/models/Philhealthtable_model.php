@@ -22,10 +22,7 @@ class Philhealthtable_model extends CI_Model
 			$data = array(
 				'belowrange' => $belowrange,
 				'aboverange' => $aboverange,
-				'percent' => $this->input->post('percent'),
-				'employer' => $this->input->post('employer'),
-				'employee' => $this->input->post('employee'),
-				'total' => $this->input->post('total')
+				'percent' => $this->input->post('percent')
 			 );
 
 			$this->db->insert('dm_philhealthtable', $data);
@@ -46,10 +43,7 @@ class Philhealthtable_model extends CI_Model
 			$data = array(
 				'belowrange' => $belowrange,
 				'aboverange' => $aboverange,
-				'percent' => $this->input->post('percent'),
-				'employer' => $this->input->post('employer'),
-				'employee' => $this->input->post('employee'),
-				'total' => $this->input->post('total')
+				'percent' => $this->input->post('percent')
 			 );
 
 			$this->db->where("philhealthID", $id);  

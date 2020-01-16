@@ -59,7 +59,7 @@
 							<a href="#" class="timekeeping-header"><i class="la la-dashboard"></i> <span> Timekeeping</span>  <span class="menu-arrow"></span></a>
 							<ul style="display: none;" class="menu-header" id="timekeeping-header">
 								<?php if($permission[7]){ ?>
-									<li><a href="<?php echo base_url(); ?>timekeeping">Timesheet</a></li>
+									<li><a href="<?php echo base_url(); ?>timekeeping">Timekeeping</a></li>
 								<?php } if($permission[8]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Timekeeping Report</a></li>
 								<?php } ?>
@@ -86,7 +86,7 @@
 								<?php } if($permission[11]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Generate Payslip</a></li>
 								<?php } if($permission[12]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Payrollreport">Payroll Report</a></li>
 								<?php } if($permission[13]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Adjustment Report</a></li>
 								<?php } ?>
@@ -99,9 +99,9 @@
 							<a href="#" class="13th-header"><i class="la la-money"></i> <span>13th Month Pay</span><span class="menu-arrow"></a>
 							<ul style="display: none;" class="menu-header" id="13th-header">
 								<?php if($permission[14]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">13th Month Process</a></li>
+									<li><a href="<?php echo base_url(); ?>Thirteenmonthprocess">13th Month Process</a></li>
 								<?php } if($permission[15]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">13th Month Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Thirteenmonthreport">13th Month Report</a></li>
 								<?php } ?>
 							</ul>
 						</li>	
