@@ -128,10 +128,20 @@ class Timekeeping_model extends CI_Model
 	function cancel_timekeeping($timekeepingID)
 	{
 	 	$data = array('datesubmitted' => NULL,
-	 				  'usersubmitted' => 0,
+	 				  'usersubmitted' => NULL,
 	 				  'level' => 0,
 	 				  'approvalID' => 0,
 	 				  'timekeepingstatus' => 0);
+
+		$this->db->where("timekeepingID", $timekeepingID);  
+        $this->db->update("dm_timekeeping", $data);   	   	
+	}
+
+	function deny_timekeeping($timekeepingID)
+	{
+	 	$data = array('datesubmitted' => NULL,
+	 				  'level' => 0,
+	 				  'timekeepingstatus' => 3);
 
 		$this->db->where("timekeepingID", $timekeepingID);  
         $this->db->update("dm_timekeeping", $data);   	   	

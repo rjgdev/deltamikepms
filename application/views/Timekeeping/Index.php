@@ -15,7 +15,8 @@
 	$lastday 		= "";
 	$tkstatus 		= "";
 	$timekeepingstatus = "-----";
-	$userapproved		= "";
+	$userapproved	= "";
+	$usersubmitted 	= "";
 
 	foreach ($data['timekeeping'] as $item)  {
 		$timekeepingID  = $item->timekeepingID;
@@ -33,8 +34,10 @@
 		if($item->timekeepingstatus==0) $timekeepingstatus = "DRAFT";
 		else if($item->timekeepingstatus==1) $timekeepingstatus = "PENDING";
 		else if($item->timekeepingstatus==2) $timekeepingstatus = "APPROVED";
+		else if($item->timekeepingstatus==3) $timekeepingstatus = "DENIED";
 
 		$userapproved = $item->userapproved;
+		$usersubmitted = $item->usersubmitted;
 	}
 
 	$lastapprover 		= "";
@@ -177,15 +180,22 @@
 			    		echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';	
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
-			    	 		if($userapproved=="" || $userapproved==NULL){
+			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
 			    	 			echo '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';
 			    	 		}else{
-			    	 			echo '<button type="button" class="btn btn-secondary" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
+			    	 			echo '<button type="button" class="btn btn-secondary pending" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
 			    	 		}
 		    	 		}else if($currentapprover==$this->session->userdata('employeeID')) {
-    						echo '<button type="button" class="btn btn-success approve" style="width: 100%; height: 95%;"><i class="fa fa-check"></i> Approve</button>';
+    						echo '<button type="button" class="btn btn-danger deny pull-right" style="width: 48%; height: 95%;"><i class="fa fa-ban"></i> <br>Deny</button>
+    							  <button type="button" class="btn btn-success approve pull-right mr-1" style="width: 48%; height: 95%;"><i class="fa fa-check"></i> <br>Approve</button>';    							  
 	    			 	}		
-    			    } 
+    			    }else if($tkstatus=3){ 
+    			    	if($this->session->userdata('employeeID')==$usersubmitted){
+    			    		echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';
+    			    	}else{
+			    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
+    			    	}
+			    	}
 			  	?>
 			</div>	
 		</div>
@@ -464,12 +474,41 @@ $(document).ready(function() {
 		      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
 	      		}
 
-				htmlButton = '<button type="button" class="btn btn-secondary" style="width: 100%; height: 95%;" disabled"><i class="fa fa-check"></i> Approved</button>';	
+				htmlButton = '<button type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';	
 	      		
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
 	  	  		showSuccessToast("Timekeeping is successfully approved!");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
+	});
+
+	$(document).on("click", ".deny", function(){
+    	var timekeepingID = $('#cutoff').attr('timekeepingid');
+
+    	$.ajax({
+		      url : "<?php echo site_url('timekeeping/deny');?>",
+		      method : "POST",
+		      data : {timekeepingID:timekeepingID},
+		      async : true,
+		      success: function(data){
+		      	var htmlStatus = "DENIED";
+		      	var htmlDatesubmitted = "-----";
+		      	var htmlApprover = "-----";
+		      	var htmlButton	 = "-----";
+
+				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';	
+	      		
+	      		$("#show_status").html(htmlStatus);
+	      		$("#show_datesubmitted").html(htmlDatesubmitted);
+	      		$("#show_approver").html(htmlApprover);
+	      		$("#show_button").html(htmlButton);
+	  	  		showSuccessToast("Timekeeping is successfully denied!");
 		      },
 		      error: function(request, textStatus, error) {
 

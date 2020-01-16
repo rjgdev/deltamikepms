@@ -136,56 +136,47 @@
 		</div>
 	</form>
 	</div>
-
-	</div>
 	</div>
 	</div>
 </div>
 </div>
 <br>
-<div id="tabledata">
-
+<br>
+<div class="ajax_loading"><p></p></div>
 	<div class="col-lg-12">
 		<div id="customers-list"></div>
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title mb-0">13th Month Process</h4>
+					<h4 class="card-title mb-0">Records</h4>
 				</div>
 				<div class="card-body">
-					<div id='result_table'>
-					<div class="table-responsive">
-						<table class="table table-bordered mb-0" id="employee_table">
+					<div class="table-responsive" id="show_data1">
+					<table class="table table-striped custom-table datatable">
+						<thead>		
 								<tr>
-									<th colspan="17"><center>DELTAMIKE SECURITY, INC.</center></th>
-								</tr>	
-								<tr>
-									<th rowspan="2"><center>Employee ID</center></th>
-									<th rowspan="2"><center>Employee Name</center></th>
-									<th rowspan="2"><center>Department</center></th>
-									<th rowspan="2"><center>Designation</center></th>
-									<th rowspan="2"><center>Employee Type</center></th>
-									<th rowspan="2"><center>Client</center></th>
-									<th rowspan="2"><center>Detachment</center></th>
-									<th rowspan="2"><center>Lates</center></th>
-									<th rowspan="2"><center>Absences</center></th>
-									<th rowspan="2"><center>Netpay</center></th>
-									
+									<th style="width: 100px ! important;"><center>Employee ID</center></th>
+									<th style="width: 250px;"><center>Employee Name</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>
+									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Client</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Detachment</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Netpay</center></th>
 								</tr>
-						
-							<tbody id="show_data">
+						</thead>			
+							<tbody id="show_databoday">
                      
                				 </tbody>
                				 <tfoot id="tfooter">
 						      
 						     </tfoot>
 						</table>
-					</div>
-				</div>	
+					</div>	
 				</div>
 			</div>
-		</div>
-	</div>	
-</div>
+		</div>	
 </div>
 
 <script  type="text/javascript">  
@@ -254,6 +245,9 @@
 						searchdetachment: 	searchdetachment},
 				async : true,
 				dataType : 'json',
+				beforeSend:function(){
+					  $("body").addClass("loading");
+				},
 				success: function(response){
 				  var html = '';
                     var i;
@@ -275,9 +269,12 @@
                     }
 
 
-                    $('#show_data').html(html); 
+                    $('#show_databoday').html(html); 
+                    $("body").removeClass("loading");
 
-		}	
+		},
+		 error: function(request, textStatus, error) {
+	     }	
 		});
 			return false;
 		});	

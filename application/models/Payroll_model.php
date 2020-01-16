@@ -8,7 +8,7 @@ class Payroll_model extends CI_Model
 	}
 
 	function get_payroll(){
-		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE (timekeepingstatus=1 OR timekeepingstatus=2) AND payrollstatus=0 LIMIT 1");
+		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE (timekeepingstatus=1 OR timekeepingstatus=2 OR timekeepingstatus=3) AND payrollstatus=0 LIMIT 1");
 
 		$datefrom = "";
 		$dateto = "";

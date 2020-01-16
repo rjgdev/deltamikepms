@@ -73,6 +73,11 @@
         	echo json_encode($result);
 		}
 
+		public function deny() 
+		{ 
+			$timekeepingID = $this->input->post('timekeepingID');
+        	$this->timekeeping->deny_timekeeping($timekeepingID);
+		}
 		public function submit() 
 		{ 
 			$timekeepingID = $this->input->post('timekeepingID');

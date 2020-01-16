@@ -76,7 +76,7 @@ class Thirteenmonthprocess_model extends CI_Model
 									WHEN e.employeetypeID = 1 THEN 'Security Guard'
 									WHEN e.employeetypeID = 2 THEN 'Staff'
 									ELSE employeetypeID
-									END AS employeetype,c.clientname,dtc.postname AS detachment,
+									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
 									concat(date_format(pd.datefrom,'%M% %d%,%Y'),' - ',date_format(pd.dateto,'%M% %d%,%Y')) as datepayrol,FORMAT(late,4) as late,FORMAT(absent,4) AS absent,
 									 FORMAT(SUM(thrmonth),4) AS thrmonth
 									FROM dm_payrolldetails AS pd
@@ -161,7 +161,7 @@ class Thirteenmonthprocess_model extends CI_Model
 		$this->db->insert_batch(' dm_thrmonthdetails', $record);*/
 //print_r($this->db->last_query());  
 	//exit;
- 		return $query->result();
+ 			return $query->result();
  		
  		
  			

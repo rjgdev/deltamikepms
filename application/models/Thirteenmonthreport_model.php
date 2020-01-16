@@ -92,7 +92,7 @@ class Thirteenmonthreport_model extends CI_Model
 				WHEN e.employeetypeID = 1 THEN 'Security Guard'
 				WHEN e.employeetypeID = 2 THEN 'Staff'
 				ELSE employeetypeID
-				END AS employeetype,c.clientname,dtc.postname AS detachment,
+				END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
 				concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as thrthmonthdate,format(sum(late),4) as late, format(sum(absent),4) as absent,
 				format(SUM(thrmonth),4)  AS thrmonth
 				FROM dm_payrolldetails AS pd

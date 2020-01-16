@@ -16,6 +16,7 @@
 		$tkstatus 			= $item->timekeepingstatus;
 		if($item->timekeepingstatus==1) $timekeepingstatus = "PENDING";
 		else if($item->timekeepingstatus==2) $timekeepingstatus = "APPROVED";
+		else if($item->timekeepingstatus==3) $timekeepingstatus = "DENIED";
 	}
 ?>
 
@@ -264,7 +265,9 @@ $(document).ready(function() {
 	        return false;
     	}else{
     		if($('#status').attr('status')=="1")
-				 showErrorToast("Cannot process, timekeeping is still pending!");
+				showErrorToast("Cannot process, timekeeping is still pending!");
+    		else if($('#status').attr('status')=="3") 
+    			showErrorToast("Cannot process, timekeeping is denied!");
 			else showErrorToast("No available payroll to process!");
     	}
 	});

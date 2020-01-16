@@ -113,9 +113,9 @@
 							
 							<ul style="display: none;" class="menu-header" id="retirement-header">
 								<?php if($permission[16]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Retirement Process</a></li>
+									<li><a href="<?php echo base_url(); ?>Retirementprocess">Retirement Process</a></li>
 								<?php } if($permission[17]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Retirement Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Retirementreport">Retirement Report</a></li>
 								<?php } ?>	
 							</ul>
 						</li>	

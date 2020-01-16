@@ -72,7 +72,35 @@ Version      : 3.3
 63. Responsive
 
 ========================================*/
-
+.ajax_loading p {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 55%;
+}
+.ajax_loading {
+    display:    none;
+    position:   fixed;
+    z-index:    9999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    font-weight: 600;
+    text-align: center;
+    font-size: 34px;
+    padding-top: 337px;
+    background: rgba( 255, 255, 255, .7 ) 
+                url('/deltamikepms/pages/assets/img/Preloader_2.gif') 
+                50% 50% 
+                no-repeat;
+}
+body.loading {
+    overflow: hidden;   
+}
+body.loading .ajax_loading {
+    display: block;
+}
 /*Customize*/
 .input-group {
     margin-bottom: 1.5rem;
@@ -231,7 +259,7 @@ tr.shown td.details-control {
 	margin-left: 17px;
 }
 
-.submit, .cancel{
+.submit, .cancel, .approve, .deny, .approved, .pending, .denied{
 	padding: 10px !important;
     text-transform: none !important;
 }
