@@ -1,22 +1,74 @@
 <?php
 	$timekeepingNo 		= "-----"; 
+	$timekeepingID 		= ""; 
 	$datefrom 			= "-----"; 
 	$dateto 			= "";
 	$payperiod 			= "";
 	$payperiodrange		= "-----";
 	$timekeepingstatus  = "-----";
+	$dateapproved		= "-----";
 	$tkstatus 			= "";
 
-	foreach ($data['cutoff'] as $item) {
+	foreach ($data['timekeeping'] as $item) {
+		$timekeepingID 		= $item->timekeepingID;
 		$timekeepingNo 		= "TK-".str_pad($item->timekeepingID, 6, "0", STR_PAD_LEFT);
 		$datefrom 			= date("F d, Y",strtotime($item->datefrom)); 
 		$dateto 			= date("F d, Y",strtotime($item->dateto));
 		$payperiod 			= $item->payperiod;
 		$payperiodrange		= date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$payperiod.')';
+		$retVal 			= array_filter(explode("|",$item->dateapproved));
+
+		if(count($retVal)!=0)	$dateapproved = date("F d, Y H:i:s",strtotime($retVal[count($retVal)-1]));
+
 		$tkstatus 			= $item->timekeepingstatus;
 		if($item->timekeepingstatus==1) $timekeepingstatus = "PENDING";
 		else if($item->timekeepingstatus==2) $timekeepingstatus = "APPROVED";
 		else if($item->timekeepingstatus==3) $timekeepingstatus = "DENIED";
+		else $timekeepingstatus = "DRAFT";
+	}
+
+	$payrollNo 				= "-----"; 
+	$payrollID 				= ""; 
+	$payroll_datesubmitted 	= "-----"; 
+	$payroll_datefrom 		= "-----"; 
+	$payroll_dateto 		= "";
+	$payroll_payperiod 		= "";
+	$payroll_payperiodrange	= "-----";
+	$payrollstatus  		= "-----";
+	$payroll_dateapproved	= "-----";
+	$prstatus 				= "";
+	$userapproved 			= "";
+	$usersubmitted 			= "";
+
+	foreach ($data['payroll'] as $item) {
+		$payrollID 				= $item->payrollID;
+		$payrollNo 				= "PR-".str_pad($item->payrollID, 6, "0", STR_PAD_LEFT);
+		$payroll_datesubmitted	= (is_null($item->datesubmitted) ? "-----" : $item->datesubmitted);
+		$payroll_datefrom 		= date("F d, Y",strtotime($item->datefrom)); 
+		$payroll_dateto 		= date("F d, Y",strtotime($item->dateto));
+		$payroll_payperiod 		= $item->payperiod;
+		$payroll_payperiodrange	= date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$payperiod.')';
+		$payroll_retVal 		= array_filter(explode("|",$item->dateapproved));
+
+		if(count($payroll_retVal)!=0)	$payroll_dateapproved = $payroll_retVal[count($payroll_retVal)-1];
+
+		$prstatus 				= $item->payrollstatus;
+		if($item->payrollstatus==1) $payrollstatus = "PENDING";
+		else if($item->payrollstatus==2) $payrollstatus = "APPROVED";
+		else if($item->payrollstatus==3) $payrollstatus = "DENIED";
+		else  $payrollstatus = "DRAFT";
+		$userapproved 		= $item->userapproved;
+		$usersubmitted 		= $item->usersubmitted;
+	}
+
+	$lastapprover 		= "";
+	$currentapprover 	= "";
+	$approvername    	= "-----";
+
+	foreach ($data['approver'] as $item)  {
+		$lastapprover = $item->lastapprover;
+		$currentapprover = $item->employeeID;
+		$approvername = $item->firstname.' '.$item->lastname;
 	}
 ?>
 
@@ -36,101 +88,201 @@
 						<li class="breadcrumb-item active">Payroll Process</li>
 					</ul>
 				</div>
-				<!-- <div class="col-auto float-right ml-auto align-items-center">
-					<button class="btn add-btn processpayroll" style="border-radius: 5px; padding: .68rem;"><i class="fa fa-forward"></i> Process Payroll </button>
-
-					<div class="view-icons" style="width:280px;">
-						<select class="form-control select2" id="cutoff" description="employee type" required>
-							    <option value="">Please select pay period</option>
-							    <?php foreach ($cutoff as $item) { 
-	                                echo '<option value="'.$item->cutoffID.'" datefrom="'.$item->datefrom.'" dateto="'.$item->dateto.'" payperiod="'.$item->payperiod.'">'.date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$item->payperiod.')'.'</option>';
-	                            } ?>  
-					    </select>
-					    <p style="font-size: 90%; color: #dc3545; margin: 5px;">Please select a pay period!</p>
-					</div>
-				</div> -->
-
-				<!-- <div class="col-auto float-right ml-auto">
-			   		   	<div class="col-sm-6 col-md-3 col-lg-3 col-xl-7 col-12">  
-							<select class="form-control select2" id="cutoff" description="employee type" required>
-							    <option value="">Please select cutoff</option>
-							    <option value="1">Security Guard</option>
-							    <option value="2">Staff</option>
-						    </select>
-						</div>   
-
-						<div class="col-sm-6 col-md-3 col-lg-3 col-xl-5 col-12">  
-							<button type="button" class="btn btn-info btn-block processpayroll"> Process Payroll </button>
-						</div> 
-				</div> -->
 			</div>
-
 		</div>
 
 		<!-- /Page Header -->
 		
 		<!-- PROCESS -->
 			<div class="row filter-row" style="margin-bottom: 20px;">
+				<div class="col-lg-2 col-md-2">
+					<div class="dash-info-list">
+						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Timekeeping No.</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;" 
+									   id="cutoff" 
+								   	   timekeepingID="<?php echo $timekeepingID; ?>"
+								       status="<?php echo $tkstatus; ?>" 
+								       datefrom="<?php echo $datefrom; ?>" dateto="<?php echo $dateto; ?>" payperiod="<?php echo $payperiod; ?>"><?php echo $timekeepingNo; ?>
+							        </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-2">
+					<div class="dash-info-list">
+						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Timekeeping Status</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"><?php echo $timekeepingstatus; ?> </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Date Approved</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"><?php echo $dateapproved; ?> </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-3 col-md-3">
+					<div class="dash-info-list">
+						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+							<h5 class="dash-title">
+									<i class="la la-calendar"></i> Payroll Period
+							</h5>
+							<div class="dash-card-container">
+								
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"><?php echo $payperiodrange; ?></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-2">
+					<?php 
+						if($prstatus==0 || $prstatus==3){ 
+							echo '<button class="btn btn-primary processpayroll" style="border-radius: 5px; width:100%; height: 95%;"><i class="fa fa-forward"></i> Process Payroll </button>';
+						}else{
+							echo '<button class="btn btn-primary processpayroll" style="border-radius: 5px; width:100%; height: 95%;" disabled><i class="fa fa-forward"></i> Process Payroll </button>';
+						}
+					?>
+				</div>
+			</div>
+			
+			<div class="row filter-row" style="margin-bottom: 20px;">
+				<div class="col-lg-2 col-md-2">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Payroll No.</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;"
+									   id="payrollno" 
+								   	   payrollID="<?php echo $payrollID; ?>"
+								       status="<?php echo $prstatus; ?>" 
+								       lastapprover="<?php echo $lastapprover; ?>"
+								       datefrom="<?php echo $payroll_datefrom; ?>" dateto="<?php echo $payroll_dateto; ?>" payperiod="<?php echo $payroll_payperiod; ?>"><?php echo $payrollNo; ?>
+							        </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-2 col-md-2">
+					<div class="dash-info-list">
+						<div class="dash-card">
+							<h5 class="dash-title">
+									<i class="la la-dashboard"></i>
+								Payroll Status</h5>
+							<div class="dash-card-container">
+								<div class="dash-card-content dash-card-header">
+									<p style="color:#e04d45;" id="show_payroll_status"><?php echo $payrollstatus; ?> </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="col-lg-3 col-md-3">
 					<div class="dash-info-list">
 						<div class="dash-card">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
-								Timekeeping No.</h5>
+								Date Submitted</h5>
 							<div class="dash-card-container">
-								
 								<div class="dash-card-content dash-card-header">
-									<p style="color:#e04d45;"><?php echo $timekeepingNo; ?></p>
+									<p style="color:#e04d45;" id="show_payroll_datesubmitted"><?php echo $payroll_datesubmitted; ?> </p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="col-lg-3 col-md-3">
 					<div class="dash-info-list">
 						<div class="dash-card">
 							<h5 class="dash-title">
-									<i class="la la-calendar"></i>
-								Timekeeping Status</h5>
+									<i class="la la-dashboard"></i>
+								Approver</h5>
 							<div class="dash-card-container">
-								<div class="dash-card-content dash-card-header" >
-									<p id="status" status="<?php echo $tkstatus; ?>" style="color:#e04d45;"><?php echo $timekeepingstatus; ?></p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-3">
-					<div class="dash-info-list">
-						<div class="dash-card">
-							<h5 class="dash-title">
-									<i class="la la-calendar"></i>
-								Pay Period</h5>
-							<div class="dash-card-container">
-								
 								<div class="dash-card-content dash-card-header">
-									<p style="color:#e04d45;"
-									   id="cutoff" 
-									   timekeepingID="<?php echo $timekeepingNo; ?>" 
-									   datefrom="<?php echo $datefrom; ?>" dateto="<?php echo $dateto; ?>" payperiod="<?php echo $payperiod; ?>">
-									<?php echo $payperiodrange; ?></p>
+									<p style="color:#e04d45;" id="show_payroll_approver"><?php echo$approvername; ?> </p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-md-3">
-					<div class="dash-info-list">
-						<div class="dash-card">
-							<div class="dash-card-container">
-									<button class="btn add-btn processpayroll" style="border-radius: 5px; width:100%;"><i class="fa fa-forward"></i> Process Payroll </button>
-							</div>
-						</div>
-					</div>
+
+				<div class="col-lg-2 col-md-2" id="show_payroll_button">
+					<?php 
+						if($prstatus==0){ 
+							if($payrollstatus=="-----"){
+				    			echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;" disabled><i class="fa fa-send"></i> Submit Payroll</button>';	
+							}else{
+				    			echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Payroll</button>';	
+							}
+			    	 	}else if($prstatus==1){ 
+			    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
+				    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
+				    	 			echo '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';
+				    	 		}else{
+				    	 			$retVal = explode("|", $userapproved);
+				    	 			$isApprover = 0;
+
+				    	 			for($i=0;$i<count($retVal);$i++){
+				    	 				if($this->session->userdata('employeeID')==$retVal[$i]){
+		    	 							$isApprover = 1;
+			    	 						break;
+				    	 				}			    	 			
+				    	 			}
+
+				    	 			if($isApprover==1){
+				    	 				echo '<button type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';
+				    	 			}else{
+				    	 				echo '<button type="button" class="btn btn-warning pending" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
+				    	 			}
+				    	 		}
+			    	 		}else if($currentapprover==$this->session->userdata('employeeID')) {
+	    						echo '<button type="button" class="btn btn-danger deny pull-right" style="width: 48%; height: 95%;"><i class="fa fa-ban"></i> <br>Deny</button>
+	    							  <button type="button" class="btn btn-success approve pull-right mr-1" style="width: 48%; height: 95%;"><i class="fa fa-check"></i> <br>Approve</button>';    							  
+		    			 	}		
+	    			    }else if($prstatus==3){ 
+	    			    	if($this->session->userdata('employeeID')==$usersubmitted){
+	    			    		echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Payroll</button>';
+	    			    	}else{
+				    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
+	    			    	}
+				    	}
+				  	?>
 				</div>
-	        </div>
-		<!-- /PROCESS -->
+			</div>
+			<!-- /PROCESS -->
 		
 		<div class="row">
 			<div class="col-md-12">
@@ -138,8 +290,8 @@
 					<table class="table table-striped custom-table" id="datatable1">
 						<thead>
 							<tr>
-								<th style="width: 100px ! important;">Employee No.</th>
-								<th style="width: 250px;">Employee Name</th>
+								<th style="width: 90px ! important;">Employee No.</th>
+								<th style="width: 240px;">Employee Name</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>
@@ -177,6 +329,32 @@
 </div>
 <!-- /Page Wrapper -->
 
+<!-- Confirmation Modal -->
+	<div class="modal custom-modal fade" id="modal_confirmation" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric">
+						<h3 id="modal_title"></h3>
+						<p id="modal_message"></p>
+					</div>
+					<div class="modal-btn confirmation-action">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary submit-btn"></a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- /Confirmation Modal -->
+
 <script  type="text/javascript">  
 $(document).ready(function() {
 
@@ -189,8 +367,19 @@ $(document).ready(function() {
 		}
     } );
 
-	$('.processpayroll').unbind('click').bind('click', function(){
-		if($('#status').attr('status')=="2"){
+    $(document).on("click", ".processpayroll", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/process.svg");
+		$('#modal_title').html("Process Payroll");
+    	$('#modal_message').html("Are you sure you want to process the payroll?");
+    	$('.submit-btn').html("Process payroll");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_processpayroll");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+    $(document).on("click", "#modal_processpayroll", function(){
+		if($('#cutoff').attr('status')=="2"){
 			var timekeepingID = $('#cutoff').attr('timekeepingID');
 			var fromcutoff = $('#cutoff').attr('datefrom');
 			var tocutoff = $('#cutoff').attr('dateto');
@@ -211,8 +400,8 @@ $(document).ready(function() {
 	            	html =  '<table class="table table-striped custom-table" id="datatable1">' + 
 	            			'<thead>' +
 							'<tr>' + 
-								'<th style="width: 100px ! important;">Employee No.</th>' +
-								'<th style="width: 250px;">Employee Name</th>' +
+								'<th style="width: 90px ! important;">Employee No.</th>' +
+								'<th style="width: 240px;">Employee Name</th>' +
 								'<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>' +
 								'<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
 								'<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>' +
@@ -226,19 +415,19 @@ $(document).ready(function() {
 						'</thead>' +
 						'<tbody>';
 
-	            	for(var i=0; i<data.length; i++){
+	            	for(var i=0; i<data["payrolldetails"].length; i++){
     					html += '<tr>' +
-    								'<td>' + data[i].employeeID.padStart(6,'0') 													+ '</td>' +
-    								'<td>' + data[i].firstname + ' ' + data[i].lastname 											+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data[i].basicpay)		+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data[i].ordinaryot) 	+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].late) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].absent) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].wtax) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].sss) 			+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].phic) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data[i].hdmf) 		+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e; font-weight: 500;">' + accounting.formatMoney(data[i].netpay) + '</td>';
+    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') 													+ '</td>' +
+    								'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 						+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data["payrolldetails"][i].ordinaryot) 	+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].late) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].wtax) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].sss) 			+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].phic) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf) 		+ '</td>' +
+    								'<td class="text-right" style="color:#0ebe0e; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>';
 								'</tr>';
             		}
 
@@ -247,6 +436,15 @@ $(document).ready(function() {
 			        if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };
+
+		      		var htmlStatus 			= "DRAFT";
+		      		var htmlPayrollNo 		= "PR-" + data["payroll"][0].payrollID.padStart(6,'0') 	;
+			      	var htmlButton 			= '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Payroll</button>';	
+
+		      		$("#show_payroll_status").html(htmlStatus);
+		      		$("#payrollno").html(htmlPayrollNo);
+		      		$("#payrollno").attr("payrollid",data["payroll"][0].payrollID);
+		      		$("#show_payroll_button").html(htmlButton);
 
             		$("#show_data").html(html);
 			        $('#datatable1').DataTable({
@@ -257,6 +455,8 @@ $(document).ready(function() {
 						    rightColumns: 1
 						}
 				    });
+		        	$('#modal_confirmation').modal('hide');
+		      		showSuccessToast("Timekeeping is successfully <b>processed!</b> Kindly review the payroll before submitting.");
 	        	},
 	            error: function(request, textStatus, error) {
 
@@ -264,12 +464,221 @@ $(document).ready(function() {
 	        });
 	        return false;
     	}else{
-    		if($('#status').attr('status')=="1")
-				showErrorToast("Cannot process, timekeeping is still pending!");
-    		else if($('#status').attr('status')=="3") 
-    			showErrorToast("Cannot process, timekeeping is denied!");
-			else showErrorToast("No available payroll to process!");
+    		if($('#cutoff').attr('status')=="1")
+				showErrorToast("Cannot process, timekeeping is still <b>pending!</b>");
+    		else if($('#cutoff').attr('status')=="3") 
+    			showErrorToast("Cannot process, timekeeping is <b>denied!</b>");
+			else showErrorToast("Cannot process, timekeeping is still <b>draft!</b>");
     	}
+	});
+
+	$(document).on("click", ".submit", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
+		$('#modal_title').html("Submit Payroll");
+    	$('#modal_message').html("Are you sure you want to submit the payroll?");
+    	$('.submit-btn').html("Submit payroll");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_submitpayroll");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_submitpayroll", function(){
+    	var payrollID = $('#payrollno').attr('payrollid');
+
+    	$.ajax({
+		      url : "<?php echo site_url('payroll/submit');?>",
+		      method : "POST",
+		      data : {payrollID:payrollID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var htmlStatus = "-----";
+		      	var htmlDatesubmitted = "-----";
+		      	var htmlApprover = "-----";
+		      	var htmlButton	 = "-----";
+
+		      	if(data["payroll"]!=0){
+		      		for(var i=0; i<data["payroll"].length; i++){
+			      		var status = "-----";
+
+			      		if(data["payroll"][i].payrollstatus==0) {
+			      			status = "DRAFT";
+			      		}else if(data["payroll"][i].payrollstatus==1) {
+			      			status = "PENDING";
+			      		}else if(data["payroll"][i].payrollstatus==2) {
+			      			status = "APPROVED";
+		      			}
+
+			      		htmlStatus 			= status;
+			      		htmlDatesubmitted 	= data["payroll"][i].datesubmitted;
+			      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
+		      		}
+
+		      		if(htmlDatesubmitted != "-----"){
+						htmlButton = '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';	
+						$(".processpayroll").prop("disabled", true);
+		      		}
+
+		      		$("#show_payroll_status").html(htmlStatus);
+		      		$("#show_payroll_datesubmitted").html(htmlDatesubmitted);
+		      		$("#show_payroll_approver").html(htmlApprover);
+		      		$("#show_payroll_button").html(htmlButton);
+		      		$('#modal_confirmation').modal('hide');
+		      		showSuccessToast("Payroll is successfully <b>submitted!</b>");
+		      	}else{
+		      		showErrorToast(data['error']); ;
+		      	}
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
+	});
+
+	$(document).on("click", ".cancel", function(){
+		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
+		$('#modal_title').html("Cancel Request");
+    	$('#modal_message').html("Are you sure you want to cancel the payroll request?");
+    	$('.submit-btn').html("Cancel payroll");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_cancelpayroll");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_cancelpayroll", function(){
+    	var payrollID = $('#payrollno').attr('payrollid');
+
+    	$.ajax({
+		      url : "<?php echo site_url('payroll/cancel');?>",
+		      method : "POST",
+		      data : {payrollID:payrollID},
+		      async : true,
+		      success: function(data){
+				var htmlStatus = "DRAFT";
+		      	var htmlDatesubmitted = "-----";
+		      	var htmlApprover = "-----";
+		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Payroll</button>';
+
+				$(".processpayroll").prop("disabled", false);
+	      		$("#show_payroll_status").html(htmlStatus);
+	      		$("#show_payroll_datesubmitted").html(htmlDatesubmitted);
+	      		$("#show_payroll_approver").html(htmlApprover);
+	      		$("#show_payroll_button").html(htmlButton);
+	      		$('#modal_confirmation').modal('hide');
+		  	  	showSuccessToast("Payroll is successfully <b>cancelled!</b>");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
+	});
+
+	$(document).on("click", ".approve", function(){
+		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/approve.svg");
+		$('#modal_title').html("Approve Payroll");
+    	$('#modal_message').html("Are you sure you want to approve the payroll?");
+    	$('.submit-btn').html("Approve payroll");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_approvepayroll");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_approvepayroll", function(){
+    	var payrollID = $('#payrollno').attr('payrollid');
+    	var timekeepingID = $('#cutoff').attr('timekeepingid');
+    	var lastapprover = $('#payrollno').attr('lastapprover');
+
+    	$.ajax({
+		      url : "<?php echo site_url('payroll/approve');?>",
+		      method : "POST",
+		      data : {payrollID:payrollID,
+		      		  timekeepingID: timekeepingID,
+		      		  lastapprover:lastapprover},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var htmlStatus = "-----";
+		      	var htmlDatesubmitted = "-----";
+		      	var htmlApprover = "-----";
+		      	var htmlButton	 = "-----";
+
+		      	for(var i=0; i<data["payroll"].length; i++){
+		      		var status = "-----";
+
+		      		if(data["payroll"][i].payrollstatus==0) {
+		      			status = "DRAFT";
+		      		}else if(data["payroll"][i].payrollstatus==1) {
+		      			status = "PENDING";
+		      		}else if(data["payroll"][i].payrollstatus==2) {
+		      			status = "APPROVED";
+	      			}
+
+		      		htmlStatus 			= status;
+	      		}
+
+	      		for(var i=0; i<data["approver"].length; i++){
+	      			htmlApprover = data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
+	      		}
+
+				htmlButton = '<button type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';	
+	      		
+	      		$("#show_payroll_status").html(htmlStatus);
+	      		$("#show_payroll_approver").html(htmlApprover);
+	      		$("#show_payroll_button").html(htmlButton);
+	      		$('#modal_confirmation').modal('hide');
+	  	  		showSuccessToast("Payroll is successfully approved!");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
+	});
+
+	$(document).on("click", ".deny", function(){
+		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
+		$('#modal_title').html("Deny Payroll");
+    	$('#modal_message').html("Are you sure you want to deny the payroll?");
+    	$('.submit-btn').html("Deny payroll");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_denypayroll");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_denypayroll", function(){
+    	var payrollID = $('#payrollno').attr('payrollid');
+
+    	$.ajax({
+		      url : "<?php echo site_url('payroll/deny');?>",
+		      method : "POST",
+		      data : {payrollID:payrollID},
+		      async : true,
+		      success: function(data){
+		      	var htmlStatus = "DENIED";
+		      	var htmlDatesubmitted = "-----";
+		      	var htmlApprover = "-----";
+		      	var htmlButton	 = "-----";
+
+				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';	
+	      		
+	      		$("#show_payroll_status").html(htmlStatus);
+	      		$("#show_payroll_datesubmitted").html(htmlDatesubmitted);
+	      		$("#show_payroll_approver").html(htmlApprover);
+	      		$("#show_payroll_button").html(htmlButton);
+	      		$('#modal_confirmation').modal('hide');
+	  	  		showSuccessToast("Payroll is successfully <b>denied!</b>");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
 	});
 }); 		 
 </script>

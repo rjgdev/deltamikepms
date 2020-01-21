@@ -45,6 +45,38 @@
 			$this->load->view('Template/Footer',$data);
 		} 
 
+		public function approve() 
+		{ 
+			$payrollID = $this->input->post('payrollID');
+			$timekeepingID = $this->input->post('timekeepingID');
+			$lastapprover = $this->input->post('lastapprover');
+			
+        	$result = $this->payroll->approve_payroll($payrollID, $timekeepingID, date("Y-m-d"),$lastapprover);
+        	
+        	
+        	echo json_encode($result);
+		}
+
+		public function deny() 
+		{ 
+			$payrollID = $this->input->post('payrollID');
+        	$this->payroll->deny_payroll($payrollID);
+		}
+
+		public function submit() 
+		{ 
+			$payrollID = $this->input->post('payrollID');
+        	$result = $this->payroll->submit_payroll($payrollID, date("Y-m-d H:i:s"));
+
+        	echo json_encode($result);
+		}
+
+		public function cancel() 
+		{ 
+			$payrollID = $this->input->post('payrollID');
+        	$this->payroll->cancel_payroll($payrollID);
+		}
+
 		public function report() 
 		{ 
 

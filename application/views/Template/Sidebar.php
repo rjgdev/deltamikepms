@@ -127,7 +127,7 @@
 							
 							<ul style="display: none;" class="menu-header" id="reports-header">
 								<?php if($permission[18]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Billing Statement</a></li>
+									<li><a href="<?php echo base_url(); ?>Billing">Billing Statement</a></li>
 								<?php } if($permission[19]){ ?>
 									<li><a href="<?php echo base_url(); ?>maintenance">PPS (Metrobank)</a></li>
 								<?php } if($permission[20]){ ?>

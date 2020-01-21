@@ -125,14 +125,16 @@
 				</div>
 			</div>
 			<div class="col-sm-2">
-				<div class="form-group">
-				<label for="gender">Search</label>
-				<br>
-				<button type="submit" class="btn btn-primary"id="submit">Search</button>
+			 <div class="form-group">
+				<label for="gender">&emsp;</label>
+			   	<div class="dash-card-container">
+					<button class="btn add-btn" id="submit" style="border-radius: 5px; width:150%; height: 45px;">Process 13th Month </button>
 				</div>
+			 </div>
 			</div>
 			</div>
 			</div>
+		</div>
 		</div>
 	</form>
 	</div>
@@ -147,10 +149,19 @@
 		<div id="customers-list"></div>
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title mb-0">Records</h4>
+					<div class="row align-items-center">
+					<div class="col">
+						<h4 class="card-title mb-0">Records</h4>
+				</div>	
+				<div class="col-auto float-right ml-auto">
+					<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Excel</a>
+				</div>	
+				</div>		
 				</div>
+
 				<div class="card-body">
 					<div class="table-responsive" id="show_data1">
+					<div id="tabledata">
 					<table class="table table-striped custom-table datatable">
 						<thead>		
 								<tr>
@@ -173,6 +184,7 @@
 						      
 						     </tfoot>
 						</table>
+					</div>
 					</div>	
 				</div>
 			</div>
@@ -182,10 +194,9 @@
 <script  type="text/javascript">  
 	$(document).ready(function() {
 	
-	$("#export_excel").click(function() {
-		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
-	});
-
+		$("#export_excel").click(function() {
+			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
+		});
 		$('#searchemployeetype').change(function(){
 			var employeetype =$(this).val();
 			if(employeetype==1){
@@ -260,9 +271,9 @@
                         '<td>'+response[i].employeetype+'</td>'+
                          '<td>'+response[i].clientname+'</td>'+
                          '<td>'+response[i].detachment+'</td>'+
-                         '<td tyle ="text-align: right;">'+response[i].late+'</td>'+
-                          '<td tyle ="text-align: right;">'+response[i].absent+'</td>'+
-                         '<td tyle ="text-align: right;">'+response[i].thrmonth+'</td>'+
+                         '<td class="text-right">'+response[i].late+'</td>'+
+                         '<td class="text-right">'+response[i].absent+'</td>'+
+                         '<td class="text-right">'+response[i].thrmonth+'</td>'+
                          '</tr>';
                         
                

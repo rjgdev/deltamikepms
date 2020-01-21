@@ -8,22 +8,35 @@ class Payroll_model extends CI_Model
 	}
 
 	function get_payroll(){
-		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE (timekeepingstatus=1 OR timekeepingstatus=2 OR timekeepingstatus=3) AND payrollstatus=0 LIMIT 1");
+		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE payrollstatus=0 LIMIT 1");
 
-		$datefrom = "";
-		$dateto = "";
+		$datefrom 	= "";
+		$dateto 	= "";
+		$payrollID 	= 0;
+		$level 		= 0;
 
 		if($query->num_rows()!=0){
 			 $datefrom = $query->row()->datefrom;
 			 $dateto = $query->row()->dateto;
 		}
 
-		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
-												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
-												 WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");
-		
 
-		return array('cutoff' => $query->result(),'payrolldetails' =>  $queryPayrolldetails->result());
+		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");	
+
+		if($queryPayroll->num_rows()!=0){
+			$payrollID = $queryPayroll->row()->payrollID;
+			$level     = $queryPayroll->row()->level;
+		}
+
+		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
+													 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
+													 WHERE payrollID=".$payrollID);
+
+		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$level);
+		
+		return array('timekeeping' => $query->result(),'payroll' => $queryPayroll->result(),'payrolldetails' => $queryPayrolldetails->result(),'approver' => $queryApprover->result());
 	}
 
 	function getWTAX($fromcutoff,$employeeID,$netpay){ //FOR STAFF ONLY
@@ -66,7 +79,6 @@ class Payroll_model extends CI_Model
 
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-
 		$basicsalary = $salary + $query->row()->basicpay;
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
@@ -83,17 +95,17 @@ class Payroll_model extends CI_Model
 		elseif($query->row()->philhealthID==2) $phic = ($salary * ($query->row()->percent / 100)) / 2;
 		elseif($query->row()->philhealthID==3) $phic = ($query->row()->belowrange * ($query->row()->percent / 100)) / 2;
 
-		return $phic;
+		return $phic / 2;
 	}
 
 	function getHDMF($salary){
-		$hdmf = 0;
+		$hdmf = 50;
 
-			if($salary>=5000) $hdmf = 100;
+			/*if($salary>=5000) $hdmf = 100;
 		elseif($salary>1500 && $salary<5000) $hdmf = $salary * .02;
 		elseif($salary>=1000 && $salary<=1500) $hdmf = $salary * .01;
 		else $hdmf = 0;
-
+*/
 		return $hdmf;
 	}
 
@@ -109,7 +121,7 @@ class Payroll_model extends CI_Model
 						 );
 
 			$this->db->insert('dm_payroll', $data);
-			$last_id = $this->db->insert_id();
+			$last_id = $this->db->insert_id();                                                                                            
 		}else{
 			$last_id = $queryPayroll->row()->payrollID;
 			$queryDeletePayroll = $this->db->query("DELETE FROM dm_payrolldetails WHERE payrollID=".$last_id);
@@ -118,7 +130,7 @@ class Payroll_model extends CI_Model
 			$hdmf = 0;
 			$phic = 0;
 			$wtax = 0;
-			$sss = 0;
+			$sss  = 0;
 			
 			$query = $this->db->query("SELECT dm_employee.employeeID,
 											  dm_employee.firstname,
@@ -171,10 +183,10 @@ class Payroll_model extends CI_Model
 			      	$basicsalary = ($row->employeetypeID==1 ? $row->basicpay : $row->basicsalary);
 
 					/************************  DEDUCTION *************************/
-					if($payperiod=="1"){
-						$hdmf = $this->getHDMF($basicsalary);
-						$phic = $this->getPHIC($basicsalary);
-					}else if($payperiod=="2"){
+					$hdmf = $this->getHDMF($basicsalary);
+					$phic = $this->getPHIC($basicsalary);
+
+					if($payperiod=="2"){
 						$sss  = $this->getSSS($row->basicpay, $fromcutoff, $row->employeeID);
 					}
 
@@ -244,12 +256,85 @@ class Payroll_model extends CI_Model
 			   }
 			}
 
+		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE payrollID=".$last_id);
+
 		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
 												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
 												 WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
 
-    	return $queryPayrolldetails->result();
+    	return array("payroll" => $queryPayroll->result(), "payrolldetails" => $queryPayrolldetails->result());
   	}
+
+  	function submit_payroll($payrollID, $datesubmitted)
+	{
+		$querySubmit = $this->db->query('SELECT * FROM dm_payrolldetails WHERE payrollID='.$payrollID.' LIMIT 1');	 
+		
+		if($querySubmit->num_rows()===0){
+			return array('payroll' => 0, 'error' => 'Cannot submit no time record exist!');
+		}
+
+	 	$data = array('datesubmitted' => $datesubmitted,
+	 				  'usersubmitted' => $this->session->userdata('employeeID'),
+	 				  'level' => 1,
+	 				  'approvalID' => 31,
+	 				  'payrollstatus' => 1);
+
+		$this->db->where("payrollID", $payrollID);  
+        $this->db->update("dm_payroll", $data);   
+
+        $queryheader = $this->db->query('SELECT * FROM dm_payroll WHERE payrollID='.$payrollID);
+
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$queryheader->row()->level);
+
+        return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());  
+	}
+
+	function cancel_payroll($payrollID)
+	{
+	 	$data = array('datesubmitted' => NULL,
+	 				  'usersubmitted' => NULL,
+	 				  'level' => 0,
+	 				  'payrollstatus' => 0);
+
+		$this->db->where("payrollID", $payrollID);  
+        $this->db->update("dm_payroll", $data);   	   	
+	}
+
+	function approve_payroll($payrollID, $timekeepingID, $dateapproved, $lastapprover)
+	{
+		if($lastapprover==1){
+			$queryUpdatePayroll = $this->db->query('UPDATE dm_payroll 
+									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,payrollstatus=2 WHERE payrollID='.$payrollID);
+
+			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping SET payrollstatus=2 WHERE timekeepingID='.$timekeepingID);
+
+	        $query = $this->db->query('SELECT * FROM dm_payroll WHERE payrollID='.$payrollID);
+		}else{
+			$queryUpdatePayroll = $this->db->query('UPDATE dm_payroll 
+									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
+									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE payrollID='.$payrollID);
+		}
+
+		$queryheader = $this->db->query('SELECT * FROM dm_payroll WHERE payrollID='.$payrollID);	 
+
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$queryheader->row()->level);
+		
+        return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());
+	}
+
+	function deny_payroll($payrollID)
+	{
+	 	$data = array('datesubmitted' => NULL,
+	 				  'level' => 0,
+	 				  'payrollstatus' => 3);
+
+		$this->db->where("payrollID", $payrollID);  
+        $this->db->update("dm_payroll", $data);   	   	
+	}
 }
 ?>
 

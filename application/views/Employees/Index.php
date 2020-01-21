@@ -181,7 +181,7 @@
   </div>
     <div class="form-group col-sm-6">
     <label for="firstname">First Name <span class="text-danger">*</span></label>
-    <input id="addfirstname" type="text" name="addfirstname" class="form-control input lettersonly" autocomplete="off" description="first name" required tabindex="1">
+    <input id="addfirstname" type="text" name="addfirstname" class="form-control input letterswithspace" autocomplete="off" description="first name" required tabindex="1">
     <div class="invalid-feedback" id="add-firstname"></div>
     </div>
     <div class="form-group col-sm-6">
@@ -395,7 +395,7 @@
                            <div class="invalid-feedback" id="add-bankaccountname"></div>
                           </div>
                            <div class="form-group col-sm-6">
-                            <label for="allowance">Bank Name</label>                       
+                            <label for="allowance">Bank Name</label>                    
                              <select class="form-control" id="addbankname" name="addbankname" style="width: 100%;" description="bank account name" required>
                             <option value="">No Selected</option>
                             <?php
@@ -425,19 +425,23 @@
                           </div>
                            <div class="form-group col-sm-6">
                             <label for="tinnumber">TIN</label>
-                            <input id="addtinnumber" type="text" name="addtinnumber" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
+                            <input id="addtinnumber" type="text" name="addtinnumber" value="000-000-000" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
+                            <div class="invalid-feedback" id="add-tinnumber"></div>
                             </div> 
                            <div class="form-group col-sm-6">
                             <label for="sssnumber">SSS No.</label>
-                            <input id="addsssnumber" type="text" name="addsssnumber" class="form-control input" placeholder="00-0000000-0"  minlength=12 autocomplete="off">
+                            <input id="addsssnumber" type="text" name="addsssnumber" value="00-0000000-0" class="form-control input" placeholder="00-0000000-0"  minlength=12 autocomplete="off">
+                             <div class="invalid-feedback" id="add-sssnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
                             <label for="philhealthnumber">Philhealth No.</label>
-                            <input id="addphilhealthnumber" type="text" name="addphilhealthnumber" class="form-control input" placeholder="00-000000000-0" minlength=14 autocomplete="off">
+                            <input id="addphilhealthnumber" type="text" name="addphilhealthnumber" value ="00-000000000-0" class="form-control input" placeholder="00-000000000-0" minlength=14 autocomplete="off">
+                            <div class="invalid-feedback" id="add-philhealthnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
                             <label for="pagibignumber">Pag-IBIG MID No.</label>
-                            <input id="addpagibignumber" type="text" name="addpagibignumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
+                            <input id="addpagibignumber" type="text" name="addpagibignumber" value="0000-0000-0000" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
+                             <div class="invalid-feedback" id="add-pagibignumber"></div>
                           </div>
                         </div>
                       </form>
@@ -543,7 +547,7 @@
               </div> 
 
                  <div class="submit-section">
-              <button class="btn btn-primary submit-btn" id="save">Submit</button>
+              <button class="btn btn-primary submit-btn" style="width:50%;" id="save">Submit</button>
         </div>
                 </div>
               </div>
@@ -598,7 +602,7 @@
         </div> 
         <div class="form-group col-sm-6">
         <label for="firstname">First Name <span class="text-danger">*</span></label>
-        <input id="editfirstname" type="text" name="editfirstname " class="form-control input lettersonly" autocomplete="off" description="first name" required tabindex="2">
+        <input id="editfirstname" type="text" name="editfirstname " class="form-control input letterswithspace" autocomplete="off" description="first name" required tabindex="2">
         <div class="invalid-feedback" id="edit-firstname"></div>
         </div> 
          <div class="form-group col-sm-6">
@@ -844,19 +848,23 @@
       </div>
       <div class="form-group col-sm-6">
       <label for="tinnumber">TIN</label>
-      <input id="edittinnumber" type="text" name="edittinnumber" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
+      <input id="edittinnumber" type="text" name="edittinnumber" class="form-control input" value="000-000-000" placeholder="000-000-000" minlength=11 autocomplete="off">
+       <div class="invalid-feedback" id="edit-tinnumber"></div>
       </div>
       <div class="form-group col-sm-6">
       <label for="sssnumber">SSS No.</label>
-      <input id="editsssnumber" type="text" name="editsssnumber" class="form-control input" placeholder="00-0000000-0" minlength=12 autocomplete="off">
+      <input id="editsssnumber" type="text" name="editsssnumber" class="form-control input" value="00-0000000-0" placeholder="00-0000000-0" minlength=12 autocomplete="off">
+      <div class="invalid-feedback" id="edit-sssnumber"></div>
       </div>
       <div class="form-group col-sm-6">
       <label for="philhealthnumber">Philhealth No.</label>
-      <input id="editphilhealthnumber" type="text" name="editphilhealthnumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
+      <input id="editphilhealthnumber" type="text" name="editphilhealthnumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off"description="Philhealth number">
+      <div class="invalid-feedback" id="edit-philhealthnumber"></div>
       </div>
       <div class="form-group col-sm-6">
       <label for="pagibignumber">Pag-IBIG MID No.</label>
-      <input id="editpagibignumber" type="text" name="editpagibignumber" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
+      <input id="editpagibignumber" type="text" name="editpagibignumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off" description="Pag-ibig number">
+       <div class="invalid-feedback" id="edit-pagibignumber"></div>
       </div>
     </div>
   </form>
@@ -960,7 +968,7 @@
               </form>
               </div> 
                  <div class="submit-section">
-              <button class="btn btn-primary submit-btn update">Update</button>
+              <button class="btn btn-primary submit-btn update" style="width:50%;">Update</button>
         </div>
          </div>
                 </div>
@@ -1339,6 +1347,57 @@ var restdayid =[];
     return false;
 
   });
+  //dropdown bank name ADD //
+  $('#addbankname').change(function(){ 
+    var id=$(this).val();
+    //alert(id);
+  
+    $.ajax({
+      url : "<?php echo site_url('Employees/get_bank');?>",
+      method : "POST",
+      data : {id: id},
+      async : true,
+      dataType : 'json',
+      success: function(response){
+             var len ="";
+             var len = response.length;
+              for(var i=0; i<len; i++){
+          //$("#hiddenbankaccount").val().response[i].acctnoformat;
+          var acctnumber = response[i].acctnoformat;
+          document.getElementById("addbackaccountnumber").placeholder =acctnumber;
+          console.log(acctnumber);
+        }
+      }
+    });
+    return false;
+
+  });
+  //dropdown bank name ADD //
+  $('#editbankname').change(function(){ 
+    var id=$(this).val();
+    //alert(id);
+  
+    $.ajax({
+      url : "<?php echo site_url('Employees/get_bank');?>",
+      method : "POST",
+      data : {id: id},
+      async : true,
+      dataType : 'json',
+      success: function(response){
+             var len ="";
+             var len = response.length;
+              for(var i=0; i<len; i++){
+          //$("#hiddenbankaccount").val().response[i].acctnoformat;
+          var acctnumber = response[i].acctnoformat;
+          document.getElementById("editbackaccountnumber").placeholder =acctnumber;
+          console.log(acctnumber);
+        }
+      }
+    });
+    return false;
+
+  });
+
   // end of dropdown client//
    //dropdown client edit //
   $('#editclient').change(function(){ 
@@ -1482,8 +1541,12 @@ var restdayid =[];
       var city          = $("#addcity").val();
       var citizenship   = $("#addcitizenship").val();
       var middlename    = $("#addmiddlename").val();
-      var basicsalary   = $("#addbasicsalary").val();
-      var dailyrate     = $("#adddailyrate").val();
+      var basicsalary   = $("#addbasicsalary").val().trim().replace(",","");
+      var dailyrate     = $("#adddailyrate").val().trim().replace(",","");
+      var dailyratewithoutperiod = dailyrate.replace(".","");
+      var basicwithoutperiod = basicsalary.replace(".","");
+       var addbasicinteger = parseInt(basicwithoutperiod,15);
+      var adddailyinteger = parseInt(dailyratewithoutperiod,15);
       var phone         = $("#addcontactinfo").val();
 
       /* 
@@ -1518,9 +1581,9 @@ var restdayid =[];
       for(var i=0;i<IDArray.length;i++){
           ValueArray[i] = $(IDArray[i]).val().trim();
           if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 ||/* i==28 ||*//* i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
           }else{
-            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || /*i==28 ||*/ /*i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
           }
 
           if(i==10){
@@ -1542,7 +1605,7 @@ var restdayid =[];
               event.preventDefault();
             }
           }else if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || editbasicsalary < editdailyrate){
+            if(/*$(IDArray[i]).val().trim()=="" ||*/ /*$(IDArray[i]).val().trim()=="0.0000" ||*/ addbasicinteger < adddailyinteger){
                 if(firstRequired==""){
                     firstRequired = IDArray[i];
 
@@ -1561,6 +1624,82 @@ var restdayid =[];
                 $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
             }
+             }else if(i==28){
+            if($(IDArray[i]).val().length<11){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+
+            }
+           }else if(i==29){
+            if($(IDArray[i]).val().length<12){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }   
+            }else if(i==30){
+            if($(IDArray[i]).val().length<14){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }
+          }else if(i==31){
+            if($(IDArray[i]).val().length<14){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }              
           }else{
             if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
                 if(firstRequired==""){
@@ -1737,7 +1876,8 @@ var restdayid =[];
     $(".modal-body #editretfund").val( $(this).data('retfund'));
     $(".modal-body #editincentive").val( $(this).data('incentive'));
     $(".modal-body #edituniformallowance").val( $(this).data('uniformallowance'))
-     $(".modal-body #editbankname").val( $(this).data('bankname'));
+    $(".modal-body #editbankname").val( $(this).data('bankname'));
+    $(".modal-body #editbankname").trigger("change");
     $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
     $(".modal-body #editbackaccountnumber").val( $(this).data('backaccountnumber'));
     $(".modal-body #edittinnumber").val( $(this).data('tinnumber'));
@@ -1821,6 +1961,13 @@ var restdayid =[];
        24 = editallowance          25 = editretfund         26 = editincentive         27 = edituniformallowance   28 = edittinnumber       29 = editsssnumber
        30 = editphilhealthnumber   31 = editpagibignumber   32 = editbankaccountname   33 = editbackaccountnumber  34 = editbankname
     */
+      var basicsalary   = $("#editbasicsalary").val().trim().replace(",","");
+      var dailyrate     = $("#editdailyrate").val().trim().replace(",","");
+      var dailyratewithoutperiod = dailyrate.replace(".","");
+      var basicwithoutperiod = basicsalary.replace(".","");
+      var basicinteger = parseInt(basicwithoutperiod,15);
+      var dailyinteger = parseInt(dailyratewithoutperiod,15);
+      console.log(basicinteger + " "  + dailyinteger);
 
      var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
@@ -1847,9 +1994,9 @@ var restdayid =[];
       for(var i=0;i<IDArray.length;i++){
           
           if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || /*i==28 || i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
           }else{
-            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || i==28 || i==29 || i==30  || i==31 || i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || /*i==28 || i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
           }
 
           ValueArray[i] = $(IDArray[i]).val().trim();
@@ -1873,7 +2020,7 @@ var restdayid =[];
               event.preventDefault();
             }
           }else if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
                 if(firstRequired==""){
                     firstRequired = IDArray[i];
 
@@ -1892,6 +2039,82 @@ var restdayid =[];
                 $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
             }
+            }else if(i==28){
+            if($(IDArray[i]).val().length<11){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+
+            }
+           }else if(i==29){
+            if($(IDArray[i]).val().length<12){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }   
+            }else if(i==30){
+            if($(IDArray[i]).val().length<14){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }
+          }else if(i==31){
+            if($(IDArray[i]).val().length<14){
+               if(firstRequired==""){
+                  firstRequired = IDArray[i];
+
+                       if(i<=18) navIndex = 0;
+                  else if(i<=21) navIndex = 1;
+                  else if(i<=34) navIndex = 2;
+              };
+
+              document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
+              $(IDArray[i]).addClass('is-invalid');
+            }else{
+              document.getElementById(ErrorIDArray[i]).innerHTML = "";
+              $(IDArray[i]).removeClass('is-invalid');
+              $(IDArray[i]).addClass('is-valid');
+              event.preventDefault();
+           
+            }  
           }else{
             if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
                 if(firstRequired==""){

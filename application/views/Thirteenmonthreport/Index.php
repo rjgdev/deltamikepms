@@ -31,7 +31,7 @@
 			<div class="col-xl-12">
 			<div class="form-group row">
 			
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group">	
 				<label for="date">Date</label>
 				<select class="form-control select2" id="searchdate" name="seachdate" style="width: 100%;" description="Client">
@@ -45,7 +45,7 @@
 				</select>
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group">
 				<label for="gender">Employee Type</label>
 				<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
@@ -55,7 +55,7 @@
 				</select>
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group">	
 				<label for="adddetachment">Client </label>
 				<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client">
@@ -78,12 +78,12 @@
 				</select>
 				</div>
 			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-				<label for="gender">Search</label>
-				<br>
-				<button type="submit" class="btn btn-primary"id="submit">Search</button>
-				</div>
+			<div class="col-sm-1">
+			 <div class="form-group">
+				<label for="searchbutton">&emsp;</label>
+					<button class="btn add-btn" id="submit" style="border-radius: 5px; width:100%; height: 45px;">Search</button>
+				
+			 </div>
 			</div>
 			</div>
 			</div>
@@ -103,26 +103,33 @@
 		<div id="customers-list"></div>
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title mb-0">Records</h4>
+				<div class="row align-items-center">
+				<div class="col">
+				<h4 class="card-title mb-0">Records</h4>
+				</div>	
+				<div class="col-auto float-right ml-auto">
+				<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Excel</a>
+				</div>	
+				</div>		
 				</div>
 				<div class="card-body">
-					<div id='result_table'>
+					<div id="tabledata">
 					<div class="table-responsive">
 						<table class="table table-striped custom-table datatable">
 						<thead>		
 								<tr>
 									<th style="width: 100px ! important;"><center>Employee ID</center></th>
 									<th style="width: 250px;"><center>Employee Name</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
-									<th class="text-right" style="width: 70px; font-size:11px;"><center>Client</center></th>
-									<th class="text-right" style="width: 70px; font-size:11px;"><center>Detachment</center></th>
-									<th class="text-right" style="width: 150px; font-size:11px;"><center>Month</center></th>
-									<th class="text-right" style="width: 50px; font-size:11px;"><center>Lates</center></th>
-									<th class="text-right" style="width: 50px; font-size:11px;"><center>Absences</center></th>
-									<th class="text-right" style="width: 50px; font-size:11px;"><center>Netpay</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;">Genarated</th>
+									<th class="text-left" style="width: 90px;"><center>Department</center></th>
+									<th class="text-left" style="width: 90px;"><center>Designation</center></th>
+									<th class="text-left" style="width: 100px;"><center>Employee Type</center></th>
+									<th class="text-left" style="width: 70px;"><center>Client</center></th>
+									<th class="text-left" style="width: 70px;"><center>Detachment</center></th>
+									<th class="text-left" style="width: 150px;"><center>Month</center></th>
+									<th class="text-left" style="width: 50px;"><center>Lates</center></th>
+									<th class="text-left" style="width: 50px;"><center>Absences</center></th>
+									<th class="text-right" style="width: 50px;"><center>Netpay</center></th>
+									<th class="text-right" style="width: 90px;">Genarated</th>
 								</tr>
 						</thead>
 							<tbody id="show_data">
@@ -145,6 +152,9 @@
 
 <script  type="text/javascript">  
 	$(document).ready(function() {
+		$("#export_excel").click(function() {
+			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
+		});
 		$('#searchemployeetype').change(function(){
 			var employeetype =$(this).val();
 			if(employeetype==1){
@@ -244,10 +254,10 @@
                         '<td>'+response[i].employeetype+'</td>'+
                          '<td>'+response[i].clientname+'</td>'+
                          '<td>'+response[i].detachment+'</td>'+
-                          '<td>'+response[i].thrthmonthdate+'</td>'+
-                          '<td tyle ="text-align: right;">'+response[i].late+'</td>'+
-                           '<td tyle ="text-align: right;">'+response[i].absent+'</td>'+
-                         '<td tyle ="text-align: right;">'+response[i].thrmonth+'</td>'+
+                         '<td>'+response[i].thrthmonthdate+'</td>'+
+                         '<td class="text-right">'+response[i].late+'</td>'+
+                         '<td class="text-right">'+response[i].absent+'</td>'+
+                         '<td class="text-right">'+response[i].thrmonth+'</td>'+
                          '<td><a class="btn btn-sm btn-primary" href="Thirteenmonthreport/recorddata?from='+response[i].seachdatefrom + '&to='+response[i].seachdateto +'&id='+response[i].employeeID +' "target="_blank" >Generate Report</a></td>'+
                          '</tr>';         
                		

@@ -165,8 +165,12 @@ class Employee_model extends CI_Model
 								 WHERE c.clientID ='.$clientID.'');
    								 return $query->result();
 
- 
-
+   }
+   function search_bank($bankID)
+   {
+   	$query = $this->db->query('SELECT bankID,acctnoformat , LENGTH(acctnoformat) as acctnumberformat FROM dm_bank WHERE bankstatus ="Active"
+								AND bankID ='.$bankID.'');
+   								 return $query->result();
 
    }
 

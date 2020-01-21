@@ -30,7 +30,7 @@
 		<div class="row">
 			<div class="col-xl-12">
 			<div class="form-group row">
-			<div class="col-sm-2">
+			<div class="col-sm-10">
 				<div class="form-group">	
 				<label for="adddetachment">Employee Name</label>
 				<select class="form-control select2" id="searchemployee" name="searchemployee"  multiple="multiple" style="width: 100%;" >
@@ -47,10 +47,18 @@
 			<div class="col-sm-2">
 				<div class="form-group">
 				<label for="gender">&emsp;</label>
+			<div class="dash-card-container">
+									<button class="btn add-btn" id="submit" style="border-radius: 5px; width:100%;">Search </button>
+			</div>
+			</div>
+			</div>
+			<!-- <div class="col-sm-2">
+				<div class="form-group">
+				<label for="gender">&emsp;</label>
 				<br>
 				<button type="submit" class="btn btn-primary"id="submit">Search</button>
 				</div>
-			</div>
+			</div> -->
 			</div>
 			</div>
 		</div>
@@ -68,10 +76,18 @@
 	<div class="col-lg-12">
 		<div id="customers-list"></div>
 			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title mb-0">Records</h4>
-				</div>
+			<div class="card-header">
+				<div class="row align-items-center">
+				<div class="col">
+				<h4 class="card-title mb-0">Records</h4>
+				</div>	
+				<div class="col-auto float-right ml-auto">
+				<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Excel</a>
+				</div>	
+				</div>		
+			</div>
 				<div class="card-body">
+					<div id="tabledata">
 						<div class="row">
 						<div class="col-md-12">
 					<div class="table-responsive">
@@ -79,16 +95,16 @@
 							<thead>	
 								<tr>
 									<th style="width: 100px ! important;"><center>Employee ID</center></th>
-									<th style="width: 250px;"><center>Employee Name</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Client</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Detachment</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Retirement Fund</center></th>
+									<th style="width: 230px;"><center>Employee Name</center></th>
+									<th style="width: 90px ! important;"><center>Department</center></th>
+									<th style="width: 90px ! important;"><center>Designation</center></th>
+									<th style="width: 100px ! important;"><center>Employee Type</center></th>
+									<th style="width: 90px ! important;"><center>Client</center></th>
+									<th style="width: 90px ! important;"><center>Detachment</center></th>
+									<th style="width: 150px ! important;"><center>Retirement Fund</center></th>
 									<th style="width: 200px;">Last Payroll Cut off</th>
-									<th class="text-right" style="width: 80px; font-size:11px;">Hired Date</th>
-									<th class="text-right" style="width: 90px; font-size:11px;">Year</th>
+									<th style="width: 80px ! important;">Hired Date</th>
+									<th style="width: 90px ! important;">Year</th>
 									<th style="width: 200px ! important;">Number of Years of Work</th>
 									
 								</tr>
@@ -100,6 +116,7 @@
 				</div>
 				</div>	
 				</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -108,32 +125,13 @@
 
 <script  type="text/javascript">  
 	$(document).ready(function() {
+		$("#export_excel").click(function() {
+		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
+		});
 
 $("#seachform").submit(function(event) {
 
-
-  /* stop form from submitting normally */
-  event.preventDefault();
-
-  /* get some values from elements on the page: */
-  var $form = $( this );
-  var url = $form.attr( "action" );
-  //before send
-  $("body").addClass("loading");
-
-  /* Send the data using post */
-  var posting = $.post(url , $( "#seachform" ).serialize() );
-
-  /* Alerts the results */
-  posting.done(function( data ) {
-     //use data
-     $("body").removeClass("loading");
-
-  });
 });
-
-
-
 	$('#submit').click(function(){
 
 			var arrayemployee = $("#searchemployee").val();
@@ -159,7 +157,7 @@ $("#seachform").submit(function(event) {
                         '<td>'+response[i].employeetype+'</td>'+
                         '<td>'+response[i].clientname+'</td>'+
                          '<td>'+response[i].detachment+'</td>'+
-                          '<td tyle ="text-align: right;">'+response[i].retfund+'</td>'+
+                          '<td class="text-right">'+response[i].retfund+'</td>'+
                           '<td>'+response[i].lastcutoff+'</td>'+
                           '<td>'+response[i].hireddate+'</td>'+
                            '<td>'+response[i].yearofhired+'</td>'+

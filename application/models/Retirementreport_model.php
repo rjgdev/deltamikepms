@@ -44,7 +44,7 @@ class Retirementreport_model extends CI_Model
 								FORMAT(retfund,4)as retfund,FORMAT(e.basicsalary,4) as basicsalary,format(late,4) as late,format(absent,4) as absent,format(SUM(netpay),4) AS netpay,
 								year(pd.datefrom) as yearofhired,
 								cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
-								concat(date_format(pd.datefrom,'%M% %d%, %Y'),' - ',  date_format(pd.dateto,'%M% %d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
+								concat(date_format(pd.datefrom,'%M% %d'),' - ',  date_format(pd.dateto,'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
 								FROM dm_payrolldetails AS pd
 								LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
 								LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID

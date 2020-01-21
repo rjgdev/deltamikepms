@@ -1,4 +1,3 @@
-employeeno,scheddate,regularhours,regularholiday,specialholiday,latehours,absent,othours,restot,specialot,specialrestot,holidayot,holidayrestot,doubleot,doublerestot,nightdiff
 1,1/1/2020,8,0,0,0,0,4,0,0,0,0,0,0,0,0
 1,2/1/2020,8,0,0,0,0,4,0,0,0,0,0,0,0,0
 1,3/1/2020,8,0,0,0,0,4,0,0,0,0,0,0,0,0

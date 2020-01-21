@@ -181,6 +181,15 @@
 			echo json_encode($data);
 
 	}
+	public function get_bank()
+	{
+
+			$bankID = $this->input->post('id');
+			$data = $this->employee->search_bank($bankID);
+			
+			echo json_encode($data);
+
+	}
 
 	}    
 	?>

@@ -69,7 +69,8 @@
 			$lastapprover = $this->input->post('lastapprover');
 			
         	$result = $this->timekeeping->approve_timekeeping($timekeepingID, date("Y-m-d"),$lastapprover);
-
+        	
+        	
         	echo json_encode($result);
 		}
 

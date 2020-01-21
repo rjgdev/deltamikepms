@@ -23,8 +23,11 @@
 		
 		<div class="row">
 			<div class="col-md-12">
+
 				<div class="table-responsive">
+              <h4 class="mb-3 text-primary">List of Departments</h4>
 					<table class="table table-striped custom-table mb-0 datatable">
+
 						<thead>
 							<tr>
 								<th style="width: 50px;">ID No.</th>
@@ -155,7 +158,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
-							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -180,7 +183,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
-							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.png">
+							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>

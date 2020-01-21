@@ -69,9 +69,8 @@ td[rowspan]:not([rowspan="2"]) {
 			</div>
 			<div class="col-sm-2">
 				<div class="form-group">
-				<label for="gender">Search</label>
-				<br>
-				<button type="submit" class="btn btn-primary"id="submit">Search</button>
+				<label for="gender">&emsp;</label>
+				<button class="btn add-btn" id="submit" style="border-radius: 5px; width:100%; height: 45px;">Search</button>
 				</div>
 			</div>
 			</div>
@@ -87,42 +86,34 @@ td[rowspan]:not([rowspan="2"]) {
 		<!-- <a href="javascript:void(0);" id="export_excel">Export to Excel</a>
  --></div>
 <br>
-<a href="javascript:void(0);" id="export_excel" class="fa fa-download" ></a>
-<div id="tabledata">
 
+	<div class="ajax_loading"><p></p></div>
 	<div class="col-lg-12">
 		<div id="customers-list"></div>
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title mb-0">Payroll Report</h4>
+				<div class="row align-items-center">
+					<div class="col">
+						<h4 class="card-title mb-0">Records</h4>
+				</div>	
+				<div class="col-auto float-right ml-auto">
+					<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Excel</a>
+				</div>	
+				</div>		
 				</div>
 				<div class="card-body">
-					<div id='result_table'>
 					<div class="table-responsive">
-						<table class="table table-bordered mb-0" id="employee_table">
-								<tr>
-									<th colspan="18"><center>DELTAMIKE SECURITY, INC.</center></th>
-								</tr>	
-								<tr>
-									<th rowspan="2"><center>Employee ID</center></th>
-									<th rowspan="2"><center>Employee Name</center></th>
-									<th rowspan="2"><center>Department</center></th>
-									<th rowspan="2"><center>Designation</center></th>
-									<th rowspan="2"><center>Employee Type</center></th>
-									<th rowspan="2"><center>Client</center></th>
-									<th rowspan="2"><center>Detachment</center></th>
-									<th rowspan="1" colspan="7"><center>Earnings</center></th>
-									<th rowspan="1" colspan="3"><center>Deductions </center></th>
-									<th rowspan="2"><center>Netpay</center></th>
-									
-								</tr>
-							
+						<div id="tabledata">
+						<table class="table table-striped custom-table datatable">
+							<thead
 							<tr>
-								<!-- <th></th>	
-								<th></th>
-								<th></th> -->
-								<!-- <th></th>
-								<th></th> -->
+								<th ><center>Employee ID</center></th>
+								<th ><center>Employee Name</center></th>
+								<th ><center>Department</center></th>
+								<th ><center>Designation</center></th>
+								<th ><center>Employee Type</center></th>
+								<th ><center>Client</center></th>
+								<th ><center>Detachment</center></th>
 								<th style="width: 80px ! important;"><center>5 Days Incentives</center></th>
 								<th style="width: 80px ! important;"><center>Night Differential</center></th>
 								<th style="width: 80px ! important;"><center>Uniform Allowances</center></th>
@@ -130,20 +121,14 @@ td[rowspan]:not([rowspan="2"]) {
 								<th style="width: 80px ! important;"><center>Regular Holiday</center></th>
 								<th style="width: 80px ! important;"><center>Special Holiday</center></th>
 								<th style="width: 80px ! important;"><center>Holiday Overtime</center></th>
-
 								<th style="width: 80px ! important;"><center>PhilHealth</center></th>
 								<th style="width: 80px ! important;"><center>SSS</center></th>
 								<th style="width: 80px ! important;"><center>HDMF</center></th>
-								<!-- <th></th>
-								<th></th> -->
-								
-							</tr>	
+								<th ><center>Netpay</center></th>						
+							</tr>
+							</thead>	
 							<tbody id="show_data">
-                     
                				 </tbody>
-               				 <tfoot id="tfooter">
-						      
-						     </tfoot>
 						</table>
 					</div>
 				</div>	
@@ -153,9 +138,6 @@ td[rowspan]:not([rowspan="2"]) {
 	</div>	
 </div>
 </div>
-
-	
-
 <script  type="text/javascript">  
 	$(document).ready(function() {
 	
@@ -196,6 +178,9 @@ td[rowspan]:not([rowspan="2"]) {
 						searchclient: 	 searchclient, 		searchdetachment: 	searchdetachment},
 				async : true,
 				dataType : 'json',
+				beforeSend:function(){
+					  $("body").addClass("loading");
+				},
 				success: function(response){
 				  var html = '';
                     var i;
@@ -208,26 +193,25 @@ td[rowspan]:not([rowspan="2"]) {
                         '<td>'+response[i].employeetype+'</td>'+
                          '<td>'+response[i].clientname+'</td>'+
                          '<td>'+response[i].detachment+'</td>'+
-
-						'<td>'+response[i].incentives+'</td>'+
-						'<td>'+response[i].nightdiff+'</td>'+
-						'<td>'+response[i].Uniform+'</td>'+
-						'<td>'+response[i].ordinaryot+'</td>'+
-						'<td>'+response[i].regholiday+'</td>'+
-						'<td>'+response[i].speholiday+'</td>'+
-						'<td>'+response[i].regularot+'</td>'+
-
-                         '<td class="text-right">'+response[i].sss+'</td>'+
-                         '<td class="text-right">'+response[i].phic+'</td>'+
-                          '<td class="text-right">'+response[i].hdmf+'</td>'+
-                          '<td class="text-right">'+response[i].netpay+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].incentives)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].nightdiff)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].Uniform)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].ordinaryot)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].regholiday)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].speholiday)+'</td>'+
+						'<td class="text-right">'+accounting.formatMoney(response[i].regularot)+'</td>'+
+                         '<td class="text-right">'+accounting.formatMoney(response[i].sss)+'</td>'+
+                         '<td class="text-right">'+accounting.formatMoney(response[i].phic)+'</td>'+
+                          '<td class="text-right">'+accounting.formatMoney(response[i].hdmf)+'</td>'+
+                          '<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
                          '</tr>';
                         
                
                     }
 
 
-                    $('#show_data').html(html); 
+                    $('#show_data').html(html);
+                    $("body").removeClass("loading"); 
 
 		}	
 		});

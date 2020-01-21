@@ -52,15 +52,24 @@ class Timekeeping_model extends CI_Model
 
   	function upload_timekeeping($data)
 	{
-   	   	$this->db->insert("dm_timekeepingdetails", $data); 
+		$queryUpdateTKdetails = $this->db->query('SELECT timesheetID,timekeepingID FROM dm_timekeepingdetails WHERE 
+												timekeepingID ='.$data["timekeepingID"].'
+												AND employeeID	  ='.$data["employeeID"].' 
+												AND datesched	  ="'.$data["datesched"].'"'); 
+
+		if($queryUpdateTKdetails->num_rows()===0){
+   	   		$this->db->insert("dm_timekeepingdetails", $data); 
+		}else{
+			$this->db->where("timesheetID",$queryUpdateTKdetails->row()->timesheetID);  
+        	$this->db->update("dm_timekeepingdetails", $data);  
+		}
 	}
 
 	function approve_timekeeping($timekeepingID, $dateapproved, $lastapprover)
 	{
 		if($lastapprover==1){
 			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping 
-									   SET userapproved=IFNULL (CONCAT(userapproved, "'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
-									   	   dateapproved=IFNULL (CONCAT(dateapproved, "'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,timekeepingstatus=2 WHERE timekeepingID='.$timekeepingID);
+									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,timekeepingstatus=2 WHERE timekeepingID='.$timekeepingID);
 
 	        $query = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingID='.$timekeepingID);
 
@@ -92,8 +101,8 @@ class Timekeeping_model extends CI_Model
 			$this->db->insert('dm_timekeeping', $data);
 		}else{
 			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping 
-									   SET userapproved=IFNULL (CONCAT(userapproved, "'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
-									   	   dateapproved=IFNULL (CONCAT(dateapproved, "'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE timekeepingID='.$timekeepingID);
+									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
+									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE timekeepingID='.$timekeepingID);
 		}
 
 		$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingID='.$timekeepingID);	 
@@ -107,6 +116,12 @@ class Timekeeping_model extends CI_Model
 
 	function submit_timekeeping($timekeepingID, $datesubmitted)
 	{
+		$querySubmit = $this->db->query('SELECT * FROM dm_timekeepingdetails WHERE timekeepingID='.$timekeepingID.' LIMIT 1');	 
+		
+		if($querySubmit->num_rows()===0){
+			return array('timekeeping' => 0, 'error' => 'Cannot submit no time record exist!');
+		}
+
 	 	$data = array('datesubmitted' => $datesubmitted,
 	 				  'usersubmitted' => $this->session->userdata('employeeID'),
 	 				  'level' => 1,

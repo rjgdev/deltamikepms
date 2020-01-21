@@ -67,8 +67,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="faq-card "  style="margin-left:auto; ">
-			<div class="card ">
+		<div class="faq-card"  style="margin-left:auto; ">
+			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title">
 						<a class="collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="false">Upload Timesheet</a>
@@ -79,11 +79,16 @@
 						<form id="upload_csv" method="post" enctype="multipart/form-data">
 							<div class="input-group mb-3" style="margin-bottom: 0 !important;">
 	  							<div class="custom-file">
-									<input type="file" class="custom-file-input" name="file" id="file" />  
+									<input type="file" class="custom-file-input" name="file" id="file" 
+									<?php      if(($tkstatus==1||$tkstatus==2)) echo "disabled";
+										  else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> />  
 									<label class="custom-file-label" for="validatedCustomFile">Choose csv file...</label>
 								</div>
 							  <div class="input-group-append">
-							    <span class="input-group-button ml-2" id=""><button type="submit" name="upload" id="upload" class="btn btn-success" style=" text-transform:none;width:300px; height: 95%;" /><i class='fa fa-upload'></i> Upload Timekeeping</button></span>
+							    <span class="input-group-button ml-2" id=""><button type="submit" name="upload" id="upload" class="btn btn-success" style=" text-transform:none;width:300px; height: 95%;" 
+							    		 <?php 
+							    			   if(($tkstatus==1||$tkstatus==2)) echo "disabled";
+										  else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /><i class='fa fa-upload'></i> Upload Timekeeping</button></span>
 							  </div>
 							</div>
 						</form>
@@ -122,7 +127,7 @@
 					<div class="dash-card">
 						<h5 class="dash-title">
 								<i class="la la-dashboard"></i>
-							Status</h5>
+							Timekeeping Status</h5>
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
@@ -173,17 +178,30 @@
 			</div>	
 
 			<div class="col-lg-2 col-md-2" id="show_button">
-
-
 				<?php 
 					if($tkstatus==0){ 
-			    		echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';	
+			    		echo '<button type="button" class="btn btn-info submit" id="submittimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';	
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
 			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
-			    	 			echo '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';
+			    	 			echo '<button type="button" class="btn btn-danger cancel" id="canceltimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';
 			    	 		}else{
-			    	 			echo '<button type="button" class="btn btn-secondary pending" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
+			    	 			$retVal = explode("|", $userapproved);
+			    	 			$isApprover = 0;
+
+			    	 			for($i=0;$i<count($retVal);$i++){
+			    	 				if($this->session->userdata('employeeID')==$retVal[$i]){
+	    	 							$isApprover = 1;
+		    	 						break;
+			    	 				}			    	 			
+			    	 			}
+
+			    	 			if($isApprover==1){
+
+			    	 				echo '<button type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';
+			    	 			}else{
+			    	 				echo '<button type="button" class="btn btn-warning pending" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
+			    	 			}
 			    	 		}
 		    	 		}else if($currentapprover==$this->session->userdata('employeeID')) {
     						echo '<button type="button" class="btn btn-danger deny pull-right" style="width: 48%; height: 95%;"><i class="fa fa-ban"></i> <br>Deny</button>
@@ -191,7 +209,7 @@
 	    			 	}		
     			    }else if($tkstatus=3){ 
     			    	if($this->session->userdata('employeeID')==$usersubmitted){
-    			    		echo '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';
+    			    		echo '<button type="button" class="btn btn-info submit" id="submittimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';
     			    	}else{
 			    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
     			    	}
@@ -232,14 +250,14 @@
 							<?php 
 								foreach ($data['employee'] as $emp){
 									$init 		= $dayfrom;
-									$totalHours = "";
-									$basicHours = "";
-									$otHours 	= "";
-									$nightShift = "";
-									$dayShift	= "";
-									$restDay	= "";
-									$totalDays	= "";
-									$imgName	= "";
+									$totalHours = 0;
+									$basicHours = 0;
+									$otHours 	= 0;
+									$nightShift = 0;
+									$dayShift	= 0;
+									$restDay	= 0;
+									$totalDays	= 0;
+									$imgName	= 0;
 									$exist 		= 0;
 
 									if($emp->photo=="") $imgName = "profileimg.png";
@@ -248,12 +266,12 @@
 									echo '<tr>
 											<td>
 												<h2 class="table-avatar">
-													<a class="avatar" href="profile.html">
+													<div class="avatar">
 														<img alt="" src="uploads/'.$imgName.'">
-													</a>
-													<a style="font-size: 12px;" href="profile.html">'.$emp->firstname.' '.$emp->lastname.'
+													</div>
+													<div style="font-size: 12px;">'.$emp->firstname.' '.$emp->lastname.'
 														<span style="font-size: 11px;">'.str_pad($emp->employeeID, 6, "0", STR_PAD_LEFT).'</span>
-													</a>
+													</div>
 												</h2>
 											</td>';
 
@@ -291,13 +309,13 @@
 										}
 									}
 
-									echo  "<td class='tsdata' >".$totalHours."</td>".
-										  "<td class='tsdata' >".$basicHours."</td>".
-										  "<td class='tsdata' >".$otHours."</td>".
-										  "<td class='tsdata' >".$nightShift."</td>".
-										  "<td class='tsdata' >".$dayShift."</td>".
-										  "<td class='tsdata' >".$restDay."</td>".
-										  "<td class='tsdata' >".$totalDays."</td>".
+									echo  "<td class='tsdata' >".($totalHours==0 ? "" : $totalHours)."</td>".
+										  "<td class='tsdata' >".($basicHours==0 ? "" : $basicHours)."</td>".
+										  "<td class='tsdata' >".($otHours==0 ? "" : $otHours)."</td>".
+										  "<td class='tsdata' >".($nightShift==0 ? "" : $nightShift)."</td>".
+										  "<td class='tsdata' >".($dayShift==0 ? "" : $dayShift)."</td>".
+										  "<td class='tsdata' >".($restDay==0 ? "" : $restDay)."</td>".
+										  "<td class='tsdata' >".($totalDays==0 ? "" : $totalDays)."</td>".
 										"</tr>";
 									}
 								?>
@@ -416,6 +434,32 @@
 	
 </div>
 
+<!-- Confirmation Modal -->
+	<div class="modal custom-modal fade" id="modal_confirmation" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric">
+						<h3 id="modal_title"></h3>
+						<p id="modal_message"></p>
+					</div>
+					<div class="modal-btn confirmation-action">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary submit-btn"></a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- /Confirmation Modal -->
+
 <script type="text/javascript">
 	
 $(document).ready(function() {
@@ -440,6 +484,17 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".approve", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/approve.svg");
+		$('#modal_title').html("Approve Timekeeping");
+    	$('#modal_message').html("Are you sure you want to approve the timekeeping?");
+    	$('.submit-btn').html("Approve timekeeping");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_approvetimekeeping");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+    $(document).on("click", "#modal_approvetimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
     	var lastapprover  = $('#cutoff').attr('lastapprover');
 
@@ -479,6 +534,7 @@ $(document).ready(function() {
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
+	      		$('#modal_confirmation').modal('hide');
 	  	  		showSuccessToast("Timekeeping is successfully approved!");
 		      },
 		      error: function(request, textStatus, error) {
@@ -489,6 +545,17 @@ $(document).ready(function() {
 	});
 
 	$(document).on("click", ".deny", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
+		$('#modal_title').html("Deny Timekeeping");
+    	$('#modal_message').html("Are you sure you want to deny the timekeeping?");
+    	$('.submit-btn').html("Deny timekeeping");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_denytimekeeping");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_denytimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
 
     	$.ajax({
@@ -508,7 +575,8 @@ $(document).ready(function() {
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
-	  	  		showSuccessToast("Timekeeping is successfully denied!");
+	      		$('#modal_confirmation').modal('hide');
+	  	  		showSuccessToast("Timekeeping is successfully <b>denied!</b>");
 		      },
 		      error: function(request, textStatus, error) {
 
@@ -517,7 +585,19 @@ $(document).ready(function() {
          return false;
 	});
 
-	$(document).on("click", ".submit", function(){
+	$(document).on("click", "#submittimekeeping", function(){
+
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
+		$('#modal_title').html("Submit Timekeeping");
+    	$('#modal_message').html("Are you sure you want to submit the timekeeping?");
+    	$('.submit-btn').html("Submit timekeeping");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_submittimekeeping");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_submittimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
 
     	$.ajax({
@@ -532,32 +612,38 @@ $(document).ready(function() {
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
 
-		      	for(var i=0; i<data["timekeeping"].length; i++){
-		      		var status = "-----";
+		      	if(data["timekeeping"]!=0){
+		      		for(var i=0; i<data["timekeeping"].length; i++){
+			      		var status = "-----";
 
-		      		if(data["timekeeping"][i].timekeepingstatus==0) {
-		      			status = "DRAFT";
-		      		}else if(data["timekeeping"][i].timekeepingstatus==1) {
-		      			status = "PENDING";
-		      		}else if(data["timekeeping"][i].timekeepingstatus==2) {
-		      			status = "APPROVED";
-	      			}
+			      		if(data["timekeeping"][i].timekeepingstatus==0) {
+			      			status = "DRAFT";
+			      		}else if(data["timekeeping"][i].timekeepingstatus==1) {
+			      			status = "PENDING";
+			      		}else if(data["timekeeping"][i].timekeepingstatus==2) {
+			      			status = "APPROVED";
+		      			}
 
-		      		htmlStatus 			= status;
-		      		htmlDatesubmitted 	= data["timekeeping"][i].datesubmitted;
-		      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
-	      		}
+			      		htmlStatus 			= status;
+			      		htmlDatesubmitted 	= data["timekeeping"][i].datesubmitted;
+			      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
+		      		}
 
-	      		if(htmlDatesubmitted != "-----"){
-					htmlButton = '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';	
-	      		}
+		      		if(htmlDatesubmitted != "-----"){
+						htmlButton = '<button type="button" class="btn btn-danger cancel" id="canceltimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';	
+		      		}
 
-	      		$("#show_status").html(htmlStatus);
-	      		$("#show_datesubmitted").html(htmlDatesubmitted);
-	      		$("#show_approver").html(htmlApprover);
-	      		$("#show_button").html(htmlButton);
-
-		  	  	showSuccessToast("Timekeeping is successfully <b>submitted!</b>");
+		      		$("#file").prop("disabled", true);
+		      		$("#upload").prop("disabled", true);
+		      		$("#show_status").html(htmlStatus);
+		      		$("#show_datesubmitted").html(htmlDatesubmitted);
+		      		$("#show_approver").html(htmlApprover);
+		      		$("#show_button").html(htmlButton);
+		      		$('#modal_confirmation').modal('hide');
+		      		showSuccessToast("Timekeeping is successfully <b>submitted!</b>");
+		      	}else{
+		      		showErrorToast(data['error']); ;
+		      	}
 		      },
 		      error: function(request, textStatus, error) {
 
@@ -566,7 +652,18 @@ $(document).ready(function() {
          return false;
 	});
 
-	$(document).on("click", ".cancel", function(){
+	$(document).on("click", "#canceltimekeeping", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
+		$('#modal_title').html("Cancel Request");
+    	$('#modal_message').html("Are you sure you want to cancel the timekeeping request?");
+    	$('.submit-btn').html("Cancel timekeeping");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_canceltimekeeping");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_canceltimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
 
     	$.ajax({
@@ -578,12 +675,15 @@ $(document).ready(function() {
 				var htmlStatus = "DRAFT";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
-		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';
+		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submittimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';
 
+		      	$("#file").prop("disabled", false);
+	      		$("#upload").prop("disabled", false);
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
+	      		$('#modal_confirmation').modal('hide');
 		  	  	showSuccessToast("Timekeeping is successfully <b>cancelled!</b>");
 		      },
 		      error: function(request, textStatus, error) {
@@ -593,9 +693,32 @@ $(document).ready(function() {
          return false;
 	});
 
+	$(document).on("click", "#upload", function(){
+		var fileType = ".csv";
+    	
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+        if (!regex.test($("#file").val().toLowerCase())) {
+        	showUploadTimekeepingError("Please select a <b>CSV</b> file.");
+            return false;
+        }
+
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
+		$('#modal_title').html("Upload Timekeeping");
+    	$('#modal_message').html("Are you sure you want to upload the timekeeping?");
+    	$('.submit-btn').html("Upload timekeeping");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_uploadtimekeeping");
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", "#modal_uploadtimekeeping", function(){
+		$("#upload_csv").submit();
+	});
+
 	$('#upload_csv').on("submit", function(e){ 
         var fileType = ".csv";
-
+    	
         var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
         if (!regex.test($("#file").val().toLowerCase())) {
         	showUploadTimekeepingError("Please select a <b>CSV</b> file.");

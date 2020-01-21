@@ -115,7 +115,7 @@
 						</div>
 					</div>
 					<div class="submit-section">
-					<button class="btn btn-primary submit-btn update">Update</button>
+					<button class="btn btn-primary submit-btn update" style="width:30%;">Update</button>
 					</div>
 				<?php endforeach; ?>
 				
