@@ -14,9 +14,9 @@
 						<li class="breadcrumb-item active">PhilHealth Table</li>
 					</ul>
 				</div>
-				<div class="col-auto float-right ml-auto">
+				<!-- <div class="col-auto float-right ml-auto">
 					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_philhealth" id="addphilhealth" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add PhilHealth Range</a>
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<!-- /Page Header -->
@@ -24,6 +24,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
+					 <h4 class="mb-3 text-primary">List of PhilHealth Range</h4>
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
@@ -31,7 +32,7 @@
 								<th class="text-right">Minimum Range</th>
 								<th class="text-right">Maximum Range</th>
 								<th class="text-right">Percentage</th>
-								<th class="text-right">Action</th>
+								<!-- <th class="text-right">Action</th> -->
 							</tr>
 						</thead>
 						<tbody>
@@ -41,7 +42,7 @@
 									<td class="text-right"><?php echo number_format($item->belowrange,4,".",","); ?></td>
 									<td class="text-right"><?php echo number_format($item->aboverange,4,".",","); ?></td>
 									<td class="text-right"><?php echo number_format($item->percent,2,".",","); ?>%</td>
-									<td class="text-right">
+									<!-- <td class="text-right">
 										<button type="button" id="<?php echo $item->philhealthID; ?>" class="btn btn-info btn-sm editphilhealth"
 												data-toggle="modal"
 												data-target="#edit_philhealth" 
@@ -53,7 +54,7 @@
 												data-tog="tooltip"
 												data-placement="top"
 												title="Edit"> <i class="fa fa-pencil"></i> </button>
-									</td>
+									</td> -->
 								</tr>
 							<?php } ?>
 						</tbody>

@@ -145,7 +145,6 @@ class Timekeeping_model extends CI_Model
 	 	$data = array('datesubmitted' => NULL,
 	 				  'usersubmitted' => NULL,
 	 				  'level' => 0,
-	 				  'approvalID' => 0,
 	 				  'timekeepingstatus' => 0);
 
 		$this->db->where("timekeepingID", $timekeepingID);  

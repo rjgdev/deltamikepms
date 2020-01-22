@@ -97,7 +97,7 @@
 			<div class="row filter-row" style="margin-bottom: 20px;">
 				<div class="col-lg-2 col-md-2">
 					<div class="dash-info-list">
-						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+						<div class="dash-card" style="background-color: #efefef; ">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
 								Timekeeping No.</h5>
@@ -117,7 +117,7 @@
 
 				<div class="col-lg-2 col-md-2">
 					<div class="dash-info-list">
-						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+						<div class="dash-card" style="background-color: #efefef; ">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
 								Timekeeping Status</h5>
@@ -132,7 +132,7 @@
 
 				<div class="col-lg-3 col-md-3">
 					<div class="dash-info-list">
-						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+						<div class="dash-card" style="background-color: #efefef; ">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
 								Date Approved</h5>
@@ -147,7 +147,7 @@
 
 				<div class="col-lg-3 col-md-3">
 					<div class="dash-info-list">
-						<div class="dash-card" style="background-color: #efefef; border-color: #aaa8a8;">
+						<div class="dash-card" style="background-color: #efefef;">
 							<h5 class="dash-title">
 									<i class="la la-calendar"></i> Payroll Period
 							</h5>
@@ -163,7 +163,7 @@
 
 				<div class="col-lg-2 col-md-2">
 					<?php 
-						if($prstatus==0 || $prstatus==3){ 
+						if($prstatus==0 || $prstatus==3 && ($this->session->userdata('employeeID')==$usersubmitted)){ 
 							echo '<button class="btn btn-primary processpayroll" style="border-radius: 5px; width:100%; height: 95%;"><i class="fa fa-forward"></i> Process Payroll </button>';
 						}else{
 							echo '<button class="btn btn-primary processpayroll" style="border-radius: 5px; width:100%; height: 95%;" disabled><i class="fa fa-forward"></i> Process Payroll </button>';
@@ -313,9 +313,9 @@
 	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->late,4,".",",")?></td>
 	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->absent,4,".",",")?></td>
 	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->wtax,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->sss,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->phic,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->hdmf,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->sss_ee,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->phic_ee,4,".",",")?></td>
+	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->hdmf_ee,4,".",",")?></td>
 	    								<td class="text-right" style="color:#0ebe0e; font-weight: 500;"><?=number_format($item->netpay,4,".",",")?></td>
 									</tr>
 							<?php } ?>
@@ -424,9 +424,9 @@ $(document).ready(function() {
     								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].late) 		+ '</td>' +
     								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		+ '</td>' +
     								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].wtax) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].sss) 			+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].phic) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].sss_ee) 			+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].phic_ee) 		+ '</td>' +
+    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf_ee) 		+ '</td>' +
     								'<td class="text-right" style="color:#0ebe0e; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>';
 								'</tr>';
             		}

@@ -32,7 +32,7 @@
 							<tr>
 								<th style="width: 50px;">ID No.</th>
 								<th>Department Name</th>
-								<th>Status</th>
+								<th style="width: 100px;">Status</th>
 								<th class="text-right">Action</th>
 							</tr>
 						</thead>
@@ -43,12 +43,10 @@
 									<td><?php echo $item->description; ?></td>
 									<td >
 										<div class="action-label">
-											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
 												<?php if($item->departmentstatus=="Active") 
-														   echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
-													  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Inactive';
+														   echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
+													  else echo '<span class="badge bg-inverse-danger custom-status"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</span>';
 											    ?>
-											</a>
 										</div>
 									</td>
 
@@ -132,6 +130,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
 						<h3>Change Status</h3>
 						<p id="statusmessage"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>

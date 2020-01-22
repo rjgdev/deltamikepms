@@ -34,7 +34,7 @@ class Payroll_model extends CI_Model
 
 		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$level);
 		
 		return array('timekeeping' => $query->result(),'payroll' => $queryPayroll->result(),'payrolldetails' => $queryPayrolldetails->result(),'approver' => $queryApprover->result());
 	}
@@ -68,7 +68,6 @@ class Payroll_model extends CI_Model
 	}
 
 	function getSSS($salary,$fromcutoff,$employeeID){
-		$sss = 0;
 		$basicsalary = 0;
 
 		$month = date("m",strtotime($fromcutoff));
@@ -79,11 +78,24 @@ class Payroll_model extends CI_Model
 
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-		$basicsalary = $salary + $query->row()->basicpay;
+		$totalOTpay = $query->row()->ordinaryot 	+ 
+					  $query->row()->restot 		+ 
+					  $query->row()->specialot 		+ 
+					  $query->row()->specialrestot 	+ 
+					  $query->row()->regularot 		+ 
+					  $query->row()->regularrestot 	+ 
+				      $query->row()->doubleot 		+ 
+				      $query->row()->doublerestot;
+
+      	$totalAllowance = $query->row()->allowance 	+ 
+						  $query->row()->incentive 	+ 
+						  $query->row()->uniformallowance;
+
+		$basicsalary = ($salary + $query->row()->basicpay + $totalOTpay + $totalAllowance) - ($query->row()->late + $query->row()->absent);
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
 
-		return $querySSS->row()->employee;
+		return $querySSS->row()->employee."|".$querySSS->row()->employer."|".$querySSS->row()->ec;
 	}
 
 	function getPHIC($salary){
@@ -130,7 +142,9 @@ class Payroll_model extends CI_Model
 			$hdmf = 0;
 			$phic = 0;
 			$wtax = 0;
-			$sss  = 0;
+			$sss_ee = 0;
+			$sss_er = 0;
+			$sss_ec = 0;
 			
 			$query = $this->db->query("SELECT dm_employee.employeeID,
 											  dm_employee.firstname,
@@ -145,15 +159,15 @@ class Payroll_model extends CI_Model
 											  doublerestot,
 										  	  nightdiff,
 											  employeetypeID,
-											  COUNT(datesched) - SUM(absent)  AS 'daysofwork',
-										      SUM(absent) 		AS 'daysofabsent',
-											  SUM(regularhours) AS 'regularhours',
-										      SUM(latehours)  	AS 'latehours',
+											  COUNT(datesched) - SUM(absent)  	AS 'daysofwork',
+										      SUM(absent) 						AS 'daysofabsent',
+											  SUM(regularhours) 				AS 'regularhours',
+										      SUM(latehours)  					AS 'latehours',
 										      SUM(latehours) * (dailyrate / 8)  AS 'late',
 										      SUM(absent) * (dailyrate) 		AS 'absent',
-										      SUM(othours) 		AS 'overtimehours',
+										      SUM(othours) 						AS 'overtimehours',
 										      dailyrate,
-										      (dailyrate / 8) AS 'hourlyrate',
+										      (dailyrate / 8) 					AS 'hourlyrate',
 									      	  (CASE employeetypeID
 								      	  		WHEN 1 THEN SUM(regularhours) * (dailyrate / 8) 
 								      	  		WHEN 2 THEN basicsalary / 2
@@ -168,9 +182,10 @@ class Payroll_model extends CI_Model
 										      (SUM(doublerestot) * 5.07) * (dailyrate / 8) 	AS 'doublerestot',
 										      0 AS 'regholiday',
 										      0 AS 'speholiday',
-										      0 AS 'cola',
-										      0 AS 'incentives',
-										      0 AS 'uniformallowance'
+										      dm_employee.retfund 			AS 'retfund',
+										      dm_employee.allowance 		AS 'allowance',
+										      dm_employee.incentive 		AS 'incentive',
+										      dm_employee.uniformallowance 	AS 'uniformallowance'
 									   FROM dm_timekeepingdetails
 									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
 									   WHERE (datesched >= '".$fromcutoff."' AND 
@@ -187,7 +202,11 @@ class Payroll_model extends CI_Model
 					$phic = $this->getPHIC($basicsalary);
 
 					if($payperiod=="2"){
-						$sss  = $this->getSSS($row->basicpay, $fromcutoff, $row->employeeID);
+						$returnSSS = explode("|", $this->getSSS($row->basicpay, $fromcutoff, $row->employeeID));
+
+						$sss_ee = $returnSSS[0];
+						$sss_er = $returnSSS[1];
+						$sss_ec = $returnSSS[2];
 					}
 
 					$late	  = $row->late;
@@ -195,12 +214,12 @@ class Payroll_model extends CI_Model
 					$sssloan  = 0;
 					$hdmfloan = 0;
 
-					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss;
+					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss_ee;
 				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
 
 					/************************   INCOME  *************************/
-					$totalOTpay = $row->ordinaryot 	+ 
-								  $row->restot 		+ 
+					$totalOTpay = $row->ordinaryot 		+ 
+								  $row->restot 			+ 
 								  $row->specialot 		+ 
 								  $row->specialrestot 	+ 
 								  $row->regularot 		+ 
@@ -211,14 +230,14 @@ class Payroll_model extends CI_Model
 				    $totalHolidaypay = $row->regholiday + 
 									   $row->speholiday;
 
-				    $thirteenmonth 	= ($row->basicpay - ($late + $absent)) / 12;
-				    $cola 			= 0;
-				    $incentive 		= 0;
-				    $allowances 	= 0;
-				    $nightdiff 		= $row->nightdiff;
+				    $thirteenmonth 	  = ($row->basicpay - ($late + $absent)) / 12;
+				    $incentive 		  = $row->incentive;
+				    $allowance   	  = $row->allowance;
+				    $uniformallowance = $row->uniformallowance;
+				    $nightdiff 		  = $row->nightdiff;
 
 				    $taxEarnings  	= $row->basicpay + $totalOTpay + $totalHolidaypay + $nightdiff;
-				    $TOTALINCOME    = $taxEarnings + $cola + $incentive + $allowances;
+				    $TOTALINCOME    = $taxEarnings + $incentive + $allowance + $uniformallowance;
 
 					/************************  TOTAL  *************************/
 					$taxableIncome = $taxEarnings - $taxDeduction;
@@ -229,27 +248,38 @@ class Payroll_model extends CI_Model
 
 				    $netpay = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
 
-					$data = array('payrollID'		=> $last_id,
-								  'datefrom'		=> $fromcutoff,
-								  'dateto'			=> $tocutoff,
-								  'employeeID'		=> $row->employeeID,
-								  'daysofwork' 		=> $row->daysofwork,
-								  'daysofabsent' 	=> $row->daysofabsent,
-								  'regularhours' 	=> $row->regularhours,
-								  'latehours' 		=> $row->latehours,
-								  'overtimehours' 	=> $row->overtimehours,
-								  'dailyrate' 		=> $row->dailyrate,
-								  'hourlyrate' 		=> $row->hourlyrate,
-								  'basicpay' 		=> $row->basicpay,
-								  'late' 			=> $row->late,
-								  'absent' 			=> $row->absent,
-								  'ordinaryot' 		=> $row->ordinaryot,
-								  'hdmf' 			=> $hdmf,
-								  'phic' 			=> $phic,
-								  'sss'				=> $sss,
-								  'wtax'			=> $wtax,
-								  'netpay'			=> $netpay,
-								  'thrmonth'		=> $thirteenmonth
+					$data = array('payrollID'		 => $last_id,
+								  'datefrom'		 => $fromcutoff,
+								  'dateto'			 => $tocutoff,
+								  'employeeID'		 => $row->employeeID,
+								  'daysofwork' 		 => $row->daysofwork,
+								  'daysofabsent' 	 => $row->daysofabsent,
+								  'regularhours' 	 => $row->regularhours,
+								  'latehours' 		 => $row->latehours,
+								  'overtimehours' 	 => $row->overtimehours,
+								  'dailyrate' 		 => $row->dailyrate,
+								  'hourlyrate' 		 => $row->hourlyrate,
+								  'basicpay' 		 => $row->basicpay,
+								  'ordinaryot' 		 => $row->ordinaryot,
+								  'allowance'   	 => $allowance,
+								  'incentive' 		 => $incentive,
+								  'uniformallowance' => $uniformallowance,
+								  'nightdiff'		 => $nightdiff,
+								  'late' 			 => $row->late,
+								  'absent' 			 => $row->absent,
+								  'hdmf_ee' 		 => $hdmf,
+								  'hdmf_er' 		 => $hdmf,
+								  'phic_ee' 		 => $phic,
+								  'phic_er' 		 => $phic,
+								  'sss_ee'			 => $sss_ee,
+								  'sss_er'			 => $sss_er,
+								  'sss_ec'			 => $sss_ec,
+								  'sssloan'			 => $sssloan,
+								  'hdmfloan'	     => $hdmfloan,
+								  'wtax'			 => $wtax,
+								  'netpay'			 => $netpay,
+								  'thrmonth'		 => $thirteenmonth,
+								  'retfund' 		 => $row->retfund
 								 );
 
 					$this->db->insert('dm_payrolldetails', $data);
@@ -276,7 +306,7 @@ class Payroll_model extends CI_Model
 	 	$data = array('datesubmitted' => $datesubmitted,
 	 				  'usersubmitted' => $this->session->userdata('employeeID'),
 	 				  'level' => 1,
-	 				  'approvalID' => 31,
+	 				  'approvalID' => 2,
 	 				  'payrollstatus' => 1);
 
 		$this->db->where("payrollID", $payrollID);  
@@ -286,7 +316,7 @@ class Payroll_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
 
         return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());  
 	}
@@ -321,7 +351,7 @@ class Payroll_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=31 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
 		
         return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());
 	}

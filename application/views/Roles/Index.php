@@ -9,6 +9,10 @@
 			<div class="row">
 				<div class="col-sm-12">
 					<h3 class="page-title">Roles & Permissions</h3>
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
+						<li class="breadcrumb-item active">Roles & Permissions</li>
+					</ul>
 				</div>
 			</div>
 		</div>
@@ -42,7 +46,9 @@
 				<h6 class="card-title m-b-20">Module Access</h6>
 				<div class="m-b-30">
 					<ul class="list-group notification-list" id="show_data" style="margin-top: 28px;">
-						<?php foreach ($module as $item) { ?> 
+						<?php foreach ($module as $item) { 
+							if($item->moduleShortDesc=="rolespermission") continue;
+						 ?> 
 							<li class="list-group-item">
 								<?php echo $item->moduleDescription; ?>
 								<div class="status-toggle">
@@ -117,8 +123,9 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/delete.svg">
 						<h3>Delete Role</h3>
-						<p>Are you sure want to delete?</p>
+						<p>Are you sure you want to delete this role?</p>
 						<div class="invalid-feedback" id="status-invalid"></div>
 					</div>
 					<div class="modal-btn delete-action">
@@ -239,6 +246,10 @@
 	        	$('#addrole').addClass('is-invalid');
 	        	$("#addrole").focus(); 
                 event.preventDefault();
+                return false;
+	        }else{
+	        	$('#addrole').removeClass('is-invalid');
+	        	$('#addrole').addClass('is-valid');
 	        }
 
         	$('#add_role').hide();
@@ -328,6 +339,7 @@
 	        	$('#editdescription').addClass('is-invalid');
 	        	$("#editdescription").focus(); 
                 event.preventDefault();
+                return false;
 	        }
 
 	        $('#edit_role').hide();
@@ -413,6 +425,8 @@
 
 					for ( var i=0; i<data.length; i++ ) {
 						var checked = "";
+
+						if(data[i].moduleShortDesc=="rolespermission") continue;
 
 						if(data[i].modulestatus=="1"){
 							checked = "checked=''";

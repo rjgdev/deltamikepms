@@ -17,13 +17,9 @@ class Approval_model extends CI_Model
 	    return $query->result();
   	}
 
-    function get_approval($id,$type)
+    function get_approval($id)
     {
-      $employeeType = ($type=="0") ? "" : " AND dm_approval.employeetypeID=".$type;
-
-    	$query = $this->db->query('SELECT * FROM dm_approval 
-    							   INNER JOIN dm_employeetype ON dm_employeetype.employeetypeID=dm_approval.employeetypeID 
-    							   WHERE dm_approval.moduleID='.$id.$employeeType.' order by approvalDescription');
+    	$query = $this->db->query('SELECT * FROM dm_approval WHERE dm_approval.moduleID='.$id.' order by approvalDescription');
       return $query->result();
     }
 
@@ -34,49 +30,63 @@ class Approval_model extends CI_Model
       return $query->result();
     }
 
-    function get_employeetype()
-    {
-    	$query = $this->db->query('SELECT employeetypeID,employeeTypeDescription FROM dm_employeetype');
-      return $query->result();
-    }
-
     function get_approver($id)
     {
-      $query = $this->db->query('SELECT * FROM dm_approvaldet 
-      						   INNER JOIN dm_employee 
-      						   ON dm_employee.employeeID=dm_approvaldet.employeeID
-      						   INNER JOIN dm_designation
-      						   ON dm_designation.designationID=dm_employee.designationID
-      						   INNER JOIN dm_department
-      						   ON dm_department.departmentID=dm_employee.departmentID
-      						   WHERE dm_approvaldet.approvalID='.$id.' order by  approvalLevel');
-      return $query->result();
+      $queryApproval = $this->db->query('SELECT * FROM dm_approval WHERE moduleID='.$id);
+
+      $queryApprovalDet = $this->db->query('SELECT * FROM dm_approvaldet 
+          						   INNER JOIN dm_employee 
+          						   ON dm_employee.employeeID=dm_approvaldet.employeeID
+          						   INNER JOIN dm_designation
+          						   ON dm_designation.designationID=dm_employee.designationID
+          						   INNER JOIN dm_department
+          						   ON dm_department.departmentID=dm_employee.departmentID
+          						   WHERE dm_approvaldet.approvalID='.$queryApproval->row()->approvalID.' order by approvalLevel');
+
+      return $queryApprovalDet->result();
     }
 
-    function save_approval($moduleID, $description, $type, $employeeID)
+    function get_updateapprover($id)
+    {
+      $queryApproval = $this->db->query('SELECT * FROM dm_approval WHERE moduleID='.$id);
+
+      $queryApprovalDet = $this->db->query('SELECT * FROM dm_approvaldet 
+                         INNER JOIN dm_employee 
+                         ON dm_employee.employeeID=dm_approvaldet.employeeID
+                         INNER JOIN dm_designation
+                         ON dm_designation.designationID=dm_employee.designationID
+                         INNER JOIN dm_department
+                         ON dm_department.departmentID=dm_employee.departmentID
+                         WHERE dm_approvaldet.approvalID='.$queryApproval->row()->approvalID.' order by approvalLevel');
+
+      $queryEmployee = $this->db->query('SELECT employeeID,firstname,lastname FROM dm_employee 
+                                         WHERE dm_employee.employeestatus="Active"');
+
+      return array("approvaldet" => $queryApprovalDet->result(), "employee" => $queryEmployee->result());
+    }
+
+    function save_approval($moduleID, $employeeID)
     {	
       $record=array();
       $level=1;
 
-      $data = array(
-        'approvalDescription' => $description,
-        'moduleID' => $moduleID,
-        'employeetypeID' => $type
-       );
+      $queryApproval = $this->db->query('SELECT * FROM dm_approval WHERE moduleID='.$moduleID);
 
-      $this->db->insert('dm_approval', $data);
-
-      $last_id = $this->db->insert_id();
+      $this->db->where("approvalID", $queryApproval->row()->approvalID);  
+      $this->db->delete("dm_approvaldet"); 
 
       for($i=0; $i<count($employeeID); $i++) {
-      	$record[$i] = array('approvalID'    => $last_id,
+        $lastapprover = ($i==count($employeeID)-1) ? 1 : 0 ;
+
+      	$record[$i] = array('approvalID'    => $queryApproval->row()->approvalID,
               			  			'employeeID' 	  => $employeeID[$i],
-              			  			'approvalLevel' => $level++);
+              			  			'approvalLevel' => $level++,
+                            'lastapprover'  => $lastapprover);
       }
 
       $this->db->insert_batch('dm_approvaldet', $record);
 
-      return 'true|successfully created!';
+      return $moduleID;
     }
 
     function delete_approval($id,$description)

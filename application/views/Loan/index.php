@@ -22,6 +22,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
+					 <h4 class="mb-3 text-primary">List of Employee's Loan</h4>
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>

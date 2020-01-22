@@ -42,23 +42,32 @@
 	    	echo json_encode($data);  
 		}
 		public function update()
-		{		
-			$id 			=		$this->input->post('id');
-			$company 		=		$this->input->post('editcompany');
-			$data 			= 		array(
-			'company' 		=> 		$this->input->post('editcompany'),
-			'contactperson' => 		$this->input->post('editcontactperson'),
-			'address' 		=> 		$this->input->post('editaddress'),
-			'city' 			=> 		$this->input->post('editcity'),
-			'province' 		=> 		$this->input->post('editprovince'),
-			'postalcode' 	=> 		$this->input->post('editpostalcode'),
-			'email' 		=> 		$this->input->post('editemail'),
-			'phonenumber' 	=> 		$this->input->post('editphonenumber'),
-			'mobilenumber' 	=> 		$this->input->post('editmobilenumber'),
-			'Fax' 			=> 		$this->input->post('editfax'),
-			'website' 		=> 		$this->input->post('editwebsite'));
-			$data 			= 		$this->company->update_company($id, $data, $company);
-			$retval 		= 		explode("|",$data);
+		{	
+
+			$id 				=		$this->input->post('id');
+			$company 			=		$this->input->post('editcompany');
+			$data 				= 		array(
+			'company' 			=> 		$this->input->post('editcompany'),
+			'contactperson'		=> 		$this->input->post('editcontactperson'),
+			'unitno' 			=> 		$this->input->post('unitno'),
+			'bldgname' 			=> 		$this->input->post('bldgname'),
+			'streetname' 		=> 		$this->input->post('streetname'),
+			'subdivisionname' 	=> 		$this->input->post('subdivisionname'),
+			'barangay' 			=> 		$this->input->post('barangay'),
+			'municipality' 		=> 		$this->input->post('municipality'),
+			'province' 			=> 		$this->input->post('province'),
+			'zipcode' 			=> 		$this->input->post('zipcode'),
+			'tinno' 			=> 		$this->input->post('tinno'),
+			'sssno' 			=> 		$this->input->post('sssno'),
+			'phic' 				=> 		$this->input->post('phic'),
+			'pagibig' 			=> 		$this->input->post('pagibig'),
+			'email' 			=> 		$this->input->post('email'),
+			'phonenumber' 		=> 		$this->input->post('phonenumber'),
+			'mobilenumber' 		=> 		$this->input->post('mobilenumber'),
+			'Fax' 				=> 		$this->input->post('Fax'),
+			'website' 			=> 		$this->input->post('website'));
+			$data 				= 		$this->company->update_company($id, $data, $company);
+			$retval 			= 		explode("|",$data);
        		
             if($retval[0] == "false"){
     			$this->session->set_flashdata('error', $retval[1]); 

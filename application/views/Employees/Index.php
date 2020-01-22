@@ -28,6 +28,7 @@
   <div class="row">
   <div class="col-md-12">
   <div class="table-responsive">
+     <h4 class="mb-3 text-primary">List of Employees</h4>
     <table class="table table-striped custom-table datatable">
     
     <thead>
@@ -1018,6 +1019,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <div class="form-header">
+          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
           <h3>Change Status</h3>
           <div class="col-sm-12">
                 <div class="dropdown">
@@ -1364,8 +1366,11 @@ var restdayid =[];
               for(var i=0; i<len; i++){
           //$("#hiddenbankaccount").val().response[i].acctnoformat;
           var acctnumber = response[i].acctnoformat;
+           var countnumber = response[i].acctnumberformat;
           document.getElementById("addbackaccountnumber").placeholder =acctnumber;
-          console.log(acctnumber);
+          $("#addbackaccountnumber").attr('maxlength',countnumber);
+          $('#addbackaccountnumber').mask(acctnumber);
+          console.log(countnumber);
         }
       }
     });
@@ -1389,7 +1394,10 @@ var restdayid =[];
               for(var i=0; i<len; i++){
           //$("#hiddenbankaccount").val().response[i].acctnoformat;
           var acctnumber = response[i].acctnoformat;
-          document.getElementById("editbackaccountnumber").placeholder =acctnumber;
+           var countnumber = response[i].acctnumberformat;
+          document.getElementById("editbackaccountnumber").placeholder =acctnumber;     
+          $("#editbackaccountnumber").attr('maxlength',countnumber);
+          $('#editbackaccountnumber').mask(acctnumber);
           console.log(acctnumber);
         }
       }

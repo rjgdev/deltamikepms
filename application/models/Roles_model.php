@@ -41,6 +41,9 @@ class Roles_model extends CI_Model
     		$this->db->where("roleID", $id);  
 	      	$this->db->delete("dm_rolemstr");  
 
+	      	$this->db->where("roleID", $id);  
+	      	$this->db->delete("dm_rolemodule"); 
+
 	  		return 'true|'.$description.' successfully deleted!';
         }else{
       		return 'false|This role is currently in use and cannot be deleted.'; 
@@ -59,7 +62,7 @@ class Roles_model extends CI_Model
 			$last_id = $this->db->insert_id();
 
 			$record =array();
-			for($i=1; $i<=25; $i++) {
+			for($i=1; $i<=36; $i++) {
 				$record[$i] = array('roleID' => $last_id,
 						  			'moduleID' => $i);
 			}

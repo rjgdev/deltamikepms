@@ -24,6 +24,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="table-responsive">
+					 <h4 class="mb-3 text-primary">List of Clients</h4>
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
@@ -50,12 +51,10 @@
 									<td><?php echo $item->email; ?></td>
 									<td >
 										<div class="action-label">
-											<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
 												<?php if($item->clientstatus=="Active") 
-														   echo '<i class="fa fa-dot-circle-o text-success"></i> Active';
-													  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Inactive';
+														   echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
+													  else echo '<span class="badge bg-inverse-danger custom-status"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</span>';
 											    ?>
-											</a>
 										</div>
 									</td>
 
@@ -254,6 +253,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
 						<h3>Change Status</h3>
 						<p id="statusmessage"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
@@ -553,7 +553,12 @@
 	        	document.getElementById("add-email").innerHTML = "Please provide an email.";
 	        	$('#email').addClass('is-invalid');
 	        	event.preventDefault();
-	        }else{
+	        }else if(!validateEmail(email)){
+        		document.getElementById("add-email").innerHTML = "Enter a valid email address.";
+	        	$('#email').addClass('is-invalid');
+	        	event.preventDefault();
+	        	return false;
+        	}else{
 	        	document.getElementById("add-email").innerHTML = "";
 	        	$('#email').removeClass('is-invalid');
 	        	$('#email').addClass('is-valid');
@@ -654,7 +659,12 @@
 	        	document.getElementById("edit-email").innerHTML = "Please provide an email.";
 	        	$('#editemail').addClass('is-invalid');
                 event.preventDefault();
-	        }else{
+	        }else if(!validateEmail(email)){
+        		document.getElementById("edit-email").innerHTML = "Enter a valid email address.";
+	        	$('#editemail').addClass('is-invalid');
+	        	event.preventDefault();
+	        	return false;
+        	}else{
 	        	document.getElementById("edit-email").innerHTML = "";
 	        	$('#editemail').removeClass('is-invalid');
 	        	$('#editemail').addClass('is-valid');
@@ -799,5 +809,11 @@
 	            });
 	            return false;
         });
+
+
+	    function validateEmail($email) {
+		  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		  return emailReg.test( $email );
+		}
 	});
 </script>
