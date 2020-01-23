@@ -41,7 +41,7 @@ class Retirementreport_model extends CI_Model
 								WHEN e.employeetypeID = 2 THEN 'Staff'
 								ELSE employeetypeID
 								END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-								FORMAT(retfund,4)as retfund,FORMAT(e.basicsalary,4) as basicsalary,format(late,4) as late,format(absent,4) as absent,format(SUM(netpay),4) AS netpay,
+								retfund, e.basicsalary, late, absent, format(SUM(netpay),4) AS netpay,
 								year(pd.datefrom) as yearofhired,
 								cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
 								concat(date_format(pd.datefrom,'%M% %d'),' - ',  date_format(pd.dateto,'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate

@@ -180,9 +180,9 @@
 							<tbody id="show_databoday">
                      
                				 </tbody>
-               				 <tfoot id="tfooter">
-						      
-						     </tfoot>
+               				 <tfoot id ="total_data">
+               					
+               				</tfoot>
 						</table>
 					</div>
 					</div>	
@@ -260,9 +260,20 @@
 					  $("body").addClass("loading");
 				},
 				success: function(response){
-				  var html = '';
-                    var i;
+					var htmlfooter = '';
+					var html = '';
+					var i;
+					var totallate = 0;
+					var totalabsent = 0;
+					var totalthrmonth = 0;
                     for(i=0; i<response.length; i++){
+                    	if(parseInt(response[i].late))
+                    	totallate += parseInt(response[i].late);
+                    	if(parseInt(response[i].absent))
+                    	totalabsent += parseInt(response[i].absent);
+                    	if(parseInt(response[i].thrmonth))
+                    	totalthrmonth += parseInt(response[i].thrmonth);
+
                         html += '<tr>'+
                         '<td>'+response[i].employeeID+'</td>'+
                         '<td>'+response[i].employeename+'</td>'+
@@ -278,9 +289,17 @@
                         
                
                     }
+                    htmlfooter += '<tr>'+
+										'<th>'+ 'Total' +'</th>'+
+										'<td colspan="6">'+' ' +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+accounting.formatMoney(totalabsent) +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalthrmonth) +'</td>'+
+									'</tr>';
 
 
                     $('#show_databoday').html(html); 
+                    $('#total_data').html(htmlfooter);
                     $("body").removeClass("loading");
 
 		},

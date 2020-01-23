@@ -52,7 +52,7 @@ class Retirementprocess_model extends CI_Model
     }
    
 	$query = $this->db->query("SELECT  employeeID, employeename, employeetype, department, designation 
-					, clientname, detachment, retfund, basicsalary, FORMAT(netpay,4) as netpay
+					, clientname, detachment, retfund, basicsalary, netpay
 					, lastcutoff, hireddate, lastcutoff, yearofwork  
 					FROM
 					(
@@ -65,7 +65,7 @@ class Retirementprocess_model extends CI_Model
 					WHEN e.employeetypeID = 2 THEN 'Staff'
 					ELSE employeetypeID
 					END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-					FORMAT(retfund,4)as retfund,FORMAT(e.basicsalary,4) as basicsalary,SUM(netpay) AS netpay,
+					retfund,e.basicsalary,SUM(netpay) AS netpay,
 					cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
 					concat(date_format(pd.datefrom,'%M% %d'),' - ',  date_format(pd.dateto,'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
 					FROM dm_payrolldetails AS pd

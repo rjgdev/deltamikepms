@@ -126,7 +126,7 @@
 							<tbody id="show_data">
                      
                				 </tbody>
-               				<tfoot id = show_foot>
+               				<tfoot id = total_data>
                				
                				</tfoot>
 
@@ -185,29 +185,76 @@
 					  $("body").addClass("loading");
 				},
 				success: function(response){
+				  var htmlfooter = '';	
 				  var html = '';
                     var i;
+                    var totalso = 0;
+                    var totalsg = 0;
+                    var ssstotal = 0;
+                    var phictotal = 0;
+                    var hdmftotal = 0;
+                    var retfundtotal = 0;
+                    var margintotal = 0;
+                    var marginsubtotal = 0;
+                    var taxabletotal = 0;
+                    var taxduetotal = 0;
                     for(i=0; i<response.length; i++){
+                    	if(parseInt(response[i].SO))
+                    	 	 totalso += parseInt(response[i].SO);
+                    	if(parseInt(response[i].SG))
+                    	 	 totalsg += parseInt(response[i].SG);
+                    	if(parseInt(response[i].totalsss))
+                    	 	 ssstotal += parseInt(response[i].totalsss);
+                    	if(parseInt(response[i].totalphic))
+                    	 	 phictotal += parseInt(response[i].totalphic);
+                    	if(parseInt(response[i].totalhdmf))
+                    	 	 hdmftotal += parseInt(response[i].totalhdmf); 
+                    	if(parseInt(response[i].totalretfund))
+                    	 	 retfundtotal += parseInt(response[i].totalretfund);
+                    	if(parseInt(response[i].totalmargin))
+                    	 	 margintotal += parseInt(response[i].totalmargin); 
+                    	if(parseInt(response[i].subtotalwithmargin))
+                    	 	 marginsubtotal += parseInt(response[i].subtotalwithmargin); 
+                    	if(parseInt(response[i].taxable))
+                    	 	 taxabletotal += parseInt(response[i].taxable); 
+                    	if(parseInt(response[i].taxdue))
+                    	 	 taxduetotal += parseInt(response[i].taxdue);  	 	 	  	 	 	  	 	
                      html += '<tr>'+
                         		'<td>'+response[i].clientname+'</td>'+
 		                        '<td>'+response[i].detachment+'</td>'+
 		                        '<td>'+response[i].rangedate+'</td>'+
-								'<td>'+response[i].SO+'</td>'+
-								'<td>'+response[i].SG+'</td>'+
-								'<td>'+response[i].totalsss+'</td>'+
-								'<td>'+response[i].totalphic+'</td>'+
-								'<td>'+response[i].totalhdmf+'</td>'+
-								'<td>'+response[i].totalretfund+'</td>'+
-								'<td>'+response[i].totalmargin+'</td>'+
-								'<td>'+response[i].subtotalwithmargin+'</td>'+
-								'<td>'+response[i].taxable+'</td>'+
-								'<td>'+response[i].taxdue+'</td>'+	
+								'<td class="text-right">'+accounting.formatMoney(response[i].SO)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].SG)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].totalsss)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].totalphic)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].totalhdmf)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].totalretfund)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].totalmargin)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].subtotalwithmargin)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].taxable)+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].taxdue)+'</td>'+	
                          	'</tr>';         
                		
                     }
+                     htmlfooter += '<tr>'+
+										'<th>'+ 'Total' +'</th>'+
+										'<td colspan="2">'+' ' +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalso)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsg)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(ssstotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(phictotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(hdmftotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(retfundtotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(margintotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(marginsubtotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(taxabletotal)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(taxduetotal)  +'</td>'+
+										
+									'</tr>';
 
 
                     $('#show_data').html(html);
+                    $('#total_data').html(htmlfooter); 
                     $("body").removeClass("loading"); 
 
 		}	

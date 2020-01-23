@@ -129,6 +129,8 @@ td[rowspan]:not([rowspan="2"]) {
 							</thead>	
 							<tbody id="show_data">
                				 </tbody>
+               				<tfoot id="total_data">
+               				</tfoot> 
 						</table>
 					</div>
 				</div>	
@@ -182,35 +184,84 @@ td[rowspan]:not([rowspan="2"]) {
 					  $("body").addClass("loading");
 				},
 				success: function(response){
-				  var html = '';
+					var htmlfooter = '';
+				  	var html = '';
                     var i;
+                    var totalincentives = 0;
+                    var totalnightdiff = 0;
+                    var totaluniform = 0;
+                    var totalordinaryot =0;
+                    var totalregholiday = 0;
+                    var totalspeholiday = 0;
+                    var totalregularot = 0;
+                    var totalsss = 0;
+                    var totalphic = 0;
+                    var totalhdmf = 0;
+                    var totalnetpay = 0;
                     for(i=0; i<response.length; i++){
+                    	if(parseInt(response[i].incentives))
+                    	 	 totalincentives += parseInt(response[i].incentives);
+                    	 if(parseInt(response[i].nightdiff))
+                    	 	 totalnightdiff += parseInt(response[i].nightdiff);
+                    	if(parseInt(response[i].Uniform))
+                    	 	 totaluniform += parseInt(response[i].Uniform); 
+                    	if(parseInt(response[i].ordinaryot))
+                    	 	 totalordinaryot += parseInt(response[i].ordinaryot); 
+                    	 if(parseInt(response[i].regholiday))
+                    	 	 totalregholiday += parseInt(response[i].regholiday);
+                    	if(parseInt(response[i].speholiday))
+                    	 	 totalspeholiday += parseInt(response[i].speholiday); 
+                    	if(parseInt(response[i].regularot))
+                    	 	 totalregularot += parseInt(response[i].regularot);
+                    	if(parseInt(response[i].sss))
+                    	 	 totalsss += parseInt(response[i].sss); 
+                    	if(parseInt(response[i].phic))
+                    	 	 totalphic += parseInt(response[i].phic); 
+                    	if(parseInt(response[i].hdmf))
+                    	 	 totalhdmf += parseInt(response[i].hdmf);
+                    	if(parseInt(response[i].netpay))
+                    	 	 totalnetpay += parseInt(response[i].netpay); 	   	  	 	   	 	 	  	 	
                         html += '<tr>'+
-                        '<td>'+response[i].employeeID+'</td>'+
-                        '<td>'+response[i].employeename+'</td>'+
-                        '<td>'+response[i].department+'</td>'+
-                        '<td>'+response[i].designation+'</td>'+
-                        '<td>'+response[i].employeetype+'</td>'+
-                         '<td>'+response[i].clientname+'</td>'+
-                         '<td>'+response[i].detachment+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].incentives)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].nightdiff)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].Uniform)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].ordinaryot)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].regholiday)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].speholiday)+'</td>'+
-						'<td class="text-right">'+accounting.formatMoney(response[i].regularot)+'</td>'+
-                         '<td class="text-right">'+accounting.formatMoney(response[i].sss)+'</td>'+
-                         '<td class="text-right">'+accounting.formatMoney(response[i].phic)+'</td>'+
-                          '<td class="text-right">'+accounting.formatMoney(response[i].hdmf)+'</td>'+
-                          '<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
-                         '</tr>';
-                        
-               
+									'<td>'+response[i].employeeID+'</td>'+
+									'<td>'+response[i].employeename+'</td>'+
+									'<td>'+response[i].department+'</td>'+
+									'<td>'+response[i].designation+'</td>'+
+									'<td>'+response[i].employeetype+'</td>'+
+									'<td>'+response[i].clientname+'</td>'+
+									'<td>'+response[i].detachment+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].incentives)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].nightdiff)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].Uniform)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].ordinaryot)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].regholiday)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].speholiday)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].regularot)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].sss)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].phic)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].hdmf)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
+                        		 '</tr>';
                     }
+                      htmlfooter += '<tr>'+
+										'<th>'+ 'Total' +'</th>'+
+										'<td colspan="6">'+' ' +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalincentives)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalnightdiff)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totaluniform)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalordinaryot)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalregholiday)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalspeholiday)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalregularot)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalnetpay)  +'</td>'+
+									'</tr>';
+
 
 
                     $('#show_data').html(html);
+                    $('#total_data').html(htmlfooter); 
                     $("body").removeClass("loading"); 
 
 		}	

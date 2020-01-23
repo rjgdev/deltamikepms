@@ -132,7 +132,7 @@
 							<tbody id="show_data">
                      
                				 </tbody>
-               				<tfoot id = show_foot>
+               				<tfoot id = total_data>
                				
                				</tfoot>
 
@@ -194,27 +194,38 @@
 					  $("body").addClass("loading");
 				},
 				success: function(response){
+				  var htmlfooter = '';
 				  var html = '';
                     var i;
+                     var totalrefund = 0;
                     for(i=0; i<response.length; i++){
+                    	if(parseInt(response[i].retfund))
+                    	 	 totalrefund += parseInt(response[i].retfund);
                      html += '<tr>'+
-                        '<td>'+response[i].employeeID+'</td>'+
-                        '<td>'+response[i].employeename+'</td>'+
-                        '<td>'+response[i].department+'</td>'+
-                        '<td>'+response[i].designation+'</td>'+
-                        '<td>'+response[i].employeetype+'</td>'+
-                         '<td>'+response[i].clientname+'</td>'+
-                         '<td>'+response[i].detachment+'</td>'+
-                          '<td class="text-right">'+response[i].retfund+'</td>'+
-                          '<td>'+response[i].lastcutoff+'</td>'+
-                           '<td>'+response[i].hireddate+'</td>'+
-                           '<td>'+response[i].yearofwork+'</td>'+
-                         '</tr>';         
-               		
+								'<td>'+response[i].employeeID+'</td>'+
+								'<td>'+response[i].employeename+'</td>'+
+								'<td>'+response[i].department+'</td>'+
+								'<td>'+response[i].designation+'</td>'+
+								'<td>'+response[i].employeetype+'</td>'+
+								'<td>'+response[i].clientname+'</td>'+
+								'<td>'+response[i].detachment+'</td>'+
+								'<td class="text-right">'+accounting.formatMoney(response[i].retfund)+'</td>'+
+								'<td>'+response[i].lastcutoff+'</td>'+
+								'<td>'+response[i].hireddate+'</td>'+
+								'<td>'+response[i].yearofwork+'</td>'+
+								'</tr>';         
+
                     }
+                     htmlfooter += '<tr>'+
+										'<th>'+ 'Total' +'</th>'+
+										'<td colspan="6">'+' ' +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalrefund)  +'</td>'+
+										'<td colspan="4">'+' ' +'</td>'+
+									'</tr>';
 
 
                     $('#show_data').html(html); 
+                    $('#total_data').html(htmlfooter); 
                     $("body").removeClass("loading"); 
 		}	
 		});

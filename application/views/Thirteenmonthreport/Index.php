@@ -134,7 +134,10 @@
 						</thead>
 							<tbody id="show_data">
                      
-               				 </tbody>
+               				</tbody>
+               				<tfoot id ="total_data">
+               					
+               				</tfoot>
                				 
 						</table>
 					</div>
@@ -243,9 +246,21 @@
 					  $("body").addClass("loading");
 				},
 				success: function(response){
-				  var html = '';
+				  	var html = '';
                     var i;
+                   	var arraytotallate = [];
+                   	var totalresultabsent = [];
+                   	var totalabasent = 0;
+                   	var totallate = 0;
+                   	var totalthrmonth = 0;
+                    var htmlfooter = '';
                     for(i=0; i<response.length; i++){
+                    	 if(parseInt(response[i].absent))
+                    	 	 totalabasent += parseInt(response[i].absent);
+                    	 if(parseInt(response[i].late))
+                    	 	 totallate += parseInt(response[i].late);
+                    	 if(parseInt(response[i].thrmonth))
+                    	 	 totalthrmonth += parseInt(response[i].thrmonth);		 	
                      html += '<tr>'+
                         '<td>'+response[i].employeeID+'</td>'+
                         '<td>'+response[i].employeename+'</td>'+
@@ -259,13 +274,26 @@
                          '<td class="text-right">'+response[i].absent+'</td>'+
                          '<td class="text-right">'+response[i].thrmonth+'</td>'+
                          '<td><a class="btn btn-sm btn-primary" href="Thirteenmonthreport/recorddata?from='+response[i].seachdatefrom + '&to='+response[i].seachdateto +'&id='+response[i].employeeID +' "target="_blank" >Generate Report</a></td>'+
-                         '</tr>';         
-               		
+                        '</tr>'; 
+                        //return arraytotallate;  
+
                     }
+                     htmlfooter += '<tr>'+
+										'<th>'+ 'Total' +'</th>'+
+										'<td colspan="7">'+' ' +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+accounting.formatMoney(totalabasent) +'</td>'+
+										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalthrmonth) +'</td>'+
+
+									'</tr>';
 
 
+                     console.log(arraytotallate);
                     $('#show_data').html(html);
+                    $('#total_data').html(htmlfooter);
+                   
                     $("body").removeClass("loading"); 
+                    
 
 		}	
 		});

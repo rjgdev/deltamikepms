@@ -48,8 +48,8 @@ class Billing_model extends CI_Model
 							SELECT 
 							clientID,		detachmentID,					clientname,	 		detachment, rangedate
 							,SO, 			SG,								totalsss,	 		totalphic,	 totalhdmf
-							,totalretfund,	format(subtotalwithmargin,4) as subtotalwithmargin,	 format(taxable, 4) as taxable
-							,format(taxdue, 4) as taxdue,					totalmargin
+							,totalretfund,	subtotalwithmargin,	 			taxable
+							taxdue,					totalmargin
 								
 							FROM
 							(
@@ -57,13 +57,13 @@ class Billing_model extends CI_Model
 								clientID,		detachmentID,	clientname,	detachment,	rangedate
 								,SO,			SG,				totalsss,	totalphic,	totalhdmf
 								,totalretfund, (subtotal + totalmargin) as subtotalwithmargin, 	totalmargin as taxable, (totalmargin *.12) as taxdue,
-								format(totalmargin,4) as totalmargin
+								totalmargin
 								FROM
 								(
 									SELECT 
 										clientID, detachmentID, clientname, detachment, rangedate
-										,format(SO,4) as SO,	format(SG, 4) as SG,	format(totalsss,4) as totalsss,	format(totalphic,4) as totalphic, format(totalhdmf,4) as  totalhdmf
-										,format(totalretfund,4) as totalretfund 
+										,SO,	   SG,	 		totalsss,	totalphic,  totalhdmf
+										,totalretfund 
 										,(SO + SG + totalsss + totalphic + totalhdmf + totalretfund) as subtotal,((marginSO * numberemployeeso) + (marginSG * numberemployeesg)) as totalmargin
 									FROM
 									(
