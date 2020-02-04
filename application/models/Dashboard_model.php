@@ -19,10 +19,10 @@ class Dashboard_model extends CI_Model
 
 		$detachment = $this->db->query('
 			SELECT *, CONCAT(detach.city) as detachcity, CONCAT(detach.housenumber) as detachhousenumber, CONCAT(detach.streetname) as detachstreetname, CONCAT(detach.barangay) as detachbarangay
-			FROM dm_detachment as detach
+			FROM dm_post as detach
 			LEFT JOIN dm_client
 			ON detach.clientID=dm_client.clientID
-			WHERE detachmentstatus="Active"');
+			WHERE poststatus="Active"');
 
 	    $result1 = $client->result();
 	    $result2 = $actclient->result();

@@ -229,7 +229,7 @@
 								</th>
 							</tr>
 							<tr>
-								<th class="tsheader" style="color:#e04d45; text-align: left !important;">Employee Name</th>
+								<th class="tsheader tsemployeeheader" style="color:#e04d45; text-align: left !important;">Employee Name </th>
 								
 								<?php 
 									for($i=$dayfrom;$i<=$dayto;$i++){
@@ -300,10 +300,19 @@
 												}
 											}
 										} 
+
+										if($exist==1){
+											for($x=$i;$x<$lastday;$x++){
+												$restDay++;
+												echo "<td class='tsdata' style='color:#1c78d1;'>RD</td>";
+											}
+										}
+
+										/*echo "<script>console.log('".$i."|".$init."|".$lastday."')</script>";*/
 									}
 
 									if($exist==0){
-										for($i=$init;$i<=$lastday;$i++){
+										for($y=$init;$y<=$lastday;$y++){
 											$init++;
 											echo "<td></td>";
 										}
@@ -473,6 +482,7 @@ $(document).ready(function() {
 	        "footer": false
 	    },
 	    "columnDefs": [
+	      { "width": "300px", "targets": 'tsemployeeheader'},
 	      { "width": "20px", "targets": 'tsdataheader'},
 	      { "width": "40px", "targets": 'tslastheader'}
 	    ]
@@ -695,13 +705,13 @@ $(document).ready(function() {
 
 	$(document).on("click", "#upload", function(){
 		var fileType = ".csv";
-    	
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\\-\(\):])+(.csv)$");
         if (!regex.test($("#file").val().toLowerCase())) {
         	showUploadTimekeepingError("Please select a <b>CSV</b> file.");
             return false;
         }
-
+        
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
 		$('#modal_title').html("Upload Timekeeping");
     	$('#modal_message').html("Are you sure you want to upload the timekeeping?");
@@ -718,8 +728,8 @@ $(document).ready(function() {
 
 	$('#upload_csv').on("submit", function(e){ 
         var fileType = ".csv";
-    	
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + fileType + ")$");
+
+        var regex = new RegExp("([a-zA-Z0-9\s_\\.\\-\(\):])+(.csv)$");
         if (!regex.test($("#file").val().toLowerCase())) {
         	showUploadTimekeepingError("Please select a <b>CSV</b> file.");
             return false;

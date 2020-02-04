@@ -55,7 +55,7 @@
 				</select>
 				</div>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<div class="form-group">	
 				<label for="adddetachment">Client </label>
 				<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client">
@@ -78,7 +78,7 @@
 				</select>
 				</div>
 			</div>
-			<div class="col-sm-1">
+			<div class="col-sm-2">
 			 <div class="form-group">
 				<label for="searchbutton">&emsp;</label>
 					<button class="btn add-btn" id="submit" style="border-radius: 5px; width:100%; height: 45px;">Search</button>
@@ -119,16 +119,16 @@
 						<thead>		
 								<tr>
 									<th style="width: 100px ! important;"><center>Employee ID</center></th>
-									<th style="width: 250px;"><center>Employee Name</center></th>
+									<th style="width: 180px;"><center>Employee Name</center></th>
 									<th class="text-left" style="width: 90px;"><center>Department</center></th>
 									<th class="text-left" style="width: 90px;"><center>Designation</center></th>
 									<th class="text-left" style="width: 100px;"><center>Employee Type</center></th>
-									<th class="text-left" style="width: 70px;"><center>Client</center></th>
-									<th class="text-left" style="width: 70px;"><center>Detachment</center></th>
+									<!-- <th class="text-left" style="width: 70px;"><center>Client</center></th>
+									<th class="text-left" style="width: 70px;"><center>Detachment</center></th> -->
 									<th class="text-left" style="width: 150px;"><center>Month</center></th>
 									<th class="text-left" style="width: 50px;"><center>Lates</center></th>
 									<th class="text-left" style="width: 50px;"><center>Absences</center></th>
-									<th class="text-right" style="width: 50px;"><center>Netpay</center></th>
+									<th class="text-right" style="width: 120px;"><center>Total 13th Month</center></th>
 									<th class="text-right" style="width: 90px;">Genarated</th>
 								</tr>
 						</thead>
@@ -267,12 +267,12 @@
                         '<td>'+response[i].department+'</td>'+
                         '<td>'+response[i].designation+'</td>'+
                         '<td>'+response[i].employeetype+'</td>'+
-                         '<td>'+response[i].clientname+'</td>'+
-                         '<td>'+response[i].detachment+'</td>'+
+                        /* '<td>'+response[i].clientname+'</td>'+
+                         '<td>'+response[i].detachment+'</td>'+*/
                          '<td>'+response[i].thrthmonthdate+'</td>'+
-                         '<td class="text-right">'+response[i].late+'</td>'+
-                         '<td class="text-right">'+response[i].absent+'</td>'+
-                         '<td class="text-right">'+response[i].thrmonth+'</td>'+
+                         '<td class="text-right">'+accounting.formatMoney(response[i].late)+'</td>'+
+                         '<td class="text-right">'+accounting.formatMoney(response[i].absent)+'</td>'+
+                         '<td class="text-right">'+accounting.formatMoney(response[i].thrmonth)+'</td>'+
                          '<td><a class="btn btn-sm btn-primary" href="Thirteenmonthreport/recorddata?from='+response[i].seachdatefrom + '&to='+response[i].seachdateto +'&id='+response[i].employeeID +' "target="_blank" >Generate Report</a></td>'+
                         '</tr>'; 
                         //return arraytotallate;  
@@ -280,7 +280,7 @@
                     }
                      htmlfooter += '<tr>'+
 										'<th>'+ 'Total' +'</th>'+
-										'<td colspan="7">'+' ' +'</td>'+
+										'<td colspan="5">'+' ' +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+accounting.formatMoney(totalabasent) +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalthrmonth) +'</td>'+

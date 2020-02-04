@@ -12,8 +12,8 @@ class Thirteenmonthreport_model extends CI_Model
 		$querydatecutoff = $this->db->query("SELECT  
 												date_format(datefrom,'%Y%-%m') as datefrom, date_format(dateto,'%Y%-%m') as dateto,
 												concat(date_format(MIN(datefrom),'%Y%-%m'),' , ',date_format(MAX(dateto),'%Y%-%m')) AS formatdateid,
-											concat(date_format(MIN(datefrom),'%M% %Y'),' - ',date_format(MAX(dateto),'%M% %Y')) AS formatdate
-											FROM dm_thrmonth GROUP BY dateto");
+											concat(date_format(MIN(datefrom),'%M%, %Y'),' - ',date_format(MAX(dateto),'%M%, %Y')) AS formatdate
+											FROM dm_thrmonth  WHERE thrmonthstatus = 2 GROUP BY dateto");
 		$queryclient = $this->db->query('SELECT * FROM dm_client');
 		$queryemployee = $this->db->query("SELECT e.employeeID, md5(e.employeeID)as encryptID, concat(firstname,' ',middlename,' ',lastname) as fullname
 										  ,CASE
@@ -93,8 +93,8 @@ class Thirteenmonthreport_model extends CI_Model
 				WHEN e.employeetypeID = 2 THEN 'Staff'
 				ELSE employeetypeID
 				END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-				concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as thrthmonthdate,format(sum(late),4) as late, format(sum(absent),4) as absent,
-				format(SUM(thrmonth),4)  AS thrmonth
+				concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as thrthmonthdate,sum(late) as late, sum(absent) as absent,
+				SUM(thrmonth)  AS thrmonth
 				FROM dm_payrolldetails AS pd
 				LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
 				LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID

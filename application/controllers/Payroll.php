@@ -82,9 +82,32 @@
 
 		} 
 
-		public function adjustmentreport() 
+		public function adjustment() 
 		{ 
+			$payperiod 				= $this->input->post('payperiod');
+			$fromcutoff				= $this->input->post('fromcutoff');
+			$payrolldetailsID		= $this->input->post('payrolldetailsID');
+			$employeeID				= $this->input->post('employeeID');
+			$employeetype			= $this->input->post('employeetype');
+			$otadjustment			= $this->input->post('otadjustment');
+			$nightdiffadjustment	= $this->input->post('nightdiffadjustment');
+			$lateadjustment			= $this->input->post('lateadjustment');
+			$leaveadjustment		= $this->input->post('leaveadjustment');
+			$otherdescription       = $this->input->post('otherdescription');
+      		$otheradjustment		= $this->input->post('otheradjustment');
+      		$totalGrosspay			= $this->input->post('totalGrosspay');
+      		$sss					= $this->input->post('sss');
+      		$phic					= $this->input->post('phic');
+      		$hdmf					= $this->input->post('hdmf');
+      		$basicpay				= $this->input->post('basicpay');
+      		$overtime				= $this->input->post('overtime');
+      		$nightdiff				= $this->input->post('nightdiff');
+      		$late					= $this->input->post('late');
+      		$absent					= $this->input->post('absent');
 
+			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent);
+
+			echo json_encode($result);
 		} 
 	}     
 ?>

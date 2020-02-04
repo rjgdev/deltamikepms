@@ -59,7 +59,7 @@ class Bank_model extends CI_Model
   	function change_status_bank($id,$status,$bankname)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM dm_detachment WHERE bankid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_post WHERE bankid='.$id.' AND poststatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('bankstatus' => $status);

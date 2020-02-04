@@ -29,7 +29,7 @@ class Client_model extends CI_Model
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),
-				'activedetachmentpost' => $this->input->post('activedetachmentpost'),
+				'noofpost' => $this->input->post('noofpost'),
 				'clientstatus' => 'Active'
 			 );
 
@@ -58,7 +58,7 @@ class Client_model extends CI_Model
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),
-				'activedetachmentpost' => $this->input->post('activedetachmentpost')
+				'noofpost' => $this->input->post('noofpost')
 			 );
 
 			$this->db->where("clientID", $id);  
@@ -75,7 +75,7 @@ class Client_model extends CI_Model
   	function change_status_client($id,$status,$clientname)
 	{
 		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM dm_detachment WHERE clientid='.$id.' AND detachmentstatus="Active"');
+			$query = $this->db->query('SELECT * FROM dm_post WHERE clientid='.$id.' AND poststatus="Active"');
 
 			if($query->num_rows() == 0){
             	$data = array('clientstatus' => $status);

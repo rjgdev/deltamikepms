@@ -7,16 +7,72 @@ class Retirementprocess_model extends CI_Model
 	{ 
 	 parent::__construct(); 
 	}
-	function get_all_Retirementprocess()
+	function get_all_Retirementprocess($rtmID)
 	{
-		$queryclient = $this->db->query('SELECT * FROM dm_client');
-		$queryemployee = $this->db->query("SELECT employeeID, concat(firstname,' ',middlename,' ',lastname) as employeename FROM dm_employee WHERE employeestatus like 'ACTIVE'");
-		$dataclient = $queryclient->result();
-		$dataemployee = $queryemployee->result();
-	     return array('client' => $dataclient, 'employee' => $dataemployee);
-		 	//$datepayroll = $payrolldate->result();
-		 	//$dataclient = $queryclient->result();
-	     //return array('payrolldate' => $datepayroll, 'client' => $dataclient);
+		$retirementID = $rtmID;
+
+		$queryheader = $this->db->query("SELECT retirementID,	employeeID,		usersubmitted,		datesubmitted,
+												userapproved,	dateapproved,	level,				approvalID,
+												retirementstatus,date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM   dm_retirement    WHERE retirementstatus !=2");
+
+		if($queryheader->num_rows()===0){
+   				
+			$data = array('retirementidstatus'   => 0,
+						  'employeeID' 			 => 0
+			);
+		$this->db->insert('dm_retirement', $data);
+	$retirementID = $this->db->insert_id();
+	$queryheader = $this->db->query("SELECT * FROM dm_retirement WHERE retirementstatus =0");
+	}else{
+   			$retirementID = $queryheader->row()->retirementID;
+   			$employeeID   =  $queryheader->row()->employeeID;
+ 
+
+   	}
+   	$queryretirementemployee = $this->db->query("SELECT * FROM dm_retirement WHERE employeeID IN(".$retirementID.")"); 
+   	$employee = $queryheader->row()->employeeID;
+
+
+   	$querydata = $this->db->query("SELECT  employeeID, employeename, employeetype, department, designation 
+									, clientname, detachment, retfund, basicsalary, netpay
+									, lastcutoff, hireddate, lastcutoff, yearofwork  
+									FROM
+									(
+										SELECT 
+										e.employeeID,
+										concat(firstname,' ',middlename,' ',lastname) as employeename
+										,d.description AS department,ds.designationdescription as designation,
+										CASE
+										WHEN e.employeetypeID = 1 THEN 'Security Guard'
+										WHEN e.employeetypeID = 2 THEN 'Staff'
+										ELSE employeetypeID
+										END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
+										SUM(pd.retfund) AS retfund,e.basicsalary,SUM(netpay) AS netpay,
+										cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
+										concat(date_format(max(pd.datefrom),'%M% %d'),' - ',  date_format(max(pd.dateto),'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
+										FROM dm_payrolldetails AS pd
+										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+										LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
+										LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
+										LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
+										LEFT JOIN dm_client AS c ON e.clientID = c.clientID
+										WHERE e.employeeID IN(".$employee.") 
+										GROUP BY year(pd.datefrom),e.employeeID
+										ORDER BY employeeID,yearofwork DESC
+									)a 
+									WHERE yearofwork >= 5
+									GROUP BY employeeID
+									ORDER BY employeeID,yearofwork DESC ");
+
+   		$queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" order by firstname');
+   		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID 
+   										   WHERE dm_approvaldet.approvalID=5 AND approvalLevel='.$queryheader->row()->level);
+   		return array('retirement' => $queryheader->result(),'employee' => $queryEmployee->result(),'approver' => $queryApprover->result(), 'recorddata' => $querydata->result());
+			/*print_r($this->db->last_query());  
+			exit;*/
 
 	}
 	function get_detachment($detachment)
@@ -24,89 +80,145 @@ class Retirementprocess_model extends CI_Model
 		$query = $this->db->query(' SELECT * FROM dm_detachment WHERE clientID ='.$detachment.'');
 		 return $query->result();
 	}
-	function get_all_Retirementemployee($searchemployee, $searchemployeetype, $searchclient, $searchdetachment)
+	function get_all_Retirementemployee($id,$employee)
 	{
-	 if($searchemployee == 0){
-    	$employee[] = " ";
+     $queryUpdatethrdetails = $this->db->query('SELECT * FROM dm_retirement	 WHERE retirementID = ".$id."'); 
+    
 
-   }else{
-    	$searchid = implode(",", $searchemployee);
-		$employee[] = "WHERE e.employeeID IN (".$searchid.")";
-    }
-  
+     if($queryUpdatethrdetails->num_rows()===0){
 
-	if($searchemployeetype == 0) {
-		$employeetype = " ";
-	}else{
-    	$employeetype =  "AND e.employeetypeID = $searchemployeetype";
-    }
-     if($searchclient == 0) {
-		$client = " ";
-	}else{
-    	$client = "AND e.cLientID = $searchclient";
-    }
-    if($searchdetachment == 0) {
-		$detachment = " ";
-	}else{
-    	$detachment = "AND e.detachmentID =  $searchdetachment";
-    }
-   
-	$query = $this->db->query("SELECT  employeeID, employeename, employeetype, department, designation 
-					, clientname, detachment, retfund, basicsalary, netpay
-					, lastcutoff, hireddate, lastcutoff, yearofwork  
-					FROM
-					(
-					SELECT 
-					e.employeeID,
-					concat(firstname,' ',middlename,' ',lastname) as employeename
-					,d.description AS department,ds.designationdescription as designation,
-					CASE
-					WHEN e.employeetypeID = 1 THEN 'Security Guard'
-					WHEN e.employeetypeID = 2 THEN 'Staff'
-					ELSE employeetypeID
-					END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-					retfund,e.basicsalary,SUM(netpay) AS netpay,
-					cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
-					concat(date_format(pd.datefrom,'%M% %d'),' - ',  date_format(pd.dateto,'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
-					FROM dm_payrolldetails AS pd
-					LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
-					LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
-					LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
-					LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
-					LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
-					LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-					".$employee[0]." $employeetype   $client  $detachment 
-					GROUP BY year(pd.datefrom),e.employeeID
-					ORDER BY employeeID,yearofwork DESC
-					)a 
-					WHERE yearofwork >= 5
-					GROUP BY employeeID
-					ORDER BY employeeID,yearofwork DESC");
-			if($query->num_rows() == 0){
-			
-			}else{
-				//$record = array();
-				 for($count = 0; $count<count($searchemployee); $count++)
-	 				{
-				$record[$count] = array(
-					'employeeID' => $searchemployee[$count]
-				 );
-				
-			}
-			if($searchemployee == 0){
-			$deleteemployee[] = " ";
+     	$itemrecord = implode(",",$employee);
+		$item = array('employeeID' => $itemrecord);
 
-			}else{
-			$searchiddelete = implode(",", $searchemployee);
-			$deleteemployee[] = "WHERE employeeID IN (".$searchiddelete.")";
-			}
-			$querydelete = $this->db->query("DELETE FROM dm_retirement $deleteemployee[0]");
-			$this->db->insert_batch('dm_retirement', $record);
-			}  
-	    							
-					 
-			//print_r($this->db->last_query());  
-			//exit;
-			return $query->result();
+     	$this->db->where("retirementID", $id);  
+        $this->db->update("dm_retirement", $item); 
+		}else{
+		
+		$itemrecord = implode(",",$employee);
+		$item = array('employeeID' => $itemrecord);
+
+     	$this->db->where("retirementID", $id);  
+        $this->db->update("dm_retirement", $item);
+    	
+
+     }	
 	}
+	function submit_Retirementprocess($retirementID, $datesubmitted)
+	{
+		$querySubmit = $this->db->query('SELECT * FROM dm_retirement WHERE retirementID='.$retirementID.' LIMIT 1');	 
+		
+		if($querySubmit->row()->employeeID ==0){
+			return array('retirement' => 0, 'error' => 'Cannot process retirement!');
+		}
+
+	 	$data = array('datesubmitted' => $datesubmitted,
+	 				  'usersubmitted' => $this->session->userdata('employeeID'),
+	 				  'level' => 1,
+	 				  'approvalID' => 1,
+	 				  '	retirementstatus' => 1);
+
+		$this->db->where("retirementID", $retirementID);  
+        $this->db->update("dm_retirement", $data); 
+
+		$querydata = $this->db->query("SELECT  employeeID, employeename, employeetype, department, designation 
+									, clientname, detachment, retfund, basicsalary, netpay
+									, lastcutoff, hireddate, lastcutoff, yearofwork  
+									FROM
+									(
+										SELECT 
+										e.employeeID,
+										concat(firstname,' ',middlename,' ',lastname) as employeename
+										,d.description AS department,ds.designationdescription as designation,
+										CASE
+										WHEN e.employeetypeID = 1 THEN 'Security Guard'
+										WHEN e.employeetypeID = 2 THEN 'Staff'
+										ELSE employeetypeID
+										END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
+										SUM(pd.retfund) AS retfund,e.basicsalary,SUM(netpay) AS netpay,
+										cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
+										concat(date_format(max(pd.datefrom),'%M% %d'),' - ',  date_format(max(pd.dateto),'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate
+										FROM dm_payrolldetails AS pd
+										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+										LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
+										LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
+										LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
+										LEFT JOIN dm_client AS c ON e.clientID = c.clientID
+										WHERE e.employeeID IN(".$querySubmit->row()->employeeID.") 
+										GROUP BY year(pd.datefrom),e.employeeID
+										ORDER BY employeeID,yearofwork DESC
+									)a 
+									WHERE yearofwork >= 5
+									GROUP BY employeeID
+									ORDER BY employeeID,yearofwork DESC ");         
+
+
+        $queryheader = $this->db->query("SELECT retirementID,	employeeID,		usersubmitted,		datesubmitted,
+												userapproved,	dateapproved,	level,				approvalID,
+												retirementstatus,
+												CASE
+													WHEN retirementstatus = 0 THEN 'DRAFT'
+													WHEN retirementstatus = 1 THEN 'PENDING'
+													WHEN retirementstatus = 2 THEN 'APPROVED'
+													ELSE retirementstatus
+												END AS retirementstatus1, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+												FROM   dm_retirement WHERE retirementID=".$retirementID);	 
+
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=5 AND approvalLevel='.$queryheader->row()->level);
+
+        return array('retirement' => $queryheader->result(), 'approver' => $queryApprover->result(), 'recorddata' => $querydata->result());  
+	}
+	function cancel_Retirement($retirementID)
+		{
+		 	$data = array('datesubmitted' => NULL,
+		 				  'usersubmitted' => NULL,
+		 				   'employeeID' => 0,
+		 				  'level' => 0,
+		 				  'retirementstatus' => 0);
+
+			$this->db->where("retirementID", $retirementID);  
+	        $this->db->update("dm_retirement", $data);   	   	
+		} 
+	function deny_Retirementprocess($retirementID)
+	{
+	 	$data = array('datesubmitted' => NULL,
+	 				  'employeeID' => 0,
+	 				  'level' => 0,
+	 				  'retirementidstatus' => 0,
+	 				  'retirementstatus' => 3);
+
+		$this->db->where("retirementID", $retirementID);  
+        $this->db->update("dm_retirement", $data);   	   	
+	}
+	function approve_Retirementprocess($retirementID, $dateapproved, $lastapprover)
+	{
+		if($lastapprover==1){
+			$queryUpdateTK = $this->db->query('UPDATE dm_retirement 
+									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,retirementstatus=2 WHERE retirementID='.$retirementID);
+
+	    }else{
+			$queryUpdateTK = $this->db->query('UPDATE dm_retirement 
+									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
+									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE retirementID='.$retirementID);
+		}
+		$queryheader = $this->db->query("SELECT retirementID,	employeeID,		usersubmitted,		datesubmitted,
+												userapproved,	dateapproved,	level,				approvalID,
+												retirementstatus,
+												CASE
+													WHEN retirementstatus = 0 THEN 'DRAFT'
+													WHEN retirementstatus = 1 THEN 'PENDING'
+													WHEN retirementstatus = 2 THEN 'APPROVED'
+													ELSE retirementstatus
+												END AS retirementstatus1, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+												FROM   dm_retirement WHERE retirementID=".$retirementID);	 
+
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=5 AND approvalLevel='.$queryheader->row()->level);
+		
+        return array('retirement' => $queryheader->result(), 'approver' => $queryApprover->result());
+	}			
+
 }	

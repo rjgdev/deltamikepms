@@ -7,13 +7,67 @@ class Thirteenmonthprocess_model extends CI_Model
 	{ 
 	 parent::__construct(); 
 	}
-	function get_all_thirteenmonthprocess()
+	function get_all_thirteenmonthprocess($thrID)
 	{
-		$queryclient = $this->db->query('SELECT * FROM dm_client');
-		 return $queryclient->result();
-		 	//$datepayroll = $payrolldate->result();
-		 	//$dataclient = $queryclient->result();
-	     //return array('payrolldate' => $datepayroll, 'client' => $dataclient);
+
+		$thrmonthID = $thrID;
+		$thdatefrom = '1880-01-01';
+		$thdateto = '1880-01-01';
+		$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
+											,userapproved,	level,		approvalID,	thrmonthstatus,	monthstatus
+											,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
+											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM dm_thrmonth  WHERE thrmonthstatus!=2 ");
+   		if($queryheader->num_rows()===0){
+   				
+   				$data = array('monthstatus'   => 0,
+   							  'datefrom'	  =>'1888-01-01',
+   							  'dateto'	      =>'1888-01-01'
+   				);
+   			$this->db->insert('dm_thrmonth', $data);
+			$thrmonthID = $this->db->insert_id();
+			$queryheader = $this->db->query("SELECT *,date_format(datefrom,'%Y%-%m') as date1,date_format(dateto,'%Y%-%m') as date2 FROM dm_thrmonth WHERE thrmonthstatus=0");	
+		}else{
+   			$thrmonthID = $queryheader->row()->thrmonthID;
+   			$thdatefrom = $queryheader->row()->date1;
+   			$thdateto = $queryheader->row()->date2;
+   			$thdate = $queryheader->row()->formatdate;
+
+   		}
+  		$querydata = $this->db->query("
+    							SELECT
+								*
+								FROM
+								(
+									SELECT 
+									e.employeeID,
+									concat(firstname,' ',middlename,' ',lastname) as employeename 
+									,d.description AS department,ds.designationdescription as designation,date_format(pd.datefrom,'%m% - %Y') AS date1,
+									CASE
+									WHEN e.employeetypeID = 1 THEN 'Security Guard'
+									WHEN e.employeetypeID = 2 THEN 'Staff'
+									ELSE employeetypeID
+									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, sum(late) as late, sum(absent) as absent,
+									 SUM(thrmonth) AS thrmonth
+									FROM dm_payrolldetails AS pd
+									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
+									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+									LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
+									LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
+									LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
+									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
+								    WHERE (date_format(pd.datefrom,'%Y%-%m') >= '".$thdatefrom."') 
+										AND 
+									(date_format(pd.dateto,'%Y%-%m') <='".$thdateto."')
+								    GROUP BY e.employeeID
+								)a");
+  	
+   		$queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" order by firstname');
+   		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID 
+   										   WHERE dm_approvaldet.approvalID=4 AND approvalLevel='.$queryheader->row()->level);
+   		return array('thrmonth' => $queryheader->result(),'employee' => $queryEmployee->result(),'approver' => $queryApprover->result(), 'recorddata' => $querydata->result());								   			
 
 	}
 	function get_clientdata($client)
@@ -22,48 +76,54 @@ class Thirteenmonthprocess_model extends CI_Model
 		 return $query->result();
 	}
 
-	function search($sddlmonth,$sddlyear,$eddlmonth,$eddlyear,$searchemployeetype,$searchclient,$searchdetachment)
+	function search($thrmonthID,$sddlmonth,$sddlyear,$eddlmonth,$eddlyear)
     {		
+
     	$sday = "1";
     	$eday = "28";
     	$datefrom = $sddlyear."-".$sddlmonth."-".$sday;
-    	$dateto = $eddlyear."-".$eddlmonth."-".$eday;
-    	
- 		$query1 = $this->db->query('SELECT * FROM dm_thrmonth WHERE datefrom = "'.$sddlmonth."-".$sddlyear.'" AND dateto = "'.$eddlmonth."-".$eddlyear.'"');
- 		if($query1->num_rows() == 0){
- 			$query1 = $this->db->query('DELETE FROM dm_thrmonth WHERE datefrom = "'.$sddlmonth."-".$sddlyear.'" AND dateto = "'.$eddlmonth."-".$eddlyear.'"');
-    		$data  = array(
-    		'datefrom' =>	$datefrom,
- 			'dateto'   =>	$dateto);
- 			$this->db->insert('dm_thrmonth', $data);
- 			$last_id = $this->db->insert_id();
- 		}else{
-			$query1 = $this->db->query('DELETE FROM dm_thrmonth WHERE datefrom  = "'.$sddlmonth."-".$sddlyear.'" AND dateto = "'.$eddlmonth."-".$eddlyear.'"');	
-    		$data  = array(
-    		'datefrom' =>	$datefrom,
- 			'dateto'   =>	$dateto);
- 			$this->db->insert('dm_thrmonth', $data);
- 			$last_id = $this->db->insert_id();
+    	$dateto = $eddlyear."-".$eddlmonth."-".$sday;
+    	$data  = array(
+    		'datefrom' 		=>	$datefrom,
+ 			'dateto'   		=>	$dateto,
+ 			'monthstatus'	=>	1);
+    		$queryUpdatethrdetails = $this->db->query('SELECT * FROM dm_thrmonth	 WHERE 
+												thrmonthID = ".$thrmonthID."'); 
 
- 		}	
+		if($queryUpdatethrdetails->num_rows()===0){
 
-    if($searchemployeetype == 0) {
-		$cond = " ";
-	}else{
-    	$cond =  "AND e.employeetypeID = $searchemployeetype";
-    }
-     if($searchclient == 0) {
-		$client = " ";
-	}else{
-    	$client = "AND e.cLientID = $searchclient";
-    }
-    if($searchdetachment == 0) {
-		$detachment = " ";
-	}else{
-    	$detachment = "AND e.detachmentID =  $searchdetachment";
-    }
+			$this->db->where("thrmonthID", $thrmonthID);  
+            $this->db->update("dm_thrmonth", $data);  
+   	   		
+		}else{
 
-    	$query = $this->db->query("
+        	$this->db->where("thrmonthID", $thrmonthID);  
+            $this->db->update("dm_thrmonth", $data);  
+           // return 'true|'.$description.' successfully updated!';
+		}
+	}
+
+	function submit_Thirteenmonth($thrmonthID, $datesubmitted)
+	{
+		$querySubmit = $this->db->query("SELECT thrmonthID, 	datefrom,	dateto,		usersubmitted,		datesubmitted,
+											   userapproved,	dateapproved,level,		approvalID, 		thrmonthstatus,		monthstatus
+										       ,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
+										FROM   dm_thrmonth WHERE  thrmonthID=".$thrmonthID." LIMIT 1");	 
+		
+		if($querySubmit->row()->monthstatus ==0){
+			return array('thrmonth' => 0, 'error' => 'Cannot process 13th month!');
+		}
+
+	 	$data = array('datesubmitted' => $datesubmitted,
+	 				  'usersubmitted' => $this->session->userdata('employeeID'),
+	 				  'level' => 1,
+	 				  'approvalID' => 1,
+	 				  '	thrmonthstatus' => 1);
+
+		$this->db->where("thrmonthID", $thrmonthID);  
+        $this->db->update("dm_thrmonth", $data); 
+
+        $querydata = $this->db->query("
     							SELECT
 								*
 								FROM
@@ -77,8 +137,8 @@ class Thirteenmonthprocess_model extends CI_Model
 									WHEN e.employeetypeID = 2 THEN 'Staff'
 									ELSE employeetypeID
 									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-									concat(date_format(pd.datefrom,'%M% %d%,%Y'),' - ',date_format(pd.dateto,'%M% %d%,%Y')) as datepayrol,FORMAT(late,4) as late,FORMAT(absent,4) AS absent,
-									 FORMAT(SUM(thrmonth),4) AS thrmonth
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, sum(late) as late, sum(absent) as absent,
+									 SUM(thrmonth) AS thrmonth
 									FROM dm_payrolldetails AS pd
 									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
 									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
@@ -86,86 +146,96 @@ class Thirteenmonthprocess_model extends CI_Model
 									LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
 									LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
 									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-								    WHERE (month(pd.datefrom) >= '$sddlmonth' AND year(pd.datefrom)>='$sddlyear') 
+								    WHERE (date_format(pd.datefrom,'%Y%-%m') >= '".$querySubmit->row()->date1."') 
 										AND 
-									(month(pd.dateto) <= '$eddlmonth' AND year(pd.dateto)<='$eddlyear')  $cond   $client  $detachment
+									(date_format(pd.dateto,'%Y%-%m') <='".$querySubmit->row()->date2."')
 								    GROUP BY e.employeeID
 								)a");
-    	//$query2 = $this->db->query('DELETE FROM dm_thrmonthdetails WHERE datefrom = "'.$datefrom.'" AND dateto = "'.$dateto.'"');
 
-/*    	$query2 = $this->db->query('SELECT * FROM dm_thrmonthdetails WHERE datefrom = "'.$datefrom.'" AND dateto = "'.$dateto.'"');
-    			if($query2->num_rows() == 0){
-    				data = array(
-					'postname' => $postname,
-					'housenumber' => $this->input->post('housenumber'),
-    				$querydetails = $this->db->query("
-    							
-								");	
+        $queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
+										,userapproved,	level,		approvalID,	
+											CASE
+											WHEN thrmonthstatus = 0 THEN 'DRAFT'
+											WHEN thrmonthstatus = 1 THEN 'PENDING'
+											WHEN thrmonthstatus = 2 THEN 'APPROVED'
+											ELSE thrmonthstatus
+											END AS thrmonthstatus
+										,	monthstatus
+										,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
+										, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM dm_thrmonth WHERE thrmonthID=".$thrmonthID);	 
 
-    			}else{
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=4 AND approvalLevel='.$queryheader->row()->level);
 
-
-
-							$querydetails = $this->db->query("
-    							INSERT INTO dm_thrmonthdetails (thrmonthID,datefrom,dateto,employeeID,monthnumber,yeardate,employeename,department,designation,employeetype,clientname,detachment,datepayrol,thrmonth)
-									SELECT '$last_id' as thrmonthID,'$datefrom' as datefrom,'$dateto' as dateto,
-									e.employeeID,month(pd.datefrom) as monthnumber,year(pd.datefrom) as yeardate,
-									concat(firstname,' ',middlename,' ',lastname) as employeename
-									,d.description AS department,ds.designationdescription as designation,
-									CASE
-									WHEN e.employeetypeID = 1 THEN 'Security Guard'
-									WHEN e.employeetypeID = 2 THEN 'Staff'
-									ELSE employeetypeID
-									END AS employeetype,c.clientname,dtc.postname AS detachment,
-									concat(date_format(pd.datefrom,'%M% %d%,%Y'),' - ',date_format(pd.dateto,'%M% %d%,%Y')) as datepayrol, thrmonth
-									FROM dm_payrolldetails AS pd
-									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
-									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
-									LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
-									LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
-									LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
-									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-								    WHERE (month(pd.datefrom) >= '$sddlmonth' AND year(pd.datefrom)>='$sddlyear') 
-										AND 
-									(month(pd.dateto) <= '$eddlmonth' AND year(pd.dateto)<='$eddlyear')  $cond   $client  $detachment
-								    GROUP BY e.employeeID,pd.datefrom,yeardate
-								");
-
-    			}*/
-
- 							
-
- 	
-
-/*
- 	$query1 = $this->db->query('DELETE FROM dm_thrmonthdetails WHERE datefrom = "'.$sddlmonth."-".$sddlyear.'" AND dateto = "'.$eddlmonth."-".$eddlyear.'"');
- 			$record  = array();
- 			for($count = 0; $count<count($querydetails->row()->monthnumber); $count++)
- 				{
-		$record[$count] = array('thrmonthID'		=> $last_id,
-								'datefrom'			=>$sddlmonth."-".$sddlyear,
-								'dateto'			=>$eddlmonth."-".$eddlyear,
-								'employeeID'		=>$querydetails->row()->employeeID[$count],
-								'monthnumber'		=>$querydetails->row()->monthnumber[$count],
-								'yeardate'			=>$querydetails->row()->yeardate[$count],
-								'employeename'		=>$querydetails->row()->employeename[$count],
-								'department'		=>$querydetails->row()->department[$count],
-								'designation'		=>$querydetails->row()->designation[$count],
-								'employeetype'		=>$querydetails->row()->employeetype[$count],
-								'clientname'		=>$querydetails->row()->clientname[$count],
-								'detachment'		=>$querydetails->row()->detachment[$count],
-								'datepayrol'		=>$querydetails->row()->datepayrol[$count],
-								'thrmonth'			=>$querydetails->row()->thrmonth[$count]
-		);
+        return array('thrmonth' => $queryheader->result(), 'approver' => $queryApprover->result(),'recorddata' => $querydata->result());  
 	}
-		$this->db->insert_batch(' dm_thrmonthdetails', $record);*/
-//print_r($this->db->last_query());  
-	//exit;
- 			return $query->result();
+	function cancel_Thirteenmonth($thrmonthID)
+		{
+			$thdatefrom = '1880-01-01';
+			$thdateto = '1880-01-01';
+		 	$data = array('datesubmitted' => NULL,
+		 				  'usersubmitted' => NULL,
+		 				  'level' 		  => 0,
+		 				  'datefrom'	  => $thdatefrom,
+		 				  'dateto'	  	  => $thdateto,
+		 				  'monthstatus'   => 0,
+		 				  'approvalID'   => 0,
+		 				  'thrmonthstatus' => 0);
+
+			$this->db->where("thrmonthID", $thrmonthID);  
+	        $this->db->update("dm_thrmonth", $data);   	   	
+		} 
+	function approve_Thirteenmonth($thrmonthID, $dateapproved, $lastapprover)
+	{
+		if($lastapprover==1){
+			$queryUpdateTK = $this->db->query('UPDATE dm_thrmonth 
+									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,thrmonthstatus=2 WHERE thrmonthID='.$thrmonthID);
+
+	    }else{
+			$queryUpdateTK = $this->db->query('UPDATE dm_thrmonth 
+									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
+									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE thrmonthID='.$thrmonthID);
+		}
+		$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
+										,userapproved,	level,		approvalID,	
+											CASE
+											WHEN thrmonthstatus = 0 THEN 'DRAFT'
+											WHEN thrmonthstatus = 1 THEN 'PENDING'
+											WHEN thrmonthstatus = 2 THEN 'APPROVED'
+											ELSE thrmonthstatus
+											END AS thrmonthstatus
+										,	monthstatus
+										,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
+										, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM dm_thrmonth WHERE thrmonthID=".$thrmonthID);	 
+
+        $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
+   										   WHERE dm_approvaldet.approvalID=4 AND approvalLevel='.$queryheader->row()->level);
+		
+        return array('thrmonth' => $queryheader->result(), 'approver' => $queryApprover->result());
+	}
+
+	function deny_Thirteenmonthprocess($thrmonthID)
+	{
+		$thdatefrom = '1880-01-01';
+		$thdateto = '1880-01-01';
+	 	$data = array('datesubmitted' 	=> NULL,
+	 				  'datefrom'		=> $thdatefrom,
+	 				  'dateto'			=> $thdateto,
+	 				  'level' 			=> 0,
+	 				   'monthstatus'   	=> 0,
+	 				  'thrmonthstatus' 	=> 3);
+
+		$this->db->where("thrmonthID", $thrmonthID);  
+        $this->db->update("dm_thrmonth", $data);   	   	
+	}				
  		
  		
  			
 
- }
+
 
 }	

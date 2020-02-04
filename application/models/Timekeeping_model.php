@@ -10,6 +10,9 @@ class Timekeeping_model extends CI_Model
 	function get_timekeeping($tkID)
 	{ 
 		$timekeepingID = $tkID;
+		$datefrom = "";
+		$dateto = "";
+
 		$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus!=2');
 
    		if($queryheader->num_rows()===0){
@@ -32,6 +35,8 @@ class Timekeeping_model extends CI_Model
 			$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus=0');
    		}else{
    			$timekeepingID = $queryheader->row()->timekeepingID;
+   			$datefrom = $queryheader->row()->datefrom;
+			$dateto = $queryheader->row()->dateto;
    		}
 
    		$querydetails = $this->db->query('SELECT *,
@@ -39,7 +44,9 @@ class Timekeeping_model extends CI_Model
    								   (othours + restot + specialot + specialrestot + regularot + regularrestot + doubleot + doublerestot) AS "otHours",
 								   (regularhours + regholidayhours + speholidayhours + othours + restot + specialot + specialrestot + regularot + regularrestot + doubleot + doublerestot) AS "totalHours"
 								   FROM dm_timekeepingdetails INNER JOIN dm_employee ON dm_employee.employeeID = dm_timekeepingdetails.employeeID 
-								   WHERE dm_timekeepingdetails.timekeepingID='.$timekeepingID);
+								   WHERE dm_timekeepingdetails.timekeepingID='.$timekeepingID.
+								   ' AND dm_timekeepingdetails.datesched>="'.$datefrom.'"'.
+								   ' AND dm_timekeepingdetails.datesched<="'.$dateto.'"');
 
    		$queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" order by firstname');
 

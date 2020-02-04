@@ -10,11 +10,17 @@ class Retirementreport_model extends CI_Model
 	function get_all_Retirementreport()
 
 	{
+		$queryretirement = $this->db->query("SELECT *,group_concat(employeeid) AS employee from dm_retirement WHERE retirementstatus = 2");
+		$employee = $queryretirement->row()->employee;
+		if($queryretirement->row()->employee ==0){
+			$employee = "0";
+			}else{
+				$employee = $queryretirement->row()->employee;
+			}
 		$query = $this->db->query("SELECT 
-									r.employeeID
+									employeeID
 									, concat(firstname,' ',middlename,' ',lastname) as employeename 
-									FROM dm_retirement as r
-									LEFT JOIN dm_employee as e ON r.employeeID = e.employeeID");
+									FROM dm_employee WHERE employeeID IN(".$employee.")");
 		  return $query->result();
 
 	}
@@ -28,7 +34,7 @@ class Retirementreport_model extends CI_Model
 		$employeerecord[] = "WHERE e.employeeID IN (".$searchemployee.")";
 	}
 	$query = $this->db->query("SELECT  employeeID, employeename, employeetype, department, designation 
-							, clientname, detachment, retfund, basicsalary, FORMAT(netpay,4) as netpay
+							, clientname, detachment, retfund, basicsalary, netpay
 							, lastcutoff, hireddate, lastcutoff,yearofhired, yearofwork  
 							FROM
 							(
@@ -41,7 +47,7 @@ class Retirementreport_model extends CI_Model
 								WHEN e.employeetypeID = 2 THEN 'Staff'
 								ELSE employeetypeID
 								END AS employeetype ,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-								retfund, e.basicsalary, late, absent, format(SUM(netpay),4) AS netpay,
+								pd.retfund, e.basicsalary, late, absent, SUM(netpay) AS netpay,
 								year(pd.datefrom) as yearofhired,
 								cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
 								concat(date_format(pd.datefrom,'%M% %d'),' - ',  date_format(pd.dateto,'%d%, %Y')) as lastcutoff, date_format(e.hireddate,'%M% %d%, %Y') hireddate

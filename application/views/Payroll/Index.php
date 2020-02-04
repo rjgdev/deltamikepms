@@ -2,6 +2,7 @@
 	$timekeepingNo 		= "-----"; 
 	$timekeepingID 		= ""; 
 	$datefrom 			= "-----"; 
+	$fromcutoff			= ""; 
 	$dateto 			= "";
 	$payperiod 			= "";
 	$payperiodrange		= "-----";
@@ -13,6 +14,7 @@
 		$timekeepingID 		= $item->timekeepingID;
 		$timekeepingNo 		= "TK-".str_pad($item->timekeepingID, 6, "0", STR_PAD_LEFT);
 		$datefrom 			= date("F d, Y",strtotime($item->datefrom)); 
+		$fromcutoff			= $item->datefrom;
 		$dateto 			= date("F d, Y",strtotime($item->dateto));
 		$payperiod 			= $item->payperiod;
 		$payperiodrange		= date("F d, Y",strtotime($item->datefrom)).' - '.date("F d, Y",strtotime($item->dateto)).' ('.$payperiod.')';
@@ -292,31 +294,73 @@
 							<tr>
 								<th style="width: 90px ! important;">Employee No.</th>
 								<th style="width: 240px;">Employee Name</th>
-								<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
-								<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Overtime Adjustment</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Night Differential</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Night Diff. Adjustment</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Allowance</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Incentive</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Late</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Late Adjustment</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>
-								<th class="text-right" style="width: 90px; font-size:11px;">W/holding Tax</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Leave Adjustment</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Other Description</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">GROSS PAY</th>
+								<th class="text-right" style="width: 100px; font-size:11px;">Withholding Tax</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">SSS Loan</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">HDMF Loan</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Salary Loan</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Action</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php foreach ($data['payrolldetails'] as $item) { ?>
-									<tr>
+									<tr id="<?php echo $item->payrolldetailsID; ?>">
 	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?></td>
 	    								<td><?=$item->firstname.' '.$item->lastname;?></td>
-	    								<td class="text-right" style="color:#0ebe0e;"><?=number_format($item->basicpay,4,".",",")?></td>
-	    								<td class="text-right" style="color:#0ebe0e;"><?=number_format($item->ordinaryot,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->late,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->absent,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->wtax,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->sss_ee,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->phic_ee,4,".",",")?></td>
-	    								<td class="text-right" style="color:#be0e0e;"><?=number_format($item->hdmf_ee,4,".",",")?></td>
-	    								<td class="text-right" style="color:#0ebe0e; font-weight: 500;"><?=number_format($item->netpay,4,".",",")?></td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->basicpay,4,".",",")?></td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->ordinaryot,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->otadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
+	    									<?=number_format($item->otadjustment,4,".",",")?>
+    									</td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->nightdiff,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->nightdiffadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>;">
+	    									<?=number_format($item->nightdiffadjustment,4,".",",")?>
+	    								</td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->allowance,4,".",",")?></td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->incentive,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->late,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->lateadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">	
+	    									<?=number_format($item->lateadjustment,4,".",",")?>
+	    								</td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->absent,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->leaveadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">	
+	    									<?=number_format($item->leaveadjustment,4,".",",")?>
+	    								</td>
+	    								<td><?=$item->otherdescription;?></td>
+	    								<td class="text-right" style="color:<?php if($item->otheradjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
+	    									<?=number_format($item->otheradjustment,4,".",",")?>
+    									</td>
+	    								<td class="text-right" style="color:<?php if($item->grosspay>=0) echo '#059a05'; else echo '#9a0505'; ?>">
+	    									<?=number_format($item->grosspay,4,".",",")?>
+    									</td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->wtax,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->sss_ee,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->phic_ee,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->hdmf_ee,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->sssloan,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->hdmfloan,4,".",",")?></td>
+	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->salaryloan,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->netpay>=0) echo '#059a05'; else echo '#9a0505'; ?>; font-weight: 500;">
+	    									<?=number_format($item->netpay,4,".",",")?>
+    									</td>
+	    								<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" id="<?=$item->payrolldetailsID?>" employeetype="<?=$item->employeetypeID?>" data-backdrop="static" data-keyboard="false" style="font-size:.68rem !important;">Adjust Payroll</a></td>
 									</tr>
 							<?php } ?>
 						</tbody>
@@ -355,6 +399,78 @@
 	</div>
 <!-- /Confirmation Modal -->
 
+<!-- Adjustment Modal -->
+	<div id="modal_adjustment" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Adjust Payroll</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="row"> 
+							<div class="col-sm-12"> 
+								<div class="form-group">
+									<label for="otadjustment">Overtime Adjustment</label>
+									<div class="input-group mr-sm-2 mb-sm-0">
+								        <div class="input-group-prepend">
+								        	<span class="input-group-text">₱</span>
+								        </div>
+								        <input id="otadjustment" name="otadjustment" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" im-insert="true" style="text-align: right;">
+							        </div>
+								</div>
+								<div class="form-group">
+									<label>Night Differential Adjustment</label>
+									<div class="input-group mr-sm-2 mb-sm-0">
+								        <div class="input-group-prepend">
+								        	<span class="input-group-text">₱</span>
+								        </div>
+								        <input id="nightdiffadjustment" name="nightdiffadjustment" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" im-insert="true" style="text-align: right;">
+							        </div>
+								</div>
+								<div class="form-group">
+									<label>Late Adjustment</label>
+									<div class="input-group mr-sm-2 mb-sm-0">
+								        <div class="input-group-prepend">
+								        	<span class="input-group-text">₱</span>
+								        </div>
+								        <input id="lateadjustment" name="lateadjustment" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" im-insert="true" style="text-align: right;">
+							        </div>
+								</div>
+								<div class="form-group">
+									<label>Leave Adjustment</label>
+									<div class="input-group mr-sm-2 mb-sm-0">
+								        <div class="input-group-prepend">
+								        	<span class="input-group-text">₱</span>
+								        </div>
+								        <input id="leaveadjustment" name="leaveadjustment" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" im-insert="true" style="text-align: right;">
+							        </div>
+								</div>
+								<div class="form-group">
+									<label>Other Adjustment</label>
+									<div class="input-group mr-sm-2 mb-sm-0">
+										<input id="otherdescription" name="otherdescription" class="form-control input mr-1"  autocomplete="off" im-insert="true" placeholder="Description">
+								        <div class="input-group-prepend">
+								        	<span class="input-group-text">₱</span>
+								        </div>
+								        <input id="otheradjustment" name="otheradjustment" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" im-insert="true" style="text-align: right;">
+							        </div>
+								</div>
+							</div>
+						</div>
+						<div class="submit-section">
+							<button class="btn btn-primary submit-btn save_adjustment">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Adjustment Modal -->
+
 <script  type="text/javascript">  
 $(document).ready(function() {
 
@@ -363,18 +479,28 @@ $(document).ready(function() {
         scrollCollapse: true,
         fixedColumns:   {
 		    leftColumns: 2,
-		    rightColumns: 1
+		    rightColumns: 2
 		}
     } );
 
     $(document).on("click", ".processpayroll", function(){
-        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/process.svg");
-		$('#modal_title').html("Process Payroll");
-    	$('#modal_message').html("Are you sure you want to process the payroll?");
-    	$('.submit-btn').html("Process payroll");
-    	$('.cancel-btn').html("Cancel");
-    	$('.submit-btn').attr("id","modal_processpayroll");
-        $('#modal_confirmation').modal('show');
+    	if($('#cutoff').attr('status')=="1")
+			showErrorToast("Cannot process, timekeeping is still <b>pending!</b>");
+		else if($('#cutoff').attr('status')=="3") 
+			showErrorToast("Cannot process, timekeeping is <b>denied!</b>");
+		else if($('#cutoff').attr('status')=="0") 
+			showErrorToast("Cannot process, timekeeping is still <b>draft!</b>");
+		else if($('#cutoff').attr('status')=="")
+			showErrorToast("No timekeeping to process!");
+		else{
+			$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/process.svg");
+			$('#modal_title').html("Process Payroll");
+	    	$('#modal_message').html("Are you sure you want to process the payroll? <p style='font-size: .71rem; color: #e04d45; font-weight:500;'>All adjustments made will be completely removed! </p>");
+	    	$('.submit-btn').html("Process payroll");
+	    	$('.cancel-btn').html("Cancel");
+	    	$('.submit-btn').attr("id","modal_processpayroll");
+	        $('#modal_confirmation').modal('show');
+		}
 		return false;
 	});
 
@@ -397,37 +523,66 @@ $(document).ready(function() {
 	            async : true,
 	            dataType : 'json',
 	            success: function(data){
+	            	console.log(data);
 	            	html =  '<table class="table table-striped custom-table" id="datatable1">' + 
 	            			'<thead>' +
-							'<tr>' + 
-								'<th style="width: 90px ! important;">Employee No.</th>' +
-								'<th style="width: 240px;">Employee Name</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">Basic</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">LATE</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">W/holding Tax</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>' +
-								'<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>' +
+							'<tr>' +
+								 '<th style="width: 90px ! important;">Employee No.</th>' +
+								 '<th style="width: 240px;">Employee Name</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime Adjustment</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Night Differential</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Night Diff. Adjustment</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Allowance</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Incentive</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Late</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Late Adjustment</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Leave Adjustment</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Other Description</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>' + 
+								 '<th class="text-right" style="width: 90px; font-size:11px;">GROSS PAY</th>' +
+								 '<th class="text-right" style="width: 100px; font-size:11px;">Withholding Tax</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">SSS Loan</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">HDMF Loan</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Salary Loan</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Action</th>' +
 							'</tr>' +
 						'</thead>' +
 						'<tbody>';
 
 	            	for(var i=0; i<data["payrolldetails"].length; i++){
-    					html += '<tr>' +
-    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') 													+ '</td>' +
-    								'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 						+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e;">' + accounting.formatMoney(data["payrolldetails"][i].ordinaryot) 	+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].late) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].wtax) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].sss_ee) 			+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].phic_ee) 		+ '</td>' +
-    								'<td class="text-right" style="color:#be0e0e;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf_ee) 		+ '</td>' +
-    								'<td class="text-right" style="color:#0ebe0e; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>';
+    					html += '<tr id="' + data["payrolldetails"][i].payrolldetailsID + '">' +
+    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') 														+ '</td>' +
+    								'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 							+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].ordinaryot) 	+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otadjustment) + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].nightdiff) 		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].nightdiffadjustment) + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].paydet_allowance) 		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].incentive) 		+ '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].late) 			+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].lateadjustment) + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].leaveadjustment) + '</td>' +
+    								'<td>' + data["payrolldetails"][i].otherdescription	+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otheradjustment) + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].grosspay) 		 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].wtax) 			 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].sss_ee) 		 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].phic_ee) 		 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf_ee) 		 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].sssloan)    + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].hdmfloan)   + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].salaryloan) + '</td>' +
+    								'<td class="text-right" style="color:#059a05; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>' +
+    								'<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" id="' + data["payrolldetails"][i].payrolldetailsID + '" employeetype="' + data["payrolldetails"][i].employeetypeID + '" data-backdrop="static" data-keyboard="false" style="font-size:.68rem !important;">Adjust Payroll</a></td>' +
 								'</tr>';
             		}
 
@@ -452,7 +607,7 @@ $(document).ready(function() {
 			        	scrollCollapse: true,
 				        fixedColumns:   {
 						    leftColumns: 2,
-						    rightColumns: 1
+						    rightColumns: 2
 						}
 				    });
 		        	$('#modal_confirmation').modal('hide');
@@ -680,5 +835,158 @@ $(document).ready(function() {
      	 });
          return false;
 	});
+
+	$(document).on("click", ".adjustment", function(){
+		$('.save_adjustment').attr({'id'					: $(this).attr('id'), 
+									'employeeID'			: table.row(this).data()[0],
+									'employeetype'			: $(this).attr('employeetype'), 
+									'basicpay'				: table.row(this).data()[2],
+									'overtime'				: table.row(this).data()[3],
+									'otadjusment'			: table.row(this).data()[4],
+									'nightdiff'				: table.row(this).data()[5],
+									'nightdiffadjustment'	: table.row(this).data()[6],
+									'allowance'				: table.row(this).data()[7],
+									'incentive'				: table.row(this).data()[8],
+									'late'					: table.row(this).data()[9],
+									'lateadjustment'		: table.row(this).data()[10],
+									'LWOP'					: table.row(this).data()[11],
+									'leaveadjustment' 		: table.row(this).data()[12],
+									'otherdescription' 		: table.row(this).data()[13],
+									'otheradjustment' 		: table.row(this).data()[14],
+									'grosspay' 				: table.row(this).data()[15],
+									'wtax' 					: table.row(this).data()[16],
+									'sss' 					: table.row(this).data()[17],
+									'phic' 					: table.row(this).data()[18],
+									'hdmf'					: table.row(this).data()[19],
+									'sssloan'				: table.row(this).data()[20],
+									'hdmfloan'				: table.row(this).data()[21],
+									'salaryloan'			: table.row(this).data()[22],
+									'netpay'				: table.row(this).data()[23]
+									});
+		$('#modal_adjustment .submit-btn').html("Submit");
+
+		$('#otadjustment').val(table.row(this).data()[4]);
+		$('#nightdiffadjustment').val(table.row(this).data()[6]);
+		$('#lateadjustment').val(table.row(this).data()[10]);
+		$('#leaveadjustment').val(table.row(this).data()[12]);
+		$('#otherdescription').val(table.row(this).data()[13]);
+		$('#otheradjustment').val(table.row(this).data()[14]);
+         return false;
+	});	
+
+	$(document).on("click", ".save_adjustment", function(){
+        $('#modal_confirmation .confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg");
+		$('#modal_confirmation #modal_title').html("Confirmation Message");
+    	$('#modal_confirmation #modal_message').html("Are you sure you want to save this payroll adjustment?");
+    	$('#modal_confirmation .submit-btn').html("Save adjustment");
+    	$('#modal_confirmation .cancel-btn').html("Cancel");
+    	$('#modal_confirmation .submit-btn').attr("id","modal_saveadjustment");
+    	$('#modal_adjustment').hide();
+		$('#modal_confirmation').modal({backdrop: 'static', keyboard: false},'show');
+		return false;
+	});
+
+	$(document).on("click", ".cancel-btn", function(){
+		$('#modal_confirmation').modal('hide');
+		if($('#modal_confirmation .submit-btn').text()=="Save adjustment") $('#modal_adjustment').show();
+	});
+
+	$(document).on("click", "#modal_saveadjustment", function(){
+		var otadjustment		= $("#otadjustment").val().trim().replace(",","").replace(" ","");
+		var nightdiffadjustment = $("#nightdiffadjustment").val().trim().replace(",","").replace(" ","");
+		var lateadjustment 		= $("#lateadjustment").val().trim().replace(",","").replace(" ","");
+		var leaveadjustment 	= $("#leaveadjustment").val().trim().replace(",","").replace(" ","");
+		var otherdescription 	= $("#otherdescription").val();
+		var otheradjustment 	= $("#otheradjustment").val().trim().replace(",","").replace(" ","");
+
+		var payperiod	  	 	= "<?php echo $payperiod; ?>";
+		var fromcutoff			= "<?php echo $fromcutoff; ?>";
+		var payrolldetailsID 	= $(".save_adjustment").attr('id');
+		var employeeID	  	 	= $(".save_adjustment").attr('employeeID');
+		var employeetype 	 	= $(".save_adjustment").attr('employeetype');
+		var basicpay	  	 	= $(".save_adjustment").attr('basicpay').trim().replace(",","").replace(" ","");
+		var overtime	  	 	= $(".save_adjustment").attr('overtime').trim().replace(",","").replace(" ","");
+		var nightdiff	  	 	= $(".save_adjustment").attr('nightdiff').trim().replace(",","").replace(" ","");
+		var allowance	  	 	= $(".save_adjustment").attr('allowance').trim().replace(",","").replace(" ","");
+		var incentive	  	 	= $(".save_adjustment").attr('incentive').trim().replace(",","").replace(" ","");
+		var late	  	 		= $(".save_adjustment").attr('late').trim().replace(",","").replace(" ","");
+		var LWOP	  	 		= $(".save_adjustment").attr('LWOP').trim().replace(",","").replace(" ","");		
+		var grosspay	  	 	= $(".save_adjustment").attr('grosspay').trim().replace(",","").replace(" ","");		
+		var wtax	  	 		= $(".save_adjustment").attr('wtax').trim().replace(",","").replace(" ","");		
+		var sss	  	 			= $(".save_adjustment").attr('sss').trim().replace(",","").replace(" ","");		
+		var phic	  	 		= $(".save_adjustment").attr('phic').trim().replace(",","").replace(" ","");		
+		var hdmf	  	 		= $(".save_adjustment").attr('hdmf').trim().replace(",","").replace(" ","");		
+		var sssloan	  	 		= $(".save_adjustment").attr('sssloan').trim().replace(",","").replace(" ","");		
+		var hdmfloan	  	 	= $(".save_adjustment").attr('hdmfloan').trim().replace(",","").replace(" ","");		
+		var salaryloan	  	 	= $(".save_adjustment").attr('salaryloan').trim().replace(",","").replace(" ","");		
+		var netpay	  	 		= $(".save_adjustment").attr('netpay').trim().replace(",","").replace(" ","");		
+		var totalAdjustment		= 0;
+		var totalGrosspay 		= 0;
+		var totalNetpay 		= 0;
+
+		totalAdjustment = parseFloat(otadjustment) + parseFloat(nightdiffadjustment) + parseFloat(lateadjustment) + parseFloat(leaveadjustment) + parseFloat(otheradjustment);
+
+  		totalGrosspay = (parseFloat(basicpay) +  parseFloat(overtime) +  parseFloat(nightdiff) +  parseFloat(allowance) +  parseFloat(incentive)) 
+  						 + parseFloat(totalAdjustment) 
+  						 - (parseFloat(late) + parseFloat(LWOP));
+
+    	$.ajax({
+		      url : "<?php echo site_url('payroll/adjustment');?>",
+		      method : "POST",
+		      data : {payperiod:payperiod,
+		      		  fromcutoff:fromcutoff,
+		      		  payrolldetailsID: payrolldetailsID,
+		      		  employeeID:employeeID,
+		      		  employeetype:employeetype,
+		      		  basicpay:basicpay,
+		      		  overtime:overtime,
+		      		  nightdiff:nightdiff,
+		      		  late:late,
+	      		  	  absent:LWOP,
+		      		  otadjustment: otadjustment,
+		      		  nightdiffadjustment: nightdiffadjustment,
+		      		  lateadjustment: lateadjustment,
+		      		  leaveadjustment: leaveadjustment,
+		      		  otherdescription: otherdescription,
+		      		  otheradjustment: otheradjustment,
+		      		  totalGrosspay:totalGrosspay,
+		      		  sss:sss,
+		      		  phic:phic,
+		      		  hdmf:hdmf
+		      		  },
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+	      		$('#modal_adjustment').modal('hide');
+	      		$('#modal_confirmation').modal('hide');
+	      		console.log(data);
+	      		var table = $('#datatable1').DataTable();
+
+	      		table.cell('#' + payrolldetailsID + ' td:eq(4)').data(accounting.formatMoney(otadjustment)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(6)').data(accounting.formatMoney(nightdiffadjustment)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(10)').data(accounting.formatMoney(lateadjustment)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(12)').data(accounting.formatMoney(leaveadjustment)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(13)').data(otherdescription).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(14)').data(accounting.formatMoney(otheradjustment)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(15)').data(accounting.formatMoney(totalGrosspay)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(16)').data(accounting.formatMoney(data["wtax"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(23)').data(accounting.formatMoney(data["netpay"])).draw();
+
+	      		$('#' + payrolldetailsID + ' td:eq(4)').css("color", (otadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(6)').css("color", (nightdiffadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(10)').css("color", (lateadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(12)').css("color", (leaveadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(14)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(15)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(23)').css("color", (parseFloat(data["netpay"])<0) ? "#9a0505" : '#059a05');
+
+	  	  		showSuccessToast("Payroll adjustment successfully applied!");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+     	 });
+         return false;
+	});	
 }); 		 
 </script>

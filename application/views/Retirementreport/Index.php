@@ -90,7 +90,7 @@
 					<div id="tabledata">
 						<div class="row">
 						<div class="col-md-12">
-					<div class="table-responsive">
+					<div class="table-responsive" id="show_data">>
 						<table class="table table-striped custom-table datatable">
 							<thead>	
 								<tr>
@@ -100,8 +100,6 @@
 									<th style="width: 90px ! important;"><center>Designation</center></th>
 									<th style="width: 100px ! important;"><center>Employee Type</center></th>
 									<th style="width: 90px ! important;"><center>Client</center></th>
-									<th style="width: 90px ! important;"><center>Detachment</center></th>
-									<th style="width: 150px ! important;"><center>Retirement Fund</center></th>
 									<th style="width: 200px;">Last Payroll Cut off</th>
 									<th style="width: 80px ! important;">Hired Date</th>
 									<th style="width: 90px ! important;">Year</th>
@@ -109,7 +107,7 @@
 									
 								</tr>
 							</thead>
-							<tbody id="show_data">
+							<tbody id="show_datarecord">
                				</tbody>
                				<tfoot id="total_data">
                				</tfoot>
@@ -161,24 +159,21 @@ $("#seachform").submit(function(event) {
 							'<td>'+response[i].department+'</td>'+
 							'<td>'+response[i].designation+'</td>'+
 							'<td>'+response[i].employeetype+'</td>'+
-							'<td>'+response[i].clientname+'</td>'+
-							'<td>'+response[i].detachment+'</td>'+
 							'<td class="text-right">'+accounting.formatMoney(response[i].retfund)+'</td>'+
 							'<td>'+response[i].lastcutoff+'</td>'+
 							'<td>'+response[i].hireddate+'</td>'+
 							'<td>'+response[i].yearofhired+'</td>'+
 							'<td>'+response[i].yearofwork+'</td>'+
 							'</tr>';
-                              
-               		
+                              	
                     }
                     htmlfooter += '<tr>'+
 										'<th>'+ 'Total' +'</th>'+
-										'<td colspan="6">'+' ' +'</td>'+
+										'<td colspan="4">'+' ' +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalrefund)  +'</td>'+
 										'<td colspan="4">'+' ' +'</td>'+
 									'</tr>';
-                    $('#show_data').html(html);
+                    $('#show_datarecord').html(html);
                     $('#total_data').html(htmlfooter); 
                     $("body").removeClass("loading");  
 		}	

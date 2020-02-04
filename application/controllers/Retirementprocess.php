@@ -11,30 +11,47 @@
 			
 		{ 
 	  		$data = array('title' => 'Retirement Process');
-	  		$data['data']=$this->Retirementprocess->get_all_Retirementprocess();
+	  		$data['data']=$this->Retirementprocess->get_all_Retirementprocess("");
 			$this->load->view('Template/Header',$data);
 			$this->load->view("Retirementprocess/Index",$data);
 			$this->load->view('Template/Footer',$data);
 		}
-		public function get_detachment()
+		public function search_Retirement()
 		{
-
-			$detachment				= 		$this->input->post('id');
-			$data   				= 		$this->Retirementprocess->get_detachment($detachment);
-
-
-			echo json_encode($data); 
-
-		}
-		public function search_Retirementprocess()
-		{
-			$searchemployeetype = $this->input->post('searchemployeetype');
-			$searchclient = $this->input->post('searchclient');
-			$searchdetachment = $this->input->post('searchdetachment');
-			$searchemployee = $this->input->post('arrayemployee');
-			$data=$this->Retirementprocess->get_all_Retirementemployee($searchemployee,$searchemployeetype,$searchclient,$searchdetachment);
+			$id = $this->input->post('id');
+			$employee = $this->input->post('employee');
+			$data=$this->Retirementprocess->get_all_Retirementemployee($id,$employee);
 			echo json_encode($data);
 
 		}
+		public function submit() 
+		{ 
+			$retirementID = $this->input->post('retirementID');
+        	$result = $this->Retirementprocess->submit_Retirementprocess($retirementID, date("Y-m-d H:i:s"));
+        	echo json_encode($result);
+
+		}
+		public function cancel() 
+		{ 
+			$retirementID = $this->input->post('retirementID');
+        	$this->Retirementprocess->cancel_Retirement($retirementID);
+		}
+		public function deny() 
+		{ 
+			$retirementID = $this->input->post('retirementID');
+        	$this->Retirementprocess->deny_Retirementprocess($retirementID);
+		}
+		public function approve() 
+		{ 
+			$retirementID = $this->input->post('retirementID');
+			$lastapprover = $this->input->post('lastapprover');
+			
+        	$result = $this->Retirementprocess->approve_Retirementprocess($retirementID, date("Y-m-d"),$lastapprover);
+        	     	
+        	echo json_encode($result);
+		}
+
+
+
 
 	}	

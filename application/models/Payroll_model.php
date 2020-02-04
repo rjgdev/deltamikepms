@@ -34,7 +34,7 @@ class Payroll_model extends CI_Model
 
 		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$level);
+   										   WHERE dm_approvaldet.approvalID=3 AND approvalLevel='.$level);
 		
 		return array('timekeeping' => $query->result(),'payroll' => $queryPayroll->result(),'payrolldetails' => $queryPayrolldetails->result(),'approver' => $queryApprover->result());
 	}
@@ -45,7 +45,7 @@ class Payroll_model extends CI_Model
 						   - 
 						   Tardiness - Absences - SSS/Philhealth/PagIbig deductions
 	    */
-		$wtax = 0;
+		$wtax = 0; 
 
 		$month = date("m",strtotime($fromcutoff));
 		$year  = date("y",strtotime($fromcutoff));
@@ -55,18 +55,43 @@ class Payroll_model extends CI_Model
 
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-		$firstNetpay  = $query->row()->netpay;
+		$taxDeduction = $query->row()->late + $query->row()->absent + $query->row()->hdmf_ee + $query->row()->phic_ee + $query->row()->sss_ee;
+
+			$totalOTpay = $query->row()->ordinaryot 	+ 
+						  $query->row()->restot 		+ 
+						  $query->row()->specialot 		+ 
+						  $query->row()->specialrestot 	+ 
+						  $query->row()->regularot 		+ 
+						  $query->row()->regularrestot 	+ 
+					      $query->row()->doubleot 		+ 
+					      $query->row()->doublerestot; 
+
+		    $totalHolidaypay = $query->row()->regholiday + 
+							   $query->row()->speholiday;
+
+	    $taxEarnings  	= $query->row()->basicpay + $totalOTpay + $totalHolidaypay + $query->row()->nightdiff + 
+	    				 ($query->row()->nightdiffadjustment + 
+	    				  $query->row()->leaveadjustment 	 +								
+	    				  $query->row()->lateadjustment 	 + 
+	    				  $query->row()->otadjustment);
+
+		$taxableIncome 	= $taxEarnings - $taxDeduction;
+
+		$firstNetpay  = $taxableIncome;
 	    $secondNetpay = $netpay;
 
 	    $totalNetpay = $firstNetpay + $secondNetpay;
 
 		$queryWTAX = $this->db->query("SELECT * FROM dm_taxtable WHERE belowrange<=".$totalNetpay." AND aboverange>=".$totalNetpay." LIMIT 1");
 
-		$wtax = ($totalNetpay - $queryWTAX->row()->belowrange) * ($queryWTAX->row()->percent/100) + $queryWTAX->row()->additionaltax;
+		if($queryWTAX->num_rows()!=0){
+			$wtax = ($totalNetpay - $queryWTAX->row()->belowrange) * ($queryWTAX->row()->percent/100) + $queryWTAX->row()->additionaltax;
+		}
 
 		return $wtax;
 	}
 
+	/* SSS = (MBS + OT + ALLOWANCE) - (LATE + ABSENT) + ADJUSTMENT */
 	function getSSS($salary,$fromcutoff,$employeeID){
 		$basicsalary = 0;
 
@@ -88,8 +113,7 @@ class Payroll_model extends CI_Model
 				      $query->row()->doublerestot;
 
       	$totalAllowance = $query->row()->allowance 	+ 
-						  $query->row()->incentive 	+ 
-						  $query->row()->uniformallowance;
+						  $query->row()->incentive;
 
 		$basicsalary = ($salary + $query->row()->basicpay + $totalOTpay + $totalAllowance) - ($query->row()->late + $query->row()->absent);
 		
@@ -98,6 +122,7 @@ class Payroll_model extends CI_Model
 		return $querySSS->row()->employee."|".$querySSS->row()->employer."|".$querySSS->row()->ec;
 	}
 
+	/* MONTHLY BASIC SALARY */
 	function getPHIC($salary){
 		$phic = 0;
 
@@ -110,6 +135,7 @@ class Payroll_model extends CI_Model
 		return $phic / 2;
 	}
 
+	/* MONTHLY BASIC SALARY */
 	function getHDMF($salary){
 		$hdmf = 50;
 
@@ -139,12 +165,6 @@ class Payroll_model extends CI_Model
 			$queryDeletePayroll = $this->db->query("DELETE FROM dm_payrolldetails WHERE payrollID=".$last_id);
 		}
 
-			$hdmf = 0;
-			$phic = 0;
-			$wtax = 0;
-			$sss_ee = 0;
-			$sss_er = 0;
-			$sss_ec = 0;
 			
 			$query = $this->db->query("SELECT dm_employee.employeeID,
 											  dm_employee.firstname,
@@ -184,8 +204,7 @@ class Payroll_model extends CI_Model
 										      0 AS 'speholiday',
 										      dm_employee.retfund 			AS 'retfund',
 										      dm_employee.allowance 		AS 'allowance',
-										      dm_employee.incentive 		AS 'incentive',
-										      dm_employee.uniformallowance 	AS 'uniformallowance'
+										      dm_employee.incentive 		AS 'incentive'
 									   FROM dm_timekeepingdetails
 									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
 									   WHERE (datesched >= '".$fromcutoff."' AND 
@@ -195,29 +214,24 @@ class Payroll_model extends CI_Model
 			{
 			   foreach ($query->result() as $row)
 			   {
+					$wtax 		= 0;
+					$grosspay 	= 0;
+					$wtax 		= 0;
+					$sss_ee 	= 0;
+					$sss_er 	= 0;
+					$sss_ec 	= 0;
+					$hdmf 		= 0;
+					$phic 		= 0;
+					$sssloan  	= 0;
+					$hdmfloan 	= 0;
+					$salaryloan = 0;
+
 			      	$basicsalary = ($row->employeetypeID==1 ? $row->basicpay : $row->basicsalary);
 
-					/************************  DEDUCTION *************************/
-					$hdmf = $this->getHDMF($basicsalary);
-					$phic = $this->getPHIC($basicsalary);
-
-					if($payperiod=="2"){
-						$returnSSS = explode("|", $this->getSSS($row->basicpay, $fromcutoff, $row->employeeID));
-
-						$sss_ee = $returnSSS[0];
-						$sss_er = $returnSSS[1];
-						$sss_ec = $returnSSS[2];
-					}
-
+			      	/************************  DECLARATION  *************************/
 					$late	  = $row->late;
 					$absent   = $row->absent;
-					$sssloan  = 0;
-					$hdmfloan = 0;
 
-					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss_ee;
-				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
-
-					/************************   INCOME  *************************/
 					$totalOTpay = $row->ordinaryot 		+ 
 								  $row->restot 			+ 
 								  $row->specialot 		+ 
@@ -227,26 +241,44 @@ class Payroll_model extends CI_Model
 							      $row->doubleot 		+ 
 							      $row->doublerestot;
 
-				    $totalHolidaypay = $row->regholiday + 
+  			        $totalHolidaypay = $row->regholiday + 
 									   $row->speholiday;
 
-				    $thirteenmonth 	  = ($row->basicpay - ($late + $absent)) / 12;
+				    $thirteenmonth 	  = ($row->basicpay - ($late + $absent)) / 6;
 				    $incentive 		  = $row->incentive;
-				    $allowance   	  = $row->allowance;
-				    $uniformallowance = $row->uniformallowance;
+				    $allowance   	  = ($row->allowance>0 ? $row->allowance/2 : 0);
 				    $nightdiff 		  = $row->nightdiff;
 
+				    $grosspay = ($row->basicpay + $totalOTpay + $nightdiff + $allowance + $incentive) - ($late + $absent);
+
+					/************************  DEDUCTION *************************/
+					$hdmf = $this->getHDMF($basicsalary);
+					$phic = $this->getPHIC($basicsalary);
+
+					if($payperiod=="2"){
+						$returnSSS = explode("|", $this->getSSS($grosspay, $fromcutoff, $row->employeeID));
+
+						$sss_ee = $returnSSS[0];
+						$sss_er = $returnSSS[1];
+						$sss_ec = $returnSSS[2];
+					}
+
+					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss_ee;
+				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
+
+					/************************   INCOME  *************************/
 				    $taxEarnings  	= $row->basicpay + $totalOTpay + $totalHolidaypay + $nightdiff;
-				    $TOTALINCOME    = $taxEarnings + $incentive + $allowance + $uniformallowance;
+				    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;
 
 					/************************  TOTAL  *************************/
 					$taxableIncome = $taxEarnings - $taxDeduction;
+
 
 					if($payperiod=="2" && $row->employeetypeID==2){ // FOR STAFF ONLY
 						$wtax = $this->getWTAX($fromcutoff, $row->employeeID, $taxableIncome);
 					}
 
-				    $netpay = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
+				    $netpay   = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
 
 					$data = array('payrollID'		 => $last_id,
 								  'datefrom'		 => $fromcutoff,
@@ -263,10 +295,10 @@ class Payroll_model extends CI_Model
 								  'ordinaryot' 		 => $row->ordinaryot,
 								  'allowance'   	 => $allowance,
 								  'incentive' 		 => $incentive,
-								  'uniformallowance' => $uniformallowance,
 								  'nightdiff'		 => $nightdiff,
 								  'late' 			 => $row->late,
 								  'absent' 			 => $row->absent,
+								  'grosspay' 		 => $grosspay,
 								  'hdmf_ee' 		 => $hdmf,
 								  'hdmf_er' 		 => $hdmf,
 								  'phic_ee' 		 => $phic,
@@ -288,7 +320,7 @@ class Payroll_model extends CI_Model
 
 		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE payrollID=".$last_id);
 
-		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
+		$queryPayrolldetails = $this->db->query("SELECT *,dm_payrolldetails.allowance AS 'paydet_allowance' FROM dm_payrolldetails 
 												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
 												 WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
 
@@ -316,7 +348,7 @@ class Payroll_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=3 AND approvalLevel='.$queryheader->row()->level);
 
         return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());  
 	}
@@ -351,7 +383,7 @@ class Payroll_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=3 AND approvalLevel='.$queryheader->row()->level);
 		
         return array('payroll' => $queryheader->result(), 'approver' => $queryApprover->result());
 	}
@@ -365,6 +397,56 @@ class Payroll_model extends CI_Model
 		$this->db->where("payrollID", $payrollID);  
         $this->db->update("dm_payroll", $data);   	   	
 	}
+
+	function save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent)
+	{
+		$sss_ee   		 = 0;
+		$sss_er   		 = 0;
+		$sss_ec   		 = 0;
+		$wtax 	  		 = 0;
+		$totalHolidaypay = 0;
+		$sssloan  		 = 0;
+		$hdmfloan 		 = 0;
+
+		if($payperiod=="2"){
+			$returnSSS = explode("|", $this->getSSS($totalGrosspay, $fromcutoff, $employeeID));
+
+			$sss_ee = $returnSSS[0];
+			$sss_er = $returnSSS[1];
+			$sss_ec = $returnSSS[2];
+		}
+
+		/************************   INCOME  *************************/
+	    $taxEarnings   = $basicpay + $overtime + $totalHolidaypay + $nightdiff + ($otadjustment + $nightdiffadjustment + $lateadjustment + $leaveadjustment);
+		/************************   DEDUCTION  *************************/
+		$taxDeduction  = $late + $absent + $hdmf + $phic + $sss_ee;
+		/************************  TOTAL  *************************/
+		$taxableIncome = $taxEarnings - $taxDeduction;
+
+		if($payperiod=="2" && $employeetype==2){ // FOR STAFF ONLY
+			$wtax = $this->getWTAX($fromcutoff, $employeeID, $taxableIncome);
+		}
+
+	    $netpay = $totalGrosspay - ($hdmf + $phic + $sss_ee + $wtax + $sssloan + $hdmfloan);
+
+	 	$data = array('otadjustment' 		=> $otadjustment,
+	 				  'nightdiffadjustment' => $nightdiffadjustment,
+	 				  'lateadjustment' 		=> $lateadjustment,
+	 				  'leaveadjustment' 	=> $leaveadjustment,
+	 				  'otherdescription' 	=> $otherdescription,
+	 				  'otheradjustment' 	=> $otheradjustment,
+	 				  'sss_ee'			 	=> $sss_ee,
+					  'sss_er'			 	=> $sss_er,
+					  'sss_ec'			 	=> $sss_ec,
+	 				  'wtax'				=> $wtax,
+	 				  'grosspay'			=> $totalGrosspay,
+	 				  'netpay'				=> $netpay);
+	 				  /*'thrmonth'			=> $thirteenmonth);*/
+
+		$this->db->where("payrolldetailsID", $payrolldetailsID);  
+        $this->db->update("dm_payrolldetails", $data);   	
+
+        return array("wtax" => $wtax, "netpay" => $netpay);   	
+	}
 }
 ?>
-

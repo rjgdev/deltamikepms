@@ -43,7 +43,7 @@
 									<td><?php echo $item->clientID; ?></td>
 									<td>
 										<div class="dash-card-content">  
-											<p style="margin-left: 10px; color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Active Detachment Post: <?php echo $item->activedetachmentpost; ?> </span></p> 	
+											<p style="margin-left: 10px; color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Number of post: <?php echo $item->noofpost; ?> </span></p> 	
 										</div>
 									</td>
 									<td><?php echo $item->contactperson; ?></td>
@@ -75,7 +75,7 @@
 													data-contactperson="<?php echo $item->contactperson; ?>"
 													data-contactno="<?php echo $item->contactno; ?>"
 													data-email="<?php echo $item->email; ?>"
-													data-activedetachmentpost="<?php echo $item->activedetachmentpost; ?>">
+													data-noofpost="<?php echo $item->noofpost; ?>">
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
 												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
@@ -158,7 +158,7 @@
 								<div class="invalid-feedback" id="add-email"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>No. of active detachment post </label>
+								<label>Number of Post <span class="text-danger">*</span></label>
 								<input class="form-control numbersonly" type="text" id="activedetachmentpost">
 								<div class="invalid-feedback" id="add-activedetachmentpost"></div>
 							</div>
@@ -232,7 +232,7 @@
 								<div class="invalid-feedback" id="edit-email"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>No. of active detachment post </label>
+								<label>Number of Post <span class="text-danger">*</span></label>
 								<input class="form-control numbersonly" type="text" id="editactivedetachmentpost">
 								<div class="invalid-feedback" id="edit-activedetachmentpost"></div>
 							</div>
@@ -449,7 +449,7 @@
 			$(".modal-body #editcontactperson").val( $(this).data('contactperson') );
 			$(".modal-body #editcontactno").val( $(this).data('contactno') );
 			$(".modal-body #editemail").val( $(this).data('email') );
-			$(".modal-body #editactivedetachmentpost").val( $(this).data('activedetachmentpost') );
+			$(".modal-body #editactivedetachmentpost").val( $(this).data('noofpost') );
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 
@@ -549,6 +549,17 @@
 	        	$("#contactno").focus();
 	        }
 
+	        if(activedetachmentpost==""){
+	        	document.getElementById("add-activedetachmentpost").innerHTML = "Please provide a number of post.";
+	        	$('#activedetachmentpost').addClass('is-invalid');
+	        	event.preventDefault();
+	        }else{
+	        	document.getElementById("add-activedetachmentpost").innerHTML = "";
+	        	$('#activedetachmentpost').removeClass('is-invalid');
+	        	$('#activedetachmentpost').addClass('is-valid');
+	        	$("#activedetachmentpost").focus();
+	        }
+
 	        if(email==""){
 	        	document.getElementById("add-email").innerHTML = "Please provide an email.";
 	        	$('#email').addClass('is-invalid');
@@ -565,7 +576,7 @@
 	        	$("#email").focus();
 	        }
 
-	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
+	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="" || activedetachmentpost=="") return false;
 
 	        $('#add_client').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -655,6 +666,16 @@
 	        	$('#editcontactno').addClass('is-valid');
 	        }
 
+	        if(activedetachmentpost==""){
+	        	document.getElementById("edit-activedetachmentpost").innerHTML = "Please provide a number of post.";
+	        	$('#editactivedetachmentpost').addClass('is-invalid');
+                event.preventDefault();
+	        }else{
+	        	document.getElementById("edit-activedetachmentpost").innerHTML = "";
+	        	$('#editactivedetachmentpost').removeClass('is-invalid');
+	        	$('#editactivedetachmentpost').addClass('is-valid');
+	        }
+
 	        if(email==""){
 	        	document.getElementById("edit-email").innerHTML = "Please provide an email.";
 	        	$('#editemail').addClass('is-invalid');
@@ -670,7 +691,7 @@
 	        	$('#editemail').addClass('is-valid');
 	        }
 
-	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="") return false;
+	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="" || activedetachmentpost=="") return false;
 
 	        $('#edit_client').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');

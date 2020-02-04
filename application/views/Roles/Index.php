@@ -51,6 +51,8 @@
 						 ?> 
 							<li class="list-group-item">
 								<?php echo $item->moduleDescription; ?>
+							</label>
+								
 								<div class="status-toggle">
 									<input type="checkbox" id="<?php echo $item->moduleShortDesc; ?>" description="<?php echo $item->moduleDescription; ?>" name="<?php echo $item->ID; ?>" class="check" <?php if($item->modulestatus==1){ echo 'checked'; } ?>>
 									<label for="<?php echo $item->moduleShortDesc; ?>" class="checktoggle">checkbox</label>
