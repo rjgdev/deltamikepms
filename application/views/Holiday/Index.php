@@ -92,7 +92,8 @@
 							<select class="custom-select" id="holidaytype" required="">
 								<option value="">Select type of holiday</option>
 								<option value="Regular Holiday">Regular Holiday</option>
-								<option value="Special Non-working Holiday">Special Non-working Holiday</option>
+								<option value="Special Holiday">Special Holiday</option>
+								<option value="Double Holiday">Double Holiday</option>
 							</select>
 							<div class="invalid-feedback" id="add-holidaytype"></div>
 						</div>
@@ -133,7 +134,8 @@
 							<select class="custom-select" id="editholidaytype" required="">
 								<option value="">Select type of holiday</option>
 								<option value="Regular Holiday">Regular Holiday</option>
-								<option value="Special Non-working Holiday">Special Non-working Holiday</option>
+								<option value="Special Holiday">Special Holiday</option>
+								<option value="Double Holiday">Double Holiday</option>
 							</select>
 							<div class="invalid-feedback" id="edit-holidaytype"></div>
 						</div>

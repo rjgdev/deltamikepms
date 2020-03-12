@@ -12,7 +12,7 @@ class SSSreport_model extends CI_Model
 		$sssreport = $this->db->query('
 			SELECT *
 			FROM dm_payroll as pr
-			WHERE pr.payperiod = 2
+			WHERE pr.payperiod = 2 AND pr.payrollstatus = 2
 			ORDER BY pr.dateto DESC');
 
 	    $result1 = $sssreport->result();	          
@@ -31,7 +31,8 @@ class SSSreport_model extends CI_Model
 	    	SELECT *, 
 	    	pr.dateto as prdateto,
 	    	(pd.sss_ee + pd.sss_er) as ss,
-	    	(pd.sss_ee + pd.sss_er + pd.sss_ec) as totalcontri
+	    	(pd.sss_ee + pd.sss_er + pd.sss_ec) as totalcontri,
+	    	LEFT(emp.middlename , 1) as middleinitial
 	    	FROM dm_payroll as pr
 	    	LEFT JOIN dm_payrolldetails as pd
 	    	ON pr.payrollID = pd.payrollID

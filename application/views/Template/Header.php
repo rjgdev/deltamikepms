@@ -32,6 +32,7 @@
 			<script src="<?php echo base_url();?>pages/assets/js/respond.min.js"></script>
 		<![endif]-->
     </head>
+    <script>$("body").addClass("loading");</script>
     <body>
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
@@ -98,6 +99,7 @@
 				<!-- /Mobile Menu -->
 				
             </div>
+            <div class="ajax_loading"><p></p></div>
 			<!-- /Header -->
 			
 			<?php $this->view('Template/Sidebar'); ?>

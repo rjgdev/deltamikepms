@@ -20,19 +20,13 @@
 
 		public function process() 
 		{ 
-			$timekeepingID   = $this->input->post('timekeepingID');
-			$fromcutoff = date_format(date_create($this->input->post('fromcutoff')),"Y-m-d");
-			$tocutoff   = date_format(date_create($this->input->post('tocutoff')),"Y-m-d");
-			$payperiod  = $this->input->post('payperiod');
+			$timekeepingID  = $this->input->post('timekeepingID');
+			$fromcutoff 	= date_format(date_create($this->input->post('fromcutoff')),"Y-m-d");
+			$tocutoff   	= date_format(date_create($this->input->post('tocutoff')),"Y-m-d");
+			$payperiod  	= $this->input->post('payperiod');
 
        		$data=$this->payroll->processpayroll($timekeepingID,$fromcutoff,$tocutoff,$payperiod);
-       		/*$retval = explode("|",$data);*/
 
-            /*if($retval[0] == "false" && $retval[1] == "Department name already exist!"){
-    			$this->session->set_flashdata('error', $retval[1]); 
-            }else{
-                $this->session->set_flashdata('success', $retval[1]); 
-            }   */
 	    	echo json_encode($data);  
 		} 
 
@@ -50,8 +44,9 @@
 			$payrollID = $this->input->post('payrollID');
 			$timekeepingID = $this->input->post('timekeepingID');
 			$lastapprover = $this->input->post('lastapprover');
-			
-        	$result = $this->payroll->approve_payroll($payrollID, $timekeepingID, date("Y-m-d"),$lastapprover);
+			$dateto = $this->input->post('dateto');
+
+        	$result = $this->payroll->approve_payroll($payrollID, $timekeepingID, date("Y-m-d"),$lastapprover, $dateto);
         	
         	
         	echo json_encode($result);
@@ -104,8 +99,9 @@
       		$nightdiff				= $this->input->post('nightdiff');
       		$late					= $this->input->post('late');
       		$absent					= $this->input->post('absent');
+      		$loan					= $this->input->post('loan');
 
-			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent);
+			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan);
 
 			echo json_encode($result);
 		} 

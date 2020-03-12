@@ -27,10 +27,13 @@
 			'amount' => $this->input->post('amount'),
 			'deduction' => $this->input->post('deduction'),
 			'termofpaymentID' => $this->input->post('termofpaymentID'),
-			'paid' => $this->input->post('paid'));
+			'paid' => $this->input->post('paid'),
+			'lnothers'  => $this->input->post('lnothers'));
 	   		$employeeID = $this->input->post('employeeID');
 			$loantypeID = $this->input->post('loantypeID');
 			$dategranted = $this->input->post('dategranted');
+
+
 			$data = $this->loan->save_loan($data, $employeeID,$loantypeID,$dategranted);
 
 			$retval = explode("|",$data);
@@ -54,7 +57,8 @@
 			'enddate' => $this->input->post('enddate'),
 			'amount' => $this->input->post('amount'),
 			'deduction' => $this->input->post('deduction'),
-			'termofpaymentID' => $this->input->post('termofpaymentID'));
+			'termofpaymentID' => $this->input->post('termofpaymentID'),
+			'lnothers' => $this->input->post('lnothers'));
 			$data = $this->loan->update_loan($data,$id,$employeeID,$dategranted);
 			$retval = explode("|",$data);
 			//var_dump($retval);

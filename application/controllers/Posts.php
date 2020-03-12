@@ -25,8 +25,25 @@
 		{ 
 			$postname = $this->input->post('postname');
 			$clientID = $this->input->post('clientID');
+			$timein   =	$this->input->post('timein');
+			$timeout  =	$this->input->post('timeout');
 
-       		$data=$this->detachment->save_detachment($postname, $clientID);
+			$data = array(
+				'postname' => $postname,
+				'housenumber' => $this->input->post('housenumber'),
+				'streetname' => $this->input->post('streetname'),
+				'barangay' => $this->input->post('barangay'),
+				'city' => $this->input->post('city'),
+				'clientID' => $this->input->post('clientID'),
+				'commander' => $this->input->post('commander'),
+				'startdate' => $this->input->post('startdate'),
+				'enddate' => $this->input->post('enddate'),
+				'noofguard' => $this->input->post('noofguard'),
+				'poststatus' => 'Active'
+			 );
+
+
+       		$data=$this->detachment->save_detachment($data, $postname, $clientID, $timein, $timeout);
        		$retval = explode("|",$data);
 
             if($retval[0] == "false" && $retval[1] == "Post already exist!"){
@@ -42,8 +59,23 @@
 			$id = $this->input->post('id');
 			$postname = $this->input->post('postname');
 			$clientID = $this->input->post('clientID');
+			$timein   =	$this->input->post('timein');
+			$timeout  =	$this->input->post('timeout');
 
-       		$data=$this->detachment->update_detachment($id, $postname, $clientID);
+			$data = array(
+				'postname' => $postname,
+				'housenumber' => $this->input->post('housenumber'),
+				'streetname' => $this->input->post('streetname'),
+				'barangay' => $this->input->post('barangay'),
+				'city' => $this->input->post('city'),
+				'clientID' => $this->input->post('clientID'),
+				'commander' => $this->input->post('commander'),
+				'startdate' => $this->input->post('startdate'),
+				'enddate' => $this->input->post('enddate'),
+				'noofguard' => $this->input->post('noofguard')
+			 );
+
+       		$data=$this->detachment->update_detachment($id, $data, $postname, $clientID, $timein, $timeout);
        		$retval = explode("|",$data);
 
             if($retval[0] == "false" && $retval[1] == "Post name already exist!"){

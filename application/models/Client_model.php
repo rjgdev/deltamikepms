@@ -29,7 +29,7 @@ class Client_model extends CI_Model
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),
-				'noofpost' => $this->input->post('noofpost'),
+				'noofpost' => $this->input->post('activedetachmentpost'),
 				'clientstatus' => 'Active'
 			 );
 
@@ -58,7 +58,7 @@ class Client_model extends CI_Model
 				'contactperson' => $this->input->post('contactperson'),
 				'contactno' => $this->input->post('contactno'),
 				'email' => $this->input->post('email'),
-				'noofpost' => $this->input->post('noofpost')
+				'noofpost' => $this->input->post('activedetachmentpost')
 			 );
 
 			$this->db->where("clientID", $id);  

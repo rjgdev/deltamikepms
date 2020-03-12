@@ -25,7 +25,8 @@
 			'starttime' => $this->input->post('starttime'),
 			'endtime' => $this->input->post('endtime'),
 			'totalhour' => $this->input->post('totalhour'),
-			'description' => $this->input->post('description'));
+			'description' => $this->input->post('description'),
+			'noted' => $this->input->post('noted'));
 	 		$employeeID = $this->input->post('employeeID');
 			$overtimedate = $this->input->post('overtimedate');
 
@@ -49,7 +50,8 @@
 			'starttime' => $this->input->post('starttime'),
 			'endtime' => $this->input->post('endtime'),
 			'totalhour' => $this->input->post('totalhour'),
-			'description' => $this->input->post('description'));
+			'description' => $this->input->post('description'),
+			'noted'      => $this->input->post('noted'));
 	 		$employeeID = $this->input->post('employeeID');
 	 		$description = $this->input->post('description');
 			$overtimedate = $this->input->post('overtimedate');

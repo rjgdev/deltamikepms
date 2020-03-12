@@ -74,7 +74,7 @@
 								<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
 									<option value="">All</option> 
 								</select>
-								<label class="focus-label">Detachment</label>
+								<label class="focus-label">Post</label>
 							</div>
 						</div>
 						<div class="col-sm-2">  
@@ -97,33 +97,6 @@
 										</tr>
 									</thead>
 									<tbody>
-										<!-- <?php foreach ($data['employee'] as $item) { ?>
-										<tr>
-											<td><?php echo str_pad($item->empID, 6, "0", STR_PAD_LEFT); ?></td>
-											<td>
-												<div class="dash-card-content"> 
-												<a id="<?php echo $item->empID; ?>" class="avatar" style="margin: 0 0px 0 0;">
-												    <?php 
-												    if($item->photo==""){
-												    echo '<img alt="" src="uploads/profileimg.png"></a>';
-												    }else{
-												    echo '<img alt="" src="uploads/'.$item->photo.'" ></a>';
-												    } ?> 
-													<p style="margin-left: 10px; color: black;"> <?php echo $item->firstname; ?> <?php echo $item->lastname; ?> <span style="color:#888;display: block; font-size: 11px;"><?php echo $item->description; ?> | <?php echo $item->designationdescription; ?> </span></p> 	
-												</div>
-											</td>
-											<td><?php echo $item->employeeTypeDescription; ?></td>
-											<td>
-												<?php 
-												    if($item->payslipstatus=="1"){
-												    echo '<span class="badge bg-inverse-success" style="display: block;font-size: 100%;line-height: 1.5;">Accepted</span>';
-												    }else{
-												    echo '<span class="badge bg-inverse-danger" style="display: block;font-size: 100%;line-height: 1.5;">Pending</span>';
-												} ?>
-											</td>											
-											<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>generatepayslip/preview?id=<?php echo $item->empID; ?>&payrolldetailsID=<?php echo $item->pdID; ?>" id="<?php echo $item->employeeID; ?>" target="_blank">Generate Slip</a></td>
-										</tr>
-										<?php } ?> -->
 									</tbody>
 								</table>
 							</div>
@@ -170,6 +143,8 @@
 		            {
 		        		if(data[i].payslipstatus=="1"){
 		        			varStatus = '<span class="badge bg-inverse-success custom-status">Accepted</span>';
+		    			}else if(data[i].employeetypeID=="2"){
+		    				varStatus = '<span class="badge bg-inverse-success custom-status">Accepted</span>';
 		    			}else{
 		        			varStatus = '<span class="badge bg-inverse-danger custom-status">Pending</span>';
 		    			}
@@ -189,7 +164,7 @@
 								'</div>',
 		                		data[i].employeeTypeDescription,
 		                		'<td>' + varStatus + '</td>',
-		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>generatepayslip/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Slip</a></td>'
+		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>generatepayslip/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Payslip</a></td>'
 		                		]);
 		            }
 		 

@@ -26,7 +26,7 @@
 		<h4 class="card-title mb-0">Billing Statement</h4>
 	</div>
 	<div class="card-body">
-		<form action="#">
+		<form action="#"id="frmbilling"name="frmbilling">
 		<div class="row">
 			<div class="col-xl-12">
 			<div class="form-group row">
@@ -47,7 +47,7 @@
 				<div class="form-group">	
 				<label for="adddetachment">Client </label>
 				<select class="form-control select2" id="searchclient" name="searchclient"  style="width: 100%;" description="Client">
-				<option value="">All</option>
+				<option value="0">All</option>
 				<?php
 				foreach($data['client'] as $client)
 				{
@@ -59,10 +59,10 @@
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group">
-				<label for="gender">Detachment</label>
+				<label for="gender">Post</label>
 				<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
 				<select class="form-control select2" id="searchdetachment" name="searchdetachment" multiple="multiple" style="width: 100%;" description="detachment" >
-				<option value="">All</option>
+				<option value="0">All</option>
 				</select>
 				</div>
 			</div>
@@ -96,9 +96,9 @@
 					<div class="col">
 						<h4 class="card-title mb-0">Records</h4>
 				</div>	
-				<div class="col-auto float-right ml-auto">
-					<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Import Excel</a>
-				</div>	
+			<!-- 	<div class="col-auto float-right ml-auto">
+					<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Export Excel</a>
+				</div>	 -->
 				</div>		
 				</div>
 				<div id="tabledata">
@@ -119,7 +119,8 @@
 									<th style="width: 130px ! important;">OverHead Margin</th>
 									<th style="width: 60px ! important;">Subtotal</th>
 									<th style="width: 60px ! important;">Taxable</th>
-									<th style="width: 60px ! important;">Tax Due</th>								
+									<th style="width: 60px ! important;">Tax Due</th>
+									<th style="width: 60px ! important;">Generated</th>									
 								</tr>
 							</thead>	
 						
@@ -143,6 +144,8 @@
 			$("#export_excel").click(function() {
 		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
 	});
+			
+
 			$('#searchclient').change(function(){
 			var id=$(this).val();
 			$.ajax({
@@ -155,6 +158,10 @@
 				var html = '';
 				var i;
 				for(i=0; i<data.length; i++){
+					
+					$("#searchclient").val($(this).data('clientid'));
+		   		    $("#searchclient").trigger("change");
+	
 					if($("#searchhiddendetachment").val()==data[i].detachmentID){
 					html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
 					}else{
@@ -185,6 +192,8 @@
 					  $("body").addClass("loading");
 				},
 				success: function(response){
+
+
 				  var htmlfooter = '';	
 				  var html = '';
                     var i;
@@ -200,25 +209,25 @@
                     var taxduetotal = 0;
                     for(i=0; i<response.length; i++){
                     	if(parseInt(response[i].SO))
-                    	 	 totalso += parseInt(response[i].SO);
+                    	 	 totalso += parseFloat(response[i].SO);
                     	if(parseInt(response[i].SG))
-                    	 	 totalsg += parseInt(response[i].SG);
+                    	 	 totalsg += parseFloat(response[i].SG);
                     	if(parseInt(response[i].totalsss))
-                    	 	 ssstotal += parseInt(response[i].totalsss);
+                    	 	 ssstotal += parseFloat(response[i].totalsss);
                     	if(parseInt(response[i].totalphic))
-                    	 	 phictotal += parseInt(response[i].totalphic);
+                    	 	 phictotal += parseFloat(response[i].totalphic);
                     	if(parseInt(response[i].totalhdmf))
-                    	 	 hdmftotal += parseInt(response[i].totalhdmf); 
+                    	 	 hdmftotal += parseFloat(response[i].totalhdmf); 
                     	if(parseInt(response[i].totalretfund))
-                    	 	 retfundtotal += parseInt(response[i].totalretfund);
+                    	 	 retfundtotal += parseFloat(response[i].totalretfund);
                     	if(parseInt(response[i].totalmargin))
-                    	 	 margintotal += parseInt(response[i].totalmargin); 
+                    	 	 margintotal += parseFloat(response[i].totalmargin); 
                     	if(parseInt(response[i].subtotalwithmargin))
-                    	 	 marginsubtotal += parseInt(response[i].subtotalwithmargin); 
+                    	 	 marginsubtotal += parseFloat(response[i].subtotalwithmargin); 
                     	if(parseInt(response[i].taxable))
-                    	 	 taxabletotal += parseInt(response[i].taxable); 
+                    	 	 taxabletotal += parseFloat(response[i].taxable); 
                     	if(parseInt(response[i].taxdue))
-                    	 	 taxduetotal += parseInt(response[i].taxdue);  	 	 	  	 	 	  	 	
+                    	 	 taxduetotal += parseFloat(response[i].taxdue);  	 	 	  	 	 	  	 	
                      html += '<tr>'+
                         		'<td>'+response[i].clientname+'</td>'+
 		                        '<td>'+response[i].detachment+'</td>'+
@@ -232,7 +241,8 @@
 								'<td class="text-right">'+accounting.formatMoney(response[i].totalmargin)+'</td>'+
 								'<td class="text-right">'+accounting.formatMoney(response[i].subtotalwithmargin)+'</td>'+
 								'<td class="text-right">'+accounting.formatMoney(response[i].taxable)+'</td>'+
-								'<td class="text-right">'+accounting.formatMoney(response[i].taxdue)+'</td>'+	
+								'<td class="text-right">'+accounting.formatMoney(response[i].taxdue)+'</td>'+
+								'<td><a class="btn btn-sm btn-primary" href="Billing/Billingclient?payrollID='+ response[i].payrollID + '&client='+ response[i].clientID +' &post='+ response[i].postID +'&post1='+ response[i].encryted +' "target="_blank" >Generate Report</a></td>'+	
                          	'</tr>';         
                		
                     }
@@ -249,7 +259,7 @@
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(marginsubtotal)  +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(taxabletotal)  +'</td>'+
 										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(taxduetotal)  +'</td>'+
-										
+										'<td>'+ '' +'</td>'+
 									'</tr>';
 
 

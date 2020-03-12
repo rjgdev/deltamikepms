@@ -72,35 +72,6 @@ Version      : 3.3
 63. Responsive
 
 ========================================*/
-.ajax_loading p {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 55%;
-}
-.ajax_loading {
-    display:    none;
-    position:   fixed;
-    z-index:    9999;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    font-weight: 600;
-    text-align: center;
-    font-size: 34px;
-    padding-top: 337px;
-    background: rgba( 255, 255, 255, .7 ) 
-                url('../img/Preloader_2.gif') 
-                50% 50% 
-                no-repeat;
-}
-body.loading {
-    overflow: hidden;   
-}
-body.loading .ajax_loading {
-    display: block;
-}
 /*Customize*/
 .input-group {
     margin-bottom: 1.5rem;
@@ -126,7 +97,7 @@ body.loading .ajax_loading {
 
 input[type="search"] {
   border-radius: 5px !important;
-  width: 250px !important;
+      width: auto !important;
 }
 
 a.action-status {
@@ -283,8 +254,66 @@ tr.shown td.details-control {
 }
 
 table.dataTable td{
-	padding:10px 8px 10px 14px !important;
+	padding:5px 8px 5px 14px !important;
 }
+
+.table-sss tbody tr:nth-of-type(even){
+	background-color: #daf1fd;
+}
+
+a { color: inherit; } 
+
+.philhealthreportheader {
+	text-align: center; 
+	border-width: 2px;
+	border-color: #000; 
+	padding: 0rem !important;
+	border-left: 2px solid; 
+	border-right: 2px solid; 
+	border-top: 2px solid !important;
+	border-bottom: 2px solid !important;
+}
+
+.philhealthreport {
+	padding: 0.40rem !important; 
+	font-size: 10px !important; 
+	border: none !important;
+}
+
+.philhealthtotal {
+	border-width: 2px;
+	border-color: #000; 
+	padding: .30rem !important;
+	border-left: 2px solid !important; 
+	border-right: 2px solid !important; 
+	border-top: 2px solid !important;
+	border-bottom: 2px solid !important;
+	font-size: 10px;
+}
+
+.hdmfreportheader {
+	border-width: 2px;
+	border-color: #000; 
+	padding: .10rem !important;
+	border-left: 2px solid !important; 
+	border-right: 2px solid !important; 
+	border-top: 2px solid !important;
+	border-bottom: 2px solid !important;
+	font-size: 12px;
+}
+
+.hdmfreport {
+	border-width: 2px;
+	border-color: #000; 
+	padding: .10rem !important;
+	border-left: 1px solid !important; 
+	border-right: 1px solid !important; 
+	border-top: 1px solid !important;
+	border-bottom: 1px solid !important;
+	font-size: 12px;
+}
+
+
 /* End of Customize*/
 
 @font-face {
@@ -3177,7 +3206,7 @@ table.dataTable thead > tr > td.sorting {
 .form-focus.select-focus .focus-label {
 	opacity: 1;
 	font-weight: 300;
-	top: -20px;
+	top: -17px;
 	font-size: 12px;
 	z-index: 1;
 }
@@ -4779,8 +4808,8 @@ html.menu-opened body {
     margin-bottom: 0;
 }
 .punch-det p {
-    color: #727272;
-    font-size: 14px;
+    color: #000;
+    font-size: 12px;
     margin-bottom: 0;
 }
 .punch-info {

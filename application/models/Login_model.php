@@ -32,8 +32,8 @@ class Login_model extends CI_Model
 	    	ON des.designationID=e.designationID 
 	    	LEFT JOIN dm_department as dept
 	    	ON dept.departmentID=e.departmentID 
-	    	LEFT JOIN dm_detachment as detach
-	    	ON detach.detachmentID=e.detachmentID 
+	    	LEFT JOIN dm_post as post
+	    	ON post.postID=e.postID 
 	    	WHERE BINARY username= ? AND BINARY password= ?';
 
 	    $query = $this->db->query($sql,array($username,$password));

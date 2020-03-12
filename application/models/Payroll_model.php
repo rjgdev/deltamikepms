@@ -4,22 +4,21 @@ class Payroll_model extends CI_Model
 {
 	function __construct() 
 	{ 
-	 parent::__construct(); 
+		parent::__construct(); 
 	}
 
 	function get_payroll(){
-		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE payrollstatus=0 LIMIT 1");
-
 		$datefrom 	= "";
 		$dateto 	= "";
 		$payrollID 	= 0;
 		$level 		= 0;
 
+		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE payrollstatus=0 LIMIT 1");
+
 		if($query->num_rows()!=0){
 			 $datefrom = $query->row()->datefrom;
 			 $dateto = $query->row()->dateto;
 		}
-
 
 		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");	
 
@@ -28,18 +27,325 @@ class Payroll_model extends CI_Model
 			$level     = $queryPayroll->row()->level;
 		}
 
-		$queryPayrolldetails = $this->db->query("SELECT * FROM dm_payrolldetails 
-													 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
-													 WHERE payrollID=".$payrollID);
+		$queryPayrolldetails = $this->db->query("SELECT *,dm_payrolldetails.incentive,dm_payrolldetails.allowance,
+													(sssloan + hdmfloan + salaryloan + emergencyloan + trainingloan + otherloan) AS 'totalLoan',
+													(ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) AS 'totalOT',
+													(ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) AS 'totalNight',
+													(ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate) AS 'totalLate' FROM dm_payrolldetails 
+												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
+												 WHERE payrollID=".$payrollID);
 
 		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
    										   WHERE dm_approvaldet.approvalID=3 AND approvalLevel='.$level);
 		
-		return array('timekeeping' => $query->result(),'payroll' => $queryPayroll->result(),'payrolldetails' => $queryPayrolldetails->result(),'approver' => $queryApprover->result());
+		return array('timekeeping' 		=> $query->result(),
+					 'payroll' 			=> $queryPayroll->result(),
+					 'payrolldetails' 	=> $queryPayrolldetails->result(),
+					 'approver' 		=> $queryApprover->result());
 	}
 
-	function getWTAX($fromcutoff,$employeeID,$netpay){ //FOR STAFF ONLY
+	function processpayroll($timekeepingID,$fromcutoff,$tocutoff,$payperiod)
+	{
+		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
+
+		if($queryPayroll->num_rows()==0){
+			$data = array('datefrom' 	=> $fromcutoff,
+						  'dateto'	 	=> $tocutoff,
+						  'payperiod'	=> $payperiod
+						 );
+
+			$this->db->insert('dm_payroll', $data);
+			$last_id = $this->db->insert_id();
+		}else{
+			$last_id = $queryPayroll->row()->payrollID;
+			$queryDeletePayroll = $this->db->query("DELETE FROM dm_payrolldetails WHERE payrollID=".$last_id);
+		}
+
+			$query = $this->db->query("SELECT dm_employee.employeeID,
+											  dm_employee.firstname,
+											  dm_employee.lastname,
+											  dm_employee.basicsalary,
+											  dm_employee.employeetypeID,
+											  dm_employee.dailyrate,
+											  (dm_employee.dailyrate / 8) AS 'hourlyrate',
+											  dm_employee.retfund 		  AS 'retfund',
+										      dm_employee.allowance 	  AS 'allowance',
+										      dm_employee.incentive 	  AS 'incentive',
+										      count(datesched)  AS 'daysofwork',
+										  	  SUM(ord) 			AS 'ordhours',
+											  SUM(rst) 			AS 'rsthours',
+											  SUM(spc)			AS 'spchours',
+											  SUM(spcrst)		AS 'spcrsthours',
+											  SUM(rgl)			AS 'rglhours',
+											  SUM(rglrst)		AS 'rglrsthours',
+											  SUM(dbl)			AS 'dblhours',
+											  SUM(dblrst)		AS 'dblrsthours',
+											  SUM(ordot)		AS 'ordothours',
+											  SUM(rstot)		AS 'rstothours',
+											  SUM(spcot)		AS 'spcothours',
+											  SUM(spcrstot)		AS 'spcrstothours',
+											  SUM(rglot)		AS 'rglothours',
+											  SUM(rglrstot)		AS 'rglrstothours',
+											  SUM(dblot)		AS 'dblothours',
+											  SUM(dblrstot)		AS 'dblrstothours',
+											  SUM(ordnight)		AS 'ordnighthours',
+											  SUM(rstnight)		AS 'rstnighthours',
+											  SUM(spcnight)		AS 'spcnighthours',
+											  SUM(spcrstnight)	AS 'spcrstnighthours',
+											  SUM(rglnight)		AS 'rglnighthours',
+											  SUM(rglrstnight)	AS 'rglrstnighthours',
+											  SUM(dblnight)		AS 'dblnighthours',
+											  SUM(dblrstnight)  AS 'dblrstnighthours',
+											  SUM(ordlate) 		AS 'ordlatehours',
+											  SUM(rstlate) 		AS 'rstlatehours',
+											  SUM(spclate)		AS 'spclatehours',
+											  SUM(spcrstlate)	AS 'spcrstlatehours',
+											  SUM(rgllate)		AS 'rgllatehours',
+											  SUM(rglrstlate)	AS 'rglrstlatehours',
+											  SUM(dbllate)		AS 'dbllatehours',
+											  SUM(dblrstlate)	AS 'dblrstlatehours'
+									   FROM dm_timekeepingdetails
+									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
+									   WHERE (datesched >= '".$fromcutoff."' AND 
+									   	      datesched <= '".$tocutoff."') GROUP BY dm_timekeepingdetails.employeeID");
+
+			if ($query->num_rows() > 0)
+			{
+			   foreach ($query->result() as $row)
+			   {
+					$wtax 			= 0;
+					$grosspay 		= 0;
+					$sss_ee 		= 0;
+					$sss_er 		= 0;
+					$sss_ec 		= 0;
+					$hdmf 			= 0;
+					$phic 			= 0;
+					$sssloan  		= 0;
+					$hdmfloan 		= 0;
+					$salaryloan 	= 0;
+					$emergencyloan 	= 0;
+					$trainingloan 	= 0;
+					$otherloan 		= 0;
+
+			      	/*$basicsalary = ($row->employeetypeID==1 ? $row->daysofwork * $row->dailyrate : $row->basicsalary);
+*/
+			      	/************************  DECLARATION  *************************/
+			      	$absent = 0;
+
+			      	/* Regular */
+			      	$ord 		= ($row->hourlyrate * 1) 	* $row->ordhours;
+			      	$rst 		= ($row->hourlyrate * 1.3) 	* $row->rsthours;
+			      	$spc 		= ($row->hourlyrate * 1.3) 	* $row->spchours;
+			      	$spcrst 	= ($row->hourlyrate * 1.5) 	* $row->spcrsthours;
+			      	$rgl 		= ($row->hourlyrate * 2) 	* $row->rglhours;
+			      	$rglrst 	= ($row->hourlyrate * 2.6) 	* $row->rglrsthours;
+			      	$dbl 		= ($row->hourlyrate * 3) 	* $row->dblhours;
+			      	$dblrst 	= ($row->hourlyrate * 3.9) 	* $row->dblrsthours;
+
+			      	/* Overtime */
+			      	$ordot 		= ($row->hourlyrate * 1.25) * $row->ordothours;
+			      	$rstot		= ($row->hourlyrate * 1.69) * $row->rstothours;
+			      	$spcot 		= ($row->hourlyrate * 1.69) * $row->spcothours;
+			      	$spcrstot 	= ($row->hourlyrate * 1.95) * $row->spcrstothours;
+			      	$rglot 		= ($row->hourlyrate * 2.6) 	* $row->rglothours;
+			      	$rglrstot 	= ($row->hourlyrate * 3.38) * $row->rglrstothours;
+			      	$dblot 		= ($row->hourlyrate * 3.9) 	* $row->dblothours;
+			      	$dblrstot 	= ($row->hourlyrate * 5.07) * $row->dblrstothours;
+
+			      	/* Night Differential */
+			      	$ordnight 		= ($row->hourlyrate * 1.1) 	* $row->ordnighthours;
+			      	$rstnight 		= ($row->hourlyrate * 1.43) * $row->rstnighthours;
+			      	$spcnight 		= ($row->hourlyrate * 1.43) * $row->spcnighthours;
+			      	$spcrstnight 	= ($row->hourlyrate * 1.65) * $row->spcrstnighthours;
+			      	$rglnight 		= ($row->hourlyrate * 2.2) 	* $row->rglnighthours;
+			      	$rglrstnight 	= ($row->hourlyrate * 2.86) * $row->rglrstnighthours;
+			      	$dblnight 		= ($row->hourlyrate * 3.3) 	* $row->dblnighthours;
+			      	$dblrstnight 	= ($row->hourlyrate * 4.29) * $row->dblrstnighthours;
+
+			      	/* Late */
+			      	$ordlate 		= ($row->hourlyrate * 1)   * $row->ordlatehours;
+			      	$rstlate 		= ($row->hourlyrate * 1.3) * $row->rstlatehours;
+			      	$spclate 		= ($row->hourlyrate * 1.3) * $row->spclatehours;
+			      	$spcrstlate 	= ($row->hourlyrate * 1.5) * $row->spcrstlatehours;
+			      	$rgllate 		= ($row->hourlyrate * 2)   * $row->rgllatehours;
+			      	$rglrstlate 	= ($row->hourlyrate * 2.6) * $row->rglrstlatehours;
+			      	$dbllate 		= ($row->hourlyrate * 3)   * $row->dbllatehours;
+			      	$dblrstlate 	= ($row->hourlyrate * 3.9) * $row->dblrstlatehours;
+
+			      	/* TOTAL */
+			     	$totalRegularpay = $ord + $rst + $spc + $spcrst + 
+								  	   $rgl + $rglrst + $dbl + $dblrst;
+
+					$totalOTpay = $ordot + $rstot + $spcot + $spcrstot + 
+								  $rglot + $rglrstot + $dblot + $dblrstot;
+
+					$totalNightpay = $ordnight + $rstnight + $spcnight + $spcrstnight + 
+					  			  	 $rglnight + $rglrstnight + $dblnight + $dblrstnight;
+
+  			  	    $totalLate = $ordlate + $rstlate + $spclate + $spcrstlate + 
+					  			 $rgllate + $rglrstlate + $dbllate + $dblrstlate;
+
+		  			$basicsalary = $totalRegularpay + $totalLate;
+
+				    $thirteenmonth 	  = ($basicsalary - ($totalLate + $absent)) / 6;
+				    $incentive 		  = ($row->incentive>0 ? $row->incentive/2 : 0);
+				    $allowance   	  = ($row->allowance>0 ? $row->allowance/2 : 0);
+
+				    $grosspay = ($basicsalary + $totalOTpay + $totalNightpay + $allowance + $incentive) - ($totalLate + $absent);
+
+					/************************  DEDUCTION *************************/
+					$hdmf = $this->getHDMF($basicsalary);
+					$phic = $this->getPHIC($basicsalary);
+
+					if($payperiod=="2"){
+						$returnSSS = explode("|", $this->getSSS($grosspay, $fromcutoff, $row->employeeID));
+
+						$sss_ee = $returnSSS[0];
+						$sss_er = $returnSSS[1];
+						$sss_ec = $returnSSS[2];
+					}
+
+					$sssloan = $this->getLoan($tocutoff, $row->employeeID, 1);
+
+					/*$hdmfloan 	= $this->getLoan($basicsalary);
+					$salaryloan 	= $this->getLoan($basicsalary);
+					$emergencyloan 	= $this->getLoan($basicsalary);
+					$trainingloan 	= $this->getLoan($basicsalary);
+					$otherloan 		= $this->getLoan($basicsalary);*/
+
+					$taxDeduction   = $totalLate + $absent + $hdmf + $phic + $sss_ee;
+				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan + $salaryloan + $emergencyloan + $trainingloan + $otherloan;
+
+					/************************   INCOME  *************************/
+				    $taxEarnings  	= $basicsalary + $totalOTpay + $totalNightpay;
+				    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;
+
+					/************************  TOTAL  *************************/
+					$taxableIncome = $taxEarnings - $taxDeduction;
+
+					if($payperiod=="2" && $row->employeetypeID==2){ // FOR STAFF ONLY
+						$wtax = $this->getWTAX($fromcutoff, $row->employeeID, $taxableIncome);
+					}
+
+				    $netpay   = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
+
+					$data = array('payrollID'		 => $last_id,
+								  'datefrom'		 => $fromcutoff,
+								  'dateto'			 => $tocutoff,
+								  'employeeID'		 => $row->employeeID,
+								  'daysofwork' 		 => $row->daysofwork,								  
+							  	  'ordhours' 		 => $row->ordhours, 			
+								  'rsthours' 		 => $row->rsthours, 
+								  'spchours' 		 => $row->spchours, 
+								  'spcrsthours' 	 => $row->spcrsthours, 
+								  'rglhours' 		 => $row->rglhours, 
+								  'rglrsthours' 	 => $row->rglrsthours,
+								  'dblhours' 		 => $row->dblhours, 
+								  'dblrsthours' 	 => $row->dblrsthours, 
+								  'ordothours' 		 => $row->ordothours, 
+								  'rstothours' 		 => $row->rstothours, 
+								  'spcothours' 		 => $row->spcothours, 
+								  'spcrstothours' 	 => $row->spcrstothours, 
+								  'rglothours'		 => $row->rglothours, 
+								  'rglrstothours' 	 => $row->rglrstothours, 
+								  'dblothours' 	     => $row->dblothours, 
+								  'dblrstothours' 	 => $row->dblrstothours, 
+								  'ordnighthours' 	 => $row->ordnighthours,
+								  'rstnighthours'	 => $row->rstnighthours, 
+								  'spcnighthours' 	 => $row->spcnighthours,
+								  'spcrstnighthours' => $row->spcrstnighthours, 
+								  'rglnighthours' 	 => $row->rglnighthours, 
+								  'rglrstnighthours' => $row->rglrstnighthours,
+								  'dblnighthours' 	 => $row->dblnighthours,
+								  'dblrstnighthours' => $row->dblrstnighthours,
+								  'ordlatehours' 	 => $row->ordlatehours,
+								  'rstlatehours' 	 => $row->rstlatehours,
+								  'spclatehours' 	 => $row->spclatehours,
+								  'spcrstlatehours'  => $row->spcrstlatehours,
+								  'rgllatehours '	 => $row->rgllatehours,
+								  'rglrstlatehours'  => $row->rglrstlatehours,
+								  'dbllatehours' 	 => $row->dbllatehours,
+								  'dblrstlatehours'  => $row->dblrstlatehours,
+
+								  'ord' 		 => $ord, 			
+								  'rst' 		 => $rst, 
+								  'spc' 		 => $spc, 
+								  'spcrst' 		 => $spcrst, 
+								  'rgl' 		 => $rgl, 
+								  'rglrst' 	 	 => $rglrst,
+								  'dbl' 		 => $dbl, 
+								  'dblrst' 	 	 => $dblrst, 
+								  'ordot' 		 => $ordot, 
+								  'rstot' 		 => $rstot, 
+								  'spcot' 		 => $spcot, 
+								  'spcrstot' 	 => $spcrstot, 
+								  'rglot'		 => $rglot, 
+								  'rglrstot' 	 => $rglrstot, 
+								  'dblot' 	     => $dblot, 
+								  'dblrstot' 	 => $dblrstot, 
+								  'ordnight' 	 => $ordnight,
+								  'rstnight'	 => $rstnight, 
+								  'spcnight' 	 => $spcnight,
+								  'spcrstnight'  => $spcrstnight, 
+								  'rglnight' 	 => $rglnight, 
+								  'rglrstnight'  => $rglrstnight,
+								  'dblnight' 	 => $dblnight,
+								  'dblrstnight'  => $dblrstnight,
+								  'ordlate' 	 => $ordlate,
+								  'rstlate' 	 => $rstlate,
+								  'spclate' 	 => $spclate,
+								  'spcrstlate'   => $spcrstlate,
+								  'rgllate '	 => $rgllate,
+								  'rglrstlate'   => $rglrstlate,
+								  'dbllate' 	 => $dbllate,
+								  'dblrstlate'   => $dblrstlate,
+
+								  'dailyrate' 		 => $row->dailyrate,
+								  'hourlyrate' 		 => $row->hourlyrate,
+								  'basicpay' 		 => $basicsalary,
+								  'allowance'   	 => $allowance,
+								  'incentive' 		 => $incentive,
+
+								  'grosspay' 		 => $grosspay,
+								  'hdmf_ee' 		 => $hdmf,
+								  'hdmf_er' 		 => $hdmf,
+								  'phic_ee' 		 => $phic,
+								  'phic_er' 		 => $phic,
+								  'sss_ee'			 => $sss_ee,
+								  'sss_er'			 => $sss_er,
+								  'sss_ec'			 => $sss_ec,
+								  'sssloan'			 => $sssloan,
+								  'hdmfloan'	     => $hdmfloan,
+								  'salaryloan'		 => $salaryloan,
+								  'emergencyloan'	 => $emergencyloan,
+								  'trainingloan'	 => $trainingloan,
+								  'otherloan'	     => $otherloan,
+								  'wtax'			 => $wtax,
+								  'netpay'			 => $netpay,
+								  'thrmonth'		 => $thirteenmonth,
+								  'retfund' 		 => $row->retfund
+								 );
+
+					$this->db->insert('dm_payrolldetails', $data);
+			   }
+			}
+
+		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE payrollID=".$last_id);
+
+		$queryPayrolldetails = $this->db->query("SELECT *,dm_payrolldetails.incentive,dm_payrolldetails.allowance,
+													(sssloan + hdmfloan + salaryloan + emergencyloan + trainingloan + otherloan) AS 'totalLoan',
+													(ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) AS 'totalOT',
+													(ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) AS 'totalNight',
+													(ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate) AS 'totalLate'
+												 FROM dm_payrolldetails 
+												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
+												 WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."' AND employeetypeID=1");
+
+    	return array("payroll" => $queryPayroll->result(), "payrolldetails" => $queryPayrolldetails->result());
+  	}
+
+  	function getWTAX($fromcutoff,$employeeID,$netpay){ //FOR STAFF ONLY
 
 		/*$netpay = Monthly Basic Pay + Overtime Pay + Holiday Pay + Night Differential 
 						   - 
@@ -55,21 +361,56 @@ class Payroll_model extends CI_Model
 
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-		$taxDeduction = $query->row()->late + $query->row()->absent + $query->row()->hdmf_ee + $query->row()->phic_ee + $query->row()->sss_ee;
+		/************************   INCOME  *************************/
+	    $taxEarnings  	= $basicsalary + $totalOTpay + $totalNightpay;
+	    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;
 
-			$totalOTpay = $query->row()->ordinaryot 	+ 
-						  $query->row()->restot 		+ 
-						  $query->row()->specialot 		+ 
-						  $query->row()->specialrestot 	+ 
-						  $query->row()->regularot 		+ 
-						  $query->row()->regularrestot 	+ 
-					      $query->row()->doubleot 		+ 
-					      $query->row()->doublerestot; 
+		/************************  TOTAL  *************************/
+		$taxableIncome = $taxEarnings - $taxDeduction;
 
-		    $totalHolidaypay = $query->row()->regholiday + 
-							   $query->row()->speholiday;
+		/* Late */
+	  	$ordlate 	= $query->row()->ordlate;
+	  	$rstlate 	= $query->row()->rstlate;
+	  	$spclate 	= $query->row()->spclate;
+	  	$spcrstlate = $query->row()->spcrstlate;
+	  	$rgllate 	= $query->row()->rgllate;
+	  	$rglrstlate = $query->row()->rglrstlate;
+	  	$dbllate 	= $query->row()->dbllate;
+	  	$dblrstlate = $query->row()->dblrstlate;
 
-	    $taxEarnings  	= $query->row()->basicpay + $totalOTpay + $totalHolidaypay + $query->row()->nightdiff + 
+	    $totalLate = $ordlate + $rstlate + $spclate + $spcrstlate + 
+					 $rgllate + $rglrstlate + $dbllate + $dblrstlate;
+
+		$taxDeduction = $totalLate + $query->row()->absent + $query->row()->hdmf_ee + $query->row()->phic_ee + $query->row()->sss_ee;
+
+	  	/* Overtime */
+      	$ordot 		= $query->row()->ordot;
+      	$rstot		= $query->row()->rstot;
+      	$spcot 		= $query->row()->spcot;
+      	$spcrstot 	= $query->row()->spcrstot;
+      	$rglot 		= $query->row()->rglot;
+      	$rglrstot 	= $$query->row()->rglrstot;
+      	$dblot 		= $query->row()->dblot;
+      	$dblrstot 	= $query->row()->dblrstot;
+
+      	$totalOTpay = $ordot + $rstot + $spcot + $spcrstot + 
+					  $rglot + $rglrstot + $dblot + $dblrstot;
+
+	    /* Night Differential */
+      	$ordnight 		= $query->row()->ordnight;
+      	$rstnight 		= $query->row()->rstnight;
+      	$spcnight 		= $query->row()->spcnight;
+      	$spcrstnight 	= $query->row()->spcrstnight;
+      	$rglnight 		= $query->row()->rglnight;
+      	$rglrstnight 	= $query->row()->rglrstnight;
+      	$dblnight 		= $query->row()->dblnight;
+      	$dblrstnight 	= $query->row()->dblrstnight;
+
+      	$totalNightpay = $ordnight + $rstnight + $spcnight + $spcrstnight + 
+		  			  	 $rglnight + $rglrstnight + $dblnight + $dblrstnight;
+
+
+	    $taxEarnings  	= $query->row()->basicpay + $totalOTpay + $totalNightpay + 
 	    				 ($query->row()->nightdiffadjustment + 
 	    				  $query->row()->leaveadjustment 	 +								
 	    				  $query->row()->lateadjustment 	 + 
@@ -103,19 +444,46 @@ class Payroll_model extends CI_Model
 
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-		$totalOTpay = $query->row()->ordinaryot 	+ 
-					  $query->row()->restot 		+ 
-					  $query->row()->specialot 		+ 
-					  $query->row()->specialrestot 	+ 
-					  $query->row()->regularot 		+ 
-					  $query->row()->regularrestot 	+ 
-				      $query->row()->doubleot 		+ 
-				      $query->row()->doublerestot;
+		/* Overtime */
+      	$ordot 		= $query->row()->ordot;
+      	$rstot		= $query->row()->rstot;
+      	$spcot 		= $query->row()->spcot;
+      	$spcrstot 	= $query->row()->spcrstot;
+      	$rglot 		= $query->row()->rglot;
+      	$rglrstot 	= $query->row()->rglrstot;
+      	$dblot 		= $query->row()->dblot;
+      	$dblrstot 	= $query->row()->dblrstot;
 
-      	$totalAllowance = $query->row()->allowance 	+ 
+      	/* Late */
+	  	$ordlate 	= $query->row()->ordlate;
+	  	$rstlate 	= $query->row()->rstlate;
+	  	$spclate 	= $query->row()->spclate;
+	  	$spcrstlate = $query->row()->spcrstlate;
+	  	$rgllate 	= $query->row()->rgllate;
+	  	$rglrstlate = $query->row()->rglrstlate;
+	  	$dbllate 	= $query->row()->dbllate;
+	  	$dblrstlate = $query->row()->dblrstlate;
+
+	  	/* Adjustment */
+	  	$nightdiffadjustment = $query->row()->nightdiffadjustment;
+	    $leaveadjustment 	 = $query->row()->leaveadjustment;								
+	    $lateadjustment 	 = $query->row()->lateadjustment;
+	    $otadjustment 		 = $query->row()->otadjustment;
+	    $otheradjustment 	 = $query->row()->otheradjustment;
+
+      	$totalOTpay = $ordot + $rstot + $spcot + $spcrstot + 
+					  $rglot + $rglrstot + $dblot + $dblrstot;
+
+	    $totalLate = $ordlate + $rstlate + $spclate + $spcrstlate + 
+					 $rgllate + $rglrstlate + $dbllate + $dblrstlate;
+
+		$totalAdjustment = ($nightdiffadjustment + $leaveadjustment + $lateadjustment + $otadjustment + $otheradjustment);
+
+      	$totalAllowance = $query->row()->allowance + 
 						  $query->row()->incentive;
 
-		$basicsalary = ($salary + $query->row()->basicpay + $totalOTpay + $totalAllowance) - ($query->row()->late + $query->row()->absent);
+		$basicsalary = (($salary + $query->row()->basicpay + $totalOTpay + $totalAllowance) + $totalAdjustment) - 
+						($totalLate + $query->row()->absent);
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
 
@@ -147,192 +515,29 @@ class Payroll_model extends CI_Model
 		return $hdmf;
 	}
 
-	function processpayroll($timekeepingID,$fromcutoff,$tocutoff,$payperiod)
-	{
+	function getLoan($dateto, $employeeID, $loantypeID){
+		$query = $this->db->query("SELECT * FROM dm_loan WHERE 
+								  dategranted <= '$dateto' AND
+								  employeeID = $employeeID AND
+								  loantypeID = $loantypeID AND 
+								  paid = 0");
+		/*if($query->num_rows()!=0){
+			$loanID = $query->row()->loanID;
 
-		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
-
-		if($queryPayroll->num_rows()==0){
-			$data = array('datefrom' 	=> $fromcutoff,
-						  'dateto'	 	=> $tocutoff,
-						  'payperiod'	=> $payperiod
-						 );
-
-			$this->db->insert('dm_payroll', $data);
-			$last_id = $this->db->insert_id();                                                                                            
-		}else{
-			$last_id = $queryPayroll->row()->payrollID;
-			$queryDeletePayroll = $this->db->query("DELETE FROM dm_payrolldetails WHERE payrollID=".$last_id);
-		}
-
+			$queryDeduction = $this->db->query("SELECT * FROM dm_loandeduction WHERE 
+												loanID = $loanID AND datededuction = '$dateto'");
 			
-			$query = $this->db->query("SELECT dm_employee.employeeID,
-											  dm_employee.firstname,
-											  dm_employee.lastname,
-											  basicsalary,
-											  restot,
-											  specialot,
-											  specialrestot,
-											  regularot,
-											  regularrestot,
-											  doubleot,
-											  doublerestot,
-										  	  nightdiff,
-											  employeetypeID,
-											  COUNT(datesched) - SUM(absent)  	AS 'daysofwork',
-										      SUM(absent) 						AS 'daysofabsent',
-											  SUM(regularhours) 				AS 'regularhours',
-										      SUM(latehours)  					AS 'latehours',
-										      SUM(latehours) * (dailyrate / 8)  AS 'late',
-										      SUM(absent) * (dailyrate) 		AS 'absent',
-										      SUM(othours) 						AS 'overtimehours',
-										      dailyrate,
-										      (dailyrate / 8) 					AS 'hourlyrate',
-									      	  (CASE employeetypeID
-								      	  		WHEN 1 THEN SUM(regularhours) * (dailyrate / 8) 
-								      	  		WHEN 2 THEN basicsalary / 2
-								      	  	  END) AS 'basicpay',
-										      (SUM(othours) * 1.25) * (dailyrate / 8) 		AS 'ordinaryot',
-										      (SUM(restot) * 1.30) * (dailyrate / 8)		AS 'restot',
-										      (SUM(specialot) * 1.30) * (dailyrate / 8) 	AS 'specialot',
-										      (SUM(specialrestot) * 1.95) * (dailyrate / 8) AS 'specialrestot',
-										      (SUM(regularot) * 2.6) * (dailyrate / 8) 		AS 'regularot',
-										      (SUM(regularrestot) * 3.38) * (dailyrate / 8) AS 'regularrestot',
-										      (SUM(doubleot) * 3.9) * (dailyrate / 8) 		AS 'doubleot',
-										      (SUM(doublerestot) * 5.07) * (dailyrate / 8) 	AS 'doublerestot',
-										      0 AS 'regholiday',
-										      0 AS 'speholiday',
-										      dm_employee.retfund 			AS 'retfund',
-										      dm_employee.allowance 		AS 'allowance',
-										      dm_employee.incentive 		AS 'incentive'
-									   FROM dm_timekeepingdetails
-									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
-									   WHERE (datesched >= '".$fromcutoff."' AND 
-									   	      datesched <= '".$tocutoff."') GROUP BY dm_timekeepingdetails.employeeID");
-
-			if ($query->num_rows() > 0)
-			{
-			   foreach ($query->result() as $row)
-			   {
-					$wtax 		= 0;
-					$grosspay 	= 0;
-					$wtax 		= 0;
-					$sss_ee 	= 0;
-					$sss_er 	= 0;
-					$sss_ec 	= 0;
-					$hdmf 		= 0;
-					$phic 		= 0;
-					$sssloan  	= 0;
-					$hdmfloan 	= 0;
-					$salaryloan = 0;
-
-			      	$basicsalary = ($row->employeetypeID==1 ? $row->basicpay : $row->basicsalary);
-
-			      	/************************  DECLARATION  *************************/
-					$late	  = $row->late;
-					$absent   = $row->absent;
-
-					$totalOTpay = $row->ordinaryot 		+ 
-								  $row->restot 			+ 
-								  $row->specialot 		+ 
-								  $row->specialrestot 	+ 
-								  $row->regularot 		+ 
-								  $row->regularrestot 	+ 
-							      $row->doubleot 		+ 
-							      $row->doublerestot;
-
-  			        $totalHolidaypay = $row->regholiday + 
-									   $row->speholiday;
-
-				    $thirteenmonth 	  = ($row->basicpay - ($late + $absent)) / 6;
-				    $incentive 		  = $row->incentive;
-				    $allowance   	  = ($row->allowance>0 ? $row->allowance/2 : 0);
-				    $nightdiff 		  = $row->nightdiff;
-
-				    $grosspay = ($row->basicpay + $totalOTpay + $nightdiff + $allowance + $incentive) - ($late + $absent);
-
-					/************************  DEDUCTION *************************/
-					$hdmf = $this->getHDMF($basicsalary);
-					$phic = $this->getPHIC($basicsalary);
-
-					if($payperiod=="2"){
-						$returnSSS = explode("|", $this->getSSS($grosspay, $fromcutoff, $row->employeeID));
-
-						$sss_ee = $returnSSS[0];
-						$sss_er = $returnSSS[1];
-						$sss_ec = $returnSSS[2];
-					}
-
-					$taxDeduction   = $late + $absent + $hdmf + $phic + $sss_ee;
-				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan ;
-
-					/************************   INCOME  *************************/
-				    $taxEarnings  	= $row->basicpay + $totalOTpay + $totalHolidaypay + $nightdiff;
-				    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;
-
-					/************************  TOTAL  *************************/
-					$taxableIncome = $taxEarnings - $taxDeduction;
-
-
-					if($payperiod=="2" && $row->employeetypeID==2){ // FOR STAFF ONLY
-						$wtax = $this->getWTAX($fromcutoff, $row->employeeID, $taxableIncome);
-					}
-
-				    $netpay   = $TOTALINCOME - $TOTALDEDUCTION - $wtax;
-
-					$data = array('payrollID'		 => $last_id,
-								  'datefrom'		 => $fromcutoff,
-								  'dateto'			 => $tocutoff,
-								  'employeeID'		 => $row->employeeID,
-								  'daysofwork' 		 => $row->daysofwork,
-								  'daysofabsent' 	 => $row->daysofabsent,
-								  'regularhours' 	 => $row->regularhours,
-								  'latehours' 		 => $row->latehours,
-								  'overtimehours' 	 => $row->overtimehours,
-								  'dailyrate' 		 => $row->dailyrate,
-								  'hourlyrate' 		 => $row->hourlyrate,
-								  'basicpay' 		 => $row->basicpay,
-								  'ordinaryot' 		 => $row->ordinaryot,
-								  'allowance'   	 => $allowance,
-								  'incentive' 		 => $incentive,
-								  'nightdiff'		 => $nightdiff,
-								  'late' 			 => $row->late,
-								  'absent' 			 => $row->absent,
-								  'grosspay' 		 => $grosspay,
-								  'hdmf_ee' 		 => $hdmf,
-								  'hdmf_er' 		 => $hdmf,
-								  'phic_ee' 		 => $phic,
-								  'phic_er' 		 => $phic,
-								  'sss_ee'			 => $sss_ee,
-								  'sss_er'			 => $sss_er,
-								  'sss_ec'			 => $sss_ec,
-								  'sssloan'			 => $sssloan,
-								  'hdmfloan'	     => $hdmfloan,
-								  'wtax'			 => $wtax,
-								  'netpay'			 => $netpay,
-								  'thrmonth'		 => $thirteenmonth,
-								  'retfund' 		 => $row->retfund
-								 );
-
-					$this->db->insert('dm_payrolldetails', $data);
-			   }
-			}
-
-		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE payrollID=".$last_id);
-
-		$queryPayrolldetails = $this->db->query("SELECT *,dm_payrolldetails.allowance AS 'paydet_allowance' FROM dm_payrolldetails 
-												 INNER JOIN dm_employee ON dm_employee.employeeID = dm_payrolldetails.employeeID
-												 WHERE datefrom='".$fromcutoff."' AND dateto='".$tocutoff."'");
-
-    	return array("payroll" => $queryPayroll->result(), "payrolldetails" => $queryPayrolldetails->result());
-  	}
+			return $queryDeduction->row()->amount;
+		}*/
+		return 0;
+	}
 
   	function submit_payroll($payrollID, $datesubmitted)
 	{
 		$querySubmit = $this->db->query('SELECT * FROM dm_payrolldetails WHERE payrollID='.$payrollID.' LIMIT 1');	 
 		
 		if($querySubmit->num_rows()===0){
-			return array('payroll' => 0, 'error' => 'Cannot submit no time record exist!');
+			return array('payroll' => 0, 'error' => "Cannot submit, there's no existing time record!");
 		}
 
 	 	$data = array('datesubmitted' => $datesubmitted,
@@ -364,13 +569,15 @@ class Payroll_model extends CI_Model
         $this->db->update("dm_payroll", $data);   	   	
 	}
 
-	function approve_payroll($payrollID, $timekeepingID, $dateapproved, $lastapprover)
+	function approve_payroll($payrollID, $timekeepingID, $dateapproved, $lastapprover, $dateto)
 	{
 		if($lastapprover==1){
 			$queryUpdatePayroll = $this->db->query('UPDATE dm_payroll 
 									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,payrollstatus=2 WHERE payrollID='.$payrollID);
 
 			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping SET payrollstatus=2 WHERE timekeepingID='.$timekeepingID);
+
+			$queryUpdateLoan = $this->db->query('UPDATE dm_loandeduction SET loanstatus=1 WHERE datededuction="'.$dateto.'"');
 
 	        $query = $this->db->query('SELECT * FROM dm_payroll WHERE payrollID='.$payrollID);
 		}else{
@@ -398,7 +605,7 @@ class Payroll_model extends CI_Model
         $this->db->update("dm_payroll", $data);   	   	
 	}
 
-	function save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent)
+	function save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan)
 	{
 		$sss_ee   		 = 0;
 		$sss_er   		 = 0;
@@ -407,6 +614,10 @@ class Payroll_model extends CI_Model
 		$totalHolidaypay = 0;
 		$sssloan  		 = 0;
 		$hdmfloan 		 = 0;
+		$salaryloan  	 = 0;
+		$emergencyloan	 = 0;
+		$trainingloan  	 = 0;
+		$otherloan 		 = 0;
 
 		if($payperiod=="2"){
 			$returnSSS = explode("|", $this->getSSS($totalGrosspay, $fromcutoff, $employeeID));
@@ -419,6 +630,7 @@ class Payroll_model extends CI_Model
 		/************************   INCOME  *************************/
 	    $taxEarnings   = $basicpay + $overtime + $totalHolidaypay + $nightdiff + ($otadjustment + $nightdiffadjustment + $lateadjustment + $leaveadjustment);
 		/************************   DEDUCTION  *************************/
+
 		$taxDeduction  = $late + $absent + $hdmf + $phic + $sss_ee;
 		/************************  TOTAL  *************************/
 		$taxableIncome = $taxEarnings - $taxDeduction;
@@ -427,7 +639,9 @@ class Payroll_model extends CI_Model
 			$wtax = $this->getWTAX($fromcutoff, $employeeID, $taxableIncome);
 		}
 
-	    $netpay = $totalGrosspay - ($hdmf + $phic + $sss_ee + $wtax + $sssloan + $hdmfloan);
+		$phic = $this->getPHIC($basicpay);
+
+	    $netpay = $totalGrosspay - ($hdmf + $phic + $sss_ee + $wtax + $loan);
 
 	 	$data = array('otadjustment' 		=> $otadjustment,
 	 				  'nightdiffadjustment' => $nightdiffadjustment,
@@ -446,7 +660,7 @@ class Payroll_model extends CI_Model
 		$this->db->where("payrolldetailsID", $payrolldetailsID);  
         $this->db->update("dm_payrolldetails", $data);   	
 
-        return array("wtax" => $wtax, "netpay" => $netpay);   	
+        return array("wtax" => $wtax, "netpay" => $netpay, "sss" => $sss_ee, "phic" => $phic);   	
 	}
 }
 ?>

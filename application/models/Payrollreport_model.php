@@ -20,6 +20,7 @@ class Payrollreport_model extends CI_Model
 										ELSE payrollID 
 										END payperiod
 										FROM dm_payroll
+										WHERE payrollstatus = 2
 										GROUP BY datefrom,dateto
 										ORDER BY datefrom
 									)a
@@ -31,8 +32,15 @@ class Payrollreport_model extends CI_Model
 
 	}
 	function get_clientdata($client)
+
 	{
-		$query = $this->db->query(' SELECT * FROM dm_detachment WHERE clientID ='.$client.'');
+		if($client ==0){
+			$clientID = "";
+		}else{
+			$clientID = "WHERE clientID = $client";
+		}
+		$query = $this->db->query(" SELECT * FROM dm_post $clientID");
+
 		 return $query->result();
 	}
 	function search($searchpayperiod,$searchemployeetype,$searchclient,$searchdetachment)
@@ -50,7 +58,7 @@ class Payrollreport_model extends CI_Model
     if($searchdetachment == 0) {
 		$detachment = " ";
 	}else{
-    	$detachment = "AND e.detachmentID =  $searchdetachment";
+    	$detachment = "AND e.postID =  $searchdetachment";
     }
 
     	$query = $this->db->query("
@@ -58,26 +66,16 @@ class Payrollreport_model extends CI_Model
 								*
 								FROM
 								(
-									SELECT 
-									e.employeeID,
-									concat(firstname,' ',middlename,' ',lastname) as employeename
-									,d.description AS department,ds.designationdescription as designation,
-									CASE
-									WHEN e.employeetypeID = 1 THEN 'Security Guard'
-									WHEN e.employeetypeID = 2 THEN 'Staff'
-									ELSE employeetypeID
-									END AS employeetype,c.clientname,dtc.postname AS detachment,
-									pd.sss,pd.phic,pd.hdmf,pd.netpay,incentives,nightdiff,'0.0000' as Uniform,ordinaryot,regholiday,speholiday,regularot,
-									concat(date_format(pd.datefrom,'%M% %d%,%Y'),' - ',date_format(pd.dateto,'%M% %d%,%Y')) as datepayroll
-									,pd.datefrom
-									FROM dm_payrolldetails AS pd
-									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
+									SELECT pd.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as fullname,
+									pd.basicpay,((pd.ordinaryot) + (pd.otadjustment)) AS totalovertime,((pd.nightdiff) + (pd.nightdiffadjustment))AS totalnightdiff,
+									pd.allowance,pd.incentive,((pd.late) + (pd.lateadjustment)) as totallate,((pd.absent) + (leaveadjustment)) AS totalleave,
+									pd.otheradjustment,	otherdescription, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductions,
+									pd.netpay 
+									FROM dm_payrolldetails as pd
 									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
-									LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
-									LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
-									LEFT JOIN dm_detachment AS dtc ON e.detachmentID = dtc.detachmentID
 									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-								    WHERE pd.datefrom = '$searchpayperiod' $cond   $client  $detachment
+									LEFT JOIN dm_post AS p ON e.postID = p.postID
+								    WHERE pd.payrollID = '$searchpayperiod' $cond   $client  $detachment
 								    GROUP BY datefrom,e.employeeID
 								)a");
     	return $query->result();

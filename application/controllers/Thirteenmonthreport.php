@@ -27,13 +27,15 @@
 		public function recorddata()
 		{
 
-			$data = array('title' => 'Thirteen month report Record');
+			$data = array('title' => 'Individual 13th Month Report');
 				$id = $this->input->get('id');
 				$from = $this->input->get('from');
 				$to = $this->input->get('to');
 				$data['data']=$this->Thirteenmonthreport->get_recorddatamonth($id,$from,$to);
-				$this->load->view('Template/Printstyle',$data);
-				$this->load->view('Thirteenmonthreport/recorddata',$data);
+				
+			
+				$this->load->view("Template/Printstyle", $data);
+				$this->load->view("Thirteenmonthreport/recorddata", $data);
 				$this->load->view('Template/Footer',$data);
 				//echo json_encode($data);
 			
@@ -42,15 +44,29 @@
 	{
 
 
-		$fromdate = $this->input->post('fromdate');
-		$todate = $this->input->post('todate');
+		/*$fromdate = $this->input->post('fromdate');
+		$todate = $this->input->post('todate');*/
+		$thrmonthID = $this->input->post('thrmonthID');
 		$searchemployeetype = $this->input->post('searchemployeetype');
 		$searchclient = $this->input->post('searchclient');
 		$searchdetachment = $this->input->post('searchdetachment');
-
-		$data = $this->Thirteenmonthreport->searchrecord($fromdate, $todate, $searchemployeetype,$searchclient,$searchdetachment);
+		$data = $this->Thirteenmonthreport->searchrecord($thrmonthID, $searchemployeetype,$searchclient,$searchdetachment);
 		echo json_encode($data);
 
+	}
+	public function summaryrecord()
+	{
+	   $data = array('title' => 'Summarized 13th Month Report');
+		$monthID = $this->input->get('monthID');
+		$employeetype = $this->input->get('employeetype');
+		$client = $this->input->get('client');
+		$post = $this->input->get('post');
+		$data['data'] = $this->Thirteenmonthreport->searchsummaryrecord($monthID, $employeetype, $client, $post);
+		
+		$this->load->view("Template/Printstyle", $data);
+		$this->load->view("Thirteenmonthreport/summaryrecord", $data);
+		$this->load->view('Template/Footer',$data);
+	;
 	}
 
 	}	

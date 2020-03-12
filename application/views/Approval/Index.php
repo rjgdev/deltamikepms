@@ -336,7 +336,7 @@ $(document).ready(function() {
 
 	$(document).on("click", '.update', function () {
 		if(exist==0){
-			showErrorToast('Cannot update please setup an approver first!');
+			showErrorToast('Cannot update, please setup an approver first!');
 			return false;
 		}
 
@@ -347,7 +347,7 @@ $(document).ready(function() {
 			if($(this).val()=="") {
 				$("#" + $(this).attr("id")).focus();
 				err = "error";
-				showErrorToast('Cannot update please select a valid employee!');
+				showErrorToast('Cannot update, please select a valid employee!');
 				return false;
 			}
 			employeeID.push($(this).val());

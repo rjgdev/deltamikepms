@@ -25,7 +25,7 @@
         <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
-    <body>
+    <body style="background-color: #fff;">
         	<!-- Main Wrapper -->
         <div class="main-wrapper">
 			
@@ -37,7 +37,7 @@
                 <div class="content container-fluid">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="card">
+							<div>
 								<div class="card-body">
 									<div class="row ml-2 mr-2 mt-2">
 										<div style="width: 1%">
@@ -48,7 +48,7 @@
 											<h5 style="text-align: center;">Republic of the Philippines</h5>
 											<h4 style="text-align: center;" ><strong>SOCIAL SECURITY SYSTEM</strong></h4>
 											<h3 style="text-align: center;" ><strong>ELECTRONIC CONTRIBUTION</strong></h3>
-											<h3 style="text-align: center;" ><strong>COLLECTION LIST</strong></31>
+											<h3 style="text-align: center;" ><strong>COLLECTION LIST</strong></h3>
 										</div>
 									</div>
 									<div class="row mt-3">
@@ -59,26 +59,30 @@
 												<?php foreach ($data['date'] as $item) { ?>
 												<h5 class="mb-4"><strong class="mr-2"><?php echo date("F Y",strtotime($item->dateto)) ?></strong></h5>
 												<?php } ?>
-												<table class="table table-bordered mb-0">
+												<table class="table table-bordered table-sss custom-table mb-0">
 													<thead>
-														<tr>
-															<th style="width: 5%; text-align: center;"></th>
-															<th style="width: 40%; text-align: center;">Name of Employee</th>
-															<th style="width: 19%; text-align: center;">SS Number</th>
-															<th style="width: 10%; text-align: center;">SS</th>
-															<th style="width: 10%; text-align: center;">EC</th>
-															<th style="width: 16%; text-align: center;">Total Contributions</th>
+														<tr style="background-color: #0c6c9f; color: #fff;">
+															<th class="total" style="width: 5%; text-align: center;"></th>
+															<th class="total" style="width: 28%; text-align: center;">Name of Employee</th>
+															<th class="total" style="width: 11%; text-align: center;">SS Number</th>
+															<th class="total" style="width: 13%; text-align: center;">SS</th>
+															<th class="total" style="width: 13%; text-align: center;">EC</th>
+															<th class="total" style="width: 16%; text-align: center;">Total Contributions</th>
 														</tr>
 													</thead>
 													<tbody>
-														<?php foreach ($data['report'] as $item) { ?>
+														<?php 
+															$counter = 1;
+
+															foreach ($data['report'] as $item) { 
+														?>
 														<tr>
-															<td><?php echo $item->payrolldetailsID; ?></td>
-															<td><?php echo $item->lastname; ?>, <?php echo $item->firstname; ?></td>
+															<td><?php echo $counter++; ?></td>
+															<td><?php echo $item->lastname; ?>, <?php echo $item->firstname; ?> <?php echo $item->middleinitial; ?></td>
 															<td style="text-align: center;"><?php echo $item->sssnumber; ?></td>
-															<td style="text-align: right;"><?php echo $item->ss; ?></td>
-															<td style="text-align: right;"><?php echo $item->sss_ec; ?></td>
-															<td style="text-align: right;"><?php echo $item->totalcontri; ?></td>
+															<td style="text-align: right;"><?=number_format($item->ss,2,".",",")?></td>
+															<td style="text-align: right;"><?=number_format($item->sss_ec,2,".",",")?></td>
+															<td style="text-align: right;"><?=number_format($item->totalcontri,2,".",",")?></td>
 														</tr>
 														<?php } ?>
 													</tbody>
@@ -89,13 +93,20 @@
 									<div class="row mt-2">
 										<div class="col-sm-12">
 											<div>
-												<table class="table table-bordered">
+												<table class="table table-bordered custom-table" style="margin-bottom: 0rem;">
 													<?php foreach ($data['sum'] as $item) { ?>
 														<tr>
-															<th style="width: 57%;">Sub-total</th>
-															<th style="width: 9%; text-align: right;"><?php echo $item->totalss; ?></th>
-															<th style="width: 9%; text-align: right;"><?php echo $item->ec; ?></th>
-															<th style="width: 14%; text-align: right;"><?php echo $item->total; ?></th>
+															<th style="width: 44%;">Sub-total</th>
+															<th style="width: 13%; text-align: right;">Php <?=number_format($item->totalss,2,".",",")?></th>
+															<th style="width: 13%; text-align: right;">Php <?=number_format($item->ec,2,".",",")?></th>
+															<th style="width: 16%; text-align: right;">Php <?=number_format($item->total,2,".",",")?></th>
+														</tr>
+													<?php } ?>
+												</table>
+												<table class="table table-bordered custom-table">
+													<?php foreach ($data['sum'] as $item) { ?>
+														<tr class="total" style="background-color: #0c6c9f; color: #fff;">
+															<td class="total"><strong>Total Amount Due<span class="float-right">Php <?=number_format($item->total,2,".",",")?></span></strong></td>
 														</tr>
 													<?php } ?>
 												</table>
@@ -114,14 +125,34 @@
 
         </div>
 		<!-- /Main Wrapper -->
+	</div>
+</body>
 <script>
 </script>
 <style type="text/css">
 
+
 	@page {
-	  size: auto;
+	  size: portrait;
 	  margin: 0;
-	}
+
+}
+
+	@media print{
+
+		tr:nth-child(even) td {
+		background-color: #daf1fd !important;
+		-webkit-print-color-adjust: exact;
+		}
+
+		.table th.total{
+			background-color: #0c6c9f !important;
+		}
+
+		.table td.total{
+			background-color: #0c6c9f !important;
+		}
+
 </style>
 
 		 

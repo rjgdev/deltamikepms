@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <meta name="description" content="Deltamike - Payroll Management System">
         <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern, accounts, invoice, html5, responsive, CRM, Projects">
         <meta name="author" content="BlackCoders Group Inc.">
         <meta name="robots" content="noindex, nofollow">
-        <title><?php echo $title; ?> | Deltamike PMS</title> -->
+        <title><?php echo $title; ?> | Deltamike PMS</title>
         
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url();?>pages\assets\img\favicon.png">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap.min.css">

@@ -10,10 +10,17 @@ class Post_model extends CI_Model
 	function get_all_detachment()
 	{
 	    $detachment = $this->db->query('
-			SELECT *, CONCAT(detach.city) as detachcity, CONCAT(detach.housenumber) as detachhousenumber, CONCAT(detach.streetname) as detachstreetname, CONCAT(detach.barangay) as detachbarangay
+			SELECT *, 
+			CONCAT(detach.city) as detachcity, 
+			CONCAT(detach.housenumber) as detachhousenumber, 
+			CONCAT(detach.streetname) as detachstreetname, 
+			CONCAT(detach.barangay) as detachbarangay, 
+			CONCAT(client.clientID) as clntID
 			FROM dm_post as detach
 			LEFT JOIN dm_client as client
 			ON detach.clientID=client.clientID
+			LEFT JOIN dm_employee as emp
+			ON detach.commander=emp.employeeID
 			');
 
 	    $client = $this->db->query('
@@ -34,29 +41,26 @@ class Post_model extends CI_Model
 	          );
   	}
 
-  	function save_detachment($postname, $clientID)
+  	function save_detachment($data, $postname, $clientID, $timein, $timeout)
 	{
 		$query = $this->db->query('SELECT postname FROM dm_post WHERE postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
 		if($query->num_rows() == 0){
-
-			$data = array(
-				'postname' => $postname,
-				'housenumber' => $this->input->post('housenumber'),
-				'streetname' => $this->input->post('streetname'),
-				'barangay' => $this->input->post('barangay'),
-				'city' => $this->input->post('city'),
-				'clientID' => $this->input->post('clientID'),
-				'commander' => $this->input->post('commander'),
-				'startdate' => $this->input->post('startdate'),
-				'enddate' => $this->input->post('enddate'),
-				'noofguard' => $this->input->post('noofguard'),
-				'timein' => $this->input->post('timein'),
-				'timeout' => $this->input->post('timeout'),
-				'poststatus' => 'Active'
-			 );
-
 			$this->db->insert('dm_post', $data);
+			$last_id =	$this->db->insert_id();
+			$record  = array();
+			$dataschedule = array();
+
+			if(count($timein)!=0){
+				for($count = 0; $count<count($timein); $count++)
+				{
+					$dataschedule[$count]  = array(
+					'postID'			=>	$last_id,
+					'timein'			=>	$timein[$count],
+					'timeout'			=>	$timeout[$count]);
+				}	
+				$this->db->insert_batch('dm_postschedule', $dataschedule);
+			}
 			return 'true|'.$postname.' successfully created!';
 		}
 		else 
@@ -65,29 +69,27 @@ class Post_model extends CI_Model
 		}   
   	}
 
-  	function update_detachment($id,$postname, $clientID)
+  	function update_detachment($id, $data, $postname, $clientID, $timein, $timeout)
 	{
 		$query = $this->db->query('SELECT postname FROM dm_post WHERE postID!='.$id.' AND postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
 		if($query->num_rows() == 0){
 
-			$data = array(
-				'postname' => $postname,
-				'housenumber' => $this->input->post('housenumber'),
-				'streetname' => $this->input->post('streetname'),
-				'barangay' => $this->input->post('barangay'),
-				'city' => $this->input->post('city'),
-				'clientID' => $this->input->post('clientID'),
-				'commander' => $this->input->post('commander'),
-				'startdate' => $this->input->post('startdate'),
-				'enddate' => $this->input->post('enddate'),
-				'noofguard' => $this->input->post('noofguard'),
-				'timein' => $this->input->post('timein'),
-				'timeout' => $this->input->post('timeout'),
-			 );
-
 			$this->db->where("postID", $id);  
-            $this->db->update("dm_post", $data);    
+            $this->db->update("dm_post", $data);
+            $record  = array();
+			$dataschedule = array();
+
+			if(count($timein)!=0){
+				for($count = 0; $count<count($timein); $count++)
+				{
+					$dataschedule[$count]  = array(
+					'postID'			=>	$last_id,
+					'timein'			=>	$timein[$count],
+					'timeout'			=>	$timeout[$count]);
+				}	
+				$this->db->update_batch('dm_postschedule', $dataschedule);
+			}    
 
 			return 'true|'.$postname.' successfully updated!';
 		}

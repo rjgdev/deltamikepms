@@ -12,6 +12,7 @@ class Generatepayslip_model extends CI_Model
 		$payroll = $this->db->query('
 			SELECT *
 			FROM dm_payroll 
+			WHERE payrollstatus = 2
 			ORDER BY dateto DESC');
 
 		$employeetype = $this->db->query('
@@ -20,9 +21,8 @@ class Generatepayslip_model extends CI_Model
 
 		$client = $this->db->query('
 			SELECT *
-			FROM dm_post
-			LEFT JOIN dm_client
-			ON dm_post.clientID = dm_client.clientID');
+			FROM dm_client
+			WHERE clientstatus = "Active"');
 
 	    $result1 = $payroll->result();
 	    $result2 = $employeetype->result();
@@ -52,7 +52,7 @@ class Generatepayslip_model extends CI_Model
 	    	LEFT JOIN dm_client as client
 	    	ON emp.clientID=client.clientID
 	    	LEFT JOIN dm_payslipstatus as ps
-	    	ON pd.payrolldetailsID=ps.payrolldetailsID 
+	    	ON pd.payrolldetailsID=ps.payrolldetailsID
 	    	WHERE pd.employeeID=$id AND pd.payrolldetailsID =$payrolldetailsID"
 		);
 
@@ -96,7 +96,7 @@ class Generatepayslip_model extends CI_Model
 
   	function get_clientdata($client)
 	{
-		$query = $this->db->query(' SELECT * FROM dm_detachment WHERE clientID ='.$client.'');
+		$query = $this->db->query(' SELECT * FROM dm_post WHERE clientID ='.$client.'');
 		return $query->result();
 	}
 }

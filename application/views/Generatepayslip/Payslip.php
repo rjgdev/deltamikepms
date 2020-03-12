@@ -56,30 +56,27 @@
 											<div>
 												<h5 class="m-b-10"><strong class="mr-2">Employee:</strong><?php echo $item->firstname; ?> <?php echo $item->lastname; ?></h5>
 												<h5 class="m-b-10"><strong class="mr-2">Pay Period:</strong><?php echo date("F d, Y",strtotime($item->datefrom)); ?> - <?php echo date("F d, Y",strtotime($item->dateto)); ?></h5>
-												<h5 class="m-b-10"><strong>Earnings</strong></h5>
+												<h5 class="m-b-10"><strong class="text-danger">Earnings</strong></h5>
 												<table class="table table-bordered">
 													<tbody>
 														
 														<tr>
-															<td><strong>Basic/Reg.</strong> <span class="float-right">₱ <?=number_format($item->basicpay,4,".",",")?></span></td>
+															<td><strong>Basic/Regular Rate</strong> <span class="float-right">₱ <?=number_format($item->basicpay,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>5 Days Incentives</strong> <span class="float-right">₱ <?=number_format($item->incentive,4,".",",")?></span></td>
+															<td><strong>Allowance</strong> <span class="float-right">₱ 0</span></td>
+														</tr>
+														<tr>
+															<td><strong>5 Days Incentive</strong> <span class="float-right">₱ <?=number_format($item->incentive,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>Night Differential</strong> <span class="float-right">₱ <?=number_format($item->nightdiff,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Uniform Allowances</strong> <span class="float-right">₱ <?=number_format($item->uniformallowance,4,".",",")?></span></td>
-														</tr>
-														<tr>
 															<td><strong>Holiday Pay</strong> <span class="float-right">₱ <?=number_format($item->holidaypay,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Regular OT</strong> <span class="float-right">₱ <?=number_format($item->ordinaryot,4,".",",")?></span></td>
-														</tr>
-														<tr>
-															<td><strong>Legal OT</strong> <span class="float-right">₱ 0</span></td>
+															<td><strong>Regular Overtime</strong> <span class="float-right">₱ <?=number_format($item->ordinaryot,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>OIC Allowance</strong> <span class="float-right">₱ 0</span></td>
@@ -92,30 +89,39 @@
 										<div class="col-sm-6">
 												<div>
 												<h5 class="m-b-10"><strong class="mr-2">Days of work:</strong><span><?php echo $item->daysofwork; ?></span></h5>
-												<h5 class="m-b-10"><strong class="mr-2">Rate:</strong>₱ <?=number_format($item->drate,4,".",",")?></h5>
-											<h5 class="m-b-10 float-left" style="text-align: right;"><strong>Deductions</strong></h5>
+												<h5 class="m-b-10"><strong class="mr-2">Daily Rate:</strong>₱ <?=number_format($item->drate,4,".",",")?></h5>
+											<h5 class="m-b-10 float-left" style="text-align: right;"><strong class="text-danger">Deductions</strong></h5>
 												<table class="table table-bordered">
 													<tbody>
 														<tr>
-															<td><strong>LWOP</strong> <span class="float-right">₱ <?=number_format($item->absent,4,".",",")?></span></td>
+															<td><strong>Leave without Pay</strong> <span class="float-right">₱ <?=number_format($item->absent,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>Late</strong> <span class="float-right">₱ <?=number_format($item->late,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>W/Holding Tax</strong> <span class="float-right">₱ <?=number_format($item->wtax,4,".",",")?></span></td>
+															<td><strong>Withholding Tax</strong> <span class="float-right">₱ <?=number_format($item->wtax,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>SSS</strong> <span class="float-right">₱ <?=number_format($item->sss_ee,4,".",",")?></span></td>
+															<td><strong>Social Security System (SSS)</strong> <span class="float-right">₱ <?=number_format($item->sss_ee,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>PHIC</strong> <span class="float-right">₱ <?=number_format($item->phic_ee,4,".",",")?></span></td>
+															<td><strong>PhilHealth (PHIC)</strong> <span class="float-right">₱ <?=number_format($item->phic_ee,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>HDMF</strong> <span class="float-right">₱ <?=number_format($item->hdmf_ee,4,".",",")?></span></td>
+															<td><strong>Pag-IBIG (HDMF)</strong> <span class="float-right">₱ <?=number_format($item->hdmf_ee,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>SSS/HDMF Loan</strong> <span class="float-right">₱ <?=number_format($item->loan,4,".",",")?></span></td>
+															<td><strong>Social Security System (SSS) Loan</strong> <span class="float-right">₱ <?=number_format($item->loan,4,".",",")?></span></td>
+														</tr>
+														<tr>
+															<td><strong>Pag-IBIG Loan</strong> <span class="float-right">₱ <?=number_format($item->loan,4,".",",")?></span></td>
+														</tr>
+														<tr>
+															<td><strong>Salary Loan</strong> <span class="float-right">₱ <?=number_format($item->loan,4,".",",")?></span></td>
+														</tr>
+														<tr>
+															<td><strong>Emergency Loan</strong> <span class="float-right">₱ <?=number_format($item->loan,4,".",",")?></span></td>
 														</tr>
 													</tbody>
 												</table>
@@ -160,13 +166,20 @@
 										<div class="col-sm-12 mt-3 ml-3">
 											<?php 
 											    if($item->payslipstatus=="1"){
-											    echo '<input class="form-check-input" type="checkbox" value="1" id="check" checked>';
-											    }else{
-											    echo '<input class="form-check-input" type="checkbox" value="1" id="check">';
+											    	echo '<input class="form-check-input" type="checkbox" value="1" id="check" checked>';
+											    }else if($item->employeetypeID=="2"){
+											    	echo '';
+												}else{
+											   		echo '<input class="form-check-input" type="checkbox" value="1" id="check">';
 											} ?> 
-											<label class="form-check-label mt-1" for="invalidCheck">
-												I acknowledge to have received from DELTAMIKE SECURITY INC the amount stated in the net pay and have no futher claims for services rendered.
-											</label>
+											<?php
+												if($item->employeetypeID=="1"){
+													echo '<label class="form-check-label mt-1" for="invalidCheck">
+															I acknowledge to have received from DELTAMIKE SECURITY INC the amount stated in the net pay and have no futher claims for services rendered.
+														</label>';
+												}else{
+													echo "";
+											} ?> 
 											<input class="form-control restrictspecchar" type="hidden" id="payrolldetailsID" value="<?php echo $item->pdID; ?>">
 											<input class="form-control restrictspecchar" type="hidden" id="employeeID" value="<?php echo $item->empID; ?>">
 										</div>
@@ -174,7 +187,10 @@
 									<?php } ?>
 								</div>
 							</div>
-							<button class="btn btn-primary float-right submit" disabled="disabled" id="accept" name="accept" type="submit">Submit form</button>
+							<?php 
+								if($item->employeetypeID=="1") {
+									echo '<button class="btn btn-primary float-right submit" disabled="disabled" id="accept" name="accept" type="submit">Submit form</button>';
+							} ?> 
 						</div>
 					</div>
                 </div>

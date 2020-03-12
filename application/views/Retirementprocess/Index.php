@@ -548,7 +548,7 @@ foreach ($data['approver'] as $approvaldata)  {
 									'<th class="text-left" style="width: 90px;"><center>Department</center></th>' +
 									'<th class="text-left" style="width: 90px;"><center>Designation</center></th>' +
 									'<th class="text-left" style="width: 100px; "><center>Employee Type</center></th>' +
-									'<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>' +s
+									'<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>' +
 									'<th style="width: 200px;">Last Payroll Cutoff</th>' +
 									'<th class="text-left" style="width: 80px;">Hired Date</th>' +
 									'<th style="width: 200px ! important;">Years of Service</th>' +

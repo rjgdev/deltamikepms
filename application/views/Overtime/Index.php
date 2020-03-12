@@ -2,6 +2,11 @@
 $start = strtotime('12:00 AM');
 $end   = strtotime('11:59 PM');
 ?>
+<?php foreach ($data['accesslevel'] as $access){ 
+$accesslevel = $access->employeetypeID;
+}
+?>
+
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 	<!-- Page Content -->
@@ -35,6 +40,7 @@ $end   = strtotime('11:59 PM');
 								<th style="width: 100px ! important;">Start Time</th>
 								<th style="width: 100px ! important;">End Time</th>
 								<th style="width: 50px ! important;">Total Hour</th>
+								<th style="width: 50px ! important;">Comments</th>
 								<th style="width: 50px ! important;">Actions</th>
 							</tr>
 						</thead>
@@ -56,6 +62,7 @@ $end   = strtotime('11:59 PM');
 								<td><?php echo $item->starttime ?></td>
 								<td><?php echo $item->endtime ?></td>
 								<td><?php echo $item->totalhour ?></td>
+								<td><?php echo $item->noted ?></td>
 								<div class="dropdown dropdown-action">
 								</div>
 								<td class="text-right">
@@ -71,6 +78,7 @@ $end   = strtotime('11:59 PM');
 									data-starttime="<?php echo $item->updatedstarttime; ?>" 
 									data-endtime="<?php echo $item->updatedendtime; ?>" 
 									data-totalhour="<?php echo $item->totalhour; ?>" 
+									data-noted="<?php echo $item->noted; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
 								</td>
 							</tr>
@@ -147,14 +155,26 @@ $end   = strtotime('11:59 PM');
 								<label>Total Time</label>	
 								<input Class="form-control" id="totalTime"name="totalTime" readonly="readonly" />	
 							</div>
-						</div
-						>
+						</div>
 					 <div class="col-sm-12">	
 						<div class="form-group">
 							<label>Description <span class="text-danger">*</span></label>
 							<input type="text" class="form-control alphanumericwithspace" id="adddescription" name="adddescription" description="Description">
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
+					</div>	
+				<?php	
+	            if($accesslevel==1){	
+					}else{
+					 echo '<div class="col-sm-12">';
+					 echo '<div class="form-group">';
+					 echo '<label for="exampleInputPassword1">Noted</label>';
+					 echo ' <input id="addnoted" type="text" name="addnoted" class="form-control input letterswithspace" autocomplete="off">';
+					 echo '<div class="invalid-feedback" id="add-noted"></div> ' ; 
+					 echo '</div>';
+					 echo '</div>';
+				}   
+				?>   
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -227,6 +247,19 @@ $end   = strtotime('11:59 PM');
 							<input id="editdescription" name="editdescription" class="form-control alphanumericwithspace" description="description">
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
+					</div>
+				<?php	
+	            if($accesslevel==1){	
+					}else{
+					 echo '<div class="col-sm-12">';
+					 echo '<div class="form-group">';
+					 echo '<label for="exampleInputPassword1">Note</label>';
+					 echo ' <input id="editnoted" type="text" name="editnoted" class="form-control input letterswithspace" autocomplete="off">';
+					 echo '<div class="invalid-feedback" id="edit-noted"></div> ' ; 
+					 echo '</div>';
+					 echo '</div>';
+				}   
+				?>   	
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
@@ -410,8 +443,8 @@ $("#addstarttime").change(function(){
         $("#edittotalTime").val(diff);
 	};	
 	$('#save').unbind('click').bind('click', function(){
-		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', '#totalTime', '#adddescription'];
-		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', 'add-totalTime', 'add-description'];
+		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', '#totalTime', '#adddescription','#addnoted'];
+		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', 'add-totalTime', 'add-description','add-noted'];
 		var starttimecheck = $("#addstarttime").val();
 		var endtimecheck = $("#addendtime").val();
 		var ValueArray = [];	
@@ -462,12 +495,14 @@ $("#addstarttime").change(function(){
 			var endtime = $("#addendtime").val();
 			var totalhour = $("#totalTime").val();
 			var description = $("#adddescription").val();
+			var noted = $("#addnoted").val();
     		$.ajax({
                 url : "<?php echo site_url('overtime/save');?>",
                 method : "POST",
                 data : {employeeID: employeeID, 		overtimedate: overtimedate,
-                		starttime: starttime, 			endtime: endtime,
-                		totalhour: totalhour, 	   		description: description},
+                		starttime:  starttime, 			endtime: endtime,
+                		totalhour:  totalhour, 	   		description: description,
+                		noted: 		noted},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -500,11 +535,12 @@ $("#addstarttime").change(function(){
 		$(".modal-body #editendtime").val( $(this).data('endtime'));
 		$(".modal-body #edittotalTime").val( $(this).data('totalhour'));
 		$(".modal-body #editdescription").val( $(this).data('description'));
+		$(".modal-body #editnoted").val( $(this).data('noted'));
 		$('.edit').attr('id', $(this).data('id'));
          }); 
 		$('.update').unbind('click').bind('click', function(){
-		var IDArray = ['#editemployee', '#editovertimedate', '#editstarttime', '#editendtime', '#edittotalTime', '#editdescription'];
-		var ErrorIDArray = ['edit-employee', 'edit-overtime', 'edit-starttime', 'edit-endtime', 'edit-totalTime', 'edit-description'];
+		var IDArray = ['#editemployee', '#editovertimedate', '#editstarttime', '#editendtime', '#edittotalTime', '#editdescription','#editnoted'];
+		var ErrorIDArray = ['edit-employee', 'edit-overtime', 'edit-starttime', 'edit-endtime', 'edit-totalTime', 'edit-description','#edit-noted'];
 		var starttimecheck = $("#editstarttime").val();
 		var endtimecheck = $("#editendtime").val();
 		var ValueArray = [];
@@ -515,7 +551,7 @@ $("#addstarttime").change(function(){
 
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==4) continue;
+			if(i==4 || i==6) continue;
 			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
@@ -557,13 +593,15 @@ $("#addstarttime").change(function(){
 			var endtime 		= 	$('#editendtime').val().trim();
 			var totalhour 		= 	$('#edittotalTime').val().trim();
 			var description 	= 	$('#editdescription').val().trim();
+			var noted 			= 	$('#editnoted').val().trim();
     		$.ajax({
                 url : "<?php echo site_url('overtime/update');?>",
                 method : "POST",
                 data : {id: 			id,
                 	  	employeeID: 	employeeID, 	overtimedate: 		overtimedate,
                 		starttime: 		starttime, 		endtime: 			endtime,
-                		totalhour: 		totalhour, 	    description: 		description},
+                		totalhour: 		totalhour, 	    description: 		description,
+                		noted: 			noted},
                 async : true,
                 dataType : 'json',
                 success: function(data){

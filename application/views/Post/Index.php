@@ -50,7 +50,7 @@
 									</td>
 									<td><?php echo $item->detachcity; ?></td>
 									<td><?php echo $item->clientname; ?></td>
-									<td><?php echo $item->commander; ?></td>
+									<td><?php echo $item->firstname; ?> <?php echo $item->lastname; ?></td>
 									<td><?php echo date("F d, Y",strtotime($item->startdate)) ?></td>
 									<td><?php echo date("F d, Y",strtotime($item->enddate)) ?></td>
 									<td >
@@ -75,13 +75,11 @@
 													data-streetname="<?php echo $item->detachstreetname; ?>"
 													data-barangay="<?php echo $item->detachbarangay; ?>"
 													data-city="<?php echo $item->detachcity; ?>"
-													data-client="<?php echo $item->clientID; ?>"
+													data-client="<?php echo $item->clntID; ?>"
 													data-commander="<?php echo $item->commander; ?>"
 													data-startdate="<?php echo $item->startdate; ?>"
 													data-enddate="<?php echo $item->enddate; ?>"
-													data-noofguard="<?php echo $item->noofguard; ?>"
-													data-timein="<?php echo $item->timein; ?>"
-													data-timeout="<?php echo $item->timeout; ?>">
+													data-noofguard="<?php echo $item->noofguard; ?>">
 
 												<i class="fa fa-pencil m-r-5"></i> Edit</a>
 
@@ -117,81 +115,115 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="test">
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label>Post Name <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="postname">
-								<div class="invalid-feedback" id="add-postname"></div>
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#bottom-justified-tab1" data-toggle="tab">Information</a></li>
+						<li class="nav-item"><a class="nav-link" href="#bottom-justified-tab2" data-toggle="tab">Schedule</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="bottom-justified-tab1">
+							<form >
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label>Post Name <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="postname">
+										<div class="invalid-feedback" id="add-postname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Client <span class="text-danger">*</span></label>
+										<select class="custom-select" name="clientID" id="clientID" required="">
+											<option value="">Select Client</option>
+											<?php
+											foreach($data['client'] as $detachment)
+											{
+											echo '<option value="'.$detachment->clientID.'">'.$detachment->clientname.'</option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="add-clientID"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>House No. </label>
+										<input class="form-control specchar" type="text" id="housenumber">
+										<div class="invalid-feedback" id="add-housenumber"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Street Name <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="streetname">
+										<div class="invalid-feedback" id="add-streetname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Barangay <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="barangay">
+										<div class="invalid-feedback" id="add-barangay"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>City <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="city">
+										<div class="invalid-feedback" id="add-city"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Detachment Commander <span class="text-danger">*</span></label>
+										<select class="custom-select" name="commander" id="commander" required="">
+											<option value="">Select Datachment Commander</option>
+											<?php
+											foreach($data['employee'] as $detachment)
+											{
+											echo '<option value="'.$detachment->employeeID.'">'.$detachment->firstname.' '.$detachment->lastname.'</option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="add-commander"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+										<input class="form-control numbersonly" type="text" id="noofguard">
+										<div class="invalid-feedback" id="add-noofguard"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Start Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="startdate" type="text">
+										<div class="invalid-feedback" id="add-startdate"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>End Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="enddate" type="text">
+										<div class="invalid-feedback" id="add-enddate"></div>
+									</div>						
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="bottom-justified-tab2">
+							<div class="table-responsive">
+								<table class="table table-bordered review-table mb-0">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Time In</th>
+											<th style="text-align: center;">Time Out</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="time" class="form-control timein" id="firstmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="firstmondayOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="secondmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="secondmondayOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="thirdmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="thirdmondayOut"></td>
+										</tr>
+										
+									</tbody>
+								</table>
 							</div>
-							<div class="form-group col-sm-6">
-								<label>Client <span class="text-danger">*</span></label>
-								<select class="custom-select" name="clientID" id="clientID" required="">
-									<option value="">Select Client</option>
-									<?php
-									foreach($data['client'] as $detachment)
-									{
-									echo '<option value="'.$detachment->clientID.'">'.$detachment->clientname.'</option>';
-									}
-									?>  
-								</select>
-								<div class="invalid-feedback" id="add-clientID"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>House No. </label>
-								<input class="form-control specchar" type="text" id="housenumber">
-								<div class="invalid-feedback" id="add-housenumber"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Street Name <span class="text-danger">*</span></label>
-								<input class="form-control specchar" type="text" id="streetname">
-								<div class="invalid-feedback" id="add-streetname"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Barangay <span class="text-danger">*</span></label>
-								<input class="form-control specchar" type="text" id="barangay">
-								<div class="invalid-feedback" id="add-barangay"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>City <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="city">
-								<div class="invalid-feedback" id="add-city"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Detachment Commander <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="commander">
-								<div class="invalid-feedback" id="add-commander"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-								<input class="form-control numbersonly" type="text" id="noofguard">
-								<div class="invalid-feedback" id="add-noofguard"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Time In <span class="text-danger">*</span></label>
-								<input class="form-control numbersonly" type="time" id="timein">
-								<div class="invalid-feedback" id="add-timein"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Time Out <span class="text-danger">*</span></label>
-								<input class="form-control" type="time" id="timeout">
-								<div class="invalid-feedback" id="add-timeout"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Start Date <span class="text-danger">*</span></label>
-								<input class="form-control previousdate" id="startdate" type="text">
-								<div class="invalid-feedback" id="add-startdate"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>End Date <span class="text-danger">*</span></label>
-								<input class="form-control previousdate" id="enddate" type="text">
-								<div class="invalid-feedback" id="add-enddate"></div>
-							</div>						
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
-					</form>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -203,87 +235,112 @@
 		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit Post</h5>
+					<h5 class="modal-title">Edit Detachment Post</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="test">
-						<div class="row">
-							<div class="form-group col-sm-6">
-								<label>Post Name <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="editpostname">
-								<div class="invalid-feedback" id="edit-postname"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Client <span class="text-danger">*</span></label>
-								<select class="custom-select" name="clientID" id="editclientID" required="">
-									<option value="">Select Client</option>
-									<?php
-									foreach($data['client'] as $client)
-									{
-									echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
-									}
-									?>  
-								</select>
-								<div class="invalid-feedback" id="edit-clientID"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>House No. </label>
-								<input class="form-control specchar" type="text" id="edithousenumber">
-								<div class="invalid-feedback" id="edit-housenumber"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Street Name <span class="text-danger">*</span></label>
-								<input class="form-control specchar" type="text" id="editstreetname">
-								<div class="invalid-feedback" id="edit-streetname"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Barangay <span class="text-danger">*</span></label>
-								<input class="form-control specchar" type="text" id="editbarangay">
-								<div class="invalid-feedback" id="edit-barangay"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>City <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="editcity">
-								<div class="invalid-feedback" id="edit-city"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Detachment Commander <span class="text-danger">*</span></label>
-								<input class="form-control restrictspecchar" type="text" id="editcommander">
-								<div class="invalid-feedback" id="edit-commander"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-								<input class="form-control numbersonly" type="text" id="editnoofguard">
-								<div class="invalid-feedback" id="edit-noofguard"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Time In <span class="text-danger">*</span></label>
-								<input class="form-control" type="time" id="edittimein">
-								<div class="invalid-feedback" id="edit-timein"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Time Out <span class="text-danger">*</span></label>
-								<input class="form-control" type="time" id="edittimeout">
-								<div class="invalid-feedback" id="edit-timeout"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>Start Date <span class="text-danger">*</span></label>
-								<input class="form-control previousdate" id="editstartdate" type="text">
-								<div class="invalid-feedback" id="edit-startdate"></div>
-							</div>
-							<div class="form-group col-sm-6">
-								<label>End Date <span class="text-danger">*</span></label>
-								<input class="form-control previousdate" id="editenddate" type="text">
-								<div class="invalid-feedback" id="edit-enddate"></div>
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Post Information</a></li>
+						<li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Post Schedule</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="tab1">
+							<form>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label>Post Name <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="editpostname">
+										<div class="invalid-feedback" id="edit-postname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Client <span class="text-danger">*</span></label>
+										<select class="custom-select" name="clientID" id="editclientID" required="">
+											<option value="">Select Client</option>
+											<?php
+											foreach($data['client'] as $client)
+											{
+											echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="edit-clientID"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>House No. </label>
+										<input class="form-control specchar" type="text" id="edithousenumber">
+										<div class="invalid-feedback" id="edit-housenumber"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Street Name <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="editstreetname">
+										<div class="invalid-feedback" id="edit-streetname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Barangay <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="editbarangay">
+										<div class="invalid-feedback" id="edit-barangay"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>City <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="editcity">
+										<div class="invalid-feedback" id="edit-city"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Detachment Commander <span class="text-danger">*</span></label>
+										<select class="custom-select" name="commander" id="editcommander" required="">
+													<option value="">Select Datachment Commander</option>
+													<?php
+													foreach($data['employee'] as $detachment)
+													{
+													echo '<option value="'.$detachment->employeeID.'">'.$detachment->firstname.' '.$detachment->lastname.'</option>';
+													}
+													?>  
+										</select>
+										<div class="invalid-feedback" id="edit-commander"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+										<input class="form-control numbersonly" type="text" id="editnoofguard">
+										<div class="invalid-feedback" id="edit-noofguard"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Start Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="editstartdate" type="text">
+										<div class="invalid-feedback" id="edit-startdate"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>End Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="editenddate" type="text">
+										<div class="invalid-feedback" id="edit-enddate"></div>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="tab2">
+							<div class="table-responsive">
+								<table class="table table-bordered review-table mb-0">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Time In</th>
+											<th style="text-align: center;">Time Out</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="edittimein"></td>
+											<td class="edittimeout"></td>
+										</tr>
+									</tbody>
+								</table>
 							</div>
 						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
-					</form>
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -377,11 +434,6 @@
 ?>
 <!-- /Page Wrapper -->
 
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script> -->
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"
-type="text/javascript"></script>
-<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
-rel="Stylesheet"type="text/css"/>
 <script>
 	$(document).ready(function() {
 		$('.select2').select2();
@@ -435,14 +487,6 @@ rel="Stylesheet"type="text/css"/>
 		    document.getElementById("add-noofguard").innerHTML = "";
         	$('#noofguard').removeClass('is-invalid');
         	$('#noofguard').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-timein").innerHTML = "";
-        	$('#timein').removeClass('is-invalid');
-        	$('#timein').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-timeout").innerHTML = "";
-        	$('#timeout').removeClass('is-invalid');
-        	$('#timeout').removeClass('is-valid');
 		});
 
 		$('#edit_detachment').on('hidden.bs.modal', function(){
@@ -486,14 +530,6 @@ rel="Stylesheet"type="text/css"/>
 		    document.getElementById("edit-noofguard").innerHTML = "";
         	$('#editnoofguard').removeClass('is-invalid');
         	$('#editnoofguard').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-timein").innerHTML = "";
-        	$('#edittimein').removeClass('is-invalid');
-        	$('#edittimein').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-timeout").innerHTML = "";
-        	$('#edittimeout').removeClass('is-invalid');
-        	$('#edittimeout').removeClass('is-valid');
 		});
 
 		/* CLEAR MODAL */
@@ -514,8 +550,8 @@ rel="Stylesheet"type="text/css"/>
 			$(".modal-body #editstartdate").val( $(this).data('startdate') );
 			$(".modal-body #editenddate").val( $(this).data('enddate') );
 			$(".modal-body #editnoofguard").val( $(this).data('noofguard') );
-			$(".modal-body #edittimein").val( $(this).data('timein') );
-			$(".modal-body #edittimeout").val( $(this).data('timeout') );
+			$(".modal-body .edittimein").val( $(this).data('timein') );
+			$(".modal-body .edittimeout").val( $(this).data('timeout') );
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 
@@ -547,8 +583,6 @@ rel="Stylesheet"type="text/css"/>
 	        var startdate = $('#startdate').val().trim();
 	        var enddate = $('#enddate').val().trim();
 	        var noofguard = $('#noofguard').val().trim();
-	        var timein = $('#timein').val().trim();
-	        var timeout = $('#timeout').val().trim();
 
 	        if(postname==""){
 	        	document.getElementById("add-postname").innerHTML = "Please provide a post name.";
@@ -645,27 +679,7 @@ rel="Stylesheet"type="text/css"/>
 	        	$('#noofguard').addClass('is-valid');
 	        }
 
-	        if(timein==""){
-	        	document.getElementById("add-timein").innerHTML = "Please provide a time in.";
-	        	$('#timein').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-timein").innerHTML = "";
-	        	$('#timein').removeClass('is-invalid');
-	        	$('#timein').addClass('is-valid');
-	        }
-
-	        if(timeout==""){
-	        	document.getElementById("add-timeout").innerHTML = "Please provide a time out.";
-	        	$('#timeout').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-timeout").innerHTML = "";
-	        	$('#timeout').removeClass('is-invalid');
-	        	$('#timeout').addClass('is-valid');
-	        }
-
-	        if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="" || timein=="" || timeout=="") return false;
+	        if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="") return false;
 
 	        $('#add_detachment').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -725,8 +739,6 @@ rel="Stylesheet"type="text/css"/>
 	        var startdate = $('#editstartdate').val().trim();
 	        var enddate = $('#editenddate').val().trim();
 	        var noofguard = $('#editnoofguard').val().trim();
-	        var timein = $('#edittimein').val().trim();
-	        var timeout = $('#edittimeout').val().trim();
 
 	        if(postname==""){
 	        	document.getElementById("edit-postname").innerHTML = "Please provide a designation name.";
@@ -808,7 +820,6 @@ rel="Stylesheet"type="text/css"/>
 	        	$('#editenddate').removeClass('is-invalid');
 	        	$('#editenddate').addClass('is-valid');
 	        }
-
 	        if(noofguard==""){
 	        	document.getElementById("edit-noofguard").innerHTML = "Please provide a department.";
 	        	$('#editnoofguard').addClass('is-invalid');
@@ -819,27 +830,7 @@ rel="Stylesheet"type="text/css"/>
 	        	$('#editnoofguard').addClass('is-valid');
 	        }
 
-	        if(timein==""){
-	        	document.getElementById("edit-timein").innerHTML = "Please provide a time in.";
-	        	$('#edittimein').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-timein").innerHTML = "";
-	        	$('#edittimein').removeClass('is-invalid');
-	        	$('#edittimein').addClass('is-valid');
-	        }
-
-	        if(timeout==""){
-	        	document.getElementById("edit-timeout").innerHTML = "Please provide a time out.";
-	        	$('#edittimeout').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-timeout").innerHTML = "";
-	        	$('#edittimeout').removeClass('is-invalid');
-	        	$('#edittimeout').addClass('is-valid');
-	        }
-
-	        	if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="" || timein=="" || timeout=="") return false;
+	        	if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="") return false;
 
 	        	$('#edit_detachment').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -853,43 +844,6 @@ rel="Stylesheet"type="text/css"/>
 			$('#edit_detachment').show();
 
 		});
-
-	        	/*$.ajax({
-	                url : "<?php echo site_url('detachments/update');?>",
-	                method : "POST",
-	                data : {id:id,
-	                		postname:postname,
-	                		housenumber:housenumber,
-	                		streetname:streetname,
-	                		barangay:barangay,
-	                		city:city,
-	                		clientID:clientID,
-	                		commander:commander,
-	                		startdate:startdate,
-	                		enddate:enddate,
-	                		noofguard:noofguard
-	                	},
-	                async : true,
-	                dataType : 'json',
-	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-postname").innerHTML = result[1];
-				        	$('#editpostname').addClass('is-invalid');
-				        	$("#editpostname").focus(); 
-				        	$('#editclientID').addClass('is-invalid');
-				        	$("#editclientID").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
-            			}
-	                },
-	                error: function(request, textStatus, error) {
-
-	            	}
-	            });
-	            return false;
-	        
-        });*/
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
@@ -932,8 +886,16 @@ rel="Stylesheet"type="text/css"/>
 	        var startdate = $('#startdate').val().trim();
 	        var enddate = $('#enddate').val().trim();
 	        var noofguard = $('#noofguard').val().trim();
-	        var timein = $('#timein').val().trim();
-	        var timeout = $('#timeout').val().trim();
+	        var timein = [];
+        	var timeout = [];
+
+        	$('input.timein').map(function() {
+	        timein.push($(this).val());
+	        });
+
+	        $('input.timeout').map(function() {
+	        timeout.push($(this).val());
+	        });
 
         	$.ajax({
 	                url : "<?php echo site_url('posts/save');?>",
@@ -949,7 +911,7 @@ rel="Stylesheet"type="text/css"/>
 	                		enddate:enddate,
 	                		noofguard:noofguard,
 	                		timein:timein,
-	                		timeout:timeout
+            				timeout:timeout
 	                		},
 	                async : true,
 	                dataType : 'json',
@@ -984,8 +946,6 @@ rel="Stylesheet"type="text/css"/>
 	        var startdate = $('#editstartdate').val().trim();
 	        var enddate = $('#editenddate').val().trim();
 	        var noofguard = $('#editnoofguard').val().trim();
-	        var timein = $('#edittimein').val().trim();
-	        var timeout = $('#edittimeout').val().trim();
 
         	$.ajax({
 	                url : "<?php echo site_url('posts/update');?>",
@@ -1001,8 +961,6 @@ rel="Stylesheet"type="text/css"/>
 	                		startdate:startdate,
 	                		enddate:enddate,
 	                		noofguard:noofguard,
-	                		timein:timein,
-	                		timeout:timeout
 	                	},
 	                async : true,
 	                dataType : 'json',
@@ -1024,23 +982,6 @@ rel="Stylesheet"type="text/css"/>
 	            });
 	            return false;
         });
-
-          $("#editstartdate").datepicker({
-        numberOfMonths: 2,
-        onSelect: function (selected) {
-            var dt = new Date(selected);
-            dt.setDate(dt.getDate() + 1);
-            $("#editenddate").datepicker("option", "minDate", dt);
-        }
-    });
-    $("#editenddate").datepicker({
-        numberOfMonths: 2,
-        onSelect: function (selected) {
-            var dt = new Date(selected);
-            dt.setDate(dt.getDate() - 1);
-            $("#editstartdate").datepicker("option", "maxDate", dt);
-        }
-    });
        
 	});
 </script>

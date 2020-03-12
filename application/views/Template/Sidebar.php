@@ -25,11 +25,11 @@
 					</li>
 					<?php if($permission[1]){ ?>
 						<li class="nav-item"> 
-							<a href="<?php echo base_url(); ?>dashboard"><i class="la la-table"></i> <span>Dashboard</span></a>
+							<a href="<?php echo base_url(); ?>Dashboard"><i class="la la-table"></i> <span>Dashboard</span></a>
 						</li>
 					<?php } if($permission[2]){ ?>
 						<li class="nav-item"> 
-							<a href="<?php echo base_url(); ?>profile"><i class="la la-user"></i> <span>Profile</span></a>
+							<a href="<?php echo base_url(); ?>Profile"><i class="la la-user"></i> <span>Profile</span></a>
 						</li>
 					<?php } 
 				}?>
@@ -43,13 +43,13 @@
 							<a href="#" class="employees-header"><i class="la la-users"></i> <span> Employees</span> <span class="menu-arrow"></span></a>
 							<ul style="display: none;" class="menu-header" id="employees-header">
 								<?php if($permission[3]){ ?>
-									<li><a href="<?php echo base_url(); ?>employees">All Employees</a></li>
+									<li><a href="<?php echo base_url(); ?>Employees">All Employees</a></li>
 								<?php } if($permission[4]){ ?>
-									<li><a href="<?php echo base_url(); ?>leaves">Leaves</a></li>
+									<li><a href="<?php echo base_url(); ?>Leaves">Leaves</a></li>
 								<?php } if($permission[5]){ ?>	
-									<li><a href="<?php echo base_url(); ?>overtime">Overtime</a></li>
+									<li><a href="<?php echo base_url(); ?>Overtime">Overtime</a></li>
 								<?php } if($permission[6]){ ?>
-									<li><a href="<?php echo base_url(); ?>loans">Loans</a></li>
+									<li><a href="<?php echo base_url(); ?>Loans">Loans</a></li>
 								<?php } ?>
 							</ul>
 						</li>
@@ -59,18 +59,18 @@
 							<a href="#" class="timekeeping-header"><i class="la la-dashboard"></i> <span> Timekeeping</span>  <span class="menu-arrow"></span></a>
 							<ul style="display: none;" class="menu-header" id="timekeeping-header">
 								<?php if($permission[7]){ ?>
-									<li><a href="<?php echo base_url(); ?>timekeeping">Timekeeping (Security Guard)</a></li>
+									<li><a href="<?php echo base_url(); ?>Timekeepingsecurityguard">Timekeeping (Security Guard)</a></li>
 								<?php } if($permission[8]){ ?>
 									<!-- <li><a href="<?php echo base_url(); ?>timekeeping">Timekeeping (Staff)</a></li> -->
 								<?php } if($permission[9]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Timekeeping Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Timekeepingreport">Timekeeping Report</a></li>
 								<?php } ?>
 							</ul>
 						</li>
 					<?php } ?>
 				<?php } ?>
 
-				<?php if( $permission[10] || $permission[11] || $permission[12] || $permission[13] || $permission[14] ||
+				<?php if( $permission[10] || $permission[11] /*|| $permission[12]*/ || $permission[13] || $permission[14] ||
 						  $permission[15] || $permission[16] || $permission[17] || $permission[18] || $permission[19] || 
 						  $permission[20] || $permission[21] || $permission[22] || $permission[23] || $permission[24] || $permission[25]){ ?>
 					<li class="menu-title"> 
@@ -86,13 +86,13 @@
 								<?php } if($permission[11]){ ?>
 									<!-- <li><a href="<?php echo base_url(); ?>payroll">Payroll Process (Staff)</a></li> -->
 								<?php } if($permission[12]){ ?>
-									<li><a href="<?php echo base_url(); ?>Payrolladjustment">Payroll Adjustment</a></li>
+									<li><a href="<?php echo base_url(); ?>postscheduling">Post Scheduling</a></li>
 								<?php } if($permission[13]){ ?>
-									<li><a href="<?php echo base_url(); ?>generatepayslip">Generate Payslip</a></li>
+									<li><a href="<?php echo base_url(); ?>Generatepayslip">Generate Payslip</a></li>
 								<?php } if($permission[14]){ ?>
 									<li><a href="<?php echo base_url(); ?>Payrollreport">Payroll Report</a></li>
 								<?php } if($permission[15]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Payroll Adjustment Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Maintenance">Payroll Adjustment Report</a></li>
 								<?php } ?>
 							</ul>
 						</li>			
@@ -133,15 +133,15 @@
 								<?php if($permission[20]){ ?>
 									<li><a href="<?php echo base_url(); ?>Billing">Billing Statement</a></li>
 								<?php } if($permission[21]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">PPS (Metrobank)</a></li>
+									<li><a href="<?php echo base_url(); ?>Maintenance">PPS (Metrobank)</a></li>
 								<?php } if($permission[22]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">PHIC Premium Payment</a></li>
+									<li><a href="<?php echo base_url(); ?>Philhealthreport">PHIC Premium Payment</a></li>
 								<?php } if($permission[23]){ ?>
 									<li><a href="<?php echo base_url(); ?>SSSreport">SSS Premium Payment</a></li>
 								<?php } if($permission[24]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">HDMF Premium Payment</a></li>
+									<li><a href="<?php echo base_url(); ?>Hdmfreport">HDMF Premium Payment</a></li>
 								<?php } if($permission[25]){ ?>
-									<li><a href="<?php echo base_url(); ?>maintenance">Summary of Deductions</a></li>
+									<li><a href="<?php echo base_url(); ?>Maintenance">Summary of Deductions</a></li>
 								<?php } ?>	
 							</ul>
 						</li>	
@@ -160,40 +160,40 @@
 								<a href="#" class="maintenance-header"><i class="la la-folder-open"></i> <span> File Maintenance </span> <span class="menu-arrow"></span></a>
 								<ul style="display: none;" class="menu-header" id="maintenance-header">
 									<?php if($permission[26]){ ?>
-										<li><a href="<?php echo base_url(); ?>departments">Departments</a></li>
+										<li><a href="<?php echo base_url(); ?>Departments">Departments</a></li>
 									<?php } if($permission[27]){ ?>
-										<li><a href="<?php echo base_url(); ?>designations">Designations</a></li>
+										<li><a href="<?php echo base_url(); ?>Designations">Designations</a></li>
 									<?php } if($permission[28]){ ?>
-										<li><a href="<?php echo base_url(); ?>clients">Clients</a></li>
+										<li><a href="<?php echo base_url(); ?>Clients">Clients</a></li>
 									<?php } if($permission[29]){ ?>
-										<li><a href="<?php echo base_url(); ?>posts">Posts</a></li>
+										<li><a href="<?php echo base_url(); ?>Posts">Posts</a></li>
 									<?php } if($permission[30]){ ?>
 										<li><a href="<?php echo base_url(); ?>SSStable">SSS Table</a></li>
 									<?php } if($permission[31]){ ?>
-										<li><a href="<?php echo base_url(); ?>philhealthtable">PhilHealth Table</a></li>
+										<li><a href="<?php echo base_url(); ?>Philhealthtable">PhilHealth Table</a></li>
 									<?php } if($permission[32]){ ?>
-										<li><a href="<?php echo base_url(); ?>taxtable">Tax Table</a></li>
+										<li><a href="<?php echo base_url(); ?>Taxtable">Tax Table</a></li>
 									<?php } if($permission[33]){ ?>
-										<li><a href="<?php echo base_url(); ?>holidays">Holidays</a></li>
+										<li><a href="<?php echo base_url(); ?>Holidays">Holidays</a></li>
 									<?php } if($permission[34]){ ?>
-										<li><a href="<?php echo base_url(); ?>leavetype">Leave Type</a></li>
+										<li><a href="<?php echo base_url(); ?>Leavetype">Leave Type</a></li>
 									<?php } if($permission[35]){ ?>
-										<li><a href="<?php echo base_url(); ?>banks">Banks</a></li>
+										<li><a href="<?php echo base_url(); ?>Banks">Banks</a></li>
 									<?php } ?>
 								</ul>
 							</li>	
 					<?php } ?>
 					<?php if($permission[36]){ ?>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>company"><i class="la la-building"></i></i> <span>Company Profile</span> </a>
+							<a href="<?php echo base_url(); ?>Company"><i class="la la-building"></i></i> <span>Company Profile</span> </a>
 						</li>
 					<?php } if($permission[37]){ ?>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>roles"><i class="la la-key"></i></i> <span>Roles & Permission</span> </a>
+							<a href="<?php echo base_url(); ?>Roles"><i class="la la-key"></i></i> <span>Roles & Permission</span> </a>
 						</li>
 					<?php } if($permission[38]){ ?>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>approval"><i class="la la-tasks"></i></i> <span>Approval Setup</span> </a>
+							<a href="<?php echo base_url(); ?>Approval"><i class="la la-tasks"></i></i> <span>Approval Setup</span> </a>
 						</li>
 					<?php } ?>
 				<?php } ?>

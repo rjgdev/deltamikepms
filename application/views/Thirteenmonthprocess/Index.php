@@ -145,11 +145,10 @@ foreach ($data['approver'] as $approvaldata)  {
 			 <div class="form-group">
 				<label for="gender">&emsp;</label>
 						  <div class="input-group-append">
-						    
-						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-success" style="width: 100%; height: 43px;" 
+						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-success" style="width: 100%; height: 43px; text-align:center" 	 
 						    		 <?php 
 						    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
-									else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process 13th Month &emsp; &emsp;</button>
+									else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process 13th Month </button>
 						  </div>
 				 	</div>
 				</div>
@@ -383,6 +382,7 @@ foreach ($data['approver'] as $approvaldata)  {
     	var thrmonthid = $('#cutoff').attr('thrmonthid');
     	var lastapprover  = $('#cutoff').attr('lastapprover');
 
+
     	$.ajax({
 		      url : "<?php echo site_url('Thirteenmonthprocess/approve');?>",
 		      method : "POST",
@@ -422,8 +422,16 @@ foreach ($data['approver'] as $approvaldata)  {
 
     });
 	$(document).on("click", "#uploaddate", function(){
-
-		
+				var sddlmonth =   $("#sddlmonth").val();
+				var sddlyear = $("#sddlyear").val();
+				var eddlmonth = $("#eddlmonth").val();
+				var eddlyear = $("#eddlyear").val();
+				var checkerrorfrom = sddlyear+ +sddlmonth
+				var checkerrorto =  eddlyear+ +eddlmonth;
+		if(checkerrorfrom >= checkerrorto){
+			showErrorToast("Invalid date selected!");
+			 event.preventDefault();
+		}else{
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
 		$('#modal_title').html("13th month");
     	$('#modal_message').html("Are you sure you want to upload the 13th month?");
@@ -432,19 +440,18 @@ foreach ($data['approver'] as $approvaldata)  {
     	$('.submit-btn').attr("id","modal_uploaddate");
         $('#modal_confirmation').modal('show');
 		return false;
+		}	
 	});
 	$(document).on("click", "#modal_uploaddate", function(){
 		$("#upload_date").submit();
 	});
 
 	$('#upload_date').on("submit", function(e){ 
-
 				var id  = $('#cutoff').attr('thrmonthid');
 				var sddlmonth =   $("#sddlmonth").val();
 				var sddlyear = $("#sddlyear").val();
 				var eddlmonth = $("#eddlmonth").val();
 				var eddlyear = $("#eddlyear").val();
-			//alert(sddlyear + '-'+ sddlmonth + '-' + '0');
 			$.ajax({
 				url : "<?php echo site_url('Thirteenmonthprocess/search_Thirteenmonthprocess');?>",
 				method : "POST",
@@ -458,7 +465,7 @@ foreach ($data['approver'] as $approvaldata)  {
 				},
 				success: function(response){
 					$('#modal_confirmation').modal('hide');
-					showSuccessToast("13th month is successfully Process!");
+					showSuccessToast("The 13th month has been successfully processed.");
 				
 					
 			},
@@ -547,16 +554,16 @@ foreach ($data['approver'] as $approvaldata)  {
 		      		$("#show_button").html(htmlButton);
 		      	
 		      		$('#datatable1').DataTable({
-				        scrollX: true,
-			        	scrollCollapse: true,
+				        scrollX: false,
+			        	scrollCollapse: false,
 				        fixedColumns:   {
-						    leftColumns: 2,
-						    rightColumns: 1
+						   /* leftColumns: 2,
+						    rightColumns: 1*/
 						}
 				    });
 
 		      		$('#modal_confirmation').modal('hide');
-		      		showSuccessToast("13th month is successfully <b>submitted!</b>");
+		      		showSuccessToast("The 13th month process has been submitted successfully.");
 		      	}else{
 		      		$('#modal_confirmation').modal('hide');
 		      		showErrorToast(data['error']); ;
@@ -573,7 +580,7 @@ foreach ($data['approver'] as $approvaldata)  {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
 		$('#modal_title').html("Cancel Request");
     	$('#modal_message').html("Are you sure you want to cancel the 13th month request?");
-    	$('.submit-btn').html("Submit 13th month ");
+    	$('.submit-btn').html("Cancel 13th month ");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_canceltimekeeping");
         $('#modal_confirmation').modal('show');
@@ -588,7 +595,7 @@ foreach ($data['approver'] as $approvaldata)  {
 		      data : {thrmonthid:thrmonthid},
 		      async : true,
 		      success: function(data){
-		      		html ='<table class="table table-striped custom-table datatable" id="datatable1">' +
+		      		/*tml ='<table class="table table-striped custom-table datatable" id="datatable1">' +
 							'<thead>' +		
 								'<tr>' +
 									'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
@@ -603,7 +610,8 @@ foreach ($data['approver'] as $approvaldata)  {
 								'</tr>' +
 							'</thead>' +
 							'<tbody>';
-					html +='</tbody></table>';	
+
+					html +='</tbody></table>';	*/
 				var htmlStatus = "DRAFT";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
@@ -614,17 +622,17 @@ foreach ($data['approver'] as $approvaldata)  {
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
-	      		$("#show_data").html(html);
+	      		/*$("#show_data").html(html);*/
 	      		$("#show_button").html(htmlButton);
 	      		if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };
 			    $('#datatable1').DataTable({
-				        scrollX: true,
-			        	scrollCollapse: true,
+				        scrollX: false,
+			        	scrollCollapse: false,
 				        fixedColumns:   {
-						    leftColumns: 2,
-						    rightColumns: 1
+						    /*leftColumns: 2,
+						    rightColumns: 1*/
 						}
 				});   
 	      		$('#modal_confirmation').modal('hide');

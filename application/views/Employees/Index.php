@@ -107,7 +107,7 @@
     data-hireddate="<?php echo $item->hireddate; ?>" 
     data-departmentid="<?php echo $item->departmentID; ?>" 
     data-designationid="<?php echo $item->designationID; ?>" 
-    data-detachmentid="<?php echo $item->detachmentID; ?>" 
+    data-postID="<?php echo $item->postID; ?>" 
     data-designationid="<?php echo $item->designationID; ?>" 
     data-designationdescription="<?php echo $item->designationdescription; ?>" 
     data-employeestatus="<?php echo $item->employeestatus; ?>" 
@@ -118,7 +118,6 @@
     data-allowance="<?php echo $item->allowance; ?>" 
     data-retfund="<?php echo $item->retfund; ?>" 
     data-incentive="<?php echo $item->incentive; ?>" 
-    data-uniformallowance="<?php echo $item->uniformallowance; ?>"
     data-bankname="<?php echo $item->bankname; ?>"  
     data-backaccountname="<?php echo $item->backaccountname; ?>" 
     data-backaccountnumber="<?php echo $item->backaccountnumber; ?>" 
@@ -196,7 +195,7 @@
   </div>  
     <div class="form-group col-sm-6">
     <label for="middlename">Middle Name</label>
-    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input lettersonly" autocomplete="off" tabindex="2">
+    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input letterswithspace" autocomplete="off" tabindex="2">
     <div class="invalid-feedback" id="add-middlename"></div>
   </div>
    <div class="form-group col-sm-6">
@@ -206,7 +205,7 @@
   </div>
     <div class="form-group col-sm-6">
     <label for="lastname">Last Name  <span class="text-danger">*</span></label>
-    <input id="addlastname" type="text" name="addlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required tabindex="3">
+    <input id="addlastname" type="text" name="addlastname" class="form-control input letterswithspace" autocomplete="off" description="last name" required tabindex="3">
     <div class="invalid-feedback" id="add-lastname"></div>
     </div>
      <div class="form-group col-sm-6">
@@ -273,8 +272,8 @@
   <div class="invalid-feedback" id="add-barangay"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="adddetachment">Detachment <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
-  <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="detachment" required tabindex="17">
+  <label for="adddetachment">Post <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
+  <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="post" required tabindex="17">
   <option value="">No Selected</option>
   </select>
   <div class="invalid-feedback" id="add-detachment"></div>
@@ -362,7 +361,7 @@
                       <form class="forms-group">
                         <div class="row">
                            <div class="form-group col-sm-6">
-                            <label for="basicsalary">Basic Salary <span class="text-danger">*</span></label>
+                            <label for="basicsalary">Basic Salary <span  id="lblbasicsalary" name="lblbasicsalary" class="text-danger">*</span></label>
                             <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
@@ -377,7 +376,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                            <input id="adddailyrate" name="adddailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" required>
+                            <input id="adddailyrate" name="adddailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" description="daily rate" required>
                             <div class="invalid-feedback" id="add-dailyrate"></div>
                            </div>
                           </div>
@@ -420,27 +419,23 @@
                             <label for="allowance">Incentives</label>
                             <input id="addincentive" name="addincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
                           </div>
-                          <div class="form-group col-sm-6">
-                            <label for="allowance">Uniform Allowances</label>
-                            <input id="adduniformallowance" name="adduniformallowance" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Uniform Allowances">
-                          </div>
                            <div class="form-group col-sm-6">
                             <label for="tinnumber">TIN</label>
                             <input id="addtinnumber" type="text" name="addtinnumber" value="000-000-000" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
                             <div class="invalid-feedback" id="add-tinnumber"></div>
                             </div> 
                            <div class="form-group col-sm-6">
-                            <label for="sssnumber">SSS No.</label>
+                            <label for="sssnumber">SSS Number.</label>
                             <input id="addsssnumber" type="text" name="addsssnumber" value="00-0000000-0" class="form-control input" placeholder="00-0000000-0"  minlength=12 autocomplete="off">
                              <div class="invalid-feedback" id="add-sssnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
-                            <label for="philhealthnumber">Philhealth No.</label>
+                            <label for="philhealthnumber">PhilHealth Number.</label>
                             <input id="addphilhealthnumber" type="text" name="addphilhealthnumber" value ="00-000000000-0" class="form-control input" placeholder="00-000000000-0" minlength=14 autocomplete="off">
                             <div class="invalid-feedback" id="add-philhealthnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
-                            <label for="pagibignumber">Pag-IBIG MID No.</label>
+                            <label for="pagibignumber">Pag-IBIG MID Number.</label>
                             <input id="addpagibignumber" type="text" name="addpagibignumber" value="0000-0000-0000" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
                              <div class="invalid-feedback" id="add-pagibignumber"></div>
                           </div>
@@ -617,7 +612,7 @@
         </div>  
         <div class="form-group col-sm-6">
         <label for="middlename">Middle Name</label>
-        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input lettersonly" autocomplete="off" tabindex="3">
+        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input letterswithspace" autocomplete="off" tabindex="3">
         <div class="invalid-feedback" id="edit-middlename"></div>
         </div>
         <div class="form-group col-sm-6">
@@ -627,7 +622,7 @@
         </div>
         <div class="form-group col-sm-6">
         <label for="lastname">Last Name <span class="text-danger">*</span></label>
-        <input id="editlastname" type="text" name="editlastname" class="form-control input lettersonly" autocomplete="off" description="last name" required tabindex="4">
+        <input id="editlastname" type="text" name="editlastname" class="form-control input letterswithspace" autocomplete="off" description="last name" required tabindex="4">
         <div class="invalid-feedback" id="edit-lastname"></div>
         </div>
         <div class="form-group col-sm-6">
@@ -693,7 +688,7 @@
         </div>
 
         <div class="form-group col-sm-6">
-          <label for="editdetachment">Detachment <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
+          <label for="editdetachment">Post <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
            <input type="hidden" id="edithiddenDetachment" name="edithiddenDetachment">
           <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required tabindex="18">
           </select>
@@ -751,7 +746,7 @@
           </div>
       </div>  
       <div class="form-group">
-        <label for="editusername">Username <span id="lbleditusername" name="lbleditusername" class="text-danger">*</span></label>
+        <label for="editusername">Username </label>
         <div class="input-group">
           <div class="input-group-prepend bg-transparent">
           <span class="input-group-text bg-transparent border-right-0">
@@ -760,7 +755,7 @@
           <input type="text" class="form-control input alphanumericwithspace" id="editusername" name="editusername" autocomplete="off" description="username" required>
           <div class="invalid-feedback" id="edit-username"></div>
         </div>
-        <label for="editpassword">Password <span id="lbleditpassword" name="lbleditpassword" class="text-danger">*</span></label>
+        <label for="editpassword">Password </label>
         <div class="input-group">
           <div class="input-group-prepend bg-transparent">
             <span class="input-group-text bg-transparent border-right-0">
@@ -774,7 +769,7 @@
           </div>
           <div class="invalid-feedback" id="edit-password"></div>
         </div>
-          <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;">NOTE: Provide username and password if the user is autorized to access the system.</span>
+          <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;">NOTE: Provide username and password if the user is authorized to access the system.</span>
       </div>
       </form>
     </div>
@@ -784,7 +779,7 @@
   <form>
     <div class="row">
         <div class="form-group col-sm-6">
-        <label for="basicsalary">Basic Salary <span class="text-danger">*</span></label>
+        <label for="basicsalary">Basic Salary <span id="editlblbasicsalary" name="editlblbasicsalary" class="text-danger">*</span></label>
         <div class="input-group mr-sm-2 mb-sm-0">
         <div class="input-group-prepend">
         <span class="input-group-text">₱</span>
@@ -844,26 +839,22 @@
         <input id="editincentive" name="editincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
       </div>
       <div class="form-group col-sm-6">
-        <label for="allowance">Uniform Allowances</label>
-        <input id="edituniformallowance" name="edituniformallowance" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Uniform Allowances">
-      </div>
-      <div class="form-group col-sm-6">
       <label for="tinnumber">TIN</label>
       <input id="edittinnumber" type="text" name="edittinnumber" class="form-control input" value="000-000-000" placeholder="000-000-000" minlength=11 autocomplete="off">
        <div class="invalid-feedback" id="edit-tinnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="sssnumber">SSS No.</label>
+      <label for="sssnumber">SSS Number.</label>
       <input id="editsssnumber" type="text" name="editsssnumber" class="form-control input" value="00-0000000-0" placeholder="00-0000000-0" minlength=12 autocomplete="off">
       <div class="invalid-feedback" id="edit-sssnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="philhealthnumber">Philhealth No.</label>
+      <label for="philhealthnumber">PhilHealth Number.</label>
       <input id="editphilhealthnumber" type="text" name="editphilhealthnumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off"description="Philhealth number">
       <div class="invalid-feedback" id="edit-philhealthnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="pagibignumber">Pag-IBIG MID No.</label>
+      <label for="pagibignumber">Pag-IBIG MID Number.</label>
       <input id="editpagibignumber" type="text" name="editpagibignumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off" description="Pag-ibig number">
        <div class="invalid-feedback" id="edit-pagibignumber"></div>
       </div>
@@ -1214,6 +1205,7 @@ var restdayid =[];
       if(employeetype==1){
          $("#lbleditusername").hide();
          $("#lbleditpassword").hide();
+         $("#lblbasicsalary").hide();
          $("#editclient").prop("disabled", false);
          $("#editdetachment").prop("disabled", false);
 
@@ -1221,6 +1213,7 @@ var restdayid =[];
         $("#editdetachment").val($("#editdetachment option:first").val());
         $("#lbleditusername").show();
         $("#lbleditpassword").show();
+        $("#lblbasicsalary").show();
         $("#editclient").prop("disabled", true);
         $("#editdetachment").prop("disabled", true);
       }
@@ -1262,12 +1255,14 @@ var restdayid =[];
       if(employeetype==1){
          $("#lblusername").hide();
          $("#lblpassword").hide();
+         $("#lblbasicsalary").hide();
          $("#addclient").prop("disabled", false);
          $("#adddetachment").prop("disabled", false);
 
       }else{
          $("#lblusername").show();
          $("#lblpassword").show();
+          $("#lblbasicsalary").show();
         $("#addclient").prop("disabled", true);
         $("#adddetachment").prop("disabled", true);
       }
@@ -1281,12 +1276,13 @@ var restdayid =[];
       if(employeetype==1){
          $("#lbleditusername").hide();
          $("#lbleditpassword").hide();
+         $("#editlblbasicsalary").hide();
          $("#editclient").prop("disabled", false);
          $("#editdetachment").prop("disabled", false);
-
       }else{
         $("#lbleditusername").show();
         $("#lbleditpassword").show();
+        $("#editlblbasicsalary").show();
         $("#editclient").prop("disabled", true);
         $("#editdetachment").prop("disabled", true);
       }
@@ -1325,7 +1321,6 @@ var restdayid =[];
   //dropdown client ADD //
   $('#addclient').change(function(){ 
     var id=$(this).val();
-  
     $.ajax({
       url : "<?php echo site_url('Employees/get_client');?>",
       method : "POST",
@@ -1337,10 +1332,10 @@ var restdayid =[];
         var i;
         html += '<option value="">No Selected</option>';
         for(i=0; i<data.length; i++){
-          if($("#adddetachment").val()==data[i].detachmentID){
-            html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+          if($("#adddetachment").val()==data[i].postID){
+            html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
           }else{
-            html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+            html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
           }
         }
         $('#adddetachment').html(html);
@@ -1370,7 +1365,7 @@ var restdayid =[];
           document.getElementById("addbackaccountnumber").placeholder =acctnumber;
           $("#addbackaccountnumber").attr('maxlength',countnumber);
           $('#addbackaccountnumber').mask(acctnumber);
-          console.log(countnumber);
+          /*console.log(countnumber);*/
         }
       }
     });
@@ -1398,7 +1393,7 @@ var restdayid =[];
           document.getElementById("editbackaccountnumber").placeholder =acctnumber;     
           $("#editbackaccountnumber").attr('maxlength',countnumber);
           $('#editbackaccountnumber').mask(acctnumber);
-          console.log(acctnumber);
+          /*console.log(acctnumber);*/
         }
       }
     });
@@ -1422,10 +1417,10 @@ var restdayid =[];
           var i;
           html += '<option value="">No Selected</option>';
           for(i=0; i<data.length; i++){
-            if($("#edithiddenDetachment").val()==data[i].detachmentID){
-              html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+            if($("#edithiddenDetachment").val()==data[i].postID){
+              html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
             }else{
-              html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+              html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
             }
           }
           $('#editdetachment').html(html);
@@ -1551,9 +1546,10 @@ var restdayid =[];
       var middlename    = $("#addmiddlename").val();
       var basicsalary   = $("#addbasicsalary").val().trim().replace(",","");
       var dailyrate     = $("#adddailyrate").val().trim().replace(",","");
-      var dailyratewithoutperiod = dailyrate.replace(".","");
+      var dailyratedata = dailyrate.replace(",","");
+      var dailyratewithoutperiod = dailyratedata.replace(".","");
       var basicwithoutperiod = basicsalary.replace(".","");
-       var addbasicinteger = parseInt(basicwithoutperiod,15);
+      var addbasicinteger = parseInt(basicwithoutperiod,15);
       var adddailyinteger = parseInt(dailyratewithoutperiod,15);
       var phone         = $("#addcontactinfo").val();
 
@@ -1562,8 +1558,8 @@ var restdayid =[];
          6 = addstreetname           7 = addbarangay         8 = addcity               9 = addbirthdate          10 = addcontactinfo     11 = addcivilstatus
          12 = addcitizenship        13 = addhireddate       14 = adddepartment        15 = adddesignation        16 = addclient          17 = adddetachment
          18 = addstatus             19 = addrole            20 = addusername          21 = addpassword           22 = addbasicsalary     23 = adddailyrate 
-         24 = addallowance          25 = addretfund         26 = addincentive         27 = adduniformallowance   28 = addtinnumber       29 = addsssnumber
-         30 = addphilhealthnumber   31 = addpagibignumber   32 = addbankaccountname   33 = addbackaccountnumber  34 = addbankname
+         24 = addallowance          25 = addretfund         26 = addincentive         27/cancel = adduniformallowance   27 = addtinnumber       28 = addsssnumber
+         29 = addphilhealthnumber   30 = addpagibignumber   31 = addbankaccountname   32 = addbackaccountnumber  33 = addbankname
       */
       
       var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
@@ -1571,7 +1567,7 @@ var restdayid =[];
                     '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
                     '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
                     '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addretfund',
-                    '#addincentive', '#adduniformallowance', '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
+                    '#addincentive', /*'#adduniformallowance',*/ '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
                     '#addpagibignumber', '#addbankaccountname', '#addbackaccountnumber','#addbankname'];
 
       var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
@@ -1579,7 +1575,7 @@ var restdayid =[];
                           'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
                           'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
                           'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-retfund', 
-                          'add-incentive', 'add-uniformallowance', 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
+                          'add-incentive', /*'add-uniformallowance',*/ 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
                           'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber','add-bankname'];
 
       var ValueArray = [];
@@ -1589,9 +1585,35 @@ var restdayid =[];
       for(var i=0;i<IDArray.length;i++){
           ValueArray[i] = $(IDArray[i]).val().trim();
           if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 ||/* i==28 ||*//* i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
+
           }else{
-            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || /*i==28 ||*/ /*i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 || i==26 ||/* i==27 || i==28 ||*/ /*i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+            if(i==22 || i==23){
+            if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+
+                 document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                $('#addtabs li:eq(2) a').tab('show');
+                $("#adddailyrate").focus();
+
+            }else{
+             
+
+                 document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
+                event.preventDefault();
+              
+            }
+             }
           }
 
           if(i==10){
@@ -1612,8 +1634,8 @@ var restdayid =[];
               $(IDArray[i]).addClass('is-valid');
               event.preventDefault();
             }
-          }else if(i==22 || i==23){
-            if(/*$(IDArray[i]).val().trim()=="" ||*/ /*$(IDArray[i]).val().trim()=="0.0000" ||*/ addbasicinteger < adddailyinteger){
+          /*}else if(i==22 || i==23){
+            if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
                 if(firstRequired==""){
                     firstRequired = IDArray[i];
 
@@ -1631,8 +1653,8 @@ var restdayid =[];
                 $(IDArray[i]).removeClass('is-invalid');
                 $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
-            }
-             }else if(i==28){
+            }*/
+             }else if(i==27){
             if($(IDArray[i]).val().length<11){
                if(firstRequired==""){
                   firstRequired = IDArray[i];
@@ -1651,7 +1673,7 @@ var restdayid =[];
               event.preventDefault();
 
             }
-           }else if(i==29){
+           }else if(i==28){
             if($(IDArray[i]).val().length<12){
                if(firstRequired==""){
                   firstRequired = IDArray[i];
@@ -1670,7 +1692,7 @@ var restdayid =[];
               event.preventDefault();
            
             }   
-            }else if(i==30){
+            }else if(i==29){
             if($(IDArray[i]).val().length<14){
                if(firstRequired==""){
                   firstRequired = IDArray[i];
@@ -1689,7 +1711,7 @@ var restdayid =[];
               event.preventDefault();
            
             }
-          }else if(i==31){
+          }else if(i==30){
             if($(IDArray[i]).val().length<14){
                if(firstRequired==""){
                   firstRequired = IDArray[i];
@@ -1786,7 +1808,6 @@ var restdayid =[];
         var allowance         =   $("#addallowance").val().replace(",","");
         var retfund           =   $("#addretfund").val().replace(",","");
         var incentive         =   $("#addincentive").val().replace(",","");
-        var uniformallowance  =   $("#adduniformallowance").val().replace(",","");
         var tinnumber         =   $("#addtinnumber").val();
         var sssnumber         =   $("#addsssnumber").val();
         var philhealthnumber  =   $("#addphilhealthnumber").val();
@@ -1807,7 +1828,7 @@ var restdayid =[];
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
                 dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,              
+                incentive:         incentive,       tinnumber:        tinnumber,              
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
                 clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
                 backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
@@ -1873,8 +1894,8 @@ var restdayid =[];
     $(".modal-body #editdesignation").val( $(this).data('designationid'));
     $(".modal-body #editclient").val($(this).data('clientid'));
     $(".modal-body #editclient").trigger("change");
-    $(".modal-body #edithiddenDetachment").val( $(this).data('detachmentid'));
-    $(".modal-body #editdetachment").val( $(this).data('detachmentid'));
+    $(".modal-body #edithiddenDetachment").val( $(this).data('postid'));
+    $(".modal-body #editdetachment").val( $(this).data('postid'));
     $(".modal-body #editstatus").val( $(this).data('employeestatus'));
     $(".modal-body #editusername").val( $(this).data('username'));
     $(".modal-body #editpassword").val( $(this).data('password'));
@@ -1883,7 +1904,6 @@ var restdayid =[];
     $(".modal-body #editallowance").val( $(this).data('allowance'));
     $(".modal-body #editretfund").val( $(this).data('retfund'));
     $(".modal-body #editincentive").val( $(this).data('incentive'));
-    $(".modal-body #edituniformallowance").val( $(this).data('uniformallowance'))
     $(".modal-body #editbankname").val( $(this).data('bankname'));
     $(".modal-body #editbankname").trigger("change");
     $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
@@ -1966,31 +1986,33 @@ var restdayid =[];
        6 = editstreetname           7 = editbarangay         8 = editcity               9 = editbirthdate          10 = editcontactinfo     11 = editcivilstatus
        12 = editcitizenship        13 = edithireddate       14 = editdepartment        15 = editdesignation        16 = editclient          17 = editdetachment
        18 = editstatus             19 = editrole            20 = editusername          21 = editpassword           22 = editbasicsalary     23 = editdailyrate 
-       24 = editallowance          25 = editretfund         26 = editincentive         27 = edituniformallowance   28 = edittinnumber       29 = editsssnumber
-       30 = editphilhealthnumber   31 = editpagibignumber   32 = editbankaccountname   33 = editbackaccountnumber  34 = editbankname
+       24 = editallowance          25 = editretfund         26 = editincentive         27 CANCEL = edituniformallowance 27 = edittinnumber  28 = editsssnumber
+       29 = editphilhealthnumber   30 = editpagibignumber   31 = editbankaccountname   32 = editbackaccountnumber  33 = editbankname
     */
       var basicsalary   = $("#editbasicsalary").val().trim().replace(",","");
       var dailyrate     = $("#editdailyrate").val().trim().replace(",","");
-      var dailyratewithoutperiod = dailyrate.replace(".","");
-      var basicwithoutperiod = basicsalary.replace(".","");
+      var secondcommabasic = basicsalary.replace(",","");
+      var secondcommadetaily = dailyrate.replace(",","");
+      var dailyratewithoutperiod = secondcommadetaily.replace(".","");
+      var basicwithoutperiod = secondcommabasic.replace(".","");
       var basicinteger = parseInt(basicwithoutperiod,15);
       var dailyinteger = parseInt(dailyratewithoutperiod,15);
-      console.log(basicinteger + " "  + dailyinteger);
+      /*console.log(basicinteger + " "  + dailyinteger);*/
 
      var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
                    '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
                    '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
                    '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editretfund', 
-                   '#editincentive', '#edituniformallowance', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
-                   '#editpagibignumber',  '#editbackaccountname','#editbackaccountnumber','#editbankname'];
+                   '#editincentive', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
+                   '#editpagibignumber', '#editbackaccountname','#editbackaccountnumber','#editbankname'];
 
     var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
                         'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
                         'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
                         'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
                         'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-retfund', 
-                        'edit-incentive', 'edit-uniformallowance', 'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
+                        'edit-incentive',  'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
                         'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber','edit-backaccountnumber','edit-bankname'];
 
       var ValueArray = [];
@@ -2002,10 +2024,53 @@ var restdayid =[];
       for(var i=0;i<IDArray.length;i++){
           
           if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==24 || i==25 || i==26 || i==27 || /*i==28 || i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
-          }else{
-            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 || i==27 || /*i==28 || i==29 || i==30  || i==31 ||*/ i==32 || i==33 || i==34) continue;
+            if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+            if(i==23){
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                $('#edittabs li:eq(2) a').tab('show');
+                $("#editdailyrate").focus();
+               
+            }else{
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
+                event.preventDefault();
+            }
           }
+          }else{
+            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  || */ i==31 || i==32 || i==33) continue;
+              if(i==22 || i==23){
+            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
+                if(firstRequired==""){
+                    firstRequired = IDArray[i];
+
+                         if(i<=18) navIndex = 0;
+                    else if(i<=21) navIndex = 1;
+                    else if(i<=34) navIndex = 2;
+                };
+                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                $(IDArray[i]).addClass('is-invalid');
+                $('#edittabs li:eq(2) a').tab('show');
+                $("#editdailyrate").focus();
+               
+            }else{
+
+                document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                $(IDArray[i]).removeClass('is-invalid');
+                $(IDArray[i]).addClass('is-valid');
+                event.preventDefault();
+            }
+          }
+        }
 
           ValueArray[i] = $(IDArray[i]).val().trim();
 
@@ -2027,7 +2092,7 @@ var restdayid =[];
               $(IDArray[i]).addClass('is-valid');
               event.preventDefault();
             }
-          }else if(i==22 || i==23){
+         /* }else if(i==22 || i==23){
             if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
                 if(firstRequired==""){
                     firstRequired = IDArray[i];
@@ -2046,7 +2111,7 @@ var restdayid =[];
                 $(IDArray[i]).removeClass('is-invalid');
                 $(IDArray[i]).addClass('is-valid');
                 event.preventDefault();
-            }
+            }*/
             }else if(i==28){
             if($(IDArray[i]).val().length<11){
                if(firstRequired==""){
@@ -2222,7 +2287,6 @@ var restdayid =[];
         var allowance         =   $("#editallowance").val().replace(",","");
         var retfund           =   $("#editretfund").val().replace(",","");
         var incentive         =   $("#editincentive").val().replace(",","");
-        var uniformallowance  =   $("#edituniformallowance").val().replace(",","");
         var tinnumber         =   $("#edittinnumber").val();
         var sssnumber         =   $("#editsssnumber").val();
         var philhealthnumber  =   $("#editphilhealthnumber").val();
@@ -2244,7 +2308,7 @@ var restdayid =[];
                 detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                 username:          username,        password:         password,         basicsalary:      basicsalary,    
                 dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                incentive:         incentive,       uniformallowance: uniformallowance, tinnumber:        tinnumber,      
+                incentive:         incentive,       tinnumber:        tinnumber,      
                 sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                 clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                 backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,

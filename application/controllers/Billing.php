@@ -35,4 +35,15 @@
 			echo json_encode($data); 
 
 		}
+		public function Billingclient()
+		{
+			$data = array('title' => 'Individual Billing Statement');
+			$payrollID 				= $this->input->get('payrollID');
+			$client 				= $this->input->get('client');
+			$post 					= $this->input->get('post');
+			$data['data']			= $this->billing->Billingclientrecord($payrollID, $client, $post);
+			$this->load->view("Template/Printstyle", $data);
+			$this->load->view("Billing/Clientrecord",$data);
+			$this->load->view('Template/Footer', $data);
+		}
 	}	

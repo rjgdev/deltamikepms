@@ -1,3 +1,4 @@
+
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 
@@ -27,11 +28,11 @@
 						<thead>
 							<tr>
 								  <th style="width: 220px ! important;">Loan No.</th>
-								  <th style="width: 700px ! important;">Employee Name</th>
-			                      <th style="width: 150px ! important;">Loan Type</th>
-			                      <th style="width: 350px ! important;">Term of Payment</th>
-			                      <th style="width: 250px ! important;">Start Date</th>
-			                      <th style="width: 250px ! important;">End Date</th>
+								  <th style="width: 500px ! important;">Employee Name</th>
+			                      <th style="width: 300px ! important;">Loan Type</th>
+			                      <th style="width: 200px ! important;">Term of Payment</th>
+			                      <th style="width: 150px ! important;">Start Date</th>
+			                      <th style="width: 150px ! important;">End Date</th>
 			                      <th style="width: 70px ! important;">Amount</th>
 			                      <th style="width: 70px ! important;">Deduction</th>
 			                      <th style="width: 30px ! important;">Paid</th> 
@@ -62,7 +63,7 @@
 								<div class="action-label">
 										<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
 											<?php if($item->paid=="1") 
-													   echo '<i class="fa fa-dot-circle-o text-success"></i> paid';
+													   echo '<i class="fa fa-dot-circle-o text-success"></i> Paid';
 												  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Unpaid';
 										    ?>
 										</a>
@@ -89,9 +90,10 @@
 										data-loantypeid1="<?php echo $item->loantypeid1; ?>" 
 										data-amount="<?php echo $item->amount; ?>" 
 										data-deduction="<?php echo $item->deduction; ?>" 
+										data-lnothers="<?php echo $item->lnothers; ?>" 
 										data-tog="tooltip"data-placement="top" title="Edit"> 
-									<i class="fa fa-pencil m-r-5"></i> Edit</a>
-								<a class="dropdown-item viewrecord" href="#" data-toggle="modal" data-target="#view_record" loanid="<?php echo $item->loanid; ?>"><i class="fa fa-toggle-on m-r-5"></i> view</a>
+									<i class="fa fa-pencil m-r-5"></i> Edit loan</a>
+								<a class="dropdown-item viewrecord" href="#" data-toggle="modal" data-target="#view_record" loanid="<?php echo $item->loanid; ?>"><i class="fa fa-toggle-on m-r-5"></i> View payments</a>
     							</div>	
     							</div>	
     						</td>		  
@@ -139,16 +141,22 @@
 	              <option value="2">Pag-IBIG</option>
 	              <option value="3">Salary</option>
 	              <option value="4">Emergency</option>
+	              <option value="5">Trainings</option>
+	              <option value="6">Others</option>
               </select>
               <div class="invalid-feedback" id="add-loantype"></div>
             </div> 
              </div>
-
+              <div class="col-sm-12">
+				 <div id ="specify" name ="specify">
+			  
+			    </div>
+			    </div>
              	<div class="col-sm-12">
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted" data-date-format="DD-MM-YYYY" description="start date">
+								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted"  description="start date">
 								 <div class="invalid-feedback" id="add-dategranted"></div>
 							</div>
 						</div>
@@ -157,7 +165,7 @@
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" data-date-format="DD-MM-YYYY" description="end date">
+								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" description="end date">
 								 <div class="invalid-feedback" id="add-addenddate"></div>
 							</div>
 						</div>
@@ -193,11 +201,10 @@
             <option value="">No Selected</option>
             <option value="1">Monthly</option>
             <option value="2">Payday</option>
-            <option value="3">Yearly</option>
             </select> 
             <div class="invalid-feedback" id="add-termofpaymentID"></div>    
            <!--  <div class="invalid-feedback" id="add-termofpaymentID"></div>      -->
-           <input id="addpaid" name="addpaid" value="0" type="hidden" class="form-control input">
+           <input id="addpaid" name="addpaid" type="hidden" class="form-control input">
         </div>
         </div>            
 		<div class="submit-section">
@@ -242,15 +249,22 @@
 					<option value="2">Pag-IBIG</option>
 					<option value="3">Salary</option>
 					<option value="4">Emergency</option>
+					<option value="5">Trainings</option>
+	              	<option value="6">Others</option>
 					</select>
 					<div class="invalid-feedback" id="edit-loantype"></div>
 					</div> 
 				</div>
+				 <div class="col-sm-12">
+				 <div id ="editspecify" name ="editspecify">
+			  
+			    </div>
+			    </div>
 				<div class="col-sm-12">
 					<div class="form-group">
 					<label>Start Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editdategranted" data-date-format="DD-MM-YYYY" name="editdategranted">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted">
 					<div class="invalid-feedback" id="edit-dategranted"></div>
 					</div>
 					</div>
@@ -259,7 +273,7 @@
 					<div class="form-group">
 					<label>End Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editenddate" data-date-format="DD-MM-YYYY" name="editenddate">
+					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate">
 					<div class="invalid-feedback" id="edit-enddate"></div>
 					</div>
 					</div>
@@ -295,11 +309,10 @@
 					<option value="">No Selected</option>
 					<option value="1">Monthly</option>
 					<option value="2">Payday</option>
-					<option value="3">Yearly</option>
 					</select> 
 					<div class="invalid-feedback" id="edit-termofpaymentID"></div>     
 					</div>
-				</div>            
+				</div>        
 				<div class="submit-section">
 				<button class="btn btn-primary submit-btn update">Update</button>
 				</div>
@@ -356,10 +369,10 @@
 	</div>
 		<div id="view_record" class="modal custom-modal fade" role="dialog">
 			<div class="col-md-12">
-		<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">View Record</h5>
+					<h5 class="modal-title">Record</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
@@ -370,19 +383,12 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								  <th >Deduction No.</th>
 								  <th >Employee Name</th>
 			                      <th >Deduction Date</th>
-			                      <th >Loan Type</th>
+			                      <th >Amount</th>
 							</tr>
 						</thead>
-						<tbody id="showdata">
-							<tr>
-				              <td id="deductionNo"></td> 
-				              <td id="employeename"></td>
-				              <td><p id="deductiondate"></p></td>
-				              <td><p id="loantype"></p></td>
-				            </tr>
+						<tbody id="showdatarecord" name="showdatarecord">
 						</tbody>
 					</table>
 				</div>
@@ -391,8 +397,7 @@
 			</div>
 		</div>
 		</div>	
-				
-					
+							
        <?php 
 	if($this->session->flashdata('success')!=""){
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
@@ -402,7 +407,8 @@
    $(document).ready(function() {
 
    		$('.viewrecord').click(function(){
-   			var id = $(this).attr('loanid'); //get the attribute value
+   			var id = $(this).attr('loanid'); 
+   			
    			 $.ajax({
               url : "<?php echo base_url(); ?>Loans/get_loan_data",
               method : "POST",
@@ -410,25 +416,58 @@
 	          async : true,
 	          dataType : 'json',
           	success: function(response){
-            var len ="";
-            var len = response.length;
-
-              for(var i=0; i<len; i++){
-              	//console.log(len);
-                 var loandeduction = response[i].loandeductionID;
-                 //$("#deductionNo").val()==data[i].loandeductionID;
-                 console.log(loandeduction);
-                 //alert("Wilson");
-                 // $("#deductionNo").val(loandeduction);
-             	// $('#deductionNo' + (i).response[i].loandeductionID;
-             	 //var loanid = html(response.loandeductionID);
-              	//console.log(loanid);
+             var html = '';
+             var i;
+            for(i=0; i<response.length; i++){	
+              	 html += '<tr>'+
+              	 '<td>'+response[i].fullname+'</td>'+
+              	 '<td>'+response[i].datedection+'</td>'+
+              	 '<td>'+response[i].amount+'</td>'+
+              	 '</tr>';
               } 
+              $('#showdatarecord').html(html);
 
          	 }
           });
-      });     	
+      });
+   			/*$('#view_record').on('hidden.bs.modal', function(){
+   			url : "<?php echo base_url(); ?>Loans";
 
+   			});	*/
+
+
+   	$('#addloantypeID').change(function(){
+    	var addloantype = $(this).val(); 
+    	html = "";
+    	 if(addloantype==6){
+    	 	html += '<div class="form-group">' +
+    	 				'<label id ="addlblspecify" name="addlblspecify" for="addlblspecify">Please specify</label>' +
+    	 				'<input id="addotherinput" type="text" name="addotherinput" class="form-control input alphanumericwithspace" placeholder="Others" autocomplete="off" description="Others">' +
+    	 				'<div class="invalid-feedback" id="add-otherinput"></div>' +
+    	 				'</div>';
+    	 	$("#specify").show();	
+    	 	$("#specify").html(html);		
+    	 } else {
+    	 	 $("#addlblspecify").hide();	 
+ 			$("#addotherinput").hide();
+    	 }	
+    });	  
+    	$('#editloantypeID').change(function(){
+    	var editloantype = $(this).val(); 
+    	html = "";
+    	 if(editloantype==6){
+    	 	html += '<div class="form-group">' +
+    	 				'<label id ="editlblspecify" name="editlblspecify" for="editlblspecify">Please specify</label>' +
+    	 				'<input id="editotherinput" type="text" name="editotherinput" class="form-control input alphanumericwithspace" placeholder="Others" autocomplete="off" description="Others">' +
+    	 				'<div class="invalid-feedback" id="edit-otherinput"></div>' +
+    	 				'</div>';
+    	 	$("#editspecify").show();	
+    	 	$("#editspecify").html(html);		
+    	 } else {
+    	 	 $("#editspecify").hide();	 
+ 			$("#editotherinput").hide();
+    	 }	
+    });	  
    		/* CLEAR MODAL */
 		$('#edit_loan').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
@@ -449,15 +488,27 @@
 		}); 
 
 		$('#save').unbind('click').bind('click', function(){
-		var IDArray = ['#addemployeeID', '#addloantypeID', '#adddategranted', '#addenddate', '#addamount', '#adddeduction', '#addtermofpaymentID'];
-		var ErrorIDArray = ['add-employee', 'add-loantype', 'add-dategranted', 'add-addenddate', 'add-amount', 'add-deduction', 'add-termofpaymentID'];
+		var IDArray = ['#addemployeeID', '#addloantypeID', '#adddategranted', '#addenddate', '#addamount', '#adddeduction', '#addtermofpaymentID','#addotherinput'];
+		var ErrorIDArray = ['add-employee', 'add-loantype', 'add-dategranted', 'add-addenddate', 'add-amount', 'add-deduction', 'add-termofpaymentID','add-otherinput'];
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
-		var amount = $("#addamount").val();
-		var deduction = $("#adddeduction").val();
+		
+	
 		var enddate = $("#addenddate").val();
 		var adddategranted = $("#adddategranted").val();
+		var addloantype = $("#addloantypeID").val();
+
+		var amount = $("#addamount").val().trim().replace(",","");
+		var amountothercomma =amount.replace(",","");
+      	var amountwithoutperiod = amountothercomma.replace(".","");
+		var amountparse = parseInt(amountwithoutperiod,25);
+		
+		var deduction = $("#adddeduction").val().trim().replace(",","");
+		var deductionothercomma =deduction.replace(",","");
+		var deductionwithoutperiod = deductionothercomma.replace(".","");
+		var deductionparse = parseInt(deductionwithoutperiod,25);
+
 		var arrtodate = adddategranted.split("-");
 		var arrt1odate = enddate.split("-");
 		var tdate = arrt1odate[0];
@@ -490,7 +541,7 @@
 		$(IDArray[4]).addClass('is-valid');
 		event.preventDefault();
 		};
-		if(deduction > amount){
+		if(deductionparse > amountparse){
 		document.getElementById("add-deduction").innerHTML = "Deduction amount is to high.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
@@ -501,8 +552,13 @@
 		event.preventDefault();
 		};
 		for(var i=0;i<IDArray.length;i++){
-		ValueArray[i] = $(IDArray[i]).val().trim()
-		if(i==7) continue;
+		ValueArray[i] = $(IDArray[i]).val()
+		if(addloantype ==6){
+			if(i==8) continue;
+		}else{
+			if(i==7) continue;
+		}
+		
 		if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 			if(firstRequired==""){
 			firstRequired = IDArray[i]
@@ -539,7 +595,9 @@
 	 	 	var amount 			= 		$("#addamount").val();
 	 	 	var deduction 		= 		$("#adddeduction").val();
 	 	 	var termofpaymentID = 		$("#addtermofpaymentID").val();
+	 	 	var termofpaymentID = 		$("#addtermofpaymentID").val();
 	 	 	var paid 			= 		$("#addpaid").val();
+	 	 	var lnothers 		= 		$("#addotherinput").val();
 
     		$.ajax({
                 url : "<?php echo site_url('Loans/save');?>",
@@ -547,7 +605,8 @@
                 data : {employeeID: 		employeeID, 		loantypeID: loantypeID,
                 		dategranted: 		dategranted, 		enddate: 	enddate,
                 		amount: 			amount, 	        deduction:  deduction, 
-                		termofpaymentID: 	termofpaymentID, 	paid: 		paid},
+                		termofpaymentID: 	termofpaymentID, 	paid: 		paid,
+                		lnothers: 			lnothers},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -589,28 +648,39 @@
 		$('.editloan').unbind('click').bind('click', function(){
 		$(".modal-body #editemployeeID").val($(this).data('employeeid'));
 		$(".modal-body #editloantypeID").val( $(this).data('loantypeid1'));
+		$(".modal-body #editloantypeID").trigger("change");
 		$(".modal-body #editdategranted").val( $(this).data('dategranted'));
 		$(".modal-body #editenddate").val( $(this).data('enddate'));
 		$(".modal-body #editamount").val( $(this).data('amount'));
 		$(".modal-body #editdeduction").val( $(this).data('deduction'));
 		$(".modal-body #edittermofpaymentID").val( $(this).data('termofpayment'));
+		$(".modal-body #editotherinput").val( $(this).data('lnothers'));
 		$('.edit').attr('id', $(this).data('id'));
 
 	});	
 	
          	/* updated employee */
 $('.update').unbind('click').bind('click', function(){
-		var IDArray = ['#editemployeeID', '#editloantypeID', '#editdategranted', '#editenddate', '#editamount', '#editdeduction', '#edittermofpaymentID'];
-		var ErrorIDArray = ['edit-employee', 'edit-loantype', 'edit-dategranted', 'edit-enddate', 'edit-amount', 'edit-deduction' , 'edit-termofpaymentID'];
+		var IDArray = ['#editemployeeID', '#editloantypeID', '#editdategranted', '#editenddate', '#editamount', '#editdeduction', '#edittermofpaymentID','#editotherinput'];
+		var ErrorIDArray = ['edit-employee', 'edit-loantype', 'edit-dategranted', 'edit-enddate', 'edit-amount', 'edit-deduction' , 'edit-termofpaymentID','edit-otherinput'];
 
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
 		var id = $(this).attr('id');
-		var editamount = $("#editamount").val();
-		var editdeduction = $("#editdeduction").val();
+		var amount = $("#editamount").val().trim().replace(",","");
+		var amountothercomma =amount.replace(",","");
+      	var amountwithoutperiod = amountothercomma.replace(".","");
+		var amountparse = parseInt(amountwithoutperiod,25);
+		
+		var deduction = $("#editdeduction").val().trim().replace(",","");
+		var deductionothercomma =deduction.replace(",","");
+		var deductionwithoutperiod = deductionothercomma.replace(".","");
+		var deductionparse = parseInt(deductionwithoutperiod,25);
+
 		var enddate = $("#editenddate").val();
 		var dategranted = $("#editdategranted").val();
+		var loantype = $("#editloantypeID").val();
 		var arrtodate = dategranted.split("-");
 		var arrt1odate = enddate.split("-");
 		var tdate = arrt1odate[0];
@@ -652,7 +722,7 @@ $('.update').unbind('click').bind('click', function(){
 		$(IDArray[5]).addClass('is-valid');
 		event.preventDefault();
 		};
-		if(editdeduction > editamount){
+		if(deductionparse > amountparse){
 		document.getElementById("edit-deduction").innerHTML = "Deduction amount is to high.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
@@ -663,8 +733,12 @@ $('.update').unbind('click').bind('click', function(){
 		event.preventDefault();
 		};
 		for(var i=0;i<IDArray.length;i++){
-			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==7) continue;
+			ValueArray[i] = $(IDArray[i]).val()
+			if(loantype ==6){
+			if(i==8) continue;
+			}else{
+				if(i==6 || i==7) continue;
+			}
 			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
@@ -703,6 +777,7 @@ $('.update').unbind('click').bind('click', function(){
 		 var amount 			= 	$('#editamount').val().trim();
 		 var deduction 			= 	$('#editdeduction').val().trim();
 		 var termofpaymentID 	= 	$('#edittermofpaymentID').val().trim();
+		 var lnothers 			= 	$('#editotherinput').val();
     		$.ajax({
                 url : "<?php echo site_url('loans/update');?>",
                 method : "POST",
@@ -710,7 +785,7 @@ $('.update').unbind('click').bind('click', function(){
                 	  	employeeID: 		employeeID, 		loantypeID: 	loantypeID,
                 		dategranted: 		dategranted, 		enddate: 		enddate,
                 		amount: 			amount, 	    	deduction: 		deduction,  
-                		termofpaymentID: 	termofpaymentID},
+                		termofpaymentID: 	termofpaymentID,	lnothers: 		lnothers},
                 async : true,
                 dataType : 'json',
                 success: function(data){
