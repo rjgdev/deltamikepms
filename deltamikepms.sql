@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2020 at 02:45 AM
+-- Generation Time: Mar 12, 2020 at 04:41 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -65,15 +65,17 @@ CREATE TABLE `dm_approvaldet` (
 --
 
 INSERT INTO `dm_approvaldet` (`approvaldetID`, `approvalID`, `employeeID`, `approvalLevel`, `lastapprover`) VALUES
-(1, 1, 1, 1, 1),
-(5, 5, 5, 1, 1),
 (6, 6, 9, 1, 1),
 (7, 7, 10, 1, 1),
 (8, 8, 16, 1, 1),
 (9, 2, 3, 1, 1),
 (10, 4, 4, 1, 0),
 (11, 4, 3, 2, 1),
-(12, 3, 1, 1, 1);
+(12, 3, 1, 1, 1),
+(13, 5, 5, 1, 0),
+(14, 5, 2, 2, 1),
+(19, 1, 3, 1, 0),
+(20, 1, 2, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -119,7 +121,8 @@ CREATE TABLE `dm_bank` (
 
 INSERT INTO `dm_bank` (`bankID`, `bankname`, `acctnoformat`, `bankstatus`) VALUES
 (1, 'Metrobank', '0000-000-000-00', 'Active'),
-(2, 'BPI', '000 000 00 000', 'Active');
+(2, 'BPI', '000 000 00 000', 'Active'),
+(3, 'BPIS', '0-0-0', 'Active');
 
 -- --------------------------------------------------------
 
@@ -148,7 +151,7 @@ CREATE TABLE `dm_client` (
 
 INSERT INTO `dm_client` (`clientID`, `description`, `clientstatus`, `clientname`, `housenumber`, `streetname`, `barangay`, `city`, `contactperson`, `noofpost`, `contactno`, `email`) VALUES
 (1, 'A sprawling 25-hectare mega-community that combines office spaces luxury condominiums leisure amenities retail shops and', 'Active', 'Mactan Newton', '', 'Sapang Hari', 'Newtown Boulevard', 'Lapu-Lapu City', 'Jose Pacheco', 2, '0934-786-9877', 'jpachecho@gmail.com'),
-(2, 'The country''s largest middle-income housing developer high-rise residential condominium developer and business process o', 'Active', 'Megaworld Corporation', '', 'Sen. Gil Puyat Avenue', 'San Isidro', 'Makati City', 'Arnulfo Policarpio', 3, '0995-345-3767', 'arn.arn_poli@gmail.com'),
+(2, 'The country''s largest middle-income housing developer high-rise residential condominium developer and business process o', 'Active', 'Megaworld Corporation Testing', '', 'Sen. Gil Puyat Avenue', 'San Isidro', 'Makati City', 'Arnulfo Policarpio', 3, '0995-345-3767', 'arn.arn_poli@gmail.com'),
 (3, 'Eton', 'Active', 'Eton', '8th Floor', 'PNB Building', 'Bel-Air', 'Makati City', 'Dominador Arsenio', 2, '0956-896-8375', 'dom.arsenio@gmail.com'),
 (4, '', 'Active', 'GTC', '', 'Dona Julia Vargas', 'San Antonio', 'Pasig City', 'CarlMark', 3, '7658-554-6766', 'cmar@gtcnow.com'),
 (5, '', 'Active', 'daw', '', 'wadaw', 'dwadaw', 'dwad', 'dawdawd', 0, '2', 'robinjamin.gelilio.gtc@gmail.com');
@@ -212,7 +215,7 @@ INSERT INTO `dm_department` (`departmentID`, `description`, `departmentstatus`) 
 (4, 'Finance Department', 'Active'),
 (5, 'Operations Department', 'Active'),
 (6, 'Utility Department', 'Active'),
-(7, 'Security Depsrtmrnt', 'Active');
+(7, 'Security Depsrtmrnt', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -236,7 +239,7 @@ INSERT INTO `dm_designation` (`designationID`, `departmentID`, `designationdescr
 (2, 1, 'IT Programmer 1', 'Active'),
 (3, 2, 'HR Specialist', 'Active'),
 (4, 2, 'HR Assistant', 'Active'),
-(5, 2, 'HR Director', 'Active'),
+(5, 2, 'HR Manager', 'Active'),
 (6, 1, 'Software Quality Analyst Engineer', 'Active'),
 (7, 3, 'Administrative Manager', 'Active'),
 (8, 3, 'Administrative Assistant', 'Active'),
@@ -249,8 +252,11 @@ INSERT INTO `dm_designation` (`designationID`, `departmentID`, `designationdescr
 (15, 5, 'Security Guard', 'Active'),
 (16, 5, 'Security Officer', 'Active'),
 (17, 5, 'Detachment Commander', 'Active'),
-(18, 6, 'Utility Officer', 'Inactive'),
-(19, 7, 'Detachment Officer', 'Active');
+(18, 6, 'Operations Manager', 'Active'),
+(19, 6, 'General Manager', 'Active'),
+(20, 5, 'Account Officer', 'Active'),
+(21, 6, 'Manager', 'Active'),
+(22, 6, 'IT Manager', 'Inactive');
 
 -- --------------------------------------------------------
 
@@ -275,7 +281,7 @@ CREATE TABLE `dm_employee` (
   `hireddate` date NOT NULL,
   `departmentID` int(11) NOT NULL,
   `designationID` varchar(50) NOT NULL,
-  `detachmentID` bigint(20) NOT NULL,
+  `postID` bigint(20) NOT NULL,
   `roleID` bigint(20) NOT NULL,
   `approvalID` bigint(20) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -304,12 +310,12 @@ CREATE TABLE `dm_employee` (
 -- Dumping data for table `dm_employee`
 --
 
-INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `detachmentID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `retfund`, `incentive`, `uniformallowance`, `bankname`, `backaccountname`, `backaccountnumber`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `employeetypeID`, `photo`, `clientID`, `datecreated`) VALUES
-(1, 'Maricelle', '', 'Magtanong', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '2020-01-21', '0927-947-5792', 'Single', 'Filipino', '2011-03-14', 3, '7', 0, 1, 1, 'admin', 'admin', '40000.0000', '1818.1818', '0.0000', '222222.0000', '0.0000', '0.0000', 1, '', '12', '666-666-666', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 2, '1.jpg', 0, '2019-11-25 08:26:51.905646'),
-(2, 'Cardo', '', 'Dalisay', 'Female', '', 'Opel', '175', 'Caloocan', '2020-02-20', '0927-947-5792', 'Single', 'Filipino', '2014-06-25', 1, '1', 6, 2, 2, 'staff', 'staff', '1222.0000', '537.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 1, '2.jpg', 3, '2019-11-25 08:26:54.102823'),
-(3, 'John', '', 'Wick', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '0000-00-00', '0912-345-6789', 'Married', 'Fiipino', '0000-00-00', 1, '1', 1, 2, 2, 'exe', 'exe', '500.5050', '22.7502', '50.0000', '0.0000', '0.0000', '0.0000', 0, 'SQWE RW', '243564323', '213-456-789', '23-4567893-2', '23-456787654-3', '5432-1234-5643', 'Active', 1, '3.png', 1, '2019-12-03 11:56:31.366887'),
+INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, `gender`, `housenumber`, `streetname`, `barangay`, `city`, `birthdate`, `contactinfo`, `civilstatus`, `citizenship`, `hireddate`, `departmentID`, `designationID`, `postID`, `roleID`, `approvalID`, `username`, `password`, `basicsalary`, `dailyrate`, `allowance`, `retfund`, `incentive`, `uniformallowance`, `bankname`, `backaccountname`, `backaccountnumber`, `tinnumber`, `sssnumber`, `philhealthnumber`, `pagibignumber`, `employeestatus`, `employeetypeID`, `photo`, `clientID`, `datecreated`) VALUES
+(1, 'Maricelle', '', 'Magtanong', 'Male', '1701', 'Julia Vargas', 'San Antonio', 'Pasig', '2020-01-21', '0927-947-5792', 'Single', 'Filipino', '2011-03-14', 3, '7', 0, 1, 1, 'admin', 'admin', '112.0000', '12.0000', '0.0000', '222222.0000', '0.0000', '0.0000', 1, '', '12', '666-666-666', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 2, '1.jpg', 0, '2019-11-25 08:26:51.905646'),
+(2, 'Cardo', '', 'Dalisay', 'Female', '', 'Opel', '175', 'Caloocan', '2020-02-20', '0927-947-5792', 'Single', 'Filipino', '2014-06-25', 1, '1', 2, 2, 2, 'staff', 'staff', '0.0000', '520.0000', '500.0000', '0.0000', '223.7500', '0.0000', 0, '', '', '111-111-111', '22-2222222-2', '33-333333333-3', '4444-4444-4444', 'Active', 1, '2.jpg', 1, '2019-11-25 08:26:54.102823'),
+(3, 'John', '', 'Wick', 'Male', '', 'J. Vargas', 'San Antonio', 'Pasig', '2020-02-17', '0912-345-6789', 'Married', 'Fiipino', '2020-02-17', 1, '1', 1, 2, 2, 'exe', 'exe', '500.5050', '22.7502', '50.0000', '0.0000', '0.0000', '0.0000', 1, 'SQWE RW', '2435-643-23', '213-456-789', '23-4567893-2', '23-456787654-3', '5432-1234-5643', 'Active', 1, '3.png', 1, '2019-12-03 11:56:31.366887'),
 (4, 'Mary Rose', '', 'Vitor', 'Female', '', 'Sapang Hari', 'Newtown', 'Lapu-Lapu City', '0000-00-00', '0966-623-4567', 'Single', 'Japanese', '0000-00-00', 2, '5', 0, 1, 0, 'mrvitor', 'password', '21342.0000', '879.0000', '322.0000', '0.0000', '0.0000', '0.0000', 0, 'BDO', '2343211', '231-456-789', '12-3123456-7', '13-214325365-4', '3243-5436-5442', 'Active', 2, '4.jpg', 0, '2019-12-20 07:50:01.399405'),
-(5, 'Jeffrey', '', 'Cauguiran', 'Male', '2811', 'Cup Point', 'Fashion Hall', 'Old Town Road', '0000-00-00', '3456-789-0987', 'Married', 'Italian', '0000-00-00', 6, '19', 0, 1, 0, 'mahnamejeff', 'password', '92000.0000', '4181.8182', '10000.0000', '0.0000', '0.0000', '0.0000', 0, 'Curry Venti Regionas', '28201911155', '000-000-000', '34-5654345-6', '45-654334567-6', '6534-5677-6543', 'Active', 2, '', 0, '2019-12-23 03:58:25.632917'),
+(5, 'Jeffrey', '', 'Cauguiran', 'Male', '2811', 'Cup Point', 'Fashion Hall', 'Old Town Road', '0000-00-00', '3456-789-0987', 'Married', 'Italian', '0000-00-00', 6, '19', 0, 1, 0, 'mahnamejeff', 'password', '92000.0000', '4181.8182', '10000.0000', '0.0000', '0.0000', '0.0000', 0, 'Curry Venti Regionas', '282 019 11 155', '000-000-000', '34-5654345-6', '45-654334567-6', '6534-5677-6543', 'Active', 2, '', 0, '2019-12-23 03:58:25.632917'),
 (6, 'Cyndy', '', 'Marcellana', 'Female', 'asr3', 'sadsfsd', 'asdsad', 'asdsf a', '0000-00-00', '1234-567-7654', 'Single', 'Japanese', '0000-00-00', 2, '3', 0, 1, 0, 'cyndy', 'password', '12312.0000', '324.0000', '2.0000', '0.0000', '0.0000', '0.0000', 0, 'test account', '12421423', '123-546-213', '42-1123432-1', '54-678645454-3', '4323-4565-3245', 'Active', 2, '', 0, '2019-12-23 06:11:05.731548'),
 (7, 'Account', '', 'Officer', 'Male', '322', 'qe2 fd', 'd 3221f', '3 rwsdg', '0000-00-00', '2332-423-4354', 'Single', 'regg', '0000-00-00', 5, '20', 0, 1, 0, 'aofficer', 'password', '982.0000', '44.6364', '2.0000', '0.0000', '0.0000', '0.0000', 0, '35 rgff', '556354232', '678-765-476', '67-4675456-5', '56-546754676-5', '5676-5675-6765', 'Active', 2, '', 0, '2020-01-02 03:32:04.769082'),
 (8, 'Operation', '', 'Manager', 'Male', '', 'TEST', 'TEST', 'TEST', '0000-00-00', '1111-111-1111', 'Single', 'TEST', '0000-00-00', 6, '18', 0, 1, 0, 'omanager', 'password', '1.0000', '1.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '231-456-789', '78-9876543-2', '56-789087654-3', '4345-6789-0987', 'Active', 2, '', 0, '2020-01-09 11:36:25.875891'),
@@ -320,7 +326,29 @@ INSERT INTO `dm_employee` (`employeeID`, `firstname`, `middlename`, `lastname`, 
 (13, 'Lea', '', 'Ylanan', 'Female', '', '79A Reyes Compound', 'Manggahan', 'Pasig City', '1986-04-11', '0946-574-8376', 'Married', 'Filipino', '2015-08-13', 2, '3', 0, 2, 0, '', '', '6705.0400', '304.7745', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '234-567-890', '34-5678908-7', '45-678908765-4', '6543-4567-8976', 'Active', 2, '', 0, '2020-01-09 11:54:58.434185'),
 (14, 'Anna Jemima', '', 'Molino', 'Female', '65', 'Downtown Ridge', 'Bacoor', 'Cavite', '1980-07-24', '0975-567-8765', 'Single', 'Filipino', '2018-09-04', 2, '3', 0, 2, 0, '', '', '36000.0000', '1636.3636', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '234-567-865', '56-5564324-5', '67-654321345-6', '7654-3456-7543', 'Active', 2, '', 0, '2020-01-09 13:11:56.434744'),
 (15, 'Alfredo', '', 'Gonzaga', 'Male', '46 ', 'Concepcion Street', 'Bangkal', 'Marikina City', '1978-05-09', '0975-324-5678', 'Married', 'Filipino', '2017-11-06', 3, '9', 0, 2, 0, '', '', '22882.1600', '1040.0982', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '345-678-990', '45-6789090-8', '45-678908765-4', '3456-7890-9870', 'Active', 2, '', 0, '2020-01-10 06:36:31.166842'),
-(16, 'Michael Jihn', '', 'Maron', 'Male', '546A Adelf', 'Yen Street', 'Bagong Ilog', 'Pasig City', '1993-08-19', '0953-345-6789', 'Single', 'Filipino', '2017-07-20', 3, '8', 0, 2, 0, '', '', '15000.0000', '681.8182', '0.0000', '0.0000', '0.0000', '0.0000', 2, 'Michael Jihn Maron', '3456-7654-3213-4', '345-678-965', '56-7876545-4', '34-567876543-4', '6787-6567-7656', 'Active', 2, '', 0, '2020-01-10 09:25:43.559167');
+(16, 'Michael Jihn', '', 'Maron', 'Male', '546A Adelf', 'Yen Street', 'Bagong Ilog', 'Pasig City', '1993-08-19', '0953-345-6789', 'Single', 'Filipino', '2017-07-20', 3, '8', 0, 2, 0, '', '', '15000.0000', '681.8182', '0.0000', '0.0000', '0.0000', '0.0000', 2, 'Michael Jihn Maron', '3456-7654-3213-4', '345-678-965', '56-7876545-4', '34-567876543-4', '6787-6567-7656', 'Active', 2, '', 0, '2020-01-10 09:25:43.559167'),
+(17, 'Montano', 'Macalua', 'Abarsolo', 'Male', '', 'Sitio Sto Nino', 'Basak Tamiya', 'Lapu Lapu City', '1985-02-14', '0917-971-5870', 'Married', 'Filipino', '2019-02-01', 5, '15', 1, 2, 0, '', '', '12435.0000', '565.2273', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '421-894-412', '06-2711892-2', '12-050966951-7', '1640-0007-3900', 'Active', 1, '', 1, '2020-02-17 01:03:25.193494'),
+(18, 'Richie', 'Rodrigo', 'Artezuela', 'Male', '', 'Casanta', 'Mactan', 'Lapu Lapu City', '1995-09-07', '0987-654-6789', 'Single', 'Filipino', '2019-02-01', 5, '15', 1, 2, 0, '', '', '13436.0000', '610.7273', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '34-6478115-3', '09-303427427-1', '0302-6324-2854', 'Active', 1, '', 1, '2020-02-17 01:07:07.178939'),
+(19, 'Richard', 'Briones', 'Abarquez', 'Male', '', 'Alangalang', 'Alangalang', 'Mandaue City', '1980-02-13', '0945-600-9497', 'Married', 'Filipino', '2019-03-06', 5, '15', 1, 1, 0, '', '', '24423.0000', '1110.1364', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-2264628-2', '12-050813657-4', '1211-1240-5852', 'Active', 1, '', 1, '2020-02-17 01:11:14.928189'),
+(20, 'Mateo Jr.', 'Capute', 'Anura', 'Male', '', 'Purok Lubi', 'Canjulao', 'Lapu Lapu City', '1992-09-20', '0943-298-4723', 'Married', 'Filipino', '2019-11-01', 5, '15', 1, 1, 0, '', '', '2144.0000', '97.4545', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-3219363-1', '09-229238736-1', '1205-1303-4348', 'Active', 1, '', 1, '2020-02-17 01:14:30.187504'),
+(21, 'Jessie', 'Virtudes', 'Aclo', 'Male', '', 'Saac 2', 'Mactan', 'Lapu Lapu City', '1983-01-10', '0924-953-4586', 'Married', 'Filipino', '2019-02-01', 5, '15', 1, 1, 0, '', '', '3534.0000', '160.6364', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '222-381-749', '33-7842651-7', '19-089509944-2', '1211-2111-7894', 'Active', 1, '', 1, '2020-02-17 01:16:48.073457'),
+(22, 'Edison', 'Anunciado', 'Alcover', 'Male', '', 'Victoria Homes ', 'Sudtungan Basak', 'Lapu Lapu City', '1982-04-22', '0921-487-3642', 'Married', 'Filipino', '2019-02-01', 5, '15', 1, 1, 0, '', '', '23423.0000', '1064.6818', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '289-076-696', '36-0027832-9', '02-050729485-6', '1211-0935-7230', 'Active', 1, '', 1, '2020-02-17 01:19:28.717081'),
+(23, 'Jovencia', 'Laborte', 'Antiola', 'Female', '', 'Kawot', 'Mactan', 'Lapu Lapu City', '1989-06-04', '0912-478-3682', 'Married', 'Filipino', '2019-02-05', 5, '15', 1, 2, 0, '', '', '21312.0000', '968.7273', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '270-576-276', '06-2741392-8', '12-050648920-8', '1210-1131-2354', 'Active', 1, '', 1, '2020-02-17 01:21:54.538877'),
+(24, 'Helen', 'Velasquez', 'Ayuso', 'Female', '', 'Longos Apt Site Tagle Apt', 'Basuk', 'Lapu Lapu City', '1972-10-09', '0921-932-6484', 'Married', 'Filipino', '2019-02-01', 5, '15', 1, 2, 0, '', '', '24321.0000', '1105.5000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '319-931-309', '06-2704616-2', '12-050973461-0', '1210-2964-2007', 'Active', 1, '', 1, '2020-02-17 01:24:41.289978'),
+(25, 'Jonathan', 'Albert', 'Ba-aclo', 'Male', '', 'Isuya', 'Mactan', 'Lapu Lapu City', '1981-06-16', '0921-472-6483', 'Married', 'Filipino', '2019-02-01', 5, '15', 1, 2, 0, '', '', '4532.0000', '206.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '252-881-357', '06-2456183-1', '15-200643702-2', '1211-7120-2235', 'Active', 1, '', 1, '2020-02-17 01:27:34.149798'),
+(26, 'Ricky', 'Acain', 'Balucan', 'Male', '', 'Soong', 'Mactan', 'Lapu Lapu', '1983-11-13', '0912-487-3264', 'Married', 'Filipino', '2019-06-14', 5, '15', 1, 2, 0, '', '', '6856.0000', '311.6364', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '08-2315386-2', '00-000000000-0', '0000-0000-0000', 'Active', 1, '', 1, '2020-02-17 01:29:35.502704'),
+(27, 'Alberto III', 'Tampus', 'Cabalhug', 'Male', '', 'Bankal', 'Mactan', 'Lapu Lapu City', '1979-03-12', '0943-856-2387', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24324.0000', '1105.6364', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-1537051-0', '12-050458523-4', '1670-0131-5826', 'Active', 1, '', 1, '2020-02-17 01:31:58.295240'),
+(28, 'Alfredo', 'Tayapad', 'Cabanes', 'Male', '', 'Saac', 'Mactan', 'Lapu Lapu City', '1991-10-15', '0923-986-3487', 'Married', 'Filipino', '2019-02-16', 5, '15', 2, 2, 0, '', '', '21234.0000', '965.1818', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '34-6185532-5', '12-201611748-8', '0000-0000-0000', 'Active', 1, '', 1, '2020-02-17 01:35:33.401802'),
+(29, 'Evamar', 'Dulfo', 'Cagande', 'Male', '26 ', 'Fabro Hills Subdivision', 'Pusuk', 'Lapu Lapu City', '1976-02-07', '0932-365-8734', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24234.0000', '1101.5455', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '191-732-735', '06-1623222-0', '12-050358252-5', '1210-4630-8741', 'Active', 1, '', 1, '2020-02-17 01:38:27.546361'),
+(30, 'Randy', 'Sarsuelo', 'Calumba', 'Male', '', 'Buyong', 'Malibago', 'Lapu Lapu City', '1986-10-06', '0935-984-3759', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '3241.0000', '147.3182', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '344-679-720', '06-2600111-1', '12-025515278-0', '1211-6762-0450', 'Active', 1, '', 1, '2020-02-17 01:41:09.505776'),
+(31, 'Ronald', 'Sagario', 'Carillas', 'Male', '', 'Saac II', 'Buaya', 'Lapu Lapu City', '1986-09-07', '0934-598-4853', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '4324.0000', '196.5454', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '434-955-219', '06-2970380-1', '14-201738708-0', '1211-0531-5590', 'Active', 1, '', 1, '2020-02-17 01:44:05.987425'),
+(32, 'Vernie', 'Ortega', 'Cañete', 'Male', '', 'Saac', 'Mactan', 'Lapu Lapu City', '1983-04-01', '0923-923-6873', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24324.0000', '1105.6364', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-2428417-6', '12-050581984-0', '1210-8736-3481', 'Active', 1, '', 1, '2020-02-17 01:46:23.666511'),
+(33, 'Benjie Mark', 'Sino', 'Caroro', 'Male', '', 'Umapad', 'Mandaue', 'Cebu City', '1994-01-28', '0924-392-6587', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24235.0000', '1101.5909', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-4131601-4', '12-025798771-5', '1212-3462-9680', 'Active', 1, '', 1, '2020-02-17 01:48:29.572100'),
+(34, 'Corazon', 'Gigante', 'Cartesiano', 'Female', '', 'Basak', 'Kagudoy', 'Lapu Lapu City', '1986-04-23', '0923-726-5848', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24232.0000', '1101.4545', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '334-454-473', '06-2427015-1', '12-050661210-7', '1270-2047-2713', 'Active', 1, '', 1, '2020-02-17 01:50:23.656968'),
+(35, 'Jessie', '', 'Casonete', 'Female', '', 'Ticgahon', 'Bankal', 'Lapu Lapu City', '1995-12-25', '0932-857-4385', 'Single', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '24234.0000', '1101.5455', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '06-3913351-3', '12-025646769-6', '1212-0540-0094', 'Active', 1, '', 1, '2020-02-17 01:53:27.296675'),
+(36, 'Loida', 'Abajo', 'Cimafranca', 'Female', '', 'New Lipata', 'Pusok', 'Lapu Lapu City', '1978-08-04', '0923-534-6587', 'Married', 'Filipino', '2019-02-01', 5, '15', 2, 2, 0, '', '', '19389.0000', '881.3182', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '495-304-269', '06-1705858-4', '12-050116040-1', '1210-3816-0502', 'Active', 1, '', 1, '2020-02-17 01:55:47.487867'),
+(37, 'Jamie', '', 'Capistrano', 'Male', '', 'Tipaz', 'Barangay maayos', 'Taguig', '1973-05-07', '0956-617-6352', 'Married', 'Indian', '2019-06-03', 5, '15', 1, 2, 0, '1', '1', '0.0000', '520.0000', '500.0000', '250.0000', '100.0000', '0.0000', 1, 'Jamie Capistrano', '1234-567-890-12', '000-000-000', '00-0000000-0', '00-000000000-0', '0000-0000-0000', 'Active', 1, '37.jpg', 1, '2020-03-11 06:52:08.717201'),
+(38, 'Wilson', '', 'Parajas', 'Male', '', 'Building 1', '175', 'Pasig', '2020-03-12', '0911-111-1111', 'Single', 'Filipino', '2020-03-12', 1, '2', 0, 2, 0, '', '', '20000.0000', '1000.0000', '0.0000', '0.0000', '0.0000', '0.0000', 0, '', '', '000-000-000', '00-0000000-0', '00-000000000-0', '0000-0000-0000', 'Active', 2, '', 0, '2020-03-12 01:30:15.579776');
 
 -- --------------------------------------------------------
 
@@ -340,72 +368,10 @@ CREATE TABLE `dm_employeecreditleave` (
 --
 
 INSERT INTO `dm_employeecreditleave` (`employeeleavecreditID`, `employeeID`, `leavetypeID`, `totalleave`) VALUES
-(5, 1, 1, 7),
-(6, 1, 2, 5),
-(7, 2, 0, 1),
-(8, 2, 0, 1),
-(9, 3, 3, 2),
-(10, 3, 1, 0),
-(11, 4, 0, 1),
-(12, 4, 0, 12),
-(13, 5, 2, 1),
-(14, 5, 2, 4),
-(15, 6, 2, 3),
-(16, 6, 1, 3),
-(17, 7, 5, 5),
-(18, 11, 2, 7),
-(19, 11, 5, 5),
-(20, 13, 4, 5),
-(21, 13, 1, 1),
-(22, 14, 3, 43),
-(23, 14, 4, 2),
-(24, 15, 1, 6),
-(25, 16, 1, 234),
-(26, 17, 1, 1),
-(27, 18, 1, 1),
-(28, 19, 1, 43543),
-(29, 20, 2, 234),
-(30, 21, 2, 234),
-(31, 22, 1, 232),
-(32, 23, 2, 5656),
-(33, 25, 1, 45),
-(34, 26, 2, 4),
-(35, 26, 1, 1),
-(36, 27, 1, 4),
-(37, 28, 3, 3),
-(38, 29, 1, 44),
-(39, 30, 1, 4),
-(40, 31, 1, 4),
-(41, 33, 1, 33),
-(42, 34, 1, 3434),
-(43, 35, 1, 4545),
-(44, 36, 1, 4),
-(45, 37, 1, 4545),
-(46, 40, 1, 5),
-(47, 41, 1, 1),
-(48, 42, 1, 5),
-(49, 43, 1, 3),
-(50, 44, 1, 11),
-(51, 45, 0, 0),
-(52, 46, 1, 2),
-(53, 48, 1, 2),
-(54, 50, 1, 4),
-(55, 51, 2, 6),
-(56, 52, 1, 4545),
-(57, 53, 2, 5),
-(58, 54, 1, 4545),
-(59, 55, 1, 55),
-(60, 57, 1, 0),
-(61, 1, 1, 6),
-(62, 4, 1, 5),
-(63, 4, 4, 7),
-(64, 4, 2, 9),
-(65, 5, 5, 15),
-(66, 5, 2, 20),
-(67, 5, 3, 5),
-(68, 7, 2, 1),
-(69, 9, 1, 1),
-(70, 12, 1, 5);
+(1, 37, 1, 2),
+(2, 37, 2, 1),
+(3, 38, 1, 8),
+(4, 38, 2, 9);
 
 -- --------------------------------------------------------
 
@@ -417,8 +383,8 @@ CREATE TABLE `dm_employeeleave` (
   `employeeleaveID` bigint(20) NOT NULL,
   `leavetypeID` bigint(20) NOT NULL,
   `employeeID` bigint(20) NOT NULL,
-  `leavefrom` varchar(250) NOT NULL,
-  `leaveto` varchar(250) NOT NULL,
+  `leavefrom` date NOT NULL,
+  `leaveto` date NOT NULL,
   `numberofdays` bigint(20) NOT NULL,
   `remainingleave` int(11) NOT NULL,
   `reason` varchar(250) NOT NULL
@@ -429,11 +395,8 @@ CREATE TABLE `dm_employeeleave` (
 --
 
 INSERT INTO `dm_employeeleave` (`employeeleaveID`, `leavetypeID`, `employeeID`, `leavefrom`, `leaveto`, `numberofdays`, `remainingleave`, `reason`) VALUES
-(85, 1, 1, '06/12/2019', '03/12/2019', 0, 5, '3'),
-(86, 1, 1, '22/12/2019', '22/12/2019', 1, 4, '1'),
-(87, 1, 1, '10/12/2019', '12/12/2019', 3, 2, '1'),
-(88, 2, 4, '15/01/2020', '15/01/2020', 1, 10, 'celebratinglife'),
-(89, 1, 3, '15/01/2020', '15/01/2020', 1, 1, 'etsst');
+(1, 2, 37, '2020-03-11', '2020-03-11', 1, 5, '1'),
+(2, 1, 37, '0000-00-00', '0000-00-00', 2, 4, '2');
 
 -- --------------------------------------------------------
 
@@ -481,15 +444,15 @@ INSERT INTO `dm_holiday` (`holidayID`, `holidayname`, `holidaydate`, `holidaytyp
 (7, 'Bonifacio Day', '2020-11-30', 'Regular Holiday'),
 (8, 'Christmas Day', '2020-12-25', 'Regular Holiday'),
 (9, 'Rizal Day', '2020-12-30', 'Regular Holiday'),
-(10, 'Chinese New Year', '2020-01-25', 'Special Non-working Holiday'),
-(11, 'EDSA Revolution Anniversary', '2020-02-25', 'Special Non-working Holiday'),
-(12, 'Black Saturday', '2020-04-11', 'Special Non-working Holiday'),
-(13, 'Ninoy Aquino Day', '2020-08-21', 'Special Non-working Holiday'),
-(14, 'All Saints'' Day', '2020-11-01', 'Special Non-working Holiday'),
-(15, 'Feast of the Immaculate Concepcion of Mary', '2020-12-08', 'Special Non-working Holiday'),
-(16, 'Last Day of the Year', '2020-12-31', 'Special Non-working Holiday'),
-(17, 'All Soul''s Day', '2020-11-02', 'Special Non-working Holiday'),
-(18, 'Christmas Eve', '2020-12-24', 'Special Non-working Holiday');
+(10, 'Chinese New Year', '2020-01-25', 'Special Holiday'),
+(11, 'EDSA Revolution Anniversary', '2020-02-25', 'Special Holiday'),
+(12, 'Black Saturday', '2020-04-11', 'Special Holiday'),
+(13, 'Ninoy Aquino Day', '2020-08-21', 'Special Holiday'),
+(14, 'All Saints'' Day', '2020-11-01', 'Special Holiday'),
+(15, 'Feast of the Immaculate Concepcion of Mary', '2020-12-08', 'Special Holiday'),
+(16, 'Last Day of the Year', '2020-12-31', 'Special Holiday'),
+(17, 'All Soul''s Day', '2020-11-02', 'Special Holiday'),
+(18, 'Christmas Eve', '2020-12-25', 'Double Holiday');
 
 -- --------------------------------------------------------
 
@@ -514,7 +477,8 @@ INSERT INTO `dm_leavetype` (`leavetypeID`, `leavetypename`, `noofdays`, `accumul
 (2, 'Vacation Leave', 5, 'No', 'Active'),
 (3, 'Service Incentive Leave', 0, '', 'Active'),
 (4, 'Paternity Leave', 1, 'No', 'Active'),
-(5, 'Maternity Leave', 4, 'Yes', 'Active');
+(5, 'Maternity Leave', 4, 'Yes', 'Active'),
+(6, 'Sick Leaves', 0, '', 'Active');
 
 -- --------------------------------------------------------
 
@@ -526,13 +490,14 @@ CREATE TABLE `dm_loan` (
   `loanID` int(11) NOT NULL,
   `employeeID` int(11) NOT NULL,
   `loantypeID` int(11) NOT NULL,
-  `dategranted` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enddate` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dategranted` date NOT NULL,
+  `enddate` date NOT NULL,
   `termofpaymentID` int(11) NOT NULL,
   `amount` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `deduction` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `balance` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `paid` int(11) NOT NULL,
+  `lnothers` varchar(255) DEFAULT NULL,
   `datecreated` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ;
 
@@ -540,21 +505,9 @@ CREATE TABLE `dm_loan` (
 -- Dumping data for table `dm_loan`
 --
 
-INSERT INTO `dm_loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `enddate`, `termofpaymentID`, `amount`, `deduction`, `balance`, `paid`, `datecreated`) VALUES
-(1, 1, 1, '21/11/2019', '08/02/2020', 1, '5,000.00', '400.00', '', 0, '2019-11-20 06:19:30.733972'),
-(2, 1, 2, '21/11/2019', '20/11/2019', 1, '2.00', '1.00', '', 0, '2019-11-20 06:27:44.347017'),
-(3, 4, 2, '15/01/2020', '14/02/2020', 1, '11,028.0000', '1,098.0000', '', 0, '2019-12-21 07:08:25.393792'),
-(4, 4, 1, '24/12/2019', '25/12/2019', 2, '122,342.0000', '32,423.0000', '', 0, '2019-12-21 07:18:44.049330'),
-(5, 3, 4, '20/12/2019', '01/12/2019', 2, '13,211.0000', '1,232.0000', '', 0, '2019-12-21 07:37:43.622481'),
-(6, 2, 3, '23/12/2019', '25/12/2019', 2, '5,500.0000', '55,000.0000', '', 0, '2019-12-21 07:48:17.549156'),
-(7, 3, 3, '18/12/2019', '19/12/2019', 2, '21,312.0000', '0.0000', '', 0, '2019-12-21 07:56:02.290219'),
-(8, 3, 2, '20/12/2019', '27/12/2019', 2, '0.0000', '12,321.0000', '', 0, '2019-12-21 07:57:19.454716'),
-(9, 4, 1, '18/12/2019', '26/12/2019', 2, '21,312.0000', '0.0000', '', 0, '2019-12-21 08:00:44.984454'),
-(10, 5, 2, '25/12/2019', '15/01/2020', 1, '12,130.0000', '1,500.0000', '', 0, '2019-12-24 01:16:36.871312'),
-(11, 4, 2, '26/02/2020', '14/05/2020', 1, ' 12.0000', ' 12,312.0000', '', 0, '2019-12-24 01:22:15.033243'),
-(12, 4, 3, '13/12/2019', '24/01/2020', 2, '12.0000', '12,321.0000', '', 0, '2019-12-24 01:23:33.097915'),
-(13, 1, 1, '06/01/2020', '07/01/2020', 1, ' 10,000.0000', ' 1,000.0000', '', 0, '2020-01-06 08:52:09.170966'),
-(14, 1, 3, '29-01-2020', '08-02-2021', 1, ' 10,000.0000', ' 1,000.0000', '', 0, '2020-01-29 07:37:09.949665');
+INSERT INTO `dm_loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `enddate`, `termofpaymentID`, `amount`, `deduction`, `balance`, `paid`, `lnothers`, `datecreated`) VALUES
+(1, 37, 1, '2020-03-02', '2020-03-31', 2, ' 1,000.0000', ' 500.0000', '', 0, NULL, '2020-03-11 07:54:23.032542'),
+(2, 1, 1, '2020-03-13', '2020-03-21', 2, ' 11,111.0000', ' 111.0000', '', 0, NULL, '2020-03-12 01:54:18.674612');
 
 -- --------------------------------------------------------
 
@@ -565,18 +518,10 @@ INSERT INTO `dm_loan` (`loanID`, `employeeID`, `loantypeID`, `dategranted`, `end
 CREATE TABLE `dm_loandeduction` (
   `loandeductionID` bigint(20) NOT NULL,
   `loanID` bigint(20) NOT NULL,
-  `employeeID` bigint(20) NOT NULL,
-  `datedection` date NOT NULL,
+  `datededuction` date NOT NULL,
   `amount` decimal(15,4) NOT NULL,
-  `loantypeID` int(11) NOT NULL
+  `loanstatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `dm_loandeduction`
---
-
-INSERT INTO `dm_loandeduction` (`loandeductionID`, `loanID`, `employeeID`, `datedection`, `amount`, `loantypeID`) VALUES
-(1, 25, 1, '2020-01-08', '1.0000', 1);
 
 -- --------------------------------------------------------
 
@@ -648,6 +593,7 @@ CREATE TABLE `dm_overtime` (
   `starttime` varchar(255) NOT NULL,
   `endtime` varchar(255) NOT NULL,
   `totalhour` varchar(255) NOT NULL,
+  `noted` varchar(255) NOT NULL,
   `datecreated` varchar(255) NOT NULL,
   `dateupdated` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -656,25 +602,8 @@ CREATE TABLE `dm_overtime` (
 -- Dumping data for table `dm_overtime`
 --
 
-INSERT INTO `dm_overtime` (`overtimeID`, `employeeID`, `description`, `overtimedate`, `starttime`, `endtime`, `totalhour`, `datecreated`, `dateupdated`) VALUES
-(1, 2, '11', '14/11/2019', '02:00 AM', '07:30 AM', '05:00', '13/11/2019 11:41 AM', '13/11/2019 01:46 PM'),
-(3, 1, '7111', '14/11/2019', '02:30 AM', '10:00 AM', '07:30', '13/11/2019 01:47 PM', '13/11/2019 02:06 PM'),
-(4, 1, 'hhh1', '18/11/2019', '02:30 AM', '03:00 AM', '1:30', '18/11/2019 05:20 PM', ''),
-(5, 1, 'jn', '19/11/2019', '08:00', '05:30', '0:0', '18/11/2019 05:25 PM', ''),
-(6, 1, 'adawdw', '20/11/2019', '18:00', '13:30', '0:0', '18/11/2019 05:26 PM', ''),
-(7, 1, 'wseqwqe', '22/11/2019', '11:11', '14:14', '3:3', '19/11/2019 09:02 AM', ''),
-(8, 5, 'weewew232', '28/11/2019', '11:11 AM', '03:33 PM', '04:22', '', ''),
-(9, 3, '1112', '28/11/2019', '08:08 AM', '09:30 AM', '1:22', '', ''),
-(10, 3, '121', '21/11/2019', '11:11', '16:21', '5:10', '', ''),
-(11, 3, 'aeew', '29/11/2019', '11:11', '14:11', '3:0', '', ''),
-(12, 3, 'Satruday work', '21/12/2019', '07:30', '17:30', '', '', ''),
-(13, 2, 'Christmas work', '24/12/2019', '07:30', '17:30', '', '', ''),
-(14, 3, 'trial', '15/01/2020', '12:00', '15:00', '', '', ''),
-(15, 1, 'try', '10/09/2020', '17:00', '20:00', '', '', ''),
-(16, 2, 'trial', '25/12/2019', '23:00', '23:59', '', '', ''),
-(17, 3, '"T3st!n6''', '25/12/2019', '17:00', '21:00', '', '', ''),
-(18, 2, '"try', '17/12/2019', '12:14', '18:34', '', '', ''),
-(19, 4, 'try', '2019-12-25', '08:30', '10:45', '2:15', '', '');
+INSERT INTO `dm_overtime` (`overtimeID`, `employeeID`, `description`, `overtimedate`, `starttime`, `endtime`, `totalhour`, `noted`, `datecreated`, `dateupdated`) VALUES
+(1, 37, 'Test Only', '2020-03-04', '18:00', '18:30', '0:30', 'Testing', '', '');
 
 -- --------------------------------------------------------
 
@@ -696,14 +625,6 @@ CREATE TABLE `dm_payroll` (
   `payrollstatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `dm_payroll`
---
-
-INSERT INTO `dm_payroll` (`payrollID`, `datefrom`, `dateto`, `payperiod`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `payrollstatus`) VALUES
-(1, '2020-02-01', '2020-02-15', 1, 1, '2020-02-03 13:20:26', '1', '2020-02-03 13:20:30', 2, 2, 2),
-(2, '2020-02-16', '2020-02-29', 2, 1, NULL, NULL, NULL, 0, 2, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -718,39 +639,78 @@ CREATE TABLE `dm_payrolldetails` (
   `employeeID` bigint(20) NOT NULL,
   `daysofwork` decimal(10,1) NOT NULL,
   `daysofabsent` decimal(3,1) NOT NULL,
-  `regularhours` decimal(10,2) NOT NULL,
-  `regholidayhours` decimal(10,2) NOT NULL,
-  `speholidayhours` decimal(10,2) NOT NULL,
-  `latehours` decimal(10,2) NOT NULL,
-  `overtimehours` decimal(10,2) NOT NULL,
-  `restothours` decimal(10,2) NOT NULL,
-  `specialothours` decimal(10,2) NOT NULL,
-  `specialrestothours` decimal(10,2) NOT NULL,
-  `regularothours` decimal(10,2) NOT NULL,
-  `regularrestothours` decimal(10,2) NOT NULL,
-  `doubleothours` decimal(10,2) NOT NULL,
-  `doublerestothours` decimal(10,2) NOT NULL,
-  `nightdiffhours` decimal(10,2) NOT NULL,
+  `ordhours` decimal(10,2) NOT NULL,
+  `rsthours` decimal(10,2) NOT NULL,
+  `spchours` decimal(10,2) NOT NULL,
+  `spcrsthours` decimal(10,2) NOT NULL,
+  `rglhours` decimal(10,2) NOT NULL,
+  `rglrsthours` decimal(10,2) NOT NULL,
+  `dblhours` decimal(10,2) NOT NULL,
+  `dblrsthours` decimal(10,2) NOT NULL,
+  `ordothours` decimal(10,2) NOT NULL,
+  `rstothours` decimal(10,2) NOT NULL,
+  `spcothours` decimal(10,2) NOT NULL,
+  `spcrstothours` decimal(10,2) NOT NULL,
+  `rglothours` decimal(10,2) NOT NULL,
+  `rglrstothours` decimal(10,2) NOT NULL,
+  `dblothours` decimal(10,2) NOT NULL,
+  `dblrstothours` decimal(10,2) NOT NULL,
+  `ordnighthours` decimal(10,2) NOT NULL,
+  `rstnighthours` decimal(10,2) NOT NULL,
+  `spcnighthours` decimal(10,2) NOT NULL,
+  `spcrstnighthours` decimal(10,2) NOT NULL,
+  `rglnighthours` decimal(10,2) NOT NULL,
+  `rglrstnighthours` decimal(10,2) NOT NULL,
+  `dblnighthours` decimal(10,2) NOT NULL,
+  `dblrstnighthours` decimal(10,2) NOT NULL,
+  `ordlatehours` decimal(10,2) NOT NULL,
+  `rstlatehours` decimal(10,2) NOT NULL,
+  `spclatehours` decimal(10,2) NOT NULL,
+  `spcrstlatehours` decimal(10,2) NOT NULL,
+  `rgllatehours` decimal(10,2) NOT NULL,
+  `rglrstlatehours` decimal(10,2) NOT NULL,
+  `dbllatehours` decimal(10,2) NOT NULL,
+  `dblrstlatehours` decimal(10,2) NOT NULL,
+  `ord` decimal(15,4) NOT NULL,
+  `rst` decimal(15,4) NOT NULL,
+  `spc` decimal(15,4) NOT NULL,
+  `spcrst` decimal(15,4) NOT NULL,
+  `rgl` decimal(15,4) NOT NULL,
+  `rglrst` decimal(15,4) NOT NULL,
+  `dbl` decimal(15,4) NOT NULL,
+  `dblrst` decimal(15,4) NOT NULL,
+  `ordot` decimal(15,4) NOT NULL,
+  `rstot` decimal(15,4) NOT NULL,
+  `spcot` decimal(15,4) NOT NULL,
+  `spcrstot` decimal(15,4) NOT NULL,
+  `rglot` decimal(15,4) NOT NULL,
+  `rglrstot` decimal(15,4) NOT NULL,
+  `dblot` decimal(15,4) NOT NULL,
+  `dblrstot` decimal(15,4) NOT NULL,
+  `ordnight` decimal(15,4) NOT NULL,
+  `rstnight` decimal(15,4) NOT NULL,
+  `spcnight` decimal(15,4) NOT NULL,
+  `spcrstnight` decimal(15,4) NOT NULL,
+  `rglnight` decimal(15,4) NOT NULL,
+  `rglrstnight` decimal(15,4) NOT NULL,
+  `dblnight` decimal(15,4) NOT NULL,
+  `dblrstnight` decimal(15,4) NOT NULL,
+  `ordlate` decimal(15,4) NOT NULL,
+  `rstlate` decimal(15,4) NOT NULL,
+  `spclate` decimal(15,4) NOT NULL,
+  `spcrstlate` decimal(15,4) NOT NULL,
+  `rgllate` decimal(15,4) NOT NULL,
+  `rglrstlate` decimal(15,4) NOT NULL,
+  `dbllate` decimal(15,4) NOT NULL,
+  `dblrstlate` decimal(15,4) NOT NULL,
   `dailyrate` decimal(15,4) NOT NULL,
   `hourlyrate` decimal(15,4) NOT NULL,
   `basicpay` decimal(15,4) NOT NULL,
-  `regholiday` decimal(15,4) NOT NULL,
-  `speholiday` decimal(15,4) NOT NULL,
-  `ordinaryot` decimal(15,4) NOT NULL,
-  `restot` decimal(15,4) NOT NULL,
-  `specialot` decimal(15,4) NOT NULL,
-  `specialrestot` decimal(15,4) NOT NULL,
-  `regularot` decimal(15,4) NOT NULL,
-  `regularrestot` decimal(15,4) NOT NULL,
-  `doubleot` decimal(15,4) NOT NULL,
-  `doublerestot` decimal(15,4) NOT NULL,
-  `otadjustment` decimal(15,4) NOT NULL,
   `allowance` decimal(15,4) NOT NULL,
   `incentive` decimal(15,4) NOT NULL,
-  `nightdiff` decimal(15,4) NOT NULL,
   `late` decimal(15,4) NOT NULL,
   `absent` decimal(15,4) NOT NULL,
-  `uniformallowance` decimal(15,4) NOT NULL,
+  `otadjustment` decimal(15,4) NOT NULL,
   `nightdiffadjustment` decimal(15,4) NOT NULL,
   `lateadjustment` decimal(15,4) NOT NULL,
   `leaveadjustment` decimal(15,4) NOT NULL,
@@ -768,22 +728,13 @@ CREATE TABLE `dm_payrolldetails` (
   `sssloan` decimal(15,4) NOT NULL,
   `hdmfloan` decimal(15,4) NOT NULL,
   `salaryloan` decimal(15,4) NOT NULL,
+  `emergencyloan` decimal(15,4) NOT NULL,
   `trainingloan` decimal(15,4) NOT NULL,
   `otherloan` decimal(15,4) NOT NULL,
   `netpay` decimal(15,4) NOT NULL,
   `thrmonth` decimal(15,4) NOT NULL,
   `retfund` decimal(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `dm_payrolldetails`
---
-
-INSERT INTO `dm_payrolldetails` (`payrolldetailsID`, `payrollID`, `datefrom`, `dateto`, `employeeID`, `daysofwork`, `daysofabsent`, `regularhours`, `regholidayhours`, `speholidayhours`, `latehours`, `overtimehours`, `restothours`, `specialothours`, `specialrestothours`, `regularothours`, `regularrestothours`, `doubleothours`, `doublerestothours`, `nightdiffhours`, `dailyrate`, `hourlyrate`, `basicpay`, `regholiday`, `speholiday`, `ordinaryot`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `otadjustment`, `allowance`, `incentive`, `nightdiff`, `late`, `absent`, `uniformallowance`, `nightdiffadjustment`, `lateadjustment`, `leaveadjustment`, `otheradjustment`, `otherdescription`, `grosspay`, `wtax`, `sss_ee`, `sss_er`, `sss_ec`, `phic_ee`, `phic_er`, `hdmf_ee`, `hdmf_er`, `sssloan`, `hdmfloan`, `salaryloan`, `trainingloan`, `otherloan`, `netpay`, `thrmonth`, `retfund`) VALUES
-(1, 1, '2020-02-01', '2020-02-15', 1, '11.0', '0.0', '88.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '1818.1818', '227.2727', '20000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '20000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '300.0000', '300.0000', '50.0000', '50.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '19650.0000', '3333.3333', '222222.0000'),
-(2, 1, '2020-02-01', '2020-02-15', 3, '7.0', '4.0', '46.50', '0.00', '0.00', '9.50', '28.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '22.7502', '2.8438', '132.2355', '0.0000', '0.0000', '99.5321', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '26.0000', '0.0000', '0.0000', '27.0159', '91.0008', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '163.7510', '0.0000', '0.0000', '0.0000', '0.0000', '75.0000', '75.0000', '50.0000', '50.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '38.7510', '2.3698', '0.0000'),
-(35, 2, '2020-02-16', '2020-02-29', 1, '10.0', '0.0', '80.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '1818.1818', '227.2727', '20000.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '20000.0000', '3791.7500', '800.0000', '1600.0000', '30.0000', '300.0000', '300.0000', '50.0000', '50.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '15058.2500', '3333.3333', '222222.0000'),
-(36, 2, '2020-02-16', '2020-02-29', 3, '8.0', '2.0', '62.25', '0.00', '0.00', '1.75', '32.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '22.7502', '2.8438', '177.0250', '0.0000', '0.0000', '113.7510', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '25.0000', '0.0000', '0.0000', '4.9766', '45.5004', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '', '265.2990', '0.0000', '80.0000', '160.0000', '10.0000', '75.0000', '75.0000', '50.0000', '50.0000', '0.0000', '0.0000', '0.0000', '0.0000', '0.0000', '60.2990', '21.0913', '0.0000');
 
 -- --------------------------------------------------------
 
@@ -797,16 +748,6 @@ CREATE TABLE `dm_payslipstatus` (
   `employeeID` int(10) NOT NULL,
   `payslipstatus` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `dm_payslipstatus`
---
-
-INSERT INTO `dm_payslipstatus` (`payslipstatusID`, `payrolldetailsID`, `employeeID`, `payslipstatus`) VALUES
-(1, 3, 1, 1),
-(2, 6, 2, 1),
-(3, 4, 3, 1),
-(4, 41, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -858,9 +799,94 @@ CREATE TABLE `dm_post` (
 --
 
 INSERT INTO `dm_post` (`postID`, `postname`, `housenumber`, `streetname`, `barangay`, `city`, `clientID`, `commander`, `startdate`, `enddate`, `noofguard`, `timein`, `timeout`, `poststatus`) VALUES
-(1, 'Post 1', '', 'Sapang Hari', 'Newtown', 'Lapu-Lapu City', 1, 'Wilson Parajas', '2020-01-30', '2020-05-14', 5, '13:00:00', '03:00:00', 'Active'),
-(2, 'Post 2', '', 'Sen. Gil Puyat', 'San Isidro', 'Makati City', 2, 'Jamie Capistrano', '2020-01-08', '2020-04-30', 3, '00:00:00', '00:00:00', 'Active'),
-(3, 'Post 3', '8th Floor', 'PNB Building', 'Bel-Air', 'Makati City', 3, 'Post Malone', '2020-02-14', '2020-05-28', 6, '00:00:00', '00:00:00', 'Active');
+(1, 'Mactan Parking', '', 'Sapang Hari', 'Newtown', 'Lapu-Lapu City', 1, 'Wilson Parajas', '2020-01-30', '2020-05-14', 5, '19:00:00', '07:00:00', 'Active'),
+(2, 'Mactan Entrance', '', 'Sen. Gil Puyat', 'San Isidro', 'Makati City', 1, 'Jamie Capistrano', '2020-01-08', '2020-04-30', 3, '19:00:00', '07:00:00', 'Active'),
+(3, 'Post 3', '8th Floor', 'PNB Building', 'Bel-Air', 'Makati City', 3, 'Post Malone', '2020-02-14', '2020-05-28', 6, '00:00:00', '00:00:00', 'Active'),
+(4, 'Post 2', '', 'Opel Steet', 'Brgy. 175', 'Caloocan', 2, 'Test Only', '2020-02-10', '2020-02-11', 5, '07:00:00', '19:00:00', 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_postschedule`
+--
+
+CREATE TABLE `dm_postschedule` (
+  `postscheduleID` bigint(20) NOT NULL,
+  `postID` int(11) NOT NULL,
+  `timein` time NOT NULL,
+  `timeout` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_postschedule`
+--
+
+INSERT INTO `dm_postschedule` (`postscheduleID`, `postID`, `timein`, `timeout`) VALUES
+(1, 1, '07:00:00', '19:00:00'),
+(2, 1, '19:00:00', '07:00:00'),
+(3, 2, '07:00:00', '19:00:00'),
+(4, 2, '19:00:00', '07:00:00'),
+(5, 3, '07:00:00', '19:00:00'),
+(6, 3, '19:00:00', '07:00:00'),
+(7, 4, '07:00:00', '19:00:00'),
+(8, 4, '19:00:00', '07:00:00'),
+(9, 5, '07:00:00', '19:00:00'),
+(10, 5, '19:00:00', '07:00:00'),
+(11, 6, '07:00:00', '19:00:00'),
+(12, 6, '19:00:00', '07:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_rate`
+--
+
+CREATE TABLE `dm_rate` (
+  `rateID` bigint(20) NOT NULL,
+  `rateCode` varchar(255) NOT NULL,
+  `rateDescription` varchar(255) NOT NULL,
+  `rate` decimal(10,3) NOT NULL,
+  `ordinary` int(11) NOT NULL,
+  `restday` int(11) NOT NULL,
+  `specialholiday` int(11) NOT NULL,
+  `specialrestday` int(11) NOT NULL,
+  `regularholiday` int(11) NOT NULL,
+  `regularrestday` int(11) NOT NULL,
+  `doubleholiday` int(11) NOT NULL,
+  `doublerestday` int(11) NOT NULL,
+  `overtime` int(11) NOT NULL,
+  `nightdifferential` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dm_rate`
+--
+
+INSERT INTO `dm_rate` (`rateID`, `rateCode`, `rateDescription`, `rate`, `ordinary`, `restday`, `specialholiday`, `specialrestday`, `regularholiday`, `regularrestday`, `doubleholiday`, `doublerestday`, `overtime`, `nightdifferential`) VALUES
+(1, 'ord', 'Ordinary Day', '1.000', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(2, 'rst', 'Rest Day', '1.300', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+(3, 'spc', 'Special Holiday', '1.300', 0, 0, 1, 0, 0, 0, 0, 0, 0, 0),
+(4, 'spcrst', 'Special Holiday, Rest Day', '1.500', 0, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(5, 'rgl', 'Regular Holiday', '2.000', 0, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+(6, 'rglrst', 'Regular Holiday, Rest Day', '2.600', 0, 0, 0, 0, 0, 1, 0, 0, 0, 0),
+(7, 'dbl', 'Double Holiday', '3.000', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+(8, 'dblrst', 'Double Holiday, Rest Day', '3.900', 0, 0, 0, 0, 0, 0, 0, 1, 0, 0),
+(9, 'ordnight', 'Ordinary Day, Night Shift', '1.100', 1, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+(10, 'rstnight', 'Rest Day, Night Shift', '1.430', 0, 1, 0, 0, 0, 0, 0, 0, 0, 1),
+(11, 'spcnight', 'Special Holiday, Night Shift', '1.430', 0, 0, 1, 0, 0, 0, 0, 0, 0, 1),
+(12, 'spcrstnight', 'Special Holiday, Rest Day, Night Shift', '1.650', 0, 0, 0, 1, 0, 0, 0, 0, 0, 1),
+(13, 'rglnight', 'Regular Holiday, Night Shift', '2.200', 0, 0, 0, 0, 1, 0, 0, 0, 0, 1),
+(14, 'rglrstnight', 'Regular Holiday, Rest Day, Night Shift', '2.860', 0, 0, 0, 0, 0, 1, 0, 0, 0, 1),
+(15, 'dblnight', 'Double Holiday, Night Shift', '3.300', 0, 0, 0, 0, 0, 0, 1, 0, 0, 1),
+(16, 'dblrstnight', 'Double Holiday, Rest Day, Night Shift', '4.290', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1),
+(17, 'ordot', 'Ordinary Day, Overtime', '1.250', 1, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+(18, 'rstot', 'Rest Day, Overtime', '1.690', 0, 1, 0, 0, 0, 0, 0, 0, 1, 0),
+(19, 'spcot', 'Special Holiday, Overtime', '1.690', 0, 0, 1, 0, 0, 0, 0, 0, 1, 0),
+(20, 'spcrstot', 'Special Holiday, Rest Day, Overtime', '1.950', 0, 0, 0, 1, 0, 0, 0, 0, 1, 0),
+(21, 'rglot', 'Regular Holiday, Overtime', '2.600', 0, 0, 0, 0, 1, 0, 0, 0, 1, 0),
+(22, 'rglrstot', 'Regular Holiday, Rest Day, Overtime', '3.380', 0, 0, 0, 0, 0, 1, 0, 0, 1, 0),
+(23, 'dblot', 'Double Holiday, Overtime', '3.900', 0, 0, 0, 0, 0, 0, 1, 0, 1, 0),
+(24, 'dblrstot', 'Double Holiday, Rest Day, Overtime', '5.070', 0, 0, 0, 0, 0, 0, 0, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -931,8 +957,8 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (23, 1, 23, 1),
 (24, 1, 24, 1),
 (25, 1, 25, 1),
-(26, 1, 26, 1),
-(27, 1, 27, 1),
+(26, 1, 26, 0),
+(27, 1, 27, 0),
 (28, 1, 28, 1),
 (29, 1, 29, 1),
 (30, 1, 30, 1),
@@ -943,7 +969,7 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (35, 1, 35, 1),
 (36, 1, 36, 1),
 (37, 1, 37, 1),
-(38, 1, 38, 1),
+(38, 1, 38, 0),
 (39, 2, 1, 1),
 (40, 2, 2, 1),
 (41, 2, 3, 1),
@@ -969,8 +995,8 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (61, 2, 23, 1),
 (62, 2, 24, 1),
 (63, 2, 25, 1),
-(64, 2, 26, 1),
-(65, 2, 27, 1),
+(64, 2, 26, 0),
+(65, 2, 27, 0),
 (66, 2, 28, 1),
 (67, 2, 29, 1),
 (68, 2, 30, 1),
@@ -981,7 +1007,43 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (73, 2, 35, 1),
 (74, 2, 36, 1),
 (75, 2, 37, 1),
-(76, 2, 38, 1);
+(76, 2, 38, 1),
+(77, 3, 1, 0),
+(78, 3, 2, 0),
+(79, 3, 3, 1),
+(80, 3, 4, 0),
+(81, 3, 5, 0),
+(82, 3, 6, 0),
+(83, 3, 7, 0),
+(84, 3, 8, 0),
+(85, 3, 9, 0),
+(86, 3, 10, 0),
+(87, 3, 11, 0),
+(88, 3, 12, 0),
+(89, 3, 13, 0),
+(90, 3, 14, 0),
+(91, 3, 15, 0),
+(92, 3, 16, 0),
+(93, 3, 17, 0),
+(94, 3, 18, 0),
+(95, 3, 19, 0),
+(96, 3, 20, 0),
+(97, 3, 21, 0),
+(98, 3, 22, 0),
+(99, 3, 23, 0),
+(100, 3, 24, 0),
+(101, 3, 25, 0),
+(102, 3, 26, 0),
+(103, 3, 27, 0),
+(104, 3, 28, 0),
+(105, 3, 29, 0),
+(106, 3, 30, 0),
+(107, 3, 31, 0),
+(108, 3, 32, 0),
+(109, 3, 33, 0),
+(110, 3, 34, 0),
+(111, 3, 35, 0),
+(112, 3, 36, 0);
 
 -- --------------------------------------------------------
 
@@ -1000,7 +1062,8 @@ CREATE TABLE `dm_rolemstr` (
 
 INSERT INTO `dm_rolemstr` (`roleID`, `roleDescription`) VALUES
 (1, 'Administrator'),
-(2, 'Employee');
+(2, 'Employee'),
+(3, 'Security Guard');
 
 -- --------------------------------------------------------
 
@@ -1019,13 +1082,25 @@ CREATE TABLE `dm_schedule` (
 --
 
 INSERT INTO `dm_schedule` (`scheduleID`, `employeeID`, `restday`) VALUES
-(18, 15, 1),
-(19, 15, 2),
-(20, 15, 3),
-(21, 15, 4),
-(22, 15, 6),
-(23, 15, 7),
-(30, 3, 1);
+(12, 37, 6),
+(13, 37, 7),
+(26, 38, 6),
+(27, 38, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dm_scheduleguard`
+--
+
+CREATE TABLE `dm_scheduleguard` (
+  `scheduleID` bigint(20) NOT NULL,
+  `postscheduleID` bigint(20) NOT NULL,
+  `scheduleDay` int(11) NOT NULL,
+  `postType` varchar(255) NOT NULL,
+  `postID` bigint(20) NOT NULL,
+  `employeeID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1137,11 +1212,7 @@ CREATE TABLE `dm_thrmonth` (
 --
 
 INSERT INTO `dm_thrmonth` (`thrmonthID`, `datefrom`, `dateto`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `thrmonthstatus`, `monthstatus`) VALUES
-(9, '2020-01-01', '2020-06-01', 1, '2020-01-27 14:49:21', '4|3', '2020-01-27 15:19:39|2020-01-27 15:23:43', 3, 1, 2, 0),
-(11, '2020-01-01', '2020-07-01', 1, '2020-01-27 16:07:50', '4|3', '2020-01-27 16:10:00|2020-01-27 16:11:09', 3, 1, 2, 0),
-(54, '2020-01-01', '2020-04-01', 1, '2020-01-31 10:45:58', '4|3', '2020-01-31 10:46:31|2020-01-31 10:49:49', 3, 1, 2, 1),
-(60, '2020-01-01', '2020-07-01', 1, '2020-01-31 16:41:41', '4|3', '2020-01-31 16:42:03|2020-01-31 16:42:23', 3, 1, 2, 1),
-(61, '2020-01-01', '2020-07-01', 1, '2020-02-03 09:29:30', NULL, NULL, 1, 1, 1, 1);
+(1, '1888-01-01', '1888-01-01', NULL, NULL, NULL, NULL, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1151,6 +1222,7 @@ INSERT INTO `dm_thrmonth` (`thrmonthID`, `datefrom`, `dateto`, `usersubmitted`, 
 
 CREATE TABLE `dm_timekeeping` (
   `timekeepingID` bigint(20) NOT NULL,
+  `timekeepingType` int(11) NOT NULL,
   `datefrom` date NOT NULL,
   `dateto` date NOT NULL,
   `payperiod` int(11) NOT NULL,
@@ -1161,6 +1233,9 @@ CREATE TABLE `dm_timekeeping` (
   `level` int(11) NOT NULL,
   `approvalID` bigint(20) NOT NULL,
   `timekeepingstatus` int(11) NOT NULL,
+  `reason` text NOT NULL,
+  `userdenied` varchar(255) DEFAULT NULL,
+  `datedenied` varchar(255) DEFAULT NULL,
   `payrollstatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1168,10 +1243,8 @@ CREATE TABLE `dm_timekeeping` (
 -- Dumping data for table `dm_timekeeping`
 --
 
-INSERT INTO `dm_timekeeping` (`timekeepingID`, `datefrom`, `dateto`, `payperiod`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `timekeepingstatus`, `payrollstatus`) VALUES
-(1, '2020-02-01', '2020-02-15', 1, 1, '2020-02-03 13:19:34', '1', '2020-02-03 13:19:37', 2, 1, 2, 2),
-(2, '2020-02-16', '2020-02-29', 2, 1, '2020-02-03 13:20:42', '1', '2020-02-03 13:20:46', 2, 1, 2, 0),
-(3, '2020-03-01', '2020-03-15', 1, NULL, NULL, NULL, NULL, 0, 0, 0, 0);
+INSERT INTO `dm_timekeeping` (`timekeepingID`, `timekeepingType`, `datefrom`, `dateto`, `payperiod`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `timekeepingstatus`, `reason`, `userdenied`, `datedenied`, `payrollstatus`) VALUES
+(1, 1, '2020-03-01', '2020-03-15', 1, NULL, NULL, NULL, NULL, 0, 0, 0, '', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1183,75 +1256,51 @@ CREATE TABLE `dm_timekeepingdetails` (
   `timesheetID` bigint(20) NOT NULL,
   `timekeepingID` bigint(20) NOT NULL,
   `employeeID` bigint(20) NOT NULL,
+  `rateCode` varchar(255) NOT NULL,
   `datesched` date NOT NULL,
-  `regularhours` decimal(10,2) NOT NULL,
-  `regholidayhours` decimal(10,2) NOT NULL,
-  `speholidayhours` decimal(10,2) NOT NULL,
-  `latehours` decimal(10,2) NOT NULL,
-  `absent` decimal(10,2) NOT NULL,
-  `othours` decimal(10,2) NOT NULL,
-  `restot` decimal(10,2) NOT NULL,
-  `specialot` decimal(10,2) NOT NULL,
-  `specialrestot` decimal(10,2) NOT NULL,
-  `regularot` decimal(10,2) NOT NULL,
-  `regularrestot` decimal(10,2) NOT NULL,
-  `doubleot` decimal(10,2) NOT NULL,
-  `doublerestot` decimal(10,2) NOT NULL,
-  `nightdiff` decimal(10,2) NOT NULL,
-  `shift` int(11) NOT NULL
+  `clientID` bigint(20) NOT NULL,
+  `postID` bigint(20) NOT NULL,
+  `timein` datetime NOT NULL,
+  `timeout` datetime NOT NULL,
+  `post_timein` time NOT NULL,
+  `post_timeout` time NOT NULL,
+  `actualhours` time NOT NULL,
+  `actual_regular_hours` time NOT NULL,
+  `ordlate` decimal(10,2) NOT NULL,
+  `rstlate` decimal(10,2) NOT NULL,
+  `spclate` decimal(10,2) NOT NULL,
+  `spcrstlate` decimal(10,2) NOT NULL,
+  `rgllate` decimal(10,2) NOT NULL,
+  `rglrstlate` decimal(10,2) NOT NULL,
+  `dbllate` decimal(10,2) NOT NULL,
+  `dblrstlate` decimal(10,2) NOT NULL,
+  `ord` decimal(10,2) NOT NULL,
+  `rst` decimal(10,2) NOT NULL,
+  `spc` decimal(10,2) NOT NULL,
+  `spcrst` decimal(10,2) NOT NULL,
+  `rgl` decimal(10,2) NOT NULL,
+  `rglrst` decimal(10,2) NOT NULL,
+  `dbl` decimal(10,2) NOT NULL,
+  `dblrst` decimal(10,2) NOT NULL,
+  `actual_ot_hours` time NOT NULL,
+  `ordot` decimal(10,2) NOT NULL,
+  `rstot` decimal(10,2) NOT NULL,
+  `spcot` decimal(10,2) NOT NULL,
+  `spcrstot` decimal(10,2) NOT NULL,
+  `rglot` decimal(10,2) NOT NULL,
+  `rglrstot` decimal(10,2) NOT NULL,
+  `dblot` decimal(10,2) NOT NULL,
+  `dblrstot` decimal(10,2) NOT NULL,
+  `actual_nightdiff_hours` time NOT NULL,
+  `ordnight` decimal(10,2) NOT NULL,
+  `rstnight` decimal(10,2) NOT NULL,
+  `spcnight` decimal(10,2) NOT NULL,
+  `spcrstnight` decimal(10,2) NOT NULL,
+  `rglnight` decimal(10,2) NOT NULL,
+  `rglrstnight` decimal(10,2) NOT NULL,
+  `dblnight` decimal(10,2) NOT NULL,
+  `dblrstnight` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `dm_timekeepingdetails`
---
-
-INSERT INTO `dm_timekeepingdetails` (`timesheetID`, `timekeepingID`, `employeeID`, `datesched`, `regularhours`, `regholidayhours`, `speholidayhours`, `latehours`, `absent`, `othours`, `restot`, `specialot`, `specialrestot`, `regularot`, `regularrestot`, `doubleot`, `doublerestot`, `nightdiff`, `shift`) VALUES
-(1, 1, 3, '2020-02-01', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(2, 1, 3, '2020-02-02', '5.00', '0.00', '0.00', '3.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(3, 1, 3, '2020-02-03', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(4, 1, 3, '2020-02-06', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(5, 1, 3, '2020-02-07', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(6, 1, 3, '2020-02-08', '6.00', '0.00', '0.00', '2.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(7, 1, 3, '2020-02-09', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(8, 1, 3, '2020-02-10', '5.00', '0.00', '0.00', '3.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(9, 1, 3, '2020-02-13', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(10, 1, 3, '2020-02-14', '7.50', '0.00', '0.00', '0.50', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(11, 1, 3, '2020-02-15', '7.00', '0.00', '0.00', '1.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(12, 1, 1, '2020-02-01', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(13, 1, 1, '2020-02-02', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(14, 1, 1, '2020-02-03', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(15, 1, 1, '2020-02-06', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(16, 1, 1, '2020-02-07', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(17, 1, 1, '2020-02-08', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(18, 1, 1, '2020-02-09', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(19, 1, 1, '2020-02-10', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(20, 1, 1, '2020-02-13', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(21, 1, 1, '2020-02-14', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(22, 1, 1, '2020-02-15', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(23, 2, 3, '2020-02-16', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(24, 2, 3, '2020-02-17', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(25, 2, 3, '2020-02-20', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(26, 2, 3, '2020-02-21', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(27, 2, 3, '2020-02-22', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(28, 2, 3, '2020-02-23', '6.25', '0.00', '0.00', '1.75', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(29, 2, 3, '2020-02-24', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(30, 2, 3, '2020-02-27', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(31, 2, 3, '2020-02-28', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(32, 2, 3, '2020-02-29', '8.00', '0.00', '0.00', '0.00', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(33, 2, 3, '2020-03-01', '0.00', '0.00', '0.00', '0.00', '1.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(34, 2, 3, '2020-03-02', '7.75', '0.00', '0.00', '0.25', '0.00', '4.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(35, 2, 1, '2020-02-16', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(36, 2, 1, '2020-02-17', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(37, 2, 1, '2020-02-20', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(38, 2, 1, '2020-02-21', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(39, 2, 1, '2020-02-22', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(40, 2, 1, '2020-02-23', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(41, 2, 1, '2020-02-24', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(42, 2, 1, '2020-02-27', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(43, 2, 1, '2020-02-28', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(44, 2, 1, '2020-02-29', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(45, 2, 1, '2020-03-01', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0),
-(46, 2, 1, '2020-03-02', '8.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0);
 
 --
 -- Indexes for dumped tables
@@ -1306,6 +1355,12 @@ ALTER TABLE `dm_designation`
   ADD PRIMARY KEY (`designationID`);
 
 --
+-- Indexes for table `dm_employee`
+--
+ALTER TABLE `dm_employee`
+  ADD PRIMARY KEY (`employeeID`);
+
+--
 -- Indexes for table `dm_employeecreditleave`
 --
 ALTER TABLE `dm_employeecreditleave`
@@ -1334,6 +1389,12 @@ ALTER TABLE `dm_holiday`
 --
 ALTER TABLE `dm_leavetype`
   ADD PRIMARY KEY (`leavetypeID`);
+
+--
+-- Indexes for table `dm_loan`
+--
+ALTER TABLE `dm_loan`
+  ADD PRIMARY KEY (`loanID`);
 
 --
 -- Indexes for table `dm_loandeduction`
@@ -1384,6 +1445,18 @@ ALTER TABLE `dm_post`
   ADD PRIMARY KEY (`postID`);
 
 --
+-- Indexes for table `dm_postschedule`
+--
+ALTER TABLE `dm_postschedule`
+  ADD PRIMARY KEY (`postscheduleID`);
+
+--
+-- Indexes for table `dm_rate`
+--
+ALTER TABLE `dm_rate`
+  ADD PRIMARY KEY (`rateID`);
+
+--
 -- Indexes for table `dm_retirement`
 --
 ALTER TABLE `dm_retirement`
@@ -1405,6 +1478,12 @@ ALTER TABLE `dm_rolemstr`
 -- Indexes for table `dm_schedule`
 --
 ALTER TABLE `dm_schedule`
+  ADD PRIMARY KEY (`scheduleID`);
+
+--
+-- Indexes for table `dm_scheduleguard`
+--
+ALTER TABLE `dm_scheduleguard`
   ADD PRIMARY KEY (`scheduleID`);
 
 --
@@ -1450,7 +1529,7 @@ ALTER TABLE `dm_approval`
 -- AUTO_INCREMENT for table `dm_approvaldet`
 --
 ALTER TABLE `dm_approvaldet`
-  MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `approvaldetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `dm_approvalmodule`
 --
@@ -1460,7 +1539,7 @@ ALTER TABLE `dm_approvalmodule`
 -- AUTO_INCREMENT for table `dm_bank`
 --
 ALTER TABLE `dm_bank`
-  MODIFY `bankID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `bankID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `dm_client`
 --
@@ -1480,7 +1559,7 @@ ALTER TABLE `dm_department`
 -- AUTO_INCREMENT for table `dm_designation`
 --
 ALTER TABLE `dm_designation`
-  MODIFY `designationID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `designationID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `dm_employee`
 --
@@ -1490,12 +1569,12 @@ ALTER TABLE `dm_employee`
 -- AUTO_INCREMENT for table `dm_employeecreditleave`
 --
 ALTER TABLE `dm_employeecreditleave`
-  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `employeeleavecreditID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `dm_employeeleave`
 --
 ALTER TABLE `dm_employeeleave`
-  MODIFY `employeeleaveID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `employeeleaveID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `dm_employeetype`
 --
@@ -1510,7 +1589,7 @@ ALTER TABLE `dm_holiday`
 -- AUTO_INCREMENT for table `dm_leavetype`
 --
 ALTER TABLE `dm_leavetype`
-  MODIFY `leavetypeID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `leavetypeID` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `dm_loan`
 --
@@ -1520,7 +1599,7 @@ ALTER TABLE `dm_loan`
 -- AUTO_INCREMENT for table `dm_loandeduction`
 --
 ALTER TABLE `dm_loandeduction`
-  MODIFY `loandeductionID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `loandeductionID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_modulemstr`
 --
@@ -1530,22 +1609,22 @@ ALTER TABLE `dm_modulemstr`
 -- AUTO_INCREMENT for table `dm_overtime`
 --
 ALTER TABLE `dm_overtime`
-  MODIFY `overtimeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `overtimeID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dm_payroll`
 --
 ALTER TABLE `dm_payroll`
-  MODIFY `payrollID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `payrollID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_payrolldetails`
 --
 ALTER TABLE `dm_payrolldetails`
-  MODIFY `payrolldetailsID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `payrolldetailsID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_payslipstatus`
 --
 ALTER TABLE `dm_payslipstatus`
-  MODIFY `payslipstatusID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `payslipstatusID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_philhealthtable`
 --
@@ -1555,7 +1634,17 @@ ALTER TABLE `dm_philhealthtable`
 -- AUTO_INCREMENT for table `dm_post`
 --
 ALTER TABLE `dm_post`
-  MODIFY `postID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `postID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `dm_postschedule`
+--
+ALTER TABLE `dm_postschedule`
+  MODIFY `postscheduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `dm_rate`
+--
+ALTER TABLE `dm_rate`
+  MODIFY `rateID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `dm_retirement`
 --
@@ -1565,17 +1654,22 @@ ALTER TABLE `dm_retirement`
 -- AUTO_INCREMENT for table `dm_rolemodule`
 --
 ALTER TABLE `dm_rolemodule`
-  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 --
 -- AUTO_INCREMENT for table `dm_rolemstr`
 --
 ALTER TABLE `dm_rolemstr`
-  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `roleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `dm_schedule`
 --
 ALTER TABLE `dm_schedule`
-  MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT for table `dm_scheduleguard`
+--
+ALTER TABLE `dm_scheduleguard`
+  MODIFY `scheduleID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_ssstable`
 --
@@ -1590,17 +1684,17 @@ ALTER TABLE `dm_taxtable`
 -- AUTO_INCREMENT for table `dm_thrmonth`
 --
 ALTER TABLE `dm_thrmonth`
-  MODIFY `thrmonthID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `thrmonthID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dm_timekeeping`
 --
 ALTER TABLE `dm_timekeeping`
-  MODIFY `timekeepingID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `timekeepingID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dm_timekeepingdetails`
 --
 ALTER TABLE `dm_timekeepingdetails`
-  MODIFY `timesheetID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `timesheetID` bigint(20) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
