@@ -10,17 +10,18 @@ class Post_model extends CI_Model
 	function get_all_detachment()
 	{
 	    $detachment = $this->db->query('
-			SELECT *, 
-			CONCAT(detach.city) as detachcity, 
-			CONCAT(detach.housenumber) as detachhousenumber, 
-			CONCAT(detach.streetname) as detachstreetname, 
-			CONCAT(detach.barangay) as detachbarangay, 
+			SELECT *,
+			CONCAT(post.postID) as pstID, 
+			CONCAT(post.city) as detachcity, 
+			CONCAT(post.housenumber) as detachhousenumber, 
+			CONCAT(post.streetname) as detachstreetname, 
+			CONCAT(post.barangay) as detachbarangay, 
 			CONCAT(client.clientID) as clntID
-			FROM dm_post as detach
+			FROM dm_post as post
 			LEFT JOIN dm_client as client
-			ON detach.clientID=client.clientID
+			ON post.clientID=client.clientID
 			LEFT JOIN dm_employee as emp
-			ON detach.commander=emp.employeeID
+			ON post.commander=emp.employeeID
 			');
 
 	    $client = $this->db->query('

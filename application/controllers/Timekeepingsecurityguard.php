@@ -15,7 +15,10 @@
 	  		$data['data']=$this->timekeeping->get_timekeeping("");
 
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Timekeepingsecurityguard/Index",$data);
+
+			if(isAllowed(7)) $this->load->view("Timekeepingsecurityguard/Index",$data);
+				        else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 

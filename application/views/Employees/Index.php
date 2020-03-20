@@ -1524,7 +1524,7 @@ var restdayid =[];
                 dataType : 'json',
                 success: function(data){
 
-                  window.location.replace('<?php echo base_url(); ?>employees');
+                  window.location.replace('<?php echo base_url(); ?>Employees');
                 },
                 error: function(request, textStatus, error) {
 
@@ -1859,7 +1859,7 @@ var restdayid =[];
         $("#addusername").focus();
         }
         }else{
-        window.location.replace('<?php echo base_url(); ?>employees');
+        window.location.replace('<?php echo base_url(); ?>Employees');
         }
         },
         error: function(request, textStatus, error) {
@@ -2339,7 +2339,7 @@ var restdayid =[];
                     $("#editusername").focus();
                   }
                 }else{
-                window.location.replace('<?php echo base_url(); ?>employees');
+                window.location.replace('<?php echo base_url(); ?>Employees');
                 }
               },
            error: function(request, textStatus, error) {

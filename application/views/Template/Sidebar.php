@@ -19,6 +19,7 @@
     <div class="sidebar-inner slimscroll">
 		<div id="sidebar-menu" class="sidebar-menu">
 			<ul>
+			<!-- <?php if(count($permission)!=0){ ?> -->
 				<?php if($permission[1] || $permission[2]){ ?>
 					<li class="menu-title"> 
 						<span>Main</span>
@@ -45,11 +46,11 @@
 								<?php if($permission[3]){ ?>
 									<li><a href="<?php echo base_url(); ?>Employees">All Employees</a></li>
 								<?php } if($permission[4]){ ?>
-									<li><a href="<?php echo base_url(); ?>Leaves">Leaves</a></li>
+									<li><a href="<?php echo base_url(); ?>Leaves">Employee Leave</a></li>
 								<?php } if($permission[5]){ ?>	
-									<li><a href="<?php echo base_url(); ?>Overtime">Overtime</a></li>
+									<li><a href="<?php echo base_url(); ?>Overtime">Employee Overtime</a></li>
 								<?php } if($permission[6]){ ?>
-									<li><a href="<?php echo base_url(); ?>Loans">Loans</a></li>
+									<li><a href="<?php echo base_url(); ?>Loans">Employee Loan</a></li>
 								<?php } ?>
 							</ul>
 						</li>
@@ -70,7 +71,7 @@
 					<?php } ?>
 				<?php } ?>
 
-				<?php if( $permission[10] || $permission[11] /*|| $permission[12]*/ || $permission[13] || $permission[14] ||
+				<?php if( $permission[10] || $permission[11] || $permission[12] || $permission[13] || $permission[14] ||
 						  $permission[15] || $permission[16] || $permission[17] || $permission[18] || $permission[19] || 
 						  $permission[20] || $permission[21] || $permission[22] || $permission[23] || $permission[24] || $permission[25]){ ?>
 					<li class="menu-title"> 
@@ -82,11 +83,11 @@
 							<a href="#" class="payroll-header"><i class="fa fa-money"></i> <span>Payroll</span><span class="menu-arrow"></a>
 							<ul style="display: none;" class="menu-header" id="payroll-header">
 								<?php if($permission[10]){ ?>
-									<li><a href="<?php echo base_url(); ?>payroll" style="font-size: 81%;">Payroll Process (Security Guard)</a></li>
+									<li><a href="<?php echo base_url(); ?>Payrollprocess" style="font-size: 81%;">Payroll Process (Security Guard)</a></li>
 								<?php } if($permission[11]){ ?>
 									<!-- <li><a href="<?php echo base_url(); ?>payroll">Payroll Process (Staff)</a></li> -->
 								<?php } if($permission[12]){ ?>
-									<li><a href="<?php echo base_url(); ?>postscheduling">Post Scheduling</a></li>
+									<li><a href="<?php echo base_url(); ?>Scheduling">Post Scheduling</a></li>
 								<?php } if($permission[13]){ ?>
 									<li><a href="<?php echo base_url(); ?>Generatepayslip">Generate Payslip</a></li>
 								<?php } if($permission[14]){ ?>
@@ -141,7 +142,7 @@
 								<?php } if($permission[24]){ ?>
 									<li><a href="<?php echo base_url(); ?>Hdmfreport">HDMF Premium Payment</a></li>
 								<?php } if($permission[25]){ ?>
-									<li><a href="<?php echo base_url(); ?>Maintenance">Summary of Deductions</a></li>
+									<li><a href="<?php echo base_url(); ?>Summaryofdeductions">Summary of Deductions</a></li>
 								<?php } ?>	
 							</ul>
 						</li>	
@@ -197,6 +198,7 @@
 						</li>
 					<?php } ?>
 				<?php } ?>
+			<!-- <?php } ?> -->
 			</ul>
 		</div>
     </div>

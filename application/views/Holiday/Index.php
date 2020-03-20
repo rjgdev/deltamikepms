@@ -15,7 +15,7 @@
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
-					<a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday" id="addholiday" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Holiday</a>
+					<!-- <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_holiday" id="addholiday" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"><i class="fa fa-plus"></i> Add Holiday</a> -->
 				</div>
 			</div>
 		</div>
@@ -394,7 +394,7 @@
 				        	$('#add_holiday').show();
 				        	$("#holidayname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>holidays');
+        					window.location.replace('<?php echo base_url(); ?>Holidays');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -428,7 +428,7 @@
 				        	$('#edit_holiday').show();
 				        	$("#editholidayname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>holidays');
+        					window.location.replace('<?php echo base_url(); ?>Holidays');
             			}
 	                },
 	                error: function(request, textStatus, error) {

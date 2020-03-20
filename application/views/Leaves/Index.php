@@ -7,7 +7,7 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Leaves</h3>
+					<h3 class="page-title">Employee Leave</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
 						<li class="breadcrumb-item active">Leaves</li>
@@ -26,8 +26,8 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 110px ! important;">Leave No.</th>
-								<th style="width: 220px ! important;">Employee</th>
+								<th style="width: 110px ! important;">Leave Number</th>
+								<th style="width: 220px ! important;">Employee Name</th>
 								<th style="width: 150px ! important;">Leave Type</th>
 								<th style="width: 190px ! important;">From</th>
 								<th style="width: 190px ! important;">To</th>
@@ -56,6 +56,26 @@
 								<td><?php echo $record->numberofdays ?></td>
 								<td><?php echo $record->reason ?></td>
 								<td class="text-right">
+						    <div class="dropdown dropdown-action">
+						    <a href="" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+						    <div class="dropdown-menu dropdown-menu-right">
+						    <a class="dropdown-item edit_leave" href="#"
+						   		 id="<?php echo $record->employeeleaveID; ?>" 
+									data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
+									class="btn btn-info btn-sm edit_leave" 
+									data-toggle="modal" data-target="#edit_leave" 
+									data-id="<?php echo $record->employeeleaveID; ?>" 
+									data-leavetypeid="<?php echo $record->leavetypeID; ?>"
+									data-employeeid="<?php echo $record->employeeID; ?>" 
+									data-leavetypename="<?php echo $record->leavetypename; ?>" 
+									data-leavefrom="<?php echo $record->leavefrom; ?>"
+									data-leaveto="<?php echo $record->leaveto; ?>" 
+									data-numberofdays="<?php echo $record->numberofdays; ?>" 
+									data-remainingleave="<?php echo $record->remainingleave; ?>" 
+									data-reason="<?php echo $record->reason; ?>" 
+									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i>Edit</a>
+									<a class="dropdown-item changesnoted" href="#" data-toggle="modal" data-target="#noted_employee" data-id="<?php echo $record->employeeleaveID; ?>" data-noted="<?php echo $record->noted; ?>"><i class="fa fa-sticky-note"></i>Noted</a>
+								<!-- <td class="text-right">
 									<button type="button" 
 									id="<?php echo $record->employeeleaveID; ?>" 
 									data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
@@ -71,7 +91,7 @@
 									data-remainingleave="<?php echo $record->remainingleave; ?>" 
 									data-reason="<?php echo $record->reason; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
-								</td>     
+								</td>      -->
 							</tr>
 							<?php endforeach; ?>
 						</tbody>
@@ -95,7 +115,7 @@
 					<form>
 						<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Employee<code>*</code></label>
+							<label for="description">Employee name <code>*</code></label>
 							<select class="form-control" id="addemployeeID" name="addemployeeID" style="width: 100%;" description="employee name">
 								<option value="">No Selected</option>
 								<?php
@@ -111,7 +131,7 @@
 
 						<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Leave Type<code>*</code></label>
+							<label for="description">Leave Type <code>*</code></label>
 							<input type="hidden" id="hiddenaddleaveID" name="hiddenaddleaveID">
 							<select class="form-control" id="addleaveID" name="addleaveID" style="width: 100%;"description="leave type">
 								<option value="">No Selected</option>
@@ -124,7 +144,7 @@
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="DD-MM-YYYY" description="start date">
+								<input class="form-control datetimepicker" id="addfrom" name="addfrom" data-date-format="YYYY-MM-DD" description="start date">
 								<div class="invalid-feedback" id="add-from"></div>	
 							</div>	
 							
@@ -134,7 +154,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="DD-MM-YYYY" description="end date">
+								<input class="form-control datetimepicker"  id="addto" name="addto" data-date-format="YYYY-MM-DD" description="end date">
 								<div class="invalid-feedback" id="add-to"></div>
 							</div>
 						</div>
@@ -184,7 +204,7 @@
 					<form>
 							<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Employee<code>*</code></label>
+							<label for="description">Employee name <code>*</code></label>
 							<select class="form-control" id="editemployee" name="editemployee" style="width: 100%;" description="employee name">
 								<option value="">No Selected</option>
 								<?php
@@ -200,7 +220,7 @@
 
 						<div class="col-sm-12">
 							<div class="form-group">
-							<label for="">Leave Type<code>*</code></label>
+							<label for="">Leave Type <code>*</code></label>
 							<input type="hidden" id="hiddeneditleaveID" name="hiddeneditleaveID">
 							<select class="form-control" id="editleaveID" name="editleaveID" style="width: 100%;"description="leave type">
 							</select>
@@ -212,7 +232,7 @@
 							<label>From <span class="text-danger">*</span></label>
 							
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="DD-MM-YYYY" description="start date">
+								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="YYYY-MM-DD" description="start date">
 							</div>	
 							<div class="invalid-feedback" id="edit-from"></div>	
 						</div>
@@ -221,7 +241,7 @@
 						<div class="form-group">
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="DD-MM-YYYY" description="end date">
+								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="YYYY-MM-DD" description="end date">
 							</div>
 							<div class="invalid-feedback" id="edit-to"></div>
 						</div>
@@ -291,6 +311,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -315,6 +336,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -333,9 +355,35 @@
 		</div>
 	</div>
 
+	<!-- Confirmation Modal -->
+	<div id="confirmation_noteedit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add note?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn editnote">Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-editnote">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	
 	<!-- Delete Leave Modal -->
-	<div class="modal custom-modal fade" id="delete_approve" role="dialog">
+	<div  class="modal custom-modal fade" id="delete_approve" role="dialog">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -357,8 +405,38 @@
 			</div>
 		</div>
 	</div>
-	<!-- /Delete Leave Modal -->	
-</div>
+	</div>
+	
+	<!-- /Delete Leave Modal -->
+	<div class="modal custom-modal fade" id="noted_employee" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+	<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+      <div class="modal-body">
+        <div class="form-header">
+          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
+          <h3>Note</h3>
+          <div class="col-sm-12">
+          	<input class="form-control letterswithspace" id="editnoted" name="editnoted" description="note">
+          	<div class="invalid-feedback" id="edit-editnoted"></div>
+            </div>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <div class="col-12">
+              <a href="#" class="btn btn-primary continue-btn updatenote">Submit</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>	
+
 <!-- /Page Wrapper -->
 
 <?php 
@@ -382,11 +460,15 @@
       success: function(data){
         var html = '';
         var i;
+        html += '<option value="0">No Selected</option>';
         for(i=0; i<data.length; i++){
+
           if($("#addleaveID").val()==data[i].leavetypeID){
-            html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
+          	html += /*'<option value="">No Selected</option>'+*/
+            		'<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
           }else{
-            html += '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+          	html +=/* '<option value="">No Selected</option>'+*/
+           			'<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
           }
         }
         $('#addleaveID').html(html);
@@ -407,12 +489,14 @@
                
               var html = '';
               var i;
+               /*html += '<option value="0">No Selected</option>';*/
               for(i=0; i<data.length; i++){
-              	console.log(data[i]);
+              	/*console.log(data[i]);*/
                 if($("#hiddeneditleaveID").val()==data[i].leavetypeID){
-                  html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
+                  	html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
                 }else{
-                  html += '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+                	html += /*'<option value="">No Selected</option>'+*/
+                   '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
                 }
               }
               $('#editleaveID').html(html);
@@ -465,7 +549,7 @@
 				    var len 			= 	response.length;
 				     for(var i=0; i<len; i++){
 				    var remainingleave  = 	response[i].remainingleave;
-				    console.log(remainingleave);
+				 /*   console.log(remainingleave);*/
 				$('#addremainingleave').val(remainingleave);
 				}
 			}
@@ -486,8 +570,8 @@
 		if(dateto!="") computedate(datefrom, dateto);
 	});	
 	function computedate(datefrom, dateto){
-		var start_date 	= 	moment(dateto, 'DD-MM-YYYY HH:mm:ss');
-   		var end_date 	= 	moment(datefrom, 'DD-MM-YYYY HH:mm:ss');
+		var start_date 	= 	moment(dateto, 'YYYY-MM-DD HH:mm:ss');
+   		var end_date 	= 	moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
    		var duration 	= 	moment.duration(start_date.diff(end_date));
    		var days 		= 	duration.asDays() + 1;  
    		if( days <= 0){
@@ -510,8 +594,8 @@
 		if(dateto!="") editcomputedate(datefrom, dateto);
 	});	
 	function editcomputedate(datefrom, dateto){
-		var start_date = moment(dateto, 'DD-MM-YYYY HH:mm:ss');
-   		var end_date   = moment(datefrom, 'DD-MM-YYYY HH:mm:ss');
+		var start_date = moment(dateto, 'YYYY-MM-DD HH:mm:ss');
+   		var end_date   = moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
    		var duration   = moment.duration(start_date.diff(end_date));
    		var days 	   = duration.asDays() + 1;  
    		if( days <= 0){
@@ -600,7 +684,7 @@
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -636,6 +720,7 @@
 			var numberofdays 	=  	$("#numberofdayss").val();
 			var remainingleave  =  	$("#addremainingleave").val();
 			var reason 			=  	$("#addreason").val();
+
     		$.ajax({
                 url : "<?php echo site_url('Leaves/save');?>",
                 method : "POST",
@@ -658,7 +743,7 @@
 				        	$('#addemployeeID').addClass('is-invalid');
 				        	$('#add-employee').addClass('invalid-feedback');
 						}else{
-        					window.location.replace('<?php echo base_url(); ?>leaves');
+        					window.location.replace('<?php echo base_url(); ?>Leaves');
             			}
 	                },
 	         		 error: function(request, textStatus, error) {
@@ -768,7 +853,7 @@
 		var enddate 		= 	$('#editto').val().trim();
 		var numberofdays 	= 	$('#editnumberofdays').val().trim();
 		var remainingleave 	= 	$('#editremainingleave').val().trim();
-		var reason 			= 	$('#editremainingleave').val().trim();
+		var reason 			= 	$('#editreason').val().trim();
 		var originalvalue 	= 	$("#editnumberofdaysnumber").val();
 		var newvalue 		= 	$("#editnumberofdays").val();
 		var remainingLeaves = 	$("#editremainingleave").val()
@@ -827,7 +912,7 @@
 			$('#editemployee').addClass('is-invalid');
 			$('#edit-employee').addClass('invalid-feedback');
 			}else{
-			window.location.replace('<?php echo base_url(); ?>leaves');
+			window.location.replace('<?php echo base_url(); ?>Leaves');
 			}
 			},
 			error: function(request, textStatus, error) {
@@ -837,8 +922,56 @@
 		}
 
 		});	
+		
+	$('.changesnoted').unbind('click').bind('click', function(){
+     $(".modal-body #editnoted").val( $(this).data('noted'));
+     $('.editnote').attr('id', $(this).data('id'));
+    
+    });
 
-}); 
+    $('.updatenote').unbind('click').bind('click', function(){
+        var id    =   $(this).attr('id');
+        var noted =   $('#editnoted').val().trim();
+        $('#noted_employee').hide();
+		$('#confirmation_noteedit').modal({backdrop: 'static', keyboard: false},'show');
+		
+     });    
+     $("#cncl-editnote").unbind('click').bind('click', function(){
+			$('#confirmation_noteedit').modal('hide');
+			$('#noted_employee').show();
+		});
+$('.editnote').unbind('click').bind('click', function(){
+		var id 				= 	$(this).attr('id');
+		var noted 		= 	$('#editnoted').val().trim();
+		/*alert(noted +' '+ id);*/
+		$.ajax({
+			url : "<?php echo site_url('Leaves/updatenoted');?>",
+			method : "POST",
+			data : {id:     id,
+			noted: 			noted},
+			async : true,
+			dataType : 'json',
+			success: function(data){
+		var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-postname").innerHTML = result[1];
+				        	$('#editnoted').addClass('is-invalid');
+							$('#confirmation_noteedit').modal('hide');
+				        	$('#editnoted').show();
+				        	$("#editnoted").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>Leaves');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
 
-  
+	            	}
+	            });
+	            return false;		
+
+				
+});
+
+}); 		
+
 </script>

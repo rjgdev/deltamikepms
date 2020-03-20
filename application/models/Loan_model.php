@@ -9,7 +9,7 @@ class Loan_model extends CI_Model
 	function get_all_loan()
 	{
 
-		$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
+		$query = $this->db->query("SELECT employeeID, CONCAT('00000','',employeeID, ' - ',lastname,', ',firstname, ' ', middlename) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
 		$loandata = $this->db->query("
              SELECT 
             loanid,employeeID,photo,fullname,department,designationdescription,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2,paid,lnothers
@@ -17,7 +17,7 @@ class Loan_model extends CI_Model
             (
                 SELECT
                 srln.loanid,usrs.photo,d.description as department,dsg.designationdescription,
-                CONCAT(usrs.firstname,' ', usrs.middlename,' ', usrs.lastname) as fullname,srln.employeeID,
+                CONCAT(usrs.lastname,', ', usrs.firstname,' ', usrs.middlename) as fullname,srln.employeeID,
                 case
                 WHEN srln.loantypeid = 1 THEN 'Social Security System(SSS)'
                 WHEN srln.loantypeid = 2 THEN 'Pag-IBIG'

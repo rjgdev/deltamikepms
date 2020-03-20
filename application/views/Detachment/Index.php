@@ -640,7 +640,7 @@ rel="Stylesheet"type="text/css"/>
 				        	$('#postname').addClass('is-invalid');
 				        	$("#postname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
+        					window.location.replace('<?php echo base_url(); ?>Detachments');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -794,7 +794,7 @@ rel="Stylesheet"type="text/css"/>
 				        	$('#editclientID').addClass('is-invalid');
 				        	$("#editclientID").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
+        					window.location.replace('<?php echo base_url(); ?>Detachments');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -825,7 +825,7 @@ rel="Stylesheet"type="text/css"/>
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>detachments');
+    					window.location.replace('<?php echo base_url(); ?>Detachments');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -872,7 +872,7 @@ rel="Stylesheet"type="text/css"/>
 				        	$('#add_designation').show();
 				        	$("#postname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
+        					window.location.replace('<?php echo base_url(); ?>Detachments');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -921,7 +921,7 @@ rel="Stylesheet"type="text/css"/>
 				        	$('#edit_detachment').show();
 				        	$("#editpostname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
+        					window.location.replace('<?php echo base_url(); ?>Detachments');
             			}
 	                },
 	                error: function(request, textStatus, error) {

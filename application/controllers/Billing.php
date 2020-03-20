@@ -12,7 +12,10 @@
 	  		$data = array('title' => 'Billing Statement');
 	  		$data['data']=$this->billing->get_all_billing();
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Billing/Index",$data);
+
+			if(isAllowed(20)) $this->load->view("Billing/Index",$data);
+						 else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		}
 		public function get_detachment()

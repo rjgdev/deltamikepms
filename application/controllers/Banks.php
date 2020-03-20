@@ -15,8 +15,8 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(32)) $this->load->view("Bank/Index",$data);
-						else $this->load->view("Denied/Index");
+			if(isAllowed(35)) $this->load->view("Bank/Index",$data);
+						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
 		} 

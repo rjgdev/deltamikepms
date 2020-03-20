@@ -1,5 +1,5 @@
 <?php 
-   class Postscheduling extends CI_Controller {  
+   class Scheduling extends CI_Controller {  
 		public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 

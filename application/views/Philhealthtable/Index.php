@@ -396,7 +396,7 @@
 				        	$('#add_philhealth').show();
 				        	$("#belowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>philhealthtable');
+        					window.location.replace('<?php echo base_url(); ?>Philhealthtable');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -432,7 +432,7 @@
 				        	$('#edit_philhealth').show();
 				        	$("#editbelowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>philhealthtable');
+        					window.location.replace('<?php echo base_url(); ?>Philhealthtable');
             			}
 	                },
 	                error: function(request, textStatus, error) {

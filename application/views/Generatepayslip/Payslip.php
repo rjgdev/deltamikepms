@@ -25,7 +25,7 @@
         <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
-    <body>
+    <body style="background-color: #fff;">
         	<!-- Main Wrapper -->
         <div class="main-wrapper">
 			
@@ -37,7 +37,7 @@
                 <div class="content container-fluid">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="card">
+							<div >
 								<div class="card-body">
 									<div class="row ml-2 mr-2 mt-2">
 										<div style="width: 1%">
@@ -54,7 +54,7 @@
 										<div class="col-sm-6">
 											
 											<div>
-												<h5 class="m-b-10"><strong class="mr-2">Employee:</strong><?php echo $item->firstname; ?> <?php echo $item->lastname; ?></h5>
+												<h5 class="m-b-10"><strong class="mr-2">Employee:</strong><?php echo $item->lastname; ?>, <?php echo $item->firstname; ?> </h5>
 												<h5 class="m-b-10"><strong class="mr-2">Pay Period:</strong><?php echo date("F d, Y",strtotime($item->datefrom)); ?> - <?php echo date("F d, Y",strtotime($item->dateto)); ?></h5>
 												<h5 class="m-b-10"><strong class="text-danger">Earnings</strong></h5>
 												<table class="table table-bordered">
@@ -64,7 +64,7 @@
 															<td><strong>Basic/Regular Rate</strong> <span class="float-right">₱ <?=number_format($item->basicpay,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Allowance</strong> <span class="float-right">₱ 0</span></td>
+															<td><strong>Allowance</strong> <span class="float-right">₱ <?=number_format($item->allowance,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>5 Days Incentive</strong> <span class="float-right">₱ <?=number_format($item->incentive,4,".",",")?></span></td>
@@ -76,10 +76,13 @@
 															<td><strong>Holiday Pay</strong> <span class="float-right">₱ <?=number_format($item->holidaypay,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Regular Overtime</strong> <span class="float-right">₱ <?=number_format($item->ordinaryot,4,".",",")?></span></td>
+															<td><strong>Regular Overtime</strong> <span class="float-right">₱ <?=number_format($item->rglovertime,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>OIC Allowance</strong> <span class="float-right">₱ 0</span></td>
+														</tr>
+														<tr>
+															<td><strong>Adjustment</strong> <span class="float-right">₱ <?=number_format($item->adjustment,4,".",",")?></span></td>
 														</tr>
 																												
 													</tbody>
@@ -97,7 +100,7 @@
 															<td><strong>Leave without Pay</strong> <span class="float-right">₱ <?=number_format($item->absent,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Late</strong> <span class="float-right">₱ <?=number_format($item->late,4,".",",")?></span></td>
+															<td><strong>Late</strong> <span class="float-right">₱ <?=number_format($item->lt,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>Withholding Tax</strong> <span class="float-right">₱ <?=number_format($item->wtax,4,".",",")?></span></td>
@@ -156,7 +159,7 @@
 												<table class="table table-bordered">
 													<tbody>
 														<tr>
-															<td><strong class="text-danger">Net Pay</strong> <span class="float-right"><strong>₱ <?=number_format($item->netpay,4,".",",")?></strong></span></td>
+															<td><strong class="text-danger">Net Pay</strong> <span class="float-right"><strong>₱ <?=number_format($item->ntpay,4,".",",")?></strong></span></td>
 														</tr>
 													</tbody>
 												</table>
@@ -221,7 +224,7 @@
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
-        					window.location.replace('<?php echo base_url(); ?>generatepayslip');
+        					window.location.replace('<?php echo base_url(); ?>Generatepayslip');
             			},
 	                error: function(request, textStatus, error) {
 

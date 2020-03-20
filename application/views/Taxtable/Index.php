@@ -452,7 +452,7 @@
 				        	$('#add_tax').show();
 				        	$("#belowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>taxtable');
+        					window.location.replace('<?php echo base_url(); ?>Taxtable');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -489,7 +489,7 @@
 				        	$('#edit_tax').show();
 				        	$("#editbelowrange").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>taxtable');
+        					window.location.replace('<?php echo base_url(); ?>Taxtable');
             			}
 	                },
 	                error: function(request, textStatus, error) {

@@ -19,6 +19,7 @@ class Designation_model extends CI_Model
 
 	    $department = $this->db->query('
 			SELECT * FROM dm_department 
+			WHERE departmentstatus = "Active"
 			');
 
 	    $result1 = $designation->result();

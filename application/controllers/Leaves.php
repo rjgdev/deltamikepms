@@ -13,7 +13,10 @@
 		$data = array('title' => 'Leaves');
 		$data['data']=$this->leave->get_all_leave();
 		$this->load->view('Template/Header',$data);
-		$this->load->view("Leaves/Index",$data);
+
+		if(isAllowed(4)) $this->load->view("Leaves/Index",$data);
+					else $this->load->view("Denied/Index");
+
 		$this->load->view('Template/Footer',$data);
 	}
 	public function searchtotalleave()
@@ -84,5 +87,14 @@
 		echo json_encode($data);
 	}	
 
-	}     
+
+	public function updatenoted()
+	{
+		$id = $this->input->post('id');
+		$noted = $this->input->post('noted');
+		$data = $this->leave->get_noted($id,$noted);
+		$this->session->set_flashdata('success', $data); 
+		echo json_encode($data);
+	} 
+		}    
 ?>

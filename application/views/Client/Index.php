@@ -123,7 +123,7 @@
 								<div class="invalid-feedback" id="add-description"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>House No. </label>
+								<label>House Number </label>
 								<input class="form-control specchar" type="text" id="housenumber">
 								<div class="invalid-feedback" id="add-housenumber"></div>
 							</div>
@@ -148,7 +148,7 @@
 								<div class="invalid-feedback" id="add-contactperson"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>Contact No. <span class="text-danger">*</span></label>
+								<label>Contact Number <span class="text-danger">*</span></label>
 								<input class="form-control contactinfo" type="text" id="contactno">
 								<div class="invalid-feedback" id="add-contactno"></div>
 							</div>
@@ -197,7 +197,7 @@
 								<div class="invalid-feedback" id="edit-description"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>House No. </label>
+								<label>House Number </label>
 								<input class="form-control specchar" type="text" id="edithousenumber">
 								<div class="invalid-feedback" id="edit-housenumber"></div>
 							</div>
@@ -222,7 +222,7 @@
 								<div class="invalid-feedback" id="edit-contactperson"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>Contact No. <span class="text-danger">*</span></label>
+								<label>Contact Number <span class="text-danger">*</span></label>
 								<input class="form-control contactinfo" type="text" id="editcontactno">
 								<div class="invalid-feedback" id="edit-contactno"></div>
 							</div>
@@ -726,7 +726,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>clients');
+    					window.location.replace('<?php echo base_url(); ?>Clients');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -773,7 +773,7 @@
 				        	$('#add_client').show();
 				        	$("#clientname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>clients');
+        					window.location.replace('<?php echo base_url(); ?>Clients');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -821,7 +821,7 @@
 				        	$('#edit_client').show();
 				        	$("#editclientname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>clients');
+        					window.location.replace('<?php echo base_url(); ?>Clients');
             			}
 	                },
 	                error: function(request, textStatus, error) {

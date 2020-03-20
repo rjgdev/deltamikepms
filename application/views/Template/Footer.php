@@ -31,8 +31,10 @@
 	    });
 		
 		var current = location.pathname;
+
 	    $('#sidebar-menu li a').each(function(){
 	        var $this = $(this);
+	        
 	        if($this.attr('href').indexOf(current) !== -1){
 	        	if($this.parent().prop('className')=="nav-item"){
 	        		$this.parent().addClass('active');
@@ -66,7 +68,8 @@
 		      e.preventDefault();
 		    }
 		});
-		 $(".withoutspace").keypress(function(e){
+		 
+		$(".withoutspace").keypress(function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 59) || (keyCode >= 97 && keyCode <= 122 ) || (keyCode >= 64 && keyCode <= 90 || (keyCode >= 33 && keyCode <= 47 ) )) &&  keyCode != 13) {
 		      e.preventDefault();
@@ -123,6 +126,13 @@
 		$(".accountnumber").keypress(function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ) && keyCode != 8 && keyCode != 45 && keyCode != 32 && keyCode != 13) {
+		      e.preventDefault();
+		    }
+		});
+
+		$(".accntnumberformat").keypress(function(e){
+		    var keyCode = e.which;
+		    if ( keyCode != 48 && keyCode != 8 && keyCode != 45 && keyCode != 32 && keyCode != 13) {
 		      e.preventDefault();
 		    }
 		});

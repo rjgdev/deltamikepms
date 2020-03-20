@@ -16,7 +16,10 @@
 	  		$data['module']=$this->roles->get_modules(1);
 
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Roles/Index",$data);
+
+			if(isAllowed(37)) $this->load->view("Roles/Index",$data);
+						 else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 

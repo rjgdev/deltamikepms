@@ -42,7 +42,7 @@
 						<tbody>
 						 	<?php foreach ($data['detachment'] as $item) { ?>    
 								<tr>
-									<td><?php echo $item->postID; ?></td>
+									<td><?php echo $item->pstID; ?></td>
 									<td>
 										<div class="dash-card-content">  
 											<p style="margin-left: 10px; color: black;"> <?php echo $item->postname; ?> <span style="color:#888;display: block; font-size: 11px;"> Guards Assigned: <?php echo $item->noofguard; ?> </span></p> 	
@@ -50,7 +50,7 @@
 									</td>
 									<td><?php echo $item->detachcity; ?></td>
 									<td><?php echo $item->clientname; ?></td>
-									<td><?php echo $item->firstname; ?> <?php echo $item->lastname; ?></td>
+									<td><?php echo $item->lastname; ?>, <?php echo $item->firstname; ?> </td>
 									<td><?php echo date("F d, Y",strtotime($item->startdate)) ?></td>
 									<td><?php echo date("F d, Y",strtotime($item->enddate)) ?></td>
 									<td >
@@ -168,7 +168,7 @@
 											<?php
 											foreach($data['employee'] as $detachment)
 											{
-											echo '<option value="'.$detachment->employeeID.'">'.$detachment->firstname.' '.$detachment->lastname.'</option>';
+											echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
 											}
 											?>  
 										</select>
@@ -294,7 +294,7 @@
 													<?php
 													foreach($data['employee'] as $detachment)
 													{
-													echo '<option value="'.$detachment->employeeID.'">'.$detachment->firstname.' '.$detachment->lastname.'</option>';
+													echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
 													}
 													?>  
 										</select>
@@ -717,7 +717,7 @@
 				        	$('#postname').addClass('is-invalid');
 				        	$("#postname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>detachments');
+        					window.location.replace('<?php echo base_url(); ?>Detachments');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -865,7 +865,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>posts');
+    					window.location.replace('<?php echo base_url(); ?>Posts');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -924,7 +924,7 @@
 				        	$('#add_designation').show();
 				        	$("#postname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>posts');
+        					window.location.replace('<?php echo base_url(); ?>Posts');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -973,7 +973,7 @@
 				        	$('#edit_detachment').show();
 				        	$("#editpostname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>posts');
+        					window.location.replace('<?php echo base_url(); ?>Posts');
             			}
 	                },
 	                error: function(request, textStatus, error) {

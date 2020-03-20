@@ -518,7 +518,7 @@ $("#addstarttime").change(function(){
 				        	$('#addovertimedate').addClass('is-invalid');
 				        	$('#add-overtime').addClass('invalid-feedback');
 						}else{
-        					window.location.replace('<?php echo base_url(); ?>overtime');
+        					window.location.replace('<?php echo base_url(); ?>Overtime');
             			}
 	                },
 	         		 error: function(request, textStatus, error) {
@@ -617,7 +617,7 @@ $("#addstarttime").change(function(){
 				        	$('#editovertimedate').addClass('is-invalid');
 				        	$('#edit-overtime').addClass('invalid-feedback');
 						}else{
-        					window.location.replace('<?php echo base_url(); ?>overtime');
+        					window.location.replace('<?php echo base_url(); ?>Overtime');
             			}
 	                },
 	         		 error: function(request, textStatus, error) {

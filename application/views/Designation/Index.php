@@ -413,7 +413,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>designations');
+    					window.location.replace('<?php echo base_url(); ?>Designations');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -445,7 +445,7 @@
 				        	$('#add_designation').show();
 				        	$("#designationdescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>designations');
+        					window.location.replace('<?php echo base_url(); ?>Designations');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -479,7 +479,7 @@
 				        	$('#edit_designation').show();
 				        	$("#editdesignationdescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>designations');
+        					window.location.replace('<?php echo base_url(); ?>Designations');
             			}
 	                },
 	                error: function(request, textStatus, error) {

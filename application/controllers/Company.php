@@ -13,7 +13,10 @@
 	  		$data = array('title' => 'Company Profile');
 	  		$data['data']=$this->company->get_all_company();
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Company/Index",$data);
+
+			if(isAllowed(36)) $this->load->view("Company/Index",$data);
+						 else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		}
 

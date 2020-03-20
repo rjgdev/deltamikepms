@@ -105,6 +105,33 @@ class Approval_model extends CI_Model
     		return 'false|This approval is currently in use and cannot be deleted.'; 
       }
     }
+
+    function check_isValid($moduleID)
+    {
+      if($moduleID=="7"){
+          $query = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingType=1 AND timekeepingstatus=1');
+      }else if($moduleID=="8"){
+          $query = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingType=2 AND timekeepingstatus=1');
+      }else if($moduleID=="10"){
+          $query = $this->db->query('SELECT * FROM dm_payroll     WHERE /*payrollType=2 AND*/ payrollstatus=1');
+      }else if($moduleID=="11"){
+          $query = $this->db->query('SELECT * FROM dm_payroll     WHERE /*payrollType=2 AND*/ payrollstatus=1');
+      }else if($moduleID=="16"){
+          $query = $this->db->query('SELECT * FROM dm_thrmonth    WHERE thrmonthstatus=1');
+      }else if($moduleID=="18"){
+          $query = $this->db->query('SELECT * FROM dm_retirement  WHERE retirementidstatus=1');
+      }
+
+      if($moduleID=="20"){
+        return "true";
+      }
+
+      if($query->num_rows() != 0){
+        return 'false'; 
+      }else{
+        return 'true';
+      }
+    }
 }
 ?>
 

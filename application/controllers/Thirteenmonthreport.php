@@ -12,7 +12,10 @@
 	  		$data = array('title' => '13th month report');
 	  		$data['data']=$this->Thirteenmonthreport->get_all_Thirteenmonthreport();
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Thirteenmonthreport/Index",$data);
+
+			if(isAllowed(17)) $this->load->view("Thirteenmonthreport/Index",$data);
+				         else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		}
 		public function get_client()

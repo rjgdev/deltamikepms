@@ -259,7 +259,7 @@ $(document).ready(function() {
 		var arrVal = [];
 
 		$.ajax({
-		      url : "<?php echo site_url('postscheduling/loadguard');?>",
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',
@@ -295,7 +295,7 @@ $(document).ready(function() {
 		var arrVal = [];
 
 		$.ajax({
-		      url : "<?php echo site_url('postscheduling/loadguard');?>",
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',
@@ -358,7 +358,7 @@ $(document).ready(function() {
 		var employeeID =$("#searchemployee" + postscheduleID + postID + scheduleDay).val();
 
 		$.ajax({
-			url 	 : "<?php echo site_url('postscheduling/saveguard');?>",
+			url 	 : "<?php echo site_url('Scheduling/saveguard');?>",
 			method : "POST",
 			async  : true,
 			data: {postID:postID,
@@ -388,7 +388,7 @@ $(document).ready(function() {
 		var employeeID =$("#searchaugment" + postscheduleID + postID + scheduleDay).val();
 
 		$.ajax({
-			url 	 : "<?php echo site_url('postscheduling/saveguard');?>",
+			url 	 : "<?php echo site_url('Scheduling/saveguard');?>",
 			method : "POST",
 			async  : true,
 			dataType : 'json',
@@ -421,7 +421,7 @@ $(document).ready(function() {
     	$(".loading").css("display","block");
 
     	$.ajax({
-		      url : "<?php echo site_url('postscheduling/searchbyclient');?>",
+		      url : "<?php echo site_url('Scheduling/searchbyclient');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',
@@ -501,7 +501,7 @@ $(document).ready(function() {
 		var arrVal = [];
 
 		$.ajax({
-		      url : "<?php echo site_url('postscheduling/loadguard');?>",
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',
@@ -528,7 +528,7 @@ $(document).ready(function() {
 		var arrVal = [];
 
 		$.ajax({
-		      url : "<?php echo site_url('postscheduling/loadguard');?>",
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',

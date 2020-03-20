@@ -15,8 +15,8 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(28)) $this->load->view("SSStable/Index",$data);
-						else $this->load->view("Denied/Index");
+			if(isAllowed(30)) $this->load->view("SSStable/Index",$data);
+						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
 		} 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Generatepayslip_model extends CI_Model
+class Summaryofdeduction_model extends CI_Model
 {
 	function __construct() 
 	{ 
@@ -37,74 +37,39 @@ class Generatepayslip_model extends CI_Model
   	function get_details($id, $payrolldetailsID)
 	{
 
-		$payslip = $this->db->query("
-	    	SELECT *, 
-	    	SUM(sssloan + hdmfloan + 
-	    		salaryloan + emergencyloan + 
-	    		trainingloan + otherloan) as loan,
-
-	    	SUM(spc + spcot + 
-	    		spcrst + spcrstot + 
-	    		rgl + rglot + 
-	    		rglrst + rglrstot + 
-	    		dbl + dblot + 
-	    		dblrst + dblrstot) as holidaypay,
-
-	    	SUM(ordnight + rstnight + 
-	    		spcnight + spcrstnight + 
-	    		rglnight + rglrstnight + 
-	    		dblnight + dblrstnight) as nightdiff,
-
-	    	SUM(ordot + rstot) as rglovertime,
-
-	    	SUM(otadjustment + 
-	    		nightdiffadjustment + 
-	    		lateadjustment + 
-	    		leaveadjustment) as adjustment,	
-
-	    	SUM(ordlate + rstlate + spclate + 
-	    		spcrstlate + rgllate + rglrstlate +
-	    		dbllate + dblrstlate) as lt,	
-
-	    	SUM(ord + rst + pd.incentive + pd.allowance +
-	    		ordnight + rstnight + spcnight + 
-	    		spcrstnight + rglnight + rglrstnight + 
-	    		dblnight + dblrstnight + spc + 
-	    		spcot + spcrst + spcrstot + 
-	    		rgl + rglot + rglrst + 
-	    		rglrstot + dbl + dblot + 
-	    		dblrst + dblrstot + ordot + 
-	    		rstot + otadjustment + nightdiffadjustment + 
-	    		lateadjustment + leaveadjustment)  as earnings,
-
-	    	SUM(absent + ordlate + rstlate + 
-	    		spclate + spcrstlate + rgllate + 
-	    		rglrstlate + dbllate + dblrstlate + 
-	    		wtax + sss_ee + phic_ee + 
-	    		hdmf_ee + sssloan + hdmfloan + 
-	    		salaryloan + emergencyloan + trainingloan +
-	    		otherloan)  as deductions,
-
-	    	SUM(netpay - ordlate - rstlate -
-	    		spcrstlate - rgllate - rglrstlate -
-	    		spclate - dbllate - dblrstlate) as ntpay,
-
+		$report = $this->db->query("
+	    	SELECT *,
+	    	SUM(sss_ee + phic_ee + hdmf_ee + sssloan + hdmfloan + salaryloan + emergencyloan + trainingloan + otherloan) as total,
 	    	pd.dailyrate as drate,
 	    	pd.payrolldetailsID as pdID,
-	    	pd.employeeID as empID
+	    	pd.employeeID as empID,
+	    	dep.description as des
 	    	FROM dm_payrolldetails as pd 
 	    	LEFT JOIN dm_employee as emp
 	    	ON pd.employeeID=emp.employeeID 
 	    	LEFT JOIN dm_client as client
 	    	ON emp.clientID=client.clientID
+	    	LEFT JOIN dm_post as post
+	    	ON emp.postID=post.postID
 	    	LEFT JOIN dm_payslipstatus as ps
 	    	ON pd.payrolldetailsID=ps.payrolldetailsID
+	    	LEFT JOIN dm_department as dep
+	    	ON emp.departmentID=dep.departmentID
+	    	LEFT JOIN dm_designation as des
+	    	ON emp.designationID=des.designationID
 	    	WHERE pd.employeeID=$id AND pd.payrolldetailsID =$payrolldetailsID"
 		);
 
-	    $result1 = $payslip->result();
+		$company = $this->db->query("
+	    	SELECT * 
+	    	FROM dm_company"
+		);
+
+	    $result1 = $report->result();
+	    $result2 = $company->result();
 	          return array(
-	          	'payslip' => $result1
+	          	'report' => $result1,
+	          	'company' => $result2
 	          );
   	}
 

@@ -472,7 +472,7 @@ $(document).ready(function() {
 					        	$('#edit-company').addClass('invalid-feedback');
 					        	$("#editcompany").focus();
 					}else{
-								window.location.replace('<?php echo base_url(); ?>company');
+								window.location.replace('<?php echo base_url(); ?>Company');
 
 					}
 				},	

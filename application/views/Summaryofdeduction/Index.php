@@ -14,10 +14,10 @@
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">Generate Payslip</h3>
+								<h3 class="page-title">Summary of Deductions</h3>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-									<li class="breadcrumb-item active">Generate Payslip</li>
+									<li class="breadcrumb-item active">Summary of Deductions</li>
 								</ul>
 							</div>
 						</div>
@@ -92,7 +92,6 @@
 											<th style="width: 80px ! important;">Employee ID</th>
 											<th style="width: 350px ! important;">Employee</th>
 											<th style="width: 200px ! important;">Employee Type</th>
-											<th style="width: 100px ! important;">Status</th>
 											<th class="text-right">Action</th>
 										</tr>
 									</thead>
@@ -121,7 +120,7 @@
 			if(id=="Select Pay Period") id = "";
 
 			$.ajax({
-                url : "<?php echo site_url('generatepayslip');?>",
+                url : "<?php echo site_url('summaryofdeductions');?>",
                 method : "POST",
                 data : {id : id,
                 		type : type,
@@ -141,13 +140,6 @@
 
 		            for (var i=0; i < data.length; i++)
 		            {
-		        		if(data[i].payslipstatus=="1"){
-		        			varStatus = '<span class="badge bg-inverse-success custom-status">Accepted</span>';
-		    			}else if(data[i].employeetypeID=="2"){
-		    				varStatus = '<span class="badge bg-inverse-success custom-status">Accepted</span>';
-		    			}else{
-		        			varStatus = '<span class="badge bg-inverse-danger custom-status">Pending</span>';
-		    			}
 
 		    			if(data[i].photo==""){
 		        			varPhoto = '<img alt="" src="uploads/profileimg.png"></a>';
@@ -160,11 +152,10 @@
 		                		'<div class="dash-card-content">' +
 		                			'<a class="avatar" style="margin: 0 0px 0 0;">'
 			                		+ varPhoto + 
-			                		'<p style="margin-left: 10px; color: black;">' + data[i].lastname + ', ' + data[i].firstname + '<span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
+			                		'<p style="margin-left: 10px; color: black;">' + data[i].firstname + ' ' + data[i].lastname + '<span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
 								'</div>',
 		                		data[i].employeeTypeDescription,
-		                		'<td>' + varStatus + '</td>',
-		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>generatepayslip/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Payslip</a></td>'
+		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>summaryofdeductions/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Report</a></td>'
 		                		]);
 		            }
 		 
@@ -180,7 +171,7 @@
 	$('#search-client').change(function(){
 			var id=$(this).val();
 			$.ajax({
-				url : "<?php echo site_url('Generatepayslip/get_client');?>",
+				url : "<?php echo site_url('summaryofdeductions/get_client');?>",
 				method : "POST",
 				data : {id: id},
 				async : true,

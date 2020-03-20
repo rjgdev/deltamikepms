@@ -53,7 +53,7 @@
 										'<div class="dash-card-container">'.
 											'<div class="e-avatar">'.$img.'</div>'. 
 											'<div class="dash-card-content">'. 
-												'<p style="margin-left: 10px; color: black;">'.$item->firstname." ".$item->lastname.'<span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | '.$item->designationdescription.'</span></p>'. 	
+												'<p style="margin-left: 10px; color: black;">'.$item->lastname.", ".$item->firstname.'<span style="color:#888;display: block; font-size: 11px;">'.$item->description.' | '.$item->designationdescription.'</span></p>'. 	
 										'</div>'.
 										'<div class="dash-card-avatars">'.
 												'LEVEL '.$item->approvalLevel.
@@ -179,7 +179,7 @@ $(document).ready(function() {
 									'<div class="dash-card-container">' +
 										'<div class="e-avatar">' + img + '</div>' + 
 										'<div class="dash-card-content">' + 
-											'<p style="margin-left: 10px; color: black;">' + data[i].firstname + " " + data[i].lastname  + '<span style="color:#888;display: block; font-size: 11px;">' + data[i].description + ' | ' + data[i].designationdescription + '</span></p>' + 	
+											'<p style="margin-left: 10px; color: black;">' + data[i].lastname + ", " + data[i].firstname  + '<span style="color:#888;display: block; font-size: 11px;">' + data[i].description + ' | ' + data[i].designationdescription + '</span></p>' + 	
 										'</div>' + 
 										'<div class="dash-card-avatars">' +
 												'LEVEL ' + data[i].approvalLevel +
@@ -242,7 +242,7 @@ $(document).ready(function() {
 		            	'<option value="">No Selected</option>';
 							for (var i=0; i<data.length; i++) {
 
-							  	select += '<option value="' + data[i].employeeID + '">' + data[i].firstname + ' ' + data[i].lastname + "</option>";
+							  	select += '<option value="' + data[i].employeeID + '">' +  data[i].employeeID.padStart(6,'0') + " - " + data[i].lastname + ', ' + data[i].firstname + "</option>";
 					  		}
   			select +=  '</select>';
 
@@ -293,7 +293,7 @@ $(document).ready(function() {
 
 								if(data["approvaldet"][x].employeeID==data["employee"][i].employeeID) selected = "selected";
 
-							  	select += '<option value="' + data["employee"][i].employeeID + '"'+ selected + '>' + data["employee"][i].firstname + ' ' + data["employee"][i].lastname + "</option>";
+							  	select += '<option value="' + data["employee"][i].employeeID + '"'+ selected + '>' + data["employee"][i].employeeID.padStart(6,'0') + " - " + data["employee"][i].lastname + ', ' + data["employee"][i].firstname + "</option>";
 					  		}
   			select +=  '</select>';
 
@@ -342,28 +342,57 @@ $(document).ready(function() {
 
 		employeeID = [];
 		var err = "";
+		var empID = "";
+		var moduleID = $(this).attr("id");
 
 		$("#table_approval .classEmployee").each(function(){
+			empID = $(this).val();
+
 			if($(this).val()=="") {
 				$("#" + $(this).attr("id")).focus();
 				err = "error";
 				showErrorToast('Cannot update, please select a valid employee!');
 				return false;
 			}
+
+			if(employeeID.indexOf($(this).val())!=-1){
+				$("#" + $(this).attr("id")).focus();
+				err = "error";
+				showErrorToast('Cannot update, duplicate employee!');
+				return false;
+			}
+
 			employeeID.push($(this).val());
 		});
 
-		if(err!="") return false;
+		$.ajax({
+           url : "<?php echo site_url('approval/isValid');?>",
+            method : "POST",
+            data : { moduleID:moduleID},
+            dataType : 'json',
+            success: function(data){
+            	if(data=="false"){
+					showErrorToast('Cannot update, there is a pending application!');
+					return false;
+            	}else{
+					if(err!="") return false;
 
-   		$('#modal_confirmation .confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg");
-		$('#modal_confirmation #modal_title').html("Confirmation message");
-    	$('#modal_confirmation #modal_message').html("Are you sure you want to update this approval?");
-    	$('#modal_confirmation .submit-btn').html("Update Approval");
-    	$('#modal_confirmation .cancel-btn').html("Cancel");
-		$('#modal_confirmation .submit-btn').attr("id","modal_approver");
-        $('#update_approver').hide();
-        $('#modal_confirmation').modal('show');
-		return false;
+			   		$('#modal_confirmation .confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg");
+					$('#modal_confirmation #modal_title').html("Confirmation message");
+			    	$('#modal_confirmation #modal_message').html("Are you sure you want to update this approval?");
+			    	$('#modal_confirmation .submit-btn').html("Update Approval");
+			    	$('#modal_confirmation .cancel-btn').html("Cancel");
+					$('#modal_confirmation .submit-btn').attr("id","modal_approver");
+			        $('#update_approver').hide();
+			        $('#modal_confirmation').modal('show');
+					return false;
+            	}
+            },
+            error: function(request, textStatus, error) {
+
+        	}
+        }); 
+        return false;
 	});
 
 	$(document).on("click", '.cancel-btn', function () {

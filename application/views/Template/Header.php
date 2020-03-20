@@ -99,7 +99,6 @@
 				<!-- /Mobile Menu -->
 				
             </div>
-            <div class="ajax_loading"><p></p></div>
 			<!-- /Header -->
 			
 			<?php $this->view('Template/Sidebar'); ?>

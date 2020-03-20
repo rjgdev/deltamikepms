@@ -13,7 +13,10 @@
 	  		$data = array('title' => 'Loans');
 	  		$data['data']=$this->loan->get_all_loan();
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Loan/Index",$data);
+
+			if(isAllowed(6)) $this->load->view("Loan/Index",$data);
+						else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 	   public function save()

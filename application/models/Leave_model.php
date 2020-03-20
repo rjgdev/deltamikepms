@@ -9,15 +9,15 @@ class Leave_model extends CI_Model
 
 	function get_all_leave()
 	{
-		$dataemployee = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
+		$dataemployee = $this->db->query("SELECT employeeID, CONCAT('00000','',employeeID, ' - ',lastname,', ',firstname, ' ', middlename) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
 		$dataleave = $this->db->query('SELECT * FROM dm_leavetype WHERE leavetypestatus = "Active"');
 		$employeerecord = $this->db->query("
 							SELECT 
 							*
 							FROM
 							(
-							SELECT  el.leavetypeID,el.employeeID,photo, totalleave as remainingleave,  el.employeeleaveID, lt.leavetypename, concat(e.firstname, ' ', e.middlename,' ',lastname) as fullname,
-							el.leavefrom,el.leaveto,numberofdays,reason,d.description as department,dsg.designationdescription
+							SELECT  el.leavetypeID,el.employeeID,photo, totalleave as remainingleave,  el.employeeleaveID, lt.leavetypename, concat(e.lastname, ', ', e.firstname,' ',middlename) as fullname,
+							el.leavefrom, el.leaveto,numberofdays,reason,d.description as department,dsg.designationdescription, el.noted
 							FROM dm_employeeleave AS el
 							LEFT JOIN dm_leavetype AS lt ON el.leavetypeID = lt.leavetypeID
 							LEFT JOIN dm_employee as e ON el.employeeID = e.employeeID
@@ -75,7 +75,7 @@ class Leave_model extends CI_Model
 	            $this->db->update("dm_employeecreditleave", $updatedtotal);
 	            $this->db->where('employeeleaveID',$id);  
 	            $this->db->update("dm_employeeleave", $data);    
-			return 'true|  leave successfully created!';
+			return 'true|  leave successfully updated!';
 		}else{	
 			return 'false|The employee has an existing leave on this day';
 			
@@ -93,5 +93,17 @@ class Leave_model extends CI_Model
 		WHERE ecl.employeeID = '.$employeeID.'
 		)a');
 		return $query->result();
+	}
+	function get_noted($id,$noted)
+	{
+
+		$data = array(
+				'employeeleaveID' => $id,
+				'noted' => $noted
+			 );
+			$this->db->where("employeeleaveID", $id);  
+            $this->db->update("dm_employeeleave", $data);  
+            return 'leave note successfully created!';  
+
 	}
 }

@@ -103,7 +103,7 @@
 						</div>
 						<div class="form-group">
 							<label>Account Number Format <span class="text-danger">*</span></label>
-							<input class="form-control accountnumber" type="text" id="acctnoformat">
+							<input class="form-control accntnumberformat" type="text" id="acctnoformat">
 							<div class="invalid-feedback" id="add-acctnoformat"></div>
 						</div>
 						<div class="submit-section">
@@ -135,7 +135,7 @@
 						</div>
 						<div class="form-group">
 							<label>Account Number Format <span class="text-danger">*</span></label>
-							<input class="form-control accountnumber" type="text" id="editacctnoformat">
+							<input class="form-control accntnumberformat" type="text" id="editacctnoformat">
 							<div class="invalid-feedback" id="edit-acctnoformat"></div>
 						</div>
 						<div class="submit-section">
@@ -403,7 +403,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>banks');
+    					window.location.replace('<?php echo base_url(); ?>Banks');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -433,7 +433,7 @@
 				        	$('#add_bank').show();
 				        	$("#bankname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>banks');
+        					window.location.replace('<?php echo base_url(); ?>Banks');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -462,10 +462,10 @@
 							document.getElementById("edit-bankname").innerHTML = result[1];
 				        	$('#editbankname').addClass('is-invalid');
 							$('#confirmation_edit').modal('hide');
-				        	$('#edit_department').show();
+				        	$('#edit_bank').show();
 				        	$("#editbankname").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>banks');
+        					window.location.replace('<?php echo base_url(); ?>Banks');
             			}
 	                },
 	                error: function(request, textStatus, error) {

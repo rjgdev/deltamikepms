@@ -13,8 +13,8 @@
        		$data['data']=$this->hdmfreport->get_all();
 	  		
 			$this->load->view('Template/Header',$data);
-			if(isAllowed(22)) $this->load->view("Hdmfreport/Index",$data);
-						else $this->load->view("Denied/Index");
+			if(isAllowed(24)) $this->load->view("Hdmfreport/Index",$data);
+						 else $this->load->view("Denied/Index");
 			$this->load->view('Template/Footer',$data);
 		}
 

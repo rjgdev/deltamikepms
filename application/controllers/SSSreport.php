@@ -13,8 +13,8 @@
        		$data['data']=$this->sssreport->get_all();
 
 			$this->load->view('Template/Header',$data);
-			if(isAllowed(21)) $this->load->view("SSSreport/Index",$data);
-						else $this->load->view("Denied/Index");
+			if(isAllowed(23)) $this->load->view("SSSreport/Index",$data);
+						 else $this->load->view("Denied/Index");
 			$this->load->view('Template/Footer',$data);
 		}
 

@@ -280,7 +280,7 @@
 				        	$('#addrole').addClass('is-invalid');
 				        	$("#addrole").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>roles');
+        					window.location.replace('<?php echo base_url(); ?>Roles');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -315,7 +315,7 @@
     					$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-						window.location.replace('<?php echo base_url(); ?>roles');
+						window.location.replace('<?php echo base_url(); ?>Roles');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -370,7 +370,7 @@
 				        	$('#editdescription').addClass('is-invalid');
 				        	$("#editdescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>roles');
+        					window.location.replace('<?php echo base_url(); ?>Roles');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -470,7 +470,7 @@
 				        	$('#add_role').show();
 				        	$("#addrole").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>roles');
+        					window.location.replace('<?php echo base_url(); ?>Roles');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -500,7 +500,7 @@
 				        	$('#edit_role').show();
 				        	$("#editdescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>roles');
+        					window.location.replace('<?php echo base_url(); ?>Roles');
             			}
 	                },
 	                error: function(request, textStatus, error) {

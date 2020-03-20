@@ -355,7 +355,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>leavetype');
+    					window.location.replace('<?php echo base_url(); ?>Leavetype');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -384,7 +384,7 @@
 				        	$('#add_leavetype').show();
 				        	$("#leavetypename").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>leavetype');
+        					window.location.replace('<?php echo base_url(); ?>Leavetype');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -414,7 +414,7 @@
 				        	$('#edit_leavetype').show();
 				        	$("#editleavetypename").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>leavetype');
+        					window.location.replace('<?php echo base_url(); ?>Leavetype');
             			}
 	                },
 	                error: function(request, textStatus, error) {

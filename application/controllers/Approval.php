@@ -16,7 +16,10 @@
 	  		$data['approval']=$this->approval->get_approver(7);
 
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Approval/Index",$data);
+
+			if(isAllowed(38)) $this->load->view("Approval/Index",$data);
+						 else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 
@@ -74,6 +77,14 @@
                 $this->session->set_flashdata('successapproval', $retval[1]); 
             }   
 	    	echo json_encode($data);  
+		} 
+
+		public function isValid() 
+		{ 
+       		$moduleID = $this->input->post('moduleID');
+
+       		$data=$this->approval->check_isValid($moduleID);
+	    	echo json_encode($data); 
 		} 
 	}     
 ?>

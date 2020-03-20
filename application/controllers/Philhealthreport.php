@@ -13,8 +13,10 @@
        		$data['data']=$this->philhealthreport->get_all();
 	  		
 			$this->load->view('Template/Header',$data);
-			if(isAllowed(20)) $this->load->view("Philhealthreport/Index",$data);
-						else $this->load->view("Denied/Index");
+			
+			if(isAllowed(22)) $this->load->view("Philhealthreport/Index",$data);
+						 else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		}
 

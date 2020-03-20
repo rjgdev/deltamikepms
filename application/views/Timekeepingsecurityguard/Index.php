@@ -946,7 +946,7 @@ $(document).ready(function() {
              processData:false,          // To send DOMDocument or non processed data file it is set to false  
              dataType : 'json',
              success: function(data){  
-             	window.location.replace('<?php echo base_url(); ?>timekeepingsecurityguard');
+             	window.location.replace('<?php echo base_url(); ?>Timekeepingsecurityguard');
              },
              error: function(request, textStatus, error) {
 

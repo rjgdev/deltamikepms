@@ -346,7 +346,7 @@
         				$("#status-invalid").css("display","block");
 						document.getElementById("status-invalid").innerHTML = result[1];
         			}else{
-    					window.location.replace('<?php echo base_url(); ?>departments');
+    					window.location.replace('<?php echo base_url(); ?>Departments');
         			}
                 },
                 error: function(request, textStatus, error) {
@@ -374,7 +374,7 @@
 				        	$('#add_department').show();
 				        	$("#adddescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>departments');
+        					window.location.replace('<?php echo base_url(); ?>Departments');
             			}
 	                },
 	                error: function(request, textStatus, error) {
@@ -404,7 +404,7 @@
 				        	$('#edit_department').show();
 				        	$("#editdescription").focus(); 
             			}else{
-        					window.location.replace('<?php echo base_url(); ?>departments');
+        					window.location.replace('<?php echo base_url(); ?>Departments');
             			}
 	                },
 	                error: function(request, textStatus, error) {

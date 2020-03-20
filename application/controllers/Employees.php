@@ -13,7 +13,10 @@
   		$data = array('title' => 'All Employees');
   		$data['data']=$this->employee->get_all_employee();
 		$this->load->view('Template/Header',$data);
-		$this->load->view("Employees/Index",$data);
+
+		if(isAllowed(3)) $this->load->view("Employees/Index",$data);
+					else $this->load->view("Denied/Index");
+
 		$this->load->view('Template/Footer',$data);
 	}
 
