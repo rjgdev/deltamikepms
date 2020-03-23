@@ -62,7 +62,7 @@ class Roles_model extends CI_Model
 			$last_id = $this->db->insert_id();
 
 			$record =array();
-			for($i=1; $i<=38; $i++) {
+			for($i=1; $i<=39; $i++) {
 
 				$record[$i] = array('roleID' 		=> $last_id,
 						  			'moduleID' 		=> $i);
