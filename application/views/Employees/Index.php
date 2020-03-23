@@ -1365,7 +1365,6 @@ var restdayid =[];
           document.getElementById("addbackaccountnumber").placeholder =acctnumber;
           $("#addbackaccountnumber").attr('maxlength',countnumber);
           $('#addbackaccountnumber').mask(acctnumber);
-          /*console.log(countnumber);*/
         }
       }
     });
@@ -1393,7 +1392,6 @@ var restdayid =[];
           document.getElementById("editbackaccountnumber").placeholder =acctnumber;     
           $("#editbackaccountnumber").attr('maxlength',countnumber);
           $('#editbackaccountnumber').mask(acctnumber);
-          /*console.log(acctnumber);*/
         }
       }
     });
@@ -1997,7 +1995,6 @@ var restdayid =[];
       var basicwithoutperiod = secondcommabasic.replace(".","");
       var basicinteger = parseInt(basicwithoutperiod,15);
       var dailyinteger = parseInt(dailyratewithoutperiod,15);
-      /*console.log(basicinteger + " "  + dailyinteger);*/
 
      var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                    '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',

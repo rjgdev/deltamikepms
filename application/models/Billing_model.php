@@ -126,7 +126,7 @@ class Billing_model extends CI_Model
 
 					return $query->result();
 					//print_r($this->db->last_query());  
-					//exit;
+  					//exit;
 	}
 	function Billingclientrecord($payrollID, $client, $post)
 	{

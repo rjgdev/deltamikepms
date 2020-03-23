@@ -389,11 +389,9 @@ $("#addstarttime").change(function(){
 		if(starttimevalidation <= endtimevalidation){
 		if(valuestart <= valuesend) {
 			let difference = valuesend.subtract(valuestart);
-			console.log(difference.hours() + ":" + difference.minutes())
 			var diff = (difference.hours() + ":" + difference.minutes());
 		}else{
 			let difference = valuestart.subtract(valuesend);
-			console.log(difference.hours() + ":" + difference.minutes())
 			var diff = (difference.hours() + ":" + difference.minutes())
 		}
 		}
@@ -424,12 +422,10 @@ $("#addstarttime").change(function(){
 		if(starttimevalidation <= endtimevalidation){
 		if(editvaluestart <= editvaluesend) {
 			let difference = editvaluesend.subtract(editvaluestart);
-			console.log(difference.hours() + ":" + difference.minutes())
 			var diff = (difference.hours() + ":" + difference.minutes());
 		
 		}else{
 			let difference = editvaluestart.subtract(editvaluesend);
-			console.log(difference.hours() + ":" + difference.minutes())
 			var diff = (difference.hours() + ":" + difference.minutes())
 		
 		}

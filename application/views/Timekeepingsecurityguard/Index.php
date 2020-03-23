@@ -669,6 +669,7 @@ $(document).ready(function() {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/approve.svg");
 		$('#modal_title').html("Approve Timekeeping");
     	$('#modal_message').html("Are you sure you want to approve the timekeeping?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Approve timekeeping");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_approvetimekeeping");
@@ -680,6 +681,9 @@ $(document).ready(function() {
     $(document).on("click", "#modal_approvetimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
     	var lastapprover  = $('#cutoff').attr('lastapprover');
+
+    	$('.submit-btn').attr("disabled","disabled");
+		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
 		      url : "<?php echo site_url('timekeepingsecurityguard/approve');?>",
@@ -736,6 +740,7 @@ $(document).ready(function() {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
 		$('#modal_title').html("Deny Timekeeping");
     	$('#modal_message').html("Are you sure you want to deny the timekeeping?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Deny timekeeping");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_denytimekeeping");
@@ -762,6 +767,9 @@ $(document).ready(function() {
 		      		  reason:reason},
 		      async : true,
 		      success: function(data){
+		      	$('.submit-btn').attr("disabled","disabled");
+				$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
 		      	var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + timekeepingID + "'>DENIED</a>";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
@@ -788,6 +796,7 @@ $(document).ready(function() {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
 		$('#modal_title').html("Submit Timekeeping");
     	$('#modal_message').html("Are you sure you want to submit the timekeeping?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Submit timekeeping");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_submittimekeeping");
@@ -812,6 +821,8 @@ $(document).ready(function() {
 		      	var htmlButton	 = "-----";
 
 		      	if(data["timekeeping"]!=0){
+		      		$('.submit-btn').attr("disabled","disabled");
+					$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 		      		for(var i=0; i<data["timekeeping"].length; i++){
 			      		var status = "-----";
 
@@ -855,6 +866,7 @@ $(document).ready(function() {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
 		$('#modal_title').html("Cancel Request");
     	$('#modal_message').html("Are you sure you want to cancel the timekeeping request?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Cancel timekeeping");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_canceltimekeeping");
@@ -866,6 +878,9 @@ $(document).ready(function() {
 	$(document).on("click", "#modal_canceltimekeeping", function(){
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
 
+    	$('.submit-btn').attr("disabled","disabled");
+		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+		      		
     	$.ajax({
 		      url : "<?php echo site_url('timekeepingsecurityguard/cancel');?>",
 		      method : "POST",
@@ -905,6 +920,7 @@ $(document).ready(function() {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
 		$('#modal_title').html("Upload Timekeeping");
     	$('#modal_message').html("Are you sure you want to upload the timekeeping?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Upload timekeeping");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_uploadtimekeeping");

@@ -67,7 +67,7 @@
 											<a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
 											<div class="dropdown-menu dropdown-menu-right">
 												<a class="dropdown-item editdetachment" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
-													id="<?php echo $item->postID; ?>" 
+													id="<?php echo $item->pstID; ?>" 
 													data-toggle="modal" 
 													data-target="#edit_detachment" 
 													data-postname="<?php echo $item->postname; ?>"
@@ -86,7 +86,7 @@
 												<a class="dropdown-item changestatus" data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" href="#" 
 													data-toggle="modal" 
 													data-target="#status_detachment" 
-													data-id="<?php echo $item->postID; ?>" 
+													data-id="<?php echo $item->pstID; ?>" 
 													data-status="<?php echo ($item->poststatus=='Active') ? 'Inactive' : 'Active' ?>" 
 													data-postname="<?php echo $item->postname; ?>">
 												<i class="fa fa-toggle-on m-r-5"></i> Change Status</a>
@@ -235,7 +235,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit Detachment Post</h5>
+					<h5 class="modal-title">Edit Post</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

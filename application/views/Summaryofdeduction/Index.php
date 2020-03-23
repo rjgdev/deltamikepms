@@ -152,7 +152,7 @@
 		                		'<div class="dash-card-content">' +
 		                			'<a class="avatar" style="margin: 0 0px 0 0;">'
 			                		+ varPhoto + 
-			                		'<p style="margin-left: 10px; color: black;">' + data[i].firstname + ' ' + data[i].lastname + '<span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
+			                		'<p style="margin-left: 10px; color: black;">' + data[i].lastname + ', ' + data[i].firstname + ' <span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
 								'</div>',
 		                		data[i].employeeTypeDescription,
 		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>summaryofdeductions/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Report</a></td>'
@@ -163,7 +163,7 @@
 		            table.fnDraw();
                 },
                 error: function(request, textStatus, error) {
-                		alert(request + ":" + textStatus + ":" + error);
+                		/*alert(request + ":" + textStatus + ":" + error);*/
             	}
             });
 		});

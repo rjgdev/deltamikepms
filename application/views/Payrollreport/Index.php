@@ -147,8 +147,7 @@ td[rowspan]:not([rowspan="2"]) {
 
 	$("#searchclient").change(function(){
 			var id=$(this).val();
-			alert(id);
-			console.log(id);
+			
 			$.ajax({
 				url : "<?php echo site_url('Payrollreport/get_client');?>",
 				method : "POST",
@@ -253,7 +252,6 @@ td[rowspan]:not([rowspan="2"]) {
                     for(i=0; i<response.length; i++){
                     	if(parseInt(response[i].basicpay))
                     	 	 basic += parseFloat(response[i].basicpay);
-                    	 	console.log(response[i].basicpay);
                     	 if(parseInt(response[i].totalovertime))
                     	 	 overtime += parseFloat(response[i].totalovertime);
                     	if(parseInt(response[i].totalnightdiff))

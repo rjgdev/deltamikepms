@@ -21,7 +21,7 @@ class Retirementreport_model extends CI_Model
 			}
 		$query = $this->db->query("SELECT 
 									employeeID
-									, concat(firstname,' ',middlename,' ',lastname) as employeename 
+									, concat('00000','',employeeID, ' - ',lastname,', ',firstname, ' ', middlename) as employeename 
 									FROM dm_employee WHERE employeeID IN(".$employeeID.")");
 		  return $query->result();
 

@@ -83,7 +83,7 @@ INSERT INTO `dm_rolemodule` (`ID`, `roleID`, `moduleID`, `modulestatus`) VALUES
 (36, 1, 36, 1),
 (37, 1, 37, 1),
 (38, 1, 38, 1),
-(39, 1, 38, 1),
+(39, 1, 39, 1),
 (NULL, 2, 1, 1),
 (NULL, 2, 2, 1),
 (NULL, 2, 3, 1),

@@ -326,7 +326,6 @@
                     	 if(parseInt(response[i].thrmonth))
                     	 	 totalthrmonth += parseInt(response[i].thrmonth);	
                     	 	 var datefrom = response[i].employeeID;
-                    	 	 console.log(datefrom);	
                    
                      html += '<tr>'+
 	                        '<td>'+response[i].employeeID.padStart(6,'0')+'</td>'+

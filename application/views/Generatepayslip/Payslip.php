@@ -224,7 +224,7 @@
 	                async : true,
 	                dataType : 'json',
 	                success: function(data){
-        					window.location.replace('<?php echo base_url(); ?>Generatepayslip');
+        					window.location.replace('<?php echo base_url(); ?>generatepayslip');
             			},
 	                error: function(request, textStatus, error) {
 

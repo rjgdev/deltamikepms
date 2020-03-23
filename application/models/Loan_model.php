@@ -92,9 +92,8 @@ class Loan_model extends CI_Model
                              FROM  dm_loandeduction AS ld
                              LEFT JOIN dm_employee as emp ON ld.employeeID = emp.employeeID WHERE loanID = ".$id." GROUP BY loanID ORDER BY loanID");
     return $query->result();
-    //print_r($query->result());
-    //exit;
-    
+     //print_r($query->result());
+     //exit;    
 
     }
 

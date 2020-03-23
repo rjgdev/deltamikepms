@@ -697,6 +697,9 @@ $(document).ready(function() {
 	$(document).on("click", "#modal_submitpayroll", function(){
     	var payrollID = $('#payrollno').attr('payrollid');
 
+    	$(this).attr("disabled","disabled");
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
     	$.ajax({
 		      url : "<?php echo site_url('payroll/submit');?>",
 		      method : "POST",
@@ -763,6 +766,9 @@ $(document).ready(function() {
 	$(document).on("click", "#modal_cancelpayroll", function(){
     	var payrollID = $('#payrollno').attr('payrollid');
 
+    	$(this).attr("disabled","disabled");
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
     	$.ajax({
 		      url : "<?php echo site_url('payroll/cancel');?>",
 		      method : "POST",
@@ -793,6 +799,7 @@ $(document).ready(function() {
 		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/approve.svg");
 		$('#modal_title').html("Approve Payroll");
     	$('#modal_message').html("Are you sure you want to approve the payroll?");
+    	$('.submit-btn').attr("disabled",false);
     	$('.submit-btn').html("Approve payroll");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_approvepayroll");
@@ -805,6 +812,9 @@ $(document).ready(function() {
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
     	var lastapprover = $('#payrollno').attr('lastapprover');
     	var dateto = $('#payrollno').attr('loandate');
+
+    	$(this).attr("disabled","disabled");
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
 		      url : "<?php echo site_url('payroll/approve');?>",
@@ -868,6 +878,9 @@ $(document).ready(function() {
 
 	$(document).on("click", "#modal_denypayroll", function(){
     	var payrollID = $('#payrollno').attr('payrollid');
+
+    	$(this).attr("disabled","disabled");
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
 		      url : "<?php echo site_url('payroll/deny');?>",
@@ -950,6 +963,9 @@ $(document).ready(function() {
 	});
 
 	$(document).on("click", "#modal_saveadjustment", function(){
+		$(this).attr("disabled","disabled");
+		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+				
 		var otadjustment		= $("#otadjustment").val().trim().replace(",","").replace(" ","");
 		var nightdiffadjustment = $("#nightdiffadjustment").val().trim().replace(",","").replace(" ","");
 		var lateadjustment 		= $("#lateadjustment").val().trim().replace(",","").replace(" ","");

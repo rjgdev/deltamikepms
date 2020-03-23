@@ -491,7 +491,6 @@
               var i;
                /*html += '<option value="0">No Selected</option>';*/
               for(i=0; i<data.length; i++){
-              	/*console.log(data[i]);*/
                 if($("#hiddeneditleaveID").val()==data[i].leavetypeID){
                   	html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
                 }else{
@@ -549,7 +548,6 @@
 				    var len 			= 	response.length;
 				     for(var i=0; i<len; i++){
 				    var remainingleave  = 	response[i].remainingleave;
-				 /*   console.log(remainingleave);*/
 				$('#addremainingleave').val(remainingleave);
 				}
 			}
@@ -584,7 +582,7 @@
 	$('#editfrom').on("dp.change", function() {
 		var datefrom = 	$(this).val(); 
 		var dateto 	 = 	$("#editto").val().trim();
-		console.log(datefrom);
+		
 		if(datefrom!="") editcomputedate(datefrom, dateto);
 
 	});	

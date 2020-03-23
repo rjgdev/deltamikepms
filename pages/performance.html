@@ -1742,7 +1742,7 @@
 		$(function () {
 			$(document).on("click", '.btn-add-row', function () {
 				var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
-				console.log(id);
+				
 				var div = $("<tr />");
 				div.html(GetDynamicTextBox(id));
 				$("#"+id+"_tbody").append(div);

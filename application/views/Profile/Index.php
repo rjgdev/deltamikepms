@@ -38,12 +38,10 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="profile-info">
-											<h3 class="user-name m-t-0 mb-0"><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></h3>
-											<h6 class="text-muted"><?php echo $this->session->userdata('designationdescription'); ?></h6>
-											<h5 class="text-muted"><?php echo $this->session->userdata('description'); ?></h5>
-											
+											<h3 class="user-name m-t-0 mb-1"><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></h3>
+											<h6 class="text-muted mb-0"><?php echo $this->session->userdata('designationdescription'); ?> | <?php echo $this->session->userdata('description'); ?></h6>
 											<div class="staff-id">Employee ID : <?php echo str_pad($this->session->userdata('employeeID'), 6, "0", STR_PAD_LEFT); ?></div>
-											<div class="small doj text-muted">Date of Join : <?php echo date("F d, Y",strtotime($this->session->userdata('hireddate'))); ?></div>
+											<div class="medium doj text-muted">Date of Join : <?php echo date("F d, Y",strtotime($this->session->userdata('hireddate'))); ?></div>
 											<!-- <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div> -->
 										</div>
 									</div>
@@ -61,23 +59,26 @@
 					<div class="col-md-12">
 						<section>
 							<h5 class="dash-title">Remaining Leaves</h5>
-							<!-- <div class="card">
-								<div class="card-body"> -->
-									<div class="time-list">
-										<div class="dash-stats-list">
-											<h4>4.5</h4>
-											<p>Leave Taken</p>
-										</div>
-										<div class="dash-stats-list">
-											<h4>12</h4>
-											<p>Remaining</p>
-										</div>
-									</div>
-									<!-- <div class="request-btn">
-										<a class="btn btn-primary" href="#">Apply Leave</a>
-									</div> -->
-								<!-- </div>
-							</div> -->
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<?php foreach ($data['sick'] as $item) { ?>
+										<h4><?php echo $item->totalleave; ?></h4>
+										<!-- <?php if($item->remainingleave=="") 
+												echo "<h4>$item->totalleave</h4>";
+									    	?> -->
+									<?php } ?>
+									<p>Sick Leave</p>
+								</div>
+								<div class="dash-stats-list">
+									<?php foreach ($data['vacation'] as $item) { ?>
+										<h4><?php echo $item->totalleave; ?></h4>
+										<!-- <?php if($item->remainingleave=="") 
+												echo "<h4>$item->totalleave</h4>";
+									    	?> -->
+									<?php } ?>
+									<p>Vacation Leave</p>
+								</div>
+							</div>
 						</section>
 					</div>
 				</div>
@@ -91,7 +92,7 @@
 				<div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
 					<ul class="nav nav-tabs nav-tabs-bottom">
 						<li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
-						<li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">Payroll Info</a></li>
+						<li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">Payroll Information</a></li>
 					</ul>
 				</div>
 			</div>
@@ -121,21 +122,17 @@
 														<div class="text"><?php echo $this->session->userdata('ehousenumber').' '.$this->session->userdata('estreetname').' '.$this->session->userdata('ebarangay').' '.$this->session->userdata('ecity'); ?></div>
 													</li>
 													<li>
-														<div class="title">Contact No.:</div>
+														<div class="title">Contact Number:</div>
 														<div class="text"><?php echo $this->session->userdata('contactinfo'); ?></div>
 													</li>
 													<li>
-														<div class="title">Detachment Post:</div>
-														<div class="text"><?php echo $this->session->userdata('postname'); ?></div>
+														<div class="title">Gender:</div>
+														<div class="text"><?php echo $this->session->userdata('gender'); ?></div>
 													</li>
 												</ul>
 											</div>
 											<div class="col-md-6">
 												<ul class="personal-info">
-													<li>
-														<div class="title">Gender:</div>
-														<div class="text"><?php echo $this->session->userdata('gender'); ?></div>
-													</li>
 													<li>
 														<div class="title">Civil Status:</div>
 														<div class="text"><?php echo $this->session->userdata('civilstatus'); ?></div>
@@ -164,7 +161,7 @@
 			<div id="emp_projects" class="pro-overview tab-pane fade show">
 				<div class="row">
 					<div class="col-md-6 d-flex">
-						<div class="card profile-box flex-fill">
+						<div class="card flex-fill">
 							<div class="card-body">
 								<h3 class="card-title">Payroll Informations</h3>
 								<ul class="personal-info">
@@ -205,7 +202,7 @@
 						</div>
 					</div>
 					<div class="col-md-6 d-flex">
-						<div class="card profile-box flex-fill">
+						<div class="card flex-fill">
 							<div class="card-body">
 								<h3 class="card-title">Payroll Informations</h3>
 								<ul class="personal-info">

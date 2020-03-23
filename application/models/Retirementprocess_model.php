@@ -16,31 +16,43 @@ class Retirementprocess_model extends CI_Model
 												retirementstatus,date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
 										FROM   dm_retirement   WHERE retirementstatus !=2");
 		
-		
+	
 		if($queryheader->num_rows()===0){
-   				
 			$data = array('retirementidstatus'   => 0,
 						  'employeeID' 			 => 0
-			);
-		$this->db->insert('dm_retirement', $data);
-		
-		$retirementID = $this->db->insert_id();
-	$queryheader = $this->db->query("SELECT * FROM dm_retirement WHERE retirementstatus =0");
-	}else{
+					     );
+
+			$this->db->insert('dm_retirement', $data);
+
+			$retirementID = $this->db->insert_id();
+		    
+		    $queryheader = $this->db->query("SELECT retirementID,	employeeID,		usersubmitted,		datesubmitted,
+												userapproved,	dateapproved,	level,				approvalID,
+												retirementstatus,date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM   dm_retirement   WHERE retirementstatus !=2");
+		}else{
 			//$queryheader2 = $this->db->query("SELECT * FROM dm_retirement WHERE retirementstatus !=2");
-   			$retirementID = $queryheader->row()->retirementID;
-   			//$employee   =  $queryheader2->row()->employeeID;
-   			/*if($employee ==null){
-   				$employeeID = "0";
-   			}else{
-   				$employeeID = $employee;
-   			}*/
-   	}
+			$retirementID = $queryheader->row()->retirementID;
+			//$employee   =  $queryheader2->row()->employeeID;
+			/*if($employee ==null){
+			$employeeID = "0";
+			}else{
+			$employeeID = $employee;
+			}*/
+		}
+
+   		if($queryheader->row()->level==0){
+			$level = " AND approvalLevel= 0 ";
+		}else{
+			$level = "AND approvalLevel=".$queryheader->row()->level."";
+		}
+   	
   	$queryidretirement = $this->db->query("SELECT * FROM dm_retirement ORDER BY retirementID DESC LIMIT 1");
-   	if($queryidretirement->row()->employeeID ==null){
-   				$employeeID = "0";
+   	if($queryidretirement->row()->employeeID ==0){
+   				$employeerecord =" WHERE e.employeeID = 0" ;
    			}else{
    				$employeeID = $queryheader->row()->employeeID;
+   				$employeerecord = "WHERE e.employeeID =".$employeeID."";
    			}
 
    //	$queryretirementemployee = $this->db->query("SELECT employeeID, GROUP_CONCAT(lastname,', ',firstname,' ',middlename) AS fullname FROM dm_employee WHERE employeeID IN(".$employeerecord.")"); 
@@ -72,7 +84,7 @@ class Retirementprocess_model extends CI_Model
 										LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
 										LEFT JOIN dm_post AS dtc ON e.postID = dtc.postID
 										LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-										WHERE e.employeeID IN(".$employeeID.") 
+										".$employeerecord."
 										GROUP BY year(pd.datefrom),e.employeeID
 										ORDER BY employeeID,yearofwork DESC
 									)a 
@@ -82,6 +94,12 @@ class Retirementprocess_model extends CI_Model
    
 
    	$querystatus = $this->db->query("SELECT group_concat(employeeID) AS employeeID FROM dm_retirement WHERE retirementstatus = 2");
+   		if($querystatus->row()->employeeID ==null){
+   				$employeerecord ="" ;
+   			}else{
+   				$employeeID = $querystatus->row()->employeeID;
+   				$employeerecord = "WHERE e.employeeID NOT IN(".$employeeID.")";
+   			}
 
    		$queryEmployee = $this->db->query("SELECT 
 											employeeID,firstname,lastname,
@@ -93,13 +111,13 @@ class Retirementprocess_model extends CI_Model
 												e.employeeID,
 											    e.firstname,
 											    e.lastname,
-												concat(e.lastname,', ',e.firstname,' ',e.middlename) as employeename,
+												concat('00000','',e.employeeID, ' - ',e.lastname,', ',e.firstname, ' ', e.middlename) as employeename,
 												 DATE_FORMAT(FROM_DAYS(DATEDIFF(max(pd.datefrom),e.hireddate)), '%Y')+0 AS yearofwork,
 												 DATE_FORMAT(FROM_DAYS(DATEDIFF(max(pd.datefrom),e.birthdate)), '%Y')+0 AS age,
 												date_format(e.hireddate,'%M% %d%, %Y') hireddate
 												FROM dm_employee  as e
 												LEFT JOIN dm_payrolldetails as pd ON e.employeeID = pd.employeeID
-												WHERE e.employeeID NOT  IN(".$querystatus->row()->employeeID.")
+												".$employeerecord."
 												GROUP BY e.employeeID
 											
 											)a 
@@ -107,12 +125,12 @@ class Retirementprocess_model extends CI_Model
 											GROUP BY employeeID
 											ORDER BY employeeID ASC");
    		
-   		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   		$queryApprover = $this->db->query("SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID 
-   										   WHERE dm_approvaldet.approvalID=7 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=7 $level ");
    		return array('retirement' => $queryheader->result(),'employee' => $queryEmployee->result(),'approver' => $queryApprover->result(), 'recorddata' => $querydata->result()/*, 'employeedisabled'=> $queryretirementemployee->result()*/);
-			/*print_r($this->db->last_query());  
-			exit;*/
+   		/*print_r($this->db->last_query());  
+     	  exit;*/
 			
 	}
 	function get_detachment($detachment)

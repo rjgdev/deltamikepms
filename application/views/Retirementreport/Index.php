@@ -149,7 +149,6 @@ $("#seachform").submit(function(event) {
 				success: function(response){
 					 for(i=0; i<response["employee"].length; i++){
 					var recorddetails1 = response["employee"][i].employeeid;
-					console.log(recorddetails1);
 					}
 					
 				var htmlfooter = '';

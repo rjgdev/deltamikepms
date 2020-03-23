@@ -80,6 +80,6 @@ class Payrollreport_model extends CI_Model
 								)a");
     	return $query->result();
     	//print_r($this->db->last_query()); 
-    	 //exit;
+		//exit;
     }
 }	

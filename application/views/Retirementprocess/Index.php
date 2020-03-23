@@ -71,7 +71,7 @@ foreach ($data['approver'] as $approvaldata)  {
 										<?php
 										foreach($data['employee'] as $employee)
 										{
-										echo '<option value="'.$employee->employeeID.'">'.$employee->firstname.' '.$employee->lastname.'</option>';
+										echo '<option value="'.$employee->employeeID.'">'.$employee->employeename.'</option>';
 										}
 										?>
 									</select>
@@ -195,7 +195,7 @@ foreach ($data['approver'] as $approvaldata)  {
 
 			    	 			if($isApprover==1){
 
-			    	 				echo '<button type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';
+			    	 				echo '<button onclick="location.reload();" type="button" class="btn btn-success approved" style="width: 100%; height: 95%;" disabled><i class="fa fa-check"></i> Approved</button>';
 			    	 			}else{
 			    	 				echo '<button type="button" class="btn btn-warning pending" style="width: 100%; height: 95%;" disabled><i class="fa fa-clock-o"></i> Pending</button>';
 			    	 			}
@@ -397,8 +397,12 @@ foreach ($data['approver'] as $approvaldata)  {
 			      		status 				= 	data["retirement"][i].retirementstatus1;
 			      		htmlStatus 			= status;
 			      		htmlDatesubmitted 	= data["retirement"][i].formatdate;
-			      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
+			      		/*htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;*/
 		      		}
+		      		for(var i=0; i<data["approver"].length; i++){
+		      		htmlApprover 		= data["approver"][i].firstname + ' ' + data["approver"][i].lastname;
+
+	      		}
 
 		      		if(htmlDatesubmitted != "-----"){
 						htmlButton = '<button type="button" class="btn btn-danger cancel" id="cancel13thmonth" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';	
@@ -617,13 +621,15 @@ foreach ($data['approver'] as $approvaldata)  {
 		      	for(var i=0; i<data["retirement"].length; i++){
 		      		var status = "-----";
 
+		      		status = data["retirement"][i].retirementstatus1; 
+/*
 		      		if(data["retirement"][i].timekeepingstatus==0) {
 		      			status = "DRAFT";
 		      		}else if(data["retirement"][i].timekeepingstatus==1) {
 		      			status = "PENDING";
 		      		}else if(data["retirement"][i].timekeepingstatus==2) {
 		      			status = "APPROVED";
-	      			}
+	      			}*/
 
 		      		htmlStatus 			= status;
 	      		}
