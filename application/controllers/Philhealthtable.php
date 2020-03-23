@@ -15,7 +15,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(31)) $this->load->view("Philhealthtable/Index",$data);
+			if(isAllowed(32)) $this->load->view("Philhealthtable/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

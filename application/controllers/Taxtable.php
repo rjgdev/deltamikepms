@@ -15,7 +15,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(32)) $this->load->view("Taxtable/Index",$data);
+			if(isAllowed(33)) $this->load->view("Taxtable/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

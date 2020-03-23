@@ -15,7 +15,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(27)) $this->load->view("Designation/Index",$data);
+			if(isAllowed(28)) $this->load->view("Designation/Index",$data);
 					  	 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

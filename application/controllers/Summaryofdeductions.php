@@ -27,7 +27,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(25)) $this->load->view("Summaryofdeduction/Index",$data);
+			if(isAllowed(26)) $this->load->view("Summaryofdeduction/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
