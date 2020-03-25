@@ -590,30 +590,30 @@
 <!-- /Confirmation Modal -->
 
 <script type="text/javascript">
-	
-$(document).ready(function() {
-	$('#datatable').DataTable( {
-        
-        "ordering": false,
-        "info":     false,
-        "autoWidth": false,
-	    "fixedHeader": {
-	        "header": false,
-	        "footer": false
-	    },
-	    "columnDefs": [
-	      { "width": "300px", "targets": 'tsemployeeheader'},
-	      { "width": "20px", "targets": 'tsdataheader'},
-	      { "width": "40px", "targets": 'tslastheader'}
-	    ]
-    } );
 
-    $(window).on("load", function() {
+	$(window).on("load", function() {
 		$(".loader").fadeOut();
 		<?php if($this->session->flashdata('uploaded')!=""){ $test = $this->session->flashdata('uploaded'); ?>
 			showSuccessToast("<?php echo $test; ?>" + " is successfully uploaded!");
 		<?php } ?>
-    });
+	});
+
+	$(document).ready(function() {
+		$('#datatable').DataTable( {
+	        
+	        "ordering": false,
+	        "info":     false,
+	        "autoWidth": false,
+		    "fixedHeader": {
+		        "header": false,
+		        "footer": false
+		    },
+		    "columnDefs": [
+		      { "width": "300px", "targets": 'tsemployeeheader'},
+		      { "width": "20px", "targets": 'tsdataheader'},
+		      { "width": "40px", "targets": 'tslastheader'}
+		    ]
+    } );
 
 	$('#file').change(function(){
       var name = document.getElementById('file'); 

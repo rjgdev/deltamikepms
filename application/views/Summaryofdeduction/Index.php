@@ -111,11 +111,11 @@
     </body>
 </html>
 <script>
-$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-		
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
+	$(document).ready(function() {
 		$('.search').unbind('click').bind('click', function(){
 				var id = $("#search-id").val();
 				var type = $("#search-employeetype").val();

@@ -207,11 +207,11 @@
 <!-- /Page Wrapper -->
 
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
 	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-		
 		$('#1').addClass('active');
 
 		/* FOCUS ON DESCRIPTION */

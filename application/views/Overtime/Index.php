@@ -349,11 +349,11 @@ $accesslevel = $access->employeetypeID;
 ?>
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
-  $(document).ready(function() {
-  		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-		
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
+  	$(document).ready(function() {
  		//Clear Modal//
 		$('#add_overtime').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();

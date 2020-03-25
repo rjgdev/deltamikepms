@@ -1148,12 +1148,27 @@
     echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
   }
 ?>
+
+<style>
+.loader{
+  position: absolute;
+  left: 0px;
+  top: 60px;
+  width: 100%;
+  height: 100vh;
+  z-index: 1001;
+  background: url('<?php echo base_url();?>pages/assets/img/Loading.svg') 
+              50% 50% no-repeat rgb(249,249,249);
+}
+</style>
+
 <!-- /Page Wrapper -->
-<script  type="text/javascript"> 
-  $(document).ready(function() {
-    $(window).on("load", function() {
+<script  type="text/javascript">
+  $(window).on("load", function() {
       $(".loader").fadeOut();
-    });
+  });
+
+  $(document).ready(function() {
     var restdayid =[];
       $(function () {
         var counter = 0;

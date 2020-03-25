@@ -242,11 +242,11 @@
 <!-- /Page Wrapper -->
 
 <script>
-	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
 
+	$(document).ready(function() {
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();

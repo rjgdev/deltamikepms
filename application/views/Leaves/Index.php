@@ -448,12 +448,11 @@
 
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
-  $(document).ready(function() {
-  	$(window).on("load", function() {
+  $(window).on("load", function() {
 		$(".loader").fadeOut();
-	});
+  });
 
-  	
+  $(document).ready(function() {
   	 $('#addemployeeID').change(function(){ 
    	 var id=$(this).val();
     $.ajax({

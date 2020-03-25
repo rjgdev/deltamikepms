@@ -142,6 +142,10 @@ td[rowspan]:not([rowspan="2"]) {
 	</div>
 </div>
 <script  type="text/javascript">  
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+    });
+    
 	$(document).ready(function() {
 
 		$('.table').DataTable({
@@ -149,10 +153,6 @@ td[rowspan]:not([rowspan="2"]) {
 	    	scrollCollapse: true
 	    });
 
-	    $(window).on("load", function() {
-			$(".loader").fadeOut();
-	    });
-		
 		/*$("#export_excel").hide();*/
 	
 		$("#export_excel").click(function() {

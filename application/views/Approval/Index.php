@@ -146,16 +146,15 @@
 <!-- /Confirmation Modal -->
 
 <script>
+$(window).on("load", function() {
+	$(".loader").fadeOut();
+});
 $(document).ready(function() {
 	var counter = 0;
 	var exist = 0;
 	var employeeID = [];
 
 	$('#7').addClass('active');
-
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
 
 	$(".roles-menu li").unbind('click').bind('click', function(){
 		var id = $(this).attr('id');

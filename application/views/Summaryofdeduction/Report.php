@@ -112,10 +112,8 @@
 	</div>
 </body>
 <script>
-	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
 	});
 </script>
 <style type="text/css">

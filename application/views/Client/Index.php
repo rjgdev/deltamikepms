@@ -334,11 +334,11 @@
 <!-- /Page Wrapper -->
 
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-		
 		$('.contactinfo').mask('0000-000-0000');
 
 		$('.select2').select2();

@@ -416,11 +416,11 @@
 	}
 ?>
  <script  type="text/javascript">
-   $(document).ready(function() {
-   		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
+ 	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
 
+   $(document).ready(function() {
    		$('.viewrecord').click(function(){
    			var id = $(this).attr('loanid'); 
    			

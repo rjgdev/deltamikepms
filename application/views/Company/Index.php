@@ -218,11 +218,11 @@
 	}
 ?>		
 <script  type="text/javascript">  
-$(document).ready(function() {
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
+$(window).on("load", function() {
+	$(".loader").fadeOut();
+});
 
+$(document).ready(function() {
 	$('#phonenumber').mask('00-00000-0000');
 	$('#editmobilenumber').mask('0000-000-0000');
 	$('#editfax').mask('00-00-00000000');

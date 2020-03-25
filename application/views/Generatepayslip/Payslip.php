@@ -222,13 +222,11 @@
 </style>
 
 <script>
-	
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
 
 	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-
 		$('.submit').unbind('click').bind('click', function(){
 			var payslipstatus = $('#check').val().trim();
 			var payrolldetailsID = $('#payrolldetailsID').val().trim();

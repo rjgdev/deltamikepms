@@ -524,20 +524,20 @@
 	<!-- /Denied Modal -->
 
 <script  type="text/javascript">  
-$(document).ready(function() {
-
-	var table = $('#datatable1').DataTable( {
-        scrollX: true,
-        scrollCollapse: true,
-        fixedColumns:   {
-		    leftColumns: 2,
-		    rightColumns: 2
-		}
-    } );
-
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
-    });
+	});
+
+	$(document).ready(function() {
+
+		var table = $('#datatable1').DataTable( {
+	        scrollX: true,
+	        scrollCollapse: true,
+	        fixedColumns:   {
+			    leftColumns: 2,
+			    rightColumns: 2
+			}
+    } );
 
     $(document).on("click", ".processpayroll", function(){
     	if($('#cutoff').attr('status')=="1")

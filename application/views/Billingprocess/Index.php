@@ -326,13 +326,12 @@ foreach ($data['approver'] as $approvaldata)  {
 <!-- /Confirmation Modal -->
 
 <script  type="text/javascript">  
-	$(document).ready(function() {
-
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
 	});
 		
-	$(document).on("click", "#uploaddate", function(){
+	$(document).ready(function() {
+		$(document).on("click", "#uploaddate", function(){
 				var payrolldateID =   $("#searchpayperiod").val();
 				var clientID =   $("#searchclient").val();
 

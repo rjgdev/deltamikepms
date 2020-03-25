@@ -211,11 +211,11 @@
 <!-- /Page Wrapper -->
 
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
 	$(document).ready(function() {
-		$(window).on("load", function() {
-			$(".loader").fadeOut();
-		});
-		
   		$('[data-tog="tooltip"]').tooltip();
 
 		/* FOCUS ON DESCRIPTION */

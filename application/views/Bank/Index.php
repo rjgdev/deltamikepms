@@ -235,11 +235,11 @@
 <!-- /Page Wrapper -->
 
 <script>
-	$(document).ready(function() {
-		$(window).on("load", function() {
+	$(window).on("load", function() {
 			$(".loader").fadeOut();
-		});
-		
+	});
+	
+	$(document).ready(function() {
   		$('[data-tog="tooltip"]').tooltip();
 
 		/* FOCUS ON DESCRIPTION */
