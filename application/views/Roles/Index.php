@@ -3,7 +3,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -208,6 +208,10 @@
 
 <script>
 	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+		
 		$('#1').addClass('active');
 
 		/* FOCUS ON DESCRIPTION */

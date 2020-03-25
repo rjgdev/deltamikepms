@@ -3,7 +3,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -1076,4 +1076,12 @@
 	<!-- /Experience Modal -->
 	
 </div>
-<!-- /Page Wrapper
+<!-- /Page Wrapper -->
+
+<script>
+	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+	});
+</script>

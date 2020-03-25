@@ -6,146 +6,160 @@ td[rowspan]:not([rowspan="2"]) {
 </style>
 <!-- Page Wrapper -->
 <div class="page-wrapper">
-	<br>
-<!-- Search Filter -->
-<div class="col-lg-12">
-<div class="card">
-	<div class="row">
-	<div class="col-md-12">
-	<div class="card mb-0">
-	<div class="card-header">
-		<h4 class="card-title mb-0">Report</h4>
-	</div>
-	<div class="card-body">
-		<form action="#">
-		<div class="row">
-			<div class="col-xl-12">
-			<div class="form-group row">
-			<div class="col-sm-4">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
-			 <?php
-				foreach($data['payrolldate'] as $payroll)
-				{
-				echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
-				}
-				?> 
-				</select>
-				<label class="focus-label">Cut Pay</label>
+	<!-- Page Content -->
+    <div class="content container-fluid">
+		<div class="loader"></div>
+		<!-- Page Header -->
+		<div class="page-header">
+			<div class="row align-items-center">
+				<div class="col">
+					<h3 class="page-title">Payroll Report</h3>
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
+						<li class="breadcrumb-item active">Payroll Report</li>
+					</ul>
 				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
-				<option value="0">All</option>
-				<option value="1">Security Guard</option>
-				<option value="2">Staff</option>
-				</select>
-				<label class="focus-label">Employee Type</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
-				<option value="0">All</option>
-				<?php
-				foreach($data['client'] as $client)
-				{
-				echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
-				}
-				?> 
-				</select>
-				<label class="focus-label">Client</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
-				<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
-				<option value="0">Select Post</option>
-				</select>
-				<label class="focus-label">Post</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<button class="btn add-btn" id="submit" style="border-radius: 5px; width:100%; height: 45px;">Search</button>
-				</div>
-			</div>
-			</div>
 			</div>
 		</div>
-	</form>
-	</div>
+		<!-- /Page Header -->
 
-	</div>
-	</div>
-	</div>
-</div>
-		<!-- <a href="javascript:void(0);" id="export_excel">Export to Excel</a>
- --></div>
-<br>
+		<!-- Search Filter -->
+		<div class="row filter-row">
+			<div class="col-sm-3">
+				<div class="form-group form-focus select-focus">
+					<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
+					 	<option value="0">Select Pay Period</option>
+					 	<?php
+							foreach($data['payrolldate'] as $payroll)
+							{
+								echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
+							}
+						?> 
+					</select>
+					<label class="focus-label">Pay Period</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group form-focus select-focus">
+					<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
+						<option value="0">All</option>
+						<option value="1">Security Guard</option>
+						<option value="2">Staff</option>
+					</select>
+					<label class="focus-label">Employee Type</label>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group form-focus select-focus">
+					<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
+						<option value="0">All</option>
+							<?php
+								foreach($data['client'] as $client)
+								{
+									echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
+								}
+							?> 
+					</select>
+					<label class="focus-label">Client</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group form-focus select-focus">
+					<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
+					<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
+						<option value="0">Select Post</option>
+					</select>
+					<label class="focus-label">Post</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group form-focus select-focus">
+					<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> Search</button>
+				</div>
+			</div>
+		</div>
+		<!-- /Search Filter -->
 
-	<div class="ajax_loading"><p></p></div>
-	<div class="col-lg-12">
-		<div id="customers-list"></div>
-			<div class="card">
-				<div class="card-header">
-				<div class="row align-items-center">
-					<div class="col">
-						<h4 class="card-title mb-0">Records</h4>
-				</div>
-				<div class="col-auto float-right ml-auto">
-				<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Excel</a>
-				</div>		
-				</div>		
-				</div>
-				<div class="card-body">
-					<div class="table-responsive" id="show_data">
-						<table class="table table-striped custom-table " id="datatable1">
-							<div id="recordexcel">
+
+	
+		<div class="row">
+			<div class="col-md-12">
+					<div class="card mb-0">
+						<div class="card-body">
+							<div class="col-auto float-right ml-auto mb-3 pr-0">
+								<button class="btn btn-primary" id="export_excel" disabled="true">
+									<i class="fas fa-file-excel"></i> Export to Excel
+								</button>
+							</div>
+				<div class="table-responsive" id="show_data">
+					<table class="table table-striped custom-table">
 							<thead>
-							<tr>
-								<th style="width: 100px;"><center>Employee ID</center></th>
-								<th style="width: 120px;"><center>Employee Name</center></th>
-								<th style="width: 80px;"><center>Basic Pay</center></th>
-								<th style="width: 70px;"><center>Overtime</center></th>
-								<th style="width: 120px;"><center>Night Differential</center></th>
-								<th style="width: 80px ! important;"><center>Allowance</center></th>
-								<th style="width: 80px ! important;"><center>Incentive</center></th>
-								<th style="width: 80px ! important;"><center>Late</center></th>
-								<th style="width: 80px ! important;"><center>LWOP</center></th>
-								<th style="width: 80px ! important;"><center>SSS</center></th>
-								<th style="width: 80px ! important;"><center>HDMF</center></th>
-								<th style="width: 80px ! important;"><center>PhilHealth</center></th>
-								<th style="width: 80px ! important;"><center>GROSS PAY</center></th>
-								<th style="width: 100px ! important;"><center>Withholding Tax</center></th>
-								<th style="width: 80px ! important;"><center>NET PAY</center></th>						
-							</tr>
+
+								<tr>
+									<th style="width: 100px;"><center>Employee ID</center></th>
+									<th style="width: 120px;"><center>Employee Name</center></th>
+									<th style="width: 80px;"><center>Basic Pay</center></th>
+									<th style="width: 70px;"><center>Overtime</center></th>
+									<th style="width: 120px;"><center>Night Differential</center></th>
+									<th style="width: 80px ! important;"><center>Allowance</center></th>
+									<th style="width: 80px ! important;"><center>Incentive</center></th>
+									<th style="width: 80px ! important;"><center>Late</center></th>
+									<th style="width: 80px ! important;"><center>LWOP</center></th>
+									<th style="width: 80px ! important;"><center>SSS</center></th>
+									<th style="width: 80px ! important;"><center>HDMF</center></th>
+									<th style="width: 80px ! important;"><center>PhilHealth</center></th>
+									<th style="width: 80px ! important;"><center>GROSS PAY</center></th>
+									<th style="width: 100px ! important;"><center>Withholding Tax</center></th>
+									<th style="width: 80px ! important;"><center>NET PAY</center></th>					
+								</tr>
 							</thead>	
 							<tbody>
 
-               				 </tbody>
-               				<tfoot>
-
-               				</tfoot> 
-               			</div>
-						</table>
-					</div>
+	           				</tbody>
+	           				<tfoot>
+           						<tr>
+									<th colspan="2" style="text-align: right;">TOTAL:</tH>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+								</tr>
+	           				</tfoot> 
+					</table>
 				</div>
+				</div></div>
 			</div>
-		</div>
-	</div>	
-</div>
+		</div>	
+	</div>
 </div>
 <script  type="text/javascript">  
 	$(document).ready(function() {
-	
-	$("#export_excel").click(function() {
-		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#show_data').html()));
-	});
 
-	$("#searchclient").change(function(){
+		$('.table').DataTable({
+	        scrollX: true,
+	    	scrollCollapse: true
+	    });
+
+	    $(window).on("load", function() {
+			$(".loader").fadeOut();
+	    });
+		
+		/*$("#export_excel").hide();*/
+	
+		$("#export_excel").click(function() {
+			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#show_data').html()));
+		});
+
+		$("#searchclient").change(function(){
 			var id=$(this).val();
 			
 			$.ajax({
@@ -197,6 +211,7 @@ td[rowspan]:not([rowspan="2"]) {
 			var employeetype = " ";
 			var clientname = " ";
 			var detachment = " ";
+
 			$.ajax({
 				url : "<?php echo site_url('Payrollreport/search_payroll');?>",
 				method : "POST",
@@ -249,6 +264,7 @@ td[rowspan]:not([rowspan="2"]) {
 							'</tr>' +
 							'</thead>' +	
 							'<tbody>';
+							console.log(response);
                     for(i=0; i<response.length; i++){
                     	if(parseInt(response[i].basicpay))
                     	 	 basic += parseFloat(response[i].basicpay);
@@ -304,36 +320,31 @@ td[rowspan]:not([rowspan="2"]) {
                       html +=  '</tbody>' +
                      			'<tfoot>' +
                      				'<tr>'+
-										'<th colspan="2">'+ 'Total' +'</th>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(basic)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(overtime)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiff)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(allowance)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(incentive)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalleave)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(grosspay)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(wtax)  +'</td>'+
-										'<td class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(netpay)  +'</td>'+
+										'<th colspan="2" style="text-align: right;">TOTAL:</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(basic)  	 +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(overtime)   +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiff)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(allowance)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(incentive)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalleave) +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)   +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(grosspay)   +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(wtax)  	 +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(netpay)  	 +'</th>'+
 									'</tr>' +
 							  '</tfoot></div></table>';
 					if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
-			        };		  				
+			        };	
+			        $("#export_excel").attr("disabled",false);	  				
                     $('#show_data').html(html);
 
                     $('#datatable1').DataTable({
 				        scrollX: true,
 			        	scrollCollapse: true,
-			        	searching: false,
-			        	paging: false,
-				       /* fixedColumns:   {
-						    leftColumns: 2,
-						    rightColumns: 1
-						}*/
 				    });
 				   
 

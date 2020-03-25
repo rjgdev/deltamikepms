@@ -4,7 +4,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -417,7 +417,9 @@
 ?>
  <script  type="text/javascript">
    $(document).ready(function() {
-
+   		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
 
    		$('.viewrecord').click(function(){
    			var id = $(this).attr('loanid'); 

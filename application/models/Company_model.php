@@ -37,7 +37,7 @@ class Company_model extends CI_Model
 
 			$this->db->where("companyID", $id); 
 			$this->db->update('dm_company', $data);
-			return 'true|'.$company.' successfully created!';	
+			return 'true|Company profile successfully updated!';	
 		}else{
 
 			return 'false|Company name already exist!';

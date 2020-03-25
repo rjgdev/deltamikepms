@@ -109,7 +109,7 @@
     resetToastPosition();
     $.toast({
       heading: 'Success',
-      text: 'employee status successfully saved!',
+      text: 'Employee status successfully changed!',
       showHideTransition: 'slide',
       icon: 'success',
       position: {

@@ -6,7 +6,7 @@
 			
 			<!-- Page Wrapper -->
             <div class="page-wrapper">
-			
+				<div class="loader"></div>
 				<!-- Page Content -->
                 <div class="content container-fluid">
 				
@@ -55,5 +55,9 @@
     </body>
 </html>
 <script>
-
+	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+	});
 </script>

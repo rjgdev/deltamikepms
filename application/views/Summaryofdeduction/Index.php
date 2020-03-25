@@ -9,7 +9,7 @@
 			
 				<!-- Page Content -->
                 <div class="content container-fluid">
-				
+					<div class="loader"></div>
 					<!-- Page Header -->
 					<div class="page-header">
 						<div class="row align-items-center">
@@ -111,102 +111,106 @@
     </body>
 </html>
 <script>
-
-	$('.search').unbind('click').bind('click', function(){
-			var id = $("#search-id").val();
-			var type = $("#search-employeetype").val();
-			var client = $("#search-client").val();
-
-			if(id=="Select Pay Period") id = "";
-
-			$.ajax({
-                url : "<?php echo site_url('summaryofdeductions');?>",
-                method : "POST",
-                data : {id : id,
-                		type : type,
-                		client : client},
-                async : true,
-                dataType : 'json',
-                success: function(data){
-					var html ="";
-
-					var table = $(".datatable").dataTable();
-		            oSettings = table.fnSettings();
-		            table.fnClearTable(this);
-
-		            var varStatus = "";
-		            var varStatusIcon = "";
-		            var varPhoto = "";
-
-		            for (var i=0; i < data.length; i++)
-		            {
-
-		    			if(data[i].photo==""){
-		        			varPhoto = '<img alt="" src="uploads/profileimg.png"></a>';
-		    			}else{
-		        			varPhoto = '<img alt="" src="uploads/'+data[i].photo+'" ></a>';
-		    			}
-
-		                table.oApi._fnAddData(oSettings, [
-		                		data[i].empID.padStart(6,'0'),
-		                		'<div class="dash-card-content">' +
-		                			'<a class="avatar" style="margin: 0 0px 0 0;">'
-			                		+ varPhoto + 
-			                		'<p style="margin-left: 10px; color: black;">' + data[i].lastname + ', ' + data[i].firstname + ' <span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
-								'</div>',
-		                		data[i].employeeTypeDescription,
-		                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>summaryofdeductions/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Report</a></td>'
-		                		]);
-		            }
-		 
-		            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-		            table.fnDraw();
-                },
-                error: function(request, textStatus, error) {
-                		/*alert(request + ":" + textStatus + ":" + error);*/
-            	}
-            });
+$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
 		});
+		
+		$('.search').unbind('click').bind('click', function(){
+				var id = $("#search-id").val();
+				var type = $("#search-employeetype").val();
+				var client = $("#search-client").val();
 
-	$('#search-client').change(function(){
-			var id=$(this).val();
-			$.ajax({
-				url : "<?php echo site_url('summaryofdeductions/get_client');?>",
-				method : "POST",
-				data : {id: id},
-				async : true,
-				dataType : 'json',
-				success: function(data){
-				var html = '';
-				var i;
-				for(i=0; i<data.length; i++){
-					if($("#searchhiddendetachment").val()==data[i].postID){
-					html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
-					}else{
-					html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
-					}
-				}
-				$('#searchdetachment').html(html);
-				}
+				if(id=="Select Pay Period") id = "";
+
+				$.ajax({
+	                url : "<?php echo site_url('summaryofdeductions');?>",
+	                method : "POST",
+	                data : {id : id,
+	                		type : type,
+	                		client : client},
+	                async : true,
+	                dataType : 'json',
+	                success: function(data){
+						var html ="";
+
+						var table = $(".datatable").dataTable();
+			            oSettings = table.fnSettings();
+			            table.fnClearTable(this);
+
+			            var varStatus = "";
+			            var varStatusIcon = "";
+			            var varPhoto = "";
+
+			            for (var i=0; i < data.length; i++)
+			            {
+
+			    			if(data[i].photo==""){
+			        			varPhoto = '<img alt="" src="uploads/profileimg.png"></a>';
+			    			}else{
+			        			varPhoto = '<img alt="" src="uploads/'+data[i].photo+'" ></a>';
+			    			}
+
+			                table.oApi._fnAddData(oSettings, [
+			                		data[i].empID.padStart(6,'0'),
+			                		'<div class="dash-card-content">' +
+			                			'<a class="avatar" style="margin: 0 0px 0 0;">'
+				                		+ varPhoto + 
+				                		'<p style="margin-left: 10px; color: black;">' + data[i].lastname + ', ' + data[i].firstname + ' <span style="color:#888;display: block; font-size: 11px;">'+ data[i].description +' | '+ data[i].designationdescription +'</span></p>' +
+									'</div>',
+			                		data[i].employeeTypeDescription,
+			                		'<td><a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>summaryofdeductions/preview?id='+data[i].empID+'&payrolldetailsID='+data[i].pdID+'" target="_blank">Generate Report</a></td>'
+			                		]);
+			            }
+			 
+			            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+			            table.fnDraw();
+	                },
+	                error: function(request, textStatus, error) {
+	                		/*alert(request + ":" + textStatus + ":" + error);*/
+	            	}
+	            });
 			});
-			return false;
 
-		});
+		$('#search-client').change(function(){
+				var id=$(this).val();
+				$.ajax({
+					url : "<?php echo site_url('summaryofdeductions/get_client');?>",
+					method : "POST",
+					data : {id: id},
+					async : true,
+					dataType : 'json',
+					success: function(data){
+					var html = '';
+					var i;
+					for(i=0; i<data.length; i++){
+						if($("#searchhiddendetachment").val()==data[i].postID){
+						html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
+						}else{
+						html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
+						}
+					}
+					$('#searchdetachment').html(html);
+					}
+				});
+				return false;
 
-	$('#search-employeetype').change(function(){
-			var employeetype =$(this).val();
-			if(employeetype==1){
-			$("#search-client").prop("disabled", false);
-			$("#searchdetachment").prop("disabled", false);
+			});
+
+		$('#search-employeetype').change(function(){
+				var employeetype =$(this).val();
+				if(employeetype==1){
+				$("#search-client").prop("disabled", false);
+				$("#searchdetachment").prop("disabled", false);
 
 
-		}else{
-			$("#search-client").prop("disabled", true);
-			$("#searchdetachment").prop("disabled", true);
-			$("#search-client").val('');
-			$("#searchdetachment").val('');
-		}
+			}else{
+				$("#search-client").prop("disabled", true);
+				$("#searchdetachment").prop("disabled", true);
+				$("#search-client").val('');
+				$("#searchdetachment").val('');
+			}
 
-		});
-	
+			});
+});	
 </script>

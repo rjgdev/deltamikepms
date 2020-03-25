@@ -13,7 +13,7 @@ class Thirteenmonthprocess_model extends CI_Model
 		$thrmonthID = $thrID;
 		$thdatefrom = '1880-01-01';
 		$thdateto = '1880-01-01';
-		$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
+		$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted 
 											,userapproved,	level,		approvalID,	thrmonthstatus,	monthstatus
 											,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
 											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
@@ -26,7 +26,11 @@ class Thirteenmonthprocess_model extends CI_Model
    				);
    			$this->db->insert('dm_thrmonth', $data);
 			$thrmonthID = $this->db->insert_id();
-			$queryheader = $this->db->query("SELECT date_format(datefrom,'%Y%-%m') as date1,date_format(dateto,'%Y%-%m') as date2 FROM dm_thrmonth WHERE thrmonthstatus=0");	
+			$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
+											,userapproved,	level,		approvalID,	thrmonthstatus,	monthstatus
+											,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
+											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM dm_thrmonth  WHERE thrmonthstatus!=2");
 		}else{
    			$thrmonthID = $queryheader->row()->thrmonthID;
    			$thdatefrom = $queryheader->row()->date1;
@@ -35,6 +39,11 @@ class Thirteenmonthprocess_model extends CI_Model
    			
 
    		}
+   		if($queryheader->row()->level==0){
+			$level = " AND approvalLevel= 0 ";
+		}else{
+			$level = "AND approvalLevel=".$queryheader->row()->level."";
+		}
   		$querydata = $this->db->query("
     							SELECT
 								*
@@ -49,7 +58,7 @@ class Thirteenmonthprocess_model extends CI_Model
 									WHEN e.employeetypeID = 2 THEN 'Staff'
 									ELSE employeetypeID
 									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, sum(late) as late, sum(absent) as absent,
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, COALESCE(sum(late) + sum(ordlatehours) + sum(rstlatehours) + sum(spclatehours) + sum(spcrstlatehours) + sum(rgllatehours) + sum(rglrstlatehours) + sum(dbllatehours) + sum(dblrstlatehours),0) as late, sum(absent) as absent,
 									 SUM(thrmonth) AS thrmonth
 									FROM dm_payrolldetails AS pd
 									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
@@ -71,9 +80,9 @@ class Thirteenmonthprocess_model extends CI_Model
         }
   	*/
    		$queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" order by firstname');
-   		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
+   		$queryApprover = $this->db->query("SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID 
-   										   WHERE dm_approvaldet.approvalID=6 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=6 $level ");
    		return array('thrmonth' => $queryheader->result(), 'employee' => $queryEmployee->result(), 'approver' => $queryApprover->result(), 'recorddata' => $querydata->result());								   			
 
 	}
@@ -143,7 +152,7 @@ class Thirteenmonthprocess_model extends CI_Model
 									WHEN e.employeetypeID = 2 THEN 'Staff'
 									ELSE employeetypeID
 									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, sum(late) as late, sum(absent) as absent,
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, COALESCE(sum(late) + sum(ordlatehours) + sum(rstlatehours) + sum(spclatehours) + sum(spcrstlatehours) + sum(rgllatehours) + sum(rglrstlatehours) + sum(dbllatehours) + sum(dblrstlatehours),0) as late, sum(absent) as absent,
 									 SUM(thrmonth) AS thrmonth
 									FROM dm_payrolldetails AS pd
 									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
@@ -205,7 +214,7 @@ class Thirteenmonthprocess_model extends CI_Model
 									WHEN e.employeetypeID = 2 THEN 'Staff'
 									ELSE employeetypeID
 									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
-									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, sum(late) as late, sum(absent) as absent,
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, COALESCE(sum(late) + sum(ordlatehours) + sum(rstlatehours) + sum(spclatehours) + sum(spcrstlatehours) + sum(rgllatehours) + sum(rglrstlatehours) + sum(dbllatehours) + sum(dblrstlatehours),0) as late, sum(absent) as absent,
 									 SUM(thrmonth) AS thrmonth
 									FROM dm_payrolldetails AS pd
 									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID

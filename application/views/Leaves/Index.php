@@ -3,6 +3,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
+    	<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -444,11 +445,15 @@
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
 	}
 ?>
-<!--
 
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
   $(document).ready(function() {
+  	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
+  	
   	 $('#addemployeeID').change(function(){ 
    	 var id=$(this).val();
     $.ajax({

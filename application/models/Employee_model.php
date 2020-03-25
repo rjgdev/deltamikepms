@@ -24,14 +24,13 @@ class Employee_model extends CI_Model
 										LEFT JOIN dm_client 	as c 	on c.clientID = emp.clientID 
 										LEFT JOIN dm_post as de 	on de.postID = emp.postID 
 										ORDER BY employeeid DESC');
-				$datadepartment = $this->db->query("SELECT * FROM dm_department");
-				$querybank = $this->db->query("SELECT * FROM dm_bank WHERE bankstatus like 'Active'");
+				$datadepartment = $this->db->query('SELECT * FROM dm_department WHERE departmentstatus ="Active"');
+				$querybank = $this->db->query('SELECT * FROM dm_bank WHERE bankstatus ="Active"');
   		 		$datarole = $this->db->query("SELECT * FROM dm_rolemstr");
-  		 		$datadepartment = $this->db->query("SELECT * FROM dm_department");
-  		 		$dataclient = $this->db->query("SELECT * FROM dm_client");
-	  			$datadetachment = $this->db->query("SELECT * FROM dm_post");
+  		 		$dataclient = $this->db->query('SELECT * FROM dm_client WHERE clientstatus ="Active"');
+	  			$datadetachment = $this->db->query('SELECT * FROM dm_post WHERE poststatus ="Active"');
 	  			$dataleave = $this->db->query("SELECT * FROM dm_leavetype");
-	  			$creaditleave =  $this->db->query("SELECT ecl.leavetypeiD,ecl.totalleave FROM dm_employeecreditleave AS ecl
+	  			$creaditleave =  $this->db->query("SELECT ecl.employeeleavecreditID, ecl.leavetypeiD, ecl.totalleave FROM dm_employeecreditleave AS ecl
 				LEFT JOIN dm_employee as e ON ecl.employeeID = e.employeeID");
 
     			$queryleave = $dataleave->result();
@@ -50,6 +49,7 @@ class Employee_model extends CI_Model
 		$query = $this->db->query('SELECT firstname, middlename,lastname FROM dm_employee WHERE firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 
 		if($query->num_rows() == 0){
+
 			$this->db->insert('dm_employee', $data);
 			$last_id				=	$this->db->insert_id();
 			$record  = array();
@@ -75,14 +75,14 @@ class Employee_model extends CI_Model
 				$this->db->insert_batch('dm_schedule', $dataschedule);
 			}
 
-			return 'true|  '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
+			return 'true| 00000'.$last_id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
 	 	}
 		else 
 		{
 			return 'false|Employee name already exist!';
 		}   
   	}
-  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult)
+  	function update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employeecredit,$restdayresult)
   	{
  		 $query = $this->db->query('SELECT firstname, middlename, lastname FROM dm_employee WHERE employeeid!='.$id.' AND firstname LIKE "'.$firstname.'" AND lastname LIKE "'.$lastname.'"');
 		if($query->num_rows() == 0){
@@ -93,18 +93,19 @@ class Employee_model extends CI_Model
           	$dataschedule = array();
             $record  = array(); 
             $id = $this->input->post('id');
-
-            if($employee!=0){
-        		for($count = 0; $count<count($employee); $count++)
+           
+            $querycreditleave = $this->db->query('DELETE FROM dm_employeecreditleave WHERE employeeID='.$id);
+            if($employeecredit!=0){
+        		for($count = 0; $count<count($employeecredit); $count++)
  				{
-	 				$record[$count] 	= array ('employeeleavecreditID' =>  $employee[$count],
+	 				$record[$count] 	= array (/*'employeeleavecreditID' =>  $employeecredit[$count],*/
+								 				 'employeeID'		=>	$id,
 								 				 'leavetypeID'	=>	$leavetype[$count],
 												 'totalleave'	=>	$totalleave[$count]);				
 				}
-
-				$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
+				//$this->db->update_batch('dm_employeecreditleave', $record, 'employeeleavecreditID');
+				$this->db->insert_batch('dm_employeecreditleave', $record);
             }
-
             $query = $this->db->query('DELETE FROM dm_schedule WHERE employeeID='.$id);
 
             if($restdayresult!=null){
@@ -124,8 +125,10 @@ class Employee_model extends CI_Model
   	}
   	 public function get_designation($departmentID)
     {
-        $query = $this->db->get_where('dm_designation', array('departmentID' => $departmentID));
-        return $query;
+    	$query = $this->db->query('SELECT * FROM dm_designation WHERE departmentID ='.$departmentID.' AND designationstatus = "Active"');
+    	return $query->result();
+    		/*print_r($this->db->last_query());  
+					exit;*/
     }
 
    function update_employeepicture($employeeID, $data)
@@ -163,9 +166,11 @@ class Employee_model extends CI_Model
 
    		$query = $this->db->query('SELECT d.postID,d.postname,d.clientID FROM dm_post AS d
 								 LEFT JOIN dm_client AS c ON d.clientID = c.clientID
-								 WHERE c.clientID ='.$clientID.'');
+								 WHERE  d.poststatus = "Active" AND c.clientID ='.$clientID);
    								 return $query->result();
-
+   			/*					 print_r($this->db->last_query());  
+			exit;
+*/
    }
    function search_bank($bankID)
    {

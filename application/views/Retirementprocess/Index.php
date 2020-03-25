@@ -39,7 +39,7 @@ foreach ($data['approver'] as $approvaldata)  {
 <div class="page-wrapper">
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -215,8 +215,6 @@ foreach ($data['approver'] as $approvaldata)  {
 			</div>						
 </div>	
 	
-
-	 <div class="ajax_loading"><p></p></div>
 	 <div class="row filter-row" style="margin-bottom: 40px;">
 	<div class="col-lg-12">
 		<div id="customers-list"></div>
@@ -294,6 +292,10 @@ foreach ($data['approver'] as $approvaldata)  {
 
 <script  type="text/javascript">  
 	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+		
 		$("#export_excel").click(function() {
 		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
 		});
@@ -339,7 +341,6 @@ foreach ($data['approver'] as $approvaldata)  {
 				dataType : 'json',
 				beforeSend:function(){
 
-					 /* $("body").addClass("loading");*/
 				},
 				success: function(response){
 					$('#modal_confirmation').modal('hide');

@@ -12,6 +12,7 @@
 		
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo config_item('base_url'); ?>\pages\assets\img\favicon.png">
         <link rel="stylesheet" href="<?php echo config_item('base_url'); ?>\pages\assets\css\bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo config_item('base_url'); ?>\pages\assets\css\all.min.css">
         <link rel="stylesheet" href="<?php echo config_item('base_url'); ?>\pages\assets\css\font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo config_item('base_url'); ?>\pages\assets\css\line-awesome.min.css">
 		<link rel="stylesheet" href="<?php echo config_item('base_url'); ?>\pages\assets\plugins\morris\morris.css">

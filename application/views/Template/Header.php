@@ -13,7 +13,8 @@
 		
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url();?>pages\assets\img\favicon.png">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap.min.css">
-        <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\font-awesome.min.css">
+        <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\all.min.css">
+        <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\font-awesome.min2.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\line-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\dataTables.bootstrap4.min.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\select2.min.css">

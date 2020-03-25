@@ -11,7 +11,7 @@ $accesslevel = $access->employeetypeID;
 <div class="page-wrapper">
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -350,6 +350,10 @@ $accesslevel = $access->employeetypeID;
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
   $(document).ready(function() {
+  		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+		
  		//Clear Modal//
 		$('#add_overtime').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();

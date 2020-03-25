@@ -53,11 +53,13 @@
 		if(count($dataRest)!=0){
 			$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
 			$isRest = 0;
+			$restDay = 0;
 
 			foreach ($dataRest as $rest)  {
 				if($rest->employeeID==$employeeID && 
 				   $rest->restday==$current_day){
 			  	  		echo "<td class='tsdata' style='color:#1c78d1;'>RD</td>";
+			  	  		$restDay++;
 				  $isRest = 1;
 				}
 			}
@@ -102,19 +104,15 @@
 				echo "<td></td>";
 			}
 		}
+
+		return $restDay;
 	}
 ?>
 
 <!-- Page Wrapper -->
 <div class="page-wrapper">
     <div class="content container-fluid">
-    	<div class="loading" style="background-color: #f7f7f7; height: 100%; width: 100%; overflow: hidden; position: absolute; z-index: 1001; left: 10px !important;">
-			<div class="centered">
-				<div id="divSpinner" class="spinner loading" style="display: block;">
-					<div class="loading-text" style="display:none;">Loading ...</div>
-				</div>
-			</div>
-		</div>
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -167,7 +165,7 @@
 					<div class="dash-card">
 						<h5 class="dash-title">
 								<i class="la la-dashboard"></i>
-							Timekeeping No.</h5>
+							Timekeeping Number</h5>
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
@@ -335,6 +333,7 @@
 									$overtime_accumMinutes 	= 0;
 									$totalOvertime 			= 0;
 
+									$retRD			= 0;
 									$restDay		= 0;
 									$totalDays		= 0;
 									$imgName		= 0;
@@ -392,19 +391,16 @@
 															<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='".$item->timesheetID."'>".$actualhours."</a></td>";
 													break;
 												}else{
-													checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i);
-													/*$restDay++;*/
-													/*echo "<td class='tsdata' style='color:#1c78d1;'>RD</td>";*/
-													/*echo "<td class='tsdata' style='color:#d1221c;'>LV</td>";*/
+													$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i);
+													$restDay+=$retRD;
 												}
 											}
 										} 
 
 										if($exist==1){
 											for($x=$i+1;$x<=$lastday;$x++){
-												checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x);
-												/*$restDay++;
-												echo "<td class='tsdata' style='color:#1c78d1;'>RD</td>";*/
+												$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x);
+												$restDay+=$retRD;
 											}
 										}
 									}
@@ -412,8 +408,8 @@
 									if($exist==0){
 										for($y=$init;$y<=$lastday;$y++){
 											$init++;
-											/*echo "<td>".$y."</td>";*/
-											checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y);
+											$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y);
+											$restDay+=$retRD;
 										}
 									}
 
@@ -593,50 +589,6 @@
 	</div>
 <!-- /Confirmation Modal -->
 
-<style>
-.centered {
- 	text-align: center;
-}
-
-.spinner.loading {
-	display: none;
-	padding: 50px;
-	text-align: center;
-}
-
-.loading-text {
-	display:block !important;
-	position: absolute;
-	top: calc(32%);
-  	left: calc(42%);
-	text-align: center;
-}
-
-.spinner.loading:before {
-  content: "";
-  height: 90px;
-  width: 90px;
-  margin: -15px auto auto -15px;
-  position: absolute;
-  top: calc(30%);
-  left: calc(42%);
-  border-width: 8px;
-  border-style: solid;
-  border-color: #e04d45 #ccc #ccc;
-  border-radius: 100%;
-  animation: rotation .7s infinite linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
-</style>
-
 <script type="text/javascript">
 	
 $(document).ready(function() {
@@ -657,7 +609,10 @@ $(document).ready(function() {
     } );
 
     $(window).on("load", function() {
-		$(".loading").fadeOut();
+		$(".loader").fadeOut();
+		<?php if($this->session->flashdata('uploaded')!=""){ $test = $this->session->flashdata('uploaded'); ?>
+			showSuccessToast("<?php echo $test; ?>" + " is successfully uploaded!");
+		<?php } ?>
     });
 
 	$('#file').change(function(){
@@ -746,7 +701,7 @@ $(document).ready(function() {
     	$('.submit-btn').attr("id","modal_denytimekeeping");
     	$('.deny_item').html('<br>' + 
 							 '<p class="text-left text-danger" style="font-size: 1.1em;">Please enter a reason:</p>' + 
-							 '<p><textarea class="form-control" rows="4" id="reason"></textarea></p>');
+							 '<p><textarea class="form-control restrictspecchar" rows="4" id="reason"></textarea></p>');
         $('#modal_confirmation').modal({backdrop: 'static', keyboard: false},'show');
 		return false;
 	});
@@ -760,6 +715,9 @@ $(document).ready(function() {
     		return;
     	}
 
+    	$('.submit-btn').attr("disabled","disabled");
+		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+
     	$.ajax({
 		      url : "<?php echo site_url('timekeepingsecurityguard/deny');?>",
 		      method : "POST",
@@ -767,9 +725,7 @@ $(document).ready(function() {
 		      		  reason:reason},
 		      async : true,
 		      success: function(data){
-		      	$('.submit-btn').attr("disabled","disabled");
-				$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
-
+		      	
 		      	var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + timekeepingID + "'>DENIED</a>";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";

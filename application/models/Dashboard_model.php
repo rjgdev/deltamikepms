@@ -9,7 +9,7 @@ class Dashboard_model extends CI_Model
 
 	function get_all()
 	{
-		$client = $this->db->query('SELECT COUNT(clientID) AS noofclient FROM dm_client');
+		$timekeepingguard = $this->db->query('SELECT * FROM `dm_timekeeping` ORDER BY timekeepingID DESC LIMIT 1');
 		$actclient = $this->db->query('SELECT COUNT(clientID) AS actclient FROM dm_client WHERE clientstatus="Active"');
 		$inactclient = $this->db->query('SELECT COUNT(clientID) AS inactclient FROM dm_client WHERE clientstatus="Inactive"');
 
@@ -24,7 +24,7 @@ class Dashboard_model extends CI_Model
 			ON detach.clientID=dm_client.clientID
 			WHERE poststatus="Active"');
 
-	    $result1 = $client->result();
+	    $result1 = $timekeepingguard->result();
 	    $result2 = $actclient->result();
 	    $result3 = $inactclient->result();
 	    $result4 = $employee->result();
@@ -32,7 +32,7 @@ class Dashboard_model extends CI_Model
 	    $result6 = $inactemployee->result();
 	    $result7 = $detachment->result();
 	          return array(
-	          	'client' => $result1,
+	          	'timekeepingguard' => $result1,
 	          	'actclient' => $result2,
 	          	'inactclient' => $result3,
 	          	'employee' => $result4,

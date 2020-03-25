@@ -81,13 +81,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
-		<div class="loading" style="background-color: #f7f7f7; height: 100%; width: 100%; overflow: hidden !important; position: absolute; z-index: 1001; left: 10px !important;">
-			<div class="centered">
-				<div id="divSpinner" class="spinner loading" style="display: block;">
-					<div class="loading-text" style="display:none;">Loading ...</div>
-				</div>
-			</div>
-		</div>
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -110,7 +104,7 @@
 						<div class="dash-card" style="background-color: #efefef; ">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
-								Timekeeping No.</h5>
+								Timekeeping Number</h5>
 							<div class="dash-card-container">
 								<div class="dash-card-content dash-card-header">
 									<p style="color:#e04d45;" 
@@ -188,7 +182,7 @@
 						<div class="dash-card">
 							<h5 class="dash-title">
 									<i class="la la-dashboard"></i>
-								Payroll No.</h5>
+								Payroll Number</h5>
 							<div class="dash-card-container">
 								<div class="dash-card-content dash-card-header">
 									<p style="color:#e04d45;"
@@ -215,7 +209,15 @@
 								Payroll Status</h5>
 							<div class="dash-card-container">
 								<div class="dash-card-content dash-card-header">
-									<p style="color:#e04d45;" id="show_payroll_status"><?php echo $payrollstatus; ?> </p>
+									<p style="color:#e04d45;" id="show_payroll_status">
+										<?php 
+											if($payrollstatus=="DENIED"){
+												echo "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='".$payrollID."'>".$payrollstatus."</a>";
+											}else{
+												echo $payrollstatus;
+											} 
+										?>	
+									</p>
 								</div>
 							</div>
 						</div>
@@ -389,6 +391,8 @@
 						<img class="isometric confirmationisometric">
 						<h3 id="modal_title"></h3>
 						<p id="modal_message"></p>
+						<div class="deny_item">
+						</div>
 					</div>
 					<div class="modal-btn confirmation-action">
 						<div class="row">
@@ -459,7 +463,7 @@
 								<div class="form-group">
 									<label>Other Adjustment</label>
 									<div class="input-group mr-sm-2 mb-sm-0">
-										<input id="otherdescription" name="otherdescription" class="form-control input mr-1"  autocomplete="off" im-insert="true" placeholder="Description">
+										<input id="otherdescription" name="otherdescription" class="form-control otherfield input mr-1"  autocomplete="off" im-insert="true" placeholder="Description">
 								        <div class="input-group-prepend">
 								        	<span class="input-group-text">₱</span>
 								        </div>
@@ -478,50 +482,46 @@
 	</div>
 	<!-- /Adjustment Modal -->
 
-
-<style>
-.centered {
- 	text-align: center;
-}
-
-.spinner.loading {
-	display: none;
-	padding: 50px;
-	text-align: center;
-}
-
-.loading-text {
-	display:block !important;
-	position: absolute;
-	top: calc(33.5%);
-  	left: calc(42%);
-	text-align: center;
-}
-
-.spinner.loading:before {
-  content: "";
-  height: 90px;
-  width: 90px;
-  margin: -15px auto auto -15px;
-  position: absolute;
-  top: calc(30%);
-  left: calc(42%);
-  border-width: 8px;
-  border-style: solid;
-  border-color: #e04d45 #ccc #ccc;
-  border-radius: 100%;
-  animation: rotation .7s infinite linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
-</style>
+	<!-- Denied Modal -->
+	<div class="modal custom-modal fade" id="denied_info" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Denied Information</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 col-lg-12">
+							<div class="card" style="border-style: none !important;  margin-bottom:0px;">
+								<div class="card-body" style="padding: .25rem !important;">
+									<table class="table table-striped table-border">
+										<tbody>
+											<tr>
+												<td style="color:#e04d45; width:100px;">Denied date:</td>
+												<td class="text-left" id="deny_date"></td>
+											</tr>
+											<tr>
+												<td style="color:#e04d45;">Denied by:</td>
+												<td class="text-left" id="deny_approver"></td>
+											</tr>
+											<tr>
+												<td style="color:#e04d45;">Reason:</td>
+												<td class="text-left" id="deny_reason"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Denied Modal -->
 
 <script  type="text/javascript">  
 $(document).ready(function() {
@@ -536,7 +536,7 @@ $(document).ready(function() {
     } );
 
 	$(window).on("load", function() {
-		$(".loading").fadeOut();
+		$(".loader").fadeOut();
     });
 
     $(document).on("click", ".processpayroll", function(){
@@ -556,6 +556,7 @@ $(document).ready(function() {
 	    	$('.submit-btn').html("Process payroll");
 	    	$('.cancel-btn').html("Cancel");
 	    	$('.submit-btn').attr("id","modal_processpayroll");
+	    	$('.deny_item').html("");
 	        $('#modal_confirmation').modal('show');
 		}
 		return false;
@@ -573,7 +574,7 @@ $(document).ready(function() {
 			var html ="";
 
 			$.ajax({
-	            url : "<?php echo site_url('payroll/process');?>",
+	            url : "<?php echo site_url('Payrollprocess/process');?>",
 	            method : "POST",
 	            data : {timekeepingID:timekeepingID,
             			fromcutoff: fromcutoff,
@@ -690,6 +691,7 @@ $(document).ready(function() {
     	$('.submit-btn').html("Submit payroll");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_submitpayroll");
+		$('.deny_item').html("");    	
         $('#modal_confirmation').modal('show');
 		return false;
 	});
@@ -701,7 +703,7 @@ $(document).ready(function() {
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('payroll/submit');?>",
+		      url : "<?php echo site_url('Payrollprocess/submit');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID},
 		      async : true,
@@ -759,6 +761,7 @@ $(document).ready(function() {
     	$('.submit-btn').html("Cancel payroll");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_cancelpayroll");
+    	$('.deny_item').html("");
         $('#modal_confirmation').modal('show');
 		return false;
 	});
@@ -770,7 +773,7 @@ $(document).ready(function() {
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('payroll/cancel');?>",
+		      url : "<?php echo site_url('Payrollprocess/cancel');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID},
 		      async : true,
@@ -803,6 +806,7 @@ $(document).ready(function() {
     	$('.submit-btn').html("Approve payroll");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_approvepayroll");
+    	$('.deny_item').html("");
         $('#modal_confirmation').modal('show');
 		return false;
 	});
@@ -817,7 +821,7 @@ $(document).ready(function() {
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('payroll/approve');?>",
+		      url : "<?php echo site_url('Payrollprocess/approve');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID,
 		      		  timekeepingID: timekeepingID,
@@ -864,6 +868,10 @@ $(document).ready(function() {
          return false;
 	});
 
+	$('#modal_confirmation').on('shown.bs.modal', function(){
+		$('#reason').focus(); 
+    });
+
 	$(document).on("click", ".deny", function(){
 		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
 		$('#modal_title').html("Deny Payroll");
@@ -872,26 +880,36 @@ $(document).ready(function() {
     	$('.submit-btn').html("Deny payroll");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_denypayroll");
-        $('#modal_confirmation').modal('show');
+        $('.deny_item').html('<br>' + 
+							 '<p class="text-left text-danger" style="font-size: 1.1em;">Please enter a reason:</p>' + 
+							 '<p><textarea class="form-control restrictspecchar" rows="4" id="reason"></textarea></p>');
+        $('#modal_confirmation').modal({backdrop: 'static', keyboard: false},'show');
 		return false;
 	});
 
 	$(document).on("click", "#modal_denypayroll", function(){
     	var payrollID = $('#payrollno').attr('payrollid');
+    	var reason = $('#reason').val();
+
+    	if(reason.trim()==""){
+    		$('#reason').focus();
+    		return;
+    	}
 
     	$(this).attr("disabled","disabled");
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('payroll/deny');?>",
+		      url : "<?php echo site_url('Payrollprocess/deny');?>",
 		      method : "POST",
-		      data : {payrollID:payrollID},
+		      data : {payrollID:payrollID,
+		      		  reason:reason},
 		      async : true,
 		      success: function(data){
-		      	var htmlStatus = "DENIED";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
+	      		var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + payrollID + "'>DENIED</a>";
 
 				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';	
 	      		
@@ -1003,7 +1021,7 @@ $(document).ready(function() {
   						 - (parseFloat(late) + parseFloat(LWOP));
 
     	$.ajax({
-		      url : "<?php echo site_url('payroll/adjustment');?>",
+		      url : "<?php echo site_url('Payrollprocess/adjustment');?>",
 		      method : "POST",
 		      data : {payperiod:payperiod,
 		      		  fromcutoff:fromcutoff,
@@ -1062,5 +1080,37 @@ $(document).ready(function() {
      	 });
          return false;
 	});	
+
+	$(document).on("click", ".denied_info", function(){
+		const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
+     	const day = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri", "Sat"];
+
+		var payrollID = $(this).attr('id');
+		
+    	$.ajax({
+		      url : "<?php echo site_url('Payrollprocess/getdenied');?>",
+		      method : "POST",
+		      data : {payrollID:payrollID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var datedenied 	= new Date(data[0]["datedenied"]);
+		     	var fullDate = day[datedenied.getDay()] + ", " + months[datedenied.getMonth()] + " " + 
+		     					datedenied.getDate().toString().padStart(2,"0") + ", " + 
+		     					datedenied.getFullYear() + " " +
+		     					datedenied.getHours().toString().padStart(2,"0")    + ":" +
+		     					datedenied.getMinutes().toString().padStart(2,"0")  + ":" +
+		     					datedenied.getSeconds().toString().padStart(2,"0") ;
+
+		      	$("#deny_date").html(fullDate);
+		      	$("#deny_approver").html(data[0]["fullname"]);
+		      	$("#deny_reason").html(data[0]["reason"]);
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
+        return false; 
+	}); 
 }); 		 
 </script>

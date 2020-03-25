@@ -3,7 +3,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -278,6 +278,10 @@
 
 <script>
 	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+		
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();

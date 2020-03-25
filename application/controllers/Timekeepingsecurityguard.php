@@ -29,6 +29,7 @@
 
 			if ($_FILES["file"]["tmp_name"]!="") {
 			    $fileName = $_FILES["file"]["tmp_name"];
+			    $file_name = $_FILES["file"]["name"];
 
 			    if ($_FILES["file"]["size"] > 0) {
 			        
@@ -246,6 +247,7 @@
 			        }
 			    }
 				
+				$this->session->set_flashdata('uploaded', $file_name); 
 				echo json_encode($this->timekeeping->get_timekeeping($timekeepingID));
 			}
 		}

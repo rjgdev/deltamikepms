@@ -3,6 +3,7 @@
 
 	<!-- Page Content -->
     <div class="content container-fluid">
+    	<div class="loader"></div>
 		<div class="row">
 			<div class="col-md-8 offset-md-2">
 			
@@ -24,7 +25,7 @@
 							<div class="form-group">
 								<label>Company Name <code>*</code></label>
 									<input class="form-control" type="hidden" id="companyid" name="companyid" value="<?php echo $record->companyID; ?>">
-								<input class="form-control alphanumericwithspace" type="text" id="editcompany"name="editcompany" value="<?php echo $record->company; ?>" description="Company Name">
+								<input class="form-control alphanumericwithspacecompany" type="text" id="editcompany"name="editcompany" value="<?php echo $record->company; ?>" description="Company Name">
 								<div class="invalid-feedback" id="edit-company"></div>
 							</div>
 						</div>
@@ -39,21 +40,21 @@
 					<div class="row">
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Unit No. </label>
+								<label>Unit Number</label>
 								<input class="form-control alphanumericwithspace" id="unitno"name="unitno" value="<?php echo $record->unitno; ?>" type="text">
 								<div class="invalid-feedback" id="edit-unitno"></div>
 							</div>
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Bldg Name / House No. <code>*</code></label>
+								<label>Bldg. Name / House Number  <code>*</code></label>
 								<input class="form-control alphanumericwithspace" id="bldgname"name="bldgname" value="<?php echo $record->bldgname; ?>" type="text">
 								<div class="invalid-feedback" id="edit-bldgname"></div>
 							</div>
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Street name <code>*</code></label>
+								<label>Street Name <code>*</code></label>
 								<input class="form-control alphanumericwithspace" id="streetname"name="streetname" value="<?php echo $record->streetname; ?>" type="text" description="Street name">
 								<div class="invalid-feedback" id="edit-streetname"></div>
 							</div>
@@ -77,21 +78,21 @@
 						</div>	
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label>Municipality<code>*</code></label>
+								<label>Municipality / City <code>*</code></label>
 								<input class="form-control letterswithspace"id="municipality"name="municipality" value="<?php echo $record->municipality; ?>" type="text" description="Municipality">
 								<div class="invalid-feedback" id="edit-municipality"></div>
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label>Province/State/Country<code>*</code></label>
+								<label>Province/State/Country <code>*</code></label>
 								<input type="text" class="form-control alphanumericwithspace"id="editprovince"name="editprovince" description="State/Province" value="<?php echo $record->province; ?>">
 								<div class="invalid-feedback" id="edit-province"></div>
 							</div>
 						</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Zip Code<code>*</code></label>
+								<label>Zip Code <code>*</code></label>
 								<input class="form-control alphanumericwithspace"id="editpostalcode"name="editpostalcode" value="<?php echo $record->zipcode; ?>" minlength=4 autocomplete="off" type="text">
 								<div class="invalid-feedback" id="edit-postalcode"></div>
 							</div>
@@ -114,21 +115,21 @@
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>SSS No.</label>
+								<label>SSS Number </label>
 								<input class="form-control alphanumericwithspace" id="sssno"name="sssno" value="<?php echo $record->sssno; ?>" value="00-0000000-0" placeholder="00-0000000-0" minlength=12 autocomplete="off" type="text">
 								<div class="invalid-feedback" id="edit-sssno"></div>
 							</div>
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Philhealth No.</label>
+								<label>PhilHealth Number </label>
 								<input class="form-control alphanumericwithspace" id="phic"name="phic" value="<?php echo $record->phic; ?>" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off" type="text">
 								<div class="invalid-feedback" id="edit-phic"></div>
 							</div>
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Pag-IBIG MID No.</label>
+								<label>Pag-IBIG MID Number </label>
 								<input class="form-control alphanumericwithspace" id="pagibig"name="pagibig" value="<?php echo $record->pagibig; ?>" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off" type="text">
 								<div class="invalid-feedback" id="edit-pagibig"></div>
 							</div>
@@ -137,14 +138,14 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label>Email<code>*</code></label>
+								<label>Email <code>*</code></label>
 								<input class="form-control withoutspace" id="editemail"name="editemail" value="<?php echo $record->email; ?>" type="email">
 								<div class="invalid-feedback" id="edit-email"></div>
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label>Phone No.<code>*</code></label>
+								<label>Phone Number <code>*</code></label>
 								<input class="form-control alphanumericwithspace"id="phonenumber"name="phonenumber" value="<?php echo $record->phonenumber; ?>" minlength=8 autocomplete="off" type="text"description="Phone number">
 								<div class="invalid-feedback" id="edit-phonenumber"></div>
 							</div>
@@ -169,7 +170,7 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<label>Website Url</label>
+								<label>Website URL</label>
 								<input class="form-control withoutspace" id="editwebsite"name="editwebsite" value="<?php echo $record->website; ?>" type="text">
 								<div class="invalid-feedback" id="edit-website"></div>
 							</div>
@@ -193,6 +194,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/submit.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -217,7 +219,9 @@
 ?>		
 <script  type="text/javascript">  
 $(document).ready(function() {
-
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
 
 	$('#phonenumber').mask('00-00000-0000');
 	$('#editmobilenumber').mask('0000-000-0000');

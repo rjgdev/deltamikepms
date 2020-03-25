@@ -16,6 +16,16 @@ foreach ($data['record'] as  $recorddata):
 
 
 endforeach;	
+if($datefrom==0){
+	$datefromrecord = "0";
+}else{
+	$datefromrecord = $datefrom;
+}
+if($datato==0){
+	$datatorecord = "0";
+}else{
+	$datatorecord = $datato;
+}
 
 ?>	
 			<br>
@@ -35,7 +45,7 @@ endforeach;
 											<br>
 											<br>
 											<h4 style="text-align: center;">13TH MONTH REPORT</h4>
-											<h5 style="text-align: center;"><?php echo date("F, Y", strtotime($datefrom)); ?> to <?php echo date("F, Y", strtotime($datato)); ?></h5>
+											<h5 style="text-align: center;"><?php echo date("F, Y", strtotime($datefromrecord)); ?> to <?php echo date("F, Y", strtotime($datatorecord)); ?></h5>
 										
 										
 											<br>

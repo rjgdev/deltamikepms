@@ -86,7 +86,7 @@
 		$username 			= 	$this->input->post('username');
 		$creditleaveID 		= 	$this->input->post('creditleaveID');
 		$leavetype 			= 	$this->input->post('leave');
-		$employee 			=	$this->input->post('employee');
+		$employeecredit 	=	$this->input->post('employeecredit');
 		$totalleave 		=	$this->input->post('totalleave');
 		$id 				=	$this->input->post('id');
 		$restdayresult 		=	$this->input->post('restdayresult');
@@ -127,7 +127,7 @@
 			'bankname' 			=> 		$this->input->post('bankname'),
 			'backaccountname' 	=> 		$this->input->post('backaccountname'),
 			'backaccountnumber' => 		$this->input->post('backaccountnumber'));
-	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employee,$restdayresult);
+	$data = $this->employee->update_employee($data,$id,$firstname,$middlename,$lastname,$username,$creditleaveID,$leavetype, $totalleave,$employeecredit,$restdayresult);
 	$retval = explode("|",$data);
 
 	if($retval[0]=="false"){
@@ -140,7 +140,7 @@
 	public function get_designation()
 	{
 		$departmentID = $this->input->post('id',TRUE);
-		$data = $this->employee->get_designation($departmentID)->result();
+		$data = $this->employee->get_designation($departmentID);
 		echo json_encode($data);
 	}
 
@@ -149,9 +149,7 @@
 		$id = $this->input->post('id');
 		$data = array (
 		'employeestatus' 	=>	 $this->input->post('changestatus'));
-
-
-		$data=$this->employee->change_status_employee($id,$data);
+		$data = $this->employee->change_status_employee($id,$data);
 		$this->session->set_flashdata('empstatus', 'empsuccess'); 
 		echo json_encode($data);  
 	}
@@ -160,9 +158,9 @@
 
 		$employeeID = $this->input->post('employee');
 		$data = $this->employee->search_creditleave($employeeID);
+
 		echo json_encode($data); 
 	}
-
 		public function Schedule()
 	{
 		$employeeID = $this->input->post('id');

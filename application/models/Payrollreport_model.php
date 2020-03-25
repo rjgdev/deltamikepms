@@ -62,24 +62,26 @@ class Payrollreport_model extends CI_Model
     }
 
     	$query = $this->db->query("
-    							SELECT
-								*
-								FROM
-								(
-									SELECT pd.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as fullname,
-									pd.basicpay,((pd.ordinaryot) + (pd.otadjustment)) AS totalovertime,((pd.nightdiff) + (pd.nightdiffadjustment))AS totalnightdiff,
-									pd.allowance,pd.incentive,((pd.late) + (pd.lateadjustment)) as totallate,((pd.absent) + (leaveadjustment)) AS totalleave,
-									pd.otheradjustment,	otherdescription, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductions,
-									pd.netpay 
-									FROM dm_payrolldetails as pd
-									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
-									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
-									LEFT JOIN dm_post AS p ON e.postID = p.postID
-								    WHERE pd.payrollID = '$searchpayperiod' $cond   $client  $detachment
-								    GROUP BY datefrom,e.employeeID
-								)a");
+    							SELECT 
+    							* 
+    							FROM 
+									( SELECT pd.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as fullname,
+									 pd.basicpay,((pd.ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) + (pd.otadjustment)) AS totalovertime,
+									 ((pd.ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) + (pd.nightdiffadjustment))AS totalnightdiff,
+									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,
+									 ((pd.absent) + (leaveadjustment)) AS totalleave,
+									 pd.otheradjustment, otherdescription, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
+									 pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductions,
+									 pd.netpay FROM dm_payrolldetails as pd 
+									 LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID 
+									 LEFT JOIN dm_client AS c ON e.clientID = c.clientID 
+									 LEFT JOIN dm_post AS p ON e.postID = p.postID 
+									    WHERE pd.payrollID = '$searchpayperiod' $cond   $client  $detachment
+									    GROUP BY datefrom,e.employeeID
+									)a
+								");
     	return $query->result();
-    	//print_r($this->db->last_query()); 
-		//exit;
+    	/*print_r($this->db->last_query()); 
+    	 exit;*/
     }
 }	

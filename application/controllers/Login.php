@@ -30,7 +30,7 @@
 
 				if($row['employeestatus']=="Active"){
 					$this->session->set_userdata($data->row_array());
-					redirect(base_url() .'dashboard');
+					redirect(base_url() .'Dashboard');
 				}else{
 					$this->session->set_flashdata('uname', $username);
 					$this->session->set_flashdata('pword', $password);

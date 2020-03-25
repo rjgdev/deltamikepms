@@ -3,8 +3,8 @@
      	public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 
-			$this->load->model('Payroll_model');  
-	  		$this->payroll = new Payroll_model;     
+			$this->load->model('Payrollprocess_model');  
+	  		$this->payroll = new Payrollprocess_model;     
 		}
 
 		public function index() 
@@ -58,7 +58,9 @@
 		public function deny() 
 		{ 
 			$payrollID = $this->input->post('payrollID');
-        	$this->payroll->deny_payroll($payrollID);
+			$reason    = $this->input->post('reason');
+
+        	$this->payroll->deny_payroll($payrollID,$reason);
 		}
 
 		public function submit() 
@@ -108,5 +110,14 @@
 
 			echo json_encode($result);
 		} 
+
+		public function getdenied() 
+		{ 
+			$payrollID = $this->input->post('payrollID');
+
+       		$data=$this->payroll->get_denied($payrollID);
+
+       		echo json_encode($data);
+   		}
 	}     
 ?>

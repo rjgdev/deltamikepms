@@ -1,14 +1,7 @@
 <!-- Page Wrapper -->
 <div class="page-wrapper">
     <div class="content container-fluid">
-    	<!-- <div class="loading" style="background-color: #f7f7f7; height: 100%; width: 100%; overflow: hidden; position: absolute; z-index: 1001; left: 10px !important;">
-			<div class="centered">
-				<div id="divSpinner" class="spinner loading" style="display: block;">
-					<div class="loading-text" style="display:none;">Loading ...</div>
-				</div>
-			</div>
-		</div> -->
-		<!-- Page Header -->
+    	<div class="loader"></div>
 		<div class="page-header">
 			<div class="row">
 				<div class="col-sm-12">
@@ -66,3 +59,11 @@
 	<!-- /Page Content -->
 </div>
 <!-- Page Wrapper -->
+
+<script>
+	$(document).ready(function() {
+		$(window).on("load", function() {
+			$(".loader").fadeOut();
+		});
+	});
+</script>

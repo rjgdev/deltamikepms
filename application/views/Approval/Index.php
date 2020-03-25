@@ -2,6 +2,7 @@
 <div class="page-wrapper">
 	<!-- Page Content -->
     <div class="content container-fluid" >
+    	<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row">
@@ -151,6 +152,10 @@ $(document).ready(function() {
 	var employeeID = [];
 
 	$('#7').addClass('active');
+
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
 
 	$(".roles-menu li").unbind('click').bind('click', function(){
 		var id = $(this).attr('id');

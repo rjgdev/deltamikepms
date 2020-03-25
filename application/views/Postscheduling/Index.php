@@ -18,7 +18,7 @@
 <div class="page-wrapper">
 	<!-- Page Content -->
     <div class="content container-fluid">
-	
+		<div class="loader"></div>
 		<!-- Page Header -->
 		<div class="page-header">
 			<div class="row align-items-center">
@@ -34,15 +34,6 @@
 		</div>
 		<!-- /Page Header -->
 		<div class="row">
-			<div class="loading" style="background-color: #f7f7f7; height: 85%; width: 100%; overflow: hidden; position: absolute; z-index: 1001; left: 10px !important;">
-				<div class="centered">
-					<div id="divSpinner" class="spinner loading" style="display: block;">
-						<div class="loading-text" style="display:none;">Loading ...</div>
-					</div>
-				</div>
-			</div>
-			
-
 			  <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
 					<select class="form-control select2" id="searchclient"> 
@@ -105,47 +96,6 @@
 <!-- /Confirmation Modal -->
 
 <style>
-.centered {
- 	text-align: center;
-}
-
-.spinner.loading {
-	display: none;
-	padding: 50px;
-	text-align: center;
-}
-
-.loading-text {
-	display:block !important;
-	position: absolute;
-	top: calc(34%);
-  	left: calc(42%);
-	text-align: center;
-}
-
-.spinner.loading:before {
-  content: "";
-  height: 90px;
-  width: 90px;
-  margin: -15px auto auto -15px;
-  position: absolute;
-  top: calc(30%);
-  left: calc(42%);
-  border-width: 8px;
-  border-style: solid;
-  border-color: #e04d45 #ccc #ccc;
-  border-radius: 100%;
-  animation: rotation .7s infinite linear;
-}
-
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
 .task-follower-list{
 	margin: 0px;
 }
@@ -418,8 +368,6 @@ $(document).ready(function() {
     	var html = "";
     	var optionEmployee = "";
 
-    	$(".loading").css("display","block");
-
     	$.ajax({
 		      url : "<?php echo site_url('Scheduling/searchbyclient');?>",
 		      method : "POST",
@@ -486,10 +434,9 @@ $(document).ready(function() {
 							    }
 						html+='</tr>';
   				}     	
-
   				$("#data_show").html(html);
-  				$('.select2').select2();		
-  				$(".loading").fadeOut();
+  				$('.select2').select2();	
+  				$(".loader").fadeOut();
 		      },
 		      error: function(request, textStatus, error) {
 

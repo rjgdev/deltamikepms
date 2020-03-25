@@ -7,7 +7,7 @@
 
   <!-- Page Content -->
   <div class="content container-fluid">
-
+  <div class="loader"></div>
   <!-- Page Header -->
   <div class="page-header">
     <div class="row align-items-center">
@@ -33,11 +33,11 @@
     
     <thead>
     <tr>
-    <th style="width: 100px ! important;">Employee No.</th>
+    <th style="width: 100px ! important;">Employee Number.</th>
     <th style="width: 220px ! important;">Employee Name</th>
     <th style="width: 150px ! important;">Client</th>
     <th style="width: 100px ! important;">Employee Type</th>
-    <th style="width: 110px ! important;">Contact No.</th>
+    <th style="width: 110px ! important;">Contact Number.</th>
     <th style="width: 110px ! important;">Hired Date</th>
     <th style="width: 50px ! important;">Status</th>
     <th style="width: 30px ! important;">Action</th>
@@ -52,9 +52,9 @@
     <a id="<?php echo $item->employeeID; ?>" class="avatar">
     <?php 
     if($item->photo==""){
-    echo '<img alt="" src="uploads/profileimg.png"></a><p style="margin-left: 10px; color: black;"> '.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.'</span> </p> </div</td>';
+    echo '<img alt="" src="uploads/profileimg.png"></a><p style="margin-left: 10px; color: black;"> '.' '.$item->lastname.', '.$item->firstname.' '.$item->middlename.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.'</span> </p> </div</td>';
     }else{
-    echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->firstname.' '.$item->lastname.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
+    echo '<img alt="" src="uploads/'.$item->photo.'" ></a> <div class="dash-card-content"><p style="margin-left: 10px; color: black;">'.' '.$item->lastname.', '.$item->firstname.' '.$item->middlename.'<br> <span style="color:#888;display: block; font-size: 11px;">'.$item->deptdesc.' | ' .$item->designationdescription.' </span> </p> </div></div></td>';
     } ?>
     </td> 
     <td>
@@ -175,8 +175,8 @@
     <div class="invalid-feedback" id="add-employeetype"></div>
     </div>
     <div class="form-group col-sm-6">
-    <label for="">Contact No. <span class="text-danger">*</span></label>
-    <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no" required tabindex="10">
+    <label for="">Contact Number. <span class="text-danger">*</span></label>
+    <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact number" required tabindex="10">
     <div class="invalid-feedback" id="add-contactinfo"></div>
   </div>
     <div class="form-group col-sm-6">
@@ -210,7 +210,7 @@
     </div>
      <div class="form-group col-sm-6">
   <label for="hireddate">Hired Date  <span class="text-danger">*</span></label>
-  <input id="addhireddate"  name="addhireddate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="hired date" tabindex="13">
+  <input id="addhireddate"  name="addhireddate" class="form-control datetimepicker" placeholder="yyyy-mm-dd" description="hired date" tabindex="13">
   <div class="invalid-feedback" id="add-hireddate"></div>
   </div>
   <div class="form-group col-sm-6">
@@ -236,7 +236,7 @@
   <div class="invalid-feedback" id="add-department"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="housenumber">Unit/House No.</label>
+  <label for="housenumber">Unit/House Number.</label>
   <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="5">
   </div>
 
@@ -296,7 +296,7 @@
   </div>
   <div class="form-group col-sm-6">
   <label for="birthdate">Birthdate  <span class="text-danger">*</span></label>
-  <input id="addbirthdate" name="addbirthdate" class="form-control datetimepicker" placeholder="dd/mm/yyyy" description="birthdate" tabindex="9">
+  <input id="addbirthdate" name="addbirthdate" class="form-control datetimepicker" placeholder="yyyy-mm-dd" description="birthdate" tabindex="9">
   <div class="invalid-feedback" id="add-birthdate"></div>
   </div>
   </div>
@@ -389,11 +389,45 @@
                             <input id="addallowance" name="addallowance" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off">
                           </div>
                           </div>
-                          <div class="form-group col-sm-6">
+
+                           <div class="form-group col-sm-6">
+                            <label for="allowance">Retirement Fund</label>
+                            <div class="input-group mr-sm-2 mb-sm-0">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                              </div>
+                            <input id="addretfund" name="addretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
+                          </div>
+                          </div>
+<!-- 
+                           <div class="form-group col-sm-6">
+                            <label for="allowance">Bank Name</label>                    
+                             <select class="form-control" id="addbankname" name="addbankname" style="width: 100%;" description="bank account name" required>
+                            <option value="">No Selected</option>
+                            <?php
+                            foreach($data['bank'] as $bank)
+                            {
+                            echo '<option value="'.$bank->bankID.'">'.$bank->bankname.'</option>';
+                            }
+                            ?>
+                          </select>
+                           <div class="invalid-feedback" id="add-bankname"></div>
+                          </div> -->
+                            <div class="form-group col-sm-6">
+                            <label for="allowance">Incentives</label>
+                             <div class="input-group mr-sm-2 mb-sm-0">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">₱</span>
+                              </div>
+                            <input id="addincentive" name="addincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
+                          </div>
+                           </div>
+                             <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Name</label>                       
                             <input id="addbankaccountname" type="text" name="addbankaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
                            <div class="invalid-feedback" id="add-bankaccountname"></div>
                           </div>
+
                            <div class="form-group col-sm-6">
                             <label for="allowance">Bank Name</label>                    
                              <select class="form-control" id="addbankname" name="addbankname" style="width: 100%;" description="bank account name" required>
@@ -408,17 +442,14 @@
                            <div class="invalid-feedback" id="add-bankname"></div>
                           </div>
                            <div class="form-group col-sm-6">
-                            <label for="allowance">Bank Account Number</label>
+                            <label for="allowance">Bank Account Number.</label>
                             <input id="addbackaccountnumber" name="addbackaccountnumber" class="form-control input accountnumber"  autocomplete="off">
                           </div>
-                            <div class="form-group col-sm-6">
+                        <!--     <div class="form-group col-sm-6">
                             <label for="allowance">Retirement Fund</label>
                             <input id="addretfund" name="addretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
-                          </div>
-                            <div class="form-group col-sm-6">
-                            <label for="allowance">Incentives</label>
-                            <input id="addincentive" name="addincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
-                          </div>
+                          </div> -->
+                          
                            <div class="form-group col-sm-6">
                             <label for="tinnumber">TIN</label>
                             <input id="addtinnumber" type="text" name="addtinnumber" value="000-000-000" class="form-control input" placeholder="000-000-000" minlength=11 autocomplete="off">
@@ -592,8 +623,8 @@
           <div class="invalid-feedback" id="edit-employeetype"></div>
         </div>
          <div class="form-group col-sm-6">
-        <label for="">Contact No. <span class="text-danger">*</span></label>
-        <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact no." required tabindex="11">
+        <label for="">Contact Number. <span class="text-danger">*</span></label>
+        <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact number" required tabindex="11">
         <div class="invalid-feedback" id="edit-contactinfo"></div>
         </div> 
         <div class="form-group col-sm-6">
@@ -627,7 +658,7 @@
         </div>
         <div class="form-group col-sm-6">
         <label for="hireddate">Hired Date</label>
-        <input id="edithireddate" name="edithireddate" class="form-control datetimepicker" tabindex="14">
+        <input id="edithireddate" name="edithireddate" class="form-control datetimepicker" placeholder="yyyy-mm-dd" tabindex="14">
         <div class="invalid-feedback" id="edit-hireddate"></div>
         </div>
         <div class="form-group col-sm-6">
@@ -653,7 +684,7 @@
         <div class="invalid-feedback" id="edit-department"></div>
         </div> 
         <div class="form-group col-sm-6">
-        <label for="housenumber">Unit/House No.</label>
+        <label for="housenumber">Unit/House Number.</label>
         <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="6">
       </div>
         <div class="form-group col-sm-6">
@@ -713,7 +744,7 @@
         </div>
         <div class="form-group col-sm-6">
         <label for="birthdate">Birthdate</label>
-        <input id="editbirthdate" name="editbirthdate" class="form-control datetimepicker" tabindex="10">
+        <input id="editbirthdate" name="editbirthdate" class="form-control datetimepicker" placeholder="yyyy-mm-dd" tabindex="10">
         <div class="invalid-feedback" id="edit-birthdate"></div>
         </div>
       
@@ -807,6 +838,24 @@
       <input id="editallowance" name="editallowance" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off">
       </div>
       </div>
+       <div class="form-group col-sm-6">
+        <label for="allowance">Retirment Fund</label>
+      <div class="input-group mr-sm-2 mb-sm-0">
+      <div class="input-group-prepend">
+      <span class="input-group-text">₱</span>
+      </div>
+        <input id="editretfund" name="editretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
+        </div>
+        </div>
+        <div class="form-group col-sm-6">
+        <label for="allowance">Incentives</label>
+         <div class="input-group mr-sm-2 mb-sm-0">
+      <div class="input-group-prepend">
+      <span class="input-group-text">₱</span>
+      </div>
+        <input id="editincentive" name="editincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
+      </div>
+      </div>
     <div class="form-group col-sm-6">
     <label for="allowance">Bank Account Name</label>                       
       <input id="editbackaccountname" type="text" name="editbackaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
@@ -826,18 +875,18 @@
         <div class="invalid-feedback" id="edit-bankname"></div>
     </div>
     <div class="form-group col-sm-6">
-      <label for="allowance">Bank Account Number</label>
+      <label for="allowance">Bank Account Number.</label>
       <input id="editbackaccountnumber" name="editbackaccountnumber" class="form-control input"  autocomplete="off">
       <div class="invalid-feedback" id="edit-backaccountnumber"></div>
     </div>
-        <div class="form-group col-sm-6">
+       <!--  <div class="form-group col-sm-6">
         <label for="allowance">Retirment Fund</label>
         <input id="editretfund" name="editretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
-        </div>
-        <div class="form-group col-sm-6">
+        </div> -->
+        <!-- <div class="form-group col-sm-6">
         <label for="allowance">Incentives</label>
         <input id="editincentive" name="editincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
-      </div>
+      </div> -->
       <div class="form-group col-sm-6">
       <label for="tinnumber">TIN</label>
       <input id="edittinnumber" type="text" name="edittinnumber" class="form-control input" value="000-000-000" placeholder="000-000-000" minlength=11 autocomplete="off">
@@ -993,7 +1042,9 @@
       <div class="invalid-feedback">Example invalid custom file feedback</div>
       &nbsp;
        <input type="hidden" name="empID" id="empID">  
-             <input type="submit" class="btn btn-primary btn-rounded" style="width:100%" value="Upload Photo" />   
+
+             <input type="submit" class="btn btn-primary btn-rounded submitpicture" id="submitpicture" name="submitpicture" style="width:100%" value="Upload Photo" />   
+
     </div>
         </div>
       </div>
@@ -1047,6 +1098,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="form-header">
+            <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
               <h3>Confirmation Message</h3>
               <p>Are you sure you want to add this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
@@ -1071,11 +1123,11 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="form-header">
+             <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
               <h3>Confirmation Message</h3>
               <p>Are you sure you want to update this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
           </div>
-        
             <div class="row">
               <div class="col-6">
                 <a href="#" class="btn btn-primary submit-btn edit">Update</a>
@@ -1098,1256 +1150,1287 @@
 ?>
 <!-- /Page Wrapper -->
 <script  type="text/javascript"> 
-var restdayid =[];
-  $(function () {
-    var counter = 0;
-    $(document).on("click", '.btn-add-row', function () {
-      var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
-      var div = $("<tr />");
-      div.html(GetDynamicTextBox(id));
-      $("#"+id+"_tbody").append(div);
+  $(document).ready(function() {
+    $(window).on("load", function() {
+      $(".loader").fadeOut();
     });
-    $(document).on("click", "#comments_remove", function () {
-      $(this).closest("tr").prev().find('td:last-child').html('<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button>');
-      $(this).closest("tr").remove();
-    });
-    function GetDynamicTextBox(table_id) {
-      $('#comments_remove').remove();
-      var ctr = counter++;
-      var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0].getElementsByTagName("tr").length+1;
-      return '<td >'+rowsLength+'</td>' + 
-            '<td>' +  '<div class="col-sm-12">' +
-              '<select class="form-control addleave" id="addleave' + rowsLength + '" name="addleave' + rowsLength + '" description="leave type">' +
-              '<option>No Selected</option>' + 
-                <?php foreach($data['leave'] as $leave) {   
-                  echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
-                } ?> 
-              '</select>' +  '<div class="invalid-feedback" id="add-leave"></div></div>' +
-            '</td>' +
-            '<td> <div class="col-sm-12">' +
-             '<input type="text" name ="addtotalleave' + rowsLength + '" id="addtotalleave' + rowsLength + '" class="form-control addtotalleave" value = ""> <div class="invalid-feedback" id="add-totalleave"></div></div></td>' +  
-          '<td>' + 
-          '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
+    var restdayid =[];
+      $(function () {
+        var counter = 0;
+        $(document).on("click", '.btn-add-row', function () {
+          var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
+          var div = $("<tr />");
+          div.html(GetDynamicTextBox(id));
+          $("#"+id+"_tbody").append(div);
+        });
+        $(document).on("click", "#comments_remove", function () {
+          $(this).closest("tr").prev().find('td:last-child').html('<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button>');
+          $(this).closest("tr").remove();
+        });
+        function GetDynamicTextBox(table_id) {
+          $('#comments_remove').remove();
+          var ctr = counter++;
+          var rowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0].getElementsByTagName("tr").length+1;
+          return '<td >'+rowsLength+'</td>' + 
+                '<td>' +  '<div class="col-sm-12">' +
+                  '<select class="form-control addleave" id="addleave' + rowsLength + '" name="addleave' + rowsLength + '" description="leave type">' +
+                  '<option>No Selected</option>' + 
+                    <?php foreach($data['leave'] as $leave) {   
+                      echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
+                    } ?> 
+                  '</select>' +  '<div class="invalid-feedback" id="add-leave"></div></div>' +
+                '</td>' +
+                '<td> <div class="col-sm-12">' +
+                 '<input type="text" name ="addtotalleave' + rowsLength + '" id="addtotalleave' + rowsLength + '" class="form-control addtotalleave" value = ""> <div class="invalid-feedback" id="add-totalleave"></div></div></td>' +  
+              '<td>' + 
+              '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
 
-    }
-  });
-    $(function () {
-    var counter = 0;
-    $(document).on("click", '.btn-edit-row', function () {
-      var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
-      var div = $("<tr />");
-      div.html(GetDynamicTextBox(id));
-      $("#"+id+"_tbody").append(div);
-    });
-    $(document).on("click", "#comments_remove", function () {
-      $(this).closest("tr").prev().find('td:last-child').html('<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button>');
-      $(this).closest("tr").remove();
-    });
-    function GetDynamicTextBox(table_id) {
-      $('#comments_remove').remove();
-      var ctr = counter++;
-      var editrowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0].getElementsByTagName("tr").length+1;
-      return '<td >'+editrowsLength+'</td>' + 
-            '<td>' +  '<div class="col-sm-12">' +
-              '<select class="form-control editleave" id="editleave' + editrowsLength + '" name="editleave' + editrowsLength + '" description="leave type">' +
-              '<option>No Selected</option>' + 
-                <?php foreach($data['leave'] as $leave) {   
-                  echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
-                } ?> 
-              '</select>' +  '<div class="invalid-feedback" id="edit-leave"></div></div>' +
-            '</td>' +
-            '<td> <div class="col-sm-12">' +
-             '<input type="text" name ="edittotalleave' + editrowsLength + '" id="edittotalleave' + editrowsLength + '" class="form-control edittotalleave" value = ""> <div class="invalid-feedback" id="edit-totalleave"></div></div></td>' + 
-             '<input type="hidden" name ="employee' + editrowsLength + '" id="employee' + editrowsLength + '" class="form-control employee" value = ""> <div class="invalid-feedback" id="edit-employee"></div></div>' + 
-
-          '<td>' + 
-          '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
-
-    }
-  });
-
-  $(document).ready(function(){
-
-    $('#photo').change(function(){
-      var name = document.getElementById('photo'); 
-      $(".custom-file-label").text(name.files.item(0).name);
-    });
-
-    $('#addcontactinfo').mask('0000-000-0000');
-    $('#addtinnumber').mask('000-000-000');
-    $('#addsssnumber').mask('00-0000000-0');
-    $('#addphilhealthnumber').mask('00-000000000-0');
-    $('#addpagibignumber').mask('0000-0000-0000');
-    $('#editcontactinfo').mask('0000-000-0000');
-    $('#edittinnumber').mask('000-000-000');
-    $('#editsssnumber').mask('00-0000000-0');
-    $('#editphilhealthnumber').mask('00-000000000-0');
-    $('#editpagibignumber').mask('0000-0000-0000');
-    });
-
-    $('#add_employee').on('shown.bs.modal', function(){
-      $("#addemployeetype").focus(); 
-    });
-
-  $('#add_employee').on('show.bs.modal', function(){  
-      $('#addtabs li:eq(0) a').tab('show');
-      $("#addemployeetype").trigger("change");
-  });
-
-  $('#edit_employee').on('shown.bs.modal', function(){
-      $("#editemployeetype").focus(); 
-  });
-
-  $('#edit_employee').on('show.bs.modal', function(){
-      $('#edittabs li:eq(0) a').tab('show');
-      var employeetype = $("#editemployeetype").val();
-
-      if(employeetype==1){
-         $("#lbleditusername").hide();
-         $("#lbleditpassword").hide();
-         $("#lblbasicsalary").hide();
-         $("#editclient").prop("disabled", false);
-         $("#editdetachment").prop("disabled", false);
-
-      }else{
-        $("#editdetachment").val($("#editdetachment option:first").val());
-        $("#lbleditusername").show();
-        $("#lbleditpassword").show();
-        $("#lblbasicsalary").show();
-        $("#editclient").prop("disabled", true);
-        $("#editdetachment").prop("disabled", true);
-      }
-  });
-
-  // upload picture //
-  $(".avatar").on('click',function() {
-    $('#empID').val($(this).attr("id"));
-    $('#uploadpicture').modal('show');
-  });
-    // end upload picture//
-
-    $('#show_hide_password').click(function(){
-      if($('#addpassword').attr('type')=="password"){
-        $('#addpassword').attr('type', 'text');
-        $('.iconshowhide').removeClass('la la-eye');
-        $('.iconshowhide').addClass('la la-eye-slash');
-      }else if($('#addpassword').attr('type')=="text"){
-        $('#addpassword').attr('type', 'password');
-        $('.iconshowhide').removeClass('la la-eye-slash');
-        $('.iconshowhide').addClass('la la-eye');
-      }
-    });
-    $('#edit_show_hide_password').click(function(){
-      if($('#editpassword').attr('type')=="password"){
-        $('#editpassword').attr('type', 'text');
-        $('.iconshowhide').removeClass('la la-eye');
-        $('.iconshowhide').addClass('la la-eye-slash');
-      }else if($('#editpassword').attr('type')=="text"){
-        $('#editpassword').attr('type', 'password');
-        $('.iconshowhide').removeClass('la la-eye-slash');
-        $('.iconshowhide').addClass('la la-eye');
-      }
-    });
-
-     //dropdown department ADD //
-  $('#addemployeetype').change(function(){
-    var employeetype =$(this).val();
-      if(employeetype==1){
-         $("#lblusername").hide();
-         $("#lblpassword").hide();
-         $("#lblbasicsalary").hide();
-         $("#addclient").prop("disabled", false);
-         $("#adddetachment").prop("disabled", false);
-
-      }else{
-         $("#lblusername").show();
-         $("#lblpassword").show();
-          $("#lblbasicsalary").show();
-        $("#addclient").prop("disabled", true);
-        $("#adddetachment").prop("disabled", true);
-      }
-
-  });
-     //dropdown department ADD //
-  $('#editemployeetype').change(function(){
-    var employeetype = $(this).val();
-    $("#editclient").prop("selectedIndex", 0);
-    $("#editdetachment").val($("#editdetachment option:first").val());
-      if(employeetype==1){
-         $("#lbleditusername").hide();
-         $("#lbleditpassword").hide();
-         $("#editlblbasicsalary").hide();
-         $("#editclient").prop("disabled", false);
-         $("#editdetachment").prop("disabled", false);
-      }else{
-        $("#lbleditusername").show();
-        $("#lbleditpassword").show();
-        $("#editlblbasicsalary").show();
-        $("#editclient").prop("disabled", true);
-        $("#editdetachment").prop("disabled", true);
-      }
-
-  });
-
-  //dropdown department ADD //
-  $('#adddepartment').change(function(){ 
-    var id=$(this).val();
-  
-    $.ajax({
-      url : "<?php echo site_url('Employees/get_designation');?>",
-      method : "POST",
-      data : {id: id},
-      async : true,
-      dataType : 'json',
-      success: function(data){
-        var html = '';
-        var i;
-        html += '<option value="">No Selected</option>';
-        for(i=0; i<data.length; i++){
-          if($("#editDesignation").val()==data[i].designationID){
-            html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
-          }else{
-            html += '<option value='+data[i].designationID+'>'+data[i].designationdescription+'</option>';
-          }
-        }
-        $('#adddesignation').html(html);
-      }
-    });
-    return false;
-
-  });
-  // end of dropdown department//
-
-  //dropdown client ADD //
-  $('#addclient').change(function(){ 
-    var id=$(this).val();
-    $.ajax({
-      url : "<?php echo site_url('Employees/get_client');?>",
-      method : "POST",
-      data : {id: id},
-      async : true,
-      dataType : 'json',
-      success: function(data){
-        var html = '';
-        var i;
-        html += '<option value="">No Selected</option>';
-        for(i=0; i<data.length; i++){
-          if($("#adddetachment").val()==data[i].postID){
-            html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
-          }else{
-            html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
-          }
-        }
-        $('#adddetachment').html(html);
-      }
-    });
-    return false;
-
-  });
-  //dropdown bank name ADD //
-  $('#addbankname').change(function(){ 
-    var id=$(this).val();
-    //alert(id);
-  
-    $.ajax({
-      url : "<?php echo site_url('Employees/get_bank');?>",
-      method : "POST",
-      data : {id: id},
-      async : true,
-      dataType : 'json',
-      success: function(response){
-             var len ="";
-             var len = response.length;
-              for(var i=0; i<len; i++){
-          //$("#hiddenbankaccount").val().response[i].acctnoformat;
-          var acctnumber = response[i].acctnoformat;
-           var countnumber = response[i].acctnumberformat;
-          document.getElementById("addbackaccountnumber").placeholder =acctnumber;
-          $("#addbackaccountnumber").attr('maxlength',countnumber);
-          $('#addbackaccountnumber').mask(acctnumber);
-        }
-      }
-    });
-    return false;
-
-  });
-  //dropdown bank name ADD //
-  $('#editbankname').change(function(){ 
-    var id=$(this).val();
-    //alert(id);
-  
-    $.ajax({
-      url : "<?php echo site_url('Employees/get_bank');?>",
-      method : "POST",
-      data : {id: id},
-      async : true,
-      dataType : 'json',
-      success: function(response){
-             var len ="";
-             var len = response.length;
-              for(var i=0; i<len; i++){
-          //$("#hiddenbankaccount").val().response[i].acctnoformat;
-          var acctnumber = response[i].acctnoformat;
-           var countnumber = response[i].acctnumberformat;
-          document.getElementById("editbackaccountnumber").placeholder =acctnumber;     
-          $("#editbackaccountnumber").attr('maxlength',countnumber);
-          $('#editbackaccountnumber').mask(acctnumber);
-        }
-      }
-    });
-    return false;
-
-  });
-
-  // end of dropdown client//
-   //dropdown client edit //
-  $('#editclient').change(function(){ 
-    var id=$(this).val();
-    if(id!=null){
-      $.ajax({
-        url : "<?php echo site_url('Employees/get_client');?>",
-        method : "POST",
-        data : {id: id},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-          var html = '';
-          var i;
-          html += '<option value="">No Selected</option>';
-          for(i=0; i<data.length; i++){
-            if($("#edithiddenDetachment").val()==data[i].postID){
-              html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
-            }else{
-              html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
-            }
-          }
-          $('#editdetachment').html(html);
         }
       });
-    }else{
-        var html = '<option value="">No Selected</option>';
-        $('#editdetachment').html(html);
+        $(function () {
+        var counter = 0;
+        $(document).on("click", '.btn-edit-row', function () {
+          var id = $(this).closest("table.table-review").attr('id');  // Id of particular table
+          var div = $("<tr />");
+          div.html(GetDynamicTextBox(id));
+          $("#"+id+"_tbody").append(div);
+        });
+        $(document).on("click", "#comments_remove", function () {
+          $(this).closest("tr").prev().find('td:last-child').html('<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button>');
+          $(this).closest("tr").remove();
+        });
+        function GetDynamicTextBox(table_id) {
+          $('#comments_remove').remove();
+          var ctr = counter++;
+          var editrowsLength = document.getElementById(table_id).getElementsByTagName("tbody")[0].getElementsByTagName("tr").length+1;
+          return '<td >'+editrowsLength+'</td>' + 
+                '<td>' +  '<div class="col-sm-12">' +
+                  '<select class="form-control editleave" id="editleave' + editrowsLength + '" name="editleave' + editrowsLength + '" description="leave type">' +
+                  '<option>No Selected</option>' + 
+                    <?php foreach($data['leave'] as $leave) {   
+                      echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
+                    } ?> 
+                  '</select>' +  '<div class="invalid-feedback" id="edit-leave"></div></div>' +
+                '</td>' +
+                '<td> <div class="col-sm-12">' +
+                 '<input type="text" name ="edittotalleave' + editrowsLength + '" id="edittotalleave' + editrowsLength + '" class="form-control edittotalleave" value = ""> <div class="invalid-feedback" id="edit-totalleave"></div></div></td>' + 
+                 '<input type="hidden" name ="employeecredit' + editrowsLength + '" id="employeecredit' + editrowsLength + '" class="form-control employeecredit" value = ""> <div class="invalid-feedback" id="edit-employeecredit"></div></div>' + 
+                 '<input type="hidden" name ="employeeid' + editrowsLength + '" id="employeeid' + editrowsLength + '" class="form-control employeeid" value = ""> <div class="invalid-feedback" id="edit-employeeid"></div></div>' + 
 
-      $("#editclient").prop("selectedIndex", 0);
-      $("#editdetachment").val($("#editdetachment option:first").val());
-    }
-    return false;
+              '<td>' + 
+              '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
 
-  });
-  // end of dropdown client//
+        }
+      });
 
-     //dropdown department edit //
-   $('#editdepartment').change(function(){ 
-      var id=$(this).val();
-      $.ajax({
+      $(document).ready(function(){
+
+      /*  $('#submitpicture').click(function(){
+        $(".submitpicture").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...');
+      });*/
+
+        $('#photo').change(function(){
+          var name = document.getElementById('photo'); 
+          $(".custom-file-label").text(name.files.item(0).name);
+        });
+
+        $('#addcontactinfo').mask('0000-000-0000');
+        $('#addtinnumber').mask('000-000-000');
+        $('#addsssnumber').mask('00-0000000-0');
+        $('#addphilhealthnumber').mask('00-000000000-0');
+        $('#addpagibignumber').mask('0000-0000-0000');
+        $('#editcontactinfo').mask('0000-000-0000');
+        $('#edittinnumber').mask('000-000-000');
+        $('#editsssnumber').mask('00-0000000-0');
+        $('#editphilhealthnumber').mask('00-000000000-0');
+        $('#editpagibignumber').mask('0000-0000-0000');
+        });
+
+        $('#add_employee').on('shown.bs.modal', function(){
+          $("#addemployeetype").focus(); 
+        });
+
+      $('#add_employee').on('show.bs.modal', function(){  
+          $('#addtabs li:eq(0) a').tab('show');
+          $("#addemployeetype").trigger("change");
+      });
+
+      $('#edit_employee').on('shown.bs.modal', function(){
+          $("#editemployeetype").focus(); 
+      });
+
+      $('#edit_employee').on('show.bs.modal', function(){
+          $('#edittabs li:eq(0) a').tab('show');
+          var employeetype = $("#editemployeetype").val();
+
+          if(employeetype==1){
+             $("#lbleditusername").hide();
+             $("#lbleditpassword").hide();
+             $("#lblbasicsalary").hide();
+             $("#editclient").prop("disabled", false);
+             $("#editdetachment").prop("disabled", false);
+
+          }else{
+            $("#editdetachment").val($("#editdetachment option:first").val());
+            $("#lbleditusername").show();
+            $("#lbleditpassword").show();
+            $("#lblbasicsalary").show();
+            $("#editclient").prop("disabled", true);
+            $("#editdetachment").prop("disabled", true);
+          }
+      });
+
+      // upload picture //
+      $(".avatar").on('click',function() {
+        $('#empID').val($(this).attr("id"));
+        $('#uploadpicture').modal('show');
+
+
+
+
+      });
+        // end upload picture//
+
+        $('#show_hide_password').click(function(){
+          if($('#addpassword').attr('type')=="password"){
+            $('#addpassword').attr('type', 'text');
+            $('.iconshowhide').removeClass('la la-eye');
+            $('.iconshowhide').addClass('la la-eye-slash');
+          }else if($('#addpassword').attr('type')=="text"){
+            $('#addpassword').attr('type', 'password');
+            $('.iconshowhide').removeClass('la la-eye-slash');
+            $('.iconshowhide').addClass('la la-eye');
+          }
+        });
+        $('#edit_show_hide_password').click(function(){
+          if($('#editpassword').attr('type')=="password"){
+            $('#editpassword').attr('type', 'text');
+            $('.iconshowhide').removeClass('la la-eye');
+            $('.iconshowhide').addClass('la la-eye-slash');
+          }else if($('#editpassword').attr('type')=="text"){
+            $('#editpassword').attr('type', 'password');
+            $('.iconshowhide').removeClass('la la-eye-slash');
+            $('.iconshowhide').addClass('la la-eye');
+          }
+        });
+
+         //dropdown department ADD //
+      $('#addemployeetype').change(function(){
+        var employeetype =$(this).val();
+          if(employeetype==1){
+             $("#lblusername").hide();
+             $("#lblpassword").hide();
+             $("#lblbasicsalary").hide();
+             $("#addclient").prop("disabled", false);
+             $("#adddetachment").prop("disabled", false);
+            $("#addbasicsalary").prop("disabled", true);
+            $("#addbasicsalary").val('');
+             
+
+          }else{
+             $("#lblusername").show();
+             $("#lblpassword").show();
+              $("#lblbasicsalary").show();
+            $("#addclient").prop("disabled", true);
+            $("#adddetachment").prop("disabled", true);
+            $("#addbasicsalary").prop("disabled", false);
+
+          }
+
+      });
+         //dropdown department ADD //
+      $('#editemployeetype').change(function(){
+        var employeetype = $(this).val();
+        $("#editclient").prop("selectedIndex", 0);
+        $("#editdetachment").val($("#editdetachment option:first").val());
+          if(employeetype==1){
+             $("#lbleditusername").hide();
+             $("#lbleditpassword").hide();
+             $("#editlblbasicsalary").hide();
+             $("#editclient").prop("disabled", false);
+             $("#editdetachment").prop("disabled", false);
+           $("#editbasicsalary").prop("disabled", true);
+            $("#editbasicsalary").val('');
+            
+             
+          }else{
+            $("#lbleditusername").show();
+            $("#lbleditpassword").show();
+            $("#editlblbasicsalary").show();
+            $("#editclient").prop("disabled", true);
+            $("#editdetachment").prop("disabled", true);
+            $("#editbasicsalary").prop("disabled", false);
+           
+                 
+                }
+
+      });
+
+      //dropdown department ADD //
+      $('#adddepartment').change(function(){ 
+        var id=$(this).val();
+      
+        $.ajax({
           url : "<?php echo site_url('Employees/get_designation');?>",
           method : "POST",
           data : {id: id},
           async : true,
           dataType : 'json',
           success: function(data){
-              var html = '';
-              var i;
-
-              html += '<option value="">No Selected</option>';
-              for(i=0; i<data.length; i++){
-                if($("#edithiddenDesignation").val()==data[i].designationID){
-                  html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
-                }else{
-                  html += '<option value='+data[i].designationID+'>'+data[i].designationdescription+'</option>';
-                }
+            var html = '';
+            var i;
+            html += '<option value="">No Selected</option>';
+            for(i=0; i<data.length; i++){
+              if($("#editDesignation").val()==data[i].designationID){
+                html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
+              }else{
+                html += '<option value='+data[i].designationID+'>'+data[i].designationdescription+'</option>';
               }
-              $('#editdesignation').html(html);
+            }
+            $('#adddesignation').html(html);
           }
-      });
-      return false;
-    });
-    /* CLEAR MODAL */
-    $('#edit_employee').on('hidden.bs.modal', function(){
-        $(this).find('form')[0].reset();
-        $(this).find('form')[1].reset();
-        $(this).find('form')[2].reset();
-         $(this).find('form')[3].reset();
-
-        $("#edittable_alterations_tbody").html("");
-        $(".invalid-feedback").html("");
-          $('input').removeClass('is-invalid');
-          $('input').removeClass('is-valid');
-          $('select').removeClass('is-invalid');
-          $('select').removeClass('is-valid');
-          $('checkbox').removeClass('is-invalid');
-          $('checkbox').removeClass('is-valid');
-          
-    });
-
-    /* CLEAR MODAL */
-    $('#add_employee').on('hidden.bs.modal', function(){
-      $("#table_alterations_tbody").html("");
-        $(this).find('form')[0].reset();
-        $(this).find('form')[1].reset();
-        $(this).find('form')[2].reset();
-        $(this).find('form')[3].reset();
-         $(this).find('form')[4].reset();
-        $(".invalid-feedback").html("");
-          $('input').removeClass('is-invalid');
-          $('input').removeClass('is-valid');
-          $('select').removeClass('is-invalid');
-          $('select').removeClass('is-valid');  
-          $('input').prop("disabled", false);
-        
-    });
-
-    /* CLEAR MODAL */
-    $('#status_employee').on('hidden.bs.modal', function(){
-        document.getElementById("status-invalid").innerHTML = "";
-    });
-      /* Change Status */
-      $('.changestatus').unbind('click').bind('click', function(){
-      $('.change').attr('id', $(this).data('id'));
-      $('.change').attr('status', $(this).data('status'));
-      $('.change').attr('employeestatus', $(this).data('employeestatus')); 
-    
-    });
-
-    /* CHANGE STATUS */
-    $('.change').unbind('click').bind('click', function(){
-          var changestatus = $("#changestatus").val();
-          var id = $(this).attr('id');
-          $.ajax({
-                url : "<?php echo site_url('employees/changestatus');?>",
-                method : "POST",
-                data : {id:id,
-                    changestatus:changestatus},
-                async : true,
-                dataType : 'json',
-                success: function(data){
-
-                  window.location.replace('<?php echo base_url(); ?>Employees');
-                },
-                error: function(request, textStatus, error) {
-
-              }
-            });
-            return false;
         });
-   // end of dropdown department edit//
-
-  /* SAVE EMPLOYEE */
-  $('#save').unbind('click').bind('click', function(){
-      var employeetype  = $("#addemployeetype").val();
-      var firstname     = $("#addfirstname").val();
-      var lastname      = $("#addlastname").val();
-      var streetname    = $("#addstreetname").val();
-      var barangay      = $("#addbarangay").val();
-      var city          = $("#addcity").val();
-      var citizenship   = $("#addcitizenship").val();
-      var middlename    = $("#addmiddlename").val();
-      var basicsalary   = $("#addbasicsalary").val().trim().replace(",","");
-      var dailyrate     = $("#adddailyrate").val().trim().replace(",","");
-      var dailyratedata = dailyrate.replace(",","");
-      var dailyratewithoutperiod = dailyratedata.replace(".","");
-      var basicwithoutperiod = basicsalary.replace(".","");
-      var addbasicinteger = parseInt(basicwithoutperiod,15);
-      var adddailyinteger = parseInt(dailyratewithoutperiod,15);
-      var phone         = $("#addcontactinfo").val();
-
-      /* 
-         0 = addemployeetype         1 = addfirstname        2 = addmiddlename         3 = addlastname            4 = addgender           5 = addhousenumber
-         6 = addstreetname           7 = addbarangay         8 = addcity               9 = addbirthdate          10 = addcontactinfo     11 = addcivilstatus
-         12 = addcitizenship        13 = addhireddate       14 = adddepartment        15 = adddesignation        16 = addclient          17 = adddetachment
-         18 = addstatus             19 = addrole            20 = addusername          21 = addpassword           22 = addbasicsalary     23 = adddailyrate 
-         24 = addallowance          25 = addretfund         26 = addincentive         27/cancel = adduniformallowance   27 = addtinnumber       28 = addsssnumber
-         29 = addphilhealthnumber   30 = addpagibignumber   31 = addbankaccountname   32 = addbackaccountnumber  33 = addbankname
-      */
-      
-      var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
-                    '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
-                    '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
-                    '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
-                    '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addretfund',
-                    '#addincentive', /*'#adduniformallowance',*/ '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
-                    '#addpagibignumber', '#addbankaccountname', '#addbackaccountnumber','#addbankname'];
-
-      var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
-                          'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
-                          'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
-                          'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
-                          'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-retfund', 
-                          'add-incentive', /*'add-uniformallowance',*/ 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
-                          'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber','add-bankname'];
-
-      var ValueArray = [];
-      var firstRequired = "";
-      var navIndex = 0;
-
-      for(var i=0;i<IDArray.length;i++){
-          ValueArray[i] = $(IDArray[i]).val().trim();
-          if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
-
-          }else{
-            if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 || i==26 ||/* i==27 || i==28 ||*/ /*i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
-            if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
-                };
-
-                 document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                $('#addtabs li:eq(2) a').tab('show');
-                $("#adddailyrate").focus();
-
-            }else{
-             
-
-                 document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-              
-            }
-             }
-          }
-
-          if(i==10){
-            if($(IDArray[i]).val().length<13){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-            }
-          /*}else if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
-                };
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                $('#addtabs li:eq(2) a').tab('show');
-                $("#adddailyrate").focus();
-            }else{
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }*/
-             }else if(i==27){
-            if($(IDArray[i]).val().length<11){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-
-            }
-           }else if(i==28){
-            if($(IDArray[i]).val().length<12){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-           
-            }   
-            }else if(i==29){
-            if($(IDArray[i]).val().length<14){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-           
-            }
-          }else if(i==30){
-            if($(IDArray[i]).val().length<14){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-           
-            }              
-          }else{
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
-                };
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
-            }else{
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }
-          }
-      }
-
-      $('#addtabs li:eq('+navIndex+') a').tab('show');
-      $(firstRequired).focus();
-      if(firstRequired==""){
-        $('#add_employee').hide();
-        $('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
-        event.preventDefault(); 
         return false;
-      } 
-  });
 
-      $("#cncl-add").unbind('click').bind('click', function(){
-        $('#confirmation_add').modal('hide');
-        $('#add_employee').show()
+      });
+      // end of dropdown department//
 
-      }); 
-
-      $('.add').unbind('click').bind('click', function(){
-        var leave = [];
-        var totalleave = [];
-        $(".addleave").each(function(){
-           leave.push($(this).val());
-        });
-        $(".addtotalleave").each(function(){
-           totalleave.push($(this).val());
-        });
-
-        var restdayresult = [];
-        $('input.addremoveLater:checked').map(function() {
-        restdayresult.push($(this).val());
-        });
-
-        var firstname         =   $("#addfirstname").val();
-        var middlename        =   $("#addmiddlename").val();
-        var lastname          =   $("#addlastname").val();
-        var gender            =   $("#addgender").val();
-        var housenumber       =   $("#addhousenumber").val();
-        var streetname        =   $("#addstreetname").val();
-        var barangay          =   $("#addbarangay").val();
-        var city              =   $("#addcity").val();
-        var birthdate         =   $("#addbirthdate").val();
-        var contactinfo       =   $("#addcontactinfo").val();
-        var civilstatus       =   $("#addcivilstatus").val();
-        var citizenship       =   $("#addcitizenship").val();
-        var hireddate         =   $("#addhireddate").val();
-        var departmentID      =   $("#adddepartment").val();
-        var designationID     =   $("#adddesignation").val(); 
-        var detachmentID      =   $("#adddetachment").val();
-        var employeestatus    =   $("#addstatus").val();
-        var roleDescription   =   $("#addrole").val();
-        var username          =   $("#addusername").val();
-        var password          =   $("#addpassword").val();
-        var basicsalary       =   $("#addbasicsalary").val().replace(",","");
-        var dailyrate         =   $("#adddailyrate").val().replace(",","");
-        var allowance         =   $("#addallowance").val().replace(",","");
-        var retfund           =   $("#addretfund").val().replace(",","");
-        var incentive         =   $("#addincentive").val().replace(",","");
-        var tinnumber         =   $("#addtinnumber").val();
-        var sssnumber         =   $("#addsssnumber").val();
-        var philhealthnumber  =   $("#addphilhealthnumber").val();
-        var pagibignumber     =   $("#addpagibignumber").val();
-        var clientID          =   $("#addclient").val();
-        var employeetypeid    =   $("#addemployeetype").val();
-        var backaccountname   =   $("#addbankaccountname").val();
-        var backaccountnumber =    $("#addbackaccountnumber").val();
-        var bankname          =    $("#addbankname").val();
+      //dropdown client ADD //
+      $('#addclient').change(function(){ 
+        var id=$(this).val();
         $.ajax({
-        url : "<?php echo site_url('employees/save');?>",
-        method : "POST",
-        data : {firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
-                gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
-                barangay:          barangay,        city:             city,             birthdate:        birthdate,
-                contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
-                hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
-                detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
-                username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                incentive:         incentive,       tinnumber:        tinnumber,              
-                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
-                clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
-                backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
-                restdayresult:     restdayresult,   bankname:          bankname},
-        async : true,
-        dataType : 'json',
-        success: function(data){
-        var result = data.split('|');
-        if(result[0]=="false"){
-        if(result[1] == "Employee name already exist!"){
-        document.getElementById("add-firstname").innerHTML = result[1];
-        $('#addfirstname').removeClass('is-valid');
-        $('#addfirstname').addClass('is-invalid');
-        $('#add-firstname').addClass('invalid-feedback');
-        $('#confirmation_add').modal('hide');
-        $('#add_employee').show();
-        $("#addfirstname").focus();
-        document.getElementById("add-lastname").innerHTML = result[1];
-        $('#addlastname').removeClass('is-valid');
-        $('#addlastname').addClass('is-invalid');
-        $('#add-lastname').addClass('invalid-feedback');
-        }else{
-        $('#addtabs li:eq(1) a').tab('show');
-        document.getElementById("add-username").innerHTML = result[1];
-        $('#addusername').removeClass('is-valid');
-        $('#addusername').addClass('is-invalid');
-        $('#add-username').addClass('invalid-feedback');
-        $("#addusername").focus();
-        }
-        }else{
-        window.location.replace('<?php echo base_url(); ?>Employees');
-        }
-        },
-        error: function(request, textStatus, error) {
-
-        }                         
+          url : "<?php echo site_url('Employees/get_client');?>",
+          method : "POST",
+          data : {id: id},
+          async : true,
+          dataType : 'json',
+          success: function(data){
+            var html = '';
+            var i;
+            html += '<option value="">No Selected</option>';
+            for(i=0; i<data.length; i++){
+              if($("#adddetachment").val()==data[i].postID){
+                html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
+              }else{
+                html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
+              }
+            }
+            $('#adddetachment').html(html);
+          }
         });
         return false;
+
       });
-
-   
-
-  // end SAVE employee 
-  $('.editemployee').unbind('click').bind('click', function(){
-    $(".modal-body #editemployeetype").val($(this).data('employeetypeid'));
-    $(".modal-body #editfirstname").val($(this).data('firstname'));
-    $(".modal-body #editrole").val( $(this).data('roleid'));
-    $(".modal-body #editmiddlename").val( $(this).data('middlename'));
-    $(".modal-body #editlastname").val( $(this).data('lastname'));
-    $(".modal-body #editgender").val( $(this).data('gender'));
-    $(".modal-body #edithousenumber").val( $(this).data('housenumber'));
-    $(".modal-body #editstreetname").val( $(this).data('streetname'));
-    $(".modal-body #editbarangay").val( $(this).data('barangay'));
-    $(".modal-body #editcity").val( $(this).data('city'));
-    $(".modal-body #editbirthdate").val( $(this).data('birthdate'));
-    $(".modal-body #editcontactinfo").val( $(this).data('contactinfo'));
-    $(".modal-body #editcivilstatus").val( $(this).data('civilstatus'));
-    $(".modal-body #editcitizenship").val( $(this).data('citizenship'));
-    $(".modal-body #edithireddate").val($(this).data('hireddate'));
-    $(".modal-body #editdepartment").val( $(this).data('departmentid'));
-    $(".modal-body #editdepartment").trigger("change");
-    $(".modal-body #edithiddenDesignation").val( $(this).data('designationid'));
-    $(".modal-body #editdesignation").val( $(this).data('designationid'));
-    $(".modal-body #editclient").val($(this).data('clientid'));
-    $(".modal-body #editclient").trigger("change");
-    $(".modal-body #edithiddenDetachment").val( $(this).data('postid'));
-    $(".modal-body #editdetachment").val( $(this).data('postid'));
-    $(".modal-body #editstatus").val( $(this).data('employeestatus'));
-    $(".modal-body #editusername").val( $(this).data('username'));
-    $(".modal-body #editpassword").val( $(this).data('password'));
-    $(".modal-body #editbasicsalary").val( $(this).data('basicsalary'));
-    $(".modal-body #editdailyrate").val( $(this).data('dailyrate'));
-    $(".modal-body #editallowance").val( $(this).data('allowance'));
-    $(".modal-body #editretfund").val( $(this).data('retfund'));
-    $(".modal-body #editincentive").val( $(this).data('incentive'));
-    $(".modal-body #editbankname").val( $(this).data('bankname'));
-    $(".modal-body #editbankname").trigger("change");
-    $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
-    $(".modal-body #editbackaccountnumber").val( $(this).data('backaccountnumber'));
-    $(".modal-body #edittinnumber").val( $(this).data('tinnumber'));
-    $(".modal-body #editsssnumber").val( $(this).data('sssnumber'));
-    $(".modal-body #editphilhealthnumber").val( $(this).data('philhealthnumber'));
-    $(".modal-body #editpagibignumber").val( $(this).data('pagibignumber'));
-    $('.edit').attr('id', $(this).data('id'));
-    var id = $(this).data('id');
-
-    $.ajax({
-          url : "<?php echo site_url('employees/Schedule');?>",
+      //dropdown bank name ADD //
+      $('#addbankname').change(function(){ 
+        var id=$(this).val();
+        //alert(id);
+      
+        $.ajax({
+          url : "<?php echo site_url('Employees/get_bank');?>",
           method : "POST",
           data : {id: id},
           async : true,
           dataType : 'json',
           success: function(response){
-            var len ="";
-            var len = response.length;
-              for(var i=0; i<len; i++){
-               var restday = response[i].restday;
-               restdayid[i] = response[i].restday;
-             if (restday == 1){
-              $("#edit_Monday").prop("checked", true);
-            };
-            if (restday == 2){
-             $("#edit_Tuesday").prop("checked", true);
-            };
-            if (restday == 3){
-             $("#edit_Wednesday").prop("checked", true);
-            };
-            if (restday == 4){
-             $("#edit_Thursday").prop("checked", true);
-            };
-            if (restday == 5){
-             $("#edit_Friday").prop("checked", true);
-            };
-            if (restday == 6){
-             $("#edit_Saturday").prop("checked", true);
-            };
-            if (restday == 7){
-              $("#edit_Sunday").prop("checked", true);
-            };
-       
+                 var len ="";
+                 var len = response.length;
+                  for(var i=0; i<len; i++){
+              //$("#hiddenbankaccount").val().response[i].acctnoformat;
+              var acctnumber = response[i].acctnoformat;
+               var countnumber = response[i].acctnumberformat;
+              document.getElementById("addbackaccountnumber").placeholder =acctnumber;
+              $("#addbackaccountnumber").attr('maxlength',countnumber);
+              $('#addbackaccountnumber').mask(acctnumber);
             }
+          }
+        });
+        return false;
 
-      }
-    });
-
-    var idleave = $(this).data('id');
+      });
+      //dropdown bank name ADD //
+      $('#editbankname').change(function(){ 
+        var id=$(this).val();
+        //alert(id);
+      
         $.ajax({
-              url : "<?php echo site_url('employees/leaverecord');?>",
+          url : "<?php echo site_url('Employees/get_bank');?>",
+          method : "POST",
+          data : {id: id},
+          async : true,
+          dataType : 'json',
+          success: function(response){
+                 var len ="";
+                 var len = response.length;
+                  for(var i=0; i<len; i++){
+              //$("#hiddenbankaccount").val().response[i].acctnoformat;
+              var acctnumber = response[i].acctnoformat;
+               var countnumber = response[i].acctnumberformat;
+              document.getElementById("editbackaccountnumber").placeholder =acctnumber;     
+              $("#editbackaccountnumber").attr('maxlength',countnumber);
+              $('#editbackaccountnumber').mask(acctnumber);
+            }
+          }
+        });
+        return false;
+
+      });
+
+      // end of dropdown client//
+       //dropdown client edit //
+      $('#editclient').change(function(){ 
+        var id=$(this).val();
+        if(id!=null){
+          $.ajax({
+            url : "<?php echo site_url('Employees/get_client');?>",
+            method : "POST",
+            data : {id: id},
+            async : true,
+            dataType : 'json',
+            success: function(data){
+              var html = '';
+              var i;
+              html += '<option value="">No Selected</option>';
+              for(i=0; i<data.length; i++){
+                if($("#edithiddenDetachment").val()==data[i].postID){
+                  html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';
+                }else{
+                  html += '<option value='+data[i].postID+'>'+data[i].postname+'</option>';
+                }
+              }
+              $('#editdetachment').html(html);
+            }
+          });
+        }else{
+            var html = '<option value="">No Selected</option>';
+            $('#editdetachment').html(html);
+
+          $("#editclient").prop("selectedIndex", 0);
+          $("#editdetachment").val($("#editdetachment option:first").val());
+        }
+        return false;
+
+      });
+      // end of dropdown client//
+
+         //dropdown department edit //
+       $('#editdepartment').change(function(){ 
+          var id=$(this).val();
+          $.ajax({
+              url : "<?php echo site_url('Employees/get_designation');?>",
               method : "POST",
-              data : {idleave: idleave},
+              data : {id: id},
+              async : true,
+              dataType : 'json',
+              success: function(data){
+                  var html = '';
+                  var i;
+
+                  html += '<option value="">No Selected</option>';
+                  for(i=0; i<data.length; i++){
+                    if($("#edithiddenDesignation").val()==data[i].designationID){
+                      html += '<option value='+data[i].designationID+' selected>'+data[i].designationdescription+'</option>';
+                    }else{
+                      html += '<option value='+data[i].designationID+'>'+data[i].designationdescription+'</option>';
+                    }
+                  }
+                  $('#editdesignation').html(html);
+              }
+          });
+          return false;
+        });
+        /* CLEAR MODAL */
+        $('#edit_employee').on('hidden.bs.modal', function(){
+            $(this).find('form')[0].reset();
+            $(this).find('form')[1].reset();
+            $(this).find('form')[2].reset();
+             $(this).find('form')[3].reset();
+
+            $("#edittable_alterations_tbody").html("");
+            $(".invalid-feedback").html("");
+              $('input').removeClass('is-invalid');
+              $('input').removeClass('is-valid');
+              $('select').removeClass('is-invalid');
+              $('select').removeClass('is-valid');
+              $('checkbox').removeClass('is-invalid');
+              $('checkbox').removeClass('is-valid');
+              
+        });
+
+        /* CLEAR MODAL */
+        $('#add_employee').on('hidden.bs.modal', function(){
+          $("#table_alterations_tbody").html("");
+            $(this).find('form')[0].reset();
+            $(this).find('form')[1].reset();
+            $(this).find('form')[2].reset();
+            $(this).find('form')[3].reset();
+             $(this).find('form')[4].reset();
+            $(".invalid-feedback").html("");
+              $('input').removeClass('is-invalid');
+              $('input').removeClass('is-valid');
+              $('select').removeClass('is-invalid');
+              $('select').removeClass('is-valid');  
+              $('input').prop("disabled", false);
+            
+        });
+
+        /* CLEAR MODAL */
+        $('#status_employee').on('hidden.bs.modal', function(){
+            document.getElementById("status-invalid").innerHTML = "";
+        });
+          /* Change Status */
+          $('.changestatus').unbind('click').bind('click', function(){
+          $('.change').attr('id', $(this).data('id'));
+          $('.change').attr('status', $(this).data('status'));
+          $('.change').attr('employeestatus', $(this).data('employeestatus')); 
+        
+        });
+
+        /* CHANGE STATUS */
+        $('.change').unbind('click').bind('click', function(){
+              var changestatus = $("#changestatus").val();
+              var id = $(this).attr('id');
+              $.ajax({
+                    url : "<?php echo site_url('employees/changestatus');?>",
+                    method : "POST",
+                    data : {id:id,
+                        changestatus:changestatus},
+                    async : true,
+                    dataType : 'json',
+                    success: function(data){
+
+                      window.location.replace('<?php echo base_url(); ?>Employees');
+                    },
+                    error: function(request, textStatus, error) {
+
+                  }
+                });
+                return false;
+            });
+       // end of dropdown department edit//
+
+      /* SAVE EMPLOYEE */
+      $('#save').unbind('click').bind('click', function(){
+          var employeetype  = $("#addemployeetype").val();
+          var firstname     = $("#addfirstname").val();
+          var lastname      = $("#addlastname").val();
+          var streetname    = $("#addstreetname").val();
+          var barangay      = $("#addbarangay").val();
+          var city          = $("#addcity").val();
+          var citizenship   = $("#addcitizenship").val();
+          var middlename    = $("#addmiddlename").val();
+          var basicsalary   = $("#addbasicsalary").val().trim().replace(",","");
+          var dailyrate     = $("#adddailyrate").val().trim().replace(",","");
+          var dailyratedata = dailyrate.replace(",","");
+          var dailyratewithoutperiod = dailyratedata.replace(".","");
+          var basicwithoutperiod = basicsalary.replace(".","");
+          var addbasicinteger = parseInt(basicwithoutperiod,15);
+          var adddailyinteger = parseInt(dailyratewithoutperiod,15);
+          var phone         = $("#addcontactinfo").val();
+
+          /* 
+             0 = addemployeetype         1 = addfirstname        2 = addmiddlename         3 = addlastname            4 = addgender           5 = addhousenumber
+             6 = addstreetname           7 = addbarangay         8 = addcity               9 = addbirthdate          10 = addcontactinfo     11 = addcivilstatus
+             12 = addcitizenship        13 = addhireddate       14 = adddepartment        15 = adddesignation        16 = addclient          17 = adddetachment
+             18 = addstatus             19 = addrole            20 = addusername          21 = addpassword           22 = addbasicsalary     23 = adddailyrate 
+             24 = addallowance          25 = addretfund         26 = addincentive         27/cancel = adduniformallowance   27 = addtinnumber       28 = addsssnumber
+             29 = addphilhealthnumber   30 = addpagibignumber   31 = addbankaccountname   32 = addbackaccountnumber  33 = addbankname
+          */
+          
+          var IDArray = ['#addemployeetype','#addfirstname', '#addmiddlename', '#addlastname', '#addgender', '#addhousenumber',
+                        '#addstreetname', '#addbarangay', '#addcity', '#addbirthdate', '#addcontactinfo',
+                        '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
+                        '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
+                        '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addretfund',
+                        '#addincentive', /*'#adduniformallowance',*/ '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
+                        '#addpagibignumber', '#addbankaccountname', '#addbackaccountnumber','#addbankname'];
+
+          var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
+                              'add-streetname', 'add-barangay', 'add-city', 'add-birthdate', 'add-contactinfo',
+                              'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
+                              'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
+                              'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-retfund', 
+                              'add-incentive', /*'add-uniformallowance',*/ 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
+                              'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber','add-bankname'];
+
+          var ValueArray = [];
+          var firstRequired = "";
+          var navIndex = 0;
+
+          for(var i=0;i<IDArray.length;i++){
+              ValueArray[i] = $(IDArray[i]).val().trim();
+              if(employeetype==1){
+                if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
+
+              }else{
+                if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 || i==26 ||/* i==27 || i==28 ||*/ /*i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+              /*  if(i==22 || i==23){*/
+              /*  if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){*/
+                    /*if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };*/
+                    /* document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#addtabs li:eq(2) a').tab('show');
+                    $("#adddailyrate").focus();*/
+
+              /*  }else{
+                 
+
+                     document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                  
+                }*/
+                 /*}*/
+              }
+
+              if(i==10){
+                if($(IDArray[i]).val().length<13){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+                }
+              }else if(i==23){
+                if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#addtabs li:eq(2) a').tab('show');
+                    $("#adddailyrate").focus();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+                 }else if(i==27){
+                if($(IDArray[i]).val().length<11){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+
+                }
+               }else if(i==28){
+                if($(IDArray[i]).val().length<12){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }   
+                }else if(i==29){
+                if($(IDArray[i]).val().length<14){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }
+              }else if(i==30){
+                if($(IDArray[i]).val().length<14){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }              
+              }else{
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    event.preventDefault();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+              }
+          }
+
+          $('#addtabs li:eq('+navIndex+') a').tab('show');
+          $(firstRequired).focus();
+          if(firstRequired==""){
+            $('#add_employee').hide();
+            $('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+            event.preventDefault(); 
+            return false;
+          } 
+      });
+
+          $("#cncl-add").unbind('click').bind('click', function(){
+            $('#confirmation_add').modal('hide');
+            $('#add_employee').show()
+
+          }); 
+
+          $('.add').unbind('click').bind('click', function(){
+            var leave = [];
+            var totalleave = [];
+            $(".addleave").each(function(){
+               leave.push($(this).val());
+            });
+            $(".addtotalleave").each(function(){
+               totalleave.push($(this).val());
+            });
+
+            var restdayresult = [];
+            $('input.addremoveLater:checked').map(function() {
+            restdayresult.push($(this).val());
+            });
+
+            var firstname         =   $("#addfirstname").val();
+            var middlename        =   $("#addmiddlename").val();
+            var lastname          =   $("#addlastname").val();
+            var gender            =   $("#addgender").val();
+            var housenumber       =   $("#addhousenumber").val();
+            var streetname        =   $("#addstreetname").val();
+            var barangay          =   $("#addbarangay").val();
+            var city              =   $("#addcity").val();
+            var birthdate         =   $("#addbirthdate").val();
+            var contactinfo       =   $("#addcontactinfo").val();
+            var civilstatus       =   $("#addcivilstatus").val();
+            var citizenship       =   $("#addcitizenship").val();
+            var hireddate         =   $("#addhireddate").val();
+            var departmentID      =   $("#adddepartment").val();
+            var designationID     =   $("#adddesignation").val(); 
+            var detachmentID      =   $("#adddetachment").val();
+            var employeestatus    =   $("#addstatus").val();
+            var roleDescription   =   $("#addrole").val();
+            var username          =   $("#addusername").val();
+            var password          =   $("#addpassword").val();
+            var basicsalary       =   $("#addbasicsalary").val().replace(",","");
+            var dailyrate         =   $("#adddailyrate").val().replace(",","");
+            var allowance         =   $("#addallowance").val().replace(",","");
+            var retfund           =   $("#addretfund").val().replace(",","");
+            var incentive         =   $("#addincentive").val().replace(",","");
+            var tinnumber         =   $("#addtinnumber").val();
+            var sssnumber         =   $("#addsssnumber").val();
+            var philhealthnumber  =   $("#addphilhealthnumber").val();
+            var pagibignumber     =   $("#addpagibignumber").val();
+            var clientID          =   $("#addclient").val();
+            var employeetypeid    =   $("#addemployeetype").val();
+            var backaccountname   =   $("#addbankaccountname").val();
+            var backaccountnumber =    $("#addbackaccountnumber").val();
+            var bankname          =    $("#addbankname").val();
+            $.ajax({
+            url : "<?php echo site_url('employees/save');?>",
+            method : "POST",
+            data : {firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
+                    gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
+                    barangay:          barangay,        city:             city,             birthdate:        birthdate,
+                    contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
+                    hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
+                    detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
+                    username:          username,        password:         password,         basicsalary:      basicsalary,    
+                    dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
+                    incentive:         incentive,       tinnumber:        tinnumber,              
+                    sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
+                    clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
+                    backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
+                    restdayresult:     restdayresult,   bankname:          bankname},
+            async : true,
+            dataType : 'json',
+            success: function(data){
+            var result = data.split('|');
+            if(result[0]=="false"){
+            if(result[1] == "Employee name already exist!"){
+            document.getElementById("add-firstname").innerHTML = result[1];
+            $('#addfirstname').removeClass('is-valid');
+            $('#addfirstname').addClass('is-invalid');
+            $('#add-firstname').addClass('invalid-feedback');
+            $('#confirmation_add').modal('hide');
+            $('#add_employee').show();
+            $("#addfirstname").focus();
+            document.getElementById("add-lastname").innerHTML = result[1];
+            $('#addlastname').removeClass('is-valid');
+            $('#addlastname').addClass('is-invalid');
+            $('#add-lastname').addClass('invalid-feedback');
+            }else{
+            $('#addtabs li:eq(1) a').tab('show');
+            document.getElementById("add-username").innerHTML = result[1];
+            $('#addusername').removeClass('is-valid');
+            $('#addusername').addClass('is-invalid');
+            $('#add-username').addClass('invalid-feedback');
+            $("#addusername").focus();
+            }
+            }else{
+            window.location.replace('<?php echo base_url(); ?>Employees');
+            }
+            },
+            error: function(request, textStatus, error) {
+
+            }                         
+            });
+            return false;
+          });
+
+       
+
+      // end SAVE employee 
+      $('.editemployee').unbind('click').bind('click', function(){
+        $(".modal-body #editemployeetype").val($(this).data('employeetypeid'));
+        $(".modal-body #editemployeetype").trigger("change");
+        $(".modal-body #editfirstname").val($(this).data('firstname'));
+        $(".modal-body #editrole").val( $(this).data('roleid'));
+        $(".modal-body #editmiddlename").val( $(this).data('middlename'));
+        $(".modal-body #editlastname").val( $(this).data('lastname'));
+        $(".modal-body #editgender").val( $(this).data('gender'));
+        $(".modal-body #edithousenumber").val( $(this).data('housenumber'));
+        $(".modal-body #editstreetname").val( $(this).data('streetname'));
+        $(".modal-body #editbarangay").val( $(this).data('barangay'));
+        $(".modal-body #editcity").val( $(this).data('city'));
+        $(".modal-body #editbirthdate").val( $(this).data('birthdate'));
+        $(".modal-body #editcontactinfo").val( $(this).data('contactinfo'));
+        $(".modal-body #editcivilstatus").val( $(this).data('civilstatus'));
+        $(".modal-body #editcitizenship").val( $(this).data('citizenship'));
+        $(".modal-body #edithireddate").val($(this).data('hireddate'));
+        $(".modal-body #editdepartment").val( $(this).data('departmentid'));
+        $(".modal-body #editdepartment").trigger("change");
+        $(".modal-body #edithiddenDesignation").val( $(this).data('designationid'));
+        $(".modal-body #editdesignation").val( $(this).data('designationid'));
+        $(".modal-body #editclient").val($(this).data('clientid'));
+        $(".modal-body #editclient").trigger("change");
+        $(".modal-body #edithiddenDetachment").val( $(this).data('postid'));
+        $(".modal-body #editdetachment").val( $(this).data('postid'));
+        $(".modal-body #editstatus").val( $(this).data('employeestatus'));
+        $(".modal-body #editusername").val( $(this).data('username'));
+        $(".modal-body #editpassword").val( $(this).data('password'));
+        $(".modal-body #editbasicsalary").val( $(this).data('basicsalary'));
+        $(".modal-body #editdailyrate").val( $(this).data('dailyrate'));
+        $(".modal-body #editallowance").val( $(this).data('allowance'));
+        $(".modal-body #editretfund").val( $(this).data('retfund'));
+        $(".modal-body #editincentive").val( $(this).data('incentive'));
+        $(".modal-body #editbankname").val( $(this).data('bankname'));
+        $(".modal-body #editbankname").trigger("change");
+        $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
+        $(".modal-body #editbackaccountnumber").val( $(this).data('backaccountnumber'));
+        $(".modal-body #edittinnumber").val( $(this).data('tinnumber'));
+        $(".modal-body #editsssnumber").val( $(this).data('sssnumber'));
+        $(".modal-body #editphilhealthnumber").val( $(this).data('philhealthnumber'));
+        $(".modal-body #editpagibignumber").val( $(this).data('pagibignumber'));
+        $('.edit').attr('id', $(this).data('id'));
+        var id = $(this).data('id');
+
+        $.ajax({
+              url : "<?php echo site_url('employees/Schedule');?>",
+              method : "POST",
+              data : {id: id},
               async : true,
               dataType : 'json',
               success: function(response){
                 var len ="";
                 var len = response.length;
-
                   for(var i=0; i<len; i++){
-                      $(".btn-edit-row").trigger('click');
-                      var totalleave    =    response[i].totalleave;
-                      var leavetypeID   =    response[i].leavetypeID;
-                      var employeeID    =    response[i].employeeleavecreditID;
-                      $("#editleave" + (i+1)).val(leavetypeID);
-                      $("#edittotalleave" + (i+1)).val (totalleave);
-                      $("#employee" + (i+1)).val (employeeID);
-              } 
-            } 
-          });          
-
-  });
-  /* updated employee */
-  $('.update').unbind('click').bind('click', function(){
-
-    /* 
-       0 = editemployeetype         1 = editfirstname        2 = editmiddlename         3 = editlastname            4 = editgender           5 = edithousenumber
-       6 = editstreetname           7 = editbarangay         8 = editcity               9 = editbirthdate          10 = editcontactinfo     11 = editcivilstatus
-       12 = editcitizenship        13 = edithireddate       14 = editdepartment        15 = editdesignation        16 = editclient          17 = editdetachment
-       18 = editstatus             19 = editrole            20 = editusername          21 = editpassword           22 = editbasicsalary     23 = editdailyrate 
-       24 = editallowance          25 = editretfund         26 = editincentive         27 CANCEL = edituniformallowance 27 = edittinnumber  28 = editsssnumber
-       29 = editphilhealthnumber   30 = editpagibignumber   31 = editbankaccountname   32 = editbackaccountnumber  33 = editbankname
-    */
-      var basicsalary   = $("#editbasicsalary").val().trim().replace(",","");
-      var dailyrate     = $("#editdailyrate").val().trim().replace(",","");
-      var secondcommabasic = basicsalary.replace(",","");
-      var secondcommadetaily = dailyrate.replace(",","");
-      var dailyratewithoutperiod = secondcommadetaily.replace(".","");
-      var basicwithoutperiod = secondcommabasic.replace(".","");
-      var basicinteger = parseInt(basicwithoutperiod,15);
-      var dailyinteger = parseInt(dailyratewithoutperiod,15);
-
-     var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
-                   '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
-                   '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
-                   '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
-                   '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editretfund', 
-                   '#editincentive', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
-                   '#editpagibignumber', '#editbackaccountname','#editbackaccountnumber','#editbankname'];
-
-    var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
-                        'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
-                        'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
-                        'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
-                        'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-retfund', 
-                        'edit-incentive',  'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
-                        'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber','edit-backaccountnumber','edit-bankname'];
-
-      var ValueArray = [];
-      var firstRequired = "";
-      var navIndex = 0;
-
-      var employeetype = $("#editemployeetype").val();
-
-      for(var i=0;i<IDArray.length;i++){
-          
-          if(employeetype==1){
-            if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
-            if(i==23){
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
+                   var restday = response[i].restday;
+                   restdayid[i] = response[i].restday;
+                 if (restday == 1){
+                  $("#edit_Monday").prop("checked", true);
                 };
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                $('#edittabs li:eq(2) a').tab('show');
-                $("#editdailyrate").focus();
-               
-            }else{
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }
-          }
-          }else{
-            if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  || */ i==31 || i==32 || i==33) continue;
-              if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
+                if (restday == 2){
+                 $("#edit_Tuesday").prop("checked", true);
                 };
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                $('#edittabs li:eq(2) a').tab('show');
-                $("#editdailyrate").focus();
-               
-            }else{
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }
-          }
-        }
-
-          ValueArray[i] = $(IDArray[i]).val().trim();
-
-          if(i==10){
-            if($(IDArray[i]).val().length<13){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-            }
-         /* }else if(i==22 || i==23){
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
+                if (restday == 3){
+                 $("#edit_Wednesday").prop("checked", true);
                 };
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                $('#edittabs li:eq(2) a').tab('show');
-                $("#editdailyrate").focus();
-            }else{
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }*/
-            }else if(i==28){
-            if($(IDArray[i]).val().length<11){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-
-            }
-           }else if(i==29){
-            if($(IDArray[i]).val().length<12){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
+                if (restday == 4){
+                 $("#edit_Thursday").prop("checked", true);
+                };
+                if (restday == 5){
+                 $("#edit_Friday").prop("checked", true);
+                };
+                if (restday == 6){
+                 $("#edit_Saturday").prop("checked", true);
+                };
+                if (restday == 7){
+                  $("#edit_Sunday").prop("checked", true);
+                };
            
-            }   
-            }else if(i==30){
-            if($(IDArray[i]).val().length<14){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-           
-            }
-          }else if(i==31){
-            if($(IDArray[i]).val().length<14){
-               if(firstRequired==""){
-                  firstRequired = IDArray[i];
-
-                       if(i<=18) navIndex = 0;
-                  else if(i<=21) navIndex = 1;
-                  else if(i<=34) navIndex = 2;
-              };
-
-              document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
-              $(IDArray[i]).addClass('is-invalid');
-            }else{
-              document.getElementById(ErrorIDArray[i]).innerHTML = "";
-              $(IDArray[i]).removeClass('is-invalid');
-              $(IDArray[i]).addClass('is-valid');
-              event.preventDefault();
-           
-            }  
-          }else{
-            if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
-                if(firstRequired==""){
-                    firstRequired = IDArray[i];
-
-                         if(i<=18) navIndex = 0;
-                    else if(i<=21) navIndex = 1;
-                    else if(i<=34) navIndex = 2;
-                };
-
-                document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-                $(IDArray[i]).addClass('is-invalid');
-                event.preventDefault();
-            }else{
-                document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                $(IDArray[i]).removeClass('is-invalid');
-                $(IDArray[i]).addClass('is-valid');
-                event.preventDefault();
-            }
-          }
-      }
-
-      $('#edittabs li:eq('+navIndex+') a').tab('show');
-      $(firstRequired).focus();
-      if(firstRequired==""){
-        $('#edit_employee').hide();
-        $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
-        event.preventDefault(); 
-        return false;
-      } 
-
-        $('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
-        $(firstRequired).focus();
-        if(firstRequired==""){
-          $('#edit_employee').hide();
-          $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
-          event.preventDefault(); 
-          return false;
-        }   
-    });
-
-  $("#cncl-edit").unbind('click').bind('click', function(){
-      $('#confirmation_edit').modal('hide');
-      $('#edit_employee').show();
-    });
-
-  $('.edit').unbind('click').bind('click', function(){
-        var id    =   $(this).attr('id');
-        var leave = [];  
-        var employee      = [];
-        var restdayresult = [];
-
-          $(".employee").each(function(){
-           employee.push($(this).val());
-        });
-
-        var totalleave = [];
-        $(".editleave").each(function(){
-           leave.push($(this).val());
-        });
-        $(".edittotalleave").each(function(){
-           totalleave.push($(this).val());
-        });
-        $('input.editremoveLater:checked').map(function() {
-          restdayresult.push($(this).val());
-        });
-
-        var sunrestdays       =   $("#editsunrestdays").prop('checked')==true ? "1" : "0"; 
-        var monrestday        =   $("#editmonrestdays").prop('checked')==true ? "1" : "0"; 
-        var tuerestday        =   $("#edittuerestdays").prop('checked')==true ? "1" : "0"; 
-        var wedrestday        =   $("#editwedrestdays").prop('checked')==true ? "1" : "0";
-        var thuresday         =   $("#editthrestdays").prop('checked')==true ? "1" : "0"; 
-        var frirestday        =   $("#editfrirestdays").prop('checked')==true ? "1" : "0";
-        var satrestday        =   $("#editsatrestdays").prop('checked')==true ? "1" : "0";  
-        var firstname         =   $("#editfirstname").val();
-        var middlename        =   $("#editmiddlename").val();
-        var lastname          =   $("#editlastname").val();
-        var gender            =   $("#editgender").val();
-        var housenumber       =   $("#edithousenumber").val();
-        var streetname        =   $("#editstreetname").val();
-        var barangay          =   $("#editbarangay").val();
-        var city              =   $("#editcity").val();
-        var birthdate         =   $("#editbirthdate").val();
-        var contactinfo       =   $("#editcontactinfo").val();
-        var civilstatus       =   $("#editcivilstatus").val();
-        var citizenship       =   $("#editcitizenship").val();
-        var hireddate         =   $("#edithireddate").val();
-        var departmentID      =   $("#editdepartment").val();
-        var designationID     =   $("#editdesignation").val(); 
-        var detachmentID      =   $("#editdetachment").val();
-        var employeestatus    =   $("#editstatus").val();
-        var roleDescription   =   $("#editrole").val();
-        var username          =   $("#editusername").val();
-        var password          =   $("#editpassword").val();
-        var basicsalary       =   $("#editbasicsalary").val().replace(",","");
-        var dailyrate         =   $("#editdailyrate").val().replace(",","");
-        var allowance         =   $("#editallowance").val().replace(",","");
-        var retfund           =   $("#editretfund").val().replace(",","");
-        var incentive         =   $("#editincentive").val().replace(",","");
-        var tinnumber         =   $("#edittinnumber").val();
-        var sssnumber         =   $("#editsssnumber").val();
-        var philhealthnumber  =   $("#editphilhealthnumber").val();
-        var pagibignumber     =   $("#editpagibignumber").val();
-        var clientID          =   $("#editclient").val();
-        var employeetypeid    =   $("#editemployeetype").val();
-        var bankname          =   $("#editbankname").val();
-        var backaccountname   =   $("#editbackaccountname").val();
-        var backaccountnumber =   $("#editbackaccountnumber").val();
-        $.ajax({
-              url : "<?php echo site_url('employees/update');?>",
-              method : "POST",
-              data : {id:id, 
-                firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
-                gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
-                barangay:          barangay,        city:             city,             birthdate:        birthdate,
-                contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
-                hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
-                detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
-                username:          username,        password:         password,         basicsalary:      basicsalary,    
-                dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                incentive:         incentive,       tinnumber:        tinnumber,      
-                sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
-                clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
-                backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
-                employee:          employee,        restdayresult:    restdayresult,    bankname:          bankname},
-              async : true,
-              dataType : 'json',
-              success: function(data){
-          var result = data.split('|');
-            if(result[0]=="false"){
-                  if(result[1] == "Employee name already exist!"){
-                document.getElementById("edit-firstname").innerHTML = result[1];
-                    $('#editfirstname').removeClass('is-valid');
-                    $('#editfirstname').addClass('is-invalid');
-                    $('#edit-firstname').addClass('invalid-feedback');
-                    $('#confirmation_edit').modal('hide');
-                    $('#edit_employee').show();
-                    $("#editfirstname").focus();
-                    document.getElementById("edit-lastname").innerHTML = result[1];
-                    $('#editlastname').removeClass('is-valid');
-                    $('#editlastname').addClass('is-invalid');
-                    $('#edit-lastname').addClass('invalid-feedback');
-                  }else{
-                    $('.modal-body #edittabs li:eq(1) a').tab('show');
-                    document.getElementById("edit-username").innerHTML = result[1];
-                  $('#editusername').removeClass('is-valid');
-                    $('#editusername').addClass('is-invalid');
-                    $('#edit-username').addClass('invalid-feedback');
-                    $("#editusername").focus();
-                  }
-                }else{
-                window.location.replace('<?php echo base_url(); ?>Employees');
                 }
-              },
-           error: function(request, textStatus, error) {
 
+          }
+        });
+
+        var idleave = $(this).data('id');
+            $.ajax({
+                  url : "<?php echo site_url('employees/leaverecord');?>",
+                  method : "POST",
+                  data : {idleave: idleave},
+                  async : true,
+                  dataType : 'json',
+                  success: function(response){
+                    var len ="";
+                    var len = response.length;
+
+                      for(var i=0; i<len; i++){
+                          $(".btn-edit-row").trigger('click');
+                          var totalleave    =    response[i].totalleave;
+                          var leavetypeID   =    response[i].leavetypeID;
+                          var employeeID   =    response[i].employeeID;
+                          var employeecreditid    =    response[i].employeeleavecreditID;
+                          $("#editleave" + (i+1)).val(leavetypeID);
+                          $("#edittotalleave" + (i+1)).val (totalleave);
+                          $("#employeecredit" + (i+1)).val (employeecreditid);
+                          $("#employeeid" + (i+1)).val (employeeID);
+                  } 
+                } 
+              });          
+
+      });
+      /* updated employee */
+      $('.update').unbind('click').bind('click', function(){
+
+        /* 
+           0 = editemployeetype         1 = editfirstname        2 = editmiddlename         3 = editlastname            4 = editgender           5 = edithousenumber
+           6 = editstreetname           7 = editbarangay         8 = editcity               9 = editbirthdate          10 = editcontactinfo     11 = editcivilstatus
+           12 = editcitizenship        13 = edithireddate       14 = editdepartment        15 = editdesignation        16 = editclient          17 = editdetachment
+           18 = editstatus             19 = editrole            20 = editusername          21 = editpassword           22 = editbasicsalary     23 = editdailyrate 
+           24 = editallowance          25 = editretfund         26 = editincentive         27 CANCEL = edituniformallowance 27 = edittinnumber  28 = editsssnumber
+           29 = editphilhealthnumber   30 = editpagibignumber   31 = editbankaccountname   32 = editbackaccountnumber  33 = editbankname
+        */
+          var basicsalary   = $("#editbasicsalary").val().trim().replace(",","");
+          var dailyrate     = $("#editdailyrate").val().trim().replace(",","");
+          var secondcommabasic = basicsalary.replace(",","");
+          var secondcommadetaily = dailyrate.replace(",","");
+          var dailyratewithoutperiod = secondcommadetaily.replace(".","");
+          var basicwithoutperiod = secondcommabasic.replace(".","");
+          var basicinteger = parseInt(basicwithoutperiod,15);
+          var dailyinteger = parseInt(dailyratewithoutperiod,15);
+
+         var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
+                       '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
+                       '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
+                       '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
+                       '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editretfund', 
+                       '#editincentive', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
+                       '#editpagibignumber', '#editbackaccountname','#editbackaccountnumber','#editbankname'];
+
+        var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
+                            'edit-streetname', 'edit-barangay', 'edit-city', 'edit-birthdate', 'edit-contactinfo',
+                            'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
+                            'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
+                            'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-retfund', 
+                            'edit-incentive',  'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
+                            'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber','edit-backaccountnumber','edit-bankname'];
+
+          var ValueArray = [];
+          var firstRequired = "";
+          var navIndex = 0;
+
+          var employeetype = $("#editemployeetype").val().trim();
+
+
+          for(var i=0;i<IDArray.length;i++){
+              
+              if(employeetype==1){
+                if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+              /*  if(i==23){
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                   
+                }else{
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+              }*/
+              }else{
+                if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  || */ i==31 || i==32 || i==33) continue;
+                 /* if(i==23){
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                   
+                }else{
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+              }*/
             }
-          });
-          return false;
- });
 
- 
+              ValueArray[i] = $(IDArray[i]).val().trim();
+              if(i==10){
+                if($(IDArray[i]).val().length<13){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
 
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Mobile number must be 11 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+                }
+              }else if(i==23){
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+                }else if(i==28){
+                if($(IDArray[i]).val().length<11){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "TIN number must be 11 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+
+                }
+               }else if(i==29){
+                if($(IDArray[i]).val().length<12){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "SSS number must be 12 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }   
+                }else if(i==30){
+                if($(IDArray[i]).val().length<14){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Philhealth number must be 14 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }
+              }else if(i==31){
+                if($(IDArray[i]).val().length<14){
+                   if(firstRequired==""){
+                      firstRequired = IDArray[i];
+
+                           if(i<=18) navIndex = 0;
+                      else if(i<=21) navIndex = 1;
+                      else if(i<=34) navIndex = 2;
+                  };
+
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "Pag-ibig number must be 14 digit ";
+                  $(IDArray[i]).addClass('is-invalid');
+                }else{
+                  document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                  $(IDArray[i]).removeClass('is-invalid');
+                  $(IDArray[i]).addClass('is-valid');
+                  event.preventDefault();
+               
+                }  
+              }else{
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    event.preventDefault();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
+                }
+              }
+          }
+
+          $('#edittabs li:eq('+navIndex+') a').tab('show');
+          $(firstRequired).focus();
+          if(firstRequired==""){
+            $('#edit_employee').hide();
+            $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+            event.preventDefault(); 
+            return false;
+          } 
+
+            $('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
+            $(firstRequired).focus();
+            if(firstRequired==""){
+              $('#edit_employee').hide();
+              $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
+              event.preventDefault(); 
+              return false;
+            }   
+        });
+
+      $("#cncl-edit").unbind('click').bind('click', function(){
+          $('#confirmation_edit').modal('hide');
+          $('#edit_employee').show();
+        });
+
+      $('.edit').unbind('click').bind('click', function(){
+
+            var id    =   $(this).attr('id');
+            var leave = [];  
+            var employeecredit      = [];
+            var restdayresult = [];
+            var employeeID = [];
+
+              $(".employeecredit").each(function(){
+               employeecredit.push($(this).val());
+            });
+              $(".employeeid").each(function(){
+               employeeID.push($(this).val());
+            });
+
+            var totalleave = [];
+            $(".editleave").each(function(){
+               leave.push($(this).val());
+            });
+            $(".edittotalleave").each(function(){
+               totalleave.push($(this).val());
+            });
+            $('input.editremoveLater:checked').map(function() {
+              restdayresult.push($(this).val());
+            });
+
+            var sunrestdays       =   $("#editsunrestdays").prop('checked')==true ? "1" : "0"; 
+            var monrestday        =   $("#editmonrestdays").prop('checked')==true ? "1" : "0"; 
+            var tuerestday        =   $("#edittuerestdays").prop('checked')==true ? "1" : "0"; 
+            var wedrestday        =   $("#editwedrestdays").prop('checked')==true ? "1" : "0";
+            var thuresday         =   $("#editthrestdays").prop('checked')==true ? "1" : "0"; 
+            var frirestday        =   $("#editfrirestdays").prop('checked')==true ? "1" : "0";
+            var satrestday        =   $("#editsatrestdays").prop('checked')==true ? "1" : "0";  
+            var firstname         =   $("#editfirstname").val();
+            var middlename        =   $("#editmiddlename").val();
+            var lastname          =   $("#editlastname").val();
+            var gender            =   $("#editgender").val();
+            var housenumber       =   $("#edithousenumber").val();
+            var streetname        =   $("#editstreetname").val();
+            var barangay          =   $("#editbarangay").val();
+            var city              =   $("#editcity").val();
+            var birthdate         =   $("#editbirthdate").val();
+            var contactinfo       =   $("#editcontactinfo").val();
+            var civilstatus       =   $("#editcivilstatus").val();
+            var citizenship       =   $("#editcitizenship").val();
+            var hireddate         =   $("#edithireddate").val();
+            var departmentID      =   $("#editdepartment").val();
+            var designationID     =   $("#editdesignation").val(); 
+            var detachmentID      =   $("#editdetachment").val();
+            var employeestatus    =   $("#editstatus").val();
+            var roleDescription   =   $("#editrole").val();
+            var username          =   $("#editusername").val();
+            var password          =   $("#editpassword").val();
+            var basicsalary       =   $("#editbasicsalary").val().replace(",","");
+            var dailyrate         =   $("#editdailyrate").val().replace(",","");
+            var allowance         =   $("#editallowance").val().replace(",","");
+            var retfund           =   $("#editretfund").val().replace(",","");
+            var incentive         =   $("#editincentive").val().replace(",","");
+            var tinnumber         =   $("#edittinnumber").val();
+            var sssnumber         =   $("#editsssnumber").val();
+            var philhealthnumber  =   $("#editphilhealthnumber").val();
+            var pagibignumber     =   $("#editpagibignumber").val();
+            var clientID          =   $("#editclient").val();
+            var employeetypeid    =   $("#editemployeetype").val();
+            var bankname          =   $("#editbankname").val();
+            var backaccountname   =   $("#editbackaccountname").val();
+            var backaccountnumber =   $("#editbackaccountnumber").val();
+            $.ajax({
+                  url : "<?php echo site_url('employees/update');?>",
+                  method : "POST",
+                  data : {id:id, 
+                    firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
+                    gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
+                    barangay:          barangay,        city:             city,             birthdate:        birthdate,
+                    contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
+                    hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
+                    detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
+                    username:          username,        password:         password,         basicsalary:      basicsalary,    
+                    dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
+                    incentive:         incentive,       tinnumber:        tinnumber,      
+                    sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
+                    clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
+                    backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
+                    employeecredit:    employeecredit,        restdayresult:    restdayresult,    bankname:          bankname,
+                    employeeID:         employeeID},
+                  async : true,
+                  dataType : 'json',
+                  success: function(data){
+              var result = data.split('|');
+                if(result[0]=="false"){
+                      if(result[1] == "Employee name already exist!"){
+                    document.getElementById("edit-firstname").innerHTML = result[1];
+                        $('#editfirstname').removeClass('is-valid');
+                        $('#editfirstname').addClass('is-invalid');
+                        $('#edit-firstname').addClass('invalid-feedback');
+                        $('#confirmation_edit').modal('hide');
+                        $('#edit_employee').show();
+                        $("#editfirstname").focus();
+                        document.getElementById("edit-lastname").innerHTML = result[1];
+                        $('#editlastname').removeClass('is-valid');
+                        $('#editlastname').addClass('is-invalid');
+                        $('#edit-lastname').addClass('invalid-feedback');
+                      }else{
+                        $('.modal-body #edittabs li:eq(1) a').tab('show');
+                        document.getElementById("edit-username").innerHTML = result[1];
+                      $('#editusername').removeClass('is-valid');
+                        $('#editusername').addClass('is-invalid');
+                        $('#edit-username').addClass('invalid-feedback');
+                        $("#editusername").focus();
+                      }
+                    }else{
+                    window.location.replace('<?php echo base_url(); ?>Employees');
+                    }
+                  },
+               error: function(request, textStatus, error) {
+
+                }
+              });
+              return false;
+     });
+});
 </script>
 
 
