@@ -1,4 +1,4 @@
-<?php
+	<?php
 		$billingID 	= ""; 
 		$billingNo 	= ""; 
 		$datesubmitted 	= "-----"; 
@@ -261,27 +261,30 @@ foreach ($data['approver'] as $approvaldata)  {
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>
+									<th style="width: 180px;"><center>Reason</center></th>
 
 								</tr>
 						</thead>
 							<tbody>
 								<?php	
-							foreach($data['recorddata'] as $data) : 
+							foreach($data['recorddata'] as $record) :
+							
 								?>	
 								 <tr>
-                     				<td><?php echo $data->clientname; ?></td>
-                     				<td><?php echo $data->detachment; ?></td>
-                     				<td><?php echo $data->rangedate; ?></td>
-                     				<td><?php echo number_format($data->SO, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->SG, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->totalsss, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->totalphic, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->totalhdmf, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->totalretfund, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->totalmargin, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->subtotalwithmargin, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->taxable, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($data->taxdue, 4, '.', ','); ?></td>
+                     				 <td><?php echo $record->clientname; ?></td>
+                     				 <td><?php echo $record->detachment; ?></td>
+                     				<td><?php echo $record->rangedate; ?></td>
+                     				<td><?php echo number_format($record->basicsalarySO, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->basicsalarySG, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->totalsss, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->totalphic, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->totalhdmf, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->totalretfund, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->totalmargin, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->subtotalwithmargin, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->taxable, 4, '.', ','); ?></td>
+                     				<td><?php echo number_format($record->taxdue, 4, '.', ','); ?></td>
+                     				<td><?php echo $record->reason; ?></td>
 
                      				
                				 	</tr>
@@ -324,6 +327,36 @@ foreach ($data['approver'] as $approvaldata)  {
 	</div>
 
 <!-- /Confirmation Modal -->
+
+	<div class="modal custom-modal fade" id="modal_confirmationdeny" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric">
+						<h3 id="modal_title1"></h3>
+						<p id="modal_message1"></p>
+						 <div class="form-group" style = "text-align: left;"> 
+						<label class="text-danger">Please enter a reason:</label>
+						<textarea rows="4" id="reason" type="text" name="reason" class="form-control input alphanumericwithspace"placeholder="Please enter a reason" autocomplete="off" description="city/municipality"></textarea>
+						<div class="invalid-feedback" id="billing-reason"></div>
+						</div>
+					</div>
+				
+					<div class="modal-btn confirmation-action">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary submit-btn"></a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <script  type="text/javascript">  
 	$(window).on("load", function() {
@@ -430,7 +463,9 @@ foreach ($data['approver'] as $approvaldata)  {
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>' +
+									'<th style="width: 180px;"><center>Reason</center></th>' +
 								'</tr> ' +
+
 						'</thead>';
 
 		      	if(data["billing"]!=0){
@@ -451,8 +486,8 @@ foreach ($data['approver'] as $approvaldata)  {
     								'<td>' + data["datarecord"][i].clientname  + '</td>' +
     								'<td>' + data["datarecord"][i].detachment + '</td>' +
     								'<td>' + data["datarecord"][i].rangedate + '</td>' +
-    								'<td>' +  accounting.formatMoney(data["datarecord"][i].SO) + '</td>' +
-    								'<td>' +  accounting.formatMoney(data["datarecord"][i].SG) + '</td>' +
+    								'<td>' +  accounting.formatMoney(data["datarecord"][i].basicsalarySO) + '</td>' +
+    								'<td>' +  accounting.formatMoney(data["datarecord"][i].basicsalarySG) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].totalsss) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].totalphic) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].totalhdmf) + '</td>' +
@@ -461,6 +496,7 @@ foreach ($data['approver'] as $approvaldata)  {
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].subtotalwithmargin) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].taxable) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].taxdue) + '</td>' +
+    								'<td>' + data["datarecord"][i].reason  + '</td>' +
     							'</tr>';
     					}			
     					html += '</tbody></table>';					
@@ -628,35 +664,111 @@ foreach ($data['approver'] as $approvaldata)  {
     	//DENY 
 	$(document).on("click", ".deny", function(){
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
-		$('#modal_title').html("Deny billing statement");
-    	$('#modal_message').html("Are you sure you want to deny the billing statement?");
+		$('#modal_title1').html("Deny billing statement");
+    	$('#modal_message1').html("Are you sure you want to deny the billing statement?");
     	$('.submit-btn').html("Deny billing statement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_denybilling");
-        $('#modal_confirmation').modal('show');
+        $('#modal_confirmationdeny').modal('show');
 		return false;
 	});
 	$(document).on("click", "#modal_denybilling", function(){
     	var billingID = $('#cutoff').attr('billingid');
+    	 var reason         =   $("#reason").val();
+    	
+     if(reason==""){
+	        	document.getElementById("billing-reason").innerHTML = "Please enter a reason!";
+	        	$('#reason').addClass('is-invalid');
+	        	$("#reason").focus(); 
+                event.preventDefault();
+                return false;
+	        }else{
+	       		document.getElementById("billing-reason").innerHTML = "";
+	        	$('#reason').removeClass('is-invalid');
+	        	$('#reason').addClass('is-valid');
+	        	$("#reason").focus();
+	        }
+	         var html = "";
+            var i;
+
     	$.ajax({
 		      url : "<?php echo site_url('Billingprocess/deny');?>",
 		      method : "POST",
-		      data : {billingID:billingID},
+		      data : {billingID: billingID, reason: reason},
 		      async : true,
 		      success: function(data){
 		      	var htmlStatus = "DENIED";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
+		      		
+		      	/*html ='<table class="table table-striped custom-table datatable" id="datatable1">' +
+						'<thead>' +		
+								'<tr>' +
+									'<th style="width: 100px ! important;"><center>Client Name</center></th>' +
+									'<th style="width: 180px;"><center>Detachment</center></th>' +
+									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Billing Date</center></th>' +
+									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Security Officer</center></th>' +
+									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Security Guards</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>' +
+									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>OverHead Margin</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>' +
+									'<th style="width: 180px;"><center>Reason</center></th>' +
+								'</tr> ' +
 
-				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';	
+						'</thead>';*/
+
+				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
+				// html += '<tbody>';
+		      	
+    //       				  for(i=0; i<data.length; i++){	
+		  //     			console.log(data[i].clientname);
+				// 		html += '<tr>' +
+    // 								'<td>' + data["datarecord1"][i].clientname  + '</td>' +
+    // 								'<td>' + data["datarecord1"][i].detachment + '</td>' +
+    // 								'<td>' + data["datarecord1"][i].rangedate + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].basicsalarySO) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].basicsalarySG) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalsss) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalphic) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalhdmf) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalretfund) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalmargin) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].subtotalwithmargin) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].taxable) + '</td>' +
+    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].taxdue) + '</td>' +
+    // 								'<td>' + data["datarecord1"][i].reason  + '</td>' +
+    // 							'</tr>';
+    // 					}			
+    // 					html += '</tbody></table>';					
+
+		  //     		if ($.fn.DataTable.isDataTable('#datatable1')){
+			 //           $('#datatable').DataTable().destroy();
+			 //        };
 	      		
 	      		$("#show_status").html(htmlStatus);
+	      		/*$("#show_data").html(html);*/
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
-	      		$('#modal_confirmation').modal('hide');
-	  	  		showSuccessToast("13th Month is successfully <b>denied!</b>");
+
+	      		/*$('#datatable1').DataTable({
+				        scrollX: false,
+			        	scrollCollapse: false,
+				        fixedColumns:   {
+						  
+						}
+				    });*/
+	      		$('#modal_confirmationdeny').modal('hide');
+
+	  	  		showSuccessToast("billing statement process is successfully <b>denied!</b>");
+	  	  		setTimeout(location.reload.bind(location), 5000)
+
 		      },
 		      error: function(request, textStatus, error) {
 

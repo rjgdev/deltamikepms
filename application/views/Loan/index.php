@@ -98,6 +98,7 @@
 								 class="btn btn-info btn-sm viewrecord"
 								 data-toggle="modal" 
 								 data-target="#view_record" 
+								 data-recordlontype="<?php echo $item->loanday; ?>"
 								 data-fullnameinsert="<?php echo $item->fullname; ?>" >
 								 <i class="fa fa-eye"></i> View payments</a>
     							</div>	
@@ -162,7 +163,10 @@
 						<div class="form-group">
 							<label>Start Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="adddategranted" name="adddategranted"  description="start date">
+								
+							
+								
+								<input class="form-control datetimepicker" type="text" id="adddategranted" value = '<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>' name="adddategranted"  description="start date">
 								 <div class="invalid-feedback" id="add-dategranted"></div>
 							</div>
 						</div>
@@ -171,7 +175,7 @@
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" description="end date">
+								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" value='<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>' description="end date">
 								 <div class="invalid-feedback" id="add-addenddate"></div>
 							</div>
 						</div>
@@ -270,7 +274,7 @@
 					<div class="form-group">
 					<label>Start Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"description="start date">
 					<div class="invalid-feedback" id="edit-dategranted"></div>
 					</div>
 					</div>
@@ -279,7 +283,7 @@
 					<div class="form-group">
 					<label>End Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate">
+					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"description="end date">
 					<div class="invalid-feedback" id="edit-enddate"></div>
 					</div>
 					</div>
@@ -380,7 +384,9 @@
 		<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">loan type - term of payment</h5>
+
+					
+					<!-- <h5 class="modal-title">loan type - term of payment</h5> -->
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 					</button>
@@ -388,6 +394,11 @@
 				<!-- 	<input type="text" class="form-control" id="lblname"name="lblname"> -->
 				</div>
 				<div class="modal-body">
+					<div class="col-12">
+					<div style="text-align:center">
+						<input id="lbltypeofpayment" name="lbltypeofpayment" class="form-control input" STYLE="color: red;background-color: #FFFFFF;border-color: transparent;font-size: 18px; text-align:center;" readonly/>
+					</div>
+				</div>
 					<div class="col-6">
 					<input id="lblname" name="lblname" class="form-control input" STYLE="color: #000000;background-color: #FFFFFF;border-color: transparent;font-size: 14px" readonly/>
 				</div>
@@ -453,6 +464,7 @@
    		
    	$('.viewrecord').unbind('click').bind('click', function(){
 		$(".modal-body #lblname").val( $(this).data('fullnameinsert'));
+		$(".modal-body #lbltypeofpayment").val( $(this).data('recordlontype'));
 
 
 	});		
@@ -541,8 +553,8 @@
 		var deductionwithoutperiod = deductionothercomma.replace(".","");
 		var deductionparse = parseInt(deductionwithoutperiod,25);
 
-		var arrtodate = adddategranted.split("-");
-		var arrt1odate = enddate.split("-");
+		var arrtodate = adddategranted.replace("-","").replace("-","");
+		var arrt1odate = enddate.replace("-","").replace("-","");
 		var tdate = arrt1odate[0];
 		var tmonth = arrt1odate[1];
 		var tyear = arrt1odate[2]; 
@@ -615,8 +627,8 @@
 	        	$('#addenddate').addClass('is-valid');
 	        	$("#addenddate").focus();
 	        }
-	        if(dttTest < dtfTest){
-	         		document.getElementById("add-addenddate").innerHTML = "Invalid dates.";
+	        if(arrtodate > arrt1odate){
+	         		document.getElementById("add-addenddate").innerHTML = "Invalid chosen date.";
 					$('#addenddate').addClass('is-invalid');
 					$("#addenddate").focus(); 
                		 event.preventDefault();
@@ -628,7 +640,7 @@
 					$("#addenddate").focus();
 			}
 			if(amount==""){
-				document.getElementById("add-amount").innerHTML = "Please provide an amount.";
+				document.getElementById("add-amount").innerHTML = "Please provide a loan amount.";
 				$('#addamount').addClass('is-invalid');
 				$("#addamount").focus(); 
                 event.preventDefault();
@@ -639,7 +651,7 @@
 				$("#addamount").focus();
 			}
 			 if(addtermofpaymentID==""){
-	        	document.getElementById("add-termofpaymentID").innerHTML = "Please provide an term of payment.";
+	        	document.getElementById("add-termofpaymentID").innerHTML = "Please provide a term of payment.";
 	        	$('#addtermofpaymentID').addClass('is-invalid');
 	        	$("#addtermofpaymentID").focus(); 
                 event.preventDefault();
@@ -651,7 +663,7 @@
 	        }  
 			
 			if(deductionrecord==""){
-			document.getElementById("add-deduction").innerHTML = "Please provide an deduction.";
+			document.getElementById("add-deduction").innerHTML = "Please provide a deduction amount.";
 			$('#adddeduction').addClass('is-invalid');
 			$("#adddeduction").focus();
              event.preventDefault(); 
@@ -781,29 +793,32 @@ $('.update').unbind('click').bind('click', function(){
 		var enddate = $("#editenddate").val();
 		var dategranted = $("#editdategranted").val();
 		var loantype = $("#editloantypeID").val();
-		var arrtodate = dategranted.split("-");
-		var arrt1odate = enddate.split("-");
-		var tdate = arrt1odate[0];
+		var arrtodate = dategranted.replace("-","").replace("-","");
+		var arrt1odate = enddate.replace("-","").replace("-","");
+	/*	var tdate = arrt1odate[0];
 		var tmonth = arrt1odate[1];
 		var tyear = arrt1odate[2]; 
 		var fdate = arrtodate[0];
 		var fmonth = arrtodate[1];
 		var fyear = arrtodate[2]; 
-		var dtfTest = new Date (fyear, fmonth, fdate);
-		var dttTest = new Date (tyear, tmonth, tdate);
-		if(dttTest > dtfTest){	
+		var dtfTest = (fyear +''+fmonth +''+fdate);
+		var dttTest = (tyear+''+tmonth+''+tdate);
+		alert(arrtodate+' '+arrt1odate);*/
+		if(arrtodate > arrt1odate){	
+		document.getElementById("edit-enddate").innerHTML = "Invalid chosen date.";
+		$(IDArray[3]).addClass('is-invalid');
+		event.preventDefault();
+		return false;
+		
+		}else{
 		document.getElementById("edit-enddate").innerHTML = "";
 		$(IDArray[3]).removeClass('is-invalid');
 		$(IDArray[3]).addClass('is-valid');
 		event.preventDefault();
-		}else{
-		document.getElementById("edit-enddate").innerHTML = "Invalid dates.";
-		$(IDArray[3]).addClass('is-invalid');
-		event.preventDefault();
-		return false;
+	
 		};
-		if(editamount ==0){
-		document.getElementById("edit-amount").innerHTML = "Invalid input.";
+		if(editamount==0){
+		document.getElementById("edit-amount").innerHTML = "Please provide a amount.";
 		$(IDArray[4]).addClass('is-invalid');
 		return false;
 		}else{
@@ -813,7 +828,7 @@ $('.update').unbind('click').bind('click', function(){
 		event.preventDefault();
 		};
 		if(editdeduction ==0){
-		document.getElementById("edit-deduction").innerHTML = "Invalid input.";
+		document.getElementById("edit-deduction").innerHTML = "Please provide a deduction amount.";
 		$(IDArray[5]).addClass('is-invalid');
 		return false;
 		}else{
@@ -838,7 +853,7 @@ $('.update').unbind('click').bind('click', function(){
 			if(i==8) continue;
 			}else{
 				if(i==6 || i==7) continue;
-			}
+			};
 			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]

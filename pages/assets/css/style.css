@@ -78,7 +78,7 @@ Version      : 3.3
 }
 
 .alert-danger {
-    font-size: .85rem;
+    font-size: .80rem;
 }
 
 .is-invalid {
@@ -1935,7 +1935,6 @@ table.dataTable thead > tr > td.sorting {
 
 .account-page {
 	align-items: center ;
-	display: flex;
 	background: -moz-linear-gradient(left, #e04d45 0%, #9e0924 100%);
 	background: -webkit-linear-gradient(left, #e04d45 0%, #9e0924 100%);
 	background: -ms-linear-gradient(left, #e04d45 0%, #9e0924 100%);

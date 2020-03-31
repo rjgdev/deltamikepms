@@ -44,11 +44,16 @@
 
                     'photo' => $this->input->post('empID').'.'.pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION)
                 );  
-                var_dump($data);
+
                 $this->load->model('Employee_model');  
                 $this->Employee_model->update_employeepicture($this->input->post('empID'), $data); 
                 $this->session->set_flashdata('photoupload', 'upload');
-                $this->session->set_userdata('photo', $this->input->post('empID').'.'.pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION)); 
+
+
+                if($this->input->post('empID')==$this->session->userdata('employeeID')){
+                    $this->session->set_userdata('photo', $this->input->post('empID').'.'.pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+                }
+                 
                 redirect("Employees"); 
                 }
             }

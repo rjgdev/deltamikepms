@@ -43,7 +43,7 @@
 			
 				<!-- Logo -->
                 <div class="header-left">
-                    <a href="<?php echo base_url(); ?>dashboard" class="logo">
+                    <a href="<?php echo base_url(); ?>Dashboard" class="logo">
 						<img src="<?php echo base_url();?>pages\assets\img\logo.png" width="40" height="40" alt="">
 					</a>
                 </div>

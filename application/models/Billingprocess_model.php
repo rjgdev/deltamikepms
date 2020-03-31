@@ -7,10 +7,10 @@ class Billingprocess_model extends CI_Model
 	{ 
 	 parent::__construct(); 
 	}
-	function get_all_thirteenmonthprocess($thrID)
+	function get_all_billingprocess($thrID)
 	{
 		
-		$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,	b.usersubmitted,	b.datesubmitted 
+		$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
 										FROM dm_billing  as b
@@ -25,7 +25,7 @@ class Billingprocess_model extends CI_Model
 		   				);
 		   			$this->db->insert('dm_billing', $data);
 					$billingID = $this->db->insert_id();
-					$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,	b.usersubmitted,	b.datesubmitted 
+					$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
 										FROM dm_billing  as b
@@ -44,6 +44,11 @@ class Billingprocess_model extends CI_Model
 			}else{
 				$dateto = "AND pd.dateto = '".$queryheader->row()->dateto."'";
 			}
+			if($queryheader->row()->clientID==0){
+				$client = "";
+			}else{
+				$client = "AND dth.clientID =".$queryheader->row()->clientID."";
+			}
 
    		}
    		if($queryheader->row()->level==0){
@@ -51,78 +56,74 @@ class Billingprocess_model extends CI_Model
 		}else{
 			$level = "AND approvalLevel=".$queryheader->row()->level."";
 		}
-			$querydata = $this->db->query("SELECT 
-							payrollID,		clientID,		postID,							clientname,	 		detachment, rangedate
-							,COALESCE(SO,0) AS SO, 			SG,								totalsss,	 		totalphic,	 totalhdmf
-							,totalretfund,	subtotalwithmargin,	 			taxable,
-							taxdue,					totalmargin
-								
+		if($queryheader->row()->reason==null){
+			$reason = " ";
+		}else{
+			$reason = $queryheader->row()->reason;
+		}
+			
+			$querydata = $this->db->query("
+							SELECT  clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+							basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,(subtotal + totalmargin) AS subtotalwithmargin,
+							 totalmargin as taxable, (totalmargin *.12) as taxdue, totalmargin,rangedate, '".$reason."' AS reason
 							FROM
 							(
-								SELECT
-								clientID,		postID,payrollID,	clientname,	detachment,	rangedate
-								,SO,			SG,				totalsss,	totalphic,	totalhdmf
-								,totalretfund, (subtotal + totalmargin) as subtotalwithmargin, 	totalmargin as taxable, (totalmargin *.12) as taxdue,
-								totalmargin
+								SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+								basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,
+								( basicsalarySO + basicsalarySG + totalsss + totalhdmf + totalretfund) AS subtotal,
+								((marginSO * numberemployeeS0) + (marginSG * numberemployeeSG)) as totalmargin,rangedate
 								FROM
 								(
-									SELECT 
-										clientID, postID,payrollID, clientname, detachment, rangedate
-										,SO,	   SG,	 		totalsss,	totalphic,  totalhdmf
-										,totalretfund 
-										,(SO + SG + totalsss + totalphic + totalhdmf + totalretfund) as subtotal,((marginSO * numberemployeeso) + (marginSG * numberemployeesg)) as totalmargin
+									SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+									basicsalarySO,basicsalarySG,(sum(sss_eeS0) + sum(sss_eeSG)) AS totalsss,(sum(phic_eeS0) + sum(phic_eeSG)) AS totalphic,
+									(sum(hdmf_eeSO) + sum(hdmf_eeSG)) AS totalhdmf,(sum(retfundSO) + sum(retfundSG)) as totalretfund,
+									(basicsalarySO + sum(sss_eeS0) + sum(phic_eeS0) + sum(hdmf_eeSO) + sum(retfundSO)) as marginSO,
+									(basicsalarySG + sum(sss_eeSG) + sum(phic_eeSG) + sum(hdmf_eeSG) + sum(retfundSG)) as marginSG,rangedate
+
 									FROM
 									(
-										SELECT
-											clientID,	postID,payrollID,	clientname, detachment,	rangedate
-											,SO,		SG,				(totalsosss + totalsgsss) AS totalsss
-											,(totalsophic + totalsgphic) as totalphic, (totalsohdmf + totalsghdmf) as totalhdmf
-											,(totalsoretfund + totalsgretfund) as totalretfund,(SO + totalsosss + totalsophic + totalsohdmf + totalsoretfund) AS marginSO
-											,(SG + totalsgsss + totalsgphic + totalsghdmf + totalsgretfund) AS marginSG,numberemployeesg,numberemployeeso
-										FROM
-										(
-											SELECT a.clientID, a.postID,a.payrollID, a.clientname, a.detachment,a.rangedate,COALESCE(a.numberemployee,'') as numberemployeesg,COALESCE(b.numberemployee,'') as numberemployeeso
-										   ,(a.basicsalary / 2) AS SG,(b.basicsalary / 2) AS SO, COALESCE((a.sss_ee * a.numberemployee),'') as totalsosss, COALESCE((b.sss * b.numberemployee),'') as totalsgsss
-										   ,COALESCE((a.phic_ee * a.numberemployee),'') as totalsophic, COALESCE((b.phic_ee * b.numberemployee),'') as totalsgphic,COALESCE((a.hdmf_ee * a.numberemployee),'') as totalsohdmf
-										   ,COALESCE((b.hdmf_ee * b.numberemployee),'') as totalsghdmf,COALESCE((a.retfund * a.numberemployee),'') as totalsoretfund, COALESCE((b.retfund * b.numberemployee),'') as totalsgretfund
-
-											FROM
-											(
-												/*  Security Guard  */
-												SELECT emp.clientID,emp.postID,pd.payrollID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate,
-												COALESCE(pd.sss_ee,'') AS sss_ee ,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee,'') AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund,clnt.clientname,dth.postname as detachment
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander != pd.employeeID
-												LEFT JOIN dm_client AS clnt ON dth.clientID = clnt.ClientID 
-												$datefrom $dateto AND emp.employeetypeID = 1 and clnt.clientID = ".$queryheader->row()->clientID." GROUP BY dth.clientID 
-											)a
-											LEFT JOIN
-											(	
-												/*  Security Officer  */
-												SELECT emp.clientID,emp.postID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,
-												COALESCE(pd.sss_ee,'') AS sss,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee) AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
-												LEFT JOIN dm_client AS clnt ON dth.clientID = clnt.ClientID 
-												$datefrom $dateto  AND emp.employeetypeID = 1 and clnt.clientID = ".$queryheader->row()->clientID." GROUP BY dth.clientID
-											)b ON a.clientID = b.clientID 
-											GROUP BY clientID
-										)c
+										SELECT clientID,postID, payrollID, clientname, detachment,
+										numberemployeeS0,numberemployeeSG,(basicsalarySO / 2) AS basicsalarySO, (basicsalarySG / 2) AS basicsalarySG, 
+										(sum(sss_eeS0) * numberemployeeS0) AS sss_eeS0,(sum(sss_eeSG) * numberemployeeSG) AS sss_eeSG,
+										(sum(phic_eeS0) * numberemployeeS0)  AS phic_eeS0, (sum(phic_eeSG) * numberemployeeSG) AS phic_eeSG,
+										(sum(hdmf_eeSO) * numberemployeeS0) AS hdmf_eeSO, (sum(hdmf_eeSG) * numberemployeeSG) AS hdmf_eeSG,
+										(sum(retfundSO) * numberemployeeS0) AS retfundSO, (sum(retfundSG) * numberemployeeSG) AS retfundSG, rangedate
+										FROM(
+										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
+										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
+										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										$datefrom  $dateto AND emp.employeetypeID = 1 $client GROUP BY dth.clientID  
+										UNION ALL
+										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
+										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
+										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										$datefrom  $dateto AND emp.employeetypeID = 1 $client GROUP BY dth.clientID  
+										)a
 										GROUP BY clientID
-									)d
+									)b
 									GROUP BY clientID
-								)e
+								)c
 							    GROUP BY clientID
-							)f
+							)d
 							GROUP BY clientID");
-					/*print_r($this->db->last_query());  
+	/*print_r($this->db->last_query());  
 					exit;*/
+				
 
-			$payrolldate = $this->db->query("SELECT	
+
+		$queryclient = $this->db->query('SELECT * FROM dm_client');
+
+					$payrolldate = $this->db->query("SELECT	
 									datepayroll as dateformat,payrollID,datefrom
 									FROM 
 									(
@@ -134,7 +135,7 @@ class Billingprocess_model extends CI_Model
 										ORDER BY datefrom
 									)a
 									GROUP BY payrollID ORDER BY payrollID DESC");
-		$queryclient = $this->db->query('SELECT * FROM dm_client');
+
 
 			$queryApprover = $this->db->query("SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID 
@@ -142,7 +143,7 @@ class Billingprocess_model extends CI_Model
 
 	/*print_r($this->db->last_query());  
 			exit;*/
-   		return array('billingstatement' => $queryheader->result(), 'dropdowndate' => $payrolldate->result(), 'client' => $queryclient->result(), 'approver' => $queryApprover->result(), 'recorddata' =>$querydata->result());
+   		return array('billingstatement' => $queryheader->result(), 'dropdowndate' => $payrolldate->result(), 'client' => $queryclient->result(), 'recorddata' => $querydata->result(), 'approver' => $queryApprover->result());
 
 	}
 	function search($billingID, $clientID,$payrolldateID)
@@ -169,92 +170,86 @@ class Billingprocess_model extends CI_Model
 	function submit_Billingstatement($billingID,  $datesubmitted)
 	{
 
-		$querySubmit = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,	b.usersubmitted,	b.datesubmitted 
+		$querySubmit = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto,b.reason, b.clientID,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
 										FROM dm_billing  as b
 										LEFT JOIN dm_payroll as p ON payrolldateID = p.payrollID
 										WHERE billingID=".$billingID." LIMIT 1");
 		if($querySubmit->row()->billingstatus ==0){
+		if($querySubmit->row()->reason==null){
+			$reason = " ";
+		}else{
+			$reason = $querySubmit->row()->reason;
+		}
 			if($querySubmit->row()->billingstatus ==3 || 2){	
 				$data = array('datesubmitted' => $datesubmitted,
 	 				  'usersubmitted' => $this->session->userdata('employeeID'),
 	 				  'userapproved' 	=> NULL,
 	 				  'level' => 1,
 	 				  'approvalID' => 1,
-	 				  'billingstatus' => 1);
+	 				  'billingstatus' => 1,
+	 				 'reason' => NULL);
 
 		$this->db->where("billingID", $billingID);  
         $this->db->update("dm_billing", $data); 
+       
 
-        	$querydata = $this->db->query("SELECT 
-							payrollID,		clientID,		postID,							clientname,	 		detachment, rangedate
-							,COALESCE(SO,0) AS SO, 			SG,								totalsss,	 		totalphic,	 totalhdmf
-							,totalretfund,	subtotalwithmargin,	 			taxable,
-							taxdue,					totalmargin
-								
+        	$querydata = $this->db->query(" 
+        					SELECT  clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+							basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,(subtotal + totalmargin) AS subtotalwithmargin,
+							 totalmargin as taxable, (totalmargin *.12) as taxdue, totalmargin,rangedate,'' AS reason
 							FROM
 							(
-								SELECT
-								clientID,		postID,payrollID,	clientname,	detachment,	rangedate
-								,SO,			SG,				totalsss,	totalphic,	totalhdmf
-								,totalretfund, (subtotal + totalmargin) as subtotalwithmargin, 	totalmargin as taxable, (totalmargin *.12) as taxdue,
-								totalmargin
+								SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+								basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,
+								( basicsalarySO + basicsalarySG + totalsss + totalhdmf + totalretfund) AS subtotal,
+								((marginSO * numberemployeeS0) + (marginSG * numberemployeeSG)) as totalmargin,rangedate
 								FROM
 								(
-									SELECT 
-										clientID, postID,payrollID, clientname, detachment, rangedate
-										,SO,	   SG,	 		totalsss,	totalphic,  totalhdmf
-										,totalretfund 
-										,(SO + SG + totalsss + totalphic + totalhdmf + totalretfund) as subtotal,((marginSO * numberemployeeso) + (marginSG * numberemployeesg)) as totalmargin
+									SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+									basicsalarySO,basicsalarySG,(sum(sss_eeS0) + sum(sss_eeSG)) AS totalsss,(sum(phic_eeS0) + sum(phic_eeSG)) AS totalphic,
+									(sum(hdmf_eeSO) + sum(hdmf_eeSG)) AS totalhdmf,(sum(retfundSO) + sum(retfundSG)) as totalretfund,
+									(basicsalarySO + sum(sss_eeS0) + sum(phic_eeS0) + sum(hdmf_eeSO) + sum(retfundSO)) as marginSO,
+									(basicsalarySG + sum(sss_eeSG) + sum(phic_eeSG) + sum(hdmf_eeSG) + sum(retfundSG)) as marginSG,rangedate
+
 									FROM
 									(
-										SELECT
-											clientID,	postID,payrollID,	clientname, detachment,	rangedate
-											,SO,		SG,				(totalsosss + totalsgsss) AS totalsss
-											,(totalsophic + totalsgphic) as totalphic, (totalsohdmf + totalsghdmf) as totalhdmf
-											,(totalsoretfund + totalsgretfund) as totalretfund,(SO + totalsosss + totalsophic + totalsohdmf + totalsoretfund) AS marginSO
-											,(SG + totalsgsss + totalsgphic + totalsghdmf + totalsgretfund) AS marginSG,numberemployeesg,numberemployeeso
-										FROM
-										(
-											SELECT a.clientID, a.postID,a.payrollID, a.clientname, a.detachment,a.rangedate,COALESCE(a.numberemployee,'') as numberemployeesg,COALESCE(b.numberemployee,'') as numberemployeeso
-										   ,(a.basicsalary / 2) AS SG,(b.basicsalary / 2) AS SO, COALESCE((a.sss_ee * a.numberemployee),'') as totalsosss, COALESCE((b.sss * b.numberemployee),'') as totalsgsss
-										   ,COALESCE((a.phic_ee * a.numberemployee),'') as totalsophic, COALESCE((b.phic_ee * b.numberemployee),'') as totalsgphic,COALESCE((a.hdmf_ee * a.numberemployee),'') as totalsohdmf
-										   ,COALESCE((b.hdmf_ee * b.numberemployee),'') as totalsghdmf,COALESCE((a.retfund * a.numberemployee),'') as totalsoretfund, COALESCE((b.retfund * b.numberemployee),'') as totalsgretfund
-
-											FROM
-											(
-												/*  Security Guard  */
-												SELECT emp.clientID,emp.postID,pd.payrollID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate,
-												COALESCE(pd.sss_ee,'') AS sss_ee ,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee,'') AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund,clnt.clientname,dth.postname as detachment
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander != pd.employeeID
-												LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-												WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID 
-											)a
-											LEFT JOIN
-											(	
-												/*  Security Officer  */
-												SELECT emp.clientID,emp.postID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,
-												COALESCE(pd.sss_ee,'') AS sss,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee) AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
-												LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-												WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."'  AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID 
-											)b ON a.clientID = b.clientID
-											GROUP BY clientID
-										)c
+										SELECT clientID,postID, payrollID, clientname, detachment,
+										numberemployeeS0,numberemployeeSG,(basicsalarySO / 2) AS basicsalarySO, (basicsalarySG / 2) AS basicsalarySG, 
+										(sum(sss_eeS0) * numberemployeeS0) AS sss_eeS0,(sum(sss_eeSG) * numberemployeeSG) AS sss_eeSG,
+										(sum(phic_eeS0) * numberemployeeS0)  AS phic_eeS0, (sum(phic_eeSG) * numberemployeeSG) AS phic_eeSG,
+										(sum(hdmf_eeSO) * numberemployeeS0) AS hdmf_eeSO, (sum(hdmf_eeSG) * numberemployeeSG) AS hdmf_eeSG,
+										(sum(retfundSO) * numberemployeeS0) AS retfundSO, (sum(retfundSG) * numberemployeeSG) AS retfundSG, rangedate
+										FROM(
+										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
+										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
+										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										UNION ALL
+										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
+										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
+										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										)a
 										GROUP BY clientID
-									)d
+									)b
 									GROUP BY clientID
-								)e
+								)c
 							    GROUP BY clientID
-							)f
-							GROUP BY clientID");
+							)d
+							GROUP BY clientID
+							");
 			/*	print_r($this->db->last_query());  
 					exit;*/
 
@@ -283,81 +278,69 @@ class Billingprocess_model extends CI_Model
 	 				  'userapproved' 	=> NULL,
 	 				  'level' => 1,
 	 				  'approvalID' => 1,
-	 				  'billingstatus' => 1);
+	 				  'billingstatus' => 1,
+	 				  'reason' => NULL);
 
 		$this->db->where("billingID", $billingID);  
         $this->db->update("dm_billing", $data);
 
-        $querydata = $this->db->query("SELECT 
-							payrollID,		clientID,		postID,							clientname,	 		detachment, rangedate
-							,COALESCE(SO,0) AS SO, 			SG,								totalsss,	 		totalphic,	 totalhdmf
-							,totalretfund,	subtotalwithmargin,	 			taxable,
-							taxdue,					totalmargin
-								
+
+        $querydata = $this->db->query("
+							SELECT  clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+							basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,(subtotal + totalmargin) AS subtotalwithmargin,
+							 totalmargin as taxable, (totalmargin *.12) as taxdue, totalmargin,rangedate,'' AS reason
 							FROM
 							(
-								SELECT
-								clientID,		postID,payrollID,	clientname,	detachment,	rangedate
-								,SO,			SG,				totalsss,	totalphic,	totalhdmf
-								,totalretfund, (subtotal + totalmargin) as subtotalwithmargin, 	totalmargin as taxable, (totalmargin *.12) as taxdue,
-								totalmargin
+								SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+								basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,
+								( basicsalarySO + basicsalarySG + totalsss + totalhdmf + totalretfund) AS subtotal,
+								((marginSO * numberemployeeS0) + (marginSG * numberemployeeSG)) as totalmargin,rangedate
 								FROM
 								(
-									SELECT 
-										clientID, postID,payrollID, clientname, detachment, rangedate
-										,SO,	   SG,	 		totalsss,	totalphic,  totalhdmf
-										,totalretfund 
-										,(SO + SG + totalsss + totalphic + totalhdmf + totalretfund) as subtotal,((marginSO * numberemployeeso) + (marginSG * numberemployeesg)) as totalmargin
+									SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+									basicsalarySO,basicsalarySG,(sum(sss_eeS0) + sum(sss_eeSG)) AS totalsss,(sum(phic_eeS0) + sum(phic_eeSG)) AS totalphic,
+									(sum(hdmf_eeSO) + sum(hdmf_eeSG)) AS totalhdmf,(sum(retfundSO) + sum(retfundSG)) as totalretfund,
+									(basicsalarySO + sum(sss_eeS0) + sum(phic_eeS0) + sum(hdmf_eeSO) + sum(retfundSO)) as marginSO,
+									(basicsalarySG + sum(sss_eeSG) + sum(phic_eeSG) + sum(hdmf_eeSG) + sum(retfundSG)) as marginSG,rangedate
+
 									FROM
 									(
-										SELECT
-											clientID,	postID,payrollID,	clientname, detachment,	rangedate
-											,SO,		SG,				(totalsosss + totalsgsss) AS totalsss
-											,(totalsophic + totalsgphic) as totalphic, (totalsohdmf + totalsghdmf) as totalhdmf
-											,(totalsoretfund + totalsgretfund) as totalretfund,(SO + totalsosss + totalsophic + totalsohdmf + totalsoretfund) AS marginSO
-											,(SG + totalsgsss + totalsgphic + totalsghdmf + totalsgretfund) AS marginSG,numberemployeesg,numberemployeeso
-										FROM
-										(
-											SELECT a.clientID, a.postID,a.payrollID, a.clientname, a.detachment,a.rangedate,COALESCE(a.numberemployee,'') as numberemployeesg,COALESCE(b.numberemployee,'') as numberemployeeso
-										   ,(a.basicsalary / 2) AS SG,(b.basicsalary / 2) AS SO, COALESCE((a.sss_ee * a.numberemployee),'') as totalsosss, COALESCE((b.sss * b.numberemployee),'') as totalsgsss
-										   ,COALESCE((a.phic_ee * a.numberemployee),'') as totalsophic, COALESCE((b.phic_ee * b.numberemployee),'') as totalsgphic,COALESCE((a.hdmf_ee * a.numberemployee),'') as totalsohdmf
-										   ,COALESCE((b.hdmf_ee * b.numberemployee),'') as totalsghdmf,COALESCE((a.retfund * a.numberemployee),'') as totalsoretfund, COALESCE((b.retfund * b.numberemployee),'') as totalsgretfund
-
-											FROM
-											(
-												/*  Security Guard  */
-												SELECT emp.clientID,emp.postID,pd.payrollID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate,
-												COALESCE(pd.sss_ee,'') AS sss_ee ,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee,'') AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund,clnt.clientname,dth.postname as detachment
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander != pd.employeeID
-												LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-												WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID 
-											)a
-											LEFT JOIN
-											(	
-												/*  Security Officer  */
-												SELECT emp.clientID,emp.postID,
-												count(pd.employeeID) AS numberemployee,emp.basicsalary,
-												COALESCE(pd.sss_ee,'') AS sss,COALESCE(pd.phic_ee,'') AS phic_ee,COALESCE(pd.hdmf_ee) AS hdmf_ee,COALESCE((emp.retfund /2),'') as retfund
-												FROM dm_employee AS emp
-												LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID
-												LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
-												LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-												WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."'  AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID 
-											)b ON a.clientID = b.clientID
-											GROUP BY clientID
-										)c
+										SELECT clientID,postID, payrollID, clientname, detachment,
+										numberemployeeS0,numberemployeeSG,(basicsalarySO / 2) AS basicsalarySO, (basicsalarySG / 2) AS basicsalarySG, 
+										(sum(sss_eeS0) * numberemployeeS0) AS sss_eeS0,(sum(sss_eeSG) * numberemployeeSG) AS sss_eeSG,
+										(sum(phic_eeS0) * numberemployeeS0)  AS phic_eeS0, (sum(phic_eeSG) * numberemployeeSG) AS phic_eeSG,
+										(sum(hdmf_eeSO) * numberemployeeS0) AS hdmf_eeSO, (sum(hdmf_eeSG) * numberemployeeSG) AS hdmf_eeSG,
+										(sum(retfundSO) * numberemployeeS0) AS retfundSO, (sum(retfundSG) * numberemployeeSG) AS retfundSG, rangedate
+										FROM(
+										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
+										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
+										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										UNION ALL
+										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
+										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
+										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										WHERE pd.datefrom = '".$querySubmit->row()->datefrom."'  AND pd.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										)a
 										GROUP BY clientID
-									)d
+									)b
 									GROUP BY clientID
-								)e
+								)c
 							    GROUP BY clientID
-							)f
+							)d
 							GROUP BY clientID");
-/*
-		print_r($this->db->last_query());  
+
+	/*	print_r($this->db->last_query());  
 					exit;*/
          $queryheader = $this->db->query("SELECT billingID,	payrolldateID, clientID,		usersubmitted,		datesubmitted,
 												userapproved,	dateapproved,	level,				approvalID,
@@ -394,13 +377,13 @@ class Billingprocess_model extends CI_Model
 	{	
 		if($lastapprover==1){
 		
-			$queryUpdateTK = $this->db->query('UPDATE dm_billing 
-									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,billingstatus=2 WHERE billingID='.$billingID);
+			$queryUpdateTK = $this->db->query('UPDATE dm_billing
+									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,reason="",billingstatus=2 WHERE billingID='.$billingID);
 
 	    }else{
 			$queryUpdateTK = $this->db->query('UPDATE dm_billing 
 									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
-									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE billingID='.$billingID);
+									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,reason="", WHERE billingID='.$billingID);
 		}
 		$queryheader = $this->db->query("SELECT billingID,	usersubmitted,	datesubmitted
 										,userapproved,	level,		approvalID,	
@@ -421,16 +404,111 @@ class Billingprocess_model extends CI_Model
         return array('billing' => $queryheader->result(), 'approver' => $queryApprover->result());
 	}
 
-	function deny_Billingstatementprocess($billingID)
+	function deny_Billingstatementprocess($billingID,$reason)
 	{
+			/*$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
+										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
+										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+										FROM dm_billing  as b
+										LEFT JOIN dm_payroll as p ON payrolldateID = p.payrollID
+										WHERE billingstatus=3"); 
 
-			 	$data = array('datesubmitted' => NULL,
+        if($queryheader->num_rows()===0){*/
+
+        	$data = array('datesubmitted' => NULL,
 	 				  'level' => 0,
 	 				  'userapproved' => NULL,
-	 				  'billingstatus' => 3);
+	 				  'billingstatus' => 3,
+	 				  'reason' => $reason);
 
 		$this->db->where("billingID", $billingID);  
         $this->db->update("dm_billing", $data);
+/*
+		}else{
+			if($queryheader->row()->datefrom==0){
+					$thdatefrom = '1880-01-01';
+					$datefrom = "WHERE pd.datefrom ='".$thdatefrom."'";
+			}else{
+				$datefrom = "WHERE pd.datefrom ='".$queryheader->row()->datefrom."'";
+			}
+			if($queryheader->row()->dateto==0){
+					$thdateto = '1880-01-01';
+				$dateto = "AND pd.dateto = '".$thdateto."'"; 
+			}else{
+				$dateto = "AND pd.dateto = '".$queryheader->row()->dateto."'";
+			}
+			if($queryheader->row()->clientID==0){
+				$client = "";
+			}else{
+				$client = "AND dth.clientID =".$queryheader->row()->clientID."";
+			}
+
+   		}
+		if($queryheader->row()->reason==null){
+			$reason = " ";
+		}else{
+			$reason = $queryheader->row()->reason;
+		}
+
+
+		$querydata = $this->db->query("SELECT  clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+							basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,(subtotal + totalmargin) AS subtotalwithmargin,
+							 totalmargin as taxable, (totalmargin *.12) as taxdue, totalmargin,rangedate, '".$reason."' AS reason
+							FROM
+							(
+								SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+								basicsalarySO,basicsalarySG,totalsss,totalphic, totalhdmf, totalretfund,
+								( basicsalarySO + basicsalarySG + totalsss + totalhdmf + totalretfund) AS subtotal,
+								((marginSO * numberemployeeS0) + (marginSG * numberemployeeSG)) as totalmargin,rangedate
+								FROM
+								(
+									SELECT clientID, postID, payrollID, clientname, detachment,numberemployeeS0, numberemployeeSG,
+									basicsalarySO,basicsalarySG,(sum(sss_eeS0) + sum(sss_eeSG)) AS totalsss,(sum(phic_eeS0) + sum(phic_eeSG)) AS totalphic,
+									(sum(hdmf_eeSO) + sum(hdmf_eeSG)) AS totalhdmf,(sum(retfundSO) + sum(retfundSG)) as totalretfund,
+									(basicsalarySO + sum(sss_eeS0) + sum(phic_eeS0) + sum(hdmf_eeSO) + sum(retfundSO)) as marginSO,
+									(basicsalarySG + sum(sss_eeSG) + sum(phic_eeSG) + sum(hdmf_eeSG) + sum(retfundSG)) as marginSG,rangedate
+
+									FROM
+									(
+										SELECT clientID,postID, payrollID, clientname, detachment,
+										numberemployeeS0,numberemployeeSG,(basicsalarySO / 2) AS basicsalarySO, (basicsalarySG / 2) AS basicsalarySG, 
+										(sum(sss_eeS0) * numberemployeeS0) AS sss_eeS0,(sum(sss_eeSG) * numberemployeeSG) AS sss_eeSG,
+										(sum(phic_eeS0) * numberemployeeS0)  AS phic_eeS0, (sum(phic_eeSG) * numberemployeeSG) AS phic_eeSG,
+										(sum(hdmf_eeSO) * numberemployeeS0) AS hdmf_eeSO, (sum(hdmf_eeSG) * numberemployeeSG) AS hdmf_eeSG,
+										(sum(retfundSO) * numberemployeeS0) AS retfundSO, (sum(retfundSG) * numberemployeeSG) AS retfundSG, rangedate
+										FROM(
+										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
+										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
+										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										$datefrom  $dateto AND emp.employeetypeID = 1 $client GROUP BY dth.clientID
+										UNION ALL
+										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
+										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
+										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
+										concat(date_format(datefrom,'%M %d'),' - ', date_format(dateto,'%d%, %Y')) as rangedate
+										FROM dm_employee AS emp
+										LEFT JOIN dm_post AS dth ON  dth.commander = emp.employeeID AND emp.clientID = dth.clientID
+										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
+										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										$datefrom  $dateto AND emp.employeetypeID = 1 $client GROUP BY dth.clientID  
+										)a
+										GROUP BY clientID
+									)b
+									GROUP BY clientID
+								)c
+							    GROUP BY clientID
+							)d
+							GROUP BY clientID");
+					
+					return $querydata->result();
+						//return array('billingdeny' => $querydata->result());
+						
+			*/			
 	}
 
 }		

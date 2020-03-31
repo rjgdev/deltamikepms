@@ -11,10 +11,13 @@
 	public function index() 
 	{ 
   		$data = array('title' => 'Biling Statement Process');
-  		$data['data']=$this->Billingprocess->get_all_thirteenmonthprocess("");
+  		$data['data']=$this->Billingprocess->get_all_billingprocess("");
 		$this->load->view('Template/Header',$data);
-		$this->load->view("Billingprocess/Index",$data);
-		$this->load->view('Template/Footer',$data);
+		 if(isAllowed(20))$this->load->view("Billingprocess/Index",$data);
+		   else $this->load->view("Denied/Index");
+
+		  $this->load->view('Template/Footer',$data);
+
 	}
 	public function search_Billingprocess()
 	{
@@ -53,7 +56,10 @@
 		public function deny()
 		{
 			$billingID = $this->input->post('billingID');
-        	$this->Billingprocess->deny_Billingstatementprocess($billingID);
+			$reason = $this->input->post('reason');
+        	$data = $this->Billingprocess->deny_Billingstatementprocess($billingID,$reason);
+
+        	echo json_encode($data);
 
 		}
 

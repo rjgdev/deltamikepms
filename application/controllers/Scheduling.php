@@ -45,11 +45,20 @@
        		$data=$this->schedule->save_guard($postID, $postType, $scheduleDay, $employeeID,$postscheduleID);
 		}
 
-		public function searchbyclient() 
+		public function searchschedule() 
 		{ 
 			$clientID = $this->input->post('clientID');
 
        		$data=$this->schedule->get_schedule($clientID);
+
+			echo json_encode($data);
+		}
+
+		public function loadpost() 
+		{ 
+			$clientID = $this->input->post('clientID');
+
+       		$data=$this->schedule->get_post($clientID);
 
 			echo json_encode($data);
 		}

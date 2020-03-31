@@ -134,6 +134,11 @@
 						<h3>Change Status</h3>
 						<p id="statusmessage"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
+
+						<br> 
+						 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+						 <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
+					 	 <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
 					</div>
 					<div class="modal-btn delete-action">
 						<div class="row">
@@ -149,7 +154,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- /Delete Department Modal -->
+	<!-- /Status Department Modal -->
 
 	<!-- Confirmation Modal -->
 	<div id="confirmation_add" class="modal custom-modal fade" role="dialog">
@@ -161,6 +166,11 @@
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
+
+							<br> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <input type="password" class="form-control input alphanumeric" id="addPassword" autocomplete="off" description="password" required>
+						 	 <div class="invalid-feedback" id="add-password" style="text-align: left;"></div>
 					</div>
 				
 						<div class="row">
@@ -186,6 +196,11 @@
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
+
+							<br> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <input type="password" class="form-control input alphanumeric" id="editPassword" autocomplete="off" description="password" required>
+						 	 <div class="invalid-feedback" id="edit-password" style="text-align: left;"></div>
 					</div>
 				
 						<div class="row">
@@ -218,11 +233,43 @@
 	$(document).ready(function() {
   		$('[data-tog="tooltip"]').tooltip();
 
+  		/*********************** FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+			$('#confirmation_add').on('shown.bs.modal', function(){
+		   		$("#addPassword").focus(); 
+			});
+
+			$('#confirmation_add').on('hide.bs.modal', function(){
+		   		document.getElementById("add-password").innerHTML = "";
+		   		$("#addPassword").val("");
+	    		$('#addPassword').removeClass('is-invalid');
+			});
+
+			$('#confirmation_edit').on('shown.bs.modal', function(){
+		   		$("#editPassword").focus(); 
+			});
+
+			$('#confirmation_edit').on('hide.bs.modal', function(){
+		   		document.getElementById("add-password").innerHTML = "";
+		   		$("#editPassword").val("");
+	    		$('#editPassword').removeClass('is-invalid');
+			});
+
+			$('#status_department').on('shown.bs.modal', function(){
+		   		$("#statusPassword").focus(); 
+			});
+
+			$('#status_department').on('hide.bs.modal', function(){
+		   		document.getElementById("status-password").innerHTML = "";
+		   		$("#statusPassword").val("");
+	    		$('#statusPassword').removeClass('is-invalid');
+			});
+		/*********************** END FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+
 		/* FOCUS ON DESCRIPTION */
 		$('#add_department').on('shown.bs.modal', function(){
 	   		$("#adddescription").focus(); 
 		});
-		
+
 		/* CLEAR MODAL */
 		$('#add_department').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
@@ -285,6 +332,7 @@
 	        if(description=="" ) return false;
 
 	        	$('#add_department').hide();
+
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
 	    		event.preventDefault(); 
@@ -334,88 +382,159 @@
 	        var id = $(this).attr('id');
 	        var status = $(this).attr('status');
 	        var description = $(this).attr('description');
+	        var confirmPassword = $('#statusPassword').val().trim();
 
-        	$.ajax({
-                url : "<?php echo site_url('departments/changestatus');?>",
-                method : "POST",
-                data : {id:id,
-                		status:status,
-                		description:description},
-                async : true,
-                dataType : 'json',
-                success: function(data){
-                	var result = data.split('|');
-        			if(result[0]=="false"){
-        				$("#status-invalid").css("display","block");
-						document.getElementById("status-invalid").innerHTML = result[1];
-        			}else{
-    					window.location.replace('<?php echo base_url(); ?>Departments');
-        			}
-                },
-                error: function(request, textStatus, error) {
+			if(confirmPassword==""){
+				$('#statusPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
+	                method : "POST",
+	                data : {confirmPassword:confirmPassword},
+	                dataType : 'json',
+	                success: function(data){
+	                	if(data=="true"){
+				        	$.ajax({
+				                url : "<?php echo site_url('departments/changestatus');?>",
+				                method : "POST",
+				                data : {id:id,
+				                		status:status,
+				                		description:description},
+				                async : true,
+				                dataType : 'json',
+				                success: function(data){
+				                	var result = data.split('|');
+				        			if(result[0]=="false"){
+				        				$("#status-invalid").css("display","block");
+										document.getElementById("status-invalid").innerHTML = result[1];
+				        			}else{
+				    					window.location.replace('<?php echo base_url(); ?>Departments');
+				        			}
+				                },
+				                error: function(request, textStatus, error) {
 
-            	}
-            });
-            return false;
+				            	}
+				            });
+				            return false;
+	                	}else{
+	                		document.getElementById("status-password").innerHTML = "Incorrect Password.";
+	                		$('#statusPassword').addClass('is-invalid');
+	                		$('#statusPassword').focus();
+	                	}
+	                },
+	                error: function(request, textStatus, error) {
+	                	return false;
+	            	}
+	            });
+	            return false
+            }
         });
 
 		$('.add').unbind('click').bind('click', function(){
 			var description = $('#adddescription').val().trim();
+			var confirmPassword = $('#addPassword').val().trim();
 
-        	$.ajax({
-	                url : "<?php echo site_url('departments/save');?>",
+			if(confirmPassword==""){
+				$('#addPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
 	                method : "POST",
-	                data : {description:description},
-	                async : true,
+	                data : {confirmPassword:confirmPassword},
 	                dataType : 'json',
 	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-invalid").innerHTML = result[1];
-				        	$('#adddescription').addClass('is-invalid');
-							$('#confirmation_add').modal('hide');
-				        	$('#add_department').show();
-				        	$("#adddescription").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>Departments');
-            			}
+	                	if(data=="true"){
+	                		$.ajax({
+				                url : "<?php echo site_url('departments/save');?>",
+				                method : "POST",
+				                data : {description:description},
+				                async : true,
+				                dataType : 'json',
+				                success: function(data){
+				                	var result = data.split('|');
+			            			if(result[0]=="false"){
+										document.getElementById("add-invalid").innerHTML = result[1];
+							        	$('#adddescription').addClass('is-invalid');
+										$('#confirmation_add').modal('hide');
+							        	$('#add_department').show();
+							        	$("#adddescription").focus(); 
+			            			}else{
+			        					window.location.replace('<?php echo base_url(); ?>Departments');
+			            			}
+				                },
+				                error: function(request, textStatus, error) {
+
+				            	}
+				            });
+				            return false;
+	                	}else{
+	                		document.getElementById("add-password").innerHTML = "Incorrect Password.";
+	                		$('#addPassword').addClass('is-invalid');
+	                		$('#addPassword').focus();
+	                	}
 	                },
 	                error: function(request, textStatus, error) {
-
+	                	return false;
 	            	}
 	            });
-	            return false;
+	            return false
+			}
         });
 
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
 	        var description = $('#editdescription').val().trim();
+	        var confirmPassword = $('#editPassword').val().trim();
 
-        	$.ajax({
-	                url : "<?php echo site_url('departments/update');?>",
+			if(confirmPassword==""){
+				$('#editPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
 	                method : "POST",
-	                data : {id:id,
-	                		description:description},
-	                async : true,
+	                data : {confirmPassword:confirmPassword},
 	                dataType : 'json',
 	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-invalid").innerHTML = result[1];
-				        	$('#editdescription').addClass('is-invalid');
-							$('#confirmation_edit').modal('hide');
-				        	$('#edit_department').show();
-				        	$("#editdescription").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>Departments');
-            			}
+	                	if(data=="true"){
+				        	$.ajax({
+					                url : "<?php echo site_url('departments/update');?>",
+					                method : "POST",
+					                data : {id:id,
+					                		description:description},
+					                async : true,
+					                dataType : 'json',
+					                success: function(data){
+					                	var result = data.split('|');
+				            			if(result[0]=="false"){
+											document.getElementById("edit-invalid").innerHTML = result[1];
+								        	$('#editdescription').addClass('is-invalid');
+											$('#confirmation_edit').modal('hide');
+								        	$('#edit_department').show();
+								        	$("#editdescription").focus(); 
+				            			}else{
+				        					window.location.replace('<?php echo base_url(); ?>Departments');
+				            			}
+					                },
+					                error: function(request, textStatus, error) {
+
+					            	}
+					            });
+					            return false;
+			            }else{
+	                		document.getElementById("edit-password").innerHTML = "Incorrect Password.";
+	                		$('#editPassword').addClass('is-invalid');
+	                		$('#editPassword').focus();
+	                	}
 	                },
 	                error: function(request, textStatus, error) {
-
+	                	return false;
 	            	}
 	            });
-	            return false;
+	            return false
+            }
         });
-       
 	});
 </script>

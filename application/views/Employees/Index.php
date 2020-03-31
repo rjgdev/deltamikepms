@@ -33,7 +33,7 @@
     
     <thead>
     <tr>
-    <th style="width: 100px ! important;">Employee Number.</th>
+    <th style="width: 100px ! important;">Employee Number</th>
     <th style="width: 220px ! important;">Employee Name</th>
     <th style="width: 150px ! important;">Client</th>
     <th style="width: 100px ! important;">Employee Type</th>

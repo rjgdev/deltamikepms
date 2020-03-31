@@ -168,8 +168,8 @@
 
 		$(document).on("keypress", ".otherfield", function(e){
 		    var keyCode = e.which;
-		    console.log(keyCode);
-		    if (!(keyCode >= 48 && keyCode <= 57) && keyCode != 39 && keyCode != 40 && keyCode != 41 && keyCode != 44 && keyCode != 45 && keyCode != 46 && keyCode != 8 && keyCode != 32 && keyCode != 13) {
+
+		    if (!(keyCode >= 48 && keyCode <= 57) && keyCode != 39 && keyCode != 40 && keyCode != 41 && keyCode != 44 && keyCode != 45 && keyCode != 46 && keyCode != 8 && keyCode != 32 && keyCode != 13 && !(keyCode >= 65 && keyCode <= 90) && !(keyCode >= 97 && keyCode <= 122)) {
 		      e.preventDefault();
 		    }
 		});

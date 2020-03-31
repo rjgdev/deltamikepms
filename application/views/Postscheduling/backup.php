@@ -2,7 +2,6 @@
 <?php
 	$optionEmployee = "";
 	$optionClient   = "";
-	$optionPost     = "";
 
 /*	foreach($data['employee'] as $employee)
 	{
@@ -13,11 +12,6 @@
 	{
 		$optionClient.='<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
 	}
-
-	/*foreach($data['post'] as $post)
-	{
-		$optionPost.='<option value="'.$client->postID.'">'.$post->postName.'</option>';
-	}*/
 ?>
 <!-- Page Wrapper -->
 
@@ -39,43 +33,18 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-
 		<div class="row">
-		  	<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
+			  <div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
-			  		<label class="focus-label">Client</label>
-					<select class="form-control is-invalid select2" id="searchclient"> 
-						<option value="0">Select Client</option>
+					<select class="form-control select2" id="searchclient"> 
 						<?=$optionClient;?>
 					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
-			  	<div class="form-group form-focus select-focus">
-			  		<label class="focus-label">Post</label>
-					<select class="form-control is-invalid select2" id="searchpost"> 
-						<option value="0">Select Post</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
-			  	<div class="form-group form-focus select-focus">
-					<label class="focus-label">Schedule Date</label>
- 					<input id="scheddate"  name="scheddate" 
- 						   class="form-control datetimepicker">
-				</div>
-			</div>
-
-			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
-			  	<div class="form-group form-focus select-focus">
-					<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> View Schedule</button>
+					<label class="focus-label">Client</label>
 				</div>
 			</div>
 
 			  <div class="col-md-12 mb-2">
-				<table class="table custom-table" style="border: 1px solid #b7b7b7;" >
+				<table class="table custom-table" style="border: 1px solid #b7b7b7;">
 					<thead>
 						<tr>
 							<th class="text-center postHeader">Shifting</th>
@@ -89,16 +58,11 @@
 						</tr>
 					</thead>
 					<tbody id="data_show">
-						<tr>
-							<td colspan="8" id="norecord">
-								<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/loading.svg">
-								<h4>Post Scheduling</h4>
-								<p>Click <b><u>View Schedule</u></b> to generate schedule.</p>
-							</td>
-						</tr>
+						
 					</tbody>
 				</table>
 			</div>
+			
 		</div>
 	<!-- /Page Content -->
 	</div>
@@ -187,18 +151,6 @@ input[type="search"] {
 .select2-selection__rendered{
 	padding:5px !important;
 }*/
-
-
-@media (max-height: 640px)
-{
-	#norecord{height: 30vh !important;}
-}
-
-#norecord{
-	height: 55vh;
-	text-align: center;
-}
-
 </style>
 
 <script>
@@ -214,6 +166,13 @@ $(document).ready(function() {
 		$("#cancelGuard" + $(this).attr("name")).css("display","block");
 	});
 
+	$(document).on("click", ".editAugment", function(){
+		$("#searchaugment" + $(this).attr("name")).removeAttr('disabled');
+		$("#editAugment" + $(this).attr("name")).css("display","none");
+		$("#saveAugment" + $(this).attr("name")).css("display","block");
+		$("#cancelAugment" + $(this).attr("name")).css("display","block");
+	});
+
 	$(document).on("click", ".cancelGuard", function(){
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
 		$('#modal_title').html("Confirmation Message");
@@ -221,6 +180,20 @@ $(document).ready(function() {
     	$('.submit-btn').html("Confirm");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_cancelediting");
+    	$('.submit-btn').attr("postID",$(this).attr("postID"));
+    	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
+    	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", ".cancelAugment", function(){
+        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
+		$('#modal_title').html("Confirmation Message");
+    	$('#modal_message').html("Are you sure you want to cancel?");
+    	$('.submit-btn').html("Confirm");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_cancelediting_augment");
     	$('.submit-btn').attr("postID",$(this).attr("postID"));
     	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
     	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
@@ -264,6 +237,42 @@ $(document).ready(function() {
 		$('#modal_confirmation').modal('hide');
 	});
 
+	$(document).on("click", "#modal_cancelediting_augment", function(){
+    	var postID = $(this).attr("postID");
+		var scheduleDay = $(this).attr("scheduleDay");
+		var postscheduleID = $(this).attr("postscheduleID");
+
+		var arrVal = [];
+
+		$.ajax({
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
+		      method : "POST",
+		      async : true,
+		      dataType : 'json',
+		      data: {postID:postID,
+		      	     postType:"augment",
+		      	     postscheduleID:postscheduleID,
+		      		 scheduleDay:scheduleDay},
+		      success: function(data){	
+		     										      			
+      			for(i=0; i<data.length; i++){
+      				arrVal[i] = data[i].employeeID;
+  				}
+  				$("#searchaugment" + postscheduleID + postID + scheduleDay).val(arrVal);
+				$("#searchaugment" + postscheduleID + postID + scheduleDay).trigger("change");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+ 	 	});
+
+		$("#searchaugment" + postscheduleID + postID + scheduleDay).attr('disabled', 'disabled');
+		$("#editAugment" + postscheduleID + postID + scheduleDay).css("display","block");
+		$("#saveAugment" + postscheduleID + postID + scheduleDay).css("display","none");
+		$("#cancelAugment" + postscheduleID + postID + scheduleDay).css("display","none");
+		$('#modal_confirmation').modal('hide');
+	});
+
 	$(document).on("click", ".saveGuard", function(){
 		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
 		$('#modal_title').html("Confirmation Message");
@@ -271,6 +280,20 @@ $(document).ready(function() {
     	$('.submit-btn').html("Submit");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_saverecord");
+    	$('.submit-btn').attr("postID",$(this).attr("postID"));
+    	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
+    	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
+        $('#modal_confirmation').modal('show');
+		return false;
+	});
+
+	$(document).on("click", ".saveAugment", function(){
+		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
+		$('#modal_title').html("Confirmation Message");
+    	$('#modal_message').html("Are you sure you want to save these changes?");
+    	$('.submit-btn').html("Submit");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_saverecord_augment");
     	$('.submit-btn').attr("postID",$(this).attr("postID"));
     	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
     	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
@@ -308,112 +331,49 @@ $(document).ready(function() {
 		$('#modal_confirmation').modal('hide');
 	});
 
-	function loadData(postID,scheduleDay,postscheduleID){
-		var arrVal = [];
+	$(document).on("click", "#modal_saverecord_augment", function(){
+		var postID = $(this).attr("postID");
+		var scheduleDay = $(this).attr("scheduleDay");
+		var postscheduleID = $(this).attr("postscheduleID");
+		var employeeID =$("#searchaugment" + postscheduleID + postID + scheduleDay).val();
 
 		$.ajax({
-		      url : "<?php echo site_url('Scheduling/loadguard');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {postID:postID,
-		      		 postType:"regular",
-		      		 postscheduleID:postscheduleID,
-		      		 scheduleDay:scheduleDay},
-		      success: function(data){			
-	  			for(i=0; i<data.length; i++){
-	  				arrVal[i] = data[i].employeeID;
-				}
-				
-				$("#searchemployee" + postscheduleID + postID + scheduleDay).val(arrVal);
-				$("#searchemployee" + postscheduleID + postID + scheduleDay).trigger("change");
-		      },
-		      error: function(request, textStatus, error) {
+			url 	 : "<?php echo site_url('Scheduling/saveguard');?>",
+			method : "POST",
+			async  : true,
+			dataType : 'json',
+			data: {postID:postID,
+					 postType:"augment",
+					 postscheduleID:postscheduleID,
+					 scheduleDay:scheduleDay,
+					 employeeID:employeeID},
+			success: function(data){	
 
-		      }
-	 	});
-	}
+			},
+			error: function(request, textStatus, error) {
+
+			}
+		});
+
+
+		$("#searchaugment" + postscheduleID + postID + scheduleDay).attr('disabled', 'disabled');
+		$("#editAugment" + postscheduleID + postID + scheduleDay).css("display","block");
+		$("#saveAugment" + postscheduleID + postID + scheduleDay).css("display","none");
+		$("#cancelAugment" + postscheduleID + postID + scheduleDay).css("display","none");
+		$('#modal_confirmation').modal('hide');
+	});
 
     $(document).on("change", "#searchclient", function(){
     	var clientID = $(this).val();
-    	var htmlPost = "";
+    	var html = "";
     	var optionEmployee = "";
 
-    	$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
-
     	$.ajax({
-		      url : "<?php echo site_url('Scheduling/loadpost');?>",
+		      url : "<?php echo site_url('Scheduling/searchbyclient');?>",
 		      method : "POST",
 		      async : true,
 		      dataType : 'json',
 		      data: {clientID:clientID},
-		      success: function(data){	
-	      		
-	      		htmlPost+='<option value="0">Select Post</option>';
-
-		      	for(i=0;i<data["post"].length;i++){
-		      		htmlPost+='<option value="' + data["post"][i].postID + '">' + data["post"][i].postname + '</option>';
-		      	}
-		      	
-		      	$("#searchpost").html(htmlPost);
-		      	if(data["post"].length!=0) $("#searchpost").focus();
-		      	$(".loader").fadeOut();
-	      	  },
-		      error: function(request, textStatus, error) {
-
-		      }
- 	 	});
-	});
-
-	$(document).on("change", "#searchpost", function(){
-    	var postID = $(this).val();
-    	$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
- 	});
-
- 	$(document).on("click", "#scheddate", function(){
-    	$("#scheddate").removeClass('is-invalid');
- 	});
-
- 	$(document).on("click", "#submit", function(){
- 		var clientID=$("#searchclient").val();
- 		var postID=$("#searchpost").val();
- 		var schedDate=$("#scheddate").val();
- 		var error = 0;
-
-		$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
-		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
-		$("#scheddate").removeClass('is-invalid');
-
- 		if(clientID==0){
-			$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
-			$("#searchclient").focus();
-			error=1;
- 		}
-
- 		if(postID==0){
-			$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
-			if(focus==0){
-				$("#searchpost").focus();
-				error=1;
-			}
- 		}
-
- 		if(schedDate==""){
-			$("#scheddate").addClass('is-invalid');
-			if(focus==0){
-				$("#scheddate").focus();
-				error=1;
-			}
- 		}
-
- 		if(error==0){
- 			$.ajax({
-		      url : "<?php echo site_url('Scheduling/searchschedule');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {clientID:clientID,
-		      		 postID:postID},
 		      success: function(data){		
 		      	var postName = "";
 
@@ -452,6 +412,25 @@ $(document).ready(function() {
 												  '<span class="file-author float-right" id="cancelGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
 														'<a href="#" class="cancelGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Cancel</a>' +
 												  '</span><br><br>';
+
+							      html+='<label style="margin-bottom:0;">Augmentation</label>' +
+											  '<select class="form-control select2" id="searchaugment' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" multiple="multiple" disabled>' +
+												optionEmployee +
+											  '</select>';
+
+											loadData_augment(data["post"][i].postID,x,data["post"][i].postscheduleID); 
+
+											html+='<br/>' + 
+												  '<span class="file-author float-right" id="editAugment' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: block;">' + 
+												   		'<a href="#" class="editAugment" name="' + data["post"][i].postscheduleID + data["post"][i].postID + x + '">Edit Assigned Guard</a>' +
+												  '</span>' + 
+												  '<span class="file-author float-left" id="saveAugment' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
+														'<a href="#" class="saveAugment" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Save</a>' +
+												  '</span>' + 
+												  '<span class="file-author float-right" id="cancelAugment' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
+														'<a href="#" class="cancelAugment" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Cancel</a>' +
+												  '</span>'+
+									      '</td>';
 							    }
 						html+='</tr>';
   				}     	
@@ -463,7 +442,60 @@ $(document).ready(function() {
 
 		      }
  	 	});
- 		}
- 	});
+	});
+
+	function loadData(postID,scheduleDay,postscheduleID){
+		var arrVal = [];
+
+		$.ajax({
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
+		      method : "POST",
+		      async : true,
+		      dataType : 'json',
+		      data: {postID:postID,
+		      		 postType:"regular",
+		      		 postscheduleID:postscheduleID,
+		      		 scheduleDay:scheduleDay},
+		      success: function(data){			
+	  			for(i=0; i<data.length; i++){
+	  				arrVal[i] = data[i].employeeID;
+				}
+				
+				$("#searchemployee" + postscheduleID + postID + scheduleDay).val(arrVal);
+				$("#searchemployee" + postscheduleID + postID + scheduleDay).trigger("change");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+	 	});
+	}
+
+	function loadData_augment(postID,scheduleDay,postscheduleID){
+
+		var arrVal = [];
+
+		$.ajax({
+		      url : "<?php echo site_url('Scheduling/loadguard');?>",
+		      method : "POST",
+		      async : true,
+		      dataType : 'json',
+		      data: {postID:postID,
+		      	     postType:"augment",
+		      	     postscheduleID:postscheduleID,
+		      		 scheduleDay:scheduleDay},
+		      success: function(data){	
+
+	  			for(i=0; i<data.length; i++){
+	  				arrVal[i] = data[i].employeeID;
+
+				}
+				$("#searchaugment" + postscheduleID + postID + scheduleDay).val(arrVal);
+				$("#searchaugment" + postscheduleID + postID + scheduleDay).trigger("change");
+		      },
+		      error: function(request, textStatus, error) {
+
+		      }
+	 	});
+	}
 });
 </script>

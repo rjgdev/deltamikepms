@@ -12,7 +12,7 @@ class Loan_model extends CI_Model
 		$query = $this->db->query("SELECT employeeID, CONCAT('00000','',employeeID, ' - ',lastname,', ',firstname, ' ', middlename) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
 		$loandata = $this->db->query("
              SELECT 
-            loanid,employeeID,photo,fullname,department,designationdescription,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2,paid,lnothers
+            loanid,employeeID,photo,fullname,department,designationdescription,loantypeid as loantype,loantypeid1,termofpaymentID,dategranted,amount,deduction,balance,enddate,termofpaymentID2,paid,lnothers,concat(loantypeid,' - ',termofpaymentID) as loanday
             FROM
             (
                 SELECT
@@ -80,7 +80,7 @@ class Loan_model extends CI_Model
             'dategranted' => $dategranted);
             $this->db->where("loanid", $id);  
             $this->db->update("dm_loan", $data);  
-            return 'true|Employee name and dategranted successfully updated!';
+            return 'true|Employee loan successfully updated';
            
         }        
     }

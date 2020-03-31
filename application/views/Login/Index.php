@@ -12,6 +12,7 @@
         <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url();?>pages\assets\img\favicon.png">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap.min.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\all.min.css">
+        <link rel='stylesheet' href="<?php echo base_url();?>pages\assets\css\style-login.min.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\font-awesome.min.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\style.css">
 		
@@ -22,22 +23,18 @@
 		<![endif]-->
     </head>
     <body class="account-page">
-	
-		<!-- Main Wrapper -->
-        <div class="main-wrapper">
-			<div class="account-content">
+			<!-- Authentication pages -->
+			<div class="auth">
 				<div class="container">
-				
-					<!-- Account Logo -->
-					<div class="account-logo">
-						<a href="<?php echo base_url(); ?>login"><img src="<?php echo base_url();?>pages\assets\img\logo.png" alt="Deltamike Payroll Management System"></a>
-					</div>
-					<!-- /Account Logo -->
 					
-					<div class="account-box">
-						<div class="account-wrapper">
-							<h3 class="account-title">Login</h3>
-							<p class="account-subtitle">Sign in to your account</p>
+					<div class="auth__inner">
+						<div class="auth__media">
+							<img src="<?php echo base_url();?>pages\assets\img\Login.svg">
+						</div>
+						<div class="auth__auth">
+
+							<h1 class="auth__title" style="margin-bottom: 0px;">Access your account</h1>
+							<p style="color:#fff;">Fill in your username and password to proceed!</p>
 
 							<?php if($this->session->flashdata("error")!=""){ ?>
 								<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -47,38 +44,36 @@
 									</button>
 								</div>
 							<?php } ?>
+
 							<form method="post" action="<?php echo base_url(); ?>Login/login_validation">
-								<div>
-									<label for="username">Username</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-user"></i></span>
-										</div>
-										<input type="text" class='form-control alphanumeric <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="username" id="username" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("uname"); ?>'>
-									</div>
-								</div>
+							<!-- 	<label>Username</label> -->
+								<input type="text" 
+									   class='form-control alphanumeric 
+									   		  <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>'
+									    name="username" 
+									    id="username" 
+									    required="" 
+									    autocomplete="off"
+									    placeholder="Username"
+									    value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("uname"); ?>'>
 
-								<div>
-									<label for="password">Password</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroupPrepend3"><i class="fa fa-lock"></i></span>
-										</div>
-										<input type="password" class='form-control alphanumeric <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>' name="password" id="password" aria-describedby="inputGroupPrepend3" required="" value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("pword"); ?>'>
-									</div>
-								</div>
+								<!-- <label>Password</label> -->
+								<input type="password" 
+									   class='form-control alphanumeric 
+									   		  <?php if($this->session->flashdata("error")!="") echo "is-invalid" ?>'
+									   name="password"
+									   id="password" 
+									   required=""
+									   autocomplete="off"
+									   placeholder="Password"
+									   value='<?php if($this->session->flashdata("error")!="") echo $this->session->flashdata("pword"); ?>'>
 
-								<div class="form-group text-center">
-									<button class="btn btn-primary account-btn" type="submit">Login</button>
-								</div>
+								<button type='submit' class="button button__accent" style="margin-top: .9rem;"><i class="fas fa-sign-in-alt"></i> LOGIN</button>
 							</form>
-							<!-- /Account Form -->
-							
 						</div>
 					</div>
 				</div>
 			</div>
-        </div>
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->
@@ -90,6 +85,7 @@
 		
 		<!-- Custom JS -->
 		<script src="<?php echo base_url();?>pages\assets\js\app.js"></script>
+		<script src="<?php echo base_url();?>pages\assets\js\app-login.min.js"></script>
 		<script>
 			$(document).ready(function() {
 				$("#username").focus();

@@ -31,7 +31,7 @@
 				<h1 style="color: #dc3545 !important;"><i class="fa fa-cogs"></i></h1>
 				<h3></i> Website is under maintenance...</h3>
 				<p>Our page is currently undergoing scheduled maintenance.<br>We should be back shortly. Thank you for your patience.</p>
-				<a href="<?php echo base_url(); ?>dashboard" class="btn btn-custom">Back to Home</a>
+				<a href="<?php echo base_url(); ?>Dashboard" class="btn btn-custom">Back to Home</a>
 			</div>
 		</div>
 		<!-- /Main Wrapper -->

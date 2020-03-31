@@ -4,7 +4,7 @@
 		public function index() 
 		{ 
 			if($this->session->has_userdata('username')){
-				redirect(base_url() .'dashboard');
+				redirect(base_url() .'Dashboard');
 			}
 
 			$this->load->view("Login/Index");

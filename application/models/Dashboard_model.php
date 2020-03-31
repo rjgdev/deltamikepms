@@ -10,35 +10,64 @@ class Dashboard_model extends CI_Model
 	function get_all()
 	{
 		$timekeepingguard = $this->db->query('SELECT * FROM `dm_timekeeping` ORDER BY timekeepingID DESC LIMIT 1');
-		$actclient = $this->db->query('SELECT COUNT(clientID) AS actclient FROM dm_client WHERE clientstatus="Active"');
-		$inactclient = $this->db->query('SELECT COUNT(clientID) AS inactclient FROM dm_client WHERE clientstatus="Inactive"');
+		$payroll = $this->db->query('SELECT * FROM `dm_payroll` ORDER BY payrollID DESC LIMIT 1');
+		$thirteenthmonth = $this->db->query('SELECT * FROM `dm_thrmonth` ORDER BY thrmonthID DESC LIMIT 1');
+		$retirement = $this->db->query('SELECT * FROM `dm_retirement` ORDER BY retirementID DESC LIMIT 1');
+		$billing = $this->db->query('SELECT * FROM `dm_billing` ORDER BY billingID DESC LIMIT 1');
 
-		$employee = $this->db->query('SELECT COUNT(employeeID) AS noofemployee FROM dm_employee');
-		$actemployee = $this->db->query('SELECT COUNT(employeeID) AS actemployee FROM dm_employee WHERE employeestatus="Active"');
-		$inactemployee = $this->db->query('SELECT COUNT(employeeID) AS inactemployee FROM dm_employee WHERE employeestatus="Inactive"');
+		$employee = $this->db->query('
+			SELECT * 
+			FROM dm_employee as emp
+			LEFT JOIN dm_department as dept
+			ON emp.departmentID = dept.departmentID
+			LEFT JOIN dm_designation as des
+			ON emp.designationID = des.designationID
+			LEFT JOIN dm_employeetype as emptype
+			ON emp.employeetypeID = emptype.employeetypeID
+			ORDER BY employeeID DESC LIMIT 5');
 
-		$detachment = $this->db->query('
-			SELECT *, CONCAT(detach.city) as detachcity, CONCAT(detach.housenumber) as detachhousenumber, CONCAT(detach.streetname) as detachstreetname, CONCAT(detach.barangay) as detachbarangay
-			FROM dm_post as detach
-			LEFT JOIN dm_client
-			ON detach.clientID=dm_client.clientID
-			WHERE poststatus="Active"');
+		$client = $this->db->query('
+			SELECT * 
+			FROM dm_client as clnt
+			ORDER BY clientID DESC LIMIT 5');
+
+		$leave = $this->db->query('
+			SELECT empleave.*, emp.firstname, emp.lastname, emp.photo, type.leavetypename 
+			FROM dm_employeeleave as empleave
+			LEFT JOIN dm_employee as emp
+			ON empleave.employeeID = emp.employeeID
+			LEFT JOIN dm_leavetype as type
+			ON empleave.leavetypeID = type.leavetypeID
+			WHERE DATE(leavefrom) > CURDATE()
+			ORDER BY leavefrom
+			LIMIT 2');
+
+		$post = $this->db->query('
+			SELECT post.*, clnt.clientname 
+			FROM dm_post as post
+			LEFT JOIN dm_client as clnt
+			ON post.clientID = clnt.clientID
+			ORDER BY postID DESC LIMIT 5');
 
 	    $result1 = $timekeepingguard->result();
-	    $result2 = $actclient->result();
-	    $result3 = $inactclient->result();
-	    $result4 = $employee->result();
-	    $result5 = $actemployee->result();
-	    $result6 = $inactemployee->result();
-	    $result7 = $detachment->result();
+	    $result2 = $payroll->result();
+	    $result3 = $thirteenthmonth->result();
+	    $result4 = $retirement->result();
+	    $result5 = $billing->result();
+	    $result6 = $employee->result();
+	    $result7 = $client->result();
+	    $result8 = $leave->result();
+	    $result9 = $post->result();
 	          return array(
 	          	'timekeepingguard' => $result1,
-	          	'actclient' => $result2,
-	          	'inactclient' => $result3,
-	          	'employee' => $result4,
-	          	'actemployee' => $result5,
-	          	'inactemployee' => $result6,
-	          	'detachment' => $result7
+	          	'payroll' => $result2,
+	          	'thirteenthmonth' => $result3,
+	          	'retirement' => $result4,
+	          	'billing' => $result5,
+	          	'employee' => $result6,
+	          	'client' => $result7,
+	          	'leave' => $result8,
+	          	'post' => $result9
 	          );
   	}
 }

@@ -13,6 +13,12 @@ class Postscheduling_model extends CI_Model
     	return array("client"   => $queryClient->result());
   	}
 
+  	function get_post($clientID)
+	{
+	    $queryPost   = $this->db->query('SELECT * FROM dm_post WHERE clientID='.$clientID.' AND poststatus="Active"');
+    	return array("post"   => $queryPost->result());
+  	}
+
   	function get_schedule($clientID)
 	{
 	    $queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" and employeetypeID=1 and clientID='.$clientID);
