@@ -89,17 +89,21 @@ class Billingprocess_model extends CI_Model
 										((sum(hdmf_eeSO)) * (sum(numberemployeeS0))) AS hdmf_eeSO, ((sum(hdmf_eeSG)) * (sum(numberemployeeSG))) AS hdmf_eeSG,
 										((sum(retfundSO)) * (sum(numberemployeeS0))) AS retfundSO, ((sum(retfundSG)) * (sum(numberemployeeSG))) AS retfundSG, rangedate
 										FROM(
+										
 										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
 										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
 										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
 										concat(date_format(p.datefrom,'%M %d'),' - ', date_format(p.dateto,'%d%, %Y')) as rangedate
-										FROM dm_employee AS emp
-										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
-										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
-										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
-										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										FROM dm_payroll as p
+                                        LEFT  JOIN dm_payrolldetails AS pd on pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+                                        LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
+                                        LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
+                                        LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
 										$datefrom  $dateto AND emp.employeetypeID = 1 AND p.payrollstatus = 2 $client  GROUP BY dth.clientID  
+										
 										UNION ALL
+										
 										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
 										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
 										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
@@ -183,17 +187,21 @@ class Billingprocess_model extends CI_Model
 										((sum(hdmf_eeSO)) * (sum(numberemployeeS0))) AS hdmf_eeSO, ((sum(hdmf_eeSG)) * (sum(numberemployeeSG))) AS hdmf_eeSG,
 										((sum(retfundSO)) * (sum(numberemployeeS0))) AS retfundSO, ((sum(retfundSG)) * (sum(numberemployeeSG))) AS retfundSG, rangedate
 										FROM(
+										
 										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
 										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
 										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
 										concat(date_format(p.datefrom,'%M %d'),' - ', date_format(p.dateto,'%d%, %Y')) as rangedate
-										FROM dm_employee AS emp
-										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
-										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
-										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
-										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										FROM dm_payroll as p
+                                        LEFT  JOIN dm_payrolldetails AS pd on pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+                                        LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
+                                        LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
+                                        LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
 										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										
 										UNION ALL
+										
 										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
 										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
 										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
@@ -293,17 +301,21 @@ class Billingprocess_model extends CI_Model
 										((sum(hdmf_eeSO)) * (sum(numberemployeeS0))) AS hdmf_eeSO, ((sum(hdmf_eeSG)) * (sum(numberemployeeSG))) AS hdmf_eeSG,
 										((sum(retfundSO)) * (sum(numberemployeeS0))) AS retfundSO, ((sum(retfundSG)) * (sum(numberemployeeSG))) AS retfundSG, rangedate
 										FROM(
+										
 										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
 										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
 										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
 										concat(date_format(p.datefrom,'%M %d'),' - ', date_format(p.dateto,'%d%, %Y')) as rangedate
-										FROM dm_employee AS emp
-										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
-										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
-										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
-										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										FROM dm_payroll as p
+                                        LEFT  JOIN dm_payrolldetails AS pd on pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+                                        LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
+                                        LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
+                                        LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
 										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										
 										UNION ALL
+										
 										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
 										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
 										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
@@ -385,17 +397,21 @@ class Billingprocess_model extends CI_Model
 										((sum(hdmf_eeSO)) * (sum(numberemployeeS0))) AS hdmf_eeSO, ((sum(hdmf_eeSG)) * (sum(numberemployeeSG))) AS hdmf_eeSG,
 										((sum(retfundSO)) * (sum(numberemployeeS0))) AS retfundSO, ((sum(retfundSG)) * (sum(numberemployeeSG))) AS retfundSG, rangedate
 										FROM(
+										
 										SELECT '' AS SO, 'SG' AS SG,IFNULL(emp.clientID,0) AS clientID,IFNULL(emp.postID,0) AS postID,IFNULL(pd.payrollID,0) AS payrollID,clnt.clientname,dth.postname as detachment,
 										'0' AS numberemployeeS0,IFNULL(count(pd.employeeID),0) AS numberemployeeSG,'0' AS basicsalarySO,emp.basicsalary AS basicsalarySG,
 										'0' AS sss_eeS0, SUM(IFNULL(pd.sss_ee,0)) AS sss_eeSG ,'0' AS phic_eeS0,SUM(IFNULL(pd.phic_ee,0)) AS phic_eeSG,'0' AS hdmf_eeSO,SUM(IFNULL(pd.hdmf_ee,0)) AS hdmf_eeSG,'0' AS retfundSO, SUM(IFNULL((emp.retfund /2),0)) as retfundSG,
 										concat(date_format(p.datefrom,'%M %d'),' - ', date_format(p.dateto,'%d%, %Y')) as rangedate
-										FROM dm_employee AS emp
-										LEFT JOIN dm_post AS dth ON  dth.commander != emp.employeeID AND emp.clientID = dth.clientID
-										LEFT JOIN  dm_payrolldetails AS pd ON  emp.employeeID = pd.employeeID
-										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
-										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
+										FROM dm_payroll as p
+                                        LEFT  JOIN dm_payrolldetails AS pd on pd.payrollID = p.payrollID
+										LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+                                        LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
+                                        LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
+                                        LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
 										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										
 										UNION ALL
+										
 										SELECT 'SG' AS SO, ' ' AS SG, emp.clientID,IFNULL(emp.postID,0) AS postID,pd.payrollID,clnt.clientname,dth.postname as detachment,
 										IFNULL(count(pd.employeeID),0) AS numberemployeeSO, '0' AS numberemployeeSG,emp.basicsalary AS basicsalarySO,'0' AS basicsalarySG,
 										IFNULL(pd.sss_ee,0) AS sss_eeS0,'0' AS sss_eeSG,IFNULL(pd.phic_ee,0) AS phic_eeSO,'0' AS phic_eeSG,IFNULL(pd.hdmf_ee,0) AS hdmf_eeSO,'0' AS hdmf_eeSG,SUM(IFNULL((emp.retfund /2),0)) as retfundSO,'0' AS retfundSG,
