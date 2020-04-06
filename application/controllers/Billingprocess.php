@@ -10,7 +10,7 @@
  
 	public function index() 
 	{ 
-  		$data = array('title' => 'Biling Statement Process');
+  		$data = array('title' => 'Billing Statement Process');
   		$data['data']=$this->Billingprocess->get_all_billingprocess("");
 		$this->load->view('Template/Header',$data);
 		 if(isAllowed(20))$this->load->view("Billingprocess/Index",$data);
@@ -25,6 +25,7 @@
 			$clientID = $this->input->post('clientID');
 			$payrolldateID = $this->input->post('payrolldateID');
 			$data = $this->Billingprocess->search($billingID, $clientID,$payrolldateID);
+			$this->session->set_flashdata('billing', 'success'); 
 			echo json_encode($data);
 
 		}
@@ -57,10 +58,19 @@
 		{
 			$billingID = $this->input->post('billingID');
 			$reason = $this->input->post('reason');
-        	$data = $this->Billingprocess->deny_Billingstatementprocess($billingID,$reason);
+        	$response = $this->Billingprocess->deny_Billingstatementprocess($billingID,$reason);
+			echo json_encode($response);
 
-        	echo json_encode($data);
+        	/*echo json_encode($data);*/
 
 		}
+		public function getdenied() 
+		{ 
+			$billingID   = $this->input->post('billingID');
+
+       		$data=$this->Billingprocess->get_denied($billingID);
+
+       		echo json_encode($data);
+   		}
 
 	}	

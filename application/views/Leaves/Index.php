@@ -27,14 +27,15 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 110px ! important;">Leave Number</th>
-								<th style="width: 220px ! important;">Employee Name</th>
-								<th style="width: 150px ! important;">Leave Type</th>
-								<th style="width: 190px ! important;">From</th>
-								<th style="width: 190px ! important;">To</th>
-								<th style="width: 50px ! important;">No. of Days</th>
-								<th style="width: 220px ! important;">Reason</th>
-								<th style="width: 50px ! important;">Actions</th>
+								<th style="width: 110px ! important;"><center>Leave Number</th>
+								<th style="width: 220px ! important;"><center>Employee Name</th>
+								<th style="width: 150px ! important;"><center>Leave Type</th>
+								<th style="width: 190px ! important;"><center>From</th>
+								<th style="width: 190px ! important;"><center>To</th>
+								<th style="width: 50px ! important;"><center>No. of Days</th>
+								<th style="width: 120px ! important;"><center>Note</th>
+								<th style="width: 120px ! important;"><center>Status</th>
+								<th style="width: 40px ! important;"><center>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,7 +56,8 @@
 								<td><?php echo  date("F d, Y", strtotime($record->leavefrom)) ?></td>
 								<td><?php echo  date("F d, Y", strtotime($record->leaveto)) ?></td>
 								<td><?php echo $record->numberofdays ?></td>
-								<td><?php echo $record->reason ?></td>
+								<td><?php echo $record->noted ?></td>
+								<td><?php echo $record->leavestatus ?></td>
 								<td class="text-right">
 						    <div class="dropdown dropdown-action">
 						    <a href="" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
@@ -75,7 +77,11 @@
 									data-remainingleave="<?php echo $record->remainingleave; ?>" 
 									data-reason="<?php echo $record->reason; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i>Edit</a>
-									<a class="dropdown-item changesnoted" href="#" data-toggle="modal" data-target="#noted_employee" data-id="<?php echo $record->employeeleaveID; ?>" data-noted="<?php echo $record->noted; ?>"><i class="fa fa-sticky-note"></i>Noted</a>
+									<a class="dropdown-item changesnoted" 
+									href="#" data-toggle="modal" data-target="#noted_employee"
+									data-id="<?php echo $record->employeeleaveID; ?>" 
+									data-noted="<?php echo $record->noted; ?>">
+									<i class="fa fa-sticky-note"></i>Noted</a>
 								<!-- <td class="text-right">
 									<button type="button" 
 									id="<?php echo $record->employeeleaveID; ?>" 
@@ -116,7 +122,7 @@
 					<form>
 						<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Employee name <code>*</code></label>
+							<label for="description">Employee Name <code>*</code></label>
 							<select class="form-control" id="addemployeeID" name="addemployeeID" style="width: 100%;" description="employee name">
 								<option value="">No Selected</option>
 								<?php
@@ -205,9 +211,9 @@
 					<form>
 							<div class="col-sm-12">
 							<div class="form-group">
-							<label for="description">Employee name <code>*</code></label>
+							<label for="description">Employee Name <code>*</code></label>
 							<select class="form-control" id="editemployee" name="editemployee" style="width: 100%;" description="employee name">
-								<option value="">No Selected</option>
+								<option value="0">No Selected</option>
 								<?php
 								foreach($data['employee'] as $item)
 								{
@@ -234,8 +240,8 @@
 							
 							<div class="cal-icon">
 								<input class="form-control datetimepicker" id="editfrom" name="editfrom" data-date-format="YYYY-MM-DD" description="start date">
+								<div class="invalid-feedback" id="edit-from"></div>	
 							</div>	
-							<div class="invalid-feedback" id="edit-from"></div>	
 						</div>
 						</div>
 						<div class="col-sm-12">	
@@ -243,8 +249,8 @@
 							<label>To <span class="text-danger">*</span></label>
 							<div class="cal-icon">
 								<input class="form-control datetimepicker"  id="editto" name="editto" data-date-format="YYYY-MM-DD" description="end date">
+								<div class="invalid-feedback" id="edit-to"></div>
 							</div>
-							<div class="invalid-feedback" id="edit-to"></div>
 						</div>
 						</div>
 						<div class="col-sm-12">	
@@ -482,7 +488,9 @@
 
   });
    $('#editemployee').change(function(){ 
+
       var id=$(this).val();
+
       $.ajax({
           url : "<?php echo site_url('Leaves/get_employeeleave');?>",
           method : "POST",
@@ -493,7 +501,7 @@
                
               var html = '';
               var i;
-               /*html += '<option value="0">No Selected</option>';*/
+               html += '<option value="0">No Selected</option>';
               for(i=0; i<data.length; i++){
                 if($("#hiddeneditleaveID").val()==data[i].leavetypeID){
                   	html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
@@ -572,10 +580,12 @@
 		if(dateto!="") computedate(datefrom, dateto);
 	});	
 	function computedate(datefrom, dateto){
+
 		var start_date 	= 	moment(dateto, 'YYYY-MM-DD HH:mm:ss');
    		var end_date 	= 	moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
    		var duration 	= 	moment.duration(start_date.diff(end_date));
-   		var days 		= 	duration.asDays() + 1;  
+   		var days 		= 	duration.asDays() + 1 || 0;  
+
    		if( days <= 0){
    			var days = 0;
    		 }else{
@@ -596,10 +606,11 @@
 		if(dateto!="") editcomputedate(datefrom, dateto);
 	});	
 	function editcomputedate(datefrom, dateto){
+		var days = 0;
 		var start_date = moment(dateto, 'YYYY-MM-DD HH:mm:ss');
    		var end_date   = moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
    		var duration   = moment.duration(start_date.diff(end_date));
-   		var days 	   = duration.asDays() + 1;  
+   		var days 	   = duration.asDays() + 1 || 0;  
    		if( days <= 0){
    			var days = 0;
    		 }else{
@@ -620,6 +631,7 @@
 	});	
 
 	function editcomputeLeave(id,leave){
+
 		$.ajax({
 	        url : "<?php echo site_url('Leaves/searchtotalleave');?>",
 	        method : "POST",
@@ -627,10 +639,12 @@
 	        async : true,
 	        dataType : 'json',
 	        success: function(response){
+	        	var remainingleave = 0;
 	        	var len ="";
 	        	var len = response.length;
 	            for(var i=0; i<len; i++){
-	            var remainingleave = response[i].remainingleave;
+
+	             remainingleave = response[i].remainingleave;
 
 				$('#editremainingleave').val(remainingleave);
 			  }
@@ -639,25 +653,14 @@
 		return false;
 	}
 	$('#save').unbind('click').bind('click', function(){
-		var IDArray = ['#addleaveID', '#addemployeeID', '#addfrom', '#addto', '#numberofdayss','#addremainingleave', '#addreason'];
-		var ErrorIDArray = ['add-leave', 'add-employee', 'add-from', 'add-to', 'add-totalTime','add-leavenumber', 'add-reason'];
+		var IDArray = ['#addemployeeID','#addleaveID', '#addfrom', '#addto', '#numberofdayss','#addremainingleave', '#addreason'];
+		var ErrorIDArray = ['add-employee','add-leave', 'add-from', 'add-to', 'add-totalTime','add-leavenumber', 'add-reason'];
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
 		var reason = $("#addreason").val();
-		if(/^[a-zA-Z0-9- ,_]*$/.test(reason) == false){
-			document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
-			$(IDArray[6]).addClass('is-invalid');
-
-			event.preventDefault();
-			return false;
-		}else{
-			document.getElementById(ErrorIDArray[6]).innerHTML = "";
-			$(IDArray[6]).removeClass('is-invalid');
-			$(IDArray[6]).addClass('is-valid');
-			event.preventDefault();
-		};
-
+		var addleaveID = $("#addleaveID").val();
+	
 		if($(IDArray[4]).val()=="0"){
 			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
 			$(IDArray[4]).addClass('is-invalid');
@@ -686,7 +689,7 @@
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -697,6 +700,12 @@
 			}
 		
 		}
+		if(addleaveID==""){
+			document.getElementById("add-leave").innerHTML = "Please provide an leave type.";
+		$('#addleaveID').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+		};
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -777,52 +786,17 @@
 		var firstRequired = "";
 		var navIndex = 0;
 		var reason = $("#editreason").val();
-		if($(IDArray[4]).val()=="0"){
-			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
-			$(IDArray[4]).addClass('is-invalid');
-                event.preventDefault();
-			return false;
-		};
+		var editleaveID = $("#editleaveID").val();
+		var editfrom = $("#editfrom").val();
 
-		if(/^[a-zA-Z0-9- ,_]*$/.test(reason) == false){
-			document.getElementById(ErrorIDArray[6]).innerHTML = "Invalid input" ;
-			$(IDArray[6]).addClass('is-invalid');
-
-			event.preventDefault();
-			return false;
-		}else{
-			document.getElementById(ErrorIDArray[6]).innerHTML = "";
-			$(IDArray[6]).removeClass('is-invalid');
-			$(IDArray[6]).addClass('is-valid');
-			event.preventDefault();
-		};
-		if($(IDArray[5]).val()=="0"){
-			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient  " + $(IDArray[5]).attr("description") +".";
-			$(IDArray[5]).addClass('is-invalid');
-                event.preventDefault();
-			return false;
-		}else{
-			document.getElementById(ErrorIDArray[5]).innerHTML = "";
-			$(IDArray[5]).removeClass('is-invalid');
-			$(IDArray[5]).addClass('is-valid');
-			event.preventDefault();
-		};
-		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
-			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates";
-			$(IDArray[4]).addClass('is-invalid');
-			event.preventDefault();
-			return false;
-		}else{
-			
-		
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==4 || i==5)  continue;
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+			if(i==4 || i==7) continue;
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -832,6 +806,40 @@
 			 	event.preventDefault();
 			}
 		}
+		if(editleaveID=="0"){
+			document.getElementById("edit-leave").innerHTML = "Please provide a employee type. ";
+			$("#editleaveID").addClass('is-invalid');
+                event.preventDefault();
+			/*return false;*/
+		}else{
+		};
+		/*if(editfrom==""){
+			document.getElementById("edit-from").innerHTML = "Please provide a start date. ";
+			$("#editfrom").addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		}else{
+		};*/
+		if($(IDArray[4]).val()=="0"){
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
+			$(IDArray[4]).addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		};
+		if($(IDArray[5]).val()=="0"){
+			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient  " + $(IDArray[5]).attr("description") +".";
+			$(IDArray[5]).addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		}else{
+		};
+		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates";
+			$(IDArray[4]).addClass('is-invalid');
+			event.preventDefault();
+			return false;
+		}else{
+		};		
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -839,8 +847,7 @@
 		$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 		event.preventDefault(); 
 		return false;
-		}
-		}			
+		}	
 	 });
 	$("#cncl-edit").unbind('click').bind('click', function(){
 			$('#confirmation_edit').modal('hide');

@@ -50,7 +50,6 @@
 												data-id="<?php echo $item->holidayID; ?>"
 												data-holidayname="<?php echo $item->holidayname; ?>"
 												data-holidaydate="<?php echo $item->holidaydate; ?>"
-												data-holidaytype="<?php echo $item->holidaytype; ?>"
 												data-tog="tooltip"
 												data-placement="top"
 												title="Edit"> <i class="fa fa-pencil"></i> </button>
@@ -119,17 +118,17 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div class="form-group">
-							<label>Holiday Name <span class="text-danger">*</span></label>
-							<input class="form-control restrictspecchar" type="text" id="editholidayname">
+						<!-- <div class="form-group"> -->
+							<!-- <label>Holiday Name <span class="text-danger">*</span></label> -->
+							<input class="form-control restrictspecchar" type="hidden" id="editholidayname">
 							<div class="invalid-feedback" id="edit-holidayname"></div>
-						</div>
+						<!-- </div> -->
 						<div class="form-group">
 							<label class="col-form-label">Holiday Date <span class="text-danger">*</span></label>
 							<input class="form-control previousdate" id="editholidaydate" type="text">
 							<div class="invalid-feedback" id="edit-holidaydate"></div>
 						</div>
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label>Type of Holiday <span class="text-danger">*</span></label>
 							<select class="custom-select" id="editholidaytype" required="">
 								<option value="">Select type of holiday</option>
@@ -138,7 +137,7 @@
 								<option value="Double Holiday">Double Holiday</option>
 							</select>
 							<div class="invalid-feedback" id="edit-holidaytype"></div>
-						</div>
+						</div> -->
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
@@ -184,6 +183,11 @@
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
+
+							<br> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <input type="password" class="form-control input alphanumeric" id="editPassword" autocomplete="off" description="password" required>
+						 	 <div class="invalid-feedback" id="edit-password" style="text-align: left;"></div>
 					</div>
 				
 						<div class="row">
@@ -217,6 +221,18 @@
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();
+
+  		/*********************** FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+			$('#confirmation_edit').on('shown.bs.modal', function(){
+		   		$("#editPassword").focus(); 
+			});
+
+			$('#confirmation_edit').on('hide.bs.modal', function(){
+		   		document.getElementById("add-password").innerHTML = "";
+		   		$("#editPassword").val("");
+	    		$('#editPassword').removeClass('is-invalid');
+			});
+		/*********************** END FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
 
 		/* FOCUS ON DESCRIPTION */
 		$('#add_holiday').on('shown.bs.modal', function(){
@@ -258,8 +274,8 @@
 		$('.editholiday').unbind('click').bind('click', function(){
 			$(".modal-body #editholidayname").val( $(this).data('holidayname') );
 			$(".modal-body #editholidaydate").val( $(this).data('holidaydate') );
-			$(".modal-body #editholidaytype").find( $(this).data('holidaytype') ).text();
-            $(".modal-body #editholidaytype").val( $(this).data('holidaytype') );
+			/*$(".modal-body #editholidaytype").find( $(this).data('holidaytype') ).text();
+            $(".modal-body #editholidaytype").val( $(this).data('holidaytype') );*/
 			$('.edit').attr('id', $(this).data('id'));
 		});
 
@@ -326,7 +342,7 @@
 			var id = $(this).attr('id');
 	        var holidayname = $('#editholidayname').val().trim();
 	        var holidaydate = $('#editholidaydate').val().trim();
-	        var holidaytype = $('#editholidaytype').val().trim();
+	        /*var holidaytype = $('#editholidaytype').val().trim();*/
 
 	        if(holidayname==""){
 	        	document.getElementById("edit-holidayname").innerHTML = "Please provide a holiday name.";
@@ -350,7 +366,7 @@
 	        	$('#editholidaydate').addClass('is-valid');
 	        }
 
-	        if(holidaytype==""){
+	        /*if(holidaytype==""){
 	        	document.getElementById("edit-holidaytype").innerHTML = "Please provide a type of holiday.";
 	        	$('#editholidaytype').addClass('is-invalid');
                 event.preventDefault();
@@ -358,9 +374,9 @@
 	        	document.getElementById("edit-holidaytype").innerHTML = "";
 	        	$('#editholidaytype').removeClass('is-invalid');
 	        	$('#editholidaytype').addClass('is-valid');
-	        }
+	        }*/
 
-	        if(holidayname=="" || holidaydate=="" || holidaytype=="" ) return false;
+	        if(holidayname=="" || holidaydate=="" /*|| holidaytype==""*/ ) return false;
 
 	        $('#edit_holiday').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
@@ -412,34 +428,58 @@
         	var id = $(this).attr('id');
 	        var holidayname = $('#editholidayname').val().trim();
 	        var holidaydate = $('#editholidaydate').val().trim();
-	        var holidaytype = $('#editholidaytype').val().trim();
+	        /*var holidaytype = $('#editholidaytype').val().trim();*/
+	        var confirmPassword = $('#editPassword').val().trim();
 
-        	$.ajax({
-	                url : "<?php echo site_url('holidays/update');?>",
+	        if(confirmPassword==""){
+				$('#editPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
 	                method : "POST",
-	                data : {id:id,
-	                		holidayname:holidayname,
-	                		holidaydate:holidaydate,
-	                		holidaytype:holidaytype},
-	                async : true,
+	                data : {confirmPassword:confirmPassword},
 	                dataType : 'json',
 	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-holidayname").innerHTML = result[1];
-				        	$('#editholidayname').addClass('is-invalid');
-							$('#confirmation_edit').modal('hide');
-				        	$('#edit_holiday').show();
-				        	$("#editholidayname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>Holidays');
-            			}
+	                	if(data=="true"){
+				        	$.ajax({
+					                url : "<?php echo site_url('holidays/update');?>",
+					                method : "POST",
+					                data : {id:id,
+					                		holidayname:holidayname,
+					                		holidaydate:holidaydate/*,
+					                		holidaytype:holidaytype*/},
+					                async : true,
+					                dataType : 'json',
+					                success: function(data){
+					                	var result = data.split('|');
+				            			if(result[0]=="false"){
+											document.getElementById("edit-holidayname").innerHTML = result[1];
+								        	$('#editholidayname').addClass('is-invalid');
+											$('#confirmation_edit').modal('hide');
+								        	$('#edit_holiday').show();
+								        	$("#editholidayname").focus(); 
+				            			}else{
+				        					window.location.replace('<?php echo base_url(); ?>Holidays');
+				            			}
+					                },
+					                error: function(request, textStatus, error) {
+
+					            	}
+					            });
+					            return false;
+					        }else{
+	                		document.getElementById("edit-password").innerHTML = "Incorrect Password.";
+	                		$('#editPassword').addClass('is-invalid');
+	                		$('#editPassword').focus();
+	                	}
 	                },
 	                error: function(request, textStatus, error) {
-
+	                	return false;
 	            	}
 	            });
-	            return false;
+	            return false
+            }
         });
 
 	});

@@ -29,7 +29,7 @@ class Employee_model extends CI_Model
   		 		$datarole = $this->db->query("SELECT * FROM dm_rolemstr");
   		 		$dataclient = $this->db->query('SELECT * FROM dm_client WHERE clientstatus ="Active"');
 	  			$datadetachment = $this->db->query('SELECT * FROM dm_post WHERE poststatus ="Active"');
-	  			$dataleave = $this->db->query("SELECT * FROM dm_leavetype");
+	  			$dataleave = $this->db->query('SELECT * FROM dm_leavetype  WHERE leavetypestatus ="Active"');
 	  			$creaditleave =  $this->db->query("SELECT ecl.employeeleavecreditID, ecl.leavetypeiD, ecl.totalleave FROM dm_employeecreditleave AS ecl
 				LEFT JOIN dm_employee as e ON ecl.employeeID = e.employeeID");
 
@@ -75,7 +75,7 @@ class Employee_model extends CI_Model
 				$this->db->insert_batch('dm_schedule', $dataschedule);
 			}
 
-			return 'true| 00000'.$last_id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
+			return 'true|'.str_pad($last_id, 6, "0", STR_PAD_LEFT).' - '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';
 	 	}
 		else 
 		{
@@ -116,7 +116,7 @@ class Employee_model extends CI_Model
  				}	
 	          	$this->db->insert_batch('dm_schedule', $dataschedule);
             }
-			return 'true|00000'.$id.' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
+			return 'true|'.str_pad($id, 6, "0", STR_PAD_LEFT).' - '.$firstname.' '.$middlename.' '.$lastname.' successfully updated!';
 	 	}
 		else 
 		{

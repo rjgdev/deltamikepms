@@ -42,8 +42,8 @@ class Holiday_model extends CI_Model
 
 			$data = array(
 				'holidayname' => $holidayname,
-				'holidaydate' => $this->input->post('holidaydate'),
-				'holidaytype' => $this->input->post('holidaytype')
+				'holidaydate' => $this->input->post('holidaydate')/*,
+				'holidaytype' => $this->input->post('holidaytype')*/
 			 );
 
 			$this->db->where("holidayID", $id);  

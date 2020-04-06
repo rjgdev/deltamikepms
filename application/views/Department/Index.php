@@ -136,7 +136,7 @@
 						<div class="invalid-feedback" id="status-invalid"></div>
 
 						<br> 
-						 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+						 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
 						 <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
 					 	 <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
 					</div>
@@ -168,7 +168,7 @@
 							<div class="invalid-feedback" id="status-invalid"></div>
 
 							<br> 
-							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
 							 <input type="password" class="form-control input alphanumeric" id="addPassword" autocomplete="off" description="password" required>
 						 	 <div class="invalid-feedback" id="add-password" style="text-align: left;"></div>
 					</div>
@@ -198,7 +198,7 @@
 							<div class="invalid-feedback" id="status-invalid"></div>
 
 							<br> 
-							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
 							 <input type="password" class="form-control input alphanumeric" id="editPassword" autocomplete="off" description="password" required>
 						 	 <div class="invalid-feedback" id="edit-password" style="text-align: left;"></div>
 					</div>

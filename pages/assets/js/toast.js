@@ -147,4 +147,37 @@
       "right": ""
     }); //to remove previous position style
   }
+
+  showdataSuccess13thToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: 'The 13th month has been successfully processed.',
+      showHideTransition: 'slide',
+      icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
+      loaderBg: '#ffffff',
+      hideAfter: 7000, 
+    });
+  };
+  showdataSuccessbillingthToast = function() {
+    'use strict';
+    resetToastPosition();
+    $.toast({
+      heading: 'Success',
+      text: 'The billing statement has been successfully processed.',
+      showHideTransition: 'slide',
+      icon: 'success',
+      position: {
+        right: 3,
+        top: 63
+      },
+      loaderBg: '#ffffff',
+      hideAfter: 7000, 
+    });
+  };
 })(jQuery);

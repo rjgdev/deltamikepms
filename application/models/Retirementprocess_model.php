@@ -303,13 +303,16 @@ class Retirementprocess_model extends CI_Model
 
 	        	   	
 		} 
-	function deny_Retirementprocess($retirementID)
+	function deny_Retirementprocess($retirementID,$reason)
 	{
 	 	$data = array('datesubmitted' => NULL,
 	 				  'level' => 0,
 	 				  'userapproved' => NULL,
 	 				  'retirementidstatus' => 0,
-	 				  'retirementstatus' => 3);
+	 				  'userdenied'		=> $this->session->userdata('employeeID'),
+	 				  'datedenied' 		=> date("Y-m-d H:i:s"),
+	 				  'retirementstatus' => 3,
+	 				  'reason' => $reason);
 
 		$this->db->where("retirementID", $retirementID);  
         $this->db->update("dm_retirement", $data);   	   	
@@ -341,6 +344,17 @@ class Retirementprocess_model extends CI_Model
    										   WHERE dm_approvaldet.approvalID=7 AND approvalLevel='.$queryheader->row()->level);
 		
         return array('retirement' => $queryheader->result(), 'approver' => $queryApprover->result());
+	}
+
+	function get_denied($retirementID)
+	{
+		$query = $this->db->query('SELECT CONCAT(dm_employee.firstname," ",dm_employee.lastname) AS "fullname", DATE_FORMAT(datedenied, "%W, %M %e, %Y %r") AS datedenied, reason 
+								   FROM dm_retirement AS r
+								   INNER JOIN dm_employee ON dm_employee.employeeID = r.userdenied 
+								   WHERE r.retirementID = '.$retirementID); 
+/*print_r($this->db->last_query());  
+     	  exit;*/
+		return $query->result();
 	}
 				
 

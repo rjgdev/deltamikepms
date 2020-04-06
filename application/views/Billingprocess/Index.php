@@ -7,10 +7,12 @@
 		$thrmonthstatus = "-----";
 		$userapproved	= "";
 		$usersubmitted 	= "";
+		$clientrecord   = "";
 
 
 foreach ($data['billingstatement'] as $billingdata)  {
 		$billingID  = $billingdata->billingID;
+		$clientrecord  = $billingdata->clientrecord;
 		$billingNo 	= "BS-".str_pad($billingdata->billingID, 6, "0", STR_PAD_LEFT);
 		$datesubmitted 	= (is_null($billingdata->formatdate) ? "-----" : $billingdata->formatdate);
 		$tkstatus		= $billingdata->billingstatus;
@@ -49,10 +51,10 @@ foreach ($data['approver'] as $approvaldata)  {
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Billing Statement Process</h3>
+					<h3 class="page-title">Billing Statement Number</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Billing Statement Process</li>
+						<li class="breadcrumb-item active">Billing Statement Number</li>
 					</ul>
 				</div>
 			</div>
@@ -72,6 +74,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			<div class="col-lg-5 col-md-5">
 				<div class="form-group form-focus select-focus">
 				<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
+				<option value="0">Select billing period</option>
 			 <?php
 				foreach($data['dropdowndate'] as $payroll)
 				{
@@ -79,7 +82,9 @@ foreach ($data['approver'] as $approvaldata)  {
 				}
 				?> 
 				</select>
+				<div class="invalid-feedback" id="search-searchpayperiod"></div>
 				<label class="focus-label">Billing Date</label>
+				
 				</div>
 			</div>
 			<div class="ol-lg-5 col-md-5">
@@ -93,6 +98,7 @@ foreach ($data['approver'] as $approvaldata)  {
 				}
 				?> 
 				</select>
+				<div class="invalid-feedback" id="search-searchclient"></div>
 				<label class="focus-label">Pleased select a client</label>
 				</div>
 			</div>
@@ -126,6 +132,7 @@ foreach ($data['approver'] as $approvaldata)  {
 								<p style="color:#e04d45;margin-right: 10px;" 
 								   id="cutoff" 
 								   billingid="<?php echo $billingID; ?>" 
+								   clientrecord="<?php echo $clientrecord; ?>" 
 								   lastapprover="<?php echo $lastapprover; ?>"
 								   payperiod="<?php echo $billingNo; ?>"><?php echo $billingNo; ?>
 							    </p>
@@ -143,8 +150,17 @@ foreach ($data['approver'] as $approvaldata)  {
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
-								<p style="color:#e04d45;margin-right: 10px;" id="show_status"><?php echo $billingstatus; ?>
+								<p style="color:#e04d45;margin-right: 10px;" id="show_status">
+									<?php 
+										if($billingstatus=="DENIED"){
+											echo "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='".$billingID."'>".$billingstatus."</a>";
+										}else{
+											echo $billingstatus;
+										} 
+									?>
 							    </p>
+								<!-- <p style="color:#e04d45;margin-right: 10px;" id="show_status"><?php echo $billingstatus; ?>
+							    </p> -->
 							    
 							   <!--  <button type="button" class="btn btn-success approve">Approved</button>	 -->
 							</div>
@@ -191,7 +207,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			<div class="col-lg-2 col-md-2" id="show_button">
 				<?php 
 					if($tkstatus==0){ 
-			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Billing</button>';	
+			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement</button>';	
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
 			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
@@ -220,7 +236,7 @@ foreach ($data['approver'] as $approvaldata)  {
 	    			 	}		
     			    }else if($tkstatus=3){ 
     			    	if($this->session->userdata('employeeID')==$usersubmitted){
-    			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Billing Statement</button>';
+    			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement</button>';
     			    	}else{
 			    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
     			    	}
@@ -257,11 +273,11 @@ foreach ($data['approver'] as $approvaldata)  {
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>
 									<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>OverHead Margin</center></th>
+									<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>
 									<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>
-									<th style="width: 180px;"><center>Reason</center></th>
+									<!-- <th style="width: 180px;"><center>Reason</center></th> -->
 
 								</tr>
 						</thead>
@@ -284,7 +300,7 @@ foreach ($data['approver'] as $approvaldata)  {
                      				<td><?php echo number_format($record->subtotalwithmargin, 4, '.', ','); ?></td>
                      				<td><?php echo number_format($record->taxable, 4, '.', ','); ?></td>
                      				<td><?php echo number_format($record->taxdue, 4, '.', ','); ?></td>
-                     				<td><?php echo $record->reason; ?></td>
+                     				<!-- <td><?php echo $record->reason; ?></td> -->
 
                      				
                				 	</tr>
@@ -358,6 +374,47 @@ foreach ($data['approver'] as $approvaldata)  {
 		</div>
 	</div>
 
+	<!-- Denied Modal -->
+<div class="modal custom-modal fade" id="denied_info" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Denied Information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="card" style="border-style: none !important;  margin-bottom:0px;">
+							<div class="card-body" style="padding: .25rem !important;">
+								<table class="table table-striped table-border">
+									<tbody>
+										<tr>
+											<td style="color:#e04d45; width:100px;">Denied date:</td>
+											<td class="text-left" id="deny_date"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Denied by:</td>
+											<td class="text-left" id="deny_approver"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Reason:</td>
+											<td class="text-left" id="deny_reason"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<span><?php if($this->session->flashdata('billing')=="success") echo '<script type="text/javascript"> showdataSuccessbillingthToast() </script>';?></span>
+
 <script  type="text/javascript">  
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
@@ -368,15 +425,40 @@ foreach ($data['approver'] as $approvaldata)  {
 				var payrolldateID =   $("#searchpayperiod").val();
 				var clientID =   $("#searchclient").val();
 
+				if(payrolldateID==0){
+	        	document.getElementById("search-searchpayperiod").innerHTML = "Please provide a billing period.";
+	        	$('#searchpayperiod').addClass('is-invalid');
+	        	showErrorToast("Please provide a billing period!");
+                event.preventDefault();
+	        }
+	        else{
+	        	document.getElementById("search-searchpayperiod").innerHTML = "";
+	        	$('#searchpayperiod').removeClass('is-invalid');
+	        	$('#searchpayperiod').addClass('is-valid'); 
+	        }	
+	        if(clientID ==0){
+	        	document.getElementById("search-searchclient").innerHTML = "Please provide a Client.";
+	        	$('#searchclient').addClass('is-invalid');
+	        	showErrorToast("Please provide a client!");
+                event.preventDefault();
+
+	        }else{
+	        	document.getElementById("search-searchclient").innerHTML = "";
+	        	$('#searchclient').removeClass('is-invalid');
+	        	$('#searchclient').addClass('is-valid'); 
+
+	        }
+	        if(payrolldateID==0 || clientID==0) return false;
+
 				/*var sddlyear = $("#sddlyear").val();
 				var eddlmonth = $("#eddlmonth").val();
 				var eddlyear = $("#eddlyear").val();
 				var checkerrorfrom = sddlyear+ +sddlmonth
 				var checkerrorto =  eddlyear+ +eddlmonth;*/
-		if(clientID==0){
+		/*if(clientID==0){
 			showErrorToast("Invalid date selected!");
 			 event.preventDefault();
-		}else{
+		}else{*/
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
 		$('#modal_title').html("Billing Statement Process");
     	$('#modal_message').html("Are you sure you want to upload the billing statement process?");
@@ -385,7 +467,7 @@ foreach ($data['approver'] as $approvaldata)  {
     	$('.submit-btn').attr("id","modal_uploaddate");
         $('#modal_confirmation').modal('show');
         return false;
-       } 
+     /*  } */
 		
 	});
 	$(document).on("click", "#modal_uploaddate", function(){
@@ -410,8 +492,9 @@ foreach ($data['approver'] as $approvaldata)  {
 					 
 				},
 				success: function(response){
+					window.location.replace('<?php echo base_url(); ?>Billingprocess');
 					$('#modal_confirmation').modal('hide');
-					showSuccessToast("The billing statement has been successfully processed.");
+					//showSuccessToast("The billing statement has been successfully processed.");
 				
 					
 			},
@@ -435,7 +518,16 @@ foreach ($data['approver'] as $approvaldata)  {
 
 	$(document).on("click", "#modal_submitbilling", function(){
     	var billingID = $('#cutoff').attr('billingid');
+    	var clientrecord = $('#cutoff').attr('clientrecord');
     		var html = "";
+    		if(clientrecord==0){
+			showErrorToast("There is no data to be processed, please select again.");
+			$('#modal_confirmation').modal('hide');
+			 event.preventDefault();
+            return false;
+			}else{
+				 event.preventDefault();
+			}
     		$.ajax({
 		      url : "<?php echo site_url('Billingprocess/submit');?>",
 		      method : "POST",
@@ -459,11 +551,10 @@ foreach ($data['approver'] as $approvaldata)  {
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>' +
 									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>OverHead Margin</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>' +
-									'<th style="width: 180px;"><center>Reason</center></th>' +
 								'</tr> ' +
 
 						'</thead>';
@@ -496,7 +587,6 @@ foreach ($data['approver'] as $approvaldata)  {
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].subtotalwithmargin) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].taxable) + '</td>' +
     								'<td>' +  accounting.formatMoney(data["datarecord"][i].taxdue) + '</td>' +
-    								'<td>' + data["datarecord"][i].reason  + '</td>' +
     							'</tr>';
     					}			
     					html += '</tbody></table>';					
@@ -559,27 +649,10 @@ foreach ($data['approver'] as $approvaldata)  {
 		      data : {billingid:billingid},
 		      async : true,
 		      success: function(data){
-		      		/*tml ='<table class="table table-striped custom-table datatable" id="datatable1">' +
-							'<thead>' +		
-								'<tr>' +
-									'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
-									'<th style="width: 180px;"><center>Employee Name</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>' +
-									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>' +
-									'<th style="width: 150px;"><center>13th Month</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Total 13th Month</center></th>' +
-								'</tr>' +
-							'</thead>' +
-							'<tbody>';
-
-					html +='</tbody></table>';	*/
 				var htmlStatus = "DRAFT";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
-		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit 13th month </button>';
+		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement </button>';
 
 		      	$("#collapseOne").prop("disabled", false);
 	      		$("#uploaddate").prop("disabled", false);
@@ -610,10 +683,10 @@ foreach ($data['approver'] as $approvaldata)  {
 
 	$(document).on("click", ".approve", function(){
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/approve.svg");
-		$('#modal_title').html("Approve Billing Statement Process");
+		$('#modal_title').html("Approve Billing Statement");
     	$('#modal_message').html("Are you sure you want to approve the Billing Statement ?");
     	$('.submit-btn').html("Approve Billing Statement");
-    	$('.cancel-btn').html("Cancel Billing Statement");
+    	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_approvebilling");
         $('#modal_confirmation').modal('show');
 		return false;
@@ -688,8 +761,7 @@ foreach ($data['approver'] as $approvaldata)  {
 	        	$('#reason').addClass('is-valid');
 	        	$("#reason").focus();
 	        }
-	         var html = "";
-            var i;
+	        
 
     	$.ajax({
 		      url : "<?php echo site_url('Billingprocess/deny');?>",
@@ -697,77 +769,23 @@ foreach ($data['approver'] as $approvaldata)  {
 		      data : {billingID: billingID, reason: reason},
 		      async : true,
 		      success: function(data){
-		      	var htmlStatus = "DENIED";
+		      var html = "";
+		      var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + billingID + "'>DENIED</a>";
+		      	/*var htmlStatus = "DENIED";*/
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
-		      		
-		      	/*html ='<table class="table table-striped custom-table datatable" id="datatable1">' +
-						'<thead>' +		
-								'<tr>' +
-									'<th style="width: 100px ! important;"><center>Client Name</center></th>' +
-									'<th style="width: 180px;"><center>Detachment</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Billing Date</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Security Officer</center></th>' +
-									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Security Guards</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>' +
-									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>OverHead Margin</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>' +
-									'<th style="width: 180px;"><center>Reason</center></th>' +
-								'</tr> ' +
-
-						'</thead>';*/
-
+		  
 				htmlButton = '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
-				// html += '<tbody>';
-		      	
-    //       				  for(i=0; i<data.length; i++){	
-		  //     			console.log(data[i].clientname);
-				// 		html += '<tr>' +
-    // 								'<td>' + data["datarecord1"][i].clientname  + '</td>' +
-    // 								'<td>' + data["datarecord1"][i].detachment + '</td>' +
-    // 								'<td>' + data["datarecord1"][i].rangedate + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].basicsalarySO) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].basicsalarySG) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalsss) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalphic) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalhdmf) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalretfund) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].totalmargin) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].subtotalwithmargin) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].taxable) + '</td>' +
-    // 								'<td>' +  accounting.formatMoney(data["datarecord1"][i].taxdue) + '</td>' +
-    // 								'<td>' + data["datarecord1"][i].reason  + '</td>' +
-    // 							'</tr>';
-    // 					}			
-    // 					html += '</tbody></table>';					
-
-		  //     		if ($.fn.DataTable.isDataTable('#datatable1')){
-			 //           $('#datatable').DataTable().destroy();
-			 //        };
 	      		
 	      		$("#show_status").html(htmlStatus);
-	      		/*$("#show_data").html(html);*/
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
-
-	      		/*$('#datatable1').DataTable({
-				        scrollX: false,
-			        	scrollCollapse: false,
-				        fixedColumns:   {
-						  
-						}
-				    });*/
 	      		$('#modal_confirmationdeny').modal('hide');
 
-	  	  		showSuccessToast("billing statement process is successfully <b>denied!</b>");
-	  	  		setTimeout(location.reload.bind(location), 5000)
+	  	  		showSuccessToast("The Billing Statement Process is successfully  <b>denied!</b>");
+	  	  		//setTimeout(location.reload.bind(location), 5000)
 
 		      },
 		      error: function(request, textStatus, error) {
@@ -777,5 +795,29 @@ foreach ($data['approver'] as $approvaldata)  {
          return false;
 	});
 
-});		      	
+	$(document).on("click", ".denied_info", function(){
+		
+		var billingID = $('#cutoff').attr('billingid');
+		
+    	$.ajax({
+		      url : "<?php echo site_url('Billingprocess/getdenied');?>",
+		      method : "POST",
+		      data : {billingID:billingID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var datedenied 	= data[0]["datedenied"];
+
+		      	$("#deny_date").html(datedenied);
+		      	$("#deny_approver").html(data[0]["fullname"]);
+		      	$("#deny_reason").html(data[0]["reason"]);
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
+        return false; 
+	}); 
+});
+		      	
 </script>		

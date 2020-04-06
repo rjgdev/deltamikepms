@@ -32,6 +32,7 @@
 			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
 				<select class="form-control select2" id="searchdate" name="seachdate" style="width: 100%;" description="Client">
+				<option value="0">Select 13th month period</option>
 				<?php
 				foreach($data['cutoff'] as $datecutoff)
 				{
@@ -116,16 +117,16 @@
 						<table class="table table-striped custom-table datatable" id ="datatable1">
 						<thead>		
 								<tr>
-									<th style="width: 100px ! important;"><center>Employee ID</center></th>
+									<th style="width: 90px ! important;"><center>Employee ID</center></th>
 									<th style="width: 180px;"><center>Employee Name</center></th>
-									<th class="text-left" style="width: 90px;"><center>Department</center></th>
-									<th class="text-left" style="width: 90px;"><center>Designation</center></th>
-									<th class="text-left" style="width: 100px;"><center>Employee Type</center></th>
-									<th class="text-left" style="width: 150px;"><center>Month</center></th>
-									<th class="text-left" style="width: 50px;"><center>Lates</center></th>
-									<th class="text-left" style="width: 50px;"><center>Absences</center></th>
-									<th class="text-right" style="width: 120px;"><center>Total 13th Month</center></th>
-									<th class="text-right" style="width: 90px;">Action</th>
+									<th class="text-right" style="width: 120px; font-size:11px;"><center>Department</center></th>
+									<th class="text-right" style="width: 100px; font-size:11px;"><center>Designation</center></th>
+									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
+									<th class="text-right" style="width: 250px; font-size:11px;"><center>Month</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;"><center>Total 13th Month</center></th>
+									<th class="text-right" style="width: 90px; font-size:11px;">Action</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -243,25 +244,18 @@
    		});	
 
    		$('#submit').click(function(){
-   			/*var zero = 0;
-			var searchdate =   $("#searchdate").val().trim();
-			var datefrom = searchdate.substr(0, 4);
-			var dateto = searchdate.substr(5, 2);
-			var todatefrom = searchdate.substr(10, 4);
-			var todateto = searchdate.subst
-
-
-			r(15, 2);
-			var fromdate = datefrom+ + zero+ + dateto;
-			var todate = todatefrom+ + zero+ +todateto;*/
-
-
 			var thrmonthID = $("#searchdate").val();
 			var searchemployeetype = $("#searchemployeetype").val();
 			var searchclient = $("#searchclient").val();
 			var searchdetachment = $("#searchdetachment").val();
-				if(thrmonthID==""){
-       		showErrorToast("Please select 13th month date range! ");
+			if(thrmonthID==0){
+			showErrorToast("Please select 13th month date range! ");
+			document.getElementById("add-searchdate").innerHTML = "Please provide a 13th month period!";
+        	$('#searchdate').addClass('is-invalid');
+        	$("#searchdate").focus(); 
+            event.preventDefault();
+            return false;
+       			
 	        }
 	        else{
         	document.getElementById("add-searchdate").innerHTML = "";
@@ -309,16 +303,16 @@
                      '<table class="table table-striped custom-table datatable" id ="datatable1">' +
 					'<thead>' +	
 					'<tr>' +
-						'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
-						'<th style="width: 180px;"><center>Employee Name</center></th>' +
-						'<th class="text-left" style="width: 90px;"><center>Department</center></th>' +
-						'<th class="text-left" style="width: 90px;"><center>Designation</center></th>' +
-						'<th class="text-left" style="width: 100px;"><center>Employee Type</center></th>' +
-						'<th class="text-left" style="width: 150px;"><center>Month</center></th>' +
-						'<th class="text-left" style="width: 50px;"><center>Lates</center></th>' +
-						'<th class="text-left" style="width: 50px;"><center>Absences</center></th>' +
-						'<th class="text-right" style="width: 120px;"><center>Total 13th Month</center></th>' +
-						'<th class="text-right" style="width: 90px;">Action</th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee ID</center></th>' +
+						'<th class="text-right" style="width: 120px; font-size:11px;"><center>Employee Name</center></th>' +
+						'<th class="text-right" style="width: 150px; font-size:11px;"><center>Department</center></th>' +
+						'<th class="text-right" style="width: 100px; font-size:11px;"><center>Designation</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee Type</center></th>' +
+						'<th class="text-right" style="width: 250px; font-size:11px;"><center>Month</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Total 13th Month</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;">Action</th>' +
 					'</tr>' +
 					'</thead>'+
 					'<tbody>';
@@ -357,14 +351,14 @@
 					if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };		  
-                    $('#show_data').html(html);
+                    $('#showtable').html(html);
                     $('#datatable1').DataTable({
-				        scrollX: false,
-			        	scrollCollapse: false,
-				        fixedColumns:   {
-						    /*leftColumns: 2,
-						    rightColumns: 1*/
-						}
+				       		 scrollX: true,
+					        	scrollCollapse: true,
+						        fixedColumns:   {
+								    leftColumns: 1,
+								    rightColumns: 1
+								}		
 				    });
 
                    

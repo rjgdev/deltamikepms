@@ -39,23 +39,25 @@ class Generatepayslip_model extends CI_Model
 
 		$payslip = $this->db->query("
 	    	SELECT *, 
+	    	pd.allowance as allwnce,
+	    	pd.incentive as inctv,
+
 	    	SUM(sssloan + hdmfloan + 
 	    		salaryloan + emergencyloan + 
 	    		trainingloan + otherloan) as loan,
 
-	    	SUM(spc + spcot + 
-	    		spcrst + spcrstot + 
-	    		rgl + rglot + 
-	    		rglrst + rglrstot + 
-	    		dbl + dblot + 
-	    		dblrst + dblrstot) as holidaypay,
+	    	SUM(spc  + spcrst +  
+	    		rgl + rglrst +  
+	    		dbl + dblrst) as holidaypay,
 
 	    	SUM(ordnight + rstnight + 
 	    		spcnight + spcrstnight + 
 	    		rglnight + rglrstnight + 
 	    		dblnight + dblrstnight) as nightdiff,
 
-	    	SUM(ordot + rstot) as rglovertime,
+	    	SUM(ordot + rstot + spcot +
+	    		spcrstot + rglot + rglrstot +
+	    		dblot + dblrstot) as overtime,
 
 	    	SUM(otadjustment + 
 	    		nightdiffadjustment + 
@@ -66,14 +68,12 @@ class Generatepayslip_model extends CI_Model
 	    		spcrstlate + rgllate + rglrstlate +
 	    		dbllate + dblrstlate) as lt,	
 
-	    	SUM(ord + rst + pd.incentive + pd.allowance +
+	    	SUM(basicpay + pd.incentive + pd.allowance +
 	    		ordnight + rstnight + spcnight + 
 	    		spcrstnight + rglnight + rglrstnight + 
-	    		dblnight + dblrstnight + spc + 
-	    		spcot + spcrst + spcrstot + 
-	    		rgl + rglot + rglrst + 
-	    		rglrstot + dbl + dblot + 
-	    		dblrst + dblrstot + ordot + 
+	    		dblnight + dblrstnight + spcot + 
+	    		spcrstot + rglot + rglrstot + 
+	    		dblot + dblrstot + ordot + 
 	    		rstot + otadjustment + nightdiffadjustment + 
 	    		lateadjustment + leaveadjustment)  as earnings,
 

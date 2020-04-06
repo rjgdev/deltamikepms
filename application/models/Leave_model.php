@@ -17,7 +17,7 @@ class Leave_model extends CI_Model
 							FROM
 							(
 							SELECT  el.leavetypeID,el.employeeID,photo, totalleave as remainingleave,  el.employeeleaveID, lt.leavetypename, concat(e.lastname, ', ', e.firstname,' ',middlename) as fullname,
-							el.leavefrom, el.leaveto,numberofdays,reason,d.description as department,dsg.designationdescription, el.noted
+							el.leavefrom, el.leaveto,numberofdays,reason,d.description as department,dsg.designationdescription, el.notedleave AS noted,leavestatus
 							FROM dm_employeeleave AS el
 							LEFT JOIN dm_leavetype AS lt ON el.leavetypeID = lt.leavetypeID
 							LEFT JOIN dm_employee as e ON el.employeeID = e.employeeID
@@ -75,7 +75,7 @@ class Leave_model extends CI_Model
 	            $this->db->update("dm_employeecreditleave", $updatedtotal);
 	            $this->db->where('employeeleaveID',$id);  
 	            $this->db->update("dm_employeeleave", $data);    
-			return 'true|  leave successfully updated!';
+			return 'true|  The leave is successfully updated!';
 		}else{	
 			return 'false|The employee has an existing leave on this day';
 			
@@ -96,10 +96,11 @@ class Leave_model extends CI_Model
 	}
 	function get_noted($id,$noted)
 	{
-
+		$leavestatus = "Reviewed";
 		$data = array(
+			'leavestatus' => $leavestatus,
 				'employeeleaveID' => $id,
-				'noted' => $noted
+				'notedleave' => $noted
 			 );
 			$this->db->where("employeeleaveID", $id);  
             $this->db->update("dm_employeeleave", $data);  

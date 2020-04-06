@@ -30,6 +30,7 @@
 			<div class="col-lg-10 col-md-2">
 				<label class="focus-label">Employee Name</label>
 				<select class="form-control select2" id="searchemployee" name="searchemployee"  multiple="multiple" style="width: 100%;" >
+				<option value="0">Select employee name</option>
 				<?php
 				foreach($data as $employee)
 				{
@@ -130,10 +131,11 @@ $("#seachform").submit(function(event) {
 
 			var arrayemployee = $("#searchemployee").val();
 			if(arrayemployee ==0){
-				showErrorToast("Please input employee name!");
-				document.getElementById("fullname").innerHTML = "Please input employee name!";
+				showErrorToast("Please provide an employee name!");
+				document.getElementById("fullname").innerHTML = "Please provide an employee name!";
 			$("#searchemployee").addClass('is-invalid');
 				event.preventDefault();
+				return false;
 			}else{
 			document.getElementById("fullname").innerHTML = "";
         	$('#searchemployee').removeClass('is-invalid');

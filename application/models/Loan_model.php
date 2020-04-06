@@ -69,9 +69,9 @@ class Loan_model extends CI_Model
     function update_loan($data,$id,$employeeID,$dategranted)
 
     {
-        $query = $this->db->query('SELECT * FROM dm_loan WHERE loanID != '.$id.'');
+        $query = $this->db->query('SELECT * FROM dm_loan WHERE loanID != '.$id);
         if($query->num_rows() == 0){
-         return 'false|Employee name and dategranted date already exist!';
+         return 'false|The employee name is already exist.';
         }
         else 
         {

@@ -42,7 +42,8 @@
 		public function deny() 
 		{ 
 			$retirementID = $this->input->post('retirementID');
-        	$this->Retirementprocess->deny_Retirementprocess($retirementID);
+			$reason = $this->input->post('reason');
+        	$this->Retirementprocess->deny_Retirementprocess($retirementID,$reason);
 		}
 		public function approve() 
 		{ 
@@ -53,6 +54,15 @@
         	     	
         	echo json_encode($result);
 		}
+
+		public function getdenied() 
+		{ 
+			$retirementID   = $this->input->post('retirementID');
+       		$data=$this->Retirementprocess->get_denied($retirementID);
+       	
+       		echo json_encode($data);
+   		}
+
 
 
 

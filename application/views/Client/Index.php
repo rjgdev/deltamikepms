@@ -257,6 +257,11 @@
 						<h3>Change Status</h3>
 						<p id="statusmessage"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
+
+						<br> 
+						 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+						 <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
+					 	 <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
 					</div>
 					<div class="modal-btn delete-action">
 						<div class="row">
@@ -284,6 +289,11 @@
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
+
+							<br> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <input type="password" class="form-control input alphanumeric" id="addPassword" autocomplete="off" description="password" required>
+						 	 <div class="invalid-feedback" id="add-password" style="text-align: left;"></div>
 					</div>
 				
 						<div class="row">
@@ -309,6 +319,11 @@
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
+
+							<br> 
+							 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+							 <input type="password" class="form-control input alphanumeric" id="editPassword" autocomplete="off" description="password" required>
+						 	 <div class="invalid-feedback" id="edit-password" style="text-align: left;"></div>
 					</div>
 				
 						<div class="row">
@@ -344,6 +359,38 @@
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();
+
+  		/*********************** FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+			$('#confirmation_add').on('shown.bs.modal', function(){
+		   		$("#addPassword").focus(); 
+			});
+
+			$('#confirmation_add').on('hide.bs.modal', function(){
+		   		document.getElementById("add-password").innerHTML = "";
+		   		$("#addPassword").val("");
+	    		$('#addPassword').removeClass('is-invalid');
+			});
+
+			$('#confirmation_edit').on('shown.bs.modal', function(){
+		   		$("#editPassword").focus(); 
+			});
+
+			$('#confirmation_edit').on('hide.bs.modal', function(){
+		   		document.getElementById("add-password").innerHTML = "";
+		   		$("#editPassword").val("");
+	    		$('#editPassword').removeClass('is-invalid');
+			});
+
+			$('#status_client').on('shown.bs.modal', function(){
+		   		$("#statusPassword").focus(); 
+			});
+
+			$('#status_client').on('hide.bs.modal', function(){
+		   		document.getElementById("status-password").innerHTML = "";
+		   		$("#statusPassword").val("");
+	    		$('#statusPassword').removeClass('is-invalid');
+			});
+		/*********************** END FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
 
 		/* FOCUS ON DESCRIPTION */
 		$('#add_client').on('shown.bs.modal', function(){
@@ -495,7 +542,6 @@
 	        	document.getElementById("add-clientname").innerHTML = "";
 	        	$('#clientname').removeClass('is-invalid');
 	        	$('#clientname').addClass('is-valid');
-	        	$("#clientname").focus();
 	        }
 
 	        if(streetname==""){
@@ -506,7 +552,6 @@
 	        	document.getElementById("add-streetname").innerHTML = "";
 	        	$('#streetname').removeClass('is-invalid');
 	        	$('#streetname').addClass('is-valid');
-	        	$("#streetname").focus();
 	        }
 
 	        if(barangay==""){
@@ -517,7 +562,6 @@
 	        	document.getElementById("add-barangay").innerHTML = "";
 	        	$('#barangay').removeClass('is-invalid');
 	        	$('#barangay').addClass('is-valid');
-	        	$("#barangay").focus();
 	        }
 
 	        if(city==""){
@@ -528,7 +572,6 @@
 	        	document.getElementById("add-city").innerHTML = "";
 	        	$('#city').removeClass('is-invalid');
 	        	$('#city').addClass('is-valid');
-	        	$("#city").focus();
 	        }
 
 	        if(contactperson==""){
@@ -539,7 +582,6 @@
 	        	document.getElementById("add-contactperson").innerHTML = "";
 	        	$('#contactperson').removeClass('is-invalid');
 	        	$('#contactperson').addClass('is-valid');
-	        	$("#contactperson").focus();
 	        }
 
 	        if(contactno==""){
@@ -550,7 +592,6 @@
 	        	document.getElementById("add-contactno").innerHTML = "";
 	        	$('#contactno').removeClass('is-invalid');
 	        	$('#contactno').addClass('is-valid');
-	        	$("#contactno").focus();
 	        }
 
 	        if(activedetachmentpost==""){
@@ -561,7 +602,6 @@
 	        	document.getElementById("add-activedetachmentpost").innerHTML = "";
 	        	$('#activedetachmentpost').removeClass('is-invalid');
 	        	$('#activedetachmentpost').addClass('is-valid');
-	        	$("#activedetachmentpost").focus();
 	        }
 
 	        if(email==""){
@@ -577,10 +617,20 @@
 	        	document.getElementById("add-email").innerHTML = "";
 	        	$('#email').removeClass('is-invalid');
 	        	$('#email').addClass('is-valid');
-	        	$("#email").focus();
 	        }
 
 	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="" || activedetachmentpost=="") return false;
+
+	        if($('#contactno').val().length<13){
+              document.getElementById("add-contactno").innerHTML = "Mobile number must be 11 digit.";
+              $('#contactno').addClass('is-invalid');
+              event.preventDefault();
+              return false;
+            }else{
+              document.getElementById("add-contactno").innerHTML = "";
+              $('#contactno').removeClass('is-invalid');
+              $('#contactno').addClass('is-valid');
+            }
 
 	        $('#add_client').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
@@ -596,6 +646,9 @@
 		});
 
  		$('.update').unbind('click').bind('click', function(){
+ 			var IDArray 	= ['#editcontactno'];
+			var ErrorIDArray = ['edit-contactno'];
+			var firstRequired = "";
 			var id = $(this).attr('id');
 	        var clientname = $('#editclientname').val().trim();
 	        var description = $('#editdescription').val().trim();
@@ -617,7 +670,6 @@
 	        	document.getElementById("edit-clientname").innerHTML = "";
 	        	$('#editclientname').removeClass('is-invalid');
 	        	$('#editclientname').addClass('is-valid');
-	        	$("#editclientname").focus();
 	        }
 
 	        if(streetname==""){
@@ -697,6 +749,17 @@
 
 	        if(clientname=="" || streetname=="" || barangay=="" || city=="" || contactperson=="" || contactno=="" || email=="" || activedetachmentpost=="") return false;
 
+	        if($('#editcontactno').val().length<13){
+              document.getElementById("edit-contactno").innerHTML = "Mobile number must be 11 digit.";
+              $('#editcontactno').addClass('is-invalid');
+              event.preventDefault();
+              return false;
+            }else{
+              document.getElementById("edit-contactno").innerHTML = "";
+              $('#editcontactno').removeClass('is-invalid');
+              $('#editcontactno').addClass('is-valid');
+            }
+
 	        $('#edit_client').hide();
 				$('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
 
@@ -715,29 +778,53 @@
 	        var id = $(this).attr('id');
 	        var status = $(this).attr('status');
 	        var clientname = $(this).attr('clientname');
+	        var confirmPassword = $('#statusPassword').val().trim();
 
-        	$.ajax({
-                url : "<?php echo site_url('clients/changestatus');?>",
-                method : "POST",
-                data : {id:id,
-                		status:status,
-                		clientname:clientname},
-                async : true,
-                dataType : 'json',
-                success: function(data){
-                	var result = data.split('|');
-        			if(result[0]=="false"){
-        				$("#status-invalid").css("display","block");
-						document.getElementById("status-invalid").innerHTML = result[1];
-        			}else{
-    					window.location.replace('<?php echo base_url(); ?>Clients');
-        			}
-                },
-                error: function(request, textStatus, error) {
+	        if(confirmPassword==""){
+				$('#statusPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
+	                method : "POST",
+	                data : {confirmPassword:confirmPassword},
+	                dataType : 'json',
+	                success: function(data){
+	                	if(data=="true"){
+				        	$.ajax({
+				                url : "<?php echo site_url('clients/changestatus');?>",
+				                method : "POST",
+				                data : {id:id,
+				                		status:status,
+				                		clientname:clientname},
+				                async : true,
+				                dataType : 'json',
+				                success: function(data){
+				                	var result = data.split('|');
+				        			if(result[0]=="false"){
+				        				$("#status-invalid").css("display","block");
+										document.getElementById("status-invalid").innerHTML = result[1];
+				        			}else{
+				    					window.location.replace('<?php echo base_url(); ?>Clients');
+				        			}
+				                },
+				                error: function(request, textStatus, error) {
 
-            	}
-            });
-            return false;
+				            	}
+				            });
+				            return false;
+				        }else{
+	                		document.getElementById("status-password").innerHTML = "Incorrect Password.";
+	                		$('#statusPassword').addClass('is-invalid');
+	                		$('#statusPassword').focus();
+	                	}
+	                },
+	                error: function(request, textStatus, error) {
+	                	return false;
+	            	}
+	            });
+	            return false
+            }
         });
 
         $('.add').unbind('click').bind('click', function(){
@@ -751,40 +838,64 @@
 	        var contactno = $('#contactno').val().trim();
 	        var email = $('#email').val().trim();
 	        var activedetachmentpost = $('#activedetachmentpost').val().trim();
+	        var confirmPassword = $('#addPassword').val().trim();
 
-        	$.ajax({
-	                url : "<?php echo site_url('clients/save');?>",
+	        if(confirmPassword==""){
+				$('#addPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
 	                method : "POST",
-	                data : {clientname:clientname,
-	                		description:description,
-	                		housenumber:housenumber,
-	                		streetname:streetname,
-	                		barangay:barangay,
-	                		city:city,
-	                		contactperson:contactperson,
-	                		contactno:contactno,
-	                		email:email,
-	                		activedetachmentpost:activedetachmentpost
-	                		},
-	                async : true,
+	                data : {confirmPassword:confirmPassword},
 	                dataType : 'json',
 	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("add-clientname").innerHTML = result[1];
-				        	$('#clientname').addClass('is-invalid');
-							$('#confirmation_add').modal('hide');
-				        	$('#add_client').show();
-				        	$("#clientname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>Clients');
-            			}
+	                	if(data=="true"){
+				        	$.ajax({
+					                url : "<?php echo site_url('clients/save');?>",
+					                method : "POST",
+					                data : {clientname:clientname,
+					                		description:description,
+					                		housenumber:housenumber,
+					                		streetname:streetname,
+					                		barangay:barangay,
+					                		city:city,
+					                		contactperson:contactperson,
+					                		contactno:contactno,
+					                		email:email,
+					                		activedetachmentpost:activedetachmentpost
+					                		},
+					                async : true,
+					                dataType : 'json',
+					                success: function(data){
+					                	var result = data.split('|');
+				            			if(result[0]=="false"){
+											document.getElementById("add-clientname").innerHTML = result[1];
+								        	$('#clientname').addClass('is-invalid');
+											$('#confirmation_add').modal('hide');
+								        	$('#add_client').show();
+								        	$("#clientname").focus(); 
+				            			}else{
+				        					window.location.replace('<?php echo base_url(); ?>Clients');
+				            			}
+					                },
+					                error: function(request, textStatus, error) {
+
+					            	}
+					            });
+					            return false;
+					        }else{
+	                		document.getElementById("add-password").innerHTML = "Incorrect Password.";
+	                		$('#addPassword').addClass('is-invalid');
+	                		$('#addPassword').focus();
+	                	}
 	                },
 	                error: function(request, textStatus, error) {
-
+	                	return false;
 	            	}
 	            });
-	            return false;
+	            return false
+			}
         });
 
         $('.edit').unbind('click').bind('click', function(){
@@ -799,40 +910,64 @@
 	        var contactno = $('#editcontactno').val().trim();
 	        var email = $('#editemail').val().trim();
 	        var activedetachmentpost = $('#editactivedetachmentpost').val().trim();
+	        var confirmPassword = $('#editPassword').val().trim();
 
-        	$.ajax({
-	                url : "<?php echo site_url('clients/update');?>",
+	        if(confirmPassword==""){
+				$('#editPassword').focus();
+				return false;
+			}else{
+				$.ajax({
+	                url : "<?php echo site_url('Checkpassword/validate');?>",
 	                method : "POST",
-	                data : {id:id,
-	                		clientname:clientname,
-	                		description:description,
-	                		housenumber:housenumber,
-	                		streetname:streetname,
-	                		barangay:barangay,
-	                		city:city,
-	                		contactperson:contactperson,
-	                		contactno:contactno,
-	                		email:email,
-	                		activedetachmentpost:activedetachmentpost},
-	                async : true,
+	                data : {confirmPassword:confirmPassword},
 	                dataType : 'json',
 	                success: function(data){
-	                	var result = data.split('|');
-            			if(result[0]=="false"){
-							document.getElementById("edit-clientname").innerHTML = result[1];
-				        	$('#editclientname').addClass('is-invalid');
-							$('#confirmation_edit').modal('hide');
-				        	$('#edit_client').show();
-				        	$("#editclientname").focus(); 
-            			}else{
-        					window.location.replace('<?php echo base_url(); ?>Clients');
-            			}
+	                	if(data=="true"){
+				        	$.ajax({
+					                url : "<?php echo site_url('clients/update');?>",
+					                method : "POST",
+					                data : {id:id,
+					                		clientname:clientname,
+					                		description:description,
+					                		housenumber:housenumber,
+					                		streetname:streetname,
+					                		barangay:barangay,
+					                		city:city,
+					                		contactperson:contactperson,
+					                		contactno:contactno,
+					                		email:email,
+					                		activedetachmentpost:activedetachmentpost},
+					                async : true,
+					                dataType : 'json',
+					                success: function(data){
+					                	var result = data.split('|');
+				            			if(result[0]=="false"){
+											document.getElementById("edit-clientname").innerHTML = result[1];
+								        	$('#editclientname').addClass('is-invalid');
+											$('#confirmation_edit').modal('hide');
+								        	$('#edit_client').show();
+								        	$("#editclientname").focus(); 
+				            			}else{
+				        					window.location.replace('<?php echo base_url(); ?>Clients');
+				            			}
+					                },
+					                error: function(request, textStatus, error) {
+
+					            	}
+					            });
+					            return false;
+					        }else{
+	                		document.getElementById("edit-password").innerHTML = "Incorrect Password.";
+	                		$('#editPassword').addClass('is-invalid');
+	                		$('#editPassword').focus();
+	                	}
 	                },
 	                error: function(request, textStatus, error) {
-
+	                	return false;
 	            	}
 	            });
-	            return false;
+	            return false
+            }
         });
 
 

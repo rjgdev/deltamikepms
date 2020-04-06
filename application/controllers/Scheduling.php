@@ -48,8 +48,11 @@
 		public function searchschedule() 
 		{ 
 			$clientID = $this->input->post('clientID');
+			$postID = $this->input->post('postID');
+			$weekstart = $this->input->post('weekstart');
+			$weekend = $this->input->post('weekend');
 
-       		$data=$this->schedule->get_schedule($clientID);
+       		$data=$this->schedule->get_schedule($clientID,$postID,$weekstart,$weekend);
 
 			echo json_encode($data);
 		}

@@ -156,7 +156,8 @@ td[rowspan]:not([rowspan="2"]) {
 		/*$("#export_excel").hide();*/
 	
 		$("#export_excel").click(function() {
-			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#show_data').html()));
+
+			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('.dataTables_scroll').html()));
 		});
 
 		$("#searchclient").change(function(){

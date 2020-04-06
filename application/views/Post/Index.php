@@ -130,7 +130,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Client <span class="text-danger">*</span></label>
-										<select class="custom-select" name="clientID" id="clientID" required="">
+										<select class="form-control select2" name="clientID" id="clientID" style="width:100%;" required="">
 											<option value="">Select Client</option>
 											<?php
 											foreach($data['client'] as $detachment)
@@ -163,7 +163,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Detachment Commander <span class="text-danger">*</span></label>
-										<select class="custom-select" name="commander" id="commander" required="">
+										<select class="form-control select2" name="commander" id="commander" style="width:100%;" required="">
 											<option value="">Select Datachment Commander</option>
 											<?php
 											foreach($data['employee'] as $detachment)
@@ -203,16 +203,16 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td><input type="time" class="form-control timein" id="firstmondayIn"></td>
-											<td><input type="time" class="form-control timeout" id="firstmondayOut"></td>
+											<td><input type="time" class="form-control timein" id="addFirstIn"></td>
+											<td><input type="time" class="form-control timeout" id="addFirstOut"></td>
 										</tr>
 										<tr>
-											<td><input type="time" class="form-control timein" id="secondmondayIn"></td>
-											<td><input type="time" class="form-control timeout" id="secondmondayOut"></td>
+											<td><input type="time" class="form-control timein" id="addSecondIn"></td>
+											<td><input type="time" class="form-control timeout" id="addSecondOut"></td>
 										</tr>
 										<tr>
-											<td><input type="time" class="form-control timein" id="thirdmondayIn"></td>
-											<td><input type="time" class="form-control timeout" id="thirdmondayOut"></td>
+											<td><input type="time" class="form-control timein" id="addThirdIn"></td>
+											<td><input type="time" class="form-control timeout" id="addFirstOut"></td>
 										</tr>
 										
 									</tbody>
@@ -256,7 +256,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Client <span class="text-danger">*</span></label>
-										<select class="custom-select" name="clientID" id="editclientID" required="">
+										<select class="form-control select2" name="clientID" id="editclientID" style="width:100%;" required="">
 											<option value="">Select Client</option>
 											<?php
 											foreach($data['client'] as $client)
@@ -289,7 +289,7 @@
 									</div>
 									<div class="form-group col-sm-6">
 										<label>Detachment Commander <span class="text-danger">*</span></label>
-										<select class="custom-select" name="commander" id="editcommander" required="">
+										<select class="form-control select2" name="commander" id="editcommander" style="width:100%;" required="">
 													<option value="">Select Datachment Commander</option>
 													<?php
 													foreach($data['employee'] as $detachment)
@@ -329,9 +329,18 @@
 									</thead>
 									<tbody>
 										<tr>
-											<td class="edittimein"></td>
-											<td class="edittimeout"></td>
+											<td><input type="time" class="form-control timein" id="editFirstIn"></td>
+											<td><input type="time" class="form-control timeout" id="firstmondayOut"></td>
 										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="secondmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="secondmondayOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="thirdmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="thirdmondayOut"></td>
+										</tr>
+										
 									</tbody>
 								</table>
 							</div>
@@ -452,88 +461,37 @@
 		/* CLEAR MODAL */
 		$('#add_detachment').on('hidden.bs.modal', function(){
 		    $(this).find('form')[0].reset();
-		    document.getElementById("add-postname").innerHTML = "";
-        	$('#postname').removeClass('is-invalid');
-        	$('#postname').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-housenumber").innerHTML = "";
-        	$('#housenumber').removeClass('is-invalid');
-        	$('#housenumber').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-streetname").innerHTML = "";
-        	$('#streetname').removeClass('is-invalid');
-        	$('#streetname').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-barangay").innerHTML = "";
-        	$('#barangay').removeClass('is-invalid');
-        	$('#barangay').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-city").innerHTML = "";
-        	$('#city').removeClass('is-invalid');
-        	$('#city').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-clientID").innerHTML = "";
-        	$('#clientID').removeClass('is-invalid');
-        	$('#clientID').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-commander").innerHTML = "";
-        	$('#commander').removeClass('is-invalid');
-        	$('#commander').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-startdate").innerHTML = "";
-        	$('#startdate').removeClass('is-invalid');
-        	$('#startdate').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-enddate").innerHTML = "";
-        	$('#enddate').removeClass('is-invalid');
-        	$('#enddate').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("add-noofguard").innerHTML = "";
-        	$('#noofguard').removeClass('is-invalid');
-        	$('#noofguard').removeClass('is-valid');
+		    $(".form-control").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+	         $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+         	 $(".invalid-feedback").each(function(){
+                document.getElementById($(this).attr('id')).innerHTML = "";
+         	 });
 		});
 
 		$('#edit_detachment').on('hidden.bs.modal', function(){
+		    
 		    $(this).find('form')[0].reset();
-		    document.getElementById("edit-postname").innerHTML = "";
-        	$('#editpostname').removeClass('is-invalid');
-        	$('#editpostname').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-housenumber").innerHTML = "";
-        	$('#edithousenumber').removeClass('is-invalid');
-        	$('#edithousenumber').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-streetname").innerHTML = "";
-        	$('#editstreetname').removeClass('is-invalid');
-        	$('#editstreetname').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-barangay").innerHTML = "";
-        	$('#editbarangay').removeClass('is-invalid');
-        	$('#editbarangay').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-city").innerHTML = "";
-        	$('#editcity').removeClass('is-invalid');
-        	$('#editcity').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-clientID").innerHTML = "";
-        	$('#editclientID').removeClass('is-invalid');
-        	$('#editclientID').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-commander").innerHTML = "";
-        	$('#editcommander').removeClass('is-invalid');
-        	$('#editcommander').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-startdate").innerHTML = "";
-        	$('#editstartdate').removeClass('is-invalid');
-        	$('#editstartdate').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-enddate").innerHTML = "";
-        	$('#editenddate').removeClass('is-invalid');
-        	$('#editenddate').removeClass('is-valid');
-        	$(this).find('form')[0].reset();
-		    document.getElementById("edit-noofguard").innerHTML = "";
-        	$('#editnoofguard').removeClass('is-invalid');
-        	$('#editnoofguard').removeClass('is-valid');
+		    $(".form-control").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+	         $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+         	 $(".invalid-feedback").each(function(){
+                document.getElementById($(this).attr('id')).innerHTML = "";
+         	 });
 		});
 
 		/* CLEAR MODAL */
@@ -550,7 +508,9 @@
 			$(".modal-body #editbarangay").val( $(this).data('barangay') );
 			$(".modal-body #editcity").val( $(this).data('city') );
 			$(".modal-body #editclientID").val( $(this).data('client') );
+			$(".modal-body #editclientID").trigger("change");
 			$(".modal-body #editcommander").val( $(this).data('commander') );
+			$(".modal-body #editcommander").trigger("change");
 			$(".modal-body #editstartdate").val( $(this).data('startdate') );
 			$(".modal-body #editenddate").val( $(this).data('enddate') );
 			$(".modal-body #editnoofguard").val( $(this).data('noofguard') );
@@ -577,6 +537,8 @@
 
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
+			var IDArray = ['#enddate', '#startdate'];
+			var ErrorIDArray = ['add-enddate', 'add-startdate'];
 	        var postname = $('#postname').val().trim();
 	        var housenumber = $('#housenumber').val().trim();
 	        var streetname = $('#streetname').val().trim();
@@ -587,105 +549,134 @@
 	        var startdate = $('#startdate').val().trim();
 	        var enddate = $('#enddate').val().trim();
 	        var noofguard = $('#noofguard').val().trim();
+	        var focus = "";
+
+	        var arrtodate = startdate.replace("-","").replace("-","");
+			var arrt1odate = enddate.replace("-","").replace("-","");
+
+	        $(".form-control").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+	         $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+	         $(".invalid-feedback").each(function(){
+                document.getElementById($(this).attr('id')).innerHTML = "";
+         	 });
 
 	        if(postname==""){
 	        	document.getElementById("add-postname").innerHTML = "Please provide a post name.";
 	        	$('#postname').addClass('is-invalid');
-	        	$("#postname").focus(); 
+	        	focus = "#postname";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("add-postname").innerHTML = "";
-	        	$('#postname').removeClass('is-invalid');
 	        	$('#postname').addClass('is-valid');
-	        	$("#postname").focus();
+	        }
+
+	        if(clientID==""){
+	        	document.getElementById("add-clientID").innerHTML = "Please provide a client name.";
+	        	$("[aria-labelledby='select2-clientID-container']").addClass('is-invalid');
+	        	$('#clientID').addClass('is-invalid');
+	        	if(focus=="") focus = "#clientID";
+	        	event.preventDefault();
+	        }else{
+	        	$("[aria-labelledby='select2-clientID-container']").addClass('is-valid');
+	        	$('#clientID').addClass('is-valid');
 	        }
 
 	        if(streetname==""){
 	        	document.getElementById("add-streetname").innerHTML = "Please provide a streetname.";
 	        	$('#streetname').addClass('is-invalid');
+	        	if(focus=="") focus = "#streetname";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-streetname").innerHTML = "";
-	        	$('#streetname').removeClass('is-invalid');
 	        	$('#streetname').addClass('is-valid');
-	        	$("#streetname").focus();
 	        }
 
 	        if(barangay==""){
 	        	document.getElementById("add-barangay").innerHTML = "Please provide a barangay.";
 	        	$('#barangay').addClass('is-invalid');
+	        	if(focus=="") focus = "#barangay";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-barangay").innerHTML = "";
-	        	$('#barangay').removeClass('is-invalid');
 	        	$('#barangay').addClass('is-valid');
-	        	$("#barangay").focus();
 	        }
 
 	        if(city==""){
 	        	document.getElementById("add-city").innerHTML = "Please provide a city.";
 	        	$('#city').addClass('is-invalid');
+	        	if(focus=="") focus = "#city";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-city").innerHTML = "";
-	        	$('#city').removeClass('is-invalid');
 	        	$('#city').addClass('is-valid');
-	        	$("#city").focus();
-	        }
-
-	        if(clientID==""){
-	        	document.getElementById("add-clientID").innerHTML = "Please provide a client name.";
-	        	$('#clientID').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-clientID").innerHTML = "";
-	        	$('#clientID').removeClass('is-invalid');
-	        	$('#clientID').addClass('is-valid');
 	        }
 
 	        if(commander==""){
 	        	document.getElementById("add-commander").innerHTML = "Please provide a detachment commander.";
+	        	$("[aria-labelledby='select2-commander-container']").addClass('is-invalid');
 	        	$('#commander').addClass('is-invalid');
+	        	if(focus=="") focus = "#commander";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-commander").innerHTML = "";
-	        	$('#commander').removeClass('is-invalid');
+	        	$("[aria-labelledby='select2-commander-container']").addClass('is-valid');
 	        	$('#commander').addClass('is-valid');
+	        }
+
+	        if(noofguard==""){
+	        	document.getElementById("add-noofguard").innerHTML = "Please provide a number of guards assigned.";
+	        	$('#noofguard').addClass('is-invalid');
+	        	if(focus=="") focus = "#noofguard";
+	        	event.preventDefault();
+	        }else{
+	        	$('#noofguard').addClass('is-valid');
 	        }
 
 	        if(startdate==""){
 	        	document.getElementById("add-startdate").innerHTML = "Please provide a start date.";
 	        	$('#startdate').addClass('is-invalid');
+	        	if(focus=="") focus = "#startdate";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-startdate").innerHTML = "";
-	        	$('#startdate').removeClass('is-invalid');
 	        	$('#startdate').addClass('is-valid');
 	        }
 
 	        if(enddate==""){
 	        	document.getElementById("add-enddate").innerHTML = "Please provide an end date.";
 	        	$('#enddate').addClass('is-invalid');
+	        	if(focus=="") focus = "#enddate";
 	        	event.preventDefault();
 	        }else{
-	        	document.getElementById("add-enddate").innerHTML = "";
-	        	$('#enddate').removeClass('is-invalid');
 	        	$('#enddate').addClass('is-valid');
 	        }
 
-	        if(noofguard==""){
-	        	document.getElementById("add-noofguard").innerHTML = "Please provide a number of guards assigned.";
-	        	$('#noofguard').addClass('is-invalid');
-	        	event.preventDefault();
-	        }else{
-	        	document.getElementById("add-noofguard").innerHTML = "";
-	        	$('#noofguard').removeClass('is-invalid');
-	        	$('#noofguard').addClass('is-valid');
-	        }
+	        $(focus).focus(); 
 
 	        if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="") return false;
 
-	        $('#add_detachment').hide();
+	        	if(arrtodate > arrt1odate){	
+					document.getElementById("add-enddate").innerHTML = "Invalid chosen date.";
+					document.getElementById("add-startdate").innerHTML = "Invalid chosen date.";
+					$(IDArray[0]).addClass('is-invalid');
+					$(IDArray[1]).addClass('is-invalid');
+					event.preventDefault();
+					return false;
+					
+				}else{
+					document.getElementById("add-enddate").innerHTML = "";
+					document.getElementById("add-startdate").innerHTML = "";
+					$(IDArray[0]).removeClass('is-invalid');
+					$(IDArray[0]).addClass('is-valid');
+					$(IDArray[1]).removeClass('is-invalid');
+					$(IDArray[1]).addClass('is-valid');
+					event.preventDefault();
+				
+				};
+
+	        	$('#add_detachment').hide();
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 
 	    		event.preventDefault(); 
@@ -732,107 +723,142 @@
         });*/
 
  		$('.update').unbind('click').bind('click', function(){
+ 			var IDArray = ['#editenddate', '#editstartdate'];
+			var ErrorIDArray = ['edit-enddate', 'edit-startdate'];
 			var id = $(this).attr('id');
 	        var postname = $('#editpostname').val().trim();
 	        var housenumber = $('#edithousenumber').val().trim();
 	        var streetname = $('#editstreetname').val().trim();
 	        var barangay = $('#editbarangay').val().trim();
 	        var city = $('#editcity').val().trim();
-	        var clientID = $('#editclientID').val().trim();
-	        var commander = $('#editcommander').val().trim();
+	        var clientID = $('#editclientID').val();
+	        var commander = $('#editcommander').val();
 	        var startdate = $('#editstartdate').val().trim();
 	        var enddate = $('#editenddate').val().trim();
 	        var noofguard = $('#editnoofguard').val().trim();
+	        var focus = "";
 
+	        var arrtodate = startdate.replace("-","").replace("-","");
+			var arrt1odate = enddate.replace("-","").replace("-","");
+
+			if(arrtodate > arrt1odate){	
+				document.getElementById("edit-enddate").innerHTML = "Invalid chosen date.";
+				document.getElementById("edit-startdate").innerHTML = "Invalid chosen date.";
+				$(IDArray[0]).addClass('is-invalid');
+				$(IDArray[1]).addClass('is-invalid');
+				event.preventDefault();
+				return false;
+				
+				}else{
+				document.getElementById("edit-enddate").innerHTML = "";
+				$(IDArray[0]).removeClass('is-invalid');
+				$(IDArray[0]).addClass('is-valid');
+				$(IDArray[1]).removeClass('is-invalid');
+				$(IDArray[1]).addClass('is-valid');
+				event.preventDefault();
+			
+			};
+
+	         $(".form-control").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+	         $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+
+         	 $(".invalid-feedback").each(function(){
+                document.getElementById($(this).attr('id')).innerHTML = "";
+         	 });
+         	 
 	        if(postname==""){
 	        	document.getElementById("edit-postname").innerHTML = "Please provide a designation name.";
 	        	$('#editpostname').addClass('is-invalid');
-	        	$("#editpostname").focus(); 
+	        	focus = "#editpostname";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-postname").innerHTML = "";
-	        	$('#editpostname').removeClass('is-invalid');
 	        	$('#editpostname').addClass('is-valid');
+	        }
+
+	        if(clientID==""){
+	        	document.getElementById("edit-clientID").innerHTML = "Please provide a department.";
+	        	$("[aria-labelledby='select2-editclientID-container']").addClass('is-invalid');
+	        	$('#editclientID').addClass('is-invalid');
+	        	if(focus=="") focus = "#editclientID";
+                event.preventDefault();
+	        }else{
+	        	$("[aria-labelledby='select2-editclientID-container']").addClass('is-valid');
+	        	$('#editclientID').addClass('is-valid');
 	        }
 
 	        if(streetname==""){
 	        	document.getElementById("edit-streetname").innerHTML = "Please provide a streetname.";
 	        	$('#editstreetname').addClass('is-invalid');
+	        	if(focus=="") focus = "#editstreetname";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-streetname").innerHTML = "";
-	        	$('#editstreetname').removeClass('is-invalid');
 	        	$('#editstreetname').addClass('is-valid');
 	        }
 
 	        if(barangay==""){
 	        	document.getElementById("edit-barangay").innerHTML = "Please provide a barangay.";
 	        	$('#editbarangay').addClass('is-invalid');
+	        	if(focus=="") focus = "#editbarangay";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-barangay").innerHTML = "";
-	        	$('#editbarangay').removeClass('is-invalid');
 	        	$('#editbarangay').addClass('is-valid');
 	        }
 
 	        if(city==""){
 	        	document.getElementById("edit-city").innerHTML = "Please provide a city.";
 	        	$('#editcity').addClass('is-invalid');
+	        	if(focus=="") focus = "#editcity";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-city").innerHTML = "";
-	        	$('#editcity').removeClass('is-invalid');
 	        	$('#editcity').addClass('is-valid');
-	        }
-
-	        if(clientID==""){
-	        	document.getElementById("edit-clientID").innerHTML = "Please provide a department.";
-	        	$('#editclientID').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-clientID").innerHTML = "";
-	        	$('#editclientID').removeClass('is-invalid');
-	        	$('#editclientID').addClass('is-valid');
 	        }
 
 	        if(commander==""){
 	        	document.getElementById("edit-commander").innerHTML = "Please provide a department.";
+	        	$("[aria-labelledby='select2-editcommander-container']").addClass('is-invalid');
 	        	$('#editcommander').addClass('is-invalid');
+	        	if(focus=="") focus = "#editcommander";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-commander").innerHTML = "";
-	        	$('#editcommander').removeClass('is-invalid');
+	        	$("[aria-labelledby='select2-editcommander-container']").addClass('is-valid');
 	        	$('#editcommander').addClass('is-valid');
+	        }
+
+	        if(noofguard==""){
+	        	document.getElementById("edit-noofguard").innerHTML = "Please provide a department.";
+	        	$('#editnoofguard').addClass('is-invalid');
+	        	if(focus=="") focus = "#editnoofguard";
+                event.preventDefault();
+	        }else{
+	        	$('#editnoofguard').addClass('is-valid');
 	        }
 
 	        if(startdate==""){
 	        	document.getElementById("edit-startdate").innerHTML = "Please provide a department.";
 	        	$('#editstartdate').addClass('is-invalid');
+	        	if(focus=="") focus = "#editstartdate";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-startdate").innerHTML = "";
-	        	$('#editstartdate').removeClass('is-invalid');
 	        	$('#editstartdate').addClass('is-valid');
 	        }
 
 	        if(enddate==""){
 	        	document.getElementById("edit-enddate").innerHTML = "Please provide a department.";
 	        	$('#editenddate').addClass('is-invalid');
+	        	if(focus=="") focus = "#editenddate";
                 event.preventDefault();
 	        }else{
-	        	document.getElementById("edit-enddate").innerHTML = "";
-	        	$('#editenddate').removeClass('is-invalid');
 	        	$('#editenddate').addClass('is-valid');
 	        }
-	        if(noofguard==""){
-	        	document.getElementById("edit-noofguard").innerHTML = "Please provide a department.";
-	        	$('#editnoofguard').addClass('is-invalid');
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("edit-noofguard").innerHTML = "";
-	        	$('#editnoofguard').removeClass('is-invalid');
-	        	$('#editnoofguard').addClass('is-valid');
-	        }
+	        
+        		$(focus).focus(); 
 
 	        	if(postname=="" || streetname=="" || barangay=="" || city=="" || clientID=="" || commander=="" || startdate=="" || enddate=="" || noofguard=="") return false;
 

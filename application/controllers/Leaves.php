@@ -28,6 +28,7 @@
 	} 
 	public function save()
 	{
+		$leavestatusdata = "For review";
 		$numberofdays = $this->input->post('numberofdays');
 		$leavetypeID = $this->input->post('leaveID');
 		$employeeID = $this->input->post('employeeID');
@@ -41,7 +42,8 @@
 		'leaveto' => $this->input->post('enddate'),
 		'numberofdays' => $this->input->post('numberofdays'),
 		'remainingleave' => $this->input->post('remainingleave'),
-		'reason' => $this->input->post('reason'));
+		'reason' => $this->input->post('reason'),
+		'leavestatus' => $leavestatusdata);
 		$data = $this->leave->save_leave($data,$numberofdays,$leavetypeID,$employeeID, $remainingleave,$addfrom,$addto);
 		$retval = explode("|",$data);
        		
@@ -82,7 +84,7 @@
 	}
 	public function get_employeeleave()
 	{
-		$employeeID = $this->input->post('id',TRUE);
+		$employeeID = $this->input->post('id');
 		$data = $this->leave->get_employeeleave($employeeID);
 		echo json_encode($data);
 	}	
@@ -90,6 +92,7 @@
 
 	public function updatenoted()
 	{
+
 		$id = $this->input->post('id');
 		$noted = $this->input->post('noted');
 		$data = $this->leave->get_noted($id,$noted);

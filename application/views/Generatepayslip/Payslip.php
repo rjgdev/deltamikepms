@@ -66,25 +66,22 @@
 															<td><strong>Basic/Regular Rate</strong> <span class="float-right">₱ <?=number_format($item->basicpay,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Allowance</strong> <span class="float-right">₱ <?=number_format($item->allowance,4,".",",")?></span></td>
+															<td><strong>Allowance</strong> <span class="float-right">₱ <?=number_format($item->allwnce,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>5 Days Incentive</strong> <span class="float-right">₱ <?=number_format($item->incentive,4,".",",")?></span></td>
+															<td><strong>5 Days Incentive</strong> <span class="float-right">₱ <?=number_format($item->inctv,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>Night Differential</strong> <span class="float-right">₱ <?=number_format($item->nightdiff,4,".",",")?></span></td>
 														</tr>
 														<tr>
-															<td><strong>Holiday Pay</strong> <span class="float-right">₱ <?=number_format($item->holidaypay,4,".",",")?></span></td>
-														</tr>
-														<tr>
-															<td><strong>Regular Overtime</strong> <span class="float-right">₱ <?=number_format($item->rglovertime,4,".",",")?></span></td>
-														</tr>
-														<tr>
-															<td><strong>OIC Allowance</strong> <span class="float-right">₱ 0</span></td>
+															<td><strong>Overtime</strong> <span class="float-right">₱ <?=number_format($item->overtime,4,".",",")?></span></td>
 														</tr>
 														<tr>
 															<td><strong>Adjustment</strong> <span class="float-right">₱ <?=number_format($item->adjustment,4,".",",")?></span></td>
+														</tr>
+														<tr>
+															<td><strong>OIC Allowance</strong> <span class="float-right">₱ 0</span></td>
 														</tr>
 																												
 													</tbody>
@@ -161,7 +158,7 @@
 												<table class="table table-bordered">
 													<tbody>
 														<tr>
-															<td><strong class="text-danger">Net Pay</strong> <span class="float-right"><strong>₱ <?=number_format($item->ntpay,4,".",",")?></strong></span></td>
+															<td><strong class="text-danger">Net Pay</strong> <span class="float-right"><strong>₱ <?=number_format($item->netpay,4,".",",")?></strong></span></td>
 														</tr>
 													</tbody>
 												</table>

@@ -61,29 +61,28 @@
 		    37 - (%)
 		    13 - (Enter)
 		*/
-
-	    $(".numbersonly").keypress(function(e){
+		$(document).on("keypress", ".numbersonly", function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ) && keyCode != 8 && keyCode != 13) {
 		      e.preventDefault();
 		    }
 		});
 		 
-		$(".withoutspace").keypress(function(e){
+		$(document).on("keypress", ".withoutspace", function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 59) || (keyCode >= 97 && keyCode <= 122 ) || (keyCode >= 64 && keyCode <= 90 || (keyCode >= 33 && keyCode <= 47 ) )) &&  keyCode != 13) {
 		      e.preventDefault();
 		    }
 		});
 
-		$(".percentage").keypress(function(e){
+		$(document).on("keypress", ".percentage", function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ) && keyCode != 8 && keyCode != 13 && keyCode != 46) {
 		      e.preventDefault();
 		    }
 		});
 
-		$(".letterswithspace").keypress(function(e){
+		$(document).on("keypress", ".letterswithspace", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) )  && keyCode != 13 && keyCode != 8 && keyCode != 32) {
@@ -91,7 +90,7 @@
 		    }
 		});
 
-		$(".letterswithdotandcomma").keypress(function(e){
+		$(document).on("keypress", ".letterswithdotandcomma", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) )  && keyCode != 13 && keyCode != 8 && keyCode != 32 && keyCode != 46 && keyCode != 44) {
@@ -99,7 +98,7 @@
 		    }
 		});
 
-		$(".lettersonly").keypress(function(e){
+		$(document).on("keypress", ".lettersonly", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) )  && keyCode != 13 && keyCode != 8) {
@@ -107,7 +106,7 @@
 		    }
 		});
 
-		$(".alphanumericwithspace").keypress(function(e){
+		$(document).on("keypress", ".alphanumericwithspace", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ||(keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) ) && keyCode != 32 && keyCode != 13) {
@@ -115,7 +114,7 @@
 		    }
 		});
 		
-		$(".alphanumericwithspacecompany").keypress(function(e){
+		$(document).on("keypress", ".alphanumericwithspacecompany", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ||(keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || (keyCode >= 40 && keyCode <= 41) ||  (keyCode >= 44 && keyCode <= 46)) && keyCode != 32) {
@@ -123,7 +122,7 @@
 		    }
 		});
 
-		$(".alphanumeric").keypress(function(e){
+		$(document).on("keypress", ".alphanumeric", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ||(keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) ) && keyCode != 13) {
@@ -131,14 +130,14 @@
 		    }
 		});
 
-		$(".accountnumber").keypress(function(e){
+		$(document).on("keypress", ".accountnumber", function(e){
 		    var keyCode = e.which;
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ) && keyCode != 8 && keyCode != 45 && keyCode != 32 && keyCode != 13) {
 		      e.preventDefault();
 		    }
 		});
 
-		$(".accntnumberformat").keypress(function(e){
+		$(document).on("keypress", ".accntnumberformat", function(e){
 		    var keyCode = e.which;
 		    if ( keyCode != 48 && keyCode != 8 && keyCode != 45 && keyCode != 32 && keyCode != 13) {
 		      e.preventDefault();
@@ -153,7 +152,7 @@
 		    }
 		});
 
-		$(".specchar").keypress(function(e){
+		$(document).on("keypress", ".specchar", function(e){
 		    var keyCode = e.which;
 
 		    if ( !( (keyCode >= 48 && keyCode <= 57) ||(keyCode >= 65 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) ) 

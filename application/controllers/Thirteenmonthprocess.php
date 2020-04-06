@@ -40,6 +40,7 @@
 			$searchclient = $this->input->post('searchclient');
 			$searchdetachment = $this->input->post('searchdetachment');
 			$data = $this->Thirteenmonthprocess->search($thrmonthID, $sddlmonth,$sddlyear,$eddlmonth,$eddlyear);
+			$this->session->set_flashdata('empstatus', 'empsuccess'); 
 			echo json_encode($data);
 
 		}
@@ -69,8 +70,18 @@
 		public function deny() 
 		{ 
 			$thrmonthID = $this->input->post('thrmonthID');
-        	$this->Thirteenmonthprocess->deny_Thirteenmonthprocess($thrmonthID);
+			$reason = $this->input->post('reason');
+        	$this->Thirteenmonthprocess->deny_Thirteenmonthprocess($thrmonthID,$reason);
 		}
+
+		public function getdenied() 
+		{ 
+			$thrmonthID   = $this->input->post('thrmonthID');
+
+       		$data=$this->Thirteenmonthprocess->get_denied($thrmonthID);
+
+       		echo json_encode($data);
+   		}
 
 
 }	

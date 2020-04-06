@@ -33,7 +33,7 @@
 			<div class="col-lg-5 col-md-5">
 				<div class="form-group form-focus select-focus">
 				<select class="form-control select2" id="searchbillingperiod" name="searchbillingperiod" style="width: 100%;" description="Client" required>
-			<option value="0">Select Billing Period</option>
+				<option value="0">Select Billing Period</option>
 			 <?php
 				foreach($data as  $payroll)
 				{
@@ -147,7 +147,7 @@
 
 		$("#searchbillingperiod").change(function(){
 			var id=$(this).val();
-			$("#searchclient").trigger("change");
+			/*$("#searchclient").trigger("change");*/
 			
 			$.ajax({
 				url : "<?php echo site_url('Billingreport/get_client');?>",
@@ -210,28 +210,29 @@
 		var clientID = $("#searchclient").val();
 		var detachmentID = $("#searchdetachment").val();
 			if(billingperiod ==0){
-				showErrorToast("Please select an billing period!");
+				showErrorToast("Please select a billing period!");
 				document.getElementById("search-searchbillingperiod").innerHTML = "Please provide a billing period.";
 				$("#searchbillingperiod").addClass('is-invalid');
 				event.preventDefault();
-				return false;
+				
 			}else{
 				document.getElementById("search-searchbillingperiod").innerHTML = "";
 	        	$('#searchbillingperiod').removeClass('is-invalid');
 	        	$('#searchbillingperiod').addClass('is-valid'); 
 			}
 			if(clientID==0){
-				showErrorToast("Please select an billing period!");
+				showErrorToast("Please select a client!");
 				document.getElementById("search-searchclient").innerHTML = "Please provide a client.";
 				$("#searchclient").addClass('is-invalid');
 				event.preventDefault();
-				return false;
+			
 			}else{
 				document.getElementById("search-searchclient").innerHTML = "";
 	        	$('#searchclient').removeClass('is-invalid');
 	        	$('#searchclient').addClass('is-valid'); 
 
 			}
+			if(billingperiod=="" || clientID=="") return false;
 			$.ajax({
 				url : "<?php echo site_url('Billingreport/search_Billingreport');?>",
 				method : "POST",

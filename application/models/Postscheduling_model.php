@@ -19,15 +19,16 @@ class Postscheduling_model extends CI_Model
     	return array("post"   => $queryPost->result());
   	}
 
-  	function get_schedule($clientID)
+  	function get_schedule($clientID,$postID,$weekstart,$weekend)
 	{
-	    $queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" and employeetypeID=1 and clientID='.$clientID);
-	    $queryPost     = $this->db->query('SELECT dm_postschedule.timein,dm_postschedule.timeout,dm_post.postID,dm_post.postname,dm_postschedule.postscheduleID FROM dm_post
-	    								   INNER JOIN dm_postschedule ON dm_postschedule.postID=dm_post.postID
-	    							 	   WHERE clientID='.$clientID);
+	   /* $queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" and employeetypeID=1 and clientID='.$clientID);*/
+	    $queryPostschedule = $this->db->query('SELECT * FROM dm_postschedule
+    							 	   		   WHERE clientID  ='.$clientID.' AND 
+    							 	   			     postID    ='.$postID.' AND 
+    							 	   			     weekstart ="'.$weekstart.'" AND
+    							 	   			     weekend   ="'.$weekend.'" order by timein');
 
-    	return array("employee" => $queryEmployee->result(),
-    				 "post"     => $queryPost->result());
+    	return array("postschedule" => $queryPostschedule->result());
   	}
 
   	function load_guard($postID,$postType,$scheduleDay,$postscheduleID)

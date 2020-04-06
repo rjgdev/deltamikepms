@@ -83,7 +83,7 @@ foreach ($data['approver'] as $approvaldata)  {
 								<div class="form-group">
 								<label for="gender">&emsp;</label>
 								<div class="input-group-append">
-								<span class="input-group-button ml-2" id="" ><button type="submit" name="uploaddate" id="uploaddate" class="btn btn-success" style="width: 160%; height: 110%;" 
+								<span class="input-group-button ml-2" id="" ><button type="submit" name="uploaddate" id="uploaddate" class="btn btn-danger" style="border-radius: 5px; width:100%;" 
 								<?php 
 								if(($tkstatus==1||$tkstatus==2)) echo "disabled";
 								else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process Retirement &emsp;</button></span>
@@ -129,9 +129,18 @@ foreach ($data['approver'] as $approvaldata)  {
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
-								<p style="color:#e04d45;margin-right: 10px;" id="show_status"><?php echo $retirementstatus; ?>
+								<p style="color:#e04d45;margin-right: 10px;" id="show_status">
+									<?php 
+										if($retirementstatus=="DENIED"){
+											echo "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='".$retirementID."'>".$retirementstatus."</a>";
+										}else{
+											echo $retirementstatus;
+										} 
+									?>
 							    </p>
-							    
+								<!-- <p style="color:#e04d45;margin-right: 10px;" id="show_status"><?php echo $retirementstatus; ?>
+							    </p>
+							     -->
 							   <!--  <button type="button" class="btn btn-success approve">Approved</button>	 -->
 							</div>
 						</div>
@@ -177,7 +186,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			<div class="col-lg-2 col-md-2" id="show_button">
 				<?php 
 					if($tkstatus==0){ 
-			    		echo '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Retirement</button>';	
+			    		echo '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit retirement</button>';	
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
 			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
@@ -206,7 +215,7 @@ foreach ($data['approver'] as $approvaldata)  {
 	    			 	}		
     			    }else if($tkstatus=3){ 
     			    	if($this->session->userdata('employeeID')==$usersubmitted){
-    			    		echo '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit 13th Month</button>';
+    			    		echo '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Retirement</button>';
     			    	}else{
 			    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
     			    	}
@@ -288,6 +297,74 @@ foreach ($data['approver'] as $approvaldata)  {
 		</div>
 	</div>
 
+	<div class="modal custom-modal fade" id="modal_confirmationdeny" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric">
+						<h3 id="modal_title1"></h3>
+						<p id="modal_message1"></p>
+						 <div class="form-group" style = "text-align: left;"> 
+						<label class="text-danger">Please enter a reason:</label>
+						<textarea rows="4" id="reason" type="text" name="reason" class="form-control input alphanumericwithspace"placeholder="Please enter a reason" autocomplete="off" description="city/municipality"></textarea>
+						<div class="invalid-feedback" id="billing-reason"></div>
+						</div>
+					</div>
+				
+					<div class="modal-btn confirmation-action">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary submit-btn"></a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Denied Modal -->
+<div class="modal custom-modal fade" id="denied_info" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Denied Information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="card" style="border-style: none !important;  margin-bottom:0px;">
+							<div class="card-body" style="padding: .25rem !important;">
+								<table class="table table-striped table-border">
+									<tbody>
+										<tr>
+											<td style="color:#e04d45; width:100px;">Denied date:</td>
+											<td class="text-left" id="deny_date"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Denied by:</td>
+											<td class="text-left" id="deny_approver"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Reason:</td>
+											<td class="text-left" id="deny_reason"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <script  type="text/javascript">  
@@ -344,7 +421,7 @@ foreach ($data['approver'] as $approvaldata)  {
 				},
 				success: function(response){
 					$('#modal_confirmation').modal('hide');
-					showSuccessToast("Retirement is successfully Process!");				
+					showSuccessToast("The retirement is successfully processed!");				
 			},
 		 error: function(request, textStatus, error) {
 	     }	
@@ -356,7 +433,7 @@ foreach ($data['approver'] as $approvaldata)  {
 
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
 		$('#modal_title').html("Submit Retirement");
-    	$('#modal_message').html("Are you sure you want to submit the Retirement?");
+    	$('#modal_message').html("Are you sure you want to submit the retirement?");
     	$('.submit-btn').html("Submit Retirement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_submitthrmonth");
@@ -436,8 +513,8 @@ foreach ($data['approver'] as $approvaldata)  {
 				        scrollX: true,
 			        	scrollCollapse: true,
 				        fixedColumns:   {
-						    leftColumns: 2,
-						    rightColumns: 1
+						   /* leftColumns: 2,
+						    rightColumns: 1*/
 						}
 				    });
 		      		
@@ -495,7 +572,7 @@ foreach ($data['approver'] as $approvaldata)  {
 				var htmlStatus = "DRAFT";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
-		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit 13th month </button>';
+		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Retirement </button>';
 
 		      	$("#collapseOne").prop("disabled", false);
 	      		$("#uploaddate").prop("disabled", false);
@@ -528,39 +605,38 @@ foreach ($data['approver'] as $approvaldata)  {
 		//DENY 
 	$(document).on("click", ".deny", function(){
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
-		$('#modal_title').html("Deny retirement");
-    	$('#modal_message').html("Are you sure you want to deny the Retirement?");
+		$('#modal_title1').html("Deny retirement");
+    	$('#modal_message1').html("Are you sure you want to deny the Retirement?");
     	$('.submit-btn').html("Deny Retirement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_deny13thmonth");
-        $('#modal_confirmation').modal('show');
+        $('#modal_confirmationdeny').modal('show');
 		return false;
 	});
 	$(document).on("click", "#modal_deny13thmonth", function(){
     	var retirementID = $('#cutoff').attr('retirementID');
-    	var html ="";
+    	 var reason         =   $("#reason").val();
+    	
+     if(reason==""){
+	        	document.getElementById("billing-reason").innerHTML = "Please enter a reason!";
+	        	$('#reason').addClass('is-invalid');
+	        	$("#reason").focus(); 
+                event.preventDefault();
+                return false;
+	        }else{
+	       		document.getElementById("billing-reason").innerHTML = "";
+	        	$('#reason').removeClass('is-invalid');
+	        	$('#reason').addClass('is-valid');
+	        	$("#reason").focus();
+	        }
     	$.ajax({
 		      url : "<?php echo site_url('Retirementprocess/deny');?>",
 		      method : "POST",
-		      data : {retirementID:retirementID},
+		      data : {retirementID:retirementID, reason: reason},
 		      async : true,
 		      success: function(data){
-		      		html =  '<table class="table table-striped custom-table datatable" id="datatable1">' +
-							'<thead>' +	
-								'<tr>' +
-									'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
-									'<th style="width: 250px;"><center>Employee Name</center></th>' +
-									'<th class="text-left" style="width: 90px;"><center>Department</center></th>' +
-									'<th class="text-left" style="width: 90px;"><center>Designation</center></th>' +
-									'<th class="text-left" style="width: 100px; "><center>Employee Type</center></th>' +
-									'<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>' +
-									'<th style="width: 200px;">Last Payroll Cutoff</th>' +
-									'<th class="text-left" style="width: 80px;">Hired Date</th>' +
-									'<th style="width: 200px ! important;">Years of Service</th>' +
-								'</tr>' +
-							'</thead>';
-							html += '<tbody></tbody></table>';	
-		      	var htmlStatus = "DENIED";
+		      	var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + retirementID + "'>DENIED</a>";
+		      	/*var htmlStatus = "DENIED";*/
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
@@ -570,21 +646,9 @@ foreach ($data['approver'] as $approvaldata)  {
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
-	      		$("#show_data").html(html);
+	      		// $("#show_data").html(html);
 	      		$("#show_button").html(htmlButton);
-	      		 if ($.fn.DataTable.isDataTable('#datatable1')){
-			           $('#datatable1').DataTable().destroy();
-			        };
-			    $('#datatable1').DataTable({
-				        scrollX: true,
-			        	scrollCollapse: true,
-				        fixedColumns:   {
-						    leftColumns: 2,
-						    rightColumns: 1
-						}
-				    });    
-
-	      		$('#modal_confirmation').modal('hide');
+	      		$('#modal_confirmationdeny').modal('hide');
 	  	  		showSuccessToast("Retirement is successfully <b>denied!</b>");
 		      },
 		      error: function(request, textStatus, error) {
@@ -653,6 +717,28 @@ foreach ($data['approver'] as $approvaldata)  {
          return false;
 
     });
+	 $(document).on("click", ".denied_info", function(){
+		var retirementID = $('#cutoff').attr('retirementID');
+		
+    	$.ajax({
+		      url : "<?php echo site_url('Retirementprocess/getdenied');?>",
+		      method : "POST",
+		      data : {retirementID:retirementID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var datedenied 	= data[0]["datedenied"];
+
+		      	$("#deny_date").html(datedenied);
+		      	$("#deny_approver").html(data[0]["fullname"]);
+		      	$("#deny_reason").html(data[0]["reason"]);
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
+        return false; 
+	}); 
 
 	});
 </script>		

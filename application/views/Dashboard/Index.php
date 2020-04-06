@@ -1,4 +1,25 @@
+<?php
+	$tmdatefrom 	= ""; 
+	$tmdateto 		= "";
+	$tmdate 		= "";
 
+	foreach ($data['timekeeping'] as $item)  {
+		$tmdatefrom		= date("F d, Y",strtotime($item->datefrom));
+		$tmdateto		= date("F d, Y",strtotime($item->dateto));
+		$tmdate			= date("F d",strtotime($item->dateto . ' +1 day'));
+	}
+
+	$prdatefrom 	= ""; 
+	$prdateto 		= "";
+	$prdate 		= "";
+
+	foreach ($data['payroll'] as $item)  {
+		$prdatefrom		= date("F d, Y",strtotime($item->datefrom));
+		$prdateto		= date("F d, Y",strtotime($item->dateto));
+		$prdate			= date("F d",strtotime($item->dateto . ' +1 day'));
+	}
+
+?>
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 	<div class="loader"></div>
@@ -82,7 +103,38 @@
 			</div>
 		</div>
 
-		<div class="row mt-4">
+		<div class="row mt-3">
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<div>
+							<h4>Next timekeeping schedule</h4>
+						</div>
+						<!-- <div>
+							<span class="text-success"><?php echo "Period: ".$datefrom.' - '.$dateto; ?></span>
+						</div> -->
+						<h3 class="mb-1 mt-1"><?php echo $tmdate; ?></h3>
+						<p class="mb-0">Period : <?php echo $tmdatefrom.' - '.$tmdateto; ?></p>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+				<div class="card dash-widget">
+					<div class="card-body">
+						<div>
+							<h4>Next payroll generation schedule<h4>
+						</div>
+						<!-- <div>
+							<span class="text-success"><?php echo "Period: ".$datefrom.' - '.$dateto; ?></span>
+						</div> -->
+						<h3 class="mb-1 mt-1"><?php echo $prdate; ?></h3>
+						<p class="mb-0">Period : <?php echo $prdatefrom.' - '.$prdateto; ?></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-md-7 d-flex">
 				<div class="card-table flex-fill">
 					<div class="table-responsive">
@@ -163,38 +215,6 @@
 		</div>
 
 		<div class="row mt-3">
-			<div class="col-md-5 d-flex">
-				<div class="card-table flex-fill">
-					<div class="table-responsive">
-						<table class="table custom-table mb-0">
-							<h3 class="card-title mb-2">Recent Clients</h3>
-							<thead>
-								<tr>
-									<th style="color: rgb(224, 77, 69)">ID No.</th>
-									<th style="color: rgb(224, 77, 69)">Client Name</th>
-									<th style="color: rgb(224, 77, 69)">Contact Person</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($data['client'] as $item) { ?>
-								<tr>
-									<td><?php echo $item->clientID; ?></td>
-									<td>
-										<div class="dash-card-content">  
-											<p style="margin-left: 10px; color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Number of post: <?php echo $item->noofpost; ?> </span></p> 	
-										</div>
-									</td>
-									<td><?php echo $item->contactperson; ?></td>
-								</tr>
-								<?php } ?>
-							</tbody>
-						</table>
-						<div style="text-align: center; margin-top: 15px;">
-							<a href="<?php echo base_url(); ?>Clients">View all clients</a>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="col-md-7 d-flex">
 				<div class="card-table flex-fill">
 					<div class="table-responsive">
@@ -229,117 +249,39 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<!-- <div class="row">
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['employee'] as $item) { ?><?php echo $item->noofemployee; ?><?php } ?></h3>
-							<span>Employee</span>
+			<div class="col-md-5 d-flex">
+				<div class="card-table flex-fill">
+					<div class="table-responsive">
+						<table class="table custom-table mb-0">
+							<h3 class="card-title mb-2">Recent Clients</h3>
+							<thead>
+								<tr>
+									<th style="color: rgb(224, 77, 69)">ID No.</th>
+									<th style="color: rgb(224, 77, 69)">Client Name</th>
+									<th style="color: rgb(224, 77, 69)">Contact Person</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($data['client'] as $item) { ?>
+								<tr>
+									<td><?php echo $item->clientID; ?></td>
+									<td>
+										<div class="dash-card-content">  
+											<p style="margin-left: 10px; color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Number of post: <?php echo $item->noofpost; ?> </span></p> 	
+										</div>
+									</td>
+									<td><?php echo $item->contactperson; ?></td>
+								</tr>
+								<?php } ?>
+							</tbody>
+						</table>
+						<div style="text-align: center; margin-top: 15px;">
+							<a href="<?php echo base_url(); ?>Clients">View all clients</a>
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['actemployee'] as $item) { ?><?php echo $item->actemployee; ?><?php } ?></h3>
-							<span>Active Employee</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><i class="fa fa-user"></i></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['inactemployee'] as $item) { ?><?php echo $item->inactemployee; ?><?php } ?></h3>
-							<span>Inactive Employee</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-	
-		<!-- <div class="row">
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['client'] as $item) { ?><?php echo $item->noofclient; ?><?php } ?></h3>
-							<span>Client</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['actclient'] as $item) { ?><?php echo $item->actclient; ?><?php } ?></h3>
-							<span>Active Client</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 col-lg-6 col-xl-4">
-				<div class="card dash-widget">
-					<div class="card-body">
-						<span class="dash-widget-icon"><img class="mb-2" src="<?=base_url(); ?>pages/assets/fonts/user-tie-solid.svg" style="height: 28px; width: 38px; color: #e04d45;"></span>
-						<div class="dash-widget-info">
-							<h3><?php foreach ($data['inactclient'] as $item) { ?><?php echo $item->inactclient; ?><?php } ?></h3>
-							<span>Inactive Client</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
-		<!-- <div class="row">
-			<div class="col-md-12 d-flex">
-				<div class="card card-table flex-fill">
-					<div class="card-header">
-						<h3 class="card-title mb-0">Active Detachment Post</h3>
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table custom-table mb-0">
-								<thead>
-									<tr>
-										<th>Post Name</th>
-										<th>Location</th>
-										<th>Client Name</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php foreach ($data['detachment'] as $item) { ?>    
-										<tr>
-											<td><?php echo $item->postname; ?></td>
-											<td><?php echo $item->detachcity; ?></td>
-											<td><?php echo $item->clientname; ?></td>
-										</tr>
-									<?php } ?>
-									
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="card-footer">
-						<a href="<?php echo base_url(); ?>detachments" style="color: #e04d45;">View all detachment</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div> -->
-	<!-- /Page Content -->
 
 </div>
 <!-- /Page Wrapper -->

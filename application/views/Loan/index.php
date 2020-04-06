@@ -127,7 +127,7 @@
 	        <div class="col-sm-12">
 	          <div class="form-group">
 	            <label for="basicsalary">Employee Name <span class="text-danger">*</span></label>
-	            <select class="form-control"  id="addemployeeID" name="addemployeeID" style="width: 100%;" description="employee name">
+	            <select class="form-control"  id="addemployeeID" name="addemployeeID" style="width: 100%;" description="employee name" required tabindex="1">
 	            <option value="">No Selected</option>
 	          <?php
 	            foreach($data['dropdownemp'] as $item)
@@ -142,7 +142,7 @@
              <div class="col-sm-12">
           	<div class="form-group">
               <label for="exampleInputPassword1">Loan Type <span class="text-danger">*</span></label>
-              <select class="form-control" id="addloantypeID" name="addloantypeID" name style="width: 100%;" description="loan type">
+              <select class="form-control" id="addloantypeID" name="addloantypeID" name style="width: 100%;" description="loan type"required tabindex="2">
               	  <option value="">No Selected</option>
 	              <option value="1">Social Security System(SSS)</option>
 	              <option value="2">Pag-IBIG</option>
@@ -155,8 +155,13 @@
             </div> 
              </div>
               <div class="col-sm-12">
-				 <div id ="specify" name ="specify" class="alphanumericwithspace">
-			  
+				 <div id ="specify" name ="specify">
+				 	<div class="form-group">
+    	 				<label id ="addlblspecify" name="addlblspecify" for="addlblspecify">Please specify</label>
+    	 				<input id="addotherinput" type="text" name="addotherinput" class="form-control input alphanumericwithspace" placeholder="Others" autocomplete="off" description="Others">
+    	 				<div class="invalid-feedback" id="add-otherinput"></div>
+    	 				</div>
+			  	<!-- <div class="invalid-feedback" id="add-otherinput"></div> -->
 			    </div>
 			    </div>
              	<div class="col-sm-12">
@@ -164,9 +169,9 @@
 							<label>Start Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
 								
-							
+							<!--  value = '<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>'  -->
 								
-								<input class="form-control datetimepicker" type="text" id="adddategranted" value = '<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>' name="adddategranted"  description="start date">
+								<input class="form-control datetimepicker" type="text" id="adddategranted"name="adddategranted"  description="start date"  required tabindex="3">
 								 <div class="invalid-feedback" id="add-dategranted"></div>
 							</div>
 						</div>
@@ -175,7 +180,8 @@
 						<div class="form-group">
 							<label>End Date <span class="text-danger">*</span></label>
 							<div class="cal-icon">
-								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate" value='<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>' description="end date">
+								<!-- value='<?php $dt = new DateTime(); echo $dt->format('Y-m-d'); ?>' -->
+								<input class="form-control datetimepicker" type="text" id="addenddate" name="addenddate"  description="end date"  required tabindex="4">
 								 <div class="invalid-feedback" id="add-addenddate"></div>
 							</div>
 						</div>
@@ -187,7 +193,7 @@
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
-					<input id="addamount" name="addamount" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="amount" required>
+					<input id="addamount" name="addamount" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="amount" required tabindex="5">
 					<div class="invalid-feedback" id="add-amount"></div>
 					</div>
 				</div>
@@ -199,7 +205,7 @@
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
-					<input id="adddeduction" name="adddeduction" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="deduction" required>
+					<input id="adddeduction" name="adddeduction" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="deduction" required tabindex="6">
 					<div class="invalid-feedback" id="add-deduction"></div>
 					</div>
 				</div>
@@ -207,14 +213,14 @@
            <div class="col-sm-12">
           	 <div class="form-group">
              <label for="exampleInputPassword1">Term of Payment <code>*</code></label>
-            <select class="form-control" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;"  description="Term of Payment">
+            <select class="form-control" name="addtermofpaymentID" id="addtermofpaymentID" style="width: 100%;"  description="Term of Payment"required tabindex="7">
             <option value="">No Selected</option>
             <option value="1">Monthly</option>
             <option value="2">Payday</option>
             </select> 
             <div class="invalid-feedback" id="add-termofpaymentID"></div>    
            <!--  <div class="invalid-feedback" id="add-termofpaymentID"></div>      -->
-           <input id="addpaid" name="addpaid" type="hidden" class="form-control input">
+           <input id="addpaid" name="addpaid" type="hidden" class="form-control input" required tabindex="8">
         </div>
         </div>            
 		<div class="submit-section">
@@ -239,7 +245,7 @@
 				<div class="col-sm-12">
 				<div class="form-group">
 					<label for="basicsalary">Employee Name <code>*</code></label>
-					<select class="form-control" name="editemployeeID" id="editemployeeID" style="width: 100%;" description="employee name">
+					<select class="form-control" name="editemployeeID" id="editemployeeID" style="width: 100%;" description="employee name" required tabindex="1">
 					<option value="">No Selected</option>
 					<?php
 					foreach($data['dropdownemp'] as $item)
@@ -254,7 +260,8 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 					<label for="exampleInputPassword1">Loan Type</label>
-					<select class="form-control" id="editloantypeID" name="editloantypeID" name style="width: 100%;">
+					<select class="form-control" id="editloantypeID" name="editloantypeID" name style="width: 100%;"description="loan type" required tabindex="2">
+						<option value="">No Selected</option>
 					<option value="1">Social Security System(SSS)</option>
 					<option value="2">Pag-IBIG</option>
 					<option value="3">Salary</option>
@@ -274,7 +281,7 @@
 					<div class="form-group">
 					<label>Start Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"description="start date">
+					<input class="form-control datetimepicker" type="text" id="editdategranted" name="editdategranted"description="start date" required tabindex="3">
 					<div class="invalid-feedback" id="edit-dategranted"></div>
 					</div>
 					</div>
@@ -283,7 +290,7 @@
 					<div class="form-group">
 					<label>End Date</label>
 					<div class="cal-icon">
-					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"description="end date">
+					<input class="form-control datetimepicker" type="text" id="editenddate" name="editenddate"description="end date" required tabindex="4">
 					<div class="invalid-feedback" id="edit-enddate"></div>
 					</div>
 					</div>
@@ -295,7 +302,7 @@
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
-					<input id="editamount" name="editamount" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" required>
+					<input id="editamount" name="editamount" class="form-control input" data-inputmask="'alias': 'currency'" description="amount" autocomplete="off" required tabindex="5">
 					<div class="invalid-feedback" id="edit-amount"></div>
 					</div>
 					</div>
@@ -307,7 +314,7 @@
 					<div class="input-group-prepend">
 					<span class="input-group-text">₱</span>
 					</div>
-					<input id="editdeduction" name="editdeduction" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" required>
+					<input id="editdeduction" name="editdeduction" class="form-control input" data-inputmask="'alias': 'currency'" description="deduction" autocomplete="off" required tabindex="6">
 					<div class="invalid-feedback" id="edit-deduction"></div>
 					</div>
 					</div>
@@ -315,7 +322,7 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 					<label for="exampleInputPassword1">Term of Payment</label>
-					<select class="form-control" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;" description="Term of Payment">
+					<select class="form-control" name="edittermofpaymentID" id="edittermofpaymentID" style="width: 100%;" description="Term of Payment" required tabindex="7">
 					<option value="">No Selected</option>
 					<option value="1">Monthly</option>
 					<option value="2">Payday</option>
@@ -430,7 +437,7 @@
  	$(window).on("load", function() {
 		$(".loader").fadeOut();
 	});
-
+	$("#specify").hide();
    $(document).ready(function() {
    		$('.viewrecord').click(function(){
    			var id = $(this).attr('loanid'); 
@@ -474,16 +481,17 @@
     	var addloantype = $(this).val(); 
     	html = "";
     	 if(addloantype==6){
-    	 	html += '<div class="form-group">' +
+    	 	/*html += '<div class="form-group">' +
     	 				'<label id ="addlblspecify" name="addlblspecify" for="addlblspecify">Please specify</label>' +
     	 				'<input id="addotherinput" type="text" name="addotherinput" class="form-control input alphanumericwithspace" placeholder="Others" autocomplete="off" description="Others">' +
     	 				'<div class="invalid-feedback" id="add-otherinput"></div>' +
-    	 				'</div>';
+    	 				'</div>';*/
     	 	$("#specify").show();	
-    	 	$("#specify").html(html);		
+    	 	/*$("#specify").html(html);*/		
     	 } else {
-    	 	 $("#addlblspecify").hide();	 
- 			$("#addotherinput").hide();
+    	 	/* $("#addlblspecify").hide();	 
+ 			$("#addotherinput").hide();*/
+ 			$("#specify").hide();
     	 }	
     });	  
     $(".alphanumericwithspace").keypress(function(e){
@@ -527,7 +535,118 @@
         	$('select').removeClass('is-invalid');
         	$('select').removeClass('is-valid');
 		}); 
+		$('#adddategranted').click(function(){
+			var startdate = $(this).val();
+			var enddate = $("#addenddate").val().trim(); 
+			 if(startdate!="") validateddate(startdate,enddate);
 
+
+		});	
+			$('#addenddate').click(function(){
+			var enddate = $(this).val();
+			var startdate = $("#adddategranted").val().trim(); 
+			 if(enddate!="") validateddate(enddate,startdate);
+
+		});	
+
+		function validateddate(enddate,startdate){
+		var checkstartdate = startdate.replace("-","").replace("-","");
+		var checkenddate = enddate.replace("-","").replace("-","");
+		console.log(checkstartdate + + checkenddate);
+
+		if(checkstartdate <= checkenddate){  		 		
+					}else{
+					document.getElementById("add-addenddate").innerHTML = "Invalid chosen date.";
+					$('#addenddate').addClass('is-invalid');
+					/*$("#addenddate").focus(); */
+               		 event.preventDefault();
+               		 return false;
+		}			
+		};
+
+		$('#addamount').click(function(){
+			var addamount = $(this).val();
+			var adddeduction = $("#adddeduction").val().trim(); 
+			 if(addamount!="") validatedamount(addamount,adddeduction);
+
+		});	
+		$('#adddeduction').click(function(){
+			var adddeduction = $(this).val();
+			var addamount = $("#addamount").val().trim(); 
+			 if(adddeduction!="") validatedamount(adddeduction,addamount);
+
+		});	
+
+	function validatedamount(adddeduction,addamount){
+		var deduction = adddeduction.replace(",","").replace(",","").replace(",","").replace(".","");
+		var amount = addamount.replace(",","").replace(",","").replace(",","").replace(".","");
+		if(amount <= deduction){
+
+		}else{
+			document.getElementById("add-deduction").innerHTML = "Deduction amount is to high.";
+			$('#adddeduction').addClass('is-invalid');
+			/*$("#addenddate").focus(); */
+       		 event.preventDefault();
+       		 return false;
+
+		}
+	
+	};	
+	$('#editdategranted').click(function(){
+			var startdate = $(this).val();
+			var enddate = $("#editenddate").val().trim(); 
+			 if(startdate!="") editvalidateddate(startdate,enddate);
+
+		});	
+			$('#editenddate').click(function(){
+			var enddate = $(this).val();
+			var startdate = $("#editdategranted").val().trim(); 
+			 if(enddate!="") editvalidateddate(enddate,startdate);
+
+		});
+		function editvalidateddate(enddate,startdate){
+		var checkstartdate = startdate.replace("-","").replace("-","");
+		var checkenddate = enddate.replace("-","").replace("-","");
+		console.log(checkstartdate + + checkenddate);
+
+		if(checkstartdate <= checkenddate){  		 		
+					}else{
+					document.getElementById("edit-enddate").innerHTML = "Invalid chosen date.";
+					$('#editenddate').addClass('is-invalid');
+					/*$("#addenddate").focus(); */
+               		 event.preventDefault();
+               		 return false;
+		}			
+		};
+
+		$('#editamount').click(function(){
+			var editamount = $(this).val();
+			var editdeduction = $("#editdeduction").val().trim(); 
+			 if(editamount!="") editvalidatedamount(editamount,editdeduction);
+
+		});	
+		$('#editdeduction').click(function(){
+			var editdeduction = $(this).val();
+			var editamount = $("#editamount").val().trim(); 
+			 if(editdeduction!="") editvalidatedamount(editdeduction,editamount);
+
+		});	
+
+	function editvalidatedamount(editdeduction,editdeduction){
+		var deduction = editdeduction.replace(",","").replace(",","").replace(",","").replace(".","");
+		var amount = editdeduction.replace(",","").replace(",","").replace(",","").replace(".","");
+		if(amount <= deduction){
+
+		}else{
+			document.getElementById("edit-deduction").innerHTML = "Deduction amount is to high.";
+			$('#editdeduction').addClass('is-invalid');
+			/*$("#addenddate").focus(); */
+       		 event.preventDefault();
+       		 return false;
+
+		}
+	
+	};	
 		$('#save').unbind('click').bind('click', function(){
 		var IDArray = ['#addemployeeID', '#addloantypeID', '#adddategranted', '#addenddate', '#addamount', '#adddeduction', '#addtermofpaymentID','#addotherinput'];
 		var ErrorIDArray = ['add-employee', 'add-loantype', 'add-dategranted', 'add-addenddate', 'add-amount', 'add-deduction', 'add-termofpaymentID','add-otherinput'];
@@ -538,161 +657,83 @@
 	 	var addemployeeID = $('#addemployeeID').val().trim();
 	 	var addloantypeID = $('#addloantypeID').val().trim();
 		var adddategranted = $("#adddategranted").val();
+		var amountcheck = $("#addamount").val();
 		var enddate = $("#addenddate").val();
 		var deductionrecord = $("#adddeduction").val().trim();
-		/*var addloantype = $("#addloantypeID").val();*/
-
 		var addtermofpaymentID = $("#addtermofpaymentID").val();
-		var amount = $("#addamount").val().trim().replace(",","");
-		var amountothercomma =amount.replace(",","");
-      	var amountwithoutperiod = amountothercomma.replace(".","");
-		var amountparse = parseInt(amountwithoutperiod,25);
-		
-		var deduction = $("#adddeduction").val().trim().replace(",","");
-		var deductionothercomma =deduction.replace(",","");
-		var deductionwithoutperiod = deductionothercomma.replace(".","");
-		var deductionparse = parseInt(deductionwithoutperiod,25);
-
 		var arrtodate = adddategranted.replace("-","").replace("-","");
 		var arrt1odate = enddate.replace("-","").replace("-","");
-		var tdate = arrt1odate[0];
-		var tmonth = arrt1odate[1];
-		var tyear = arrt1odate[2]; 
-		var fdate = arrtodate[0];
-		var fmonth = arrtodate[1];
-		var fyear = arrtodate[2]; 
-		var dtfTest = new Date (fyear, fmonth, fdate);
-		var dttTest = new Date (tyear, tmonth, tdate);
-			// for(var i=0;i<IDArray.length;i++){
-			// ValueArray[i] = $(IDArray[i]).val()
-			// if(addloantypeID ==6){
-			// 	if(i==8) continue;
-			// }else{
-			// 	if(i==7) continue;
-			// }
-			//  }
-
-		   if(addemployeeID==""){
-	        	document.getElementById("add-employee").innerHTML = "Please provide an employee name.";
-	        	$('#addemployeeID').addClass('is-invalid');
-	        	$("#addemployeeID").focus(); 
+		var addamount = $("#addamount").val();
+		var adddeduction = $("#adddeduction").val();
+		var deduction = adddeduction.replace(",","").replace(",","").replace(",","").replace(".","");
+		var amount = addamount.replace(",","").replace(",","").replace(",","").replace(".","");
+		
+		
+		for(var i=0;i<IDArray.length;i++){
+			ValueArray[i] = $(IDArray[i]).val().trim()
+			if(i==7) continue;
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0:0"){
+				if(firstRequired==""){
+					firstRequired = IDArray[i]
+				};
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
+	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
-	        }else{
-	        	document.getElementById("add-employee").innerHTML = "";
-	        	$('#addemployeeID').removeClass('is-invalid');
-	        	$('#addemployeeID').addClass('is-valid');
-	        	$("#addemployeeID").focus();
-	        }
-	         if(addloantypeID=="" ){
-	         	for(var i=0;i<IDArray.length;i++){
-					ValueArray[i] = $(IDArray[i]).val()
-					if(addloantypeID ==6){
-				if(i==8) continue;
-				}else{
-				if(i==7) continue;
+			}else{
+			    document.getElementById(ErrorIDArray[i]).innerHTML = "";	
+				$(IDArray[i]).removeClass('is-invalid');
+				$(IDArray[i]).addClass('is-valid');
+			 	event.preventDefault();
 			}
-			 }
-	        	document.getElementById("add-loantype").innerHTML = "Please provide an loan type.";
-	        	$('#addloantypeID').addClass('is-invalid');
-	        	$("#addloantypeID").focus(); 
-                event.preventDefault();
-	        }else{
-	        	
-	        	document.getElementById("add-loantype").innerHTML = "";
-	        	$('#addloantypeID').removeClass('is-invalid');
-	        	$('#addloantypeID').addClass('is-valid');
-	        	$("#addloantypeID").focus();
-	        }
-	         if(adddategranted==""){
-	         	
-	        	document.getElementById("add-dategranted").innerHTML = "Please provide an start date.";
-	        	$('#adddategranted').addClass('is-invalid');
-	        	$("#adddategranted").focus(); 
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("add-dategranted").innerHTML = "";
-	        	$('#adddategranted').removeClass('is-invalid');
-	        	$('#adddategranted').addClass('is-valid');
-	        	$("#adddategranted").focus();
-	        }
-	         if(enddate==""){
+		}
+		if(addloantypeID==""){
+			document.getElementById("add-loantype").innerHTML = "Please provide a loan type.";
+		$('#addloantypeID').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+		};
+		if(adddategranted==""){
+		document.getElementById("add-dategranted").innerHTML = "Please provide a start date.";
+		$('#adddategranted').addClass('is-invalid');
+		event.preventDefault();
+		}else{
 
-	        	document.getElementById("add-addenddate").innerHTML = "Please provide an end date.";
-	        	$('#addenddate').addClass('is-invalid');
-	        	$("#addenddate").focus(); 
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("add-addenddate").innerHTML = "";
-	        	$('#addenddate').removeClass('is-invalid');
-	        	$('#addenddate').addClass('is-valid');
-	        	$("#addenddate").focus();
-	        }
-	        if(arrtodate > arrt1odate){
-	         		document.getElementById("add-addenddate").innerHTML = "Invalid chosen date.";
-					$('#addenddate').addClass('is-invalid');
-					$("#addenddate").focus(); 
+		};	
+		if(enddate==""){
+		document.getElementById("add-addenddate").innerHTML = "Please provide a end date.";
+		$('#addenddate').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+			
+		};	
+		if(arrtodate <= arrt1odate){
+		}else{
+		document.getElementById("add-addenddate").innerHTML = "Invalid chosen date.";
+		$('#addenddate').addClass('is-invalid');
+		event.preventDefault();
+		return false;
+		};
+		if(amount >= deduction){
+
+		}else{
+			document.getElementById("add-deduction").innerHTML = "Deduction amount is to high.";
+					$('#adddeduction').addClass('is-invalid');
+					/*$("#addenddate").focus(); */
                		 event.preventDefault();
                		 return false;
-					}else{
-					document.getElementById("add-addenddate").innerHTML = "";
-					$('#addenddate').removeClass('is-invalid');
-					$('#addenddate').addClass('is-valid');
-					$("#addenddate").focus();
-			}
-			if(amount==""){
-				document.getElementById("add-amount").innerHTML = "Please provide a loan amount.";
-				$('#addamount').addClass('is-invalid');
-				$("#addamount").focus(); 
-                event.preventDefault();
-				}else{
-				document.getElementById("add-amount").innerHTML = "";
-				$('#addamount').removeClass('is-invalid');
-				$('#addamount').addClass('is-valid');
-				$("#addamount").focus();
-			}
-			 if(addtermofpaymentID==""){
-	        	document.getElementById("add-termofpaymentID").innerHTML = "Please provide a term of payment.";
-	        	$('#addtermofpaymentID').addClass('is-invalid');
-	        	$("#addtermofpaymentID").focus(); 
-                event.preventDefault();
-	        }else{
-	        	document.getElementById("add-termofpaymentID").innerHTML = "";
-	        	$('#addtermofpaymentID').removeClass('is-invalid');
-	        	$('#addtermofpaymentID').addClass('is-valid');
-	        	$("#addtermofpaymentID").focus();
-	        }  
-			
-			if(deductionrecord==""){
-			document.getElementById("add-deduction").innerHTML = "Please provide a deduction amount.";
-			$('#adddeduction').addClass('is-invalid');
-			$("#adddeduction").focus();
-             event.preventDefault(); 
-             return false;
-         }else{
-		document.getElementById("add-deduction").innerHTML = "";
-		$('#adddeduction').removeClass('is-invalid');
-		$('#adddeduction').addClass('is-valid');
-		$("#adddeduction").focus();
-		} 
-	        if(deductionwithoutperiod > amountwithoutperiod){
-			document.getElementById("add-deduction").innerHTML = "Deduction amount is to high.";
-			$('#adddeduction').addClass('is-invalid');
-			 $("#adddeduction").focus();
-               event.preventDefault(); 
-                return false;
-		}else{
-		document.getElementById("add-deduction").innerHTML = "";
-		$('#adddeduction').removeClass('is-invalid');
-		$('#adddeduction').addClass('is-valid');
-		$("#adddeduction").focus();
-		} 
-		if(addemployeeID=="" || addloantypeID=="" || adddategranted=="" || enddate=="" || amount=="" || deductionrecord=="" || addtermofpaymentID=="") return false;
 
-	        $('#add_loan').hide();
-				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+		};	
+		$(firstRequired).focus();
+		if(firstRequired==""){
+		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
+		$('#add_loan').hide();
+		$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+		event.preventDefault(); 
+		return false;
+		}
 
-	    		event.preventDefault(); 
-	    		return false;
+		
+		
 	 });
 	  $("#cncl-add").unbind('click').bind('click', function(){
 			$('#confirmation_add').modal('hide');
@@ -780,85 +821,31 @@ $('.update').unbind('click').bind('click', function(){
 		var firstRequired = "";
 		var navIndex = 0;
 		var id = $(this).attr('id');
-		var amount = $("#editamount").val().trim().replace(",","");
-		var amountothercomma =amount.replace(",","");
-      	var amountwithoutperiod = amountothercomma.replace(".","");
-		var amountparse = parseInt(amountwithoutperiod,25);
-		
-		var deduction = $("#editdeduction").val().trim().replace(",","");
-		var deductionothercomma =deduction.replace(",","");
-		var deductionwithoutperiod = deductionothercomma.replace(".","");
-		var deductionparse = parseInt(deductionwithoutperiod,25);
 
-		var enddate = $("#editenddate").val();
+		var employeeID = $('#editemployeeID').val();
+	 	var loantypeID = $('#editloantypeID').val();
 		var dategranted = $("#editdategranted").val();
-		var loantype = $("#editloantypeID").val();
+		var enddate = $("#editenddate").val();
+		var edittermofpaymentID = $("#edittermofpaymentID").val();
+		var editamount = $("#editamount").val();
+		var editdeduction = $("#editdeduction").val();
+		
 		var arrtodate = dategranted.replace("-","").replace("-","");
 		var arrt1odate = enddate.replace("-","").replace("-","");
-	/*	var tdate = arrt1odate[0];
-		var tmonth = arrt1odate[1];
-		var tyear = arrt1odate[2]; 
-		var fdate = arrtodate[0];
-		var fmonth = arrtodate[1];
-		var fyear = arrtodate[2]; 
-		var dtfTest = (fyear +''+fmonth +''+fdate);
-		var dttTest = (tyear+''+tmonth+''+tdate);
-		alert(arrtodate+' '+arrt1odate);*/
-		if(arrtodate > arrt1odate){	
-		document.getElementById("edit-enddate").innerHTML = "Invalid chosen date.";
-		$(IDArray[3]).addClass('is-invalid');
-		event.preventDefault();
-		return false;
+
+
+		var deduction = editdeduction.replace(",","").replace(",","").replace(",","").replace(".","");
+		var amount = editamount.replace(",","").replace(",","").replace(",","").replace(".","");
 		
-		}else{
-		document.getElementById("edit-enddate").innerHTML = "";
-		$(IDArray[3]).removeClass('is-invalid');
-		$(IDArray[3]).addClass('is-valid');
-		event.preventDefault();
-	
-		};
-		if(editamount==0){
-		document.getElementById("edit-amount").innerHTML = "Please provide a amount.";
-		$(IDArray[4]).addClass('is-invalid');
-		return false;
-		}else{
-		document.getElementById("edit-amount").innerHTML = "";
-		$(IDArray[4]).removeClass('is-invalid');
-		$(IDArray[4]).addClass('is-valid');
-		event.preventDefault();
-		};
-		if(editdeduction ==0){
-		document.getElementById("edit-deduction").innerHTML = "Please provide a deduction amount.";
-		$(IDArray[5]).addClass('is-invalid');
-		return false;
-		}else{
-		document.getElementById("edit-deduction").innerHTML = "";
-		$(IDArray[5]).removeClass('is-invalid');
-		$(IDArray[5]).addClass('is-valid');
-		event.preventDefault();
-		};
-		if(deductionparse > amountparse){
-		document.getElementById("edit-deduction").innerHTML = "Deduction amount is to high.";
-		$(IDArray[5]).addClass('is-invalid');
-		return false;
-		}else{
-		document.getElementById("edit-deduction").innerHTML = "";
-		$(IDArray[5]).removeClass('is-invalid');
-		$(IDArray[5]).addClass('is-valid');
-		event.preventDefault();
-		};
+		
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val()
-			if(loantype ==6){
-			if(i==8) continue;
-			}else{
-				if(i==6 || i==7) continue;
-			};
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+			if(i==7) continue;
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -868,6 +855,43 @@ $('.update').unbind('click').bind('click', function(){
 			 	event.preventDefault();
 			}
 		}
+		if(loantypeID==""){
+			document.getElementById("edit-loantype").innerHTML = "Please provide a loan type.";
+		$('#editloantypeID').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+		};
+		if(dategranted==""){
+		document.getElementById("edit-dategranted").innerHTML = "Please provide a start date.";
+		$('#editdategranted').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+
+		};	
+		if(enddate==""){
+		document.getElementById("edit-enddate").innerHTML = "Please provide a end date.";
+		$('#editenddate').addClass('is-invalid');
+		event.preventDefault();
+		}else{
+			
+		};	
+		if(arrtodate <= arrt1odate){
+		}else{
+		document.getElementById("edit-enddate").innerHTML = "Invalid chosen date.";
+		$('#editenddate').addClass('is-invalid');
+		event.preventDefault();
+		return false;
+		};
+		if(amount >= deduction){
+
+		}else{
+			document.getElementById("edit-deduction").innerHTML = "Deduction amount is to high.";
+					$('#editdeduction').addClass('is-invalid');
+					/*$("#addenddate").focus(); */
+               		 event.preventDefault();
+               		 return false;
+
+		};	
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -876,7 +900,8 @@ $('.update').unbind('click').bind('click', function(){
 		event.preventDefault(); 
 		return false;
 		}
-	});	
+	
+	 });
 		$("#cncl-edit").unbind('click').bind('click', function(){
 			$('#confirmation_edit').modal('hide');
 			$('#edit_loan').show();

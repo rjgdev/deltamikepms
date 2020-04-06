@@ -366,7 +366,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                              <input id="addbasicsalary" name="addbasicsalary" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="basic salary" required>
+                              <input id="addbasicsalary" name="addbasicsalary" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="basic salary" value="0.0000" required>
                                <div class="invalid-feedback" id="add-basicsalary"></div>
                             </div>
                            </div>
@@ -376,7 +376,7 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text">₱</span>
                               </div>
-                            <input id="adddailyrate" name="adddailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" description="daily rate" required>
+                            <input id="adddailyrate" name="adddailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" value="0.0000" description="daily rate" required>
                             <div class="invalid-feedback" id="add-dailyrate"></div>
                            </div>
                           </div>
@@ -815,7 +815,7 @@
         <div class="input-group-prepend">
         <span class="input-group-text">₱</span>
         </div>
-        <input id="editbasicsalary" name="editbasicsalary" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="basic salary" required>
+        <input id="editbasicsalary" name="editbasicsalary" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="basic salary" value="0.0000" required>
         <div class="invalid-feedback" id="edit-basicsalary"></div>
         </div>
         </div>
@@ -825,7 +825,7 @@
       <div class="input-group-prepend">
       <span class="input-group-text">₱</span>
       </div>
-      <input id="editdailyrate" name="editdailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" required>
+      <input id="editdailyrate" name="editdailyrate" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="daily rate" value="0.0000" required>
       <div class="invalid-feedback" id="edit-dailyrate"></div>
       </div>
       </div> 
@@ -1043,7 +1043,7 @@
       &nbsp;
        <input type="hidden" name="empID" id="empID">  
 
-             <input type="submit" class="btn btn-primary btn-rounded submitpicture" id="submitpicture" name="submitpicture" style="width:100%" value="Upload Photo" />   
+             <button type="submit" class="btn btn-primary btn-rounded submitpicture" id="submitpicture" name="submitpicture" style="width:100%">Upload Photo</button>
 
     </div>
         </div>
@@ -1077,6 +1077,11 @@
                 </p>
             </div>    
           <div class="invalid-feedback" id="status-invalid"></div>
+
+          <br> 
+          <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+          <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
+          <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
         </div>
         <div class="modal-btn delete-action">
           <div class="row">
@@ -1102,6 +1107,11 @@
               <h3>Confirmation Message</h3>
               <p>Are you sure you want to add this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
+
+              <br> 
+              <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+              <input type="password" class="form-control input alphanumeric" id="addPword" autocomplete="off" description="password" required>
+              <div class="invalid-feedback" id="add-pword" style="text-align: left;"></div>
           </div>
         
             <div class="row">
@@ -1127,6 +1137,11 @@
               <h3>Confirmation Message</h3>
               <p>Are you sure you want to update this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
+
+              <br> 
+              <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+              <input type="password" class="form-control input alphanumeric" id="editPword" autocomplete="off" description="password" required>
+              <div class="invalid-feedback" id="edit-pword" style="text-align: left;"></div>
           </div>
             <div class="row">
               <div class="col-6">
@@ -1169,6 +1184,38 @@
   });
 
   $(document).ready(function() {
+    /*********************** FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+        $('#confirmation_add').on('shown.bs.modal', function(){
+            $("#addPword").focus(); 
+        });
+
+        $('#confirmation_add').on('hide.bs.modal', function(){
+            document.getElementById("add-pword").innerHTML = "";
+            $("#addPword").val("");
+            $('#addPword').removeClass('is-invalid');
+        });
+
+        $('#confirmation_edit').on('shown.bs.modal', function(){
+            $("#editPword").focus(); 
+        });
+
+        $('#confirmation_edit').on('hide.bs.modal', function(){
+            document.getElementById("add-pword").innerHTML = "";
+            $("#editPword").val("");
+            $('#editPword').removeClass('is-invalid');
+        });
+
+        $('#status_employee').on('shown.bs.modal', function(){
+            $("#statusPassword").focus(); 
+        });
+
+        $('#status_employee').on('hide.bs.modal', function(){
+            document.getElementById("status-password").innerHTML = "";
+            $("#statusPassword").val("");
+            $('#statusPassword').removeClass('is-invalid');
+        });
+    /*********************** END FOCUS AND CLEAR CONFIRMPASSWORD ***********************/
+
     var restdayid =[];
       $(function () {
         var counter = 0;
@@ -1189,14 +1236,14 @@
           return '<td >'+rowsLength+'</td>' + 
                 '<td>' +  '<div class="col-sm-12">' +
                   '<select class="form-control addleave" id="addleave' + rowsLength + '" name="addleave' + rowsLength + '" description="leave type">' +
-                  '<option>No Selected</option>' + 
+                  '<option value="">No Selected</option>' + 
                     <?php foreach($data['leave'] as $leave) {   
                       echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
                     } ?> 
                   '</select>' +  '<div class="invalid-feedback" id="add-leave"></div></div>' +
                 '</td>' +
                 '<td> <div class="col-sm-12">' +
-                 '<input type="text" name ="addtotalleave' + rowsLength + '" id="addtotalleave' + rowsLength + '" class="form-control addtotalleave" value = ""> <div class="invalid-feedback" id="add-totalleave"></div></div></td>' +  
+                 '<input type="text" name ="addtotalleave' + rowsLength + '" id="addtotalleave' + rowsLength + '" class="form-control numbersonly addtotalleave" value = ""> <div class="invalid-feedback" id="add-totalleave"></div></div></td>' +  
               '<td>' + 
               '<button type="button" class="btn btn-danger" id="comments_remove"><i class="fa fa-trash-o"></i></button></td>'
 
@@ -1221,14 +1268,14 @@
           return '<td >'+editrowsLength+'</td>' + 
                 '<td>' +  '<div class="col-sm-12">' +
                   '<select class="form-control editleave" id="editleave' + editrowsLength + '" name="editleave' + editrowsLength + '" description="leave type">' +
-                  '<option>No Selected</option>' + 
+                  '<option value="">No Selected</option>' + 
                     <?php foreach($data['leave'] as $leave) {   
                       echo "'<option value=".'"'.$leave->leavetypeID.'"'.">".$leave->leavetypename."</option>' +"; 
                     } ?> 
                   '</select>' +  '<div class="invalid-feedback" id="edit-leave"></div></div>' +
                 '</td>' +
                 '<td> <div class="col-sm-12">' +
-                 '<input type="text" name ="edittotalleave' + editrowsLength + '" id="edittotalleave' + editrowsLength + '" class="form-control edittotalleave" value = ""> <div class="invalid-feedback" id="edit-totalleave"></div></div></td>' + 
+                 '<input type="text" name ="edittotalleave' + editrowsLength + '" id="edittotalleave' + editrowsLength + '" class="form-control numbersonly edittotalleave" value = ""> <div class="invalid-feedback" id="edit-totalleave"></div></div></td>' + 
                  '<input type="hidden" name ="employeecredit' + editrowsLength + '" id="employeecredit' + editrowsLength + '" class="form-control employeecredit" value = ""> <div class="invalid-feedback" id="edit-employeecredit"></div></div>' + 
                  '<input type="hidden" name ="employeeid' + editrowsLength + '" id="employeeid' + editrowsLength + '" class="form-control employeeid" value = ""> <div class="invalid-feedback" id="edit-employeeid"></div></div>' + 
 
@@ -1240,9 +1287,10 @@
 
       $(document).ready(function(){
 
-      /*  $('#submitpicture').click(function(){
-        $(".submitpicture").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...');
-      });*/
+        $("#commentForm").submit(function( event ) {
+          $('.submitpicture').attr("disabled","disabled");
+          $('.submitpicture').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Uploading...');
+       });
 
         $('#photo').change(function(){
           var name = document.getElementById('photo'); 
@@ -1284,7 +1332,6 @@
              $("#lblbasicsalary").hide();
              $("#editclient").prop("disabled", false);
              $("#editdetachment").prop("disabled", false);
-
           }else{
             $("#editdetachment").val($("#editdetachment option:first").val());
             $("#lbleditusername").show();
@@ -1338,18 +1385,18 @@
              $("#lblbasicsalary").hide();
              $("#addclient").prop("disabled", false);
              $("#adddetachment").prop("disabled", false);
-            $("#addbasicsalary").prop("disabled", true);
-            $("#addbasicsalary").val('');
-             
+             /*$("#addbasicsalary").prop("disabled", true);*/
+             $("#addbasicsalary").val('0.0000');
+             $("#addbasicsalary").removeClass('is-invalid');
+             $("#addbasicsalary").removeClass('is-valid');
 
           }else{
              $("#lblusername").show();
              $("#lblpassword").show();
-              $("#lblbasicsalary").show();
-            $("#addclient").prop("disabled", true);
-            $("#adddetachment").prop("disabled", true);
-            $("#addbasicsalary").prop("disabled", false);
-
+             $("#lblbasicsalary").show();
+             $("#addclient").prop("disabled", true);
+             $("#adddetachment").prop("disabled", true);
+             /*$("#addbasicsalary").prop("disabled", false);*/
           }
 
       });
@@ -1364,17 +1411,17 @@
              $("#editlblbasicsalary").hide();
              $("#editclient").prop("disabled", false);
              $("#editdetachment").prop("disabled", false);
-           $("#editbasicsalary").prop("disabled", true);
-            $("#editbasicsalary").val('');
-            
-             
+             /*$("#editbasicsalary").prop("disabled", true);*/
+             $("#editbasicsalary").val('');
+             $("#editbasicsalary").removeClass('is-invalid');
+             $("#editbasicsalary").removeClass('is-valid');
           }else{
             $("#lbleditusername").show();
             $("#lbleditpassword").show();
             $("#editlblbasicsalary").show();
             $("#editclient").prop("disabled", true);
             $("#editdetachment").prop("disabled", true);
-            $("#editbasicsalary").prop("disabled", false);
+            /*$("#editbasicsalary").prop("disabled", false);*/
            
                  
                 }
@@ -1603,25 +1650,50 @@
 
         /* CHANGE STATUS */
         $('.change').unbind('click').bind('click', function(){
-              var changestatus = $("#changestatus").val();
-              var id = $(this).attr('id');
+            var changestatus = $("#changestatus").val();
+            var id = $(this).attr('id');
+            var confirmPassword = $('#statusPassword').val().trim();
+
+            if(confirmPassword==""){
+              $('#statusPassword').focus();
+              return false;
+            }else{
               $.ajax({
-                    url : "<?php echo site_url('employees/changestatus');?>",
-                    method : "POST",
-                    data : {id:id,
-                        changestatus:changestatus},
-                    async : true,
-                    dataType : 'json',
-                    success: function(data){
+                        url : "<?php echo site_url('Checkpassword/validate');?>",
+                        method : "POST",
+                        data : {confirmPassword:confirmPassword},
+                        dataType : 'json',
+                        success: function(data){
+                          if(data=="true"){
+                              $.ajax({
+                                    url : "<?php echo site_url('employees/changestatus');?>",
+                                    method : "POST",
+                                    data : {id:id,
+                                        changestatus:changestatus},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
 
-                      window.location.replace('<?php echo base_url(); ?>Employees');
-                    },
-                    error: function(request, textStatus, error) {
+                                      window.location.replace('<?php echo base_url(); ?>Employees');
+                                    },
+                                    error: function(request, textStatus, error) {
 
-                  }
-                });
-                return false;
-            });
+                                  }
+                                });
+                                return false;
+                          }else{
+                      document.getElementById("status-password").innerHTML = "Incorrect Password.";
+                      $('#statusPassword').addClass('is-invalid');
+                      $('#statusPassword').focus();
+                    }
+                  },
+                  error: function(request, textStatus, error) {
+                    return false;
+                }
+              });
+              return false
+            }
+        });
        // end of dropdown department edit//
 
       /* SAVE EMPLOYEE */
@@ -1636,11 +1708,8 @@
           var middlename    = $("#addmiddlename").val();
           var basicsalary   = $("#addbasicsalary").val().trim().replace(",","");
           var dailyrate     = $("#adddailyrate").val().trim().replace(",","");
-          var dailyratedata = dailyrate.replace(",","");
-          var dailyratewithoutperiod = dailyratedata.replace(".","");
-          var basicwithoutperiod = basicsalary.replace(".","");
-          var addbasicinteger = parseInt(basicwithoutperiod,15);
-          var adddailyinteger = parseInt(dailyratewithoutperiod,15);
+          var addbasicdecimal = parseFloat(basicsalary).toFixed(4);
+          var adddailydecimal = parseFloat(dailyrate).toFixed(4);
           var phone         = $("#addcontactinfo").val();
 
           /* 
@@ -1671,6 +1740,9 @@
           var ValueArray = [];
           var firstRequired = "";
           var navIndex = 0;
+
+          var err = "";
+          var arrLeave = [];
 
           for(var i=0;i<IDArray.length;i++){
               ValueArray[i] = $(IDArray[i]).val().trim();
@@ -1723,17 +1795,51 @@
                   $(IDArray[i]).addClass('is-valid');
                   event.preventDefault();
                 }
+              }else if(i==22){
+                if($("#addemployeetype").val()!="1"){
+                    if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                        if(firstRequired==""){
+                            firstRequired = IDArray[i];
+
+                                 if(i<=18) navIndex = 0;
+                            else if(i<=21) navIndex = 1;
+                            else if(i<=34) navIndex = 2;
+                        }
+
+                        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                        $(IDArray[i]).addClass('is-invalid');
+                        event.preventDefault();
+                    }else{
+                        document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                        $(IDArray[i]).removeClass('is-invalid');
+                        $(IDArray[i]).addClass('is-valid');
+                        event.preventDefault();
+                    }
+                }
               }else if(i==23){
-                if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
                     if(firstRequired==""){
                         firstRequired = IDArray[i];
 
                              if(i<=18) navIndex = 0;
                         else if(i<=21) navIndex = 1;
                         else if(i<=34) navIndex = 2;
-                    };
+                    }
 
-                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#addtabs li:eq(2) a').tab('show');
+                    $("#adddailyrate").focus();
+                }else if(parseFloat(parseFloat(addbasicdecimal).toFixed(4)) < parseFloat(parseFloat(adddailydecimal).toFixed(4)) && $("#addemployeetype").val()==2){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    }
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid daily rate.";
                     $(IDArray[i]).addClass('is-invalid');
                     $('#addtabs li:eq(2) a').tab('show');
                     $("#adddailyrate").focus();
@@ -1820,7 +1926,7 @@
                
                 }              
               }else{
-                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+                if($(IDArray[i]).val().trim()==""){
                     if(firstRequired==""){
                         firstRequired = IDArray[i];
 
@@ -1844,6 +1950,29 @@
           $('#addtabs li:eq('+navIndex+') a').tab('show');
           $(firstRequired).focus();
           if(firstRequired==""){
+            $(".addleave").each(function(){
+               if($(this).val()=="") {
+                    $('#addtabs li:eq(3) a').tab('show');
+                    $("#" + $(this).attr("id")).focus();
+                    err = "error";
+                    showErrorToast('Cannot submit, please select a valid leave type!');
+                    return false;
+                }  
+
+                if(arrLeave.indexOf($(this).val())!=-1){
+                    $('#addtabs li:eq(3) a').tab('show');
+                      $("#" + $(this).attr("id")).focus();
+                    err = "error";
+                    showErrorToast('Cannot submit, duplicate leave type!');
+                    return false;
+                }
+
+                arrLeave.push($(this).val());
+            });
+
+            if(err!="") return false;
+
+
             $('#add_employee').hide();
             $('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
             event.preventDefault(); 
@@ -1906,57 +2035,84 @@
             var backaccountname   =   $("#addbankaccountname").val();
             var backaccountnumber =    $("#addbackaccountnumber").val();
             var bankname          =    $("#addbankname").val();
-            $.ajax({
-            url : "<?php echo site_url('employees/save');?>",
-            method : "POST",
-            data : {firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
-                    gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
-                    barangay:          barangay,        city:             city,             birthdate:        birthdate,
-                    contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
-                    hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
-                    detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
-                    username:          username,        password:         password,         basicsalary:      basicsalary,    
-                    dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                    incentive:         incentive,       tinnumber:        tinnumber,              
-                    sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
-                    clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
-                    backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
-                    restdayresult:     restdayresult,   bankname:          bankname},
-            async : true,
-            dataType : 'json',
-            success: function(data){
-            var result = data.split('|');
-            if(result[0]=="false"){
-            if(result[1] == "Employee name already exist!"){
-            document.getElementById("add-firstname").innerHTML = result[1];
-            $('#addfirstname').removeClass('is-valid');
-            $('#addfirstname').addClass('is-invalid');
-            $('#add-firstname').addClass('invalid-feedback');
-            $('#confirmation_add').modal('hide');
-            $('#add_employee').show();
-            $("#addfirstname").focus();
-            document.getElementById("add-lastname").innerHTML = result[1];
-            $('#addlastname').removeClass('is-valid');
-            $('#addlastname').addClass('is-invalid');
-            $('#add-lastname').addClass('invalid-feedback');
-            }else{
-            $('#addtabs li:eq(1) a').tab('show');
-            document.getElementById("add-username").innerHTML = result[1];
-            $('#addusername').removeClass('is-valid');
-            $('#addusername').addClass('is-invalid');
-            $('#add-username').addClass('invalid-feedback');
-            $("#addusername").focus();
-            }
-            }else{
-            window.location.replace('<?php echo base_url(); ?>Employees');
-            }
-            },
-            error: function(request, textStatus, error) {
 
-            }                         
+            var confirmPassword = $('#addPword').val().trim();
+
+            if(confirmPassword==""){
+              $('#addPword').focus();
+              return false;
+            }else{
+              $.ajax({
+                    url : "<?php echo site_url('Checkpassword/validate');?>",
+                    method : "POST",
+                    data : {confirmPassword:confirmPassword},
+                    dataType : 'json',
+                    success: function(data){
+                      if(data=="true"){
+                              $.ajax({
+                                  url : "<?php echo site_url('employees/save');?>",
+                                  method : "POST",
+                                  data : {firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
+                                          gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
+                                          barangay:          barangay,        city:             city,             birthdate:        birthdate,
+                                          contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
+                                          hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
+                                          detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
+                                          username:          username,        password:         password,         basicsalary:      basicsalary,    
+                                          dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
+                                          incentive:         incentive,       tinnumber:        tinnumber,              
+                                          sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
+                                          clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
+                                          backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
+                                          restdayresult:     restdayresult,   bankname:          bankname},
+                                  async : true,
+                                  dataType : 'json',
+                                  success: function(data){
+                                        var result = data.split('|');
+                                        
+                                        if(result[0]=="false"){
+                                        if(result[1] == "Employee name already exist!"){
+                                        document.getElementById("add-firstname").innerHTML = result[1];
+                                        $('#addfirstname').removeClass('is-valid');
+                                        $('#addfirstname').addClass('is-invalid');
+                                        $('#add-firstname').addClass('invalid-feedback');
+                                        $('#confirmation_add').modal('hide');
+                                        $('#add_employee').show();
+                                        $("#addfirstname").focus();
+                                        document.getElementById("add-lastname").innerHTML = result[1];
+                                        $('#addlastname').removeClass('is-valid');
+                                        $('#addlastname').addClass('is-invalid');
+                                        $('#add-lastname').addClass('invalid-feedback');
+                                        }else{
+                                        $('#addtabs li:eq(1) a').tab('show');
+                                        document.getElementById("add-username").innerHTML = result[1];
+                                        $('#addusername').removeClass('is-valid');
+                                        $('#addusername').addClass('is-invalid');
+                                        $('#add-username').addClass('invalid-feedback');
+                                        $("#addusername").focus();
+                                        }
+                                    }else{
+                                      window.location.replace('<?php echo base_url(); ?>Employees');
+                                    }
+                                  },
+                                  error: function(request, textStatus, error) {
+
+                                  }                         
+                              });
+                              return false;
+                      }else{
+                            document.getElementById("add-pword").innerHTML = "Incorrect Password.";
+                            $('#addPword').addClass('is-invalid');
+                            $('#addPword').focus();
+                      }
+                },
+                error: function(request, textStatus, error) {
+                  return false;
+              }
             });
-            return false;
-          });
+            return false
+          }
+      });
 
        
 
@@ -2083,12 +2239,10 @@
         */
           var basicsalary   = $("#editbasicsalary").val().trim().replace(",","");
           var dailyrate     = $("#editdailyrate").val().trim().replace(",","");
-          var secondcommabasic = basicsalary.replace(",","");
-          var secondcommadetaily = dailyrate.replace(",","");
-          var dailyratewithoutperiod = secondcommadetaily.replace(".","");
-          var basicwithoutperiod = secondcommabasic.replace(".","");
-          var basicinteger = parseInt(basicwithoutperiod,15);
-          var dailyinteger = parseInt(dailyratewithoutperiod,15);
+          var editbasicdecimal = parseFloat(basicsalary).toFixed(4);
+          var editdailydecimal = parseFloat(dailyrate).toFixed(4);
+          var err = "";
+          var arrLeave = [];
 
          var IDArray = ['#editemployeetype','#editfirstname', '#editmiddlename', '#editlastname', '#editgender', '#edithousenumber',
                        '#editstreetname', '#editbarangay', '#editcity', '#editbirthdate', '#editcontactinfo',
@@ -2183,8 +2337,29 @@
                   $(IDArray[i]).addClass('is-valid');
                   event.preventDefault();
                 }
+              }else if(i==22){
+                if($("#editemployeetype").val()!="1"){
+                    if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                        if(firstRequired==""){
+                            firstRequired = IDArray[i];
+
+                                 if(i<=18) navIndex = 0;
+                            else if(i<=21) navIndex = 1;
+                            else if(i<=34) navIndex = 2;
+                        }
+
+                        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                        $(IDArray[i]).addClass('is-invalid');
+                        event.preventDefault();
+                    }else{
+                        document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                        $(IDArray[i]).removeClass('is-invalid');
+                        $(IDArray[i]).addClass('is-valid');
+                        event.preventDefault();
+                    }
+                }
               }else if(i==23){
-                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
                     if(firstRequired==""){
                         firstRequired = IDArray[i];
 
@@ -2193,7 +2368,20 @@
                         else if(i<=34) navIndex = 2;
                     };
 
-                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid input  " + $(IDArray[i]).attr("description") +".";
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                }else if(parseFloat(parseFloat(editbasicdecimal).toFixed(4)) < parseFloat(parseFloat(editdailydecimal).toFixed(4)) && $("#editemployeetype").val()==2){                  
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    }
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid daily ratess.";
                     $(IDArray[i]).addClass('is-invalid');
                     $('#edittabs li:eq(2) a').tab('show');
                     $("#editdailyrate").focus();
@@ -2303,7 +2491,30 @@
 
           $('#edittabs li:eq('+navIndex+') a').tab('show');
           $(firstRequired).focus();
+
           if(firstRequired==""){
+            $(".editleave").each(function(){
+               if($(this).val()=="") {
+                    $('#edittabs li:eq(3) a').tab('show');
+                    $("#" + $(this).attr("id")).focus();
+                    err = "error";
+                    showErrorToast('Cannot update, please select a valid leave type!');
+                    return false;
+                }  
+
+                if(arrLeave.indexOf($(this).val())!=-1){
+                    $('#edittabs li:eq(3) a').tab('show');
+                      $("#" + $(this).attr("id")).focus();
+                    err = "error";
+                    showErrorToast('Cannot update, duplicate leave type!');
+                    return false;
+                }
+
+                arrLeave.push($(this).val());
+            });
+
+            if(err!="") return false;
+
             $('#edit_employee').hide();
             $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
             event.preventDefault(); 
@@ -2313,6 +2524,30 @@
             $('.modal-body #edittabs li:eq('+navIndex+') a').tab('show');
             $(firstRequired).focus();
             if(firstRequired==""){
+
+              $(".editleave").each(function(){
+                 if($(this).val()=="") {
+                      $('#edittabs li:eq(3) a').tab('show');
+                      $("#" + $(this).attr("id")).focus();
+                      err = "error";
+                      showErrorToast('Cannot update, please select a valid leave type!');
+                      return false;
+                  }  
+
+                  if(arrLeave.indexOf($(this).val())!=-1){
+                      $('#edittabs li:eq(3) a').tab('show');
+                      $("#" + $(this).attr("id")).focus();
+                      err = "error";
+                      showErrorToast('Cannot update, duplicate leave type!');
+                      return false;
+                  }
+
+                  arrLeave.push($(this).val());
+              });
+
+              if(err!="") return false;
+
+
               $('#edit_employee').hide();
               $('#confirmation_edit').modal({backdrop: 'static', keyboard: false},'show');
               event.preventDefault(); 
@@ -2333,20 +2568,22 @@
             var restdayresult = [];
             var employeeID = [];
 
-              $(".employeecredit").each(function(){
+            $(".employeecredit").each(function(){
                employeecredit.push($(this).val());
             });
-              $(".employeeid").each(function(){
+            
+            $(".employeeid").each(function(){
                employeeID.push($(this).val());
             });
 
             var totalleave = [];
             $(".editleave").each(function(){
-               leave.push($(this).val());
+                leave.push($(this).val());
             });
             $(".edittotalleave").each(function(){
                totalleave.push($(this).val());
             });
+
             $('input.editremoveLater:checked').map(function() {
               restdayresult.push($(this).val());
             });
@@ -2392,58 +2629,84 @@
             var bankname          =   $("#editbankname").val();
             var backaccountname   =   $("#editbackaccountname").val();
             var backaccountnumber =   $("#editbackaccountnumber").val();
-            $.ajax({
-                  url : "<?php echo site_url('employees/update');?>",
-                  method : "POST",
-                  data : {id:id, 
-                    firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
-                    gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
-                    barangay:          barangay,        city:             city,             birthdate:        birthdate,
-                    contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
-                    hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
-                    detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
-                    username:          username,        password:         password,         basicsalary:      basicsalary,    
-                    dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                    incentive:         incentive,       tinnumber:        tinnumber,      
-                    sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
-                    clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
-                    backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
-                    employeecredit:    employeecredit,        restdayresult:    restdayresult,    bankname:          bankname,
-                    employeeID:         employeeID},
-                  async : true,
-                  dataType : 'json',
-                  success: function(data){
-              var result = data.split('|');
-                if(result[0]=="false"){
-                      if(result[1] == "Employee name already exist!"){
-                    document.getElementById("edit-firstname").innerHTML = result[1];
-                        $('#editfirstname').removeClass('is-valid');
-                        $('#editfirstname').addClass('is-invalid');
-                        $('#edit-firstname').addClass('invalid-feedback');
-                        $('#confirmation_edit').modal('hide');
-                        $('#edit_employee').show();
-                        $("#editfirstname").focus();
-                        document.getElementById("edit-lastname").innerHTML = result[1];
-                        $('#editlastname').removeClass('is-valid');
-                        $('#editlastname').addClass('is-invalid');
-                        $('#edit-lastname').addClass('invalid-feedback');
+
+            var confirmPassword = $('#editPword').val().trim();
+
+            if(confirmPassword==""){
+              $('#editPword').focus();
+              return false;
+            }else{
+              $.ajax({
+                    url : "<?php echo site_url('Checkpassword/validate');?>",
+                    method : "POST",
+                    data : {confirmPassword:confirmPassword},
+                    dataType : 'json',
+                    success: function(data){
+                      if(data=="true"){
+                          $.ajax({
+                                url : "<?php echo site_url('employees/update');?>",
+                                method : "POST",
+                                data : {id:id, 
+                                  firstname:         firstname,       middlename:       middlename,      lastname:          lastname,
+                                  gender:            gender,          housenumber:      housenumber,     streetname:        streetname,
+                                  barangay:          barangay,        city:             city,             birthdate:        birthdate,
+                                  contactinfo:       contactinfo,     civilstatus:      civilstatus,     citizenship:       citizenship,
+                                  hireddate:         hireddate,       departmentID:     departmentID,    designationID:     designationID,
+                                  detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
+                                  username:          username,        password:         password,         basicsalary:      basicsalary,    
+                                  dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
+                                  incentive:         incentive,       tinnumber:        tinnumber,      
+                                  sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
+                                  clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
+                                  backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,
+                                  employeecredit:    employeecredit,        restdayresult:    restdayresult,    bankname:          bankname,
+                                  employeeID:         employeeID},
+                                async : true,
+                                dataType : 'json',
+                                success: function(data){
+                            var result = data.split('|');
+                              if(result[0]=="false"){
+                                    if(result[1] == "Employee name already exist!"){
+                                  document.getElementById("edit-firstname").innerHTML = result[1];
+                                      $('#editfirstname').removeClass('is-valid');
+                                      $('#editfirstname').addClass('is-invalid');
+                                      $('#edit-firstname').addClass('invalid-feedback');
+                                      $('#confirmation_edit').modal('hide');
+                                      $('#edit_employee').show();
+                                      $("#editfirstname").focus();
+                                      document.getElementById("edit-lastname").innerHTML = result[1];
+                                      $('#editlastname').removeClass('is-valid');
+                                      $('#editlastname').addClass('is-invalid');
+                                      $('#edit-lastname').addClass('invalid-feedback');
+                                    }else{
+                                      $('.modal-body #edittabs li:eq(1) a').tab('show');
+                                      document.getElementById("edit-username").innerHTML = result[1];
+                                    $('#editusername').removeClass('is-valid');
+                                      $('#editusername').addClass('is-invalid');
+                                      $('#edit-username').addClass('invalid-feedback');
+                                      $("#editusername").focus();
+                                    }
+                                  }else{
+                                  window.location.replace('<?php echo base_url(); ?>Employees');
+                                  }
+                                },
+                             error: function(request, textStatus, error) {
+
+                              }
+                            });
+                            return false;
                       }else{
-                        $('.modal-body #edittabs li:eq(1) a').tab('show');
-                        document.getElementById("edit-username").innerHTML = result[1];
-                      $('#editusername').removeClass('is-valid');
-                        $('#editusername').addClass('is-invalid');
-                        $('#edit-username').addClass('invalid-feedback');
-                        $("#editusername").focus();
-                      }
-                    }else{
-                    window.location.replace('<?php echo base_url(); ?>Employees');
+                      document.getElementById("edit-pword").innerHTML = "Incorrect Password.";
+                      $('#editPword').addClass('is-invalid');
+                      $('#editPword').focus();
                     }
                   },
-               error: function(request, textStatus, error) {
-
+                  error: function(request, textStatus, error) {
+                    return false;
                 }
               });
-              return false;
+              return false
+            }
      });
 });
 </script>

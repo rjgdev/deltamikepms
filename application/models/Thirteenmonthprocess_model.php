@@ -16,7 +16,7 @@ class Thirteenmonthprocess_model extends CI_Model
 		$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted 
 											,userapproved,	level,		approvalID,	thrmonthstatus,	monthstatus
 											,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
-											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate,employeerecord
 										FROM dm_thrmonth  WHERE thrmonthstatus!=2");
    		if($queryheader->num_rows()===0){
    				
@@ -29,7 +29,7 @@ class Thirteenmonthprocess_model extends CI_Model
 			$queryheader = $this->db->query("SELECT thrmonthID,		datefrom,	dateto,		usersubmitted,	datesubmitted
 											,userapproved,	level,		approvalID,	thrmonthstatus,	monthstatus
 											,date_format(datefrom,'%Y%-%m') as date1, date_format(dateto,'%Y%-%m') as date2
-											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
+											, date_format(datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate,employeerecord
 										FROM dm_thrmonth  WHERE thrmonthstatus!=2");
 		}else{
    			$thrmonthID = $queryheader->row()->thrmonthID;
@@ -93,7 +93,43 @@ class Thirteenmonthprocess_model extends CI_Model
 	}
 
 	function search($thrmonthID,$sddlmonth,$sddlyear,$eddlmonth,$eddlyear)
-    {		
+
+    {	
+    	$datefromquery = $sddlyear."-".$sddlmonth;
+    	$datetoquery = $eddlyear."-".$eddlmonth;	
+    	$querydata = $this->db->query("
+    							SELECT
+								*
+								FROM
+								(
+									SELECT 
+									e.employeeID,
+									concat(lastname,', ',firstname,' ',middlename) as employeename
+									,d.description AS department,ds.designationdescription as designation,date_format(pd.datefrom,'%m% - %Y') AS date1,
+									CASE
+									WHEN e.employeetypeID = 1 THEN 'Security Guard'
+									WHEN e.employeetypeID = 2 THEN 'Staff'
+									ELSE employeetypeID
+									END AS employeetype,COALESCE(c.clientname,'') as clientname,COALESCE(dtc.postname,'') AS detachment,
+									concat(date_format(min(pd.datefrom),'%M% %d%,%Y'),' - ',date_format(max(pd.dateto),'%M% %d%,%Y')) as datepayrol, COALESCE(sum(late) + sum(ordlatehours) + sum(rstlatehours) + sum(spclatehours) + sum(spcrstlatehours) + sum(rgllatehours) + sum(rglrstlatehours) + sum(dbllatehours) + sum(dblrstlatehours),0) as late, sum(absent) as absent,
+									 SUM(thrmonth) AS thrmonth
+									FROM dm_payrolldetails AS pd
+									LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID
+									LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+									LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID
+									LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID
+									LEFT JOIN dm_post AS dtc ON e.postID = dtc.postID
+									LEFT JOIN dm_client AS c ON e.clientID = c.clientID
+								    WHERE (date_format(pd.datefrom,'%Y%-%m') >= '".$datefromquery."') 
+										AND 
+									(date_format(pd.dateto,'%Y%-%m') <='".$datetoquery."')
+								    GROUP BY e.employeeID
+								)a");
+    	if($querydata->num_rows()===0){
+    		$employee = 0;
+    	}else{
+    		$employee = $querydata->row()->employeeID;
+    	}
 
     	$sday = "1";
     	$eday = "28";
@@ -102,21 +138,14 @@ class Thirteenmonthprocess_model extends CI_Model
     	$data  = array(
     		'datefrom' 		=>	$datefrom,
  			'dateto'   		=>	$dateto,
- 			'monthstatus'	=>	1);
-    		$queryUpdatethrdetails = $this->db->query('SELECT * FROM dm_thrmonth	 WHERE 
-												thrmonthID = ".$thrmonthID."'); 
-
-		if($queryUpdatethrdetails->num_rows()===0){
-
-			$this->db->where("thrmonthID", $thrmonthID);  
-            $this->db->update("dm_thrmonth", $data);  
-   	   		
-		}else{
-
+ 			'monthstatus'	=>	1,
+ 			'employeerecord'=> $employee);
+    	$this->db->where("thrmonthID", $thrmonthID);  
+            $this->db->update("dm_thrmonth", $data); 
+    		$queryUpdatethrdetails = $this->db->query('SELECT * FROM dm_thrmonth	 WHERE thrmonthID = ".$thrmonthID."'); 
         	$this->db->where("thrmonthID", $thrmonthID);  
-            $this->db->update("dm_thrmonth", $data);  
-           // return 'true|'.$description.' successfully updated!';
-		}
+            $this->db->update("dm_thrmonth", $data); 
+     
 	}
 
 	function submit_Thirteenmonth($thrmonthID, $datesubmitted)
@@ -295,16 +324,29 @@ class Thirteenmonthprocess_model extends CI_Model
         return array('thrmonth' => $queryheader->result(), 'approver' => $queryApprover->result());
 	}
 
-	function deny_Thirteenmonthprocess($thrmonthID)
+	function deny_Thirteenmonthprocess($thrmonthID,$reason)
 	{
 	 	$data = array('datesubmitted' 	=> NULL,
 	 		 		  'userapproved' 	=> NULL,
 	 				  'level' 			=> 0,
 	 				   'monthstatus'   	=> 0,
-	 				  'thrmonthstatus' 	=> 3);
+	 				  'thrmonthstatus' 	=> 3,
+	 				  'reason'          =>$reason,
+	 				  'userdenied'		=> $this->session->userdata('employeeID'),
+	 				  'datedenied' 		=> date("Y-m-d H:i:s")
+	 				);
 
 		$this->db->where("thrmonthID", $thrmonthID);  
         $this->db->update("dm_thrmonth", $data);   	   	
-	}				
+	}
+	function get_denied($thrmonthID)
+		{
+			$query = $this->db->query('SELECT CONCAT(dm_employee.firstname," ",dm_employee.lastname) AS "fullname", DATE_FORMAT(datedenied, "%W, %M %e, %Y %r") AS datedenied, reason 
+									   FROM dm_thrmonth AS th
+									   INNER JOIN dm_employee ON dm_employee.employeeID = th.userdenied 
+									   WHERE th.thrmonthID = '.$thrmonthID); 
+
+			return $query->result();
+		}				
 
 }	

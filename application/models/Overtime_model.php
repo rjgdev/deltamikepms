@@ -9,15 +9,15 @@ class Overtime_model extends CI_Model
 	function get_all_employeeovertime()
 	{
 			 $querysecurity = $this->db->query("SELECT employeeID, employeetypeID FROM dm_employee WHERE employeeID = ".$this->session->userdata('employeeID')."");
-			$query = $this->db->query("SELECT employeeID, CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname FROM  dm_employee WHERE employeestatus = 'Active'");
+			$query = $this->db->query("SELECT employeeID, CONCAT('00000','',employeeID, ' - ',lastname,', ',firstname, ' ', middlename) AS fullname  FROM  dm_employee WHERE employeestatus = 'Active'");
 				$result = $this->db->query("SELECT 
 											* 
 											FROM
 											(
 												SELECT o.overtimeid, o.employeeID, CONCAT(d.description,' / ',p.designationdescription) as positionDescription,p.designationdescription,d.description AS department,
-												  CONCAT(firstname,' ',middlename, ' ', lastname) AS fullname,photo,
+												  CONCAT(lastname,', ',firstname, ' ', middlename) AS fullname,photo,
 												  o.description, o.overtimedate, TIME_FORMAT(o.starttime,'%h:%i %p'	) as starttime,
-												  TIME_FORMAT(o.endtime,'%h:%i %p') as endtime, totalhour,starttime as updatedstarttime,endtime as updatedendtime,noted
+												  TIME_FORMAT(o.endtime,'%h:%i %p') as endtime, totalhour,starttime as updatedstarttime,endtime as updatedendtime,noted,overtimestatus
 												FROM dm_overtime as o
 												LEFT JOIN dm_employee as emp ON o.employeeID = emp.employeeID 
 												LEFT JOIN dm_department as d ON emp.departmentID = d.departmentID
@@ -61,11 +61,24 @@ class Overtime_model extends CI_Model
 
 				$this->db->where("overtimeid", $id);  
 	            $this->db->update("dm_overtime", $data);  
-				return 'true|Employee name and overtime date successfully updated!';
+				return 'true|Employee overtime successfully update.';
 		 	}
 			else 
 			{
-				return 'false|Employee name and overtime date already exist!';
+				return 'false|Employee overtime date already exist!';
 			}  		 
   	}
+  	function get_noted($id,$noted)
+	{
+		$overtimestatus = "Reviewed";
+		$data = array(
+				'overtimeID' => $id,
+				'noted' => $noted,
+				'overtimestatus' =>$overtimestatus
+			 );
+			$this->db->where("overtimeID", $id);  
+            $this->db->update("dm_overtime", $data);  
+            return 'Overtime noted successfully created!';  
+
+	}
 }

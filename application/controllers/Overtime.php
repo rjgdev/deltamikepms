@@ -22,6 +22,7 @@
 		}
 	 public function save()
 	 {
+	 	$overtimestatusdata = "For review";
 	 	$data = array (
 			'employeeID' => $this->input->post('employeeID'),
 			'overtimedate' => $this->input->post('overtimedate'),
@@ -29,7 +30,7 @@
 			'endtime' => $this->input->post('endtime'),
 			'totalhour' => $this->input->post('totalhour'),
 			'description' => $this->input->post('description'),
-			'noted' => $this->input->post('noted'));
+			'overtimestatus' => $overtimestatusdata);
 	 		$employeeID = $this->input->post('employeeID');
 			$overtimedate = $this->input->post('overtimedate');
 
@@ -47,14 +48,16 @@
 	 public function update()
 	 {		
 	 	$id = $this->input->post('id');
+	 	$overtimestatusdata = "For review";
 	 	$data = array (
 			'employeeID' => $this->input->post('employeeID'),
 			'overtimedate' => $this->input->post('overtimedate'),
 			'starttime' => $this->input->post('starttime'),
 			'endtime' => $this->input->post('endtime'),
 			'totalhour' => $this->input->post('totalhour'),
-			'description' => $this->input->post('description'),
-			'noted'      => $this->input->post('noted'));
+			'description' => $this->input->post('description')/*,
+			'noted'      => $this->input->post('noted')*/,
+			'overtimestatus' => $overtimestatusdata);
 	 		$employeeID = $this->input->post('employeeID');
 	 		$description = $this->input->post('description');
 			$overtimedate = $this->input->post('overtimedate');
@@ -68,5 +71,13 @@
             }   
 	    	echo json_encode($data);  
 	}
+	public function updatenoted()
+	{
+		$id = $this->input->post('id');
+		$noted = $this->input->post('noted');
+		$data = $this->overtime->get_noted($id,$noted);
+		$this->session->set_flashdata('success', $data); 
+		echo json_encode($data);
+	} 
 }     
 ?>

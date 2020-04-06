@@ -5,7 +5,7 @@
     <div class="content container-fluid">
     	<div class="loader"></div>
 		<div class="row">
-			<div class="col-md-8 offset-md-2">
+			<div class="col-md-12">
 			
 				<!-- Page Header -->
 				<div class="page-header">
@@ -47,7 +47,7 @@
 							</div>
 							<div class="col-sm-3">
 							<div class="form-group">
-								<label>Bldg. Name / House Number  <code>*</code></label>
+								<label>Bldg. Name/House Number  <code>*</code></label>
 								<input class="form-control alphanumericwithspace" id="bldgname"name="bldgname" value="<?php echo $record->bldgname; ?>" type="text">
 								<div class="invalid-feedback" id="edit-bldgname"></div>
 							</div>
@@ -70,7 +70,7 @@
 					<div class="row">
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label>Barangay<code>*</code></label>
+								<label>Barangay <code>*</code></label>
 								<input class="form-control alphanumericwithspace" id="barangay"name="barangay" value="<?php echo $record->barangay; ?>" type="text" description="Barangay">
 								<div class="invalid-feedback" id="edit-barangay"></div>
 							</div>	
@@ -154,7 +154,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label>Mobile Number<code>*</code></label>
+								<label>Mobile Number <code>*</code></label>
 								<input class="form-control numbersonly" id="editmobilenumber"name="editmobilenumber" value="<?php echo $record->mobilenumber; ?>"  minlength=13 autocomplete="off" type="text">
 								<div class="invalid-feedback" id="edit-mobilenumber"></div>
 							</div>

@@ -13,10 +13,12 @@
 		$thrmonthstatus = "-----";
 		$userapproved	= "";
 		$usersubmitted 	= "";
+		$employeerecord = "";
 
 
 foreach ($data['thrmonth'] as $thnonthdata)  {
 		$thrmonthID  = $thnonthdata->thrmonthID;
+		$employeerecord = $thnonthdata->employeerecord;
 		$thrmonthNo 	= "THR-".str_pad($thnonthdata->thrmonthID, 6, "0", STR_PAD_LEFT);
 		$datesubmitted 	= (is_null($thnonthdata->formatdate) ? "-----" : $thnonthdata->formatdate);
 		$datefrom 		= date("F d, Y",strtotime($thnonthdata->datefrom)); 
@@ -145,7 +147,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			 <div class="form-group">
 				<label for="gender">&emsp;</label>
 						  <div class="input-group-append">
-						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-success" style="width: 100%; height: 43px; text-align:center" 	 
+						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-danger" style="width: 100%; height: 43px; text-align:center" 	 
 						    		 <?php 
 						    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
 									else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process 13th Month </button>
@@ -171,6 +173,7 @@ foreach ($data['approver'] as $approvaldata)  {
 								<p style="color:#e04d45;margin-right: 10px;" 
 								   id="cutoff" 
 								   thrmonthid="<?php echo $thrmonthID; ?>" 
+								   employeerecord="<?php echo $employeerecord; ?>" 
 								   datefrom="<?php echo $datefrom; ?>" 
 								   dateto="<?php echo $dateto; ?>"
 								   lastapprover="<?php echo $lastapprover; ?>"
@@ -190,10 +193,15 @@ foreach ($data['approver'] as $approvaldata)  {
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
-								<p style="color:#e04d45;margin-right: 10px;" id="show_status"><?php echo $thrmonthstatus; ?>
+								<p style="color:#e04d45;margin-right: 10px;" id="show_status">
+									<?php 
+										if($thrmonthstatus=="DENIED"){
+											echo "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='".$thrmonthID."'>".$thrmonthstatus."</a>";
+										}else{
+											echo $thrmonthstatus;
+										} 
+									?>
 							    </p>
-							    
-							   <!--  <button type="button" class="btn btn-success approve">Approved</button>	 -->
 							</div>
 						</div>
 					</div>
@@ -357,9 +365,80 @@ foreach ($data['approver'] as $approvaldata)  {
 			</div>
 		</div>
 	</div>
+	<!-- /Confirmation Modal -->
+
+	<div class="modal custom-modal fade" id="modal_confirmationdeny" role="dialog">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric">
+						<h3 id="modal_title1"></h3>
+						<p id="modal_message1"></p>
+						 <div class="form-group" style = "text-align: left;"> 
+						<label class="text-danger">Please enter a reason:</label>
+						<textarea rows="4" id="reason" type="text" name="reason" class="form-control input alphanumericwithspace"placeholder="Please enter a reason" autocomplete="off" description="city/municipality"></textarea>
+						<div class="invalid-feedback" id="thmonth-reason"></div>
+						</div>
+					</div>
+				
+					<div class="modal-btn confirmation-action">
+						<div class="row">
+							<div class="col-6">
+								<button class="btn btn-primary submit-btn"></a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Denied Modal -->
+<div class="modal custom-modal fade" id="denied_info" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Denied Information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="card" style="border-style: none !important;  margin-bottom:0px;">
+							<div class="card-body" style="padding: .25rem !important;">
+								<table class="table table-striped table-border">
+									<tbody>
+										<tr>
+											<td style="color:#e04d45; width:100px;">Denied date:</td>
+											<td class="text-left" id="deny_date"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Denied by:</td>
+											<td class="text-left" id="deny_approver"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Reason:</td>
+											<td class="text-left" id="deny_reason"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- /Confirmation Modal -->
-
+<span><?php if($this->session->flashdata('empstatus')=="empsuccess") echo '<script type="text/javascript"> showdataSuccess13thToast() </script>';?></span>
 
 <script  type="text/javascript">  
 	$(window).on("load", function() {
@@ -428,21 +507,24 @@ foreach ($data['approver'] as $approvaldata)  {
 				var sddlyear = $("#sddlyear").val();
 				var eddlmonth = $("#eddlmonth").val();
 				var eddlyear = $("#eddlyear").val();
-				var checkerrorfrom = sddlyear+ +sddlmonth
-				var checkerrorto =  eddlyear+ +eddlmonth;
-		if(checkerrorfrom >= checkerrorto){
+				var checkerrorfrom = (sddlyear+ +sddlmonth);
+				var checkerrorto =  (eddlyear+ +eddlmonth);
+				
+		if(checkerrorfrom > checkerrorto){
 			showErrorToast("Invalid date selected!");
-			 event.preventDefault();
+			event.preventDefault();
+			return false;
 		}else{
+ 		event.preventDefault();			
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
-		$('#modal_title').html("13th month");
-    	$('#modal_message').html("Are you sure you want to upload the 13th month?");
-    	$('.submit-btn').html("Submit 13th month");
+		$('#modal_title').html("Process 13th Month");
+    	$('#modal_message').html("Are you sure you want to process the 13th month?");
+    	$('.submit-btn').html("Process 13th month");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_uploaddate");
         $('#modal_confirmation').modal('show');
-		return false;
-		}	
+        return false;
+		}
 	});
 	$(document).on("click", "#modal_uploaddate", function(){
 		$("#upload_date").submit();
@@ -466,8 +548,9 @@ foreach ($data['approver'] as $approvaldata)  {
 					
 				},
 				success: function(response){
+					window.location.replace('<?php echo base_url(); ?>Thirteenmonthprocess');
 					$('#modal_confirmation').modal('hide');
-					showSuccessToast("The 13th month has been successfully processed.");
+					//showSuccessToast("The 13th month has been successfully processed.");
 				
 					
 			},
@@ -480,7 +563,7 @@ foreach ($data['approver'] as $approvaldata)  {
 		$(document).on("click", "#submitthrmonth", function(){
 
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
-		$('#modal_title').html("Submit 13th month");
+		$('#modal_title').html("Submit 13th Month");
     	$('#modal_message').html("Are you sure you want to submit the 13th month?");
     	$('.submit-btn').html("Submit 13th month");
     	$('.cancel-btn').html("Cancel");
@@ -490,7 +573,20 @@ foreach ($data['approver'] as $approvaldata)  {
 	});
 		$(document).on("click", "#modal_submitthrmonth", function(){
     	var thrmonthID = $('#cutoff').attr('thrmonthid');
-    		var html = "";
+    	var employeerecord = $('#cutoff').attr('employeerecord');
+    	var html = "";
+    	if(employeerecord==0){
+			showErrorToast("There is no data to be processed, please select again.");
+			$('#modal_confirmation').modal('hide');
+			 event.preventDefault();
+            return false;
+       			
+			}else{
+				 event.preventDefault();
+			}
+
+		
+    		
     		$.ajax({
 		      url : "<?php echo site_url('Thirteenmonthprocess/submit');?>",
 		      method : "POST",
@@ -649,23 +745,38 @@ foreach ($data['approver'] as $approvaldata)  {
 		//DENY 
 	$(document).on("click", ".deny", function(){
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/deny.svg");
-		$('#modal_title').html("Deny 13th month");
-    	$('#modal_message').html("Are you sure you want to deny the 13th month?");
+		$('#modal_title1').html("Deny 13th month");
+    	$('#modal_message1').html("Are you sure you want to deny the 13th month?");
     	$('.submit-btn').html("Deny 13th month");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_deny13thmonth");
-        $('#modal_confirmation').modal('show');
+        $('#modal_confirmationdeny').modal('show');
 		return false;
 	});
 	$(document).on("click", "#modal_deny13thmonth", function(){
     	var thrmonthID = $('#cutoff').attr('thrmonthid');
+    	var reason         =   $("#reason").val();
+    	
+     if(reason==""){
+	        	document.getElementById("thmonth-reason").innerHTML = "Please enter a reason!";
+	        	$('#reason').addClass('is-invalid');
+	        	$("#reason").focus(); 
+                event.preventDefault();
+                return false;
+	        }else{
+	       		document.getElementById("thmonth-reason").innerHTML = "";
+	        	$('#reason').removeClass('is-invalid');
+	        	$('#reason').addClass('is-valid');
+	        	$("#reason").focus();
+	        }
     	$.ajax({
 		      url : "<?php echo site_url('Thirteenmonthprocess/deny');?>",
 		      method : "POST",
-		      data : {thrmonthID:thrmonthID},
+		      data : {thrmonthID:thrmonthID, reason: reason},
 		      async : true,
 		      success: function(data){
-		      	var htmlStatus = "DENIED";
+		      	 var htmlStatus = "<a href='javascript:void(0);' data-toggle='modal' class='denied_info' data-target='#denied_info' id='" + thrmonthID + "'>DENIED</a>";
+		      	/*var htmlStatus = "DENIED";*/
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = "-----";
@@ -676,7 +787,7 @@ foreach ($data['approver'] as $approvaldata)  {
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_approver").html(htmlApprover);
 	      		$("#show_button").html(htmlButton);
-	      		$('#modal_confirmation').modal('hide');
+	      		$('#modal_confirmationdeny').modal('hide');
 	  	  		showSuccessToast("13th Month is successfully <b>denied!</b>");
 		      },
 		      error: function(request, textStatus, error) {
@@ -685,6 +796,29 @@ foreach ($data['approver'] as $approvaldata)  {
      	 });
          return false;
 	});
+	$(document).on("click", ".denied_info", function(){
+		
+		var thrmonthID = $('#cutoff').attr('thrmonthid');
+		
+    	$.ajax({
+		      url : "<?php echo site_url('Thirteenmonthprocess/getdenied');?>",
+		      method : "POST",
+		      data : {thrmonthID:thrmonthID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		      	var datedenied 	= data[0]["datedenied"];
+
+		      	$("#deny_date").html(datedenied);
+		      	$("#deny_approver").html(data[0]["fullname"]);
+		      	$("#deny_reason").html(data[0]["reason"]);
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
+        return false; 
+	}); 
 
    });	
 </script>		

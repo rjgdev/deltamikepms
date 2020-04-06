@@ -16,10 +16,10 @@ $accesslevel = $access->employeetypeID;
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Overtime</h3>
+					<h3 class="page-title">Employee Overtime</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Overtime</li>
+						<li class="breadcrumb-item active">Employee Overtime</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
@@ -34,13 +34,14 @@ $accesslevel = $access->employeetypeID;
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th style="width: 90px ! important;">Overtime No.</th>
+								<th style="width: 120px ! important;">Overtime Number</th>
 								<th style="width: 220px ! important;">Employee Name</th>
-								<th style="width: 190px ! important;">Overtime Date</th>
+								<th style="width: 120px ! important;">Overtime Date</th>
 								<th style="width: 100px ! important;">Start Time</th>
 								<th style="width: 100px ! important;">End Time</th>
 								<th style="width: 50px ! important;">Total Hour</th>
-								<th style="width: 50px ! important;">Comments</th>
+								<th style="width: 50px ! important;">Note</th>
+								<th style="width: 50px ! important;">Status</th>
 								<th style="width: 50px ! important;">Actions</th>
 							</tr>
 						</thead>
@@ -63,9 +64,40 @@ $accesslevel = $access->employeetypeID;
 								<td><?php echo $item->endtime ?></td>
 								<td><?php echo $item->totalhour ?></td>
 								<td><?php echo $item->noted ?></td>
+								<td><?php echo $item->overtimestatus ?></td>
 								<div class="dropdown dropdown-action">
 								</div>
 								<td class="text-right">
+								    <div class="dropdown dropdown-action">
+								    <a href="" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+								    <div class="dropdown-menu dropdown-menu-right">
+								    <a class="dropdown-item edit_overtime" href="#"
+									    id="<?php echo $item->overtimeid; ?>"
+									    class="btn btn-info btn-sm edit_overtime"
+									    data-toggle="modal" 
+									    data-target="#edit_overtime"
+										data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
+										data-toggle="modal" data-target="#edit_overtime" 
+										data-id="<?php echo $item->overtimeid; ?>" 
+										data-employeeid="<?php echo $item->employeeID; ?>"  
+										data-description="<?php echo $item->description; ?>" 
+										data-overtimedate="<?php echo $item->overtimedate; ?>" 
+										data-starttime="<?php echo $item->updatedstarttime; ?>" 
+										data-endtime="<?php echo $item->updatedendtime; ?>" 
+										data-totalhour="<?php echo $item->totalhour; ?>" 
+										data-noted="<?php echo $item->noted; ?>" 
+										data-tog="tooltip"data-placement="top" title="Edit">
+									<i class="fa fa-pencil m-r-5"></i> Edit</a>
+									<?php  if($accesslevel==1){	
+										}else{ ?>
+								<a class="dropdown-item changesnoted" 
+									href="#" data-toggle="modal" data-target="#noted_employee"
+									data-id="<?php echo $item->overtimeid; ?>" 
+									data-overtnoted="<?php echo $item->noted; ?>">
+									<i class="fa fa-sticky-note"></i>Noted</a> <?php } ?>
+    							</div>	
+    							</div>
+								<!-- <td class="text-right">
 									<button type="button" 
 									id="<?php echo $item->overtimeid; ?>" 
 									data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false"
@@ -80,7 +112,7 @@ $accesslevel = $access->employeetypeID;
 									data-totalhour="<?php echo $item->totalhour; ?>" 
 									data-noted="<?php echo $item->noted; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> 
-								</td>
+								</td> -->
 							</tr>
 						<?php endforeach; ?>
 						</tbody>
@@ -153,7 +185,8 @@ $accesslevel = $access->employeetypeID;
 							<div class="col-sm-12">	
 							<div class="form-group">
 								<label>Total Time</label>	
-								<input Class="form-control" id="totalTime"name="totalTime" readonly="readonly" />	
+								<input Class="form-control" id="totalTime"name="totalTime" readonly="readonly" description="total time" />
+								<div class="invalid-feedback" id="add-totalTime"></div>	
 							</div>
 						</div>
 					 <div class="col-sm-12">	
@@ -163,7 +196,7 @@ $accesslevel = $access->employeetypeID;
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
 					</div>	
-				<?php	
+				<!-- <?php	
 	            if($accesslevel==1){	
 					}else{
 					 echo '<div class="col-sm-12">';
@@ -174,7 +207,7 @@ $accesslevel = $access->employeetypeID;
 					 echo '</div>';
 					 echo '</div>';
 				}   
-				?>   
+				?>   --> 
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -238,7 +271,8 @@ $accesslevel = $access->employeetypeID;
 						<div class="col-sm-12">	
 							<div class="form-group">
 								<label>Total Time</label>	
-								<input Class="form-control" id="edittotalTime"name="edittotalTime" readonly="readonly" />	
+								<input Class="form-control" id="edittotalTime"name="edittotalTime" readonly="readonly" description="total time"/>
+								<div class="invalid-feedback" id="edit-totalTime"></div>	
 							</div>
 						</div>
 					 <div class="col-sm-12">	
@@ -248,7 +282,7 @@ $accesslevel = $access->employeetypeID;
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
 					</div>
-				<?php	
+				<!-- <?php	
 	            if($accesslevel==1){	
 					}else{
 					 echo '<div class="col-sm-12">';
@@ -259,7 +293,7 @@ $accesslevel = $access->employeetypeID;
 					 echo '</div>';
 					 echo '</div>';
 				}   
-				?>   	
+				?>  -->  	
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
@@ -302,6 +336,7 @@ $accesslevel = $access->employeetypeID;
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -325,6 +360,7 @@ $accesslevel = $access->employeetypeID;
 			<div class="modal-content">
 				<div class="modal-body">
 					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 							<h3>Confirmation Message</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
@@ -342,6 +378,57 @@ $accesslevel = $access->employeetypeID;
 			</div>
 		</div>
 	</div>
+	<div id="confirmation_noteedit" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
+							<h3>Confirmation Message</h3>
+							<p>Are you sure you want to add note?</p>
+							<div class="invalid-feedback" id="status-invalid"></div>
+					</div>
+				
+						<div class="row">
+							<div class="col-6">
+								<a href="#" class="btn btn-primary submit-btn editnote">Add</a>
+							</div>
+							<div class="col-6">
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-editnote">Cancel</a>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal custom-modal fade" id="noted_employee" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+	<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+      <div class="modal-body">
+        <div class="form-header">
+          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
+          <h3>Note</h3>
+          <div class="col-sm-12">
+          	<input class="form-control letterswithspace" id="overtimenoted" name="overtimenoted" description="note">
+          	<div class="invalid-feedback" id="edit-overtimenoted"></div>
+            </div>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <div class="col-12">
+              <a href="#" class="btn btn-primary continue-btn updatenote">Submit</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <?php 
 	if($this->session->flashdata('success')!=""){
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
@@ -352,6 +439,66 @@ $accesslevel = $access->employeetypeID;
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
 	});
+
+	$('.changesnoted').unbind('click').bind('click', function(){
+     $(".modal-body #overtimenoted").val( $(this).data('overtnoted'));
+     $('.editnote').attr('id', $(this).data('id'));
+    
+    });
+
+    $('.updatenote').unbind('click').bind('click', function(){
+        var id    =   $(this).attr('id');
+        var noted =   $('#overtimenoted').val();
+        if(noted==""){
+        		document.getElementById("edit-overtimenoted").innerHTML = "Please provide a noted.";
+				$("#overtimenoted").addClass('is-invalid');
+				event.preventDefault();
+        }else{
+        		document.getElementById("edit-overtimenoted").innerHTML = "";
+	        	$('#overtimenoted').removeClass('is-invalid');
+	        	$('#overtimenoted').addClass('is-valid'); 
+        }
+        if(noted=="") return false;
+
+        $('#noted_employee').hide();
+		$('#confirmation_noteedit').modal({backdrop: 'static', keyboard: false},'show');
+		
+     });    
+     $("#cncl-editnote").unbind('click').bind('click', function(){
+			$('#confirmation_noteedit').modal('hide');
+			$('#noted_employee').show();
+		});
+     $('.editnote').unbind('click').bind('click', function(){
+		var id 				= 	$(this).attr('id');
+		var noted 		= 	$('#overtimenoted').val();
+		/*alert(noted +' '+ id);*/
+		$.ajax({
+			url : "<?php echo site_url('Overtime/updatenoted');?>",
+			method : "POST",
+			data : {id:     id,
+			noted: 			noted},
+			async : true,
+			dataType : 'json',
+			success: function(data){
+		var result = data.split('|');
+            			if(result[0]=="false"){
+							document.getElementById("edit-overtimenoted").innerHTML = result[1];
+				        	$('#overtimenoted').addClass('is-invalid');
+							$('#confirmation_noteedit').modal('hide');
+				        	$('#overtimenoted').show();
+				        	$("#overtimenoted").focus(); 
+            			}else{
+        					window.location.replace('<?php echo base_url(); ?>Overtime');
+            			}
+	                },
+	                error: function(request, textStatus, error) {
+
+	            	}
+	            });
+	            return false;		
+
+				
+});
 
   	$(document).ready(function() {
  		//Clear Modal//
@@ -400,7 +547,7 @@ $("#addstarttime").change(function(){
 		}
 		}
 		else{
-			document.getElementById("add-endtime").innerHTML = "invalid end time.";
+			document.getElementById("add-endtime").innerHTML = "Invalid chosen time.";
 	        	$('#addendtime').addClass('is-invalid');
                 event.preventDefault();
                 return false;
@@ -435,7 +582,7 @@ $("#addstarttime").change(function(){
 		}
 		}
 		else{
-			document.getElementById("edit-endtime").innerHTML = "invalid end time.";
+			document.getElementById("edit-endtime").innerHTML = "Invalid chosen time.";
 	        	$('#editendtime').addClass('is-invalid');
                 event.preventDefault();
                 return false;
@@ -443,23 +590,26 @@ $("#addstarttime").change(function(){
         $("#edittotalTime").val(diff);
 	};	
 	$('#save').unbind('click').bind('click', function(){
-		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', '#totalTime', '#adddescription','#addnoted'];
-		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', 'add-totalTime', 'add-description','add-noted'];
+		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', /*'#totalTime'*//*, '#adddescription'*//*,'#addnoted'*/];
+		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', /*'add-totalTime'*//*, 'add-description'*//*,'add-noted'*/];
 		var starttimecheck = $("#addstarttime").val();
 		var endtimecheck = $("#addendtime").val();
+		var description = $("#adddescription").val();
+		var totalTime = $("#totalTime").val();
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
+		
 
 		if(starttimecheck <= endtimecheck){
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==4) continue;
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+			/*if(i==4) continue;*/
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -469,6 +619,44 @@ $("#addstarttime").change(function(){
 			 	event.preventDefault();
 			}
 		}
+		if(starttimecheck==""){
+			document.getElementById("add-endtime").innerHTML = "Please provide a start time.";
+	        $('#addstarttime').addClass('is-invalid');
+            event.preventDefault();
+            
+		}else{
+		};
+		if(endtimecheck==""){
+			document.getElementById("add-starttime").innerHTML = "Please provide a end time.";
+	        $('#addendtime').addClass('is-invalid');
+            event.preventDefault();
+            
+		}else{
+			document.getElementById("add-endtime").innerHTML = "";	
+				$('#addendtime').removeClass('is-invalid');
+				$('#addendtime').addClass('is-valid');
+			 	event.preventDefault();
+		};
+
+		if(description==""){
+			document.getElementById("add-description").innerHTML = "Please provide a desciption.";
+	        $('#adddescription').addClass('is-invalid');
+            event.preventDefault();
+            return false;
+		}else{
+			document.getElementById("add-description").innerHTML = "";	
+				$('#adddescription').removeClass('is-invalid');
+				$('#adddescription').addClass('is-valid');
+			 	event.preventDefault();
+		};
+		if(totalTime=="0:0"){
+			document.getElementById("add-totalTime").innerHTML = "Invalid total time.";
+	        $('#totalTime').addClass('is-invalid');
+            event.preventDefault();
+            return false;
+            
+		}else{
+		};
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -478,11 +666,13 @@ $("#addstarttime").change(function(){
 		return false;
 		}
 		}else{
-		document.getElementById("add-endtime").innerHTML = "invalid end time.";
+		document.getElementById("add-endtime").innerHTML = "Invalid chosen time.";
 		$('#addendtime').addClass('is-invalid');
 		event.preventDefault();
 		return false;
-		}
+		};
+		
+		
 		});
 	  $("#cnclovertime-add").unbind('click').bind('click', function(){
 			$('#confirmationovertime_add').modal('hide');
@@ -495,14 +685,14 @@ $("#addstarttime").change(function(){
 			var endtime = $("#addendtime").val();
 			var totalhour = $("#totalTime").val();
 			var description = $("#adddescription").val();
-			var noted = $("#addnoted").val();
+			/*var noted = $("#addnoted").val();*/
     		$.ajax({
                 url : "<?php echo site_url('overtime/save');?>",
                 method : "POST",
                 data : {employeeID: employeeID, 		overtimedate: overtimedate,
                 		starttime:  starttime, 			endtime: endtime,
-                		totalhour:  totalhour, 	   		description: description,
-                		noted: 		noted},
+                		totalhour:  totalhour, 	   		description: description/*,
+                		noted: 		noted*/},
                 async : true,
                 dataType : 'json',
                 success: function(data){
@@ -535,14 +725,16 @@ $("#addstarttime").change(function(){
 		$(".modal-body #editendtime").val( $(this).data('endtime'));
 		$(".modal-body #edittotalTime").val( $(this).data('totalhour'));
 		$(".modal-body #editdescription").val( $(this).data('description'));
-		$(".modal-body #editnoted").val( $(this).data('noted'));
+		/*$(".modal-body #editnoted").val( $(this).data('noted'));*/
 		$('.edit').attr('id', $(this).data('id'));
          }); 
 		$('.update').unbind('click').bind('click', function(){
-		var IDArray = ['#editemployee', '#editovertimedate', '#editstarttime', '#editendtime', '#edittotalTime', '#editdescription','#editnoted'];
-		var ErrorIDArray = ['edit-employee', 'edit-overtime', 'edit-starttime', 'edit-endtime', 'edit-totalTime', 'edit-description','#edit-noted'];
+		var IDArray = ['#editemployee', '#editovertimedate', '#editstarttime', '#editendtime', '#edittotalTime'/*, '#editdescription'*//*,'#editnoted'*/];
+		var ErrorIDArray = ['edit-employee', 'edit-overtime', 'edit-starttime', 'edit-endtime', 'edit-totalTime'/*, 'edit-description'*//*,'#edit-noted'*/];
 		var starttimecheck = $("#editstarttime").val();
 		var endtimecheck = $("#editendtime").val();
+		var description = $("#editdescription").val();
+		var edittotalTime = $("#edittotalTime").val();
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
@@ -551,12 +743,12 @@ $("#addstarttime").change(function(){
 
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==4 || i==6) continue;
-			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.00"){
+			/*if(i==4 || i==6) continue;*/
+			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0:0"){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -566,6 +758,47 @@ $("#addstarttime").change(function(){
 			 	event.preventDefault();
 			}
 		}
+		if(endtimecheck==""){
+			document.getElementById("edit-endtime").innerHTML = "Please provide a end time.";
+	        $('#editendtime').addClass('is-invalid');
+            event.preventDefault();
+           
+		}else{
+			/*document.getElementById("edit-endtime").innerHTML = "";	
+				$('#editendtime').removeClass('is-invalid');
+				$('#editendtime').addClass('is-valid');
+			 	event.preventDefault();*/
+		};
+		if(starttimecheck==""){
+			document.getElementById("edit-starttime").innerHTML = "Please provide a start time.";
+	        $('#editstarttime').addClass('is-invalid');
+            event.preventDefault();
+           
+		}else{
+			/*document.getElementById("edit-starttime").innerHTML = "";	
+				$('#editstarttime').removeClass('is-invalid');
+				$('#editstarttime').addClass('is-valid');
+			 	event.preventDefault();*/
+		};
+		if(description==""){
+			document.getElementById("edit-description").innerHTML = "Please provide a desciption.";
+	        $('#editdescription').addClass('is-invalid');
+            event.preventDefault();
+            return false;
+		}else{
+			document.getElementById("edit-description").innerHTML = "";	
+				$('#editdescription').removeClass('is-invalid');
+				$('#editdescription').addClass('is-valid');
+			 	event.preventDefault();
+		};
+		if(edittotalTime=="0:0"){
+			document.getElementById("edit-totalTime").innerHTML = "Invalid total time.";
+	        $('#edit-totalTime').addClass('is-invalid');
+            event.preventDefault();
+            return false;
+            
+		}else{
+		};
 		$(firstRequired).focus();
 		if(firstRequired==""){
 		if($(IDArray[i]).val()=="" || $(IDArray[i]).val()=="") return false;
@@ -593,15 +826,15 @@ $("#addstarttime").change(function(){
 			var endtime 		= 	$('#editendtime').val().trim();
 			var totalhour 		= 	$('#edittotalTime').val().trim();
 			var description 	= 	$('#editdescription').val().trim();
-			var noted 			= 	$('#editnoted').val().trim();
+			/*var noted 			= 	$('#editnoted').val().trim();*/
     		$.ajax({
                 url : "<?php echo site_url('overtime/update');?>",
                 method : "POST",
                 data : {id: 			id,
                 	  	employeeID: 	employeeID, 	overtimedate: 		overtimedate,
                 		starttime: 		starttime, 		endtime: 			endtime,
-                		totalhour: 		totalhour, 	    description: 		description,
-                		noted: 			noted},
+                		totalhour: 		totalhour, 	    description: 		description/*,
+                		noted: 			noted*/},
                 async : true,
                 dataType : 'json',
                 success: function(data){

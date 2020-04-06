@@ -14,10 +14,10 @@
 					<div class="page-header">
 						<div class="row align-items-center">
 							<div class="col">
-								<h3 class="page-title">PHIC Premium Payment</h3>
+								<h3 class="page-title">HDMF Premium Payment</h3>
 								<ul class="breadcrumb">
 									<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-									<li class="breadcrumb-item active">PHIC Premium Payment</li>
+									<li class="breadcrumb-item active">HDMF Premium Payment</li>
 								</ul>
 							</div>
 						</div>
