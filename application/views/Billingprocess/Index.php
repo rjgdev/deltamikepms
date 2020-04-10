@@ -51,82 +51,65 @@ foreach ($data['approver'] as $approvaldata)  {
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Billing Statement Number</h3>
+					<h3 class="page-title">Billing Statement Process</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Billing Statement Number</li>
+						<li class="breadcrumb-item active">Billing Statement Process</li>
 					</ul>
 				</div>
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="faq-card"  style="margin-left:auto; ">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">
-						<a class="collapsed" data-toggle="collapse" href="#collapseOne"  aria-expanded="false">Billing Statement Process</a>
-					</h4>
+		<form id="upload_date" method="post">
+			<div class="form-group row" style="margin-bottom: 0px!important">
+				<div class="col-lg-5 col-md-5">
+					<div class="form-group form-focus select-focus">
+						<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
+							<option value="0">Select billing period</option>
+							<?php foreach($data['dropdowndate'] as $payroll)
+								{
+								echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
+								}
+							?> 
+						</select>
+						<div class="invalid-feedback" id="search-searchpayperiod"></div>
+						<label class="focus-label">Billing Date</label>
+					</div>
 				</div>
-				<div id="collapseOne" class="card-collapse collapse" style="">
-				<div class="card-body">
-			<form id="upload_date" method="post">
-			<div class="form-group row">
-			<div class="col-lg-5 col-md-5">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
-				<option value="0">Select billing period</option>
-			 <?php
-				foreach($data['dropdowndate'] as $payroll)
-				{
-				echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
-				}
-				?> 
-				</select>
-				<div class="invalid-feedback" id="search-searchpayperiod"></div>
-				<label class="focus-label">Billing Date</label>
-				
+				<div class="ol-lg-5 col-md-5">
+					<div class="form-group form-focus select-focus">
+						<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
+							<option value="0">Select a client</option>
+							<?php foreach($data['client'] as $client)
+								{
+								echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
+								}
+							?> 
+						</select>
+						<div class="invalid-feedback" id="search-searchclient"></div>
+						<label class="focus-label">Client</label>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-2">
+						<div class="form-group">
+		  				<div class="input-group-append">
+					    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-primary" style="border-radius: 5px; width: 100%; height: 90%; font-size: 10px; text-align:center" 	 
+					    		 <?php 
+					    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
+								else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /><i class="fa fa-forward"></i> PROCESS BILLING STATEMENT </button>
+		 				</div>
+ 					</div>
 				</div>
 			</div>
-			<div class="ol-lg-5 col-md-5">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
-				<option value="0">Pleased select a client</option>
-				<?php
-				foreach($data['client'] as $client)
-				{
-				echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
-				}
-				?> 
-				</select>
-				<div class="invalid-feedback" id="search-searchclient"></div>
-				<label class="focus-label">Pleased select a client</label>
-				</div>
-			</div>
-			
-			<div class="col-lg-2 col-md-2">
-			 <div class="form-group">
-						  <div class="input-group-append">
-						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-success" style="width: 100%; height: 43px; text-align:center" 	 
-						    		 <?php 
-						    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
-									else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process Billing Statement </button>
-						  </div>
-				 	</div>
-				</div>
-
-		</div>
 		</form>
-		</div>
-		</div>
-	</div>
-</div>
-<div class="row filter-row" style="margin-bottom: 40px;">
+
+		<div class="row filter-row" style="margin-bottom: 20px;">
 			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
 								<i class="la la-dashboard"></i>
-							Billing Statement Process</h5>
+							Billing Statement Number</h5>
 						<div class="dash-card-container">
 							<div class="dash-card-content dash-card-header">
 								<p style="color:#e04d45;margin-right: 10px;" 
@@ -141,12 +124,10 @@ foreach ($data['approver'] as $approvaldata)  {
 					</div>
 				</div>
 			</div>
-		<div class="col-lg-2 col-md-2">
+			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
-						<h5 class="dash-title">
-								<i class="la la-dashboard"></i>
-							Billing Statement Status</h5>
+						<h5 class="dash-title"><i class="la la-dashboard"></i> Billing Statement Status</h5>
 						<div class="dash-card-container">
 							
 							<div class="dash-card-content dash-card-header">
@@ -168,7 +149,7 @@ foreach ($data['approver'] as $approvaldata)  {
 					</div>
 				</div>
 			</div>	
-	<div class="col-lg-3 col-md-3">
+			<div class="col-lg-3 col-md-3">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -207,7 +188,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			<div class="col-lg-2 col-md-2" id="show_button">
 				<?php 
 					if($tkstatus==0){ 
-			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement</button>';	
+			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Billing Statement</button>';	
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
 			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
@@ -236,85 +217,61 @@ foreach ($data['approver'] as $approvaldata)  {
 	    			 	}		
     			    }else if($tkstatus=3){ 
     			    	if($this->session->userdata('employeeID')==$usersubmitted){
-    			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement</button>';
+    			    		echo '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Billing Statement</button>';
     			    	}else{
 			    			echo '<button type="button" class="btn btn-danger denied" style="width: 100%; height: 95%;" disabled><i class="fa fa-ban"></i> Denied</button>';
     			    	}
 			    	}
 			  	?>
 			</div>						
-</div>
-			
-<!-- Search Filter -->
+		</div>
 
-<div class="row filter-row" style="margin-bottom: 40px;">
-	<div class="col-lg-12">
-		<div id="customers-list"></div>
-			<div class="card">
-				<div class="card-header">
-					<div class="row align-items-center">
-					<div class="col">
-						<h4 class="card-title mb-0">Records</h4>
-				</div>		
-				</div>		
-				</div>
-
-				<div class="card-body">
-					<div class="table-responsive" id="show_data">
+		<div class="row filter-row" style="margin-bottom: 40px;">
+			<div class="col-lg-12">
+				<div class="table-responsive" id="show_data">
 					<table class="table table-striped custom-table datatable" id="datatable1">
 						<thead>		
-								<tr>
-									<th style="width: 100px ! important;"><center>Client Name</center></th>
-									<th style="width: 180px;"><center>Detachment</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Billing Date</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Security Officer</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Security Guards</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>
-									<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>
-									<!-- <th style="width: 180px;"><center>Reason</center></th> -->
-
-								</tr>
+							<tr>
+								<th style="width: 100px ! important;"><center>Client Name</center></th>
+								<th style="width: 180px;"><center>Detachment</center></th>
+								<th class="text-right" style="width: 90px; font-size:11px;"><center>Billing Date</center></th>
+								<th class="text-right" style="width: 90px; font-size:11px;"><center>Security Officer</center></th>
+								<th class="text-right" style="width: 100px; font-size:11px;"><center>Security Guards</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>
+								<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>
+								<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>
+								<!-- <th style="width: 180px;"><center>Reason</center></th> -->
+							</tr>
 						</thead>
-							<tbody>
-								<?php	
-							foreach($data['recorddata'] as $record) :
-							
-								?>	
-								 <tr>
-                     				 <td><?php echo $record->clientname; ?></td>
-                     				 <td><?php echo $record->detachment; ?></td>
-                     				<td><?php echo $record->rangedate; ?></td>
-                     				<td><?php echo number_format($record->basicsalarySO, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->basicsalarySG, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->totalsss, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->totalphic, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->totalhdmf, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->totalretfund, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->totalmargin, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->subtotalwithmargin, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->taxable, 4, '.', ','); ?></td>
-                     				<td><?php echo number_format($record->taxdue, 4, '.', ','); ?></td>
-                     				<!-- <td><?php echo $record->reason; ?></td> -->
-
-                     				
-               				 	</tr>
-               				 	 <?php
-               				endforeach;
-               				?>
-               				 </tbody>
-						</table>
-					</div>	
-				</div>
+						<tbody>
+							<?php foreach($data['recorddata'] as $record) : ?>	
+							 <tr>
+                 				<td><?php echo $record->clientname; ?></td>
+                 				<td><?php echo $record->detachment; ?></td>
+                 				<td><?php echo $record->rangedate; ?></td>
+                 				<td><?php echo number_format($record->basicsalarySO, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->basicsalarySG, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->totalsss, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->totalphic, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->totalhdmf, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->totalretfund, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->totalmargin, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->subtotalwithmargin, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->taxable, 4, '.', ','); ?></td>
+                 				<td><?php echo number_format($record->taxdue, 4, '.', ','); ?></td>
+                 				<!-- <td><?php echo $record->reason; ?></td> -->
+           				 	</tr>
+           				 	 <?php endforeach; ?>
+           				 </tbody>
+					</table>
+				</div>	
 			</div>
-		</div>	
-</div>
-</div>
+		</div>
 
 
 	<!-- Confirmation Modal -->
@@ -460,9 +417,9 @@ foreach ($data['approver'] as $approvaldata)  {
 			 event.preventDefault();
 		}else{*/
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
-		$('#modal_title').html("Billing Statement Process");
-    	$('#modal_message').html("Are you sure you want to upload the billing statement process?");
-    	$('.submit-btn').html("Submit billing statement");
+		$('#modal_title').html("Process Billing Statement");
+    	$('#modal_message').html("Are you sure you want to process the billing statement?");
+    	$('.submit-btn').html("Process Billing Statement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_uploaddate");
         $('#modal_confirmation').modal('show');
@@ -507,9 +464,9 @@ foreach ($data['approver'] as $approvaldata)  {
 	$(document).on("click", "#submitbilling", function(){
 
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
-		$('#modal_title').html("Submit billing statement");
+		$('#modal_title').html("Submit Billing Statement");
     	$('#modal_message').html("Are you sure you want to submit the billing statement?");
-    	$('.submit-btn').html("Submit billing statement");
+    	$('.submit-btn').html("Submit Billing Statement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_submitbilling");
         $('#modal_confirmation').modal('show');
@@ -634,7 +591,7 @@ foreach ($data['approver'] as $approvaldata)  {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
 		$('#modal_title').html("Cancel Request");
     	$('#modal_message').html("Are you sure you want to cancel the billing statement request?");
-    	$('.submit-btn').html("Cancel billing statement ");
+    	$('.submit-btn').html("Cancel Billing Statement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_cancelbilling");
         $('#modal_confirmation').modal('show');
@@ -652,7 +609,7 @@ foreach ($data['approver'] as $approvaldata)  {
 				var htmlStatus = "DRAFT";
 		      	var htmlDatesubmitted = "-----";
 		      	var htmlApprover = "-----";
-		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit billing statement </button>';
+		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitbilling" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Billing Statement </button>';
 
 		      	$("#collapseOne").prop("disabled", false);
 	      		$("#uploaddate").prop("disabled", false);

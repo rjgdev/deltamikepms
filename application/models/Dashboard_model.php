@@ -38,7 +38,7 @@ class Dashboard_model extends CI_Model
 			ON empleave.employeeID = emp.employeeID
 			LEFT JOIN dm_leavetype as type
 			ON empleave.leavetypeID = type.leavetypeID
-			WHERE DATE(leavefrom) > CURDATE()
+			WHERE DATE(leavefrom) >= CURDATE()
 			ORDER BY leavefrom
 			LIMIT 2');
 

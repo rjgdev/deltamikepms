@@ -228,7 +228,7 @@
 			});
 
 			$('#confirmation_edit').on('hide.bs.modal', function(){
-		   		document.getElementById("add-password").innerHTML = "";
+		   		document.getElementById("edit-password").innerHTML = "";
 		   		$("#editPassword").val("");
 	    		$('#editPassword').removeClass('is-invalid');
 			});

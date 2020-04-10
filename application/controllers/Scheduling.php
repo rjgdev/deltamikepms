@@ -21,7 +21,7 @@
 			$this->load->view('Template/Footer',$data);
 		} 
 
-		public function loadguard() 
+		/*public function loadguard() 
 		{ 
 			$postID 	 	= $this->input->post('postID');
 			$postType 	 	= $this->input->post('postType');
@@ -32,25 +32,48 @@
        		$data=$this->schedule->load_guard($postID,$postType,$scheduleDay,$postscheduleID);
 
 			echo json_encode($data);
+		}*/
+
+		public function loadguard() 
+		{ 
+			$clientID 	 	= $this->input->post('clientID');
+			$postID 	 	= $this->input->post('postID');
+			$weekstart 	 	= $this->input->post('weekstart');
+			$weekend 		= $this->input->post('weekend');
+
+       		$data=$this->schedule->load_guard($clientID,$postID,$weekstart,$weekend);
+
+			echo json_encode($data);
 		}
 
 		public function saveguard() 
 		{ 
-			$postID 	 	= $this->input->post('postID');
-			$postType 	 	= $this->input->post('postType');
-			$scheduleDay 	= $this->input->post('scheduleDay');
-			$employeeID  	= $this->input->post('employeeID');
 			$postscheduleID = $this->input->post('postscheduleID');
+			$weekday 	 	= $this->input->post('weekday');
+			$employeeID 	= $this->input->post('employeeID');
 
-       		$data=$this->schedule->save_guard($postID, $postType, $scheduleDay, $employeeID,$postscheduleID);
+       		$data=$this->schedule->save_guard($postscheduleID, $weekday, $employeeID);
+
+       		echo json_encode($data);
+		}
+
+		public function removeguard() 
+		{ 
+			$postscheduleID = $this->input->post('postscheduleID');
+			$weekday 	 	= $this->input->post('weekday');
+			$employeeID 	= $this->input->post('employeeID');
+
+       		$data=$this->schedule->remove_guard($postscheduleID, $weekday, $employeeID);
+
+       		echo json_encode($data);
 		}
 
 		public function searchschedule() 
 		{ 
-			$clientID = $this->input->post('clientID');
-			$postID = $this->input->post('postID');
-			$weekstart = $this->input->post('weekstart');
-			$weekend = $this->input->post('weekend');
+			$clientID 	= $this->input->post('clientID');
+			$postID 	= $this->input->post('postID');
+			$weekstart 	= $this->input->post('weekstart');
+			$weekend 	= $this->input->post('weekend');
 
        		$data=$this->schedule->get_schedule($clientID,$postID,$weekstart,$weekend);
 
@@ -64,6 +87,29 @@
        		$data=$this->schedule->get_post($clientID);
 
 			echo json_encode($data);
+		}
+
+		public function savesched() 
+		{ 
+			$clientID 	= $this->input->post('clientID');
+			$postID 	= $this->input->post('postID');
+			$weekstart 	= $this->input->post('weekstart');
+			$weekend 	= $this->input->post('weekend');
+			$timein 	= $this->input->post('timein');
+			$timeout 	= $this->input->post('timeout');
+
+       		$data=$this->schedule->save_sched($clientID, $postID, $weekstart, $weekend, $timein, $timeout);
+
+       		echo json_encode($data);
+		}
+
+		public function removesched() 
+		{ 
+			$postscheduleID = $this->input->post('postscheduleID');
+
+       		$data=$this->schedule->remove_sched($postscheduleID);
+
+       		echo json_encode($data);
 		}
 	}     
 ?>

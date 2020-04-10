@@ -70,14 +70,14 @@
 
 			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
-					<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> View Schedule</button>
+					<button class="btn btn-success viewsched" id="submit"  clientid="1" postid="1" weekstart="2020-04-05" weekend="2020-04-11" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> VIEW SCHEDULE</button>
 				</div>
 			</div>
 
 			  <div class="col-md-12 mb-2">
 				<table class="table custom-table"  id="datatable" style="border: 1px solid #b7b7b7;" >
 					<thead id="data_header">
-						<tr> 
+						<!-- <tr> 
 							<th class="text-center postHeader shift">Shifting</th>
 							<th class="text-center postHeader sun">Sunday</th>
 							<th class="text-center postHeader mon">Monday</th>
@@ -86,7 +86,7 @@
 							<th class="text-center postHeader thu">Thursday</th>
 							<th class="text-center postHeader fri">Friday</th>
 							<th class="text-center postHeader sat">Saturday</th>
-						</tr>
+						</tr> -->
 					</thead>
 					<tbody id="data_show">
 						<!-- <tr>
@@ -98,55 +98,13 @@
 								</button>
 							</td>
 						</tr> -->
-
-						
-							<!-- <td colspan="8" id="norecord">
-								<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/schedule.svg">
+						<tr>
+							<td colspan="8" id="norecord">
+								<img class="isometric confirmationisometric" style="height: 220px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/schedule.svg">
 								<h4>Post Scheduling</h4>
 								<p>Click <b><u>View Schedule</u></b> to generate schedule.</p>
-							</td> -->
-
-							<tr>
-								<td style="text-align:center;">07:00:00 <br> to <br> 19:00:00</td>
-								<td style="vertical-align: initial !important;">
-									<button class="btn btn-info mb-2" id="addGuard" style="width:100%; font-size:.6rem !important; border-radius: 5px;" 
-										data-toggle="modal" data-target="#add_guard"
-										data-backdrop="static" data-keyboard="false">
-										<i class="fas fa-search-plus"></i> Add Security Guard
-									</button>
-									<div class="dash-info-list mb-1">
-										<div class="dash-card text-danger" style="box-shadow:none; padding: 2px !important;">
-											<div class="dash-card-container">
-												<div class="dash-card-content">
-													<p style="margin-left: 10px; color: black; font-size: 10px;">Gelilio, John Michael
-													</p>
-												</div>
-												<div class="dash-card-avatars" style="padding: 0 5px !important;">
-													<a href="javascript:void(0);" class="removeGuard"><i class="fas fa-minus-circle"></i></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</td>
-								<td>
-									
-								</td>
-								<td >
-
-								</td>
-								<td>
-									
-								</td>
-								<td>
-									
-								</td>
-								<td>
-									
-								</td>
-								<td>
-									
-								</td>
-						    </tr>
+							</td>
+						</tr> 
 					</tbody>
 				</table>
 			</div>
@@ -156,12 +114,12 @@
 </div>
 <!-- /Page Wrapper -->
 
-<!-- Add Schedule Modal -->
+<!-- Add Shift Modal -->
 <div id="add_schedule" class="modal custom-modal fade" role="dialog">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Add Schedule</h5>
+				<h5 class="modal-title">Add Shift</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -181,7 +139,7 @@
 					</div>
 					
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" id="save">Submit</button>
+						<button class="btn btn-primary submit-btn" id="submitSched">Submit</button>
 					</div>
 				</form>
 			</div>
@@ -204,12 +162,12 @@
 				<form>
 					<div class="form-group">
 						<select class="form-control select2" id="selectGuard" multiple="multiple" style="width:100%;">
-							
+
 						</select>
 					</div>
 
 					<div class="submit-section">
-						<button class="btn btn-primary submit-btn" id="saveGuard">Submit</button>
+						<button class="btn btn-primary submit-btn" id="submitGuard">Submit</button>
 					</div>
 				</form>
 			</div>
@@ -232,10 +190,36 @@
 			
 					<div class="row">
 						<div class="col-6">
-							<a href="#" class="btn btn-primary continue-btn add" >Add</a>
+							<a href="#" class="btn btn-primary continue-btn">Add</a>
 						</div>
 						<div class="col-6">
-							<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" id="cncl-add">Cancel</a>
+							<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Confirmation Modal -->
+
+<!-- Confirmation Modal -->
+<div id="confirmation_delete" class="modal custom-modal fade" role="dialog">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="form-header">
+						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/delete.svg">
+						<h3>Confirmation Message</h3>
+						<p id="confirm_message"></p>
+						<div class="invalid-feedback" id="status-invalid"></div>
+				</div>
+			
+					<div class="row">
+						<div class="col-6">
+							<a href="#" class="btn btn-primary continue-btn">Delete</a>
+						</div>
+						<div class="col-6">
+							<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
 						</div>
 					</div>
 			</div>
@@ -252,8 +236,8 @@
 .postHeader{
 	background-color: #e04d45;
 	color:#fff;
+	border-left: #a9a8a8 1px solid;
 }
-
 
 @media (max-height: 640px)
 {
@@ -265,280 +249,612 @@
 	text-align: center;
 }
 
+.td-sched{
+	text-align:center;
+	background-color: #e04d45;
+	color: white;
+	font-weight: 500;
+	position: relative;
+}
+
+.td-guard{
+	border-left: #a9a8a8 1px solid;
+	vertical-align: initial !important;
+}
+
+.showGuard{
+	width:100%;
+    font-size:.6rem !important;
+    border-radius: 5px;
+}
+
+.dash-card{
+	box-shadow:none;
+	padding: 2px !important;
+}
+
+.p-guard{
+	margin-left: 10px !important;
+	color: black; 
+	font-size: 10px !important;
+}
+
+.dash-card-avatars{
+	padding: 0 5px !important;
+}
+
+@media only screen and (max-width: 640px) {
+	.confirmationisometric{
+		height: 120px;
+}
+
 </style>
 
 <script>
 $(document).ready(function() {
-	$('#datatable').DataTable( {
-	         "ordering": false,
-	        "info":     false,
-	        "autoWidth": false,
-		    "fixedHeader": {
-		        "header": false,
-		        "footer": false
-		    },
-		    "columnDefs": [
-		      { "width": "60px", "targets": 'shift'},
-		      { "width": "170px", "targets": 'sun'},
-		      { "width": "170px", "targets": 'mon'},
-		      { "width": "170px", "targets": 'tue'},
-		      { "width": "170px", "targets": 'wed'},
-		      { "width": "170px", "targets": 'thu'},
-		      { "width": "170px", "targets": 'fri'},
-		      { "width": "170px", "targets": 'sat'}
-		    ]
-    });
-
-
 	$(window).on("load", function() {
 		$("#searchclient").trigger("change");
     });
 
-    $('#add_schedule').on('hidden.bs.modal', function(){
-   		$("#addTimein").val("07:00");
-   		$("#addTimeout").val("19:00");
-   		$("#addTimein").focus(); 
-	});
+	/*************************************  ADD SCHEDULE  *********************************************/
+		    $('#add_schedule').on('hidden.bs.modal', function(){
+		   		$("#addTimein").val("07:00");
+		   		$("#addTimeout").val("19:00");
+		   		$("#addTimein").focus(); 
+			});
 
-	$('#save').unbind('click').bind('click', function(){
-        var timein  = $('#addTimein').val().trim();
-        var timeout = $('#addTimeout').val().trim();
+		    $(document).on("click", '#submitSched', function () {
+		        var timein  = $('#addTimein').val().trim();
+		        var timeout = $('#addTimeout').val().trim();
 
-    	$('#add_schedule').hide();
-		$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
-		event.preventDefault(); 
-		return false;
-    });
+		    	$('#add_schedule').hide();
 
-    $("#cncl-add").unbind('click').bind('click', function(){
-		$('#confirmation_add').modal('hide');
-		$('#add_schedule').show();
-	});
+		   		$(".continue-btn").attr("id","saveSched");
+		   		$(".cancel-btn").attr("id","cancelSched");
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+				event.preventDefault(); 
+				return false;
+		    });
 
-	$("#addGuard").unbind('click').bind('click', function(){
-		$.ajax({
-		      url : "<?php echo site_url('Scheduling/getemployees');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {clientID:clientID,
-		      		 postID:postID,
-		      		 weekstart:weekstart,
-		      		 weekend: weekend},
-		      success: function(data){	
-		      	var htmlOutput = "";
- 
-		      		if(data["postschedule"].length!=0){
-	      				for(y=0; y<data["postschedule"].length; y++){
-		      				htmlOutput += '<tr>' +
-		      									'<td style="text-align:center;">' + data["postschedule"][y].timein + '<br> to <br>' + data["postschedule"][y].timeout + '</td>' + 
-		      							  '</tr>';
-		      				
-			      		}
-		      		}
-	      			else{
-	      				htmlOutput = '<tr>' + 
-										'<td colspan="8" id="norecord">' + 
-											'<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
-											'<h4>No schedule found</h4>' + 
-											'<p>Click <b>Add a new schedue</b> to add.</p>' + 
-										'</td>' + 
-									'</tr>';
-	      			}
-	      			
-		      		$("#data_show").html(htmlOutput);
-		      },
-		      error: function(request, textStatus, error) {
 
-		      }
- 	 	});
-	});
+		    $(document).on("click", '#saveSched', function () {
+		        var clientID  = $(".viewsched").attr("clientid");
+		        var postID    = $(".viewsched").attr("postid");
+		        var weekstart = $(".viewsched").attr("weekstart");
+		        var weekend   = $(".viewsched").attr("weekend");
+		        var timein    = $("#addTimein").val();
+		        var timeout   = $("#addTimeout").val();
 
-	$(".removeGuard").unbind('click').bind('click', function(){
-		$(".dash-info-list").css("display","none");
-	});
+				$.ajax({
+				      url : "<?php echo site_url('Scheduling/savesched');?>",
+				      method : "POST",
+				      dataType : 'json',
+				      data: {clientID:clientID,
+				      		 postID:postID,
+				      		 weekstart:weekstart,
+				      		 weekend:weekend,
+			      			 timein:timein,
+			      			 timeout:timeout},
+				      success: function(data){	
+				      		var result = data.split('|');
 
-    $(document).on("click", "#submit", function(){
- 		var clientID=$("#searchclient").val();
- 		var postID=$("#searchpost").val();
- 		var schedDate=$("#scheddate").val();
- 		var error = 0;
+				      		if(result[0]=="true"){
+				      			var htmlOutput = "";
 
-		$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
-		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
-		$("#scheddate").removeClass('is-invalid');
+					      		$('.viewsched').trigger('click');
 
- 		if(clientID==0){
-			$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
-			$("#searchclient").focus();
-			error=1;
- 		}
+	      		  				$('#confirmation_add').modal('hide');
+	      		  				$('#add_schedule').modal('hide');
+	      		  				$( '.modal-backdrop' ).remove();
+								$( 'body' ).removeClass( "modal-open" );
 
- 		if(postID==0){
-			$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
-			if(error==0){
-				$("#searchpost").focus();
-				error=1;
-			}
- 		}
-
- 		if(schedDate==""){
-			$("#scheddate").addClass('is-invalid');
-			if(error==0){
-				error=1;
-				$("#scheddate").focus();
-				
-			}
- 		}
-
- 		if(error==0){
-
- 			var htmlData = "";
-
-        	htmlData = '<tr>' + 
-							'<td colspan="8" id="norecord">' + 
-								'<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/loading.svg">' + 
-								'<h4>Please wait...</h4>' + 
-								'<p>Genarating schedule of <b>' + $("#searchclient option:selected").text() + ' - ' + $("#searchpost option:selected").text() + '<b>.</p>' + 
-							'</td>' + 
-						'</tr>';
-
-			$("#data_show").html(htmlData);
-
- 			sun = moment(schedDate, 'YYYY-MM-DD').day(0).format('MMM DD, YYYY');
- 			mon = moment(schedDate, 'YYYY-MM-DD').day(1).format('MMM DD, YYYY');
- 			tue = moment(schedDate, 'YYYY-MM-DD').day(2).format('MMM DD, YYYY');
- 			wed = moment(schedDate, 'YYYY-MM-DD').day(3).format('MMM DD, YYYY');
- 			thu = moment(schedDate, 'YYYY-MM-DD').day(4).format('MMM DD, YYYY');
- 			fri = moment(schedDate, 'YYYY-MM-DD').day(5).format('MMM DD, YYYY');
- 			sat = moment(schedDate, 'YYYY-MM-DD').day(6).format('MMM DD, YYYY');
-
- 			var weekstart = moment(schedDate, 'YYYY-MM-DD').day(0).format('YYYY-MM-DD');
- 			var weekend   = moment(schedDate, 'YYYY-MM-DD').day(6).format('YYYY-MM-DD');
-        	var htmlHeader = "";
-
-        	htmlHeader = '<tr>' +
-							'<td colspan="8" align="right">' + 
-								'<button class="btn btn-primary" id="addSchedule" style="border-radius: 5px;" data-toggle="modal" data-target="#add_schedule" data-backdrop="static" data-keyboard="false">' + 
-										'<i class="fas fa-plus"></i> Add a new schedule' +
-								'</button>' +
-							'</td>' +
-        				 '</tr>' +
-
-        				'<tr>' + 
-							'<th class="text-center postHeader shift">Shifting</th>' +
-							'<th class="text-center postHeader sun">Sunday<br>'+ sun +'</th>' 	 +
-							'<th class="text-center postHeader mon">Monday<br>'+ mon +'</th>' 	 +
-							'<th class="text-center postHeader tue">Tuesday<br>'+ tue +'</th>' 	 +
-							'<th class="text-center postHeader wed">Wednesday<br>'+ wed +'</th>'  +
-							'<th class="text-center postHeader thu">Thursday<br>'+ thu +'</th>' 	 +
-							'<th class="text-center postHeader fri">Friday<br>'+ fri +'</th>' 	 +
-							'<th class="text-center postHeader sat">Saturday<br>'+ sat +'</th>'   +
-						'</tr>';
-
-			$("#data_header").html(htmlHeader);
-
-			$.ajax({
-			      url : "<?php echo site_url('Scheduling/searchschedule');?>",
-			      method : "POST",
-			      async : true,
-			      dataType : 'json',
-			      data: {clientID:clientID,
-			      		 postID:postID,
-			      		 weekstart:weekstart,
-			      		 weekend: weekend},
-			      success: function(data){	
-			      	var htmlOutput = "";
-
-			      		if(data["postschedule"].length!=0){
-		      				for(y=0; y<data["postschedule"].length; y++){
-			      				htmlOutput += '<tr>' +
-			      									'<td style="text-align:center;">' + data["postschedule"][y].timein + '<br> to <br>' + data["postschedule"][y].timeout + '</td>' + 
-			      							  '</tr>';
-			      				
+								showSuccessToast("Shift successfully created! <br>" + 
+												 "<b>Time in:</b> "  + timein  + " <br> " +
+												 "<b>Time out:</b> " + timeout);
+				      		}else{
+				      			$('#confirmation_add').modal('hide');
+								$('#add_schedule').show();
+								$("#addTimein").addClass("is-invalid");
+								$("#addTimeout").addClass("is-invalid");
+								$("#addTimein").focus();
+				      			showErrorToast("Shift already exist!");
 				      		}
-			      		}
-		      			else{
-		      				htmlOutput = '<tr>' + 
-											'<td colspan="8" id="norecord">' + 
-												'<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
-												'<h4>No schedule found</h4>' + 
-												'<p>Click <b>Add a new schedue</b> to add.</p>' + 
-											'</td>' + 
-										'</tr>';
-		      			}
-		      			
-			      		$("#data_show").html(htmlOutput);
-			      },
-			      error: function(request, textStatus, error) {
+				      },
+				      error: function(request, textStatus, error) {
 
-			      }
+				      }
+		 	 	});
+
+				event.preventDefault(); 
+				return false;
+		    });
+
+		    $(document).on("click", '#cancelSched', function () {
+				$('#confirmation_add').modal('hide');
+				$('#add_schedule').show();
+			});
+
+			$('#add_schedule').on('hidden.bs.modal', function(){
+			    $(".form-control").each(function(){
+	                $(this).removeClass("is-invalid");
+	                $(this).removeClass("is-valid");
+	         	 });
+			});
+
+			$(document).on("click", '.removeSched', function () {
+				$("#confirmation_delete .continue-btn").attr("id","deleteSched");
+				$("#confirmation_delete .continue-btn").attr("sched",$(this).attr("sched"));
+		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteSched");
+		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to delete this <b>schedule</b>? <p style='font-size: .71rem; color: #e04d45; font-weight:500;'>All assigned guards in this shift will be remove also.</p>");
+				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
+				event.preventDefault(); 
+				return false;
+			});
+
+			$(document).on("click", '#deleteSched', function () {
+				var postscheduleID  = $(this).attr("sched");
+
+				$.ajax({
+				      url : "<?php echo site_url('Scheduling/removesched');?>",
+				      method : "POST",
+				      dataType : 'json',
+				      data: {postscheduleID:postscheduleID},
+				      success: function(data){	
+      		  				$('#confirmation_delete').modal('hide');
+      		  				$('table#datatable tr#' + postscheduleID).fadeOut('slow');
+
+  		  					setTimeout(function(){
+					            $('table#datatable tr#' + postscheduleID).remove();
+
+		  						if($("#datatable tbody").children().length==0){
+		  							var htmlOutput = '<tr>' + 
+														'<td colspan="8" id="norecord">' + 
+															'<img class="isometric confirmationisometric" style="height:220px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
+															'<h4>No schedule found</h4>' + 
+															'<p>Click <b>Add a new shift</b> to add.</p>' + 
+														'</td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' + 
+														'<td style="display: none;"></td>' +													
+													'</tr>';
+
+									$("#data_show").html(htmlOutput);
+		  						}
+
+		  						showErrorToast("Shift successfully removed!");
+					        },500);
+				      },
+				      error: function(request, textStatus, error) {
+
+				      }
+		 	 	});
 	 	 	});
 
-
-
- 			/*$.ajax({
-		      url : "<?php echo site_url('Scheduling/searchschedule');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {clientID:clientID,
-		      		 postID:postID},
-		      success: function(data){		
-		      	console.log(data);
-		      	var postName = "";
-
-		      	for(y=0; y<data["employee"].length; y++){
-					optionEmployee+='<option value="' + data["employee"][y].employeeID + '">' + data["employee"][y].firstname + ' ' + data["employee"][y].lastname + '</option>';
-	      		}
-
-		      	for(i=0; i<data["post"].length; i++){
-      				if(postName!=data["post"][i].postname){
-      					html+='<tr>' +
-							  	'<td class="text-center postName" colspan="8">' + data["post"][i].postname + '</td>' +
-						      '</tr>';
-      				}
-
-      				postName = data["post"][i].postname;
-      				
-					html+='<tr>' +
-						  '<td class="text-center" style="width: 200px !important; font-size:11px;"><b style="color:#e04d45">' + data["post"][i].timein + '<br/> to <br/>' + data["post"][i].timeout + '</b></td>';
-									
-								for(x=0; x<7; x++){
-									html+='<td class="postGuard">' + 
-											  '<label style="margin-bottom:0;">Regular</label>' +
-											  '<select class="form-control select2" id="searchemployee' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" multiple="multiple" disabled>' +
-												optionEmployee +
-											  '</select>';
-
-											loadData(data["post"][i].postID,x,data["post"][i].postscheduleID); 
-
-											html+='<br/>' + 
-												  '<span class="file-author float-right" id="editGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: block;">' + 
-												   		'<a href="#" class="editGuard" name="' + data["post"][i].postscheduleID + data["post"][i].postID + x + '">Edit Assigned Guard</a>' +
-												  '</span>' + 
-												  '<span class="file-author float-left" id="saveGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
-														'<a href="#" class="saveGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Save</a>' +
-												  '</span>' + 
-												  '<span class="file-author float-right" id="cancelGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
-														'<a href="#" class="cancelGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Cancel</a>' +
-												  '</span><br><br>';
-							    }
-						html+='</tr>';
-  				}     	
-  				$("#data_show").html(html);
-  				$('.select2').select2();	
-  				$(".loader").fadeOut();
-		      },
-		      error: function(request, textStatus, error) {
-
-		      }
- 	 	});*/
- 		}
- 	});
+	/*************************************  END ADD SCHEDULE  *********************************************/
 
 
 
+	/*************************************  SHOW GUARD  *********************************************/
+			$(document).on("click", '.showGuard', function () {
+				var clientID 		= $(".viewsched").attr("clientid");
+				var postID 			= $(".viewsched").attr("postid");
+				var weekstart 		= $(".viewsched").attr("weekstart");
+				var weekend			= $(".viewsched").attr("weekend");
+				var postscheduleID  = $(this).attr("postscheduleid");
+				var weekday		    = $(this).attr("weekday");
+				var arrVal 			= [];
+				var i = 0;
+
+				$("#submitGuard").attr("postscheduleID",postscheduleID);
+				$("#submitGuard").attr("weekday",weekday);
+
+				$(".sched" + postscheduleID + "week" + weekday).each(function(){
+                	arrVal[i] = $(this).attr("employeeid");
+                	i++;
+	            });
+
+				$.ajax({
+				      url : "<?php echo site_url('Scheduling/loadguard');?>",
+				      method : "POST",
+				      dataType : 'json',
+				      data: {clientID:clientID,
+				      		 postID:postID,
+				      		 weekstart:weekstart,
+				      		 weekend: weekend},
+				      success: function(data){	
+				      	var htmlOutput = "";
+				      		for(i=0; i<data.length; i++){
+								htmlOutput += '<option value="'+ data[i].employeeID +'">' + data[i].employeeID.padStart(6,'0') + " - " + data[i].fullname + '</option>';
+							}
+			      			
+				      		$("#selectGuard").html(htmlOutput);							
+							$("#selectGuard").val(arrVal);
+							$("#selectGuard").trigger("change");
+				      },
+				      error: function(request, textStatus, error) {
+
+				      }
+		 	 	});
+			});
+
+			$(document).on("click", '#submitGuard', function () {
+		    	$('#add_guard').hide();
+		    	$("#confirmation_add .continue-btn").attr("id","saveGuard");
+		   		$("#confirmation_add .cancel-btn").attr("id","cancelGuard");
+				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
+				event.preventDefault(); 
+				return false;
+		    });
+
+		    $(document).on("click", '#cancelGuard', function () {
+				$('#confirmation_add').modal('hide');
+				$('#add_guard').show();
+			});
+
+			$(document).on("click", '#saveGuard', function () {
+				var postscheduleID  = $("#submitGuard").attr("postscheduleid");
+				var weekday		    = $("#submitGuard").attr("weekday");
+				var employeeID  	= $("#selectGuard").val();
+
+				const day = ["Sunday", "Monday", "Tueday","Wednesday", "Thursday", "Friday", "Saturday"];
+
+				$.ajax({
+				      url : "<?php echo site_url('Scheduling/saveguard');?>",
+				      method : "POST",
+				      dataType : 'json',
+				      data: {postscheduleID:postscheduleID,
+				      		 weekday:weekday,
+				      		 employeeID:employeeID},
+				      success: function(data){	
+				      	var htmlOutput = "";
+
+      		  				for(i=0;i<data["guard"].length;i++){
+      		  					htmlOutput += '<div class="dash-info-list mb-1">' + 
+									'<div class="dash-card text-danger">' + 
+										'<div class="dash-card-container">' + 
+											'<div class="dash-card-content">' + 
+												'<p class="p-guard sched' + postscheduleID + "week" + weekday + '" id="sched' + postscheduleID + "week" + weekday + "emp" + data["guard"][i].employeeID + '" employeeid="' + data["guard"][i].employeeID + '">' + data["guard"][i].fullname + '</p>' + 
+											'</div>' + 
+											'<div class="dash-card-avatars">' + 
+												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data["guard"][i].employeeID + '" class="removeGuard"><i class="fas fa-minus-circle"></i></a>' + 
+											'</div>' + 
+										'</div>' + 
+									'</div>' + 
+								'</div>';
+      		  				}
+
+      		  				$("#sched" + postscheduleID + "week" + weekday).html(htmlOutput);
+      		  				$('#confirmation_add').modal('hide');
+      		  				$('#add_guard').modal('hide');
+      		  				$( '.modal-backdrop' ).remove();
+							$( 'body' ).removeClass( "modal-open" );
+
+							var date = moment(data["schedule"][0].weekstart, 'YYYY-MM-DD').day(weekday).format('MMMM DD, YYYY');
+
+							showSuccessToast("Guard(s) successfully assigned! <br>" +
+											 "<b>Day:</b> " + date + " (" + day[weekday] + ") <br>" +
+											 "<b>Shift:</b> " + data["schedule"][0].timein + " - " + data["schedule"][0].timeout);
+							/**/
+				      },
+				      error: function(request, textStatus, error) {
+
+				      }
+		 	 	});
+
+				event.preventDefault(); 
+				return false;
+		    });
+
+
+			$(document).on("click", '.removeGuard', function () {
+				$("#confirmation_delete .continue-btn").attr("id","deleteGuard");
+				$("#confirmation_delete .continue-btn").attr("sched",$(this).attr("sched"));
+				$("#confirmation_delete .continue-btn").attr("week",$(this).attr("week"));
+				$("#confirmation_delete .continue-btn").attr("employeeid",$(this).attr("employeeid"));
+		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteGuard");
+		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to delete this <b>guard</b>?");
+				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
+				event.preventDefault(); 
+				return false;
+			});
+
+
+			$(document).on("click", '#deleteGuard', function () {
+				var postscheduleID  = $(this).attr("sched");
+				var weekday		    = $(this).attr("week");
+				var employeeID		= $(this).attr("employeeid");
+
+				$.ajax({
+				      url : "<?php echo site_url('Scheduling/removeguard');?>",
+				      method : "POST",
+				      dataType : 'json',
+				      data: {postscheduleID:postscheduleID,
+				      		 weekday:weekday,
+				      		 employeeID:employeeID},
+				      success: function(data){	
+				      	var htmlOutput = "";
+
+      		  				for(i=0;i<data.length;i++){
+      		  					htmlOutput += '<div class="dash-info-list mb-1">' + 
+									'<div class="dash-card text-danger">' + 
+										'<div class="dash-card-container">' + 
+											'<div class="dash-card-content">' + 
+												'<p class="p-guard sched' + postscheduleID + "week" + weekday + '" id="sched' + postscheduleID + "week" + weekday + "emp" + data[i].employeeID + '" employeeid="' + data[i].employeeID + '">' + data[i].fullname + '</p>' + 
+											'</div>' + 
+											'<div class="dash-card-avatars">' + 
+												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data[i].employeeID + '" class="removeGuard"><i class="fas fa-minus-circle"></i></a>' + 
+											'</div>' + 
+										'</div>' + 
+									'</div>' + 
+								'</div>';
+      		  				}
+
+      		  				$("#sched" + postscheduleID + "week" + weekday).html(htmlOutput);
+      		  				$('#confirmation_delete').modal('hide');
+
+      		  				showErrorToast("Guard successully removed!");
+				      },
+				      error: function(request, textStatus, error) {
+
+				      }
+		 	 	});
+	 	 	});
+
+	/************************************* END SHOW GUARD  *********************************************/
+
+
+
+	/*************************************  VIEW  SCHEDULE  *********************************************/
+		    $(document).on("click", "#submit", function(){
+		 		var clientID=$("#searchclient").val();
+		 		var postID=$("#searchpost").val();
+		 		var schedDate=$("#scheddate").val();
+		 		var error = 0;
+
+				$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
+				$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
+				$("#scheddate").removeClass('is-invalid');
+
+		 		if(clientID==0){
+					$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
+					$("#searchclient").focus();
+					error=1;
+		 		}
+
+		 		if(postID==0){
+					$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
+					if(error==0){
+						$("#searchpost").focus();
+						error=1;
+					}
+		 		}
+
+		 		if(schedDate==""){
+					$("#scheddate").addClass('is-invalid');
+					if(error==0){
+						error=1;
+						$("#scheddate").focus();
+						
+					}
+		 		}
+
+		 		if(error==0){
+		 			var htmlData = "";
+
+		        	htmlData = '<tr>' + 
+									'<td colspan="8" id="norecord">' + 
+										'<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/loading.svg">' + 
+										'<h4>Please wait...</h4>' + 
+										'<p>Genarating schedule of <b>' + $("#searchclient option:selected").text() + ' - ' + $("#searchpost option:selected").text() + '<b>.</p>' + 
+									'</td>' + 
+								'</tr>';
+
+					$("#data_show").html(htmlData);
+
+		 			sun = moment(schedDate, 'YYYY-MM-DD').day(0).format('MMM DD, YYYY');
+		 			mon = moment(schedDate, 'YYYY-MM-DD').day(1).format('MMM DD, YYYY');
+		 			tue = moment(schedDate, 'YYYY-MM-DD').day(2).format('MMM DD, YYYY');
+		 			wed = moment(schedDate, 'YYYY-MM-DD').day(3).format('MMM DD, YYYY');
+		 			thu = moment(schedDate, 'YYYY-MM-DD').day(4).format('MMM DD, YYYY');
+		 			fri = moment(schedDate, 'YYYY-MM-DD').day(5).format('MMM DD, YYYY');
+		 			sat = moment(schedDate, 'YYYY-MM-DD').day(6).format('MMM DD, YYYY');
+
+		 			var weekstart = moment(schedDate, 'YYYY-MM-DD').day(0).format('YYYY-MM-DD');
+		 			var weekend   = moment(schedDate, 'YYYY-MM-DD').day(6).format('YYYY-MM-DD');
+		        	var htmlHeader = "";
+
+		        	$(this).attr("clientid", clientID);
+		 			$(this).attr("postid", postID);
+		 			$(this).attr("weekstart", weekstart);
+		 			$(this).attr("weekend", weekend);
+
+		        	htmlHeader = '<tr>' +
+									'<td colspan="8" align="right">' + 
+										'<button class="btn btn-primary" id="addSchedule" style="border-radius: 5px;" data-toggle="modal" data-target="#add_schedule" data-backdrop="static" data-keyboard="false">' + 
+												'<i class="fas fa-plus"></i> Add a new shift' +
+										'</button>' +
+									'</td>' +
+		        				 '</tr>' +
+
+		        				'<tr>' + 
+									'<th class="text-center postHeader shift">Shifting</th>' +
+									'<th class="text-center postHeader sun">Sunday<br>'+ sun +'</th>' 	 +
+									'<th class="text-center postHeader mon">Monday<br>'+ mon +'</th>' 	 +
+									'<th class="text-center postHeader tue">Tuesday<br>'+ tue +'</th>' 	 +
+									'<th class="text-center postHeader wed">Wednesday<br>'+ wed +'</th>'  +
+									'<th class="text-center postHeader thu">Thursday<br>'+ thu +'</th>' 	 +
+									'<th class="text-center postHeader fri">Friday<br>'+ fri +'</th>' 	 +
+									'<th class="text-center postHeader sat">Saturday<br>'+ sat +'</th>'   +
+								'</tr>';
+
+					$("#data_header").html(htmlHeader);
+
+					$.ajax({
+					      url : "<?php echo site_url('Scheduling/searchschedule');?>",
+					      method : "POST",
+					      async : true,
+					      dataType : 'json',
+					      data: {clientID:clientID,
+					      		 postID:postID,
+					      		 weekstart:weekstart,
+					      		 weekend: weekend},
+					      success: function(data){	
+					      		var htmlOutput = "";
+
+					      		if(data["postschedule"].length!=0){
+				      				for(y=0; y<data["postschedule"].length; y++){
+					      				htmlOutput += '<tr id="' + data["postschedule"][y].postscheduleID + '">' +
+					      									'<td class="td-sched"><br>' + data["postschedule"][y].timein + '<br> to <br>' + data["postschedule"][y].timeout + ' <br> <a href="javascript:void(0);" sched="' +  data["postschedule"][y].postscheduleID + '" class="removeSched"><i class="fas fa-times-circle" style="position: absolute;top: 5px;right: 3px;"></i></a><br></td>';
+
+					      									for(weekday=0;weekday<=6;weekday++){
+					      										htmlOutput += '<td class="td-guard">' + 
+																					'<button class="btn btn-info mb-2 showGuard"' + 
+																							'data-toggle="modal" data-target="#add_guard"' +
+																							'postscheduleID="' + data["postschedule"][y].postscheduleID + '"' +  
+																							'weekday="' + weekday + '"' +  
+																							'data-backdrop="static" data-keyboard="false">' + 
+																							'<i class="fas fa-search-plus"></i> Add Security Guard' + 
+																					'</button>';
+
+																				htmlOutput += '<div class="employeeList" id="sched' + data["postschedule"][y].postscheduleID + 'week'+ weekday +'">';
+
+								      											for(i=0; i<data["postscheduleguard"].length; i++){
+						      														if(data["postscheduleguard"][i].weekday==weekday && data["postscheduleguard"][i].postscheduleID==data["postschedule"][y].postscheduleID){
+
+						  																htmlOutput += '<div class="dash-info-list mb-1">' + 
+																											'<div class="dash-card text-danger">' + 
+																												'<div class="dash-card-container">' + 
+																													'<div class="dash-card-content">' + 
+																														'<p class="p-guard sched' + data["postschedule"][y].postscheduleID + "week" + weekday + '"  id="sched' + data["postschedule"][y].postscheduleID + "week" + weekday + "emp" + data["postscheduleguard"][i].employeeID + '" employeeid="' + data["postscheduleguard"][i].employeeID + '">' + data["postscheduleguard"][i].fullname + '</p>' + 
+																													'</div>' + 
+																													'<div class="dash-card-avatars">' + 
+																														'<a href="javascript:void(0);" sched="' +  data["postschedule"][y].postscheduleID + '" week="' + weekday + '" employeeid="' + data["postscheduleguard"][i].employeeID + '" class="removeGuard"><i class="fas fa-user-times"></i></a>' + 
+																													'</div>' + 
+																												'</div>' + 
+																											'</div>' + 
+																										'</div>';
+		      																		}
+			      																}
+		      																	htmlOutput += "</div>";
+																htmlOutput += '</td>';
+					      									}
+					      							  htmlOutput += '</tr>';
+						      		}
+					      		}
+				      			else{
+				      				htmlOutput = '<tr>' + 
+													'<td colspan="8" id="norecord">' + 
+														'<img class="isometric confirmationisometric" style="height:220px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
+														'<h4>No schedule found</h4>' + 
+														'<p>Click <b>Add a new shift</b> to add.</p>' + 
+													'</td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' + 
+													'<td style="display: none;"></td>' +													
+												'</tr>';
+				      			}
+
+				      			if ($.fn.DataTable.isDataTable('#datatable')){
+						           $('#datatable').DataTable().destroy();
+						        };
+				      			
+					      		$("#data_show").html(htmlOutput);
+
+					      		$('#datatable').DataTable( {
+									        "ordering": false,
+									        "info":     false,
+									        "autoWidth": false,
+									        "lengthChange": false,
+									        "searching": false,
+									        "paging":false,
+										    "fixedHeader": {
+										        "header": true
+										    },
+										    "columnDefs": [
+										      { "width": "60px", "targets": 'shift'},
+										      { "width": "170px", "targets": 'sun'},
+										      { "width": "170px", "targets": 'mon'},
+										      { "width": "170px", "targets": 'tue'},
+										      { "width": "170px", "targets": 'wed'},
+										      { "width": "170px", "targets": 'thu'},
+										      { "width": "170px", "targets": 'fri'},
+										      { "width": "170px", "targets": 'sat'}
+										    ]
+								    });
+					      },
+					      error: function(request, textStatus, error) {
+
+					      }
+			 	 	});
+
+		 			/*$.ajax({
+				      url : "<?php echo site_url('Scheduling/searchschedule');?>",
+				      method : "POST",
+				      async : true,
+				      dataType : 'json',
+				      data: {clientID:clientID,
+				      		 postID:postID},
+				      success: function(data){		
+				      	console.log(data);
+				      	var postName = "";
+
+				      	for(y=0; y<data["employee"].length; y++){
+							optionEmployee+='<option value="' + data["employee"][y].employeeID + '">' + data["employee"][y].firstname + ' ' + data["employee"][y].lastname + '</option>';
+			      		}
+
+				      	for(i=0; i<data["post"].length; i++){
+		      				if(postName!=data["post"][i].postname){
+		      					html+='<tr>' +
+									  	'<td class="text-center postName" colspan="8">' + data["post"][i].postname + '</td>' +
+								      '</tr>';
+		      				}
+
+		      				postName = data["post"][i].postname;
+		      				
+							html+='<tr>' +
+								  '<td class="text-center" style="width: 200px !important; font-size:11px;"><b style="color:#e04d45">' + data["post"][i].timein + '<br/> to <br/>' + data["post"][i].timeout + '</b></td>';
+											
+										for(x=0; x<7; x++){
+											html+='<td class="postGuard">' + 
+													  '<label style="margin-bottom:0;">Regular</label>' +
+													  '<select class="form-control select2" id="searchemployee' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" multiple="multiple" disabled>' +
+														optionEmployee +
+													  '</select>';
+
+													loadData(data["post"][i].postID,x,data["post"][i].postscheduleID); 
+
+													html+='<br/>' + 
+														  '<span class="file-author float-right" id="editGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: block;">' + 
+														   		'<a href="#" class="editGuard" name="' + data["post"][i].postscheduleID + data["post"][i].postID + x + '">Edit Assigned Guard</a>' +
+														  '</span>' + 
+														  '<span class="file-author float-left" id="saveGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
+																'<a href="#" class="saveGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Save</a>' +
+														  '</span>' + 
+														  '<span class="file-author float-right" id="cancelGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
+																'<a href="#" class="cancelGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Cancel</a>' +
+														  '</span><br><br>';
+									    }
+								html+='</tr>';
+		  				}     	
+		  				$("#data_show").html(html);
+		  				$('.select2').select2();	
+		  				$(".loader").fadeOut();
+				      },
+				      error: function(request, textStatus, error) {
+
+				      }
+		 	 	});*/
+		 		}
+		 	});
+		/*************************************  END VIEW SCHEDULE  *********************************************/
 
 
 
@@ -561,7 +877,9 @@ $(document).ready(function() {
 
 
 
-	$(document).on("click", ".editGuard", function(){
+
+
+	/*$(document).on("click", ".editGuard", function(){
 		$("#searchemployee" + $(this).attr("name")).removeAttr('disabled');
 		$("#editGuard" + $(this).attr("name")).css("display","none");
 		$("#saveGuard" + $(this).attr("name")).css("display","block");
@@ -616,8 +934,8 @@ $(document).ready(function() {
 		$("#saveGuard" + postscheduleID + postID + scheduleDay).css("display","none");
 		$("#cancelGuard" + postscheduleID + postID + scheduleDay).css("display","none");
 		$('#modal_confirmation').modal('hide');
-	});
-
+	});*/
+/*
 	$(document).on("click", ".saveGuard", function(){
 		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
 		$('#modal_title').html("Confirmation Message");
@@ -630,9 +948,9 @@ $(document).ready(function() {
     	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
         $('#modal_confirmation').modal('show');
 		return false;
-	});
+	});*/
 
-	$(document).on("click", "#modal_saverecord", function(){
+	/*$(document).on("click", "#modal_saverecord", function(){
 		var postID = $(this).attr("postID");
 		var scheduleDay = $(this).attr("scheduleDay");
 		var postscheduleID = $(this).attr("postscheduleID");
@@ -660,9 +978,9 @@ $(document).ready(function() {
 		$("#saveGuard" + postscheduleID + postID + scheduleDay).css("display","none");
 		$("#cancelGuard" + postscheduleID + postID + scheduleDay).css("display","none");
 		$('#modal_confirmation').modal('hide');
-	});
+	});*/
 
-	function loadData(postID,scheduleDay,postscheduleID){
+	/*function loadData(postID,scheduleDay,postscheduleID){
 		var arrVal = [];
 
 		$.ajax({
@@ -686,7 +1004,7 @@ $(document).ready(function() {
 
 		      }
 	 	});
-	}
+	}*/
 
     $(document).on("change", "#searchclient", function(){
     	var clientID = $(this).val();

@@ -81,7 +81,7 @@ class Post_model extends CI_Model
             $record  = array();
 			$dataschedule = array();
 
-			if(count($timein)!=0){
+			/*if(count($timein)!=0){
 				for($count = 0; $count<count($timein); $count++)
 				{
 					$dataschedule[$count]  = array(
@@ -90,7 +90,7 @@ class Post_model extends CI_Model
 					'timeout'			=>	$timeout[$count]);
 				}	
 				$this->db->update_batch('dm_postschedule', $dataschedule);
-			}    
+			}   */ 
 
 			return 'true|'.$postname.' successfully updated!';
 		}
@@ -112,7 +112,7 @@ class Post_model extends CI_Model
 	          	$this->db->update("dm_post", $data);  
 	          	return 'true|'.$postname.' successfully changed the status!';
             }else{
-          		return 'false|Detachment post is currently in used!'; 
+          		return 'false|Post is currently in used!'; 
             }
 		}else{
 			$data = array('poststatus' => $status);

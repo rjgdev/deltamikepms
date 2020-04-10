@@ -57,7 +57,7 @@
 					<?php } ?>
 					<?php if($permission[7] || $permission[8] || $permission[9]){ ?>
 						<li class="submenu">
-							<a href="#" class="timekeeping-header"><i class="la la-dashboard"></i> <span> Timekeeping</span>  <span class="menu-arrow"></span></a>
+							<a href="#" class="timekeeping-header"><i class="la la-calendar"></i> <span> Timekeeping</span>  <span class="menu-arrow"></span></a>
 							<ul style="display: none;" class="menu-header" id="timekeeping-header">
 								<?php if($permission[7]){ ?>
 									<li><a href="<?php echo base_url(); ?>Timekeepingsecurityguard">Timekeeping (Security Guard)</a></li>

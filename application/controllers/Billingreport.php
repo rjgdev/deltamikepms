@@ -9,7 +9,7 @@
 	}
 	public function index() 
 	{ 
-  		$data = array('title' => 'Biling Statement Report');
+  		$data = array('title' => 'Billing Statement Report');
   		$data['data']=$this->Billingreport->get_all_billingreport("");
 		$this->load->view('Template/Header',$data);
 		 if(isAllowed(21))$this->load->view("Billingreport/Index",$data);

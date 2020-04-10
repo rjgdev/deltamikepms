@@ -21,36 +21,99 @@ class Postscheduling_model extends CI_Model
 
   	function get_schedule($clientID,$postID,$weekstart,$weekend)
 	{
-	   /* $queryEmployee = $this->db->query('SELECT * FROM dm_employee WHERE employeestatus="Active" and employeetypeID=1 and clientID='.$clientID);*/
 	    $queryPostschedule = $this->db->query('SELECT * FROM dm_postschedule
     							 	   		   WHERE clientID  ='.$clientID.' AND 
     							 	   			     postID    ='.$postID.' AND 
     							 	   			     weekstart ="'.$weekstart.'" AND
-    							 	   			     weekend   ="'.$weekend.'" order by timein');
+    							 	   			     weekend   ="'.$weekend.'" order by timein, timeout');
 
-    	return array("postschedule" => $queryPostschedule->result());
+	    if($queryPostschedule->num_rows()!=0){
+    		$queryPostscheduleGuard = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) AS "fullname" FROM dm_postschedule_guard
+    													INNER JOIN dm_employee ON dm_employee.employeeID=dm_postschedule_guard.employeeID
+		    							 	   		    order by weekday, lastname');
+
+    		return array("postschedule" => $queryPostschedule->result(), "postscheduleguard" => $queryPostscheduleGuard->result());
+	    }else{
+	    	return array("postschedule" => $queryPostschedule->result());
+	    }
   	}
 
-  	function load_guard($postID,$postType,$scheduleDay,$postscheduleID)
+	function load_guard($clientID,$postID,$weekstart,$weekend)
 	{
-		$querySchedule = $this->db->query('SELECT * FROM dm_scheduleguard WHERE postID='.$postID.' AND postscheduleID='.$postscheduleID.' AND scheduleDay='.$scheduleDay.' AND postType="'.$postType.'"');
+		$queryGuard = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) as "fullname" FROM dm_employee WHERE employeetypeID=1 AND employeestatus="Active" ORDER BY employeeID');
 
-		return $querySchedule->result();
+		return $queryGuard->result();
 	}
 
-	function save_guard($postID,$postType,$scheduleDay,$employeeID,$postscheduleID)
+	function save_guard($postscheduleID, $weekday, $employeeID)
 	{
-		$this->db->query('DELETE FROM dm_scheduleguard WHERE postID='.$postID.' AND postscheduleID='.$postscheduleID.' AND scheduleDay='.$scheduleDay.' AND postType="'.$postType.'"');
+		$this->db->query('DELETE FROM dm_postschedule_guard WHERE postscheduleID='.$postscheduleID.' AND weekday='.$weekday);
 		for($count = 0; $count<count($employeeID); $count++)
 		{
-			$record[$count] = array ('postID'	   		=> $postID,
-									 'postscheduleID'	=> $postscheduleID,
-									 'postType'    => $postType,
-									 'scheduleDay' => $scheduleDay,
-									 'employeeID'  => $employeeID[$count]);				
+			$record[$count] = array ('postscheduleID'	=> $postscheduleID,
+									 'weekday'    		=> $weekday,
+									 'employeeID'  		=> $employeeID[$count]);				
 		}
 
-		$this->db->insert_batch('dm_scheduleguard',$record);
+		$this->db->insert_batch('dm_postschedule_guard',$record);
+
+		$queryGuard = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) as "fullname" FROM dm_postschedule_guard
+										INNER JOIN dm_employee ON dm_employee.employeeID=dm_postschedule_guard.employeeID
+								 		WHERE postscheduleID='.$postscheduleID.' AND weekday='.$weekday.' ORDER BY lastname');
+
+		$queryPostschedule = $this->db->query('SELECT * FROM dm_postschedule WHERE postscheduleID='.$postscheduleID);
+
+
+		return array("schedule" => $queryPostschedule->result(), "guard" => $queryGuard->result());
+	}
+
+	function remove_guard($postscheduleID, $weekday, $employeeID)
+	{
+		$this->db->query('DELETE FROM dm_postschedule_guard WHERE postscheduleID='.$postscheduleID.' AND weekday='.$weekday.' AND employeeID='.$employeeID);
+
+		$queryGuard = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) as "fullname" FROM dm_postschedule_guard
+										INNER JOIN dm_employee ON dm_employee.employeeID=dm_postschedule_guard.employeeID
+								 		WHERE postscheduleID='.$postscheduleID.' AND weekday='.$weekday.' ORDER BY lastname');
+
+
+		return $queryGuard->result();
+	}
+
+	function save_sched($clientID, $postID, $weekstart, $weekend, $timein, $timeout)
+	{
+		$query = $this->db->query('SELECT postscheduleID FROM dm_postschedule 
+								   WHERE  clientID='.$clientID.' AND '.
+								   	     'postID='.$postID.' AND '.
+								   	     'weekstart="'.$weekstart.'" AND '.
+								   	     'weekend="'.$weekend.'" AND '.
+								   	     'timein="'.$timein.'" AND '.
+								   	     'timeout="'.$timeout.'"');
+
+		if($query->num_rows()==0){
+
+			$data = array('clientID'  => $clientID,
+						  'postID'    => $postID,
+						  'weekstart' => $weekstart,
+						  'weekend'   => $weekend,
+						  'timein'    => $timein,
+						  'timeout'   => $timeout);
+
+			$this->db->insert('dm_postschedule', $data);
+
+			return "true|success";
+		}
+		else 
+		{
+			return "false|error";
+		}   
+	}
+
+	function remove_sched($postscheduleID)
+	{
+		$this->db->query('DELETE FROM dm_postschedule_guard WHERE postscheduleID='.$postscheduleID);
+		$this->db->query('DELETE FROM dm_postschedule WHERE postscheduleID='.$postscheduleID);
+
+		return "success";
 	}
 }
 ?>

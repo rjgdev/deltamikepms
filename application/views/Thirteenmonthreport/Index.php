@@ -16,118 +16,88 @@
 				</div>
 			</div>
 		</div>
-		<!-- /Page Header -->
-<div class="col-lg-12">
-<div class="card">
-	<div class="row">
-	<div class="col-md-12">
-	<div class="card mb-0">
-	
-	<div class="card-body">
-		<form action="#">
-		<div class="row">
-			<div class="col-xl-12">
-			<div class="form-group row">
-			
-			<div class="col-sm-3">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchdate" name="seachdate" style="width: 100%;" description="Client">
-				<option value="0">Select 13th month period</option>
-				<?php
-				foreach($data['cutoff'] as $datecutoff)
-				{
-				echo '<option value="'.$datecutoff->thrmonthID.'">'.$datecutoff->formatdate.'</option>';
-				}
-				?>
-				</select>
-				<label class="focus-label">13th Month Pay</label>
-				 <div class="invalid-feedback" id="add-searchdate"></div>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
-				<option value="">All</option>
-				<option value="1">Security Guard</option>
-				<option value="2">Staff</option>
-				</select>
-					<label class="focus-label">Employee Type</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client">
-				<option value="0">All</option>
-				<?php
-				foreach($data['client'] as $client)
-				{
-				echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
-				}
-				?>
-				</select>
-				<label class="focus-label">Client</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-				<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
-				<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" >
-				<option value="">All</option>
-				</select>
-				<label class="focus-label">Post</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
-			 <div class="form-group form-focus select-focus">
-					<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;">Search</button>
-				
-			 </div>
-			</div>
-			</div>
-			</div>
-		</div>
-	</form>
-	</div>
 
-	</div>
-	</div>
-	</div>
-</div>
-</div>
-<br>
-<div class="ajax_loading"><p></p></div>
-	<div id="tabledatarecord">
-	 <div class="col-lg-12"  id="showtable">
-		<div id="customers-list"></div>
-			<div class="card">
-				<div class="card-header">
-				<div class="row align-items-center">
-					
-				<div class="col">
-				<h4 class="card-title mb-0">Records</h4>
-				</div>	
-				<div class="col-auto float-right ml-auto">
-					<!-- <a class="btn btn-sm btn-primary"id="recorddetails"  >Generate Report</a> -->
-				</div>	
-				</div>		
+		<!-- /Page Header -->
+		<form action="#">
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="form-group row" style="margin-bottom: 0px!important">			
+						<div class="col-sm-3">
+							<div class="form-group form-focus select-focus">
+								<select class="form-control select2" id="searchdate" name="seachdate" style="width: 100%;" description="Client">
+								<option value="0">Select 13th month period</option>
+								<?php
+								foreach($data['cutoff'] as $datecutoff)
+								{
+								echo '<option value="'.$datecutoff->thrmonthID.'">'.$datecutoff->formatdate.'</option>';
+								}
+								?>
+								</select>
+								<label class="focus-label">13th Month Pay</label>
+							<div class="invalid-feedback" id="add-searchdate"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group form-focus select-focus">
+								<select class="form-control select2" name="searchemployeetype" style="width: 100%;" id="searchemployeetype" >
+								<option value="">All</option>
+								<option value="1">Security Guard</option>
+								<option value="2">Staff</option>
+								</select>
+								<label class="focus-label">Employee Type</label>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group form-focus select-focus">
+								<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client">
+								<option value="0">All</option>
+								<?php
+								foreach($data['client'] as $client)
+								{
+								echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
+								}
+								?>
+								</select>
+								<label class="focus-label">Client</label>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group form-focus select-focus">
+								<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
+								<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" >
+								<option value="">All</option>
+								</select>
+								<label class="focus-label">Post</label>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group form-focus select-focus">
+								<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> SEARCH</button>
+							</div>
+						</div>
+					</div>
 				</div>
+			</div>
+		</form>
+
+		<div id="tabledatarecord">
+			<div class="card">
 				<div class="card-body">
+					<div class="col-auto float-right"><button class="btn btn-sm btn-primary mb-3" href="#" disabled>Generate Report</button></div>
 					<div id="tabledata">
-					<div class="table-responsive" id="show_data">
-						<table class="table table-striped custom-table datatable" id ="datatable1">
-						<thead>		
-								<tr>
-									<th style="width: 90px ! important;"><center>Employee ID</center></th>
-									<th style="width: 180px;"><center>Employee Name</center></th>
-									<th class="text-right" style="width: 120px; font-size:11px;"><center>Department</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Designation</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
-									<th class="text-right" style="width: 250px; font-size:11px;"><center>Month</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Total 13th Month</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;">Action</th>
-								</tr>
+						<div class="table-responsive" id="show_data">
+							<table class="table table-striped custom-table datatable" id ="datatable1">
+								<thead>		
+									<tr>
+										<th style="width: 90px ! important; font-size: 10.5px"><center>Employee ID</center></th>
+										<th style="width: 180px; font-size: 10.5px"><center>Employee Name</center></th>
+										<th class="text-right" style="width: 150px; font-size:10.5px;"><center>Employee Type</center></th>
+										<th class="text-right" style="width: 100px; font-size:10.5px;"><center>Month</center></th>
+										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Lates</center></th>
+										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Absences</center></th>
+										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Total 13th Month</center></th>
+										<th class="text-right" style="width: 90px; font-size:10.5px;">Action</th>
+									</tr>
 								</thead>
 								<tbody>
 
@@ -135,13 +105,12 @@
 								<tfoot>
 
 								</tfoot>			 
-						</table>
-					</div>
-				</div>	
+							</table>
+						</div>
+					</div>	
 				</div>
 			</div>
-		</div> 
-	</div>	
+		</div>	
 
 </div>
 </div>
@@ -284,29 +253,19 @@
                    	var totallate = 0;
                    	var totalthrmonth = 0;
                     var htmlfooter = '';
-					html ='<div id="customers-list"></div>' +
+					html =
 					'<div class="card">' +
-					'<div class="card-header">' +
-					'<div class="row align-items-center">' +	
-					'<div class="col">' +
-					'<h4 class="card-title mb-0">Records</h4>' +
-					'</div>	' +
-					'<div class="col-auto float-right ml-auto">' +
-					'<div class="col-auto float-right ml-auto">' +
-							'<a class="btn btn-sm btn-primary" href="Thirteenmonthreport/summaryrecord?monthID='+ thrmonthID +'&employeetype='+ searchemployeetype + '&client='+ searchclient +'&post='+ searchdetachment +'"target="_blank" >Generate Report</a>' +
-					'</div>' +	
-					'</div>	' +	
-					'</div>' +
 					'<div class="card-body">' +
+					'<div class="col-auto float-right ml-auto">' +
+							'<a class="btn btn-sm btn-primary mb-3" href="Thirteenmonthreport/summaryrecord?monthID='+ thrmonthID +'&employeetype='+ searchemployeetype + '&client='+ searchclient +'&post='+ searchdetachment +'"target="_blank" >Generate Report</a>' +
+					'</div>' +
 					'<div id="tabledata">' +
 					'<div class="table-responsive" id="show_data">' +
                      '<table class="table table-striped custom-table datatable" id ="datatable1">' +
 					'<thead>' +	
 					'<tr>' +
 						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee ID</center></th>' +
-						'<th class="text-right" style="width: 120px; font-size:11px;"><center>Employee Name</center></th>' +
-						'<th class="text-right" style="width: 150px; font-size:11px;"><center>Department</center></th>' +
-						'<th class="text-right" style="width: 100px; font-size:11px;"><center>Designation</center></th>' +
+						'<th class="text-right" style="width: 200px; font-size:11px;"><center>Employee Name</center></th>' +
 						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee Type</center></th>' +
 						'<th class="text-right" style="width: 250px; font-size:11px;"><center>Month</center></th>' +
 						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>' +
@@ -327,9 +286,9 @@
                    
                      html += '<tr>'+
 	                        '<td>'+response[i].employeeID.padStart(6,'0')+'</td>'+
-	                        '<td>'+response[i].employeename+'</td>'+
-	                        '<td>'+response[i].department+'</td>'+
-	                        '<td>'+response[i].designation+'</td>'+
+	                        '<td>'+response[i].employeename+
+	                        '<span style="color:#888;display: block; font-size: 11px;">'+ response[i].department +' | '+ response[i].designation +'</span>'+
+	                        '</td>'+
 	                        '<td>'+response[i].employeetype+'</td>'+
 	                         '<td>'+response[i].thrthmonthdate+'</td>'+
 	                         '<td class="text-right">'+accounting.formatMoney(response[i].late)+'</td>'+
@@ -351,7 +310,7 @@
 					if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };		  
-                    $('#showtable').html(html);
+                    $('#tabledatarecord').html(html);
                     $('#datatable1').DataTable({
 				       		 scrollX: true,
 					        	scrollCollapse: true,

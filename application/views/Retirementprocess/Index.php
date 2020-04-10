@@ -53,54 +53,39 @@ foreach ($data['approver'] as $approvaldata)  {
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="faq-card"  style="margin-left:auto; ">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">
-					<a class="collapsed" data-toggle="collapse" href="#collapseOne"  aria-expanded="false">Retirement Process</a>
-					</h4>
+		<form id="upload_date" method="post">
+			<div class="form-group row">
+				<div class="col-sm-10">
+					<div class="form-group">
+						<label for="adddetachment">Employee Name</label>
+						<select class="form-control select2" id="employee" name="employee"  multiple="multiple" description ="Employee" style="width: 100%;" description="Client">
+							<?php
+							foreach($data['employee'] as $employee)
+							{
+							echo '<option value="'.$employee->employeeID.'">'.$employee->employeename.'</option>';
+							}
+							?>
+						</select>
+						<div class="invalid-feedback" id="search-employee"></div>
+					</div>	
 				</div>
-				<div id="collapseOne" class="card-collapse collapse" style="">
-					<div class="card-body">
-						<form id="upload_date" method="post">
-						<div class="form-group row">
-							<div class="col-sm-10">
-								<div class="form-group">
-									<label for="adddetachment">Employee Name</label>
-									<select class="form-control select2" id="employee" name="employee"  multiple="multiple" description ="Employee" style="width: 100%;" description="Client">
-										<?php
-										foreach($data['employee'] as $employee)
-										{
-										echo '<option value="'.$employee->employeeID.'">'.$employee->employeename.'</option>';
-										}
-										?>
-									</select>
-									  <div class="invalid-feedback" id="search-employee"></div>
-								</div>	
-							</div>
 
-							<div class="col-lg-2 col-md-2">
-								<div class="form-group">
-								<label for="gender">&emsp;</label>
-								<div class="input-group-append">
-								<span class="input-group-button ml-2" id="" ><button type="submit" name="uploaddate" id="uploaddate" class="btn btn-danger" style="border-radius: 5px; width:100%;" 
-								<?php 
-								if(($tkstatus==1||$tkstatus==2)) echo "disabled";
-								else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process Retirement &emsp;</button></span>
-								</div>
-								</div>
-							</div>
-
+				<div class="col-lg-2 col-md-2">
+					<div class="form-group">
+						<label for="gender">&emsp;</label>
+						<div class="input-group-append"><button type="submit" name="uploaddate" id="uploaddate" class="btn btn-primary" style="border-radius: 5px; width:100%;" 
+						<?php 
+						if(($tkstatus==1||$tkstatus==2)) echo "disabled";
+						else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?>><i class="fa fa-forward"></i> PROCESS RETIREMENT</button>
 						</div>
-					</form>
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 
 
 
-<div class="row filter-row" style="margin-bottom: 40px;">
+		<div class="row filter-row" style="margin-bottom: 20px;">
 			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
@@ -120,7 +105,7 @@ foreach ($data['approver'] as $approvaldata)  {
 					</div>
 				</div>
 			</div>
-		<div class="col-lg-2 col-md-2">
+			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -147,7 +132,7 @@ foreach ($data['approver'] as $approvaldata)  {
 					</div>
 				</div>
 			</div>	
-	<div class="col-lg-3 col-md-3">
+			<div class="col-lg-3 col-md-3">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -222,55 +207,38 @@ foreach ($data['approver'] as $approvaldata)  {
 			    	}
 			  	?>
 			</div>						
-</div>	
+		</div>	
 	
 	 <div class="row filter-row" style="margin-bottom: 40px;">
-	<div class="col-lg-12">
-		<div id="customers-list"></div>
-			<div class="card">
-				<div class="card-header">
-				<div class="row align-items-center">
-				<div class="col">
-				<h4 class="card-title mb-0">Records</h4>
-				</div>	
-				</div>		
-			</div>
-				<div class="card-body">
-					<div id="tabledata">
-					<div class="table-responsive" id="show_data">
-						<table class="table table-striped custom-table datatable" id="datatable1">
-							<thead>	
-								<tr>
-									<th style="width: 100px ! important;"><center>Employee ID</center></th>
-									<th style="width: 250px;"><center>Employee Name</center></th>
-									<th class="text-left" style="width: 90px;"><center>Department</center></th>
-									<th class="text-left" style="width: 90px;"><center>Designation</center></th>
-									<th class="text-left" style="width: 100px; "><center>Employee Type</center></th>
-									<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>
-									<th style="width: 200px;">Last Payroll Cutoff</th>
-									<th class="text-left" style="width: 80px;">Hired Date</th>
-									<th style="width: 200px ! important;">Years of Service</th>
-								</tr>
-							</thead>
-							<?php foreach ($data['recorddata'] as $record)  {
-							?>	
-							<tbody>
-                     				<td><?php echo str_pad($record->employeeID, 6, "0", STR_PAD_LEFT); ?></td>
-                     				<td><?php echo $record->employeename ?></td>
-                     				<td><?php echo $record->department ?></td>
-                     				<td><?php echo $record->designation ?></td>
-                     				<td><?php echo $record->employeetype ?></td>
-                     				<td class="text-right"><?php echo $record->retfund ?></td>
-                     				<td><?php echo $record->lastcutoff ?></td>
-                     				<td><?php echo $record->hireddate ?></td>
-                     				<td><?php echo $record->yearofwork ?></td>
-               				 </tbody>
-               				<?php } ?>
-						</table>
-					</div>
-				</div>	
+		<div class="col-lg-12">
+			<div id="tabledata">
+				<div class="table-responsive" id="show_data">
+					<table class="table table-striped custom-table datatable" id="datatable1">
+						<thead>	
+							<tr>
+								<th style="width: 100px ! important;"><center>Employee ID</center></th>
+								<th style="width: 250px;"><center>Employee Name</center></th>
+								<th class="text-left" style="width: 100px; "><center>Employee Type</center></th>
+								<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>
+								<th style="width: 200px;">Last Payroll Cutoff</th>
+								<th class="text-left" style="width: 80px;">Hired Date</th>
+								<th style="width: 200px ! important;">Years of Service</th>
+							</tr>
+						</thead>
+						<?php foreach ($data['recorddata'] as $record)  { ?>	
+						<tbody>
+                 				<td><?php echo str_pad($record->employeeID, 6, "0", STR_PAD_LEFT); ?></td>
+                 				<td><?php echo $record->employeename ?><span style="color:#888;display: block; font-size: 11px;"><?php echo $record->department; ?> | <?php echo $record->designation; ?></span></td>
+                 				<td><?php echo $record->employeetype ?></td>
+                 				<td class="text-right"><?php echo $record->retfund ?></td>
+                 				<td><?php echo $record->lastcutoff ?></td>
+                 				<td><?php echo $record->hireddate ?></td>
+                 				<td><?php echo $record->yearofwork ?></td>
+           				 </tbody>
+           				<?php } ?>
+					</table>
+				</div>
 			</div>	
-		</div>	
 		
 			
 	<div class="modal custom-modal fade" id="modal_confirmation" role="dialog">
@@ -285,10 +253,10 @@ foreach ($data['approver'] as $approvaldata)  {
 					<div class="modal-btn confirmation-action">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-primary submit-btn"></a>
+								<button class="btn btn-primary submit-btn" style="text-transform: capitalize;"></a>
 							</div>
 							<div class="col-6">
-								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn"></a>
+								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn" style="text-transform: capitalize;"></a>
 							</div>
 						</div>
 					</div>
@@ -389,9 +357,9 @@ foreach ($data['approver'] as $approvaldata)  {
 	        	$('#employee').removeClass('is-invalid');
 	        	$('#employee').addClass('is-valid'); 
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
-		$('#modal_title').html("Retirement");
-    	$('#modal_message').html("Are you sure you want to Process the Retirement?");
-    	$('.submit-btn').html("Submit Retirement");
+		$('#modal_title').html("Process Retirement");
+    	$('#modal_message').html("Are you sure you want to process the retirement?");
+    	$('.submit-btn').html("Process Retirement");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_uploaddate");
         $('#modal_confirmation').modal('show');
@@ -459,8 +427,6 @@ foreach ($data['approver'] as $approvaldata)  {
 								'<tr>' +
 									'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
 									'<th style="width: 250px;"><center>Employee Name</center></th>' +
-									'<th class="text-left" style="width: 90px;"><center>Department</center></th>' +
-									'<th class="text-left" style="width: 90px;"><center>Designation</center></th>' +
 									'<th class="text-left" style="width: 100px; "><center>Employee Type</center></th>' +
 									'<th class="text-left" style="width: 100px; "><center>Retirement Fund</center></th>' +
 									'<th style="width: 200px;">Last Payroll Cutoff</th>' +
@@ -488,9 +454,9 @@ foreach ($data['approver'] as $approvaldata)  {
 		      		for(var i=0; i<data["recorddata"].length; i++){
 						html += '<tr>' +
     								'<td>' + data["recorddata"][i].employeeID.padStart(6,'0') + '</td>' +
-    								'<td>' + data["recorddata"][i].employeename + '</td>' +
-    								'<td>' + data["recorddata"][i].department + '</td>' +
-    								'<td>' + data["recorddata"][i].designation + '</td>' +
+    								'<td>' + data["recorddata"][i].employeename + 
+    								'<span style="color:#888;display: block; font-size: 11px;">'+ data["recorddata"][i].department +' | '+ data["recorddata"][i].designation +'</span>'+
+    								'</td>' +
     								'<td>' + data["recorddata"][i].employeetype + '</td>' +
     								'<td>' +  accounting.formatMoney(data["recorddata"][i].retfund) + '</td>' +
     								'<td>' + data["recorddata"][i].lastcutoff + '</td>' +
@@ -538,7 +504,7 @@ foreach ($data['approver'] as $approvaldata)  {
         $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
 		$('#modal_title').html("Cancel Request");
     	$('#modal_message').html("Are you sure you want to cancel the retirement request?");
-    	$('.submit-btn').html("Submit Retirement ");
+    	$('.submit-btn').html("Cancel Retirement ");
     	$('.cancel-btn').html("Cancel");
     	$('.submit-btn').attr("id","modal_canceltimekeeping");
         $('#modal_confirmation').modal('show');
@@ -574,7 +540,7 @@ foreach ($data['approver'] as $approvaldata)  {
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Retirement </button>';
 
-		      	$("#collapseOne").prop("disabled", false);
+		      	/*$("#collapseOne").prop("disabled", false);*/
 	      		$("#uploaddate").prop("disabled", false);
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);

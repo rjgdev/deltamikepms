@@ -9,7 +9,7 @@
 		}
 		public function index() 
 		{ 
-	  		$data = array('title' => '13th month report');
+	  		$data = array('title' => '13th Month Report');
 	  		$data['data']=$this->Thirteenmonthreport->get_all_Thirteenmonthreport();
 			$this->load->view('Template/Header',$data);
 

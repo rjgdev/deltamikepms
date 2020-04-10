@@ -72,102 +72,86 @@ foreach ($data['approver'] as $approvaldata)  {
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="faq-card"  style="margin-left:auto; ">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">
-						<a class="collapsed" data-toggle="collapse" href="#collapseOne"  aria-expanded="false">13th Month Process</a>
-					</h4>
-				</div>
-				<div id="collapseOne" class="card-collapse collapse" style="">
-				<div class="card-body">
-			<form id="upload_date" method="post">
-			<div class="form-group row">
-			<div class="col-sm-3">
-				<div class="form-group">
-				<label>Start Month</label>
-				<select id="sddlmonth" name="sddlmonth" class="form-control select2" style="width: 100%;" required="required"/>
-						<option value="01"/>January</option>
-						<option value="02"/>February</option>
-						<option value="03"/>March</option>
-						<option value="04"/>April</option>
-						<option value="05"/>May</option>
-						<option value="06"/>June</option>
-						<option value="07"/>July</option>
-						<option value="08"/>August</option>
-						<option value="09"/>September</option>
-						<option value="10"/>October</option>
-						<option value="11"/>November</option>
-						<option value="12"/>December</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-				<label>Start Year</label>
-				<select id="sddlyear" name="sddlyear" class="form-control select2" style="width: 100%;" required="required">
-					<option value="">Select Year</option>
-					<?php for($y = date('Y'); $y >= 2009; $y--){ ?>
-					<option value="<?php echo $y; ?>" <?php if($y == date('Y')) { echo 'selected'; }else{ echo '0'; } ?>><?php echo $y; ?></option>
-					<?php } ?>		
-				</select>
-				</div>
-			</div>
+		<form id="upload_date" method="post">
+			<div class="form-group row" style="margin-bottom: 0px!important">
 				<div class="col-sm-3">
-				<div class="form-group">
-				<label>End Month</label>
-				<select id="eddlmonth" name="eddlmonth" class="form-control select2" style="width: 100%;" required="required"/>
-						<option value="01" <?php if(date("m") == "01") echo "selected"; ?> />January</option>
-						<option value="02" <?php if(date("m") == "02") echo "selected"; ?> />February</option>
-						<option value="03" <?php if(date("m") == "03") echo "selected"; ?> />March</option>
-						<option value="04" <?php if(date("m") == "04") echo "selected"; ?> />April</option>
-						<option value="05" <?php if(date("m") == "05") echo "selected"; ?> />May</option>
-						<option value="06" <?php if(date("m") == "06") echo "selected"; ?> />June</option>
-						<option value="07" <?php if(date("m") == "07") echo "selected"; ?> />July</option>
-						<option value="08" <?php if(date("m") == "08") echo "selected"; ?> />August</option>
-						<option value="09" <?php if(date("m") == "09") echo "selected"; ?> />September</option>
-						<option value="10" <?php if(date("m") == "10") echo "selected"; ?> />October</option>
-						<option value="11" <?php if(date("m") == "11") echo "selected"; ?> />November</option>
-						<option value="12" <?php if(date("m") == "12") echo "selected"; ?> />December</option>
-					</select>
+					<div class="form-group form-focus select-focus">
+						<select id="sddlmonth" name="sddlmonth" class="form-control select2" style="width: 100%;" required="required"/>
+								<option value="01"/>January</option>
+								<option value="02"/>February</option>
+								<option value="03"/>March</option>
+								<option value="04"/>April</option>
+								<option value="05"/>May</option>
+								<option value="06"/>June</option>
+								<option value="07"/>July</option>
+								<option value="08"/>August</option>
+								<option value="09"/>September</option>
+								<option value="10"/>October</option>
+								<option value="11"/>November</option>
+								<option value="12"/>December</option>
+						</select>
+						<label class="focus-label">Start Month</label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="form-group form-focus select-focus">
+						<select id="sddlyear" name="sddlyear" class="form-control select2" style="width: 100%;" required="required">
+							<option value="">Select Year</option>
+							<?php for($y = date('Y'); $y >= 2009; $y--){ ?>
+							<option value="<?php echo $y; ?>" <?php if($y == date('Y')) { echo 'selected'; }else{ echo '0'; } ?>><?php echo $y; ?></option>
+							<?php } ?>		
+						</select>
+						<label class="focus-label">Start Year</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group form-focus select-focus">
+						<select id="eddlmonth" name="eddlmonth" class="form-control select2" style="width: 100%;" required="required"/>
+								<option value="01" <?php if(date("m") == "01") echo "selected"; ?> />January</option>
+								<option value="02" <?php if(date("m") == "02") echo "selected"; ?> />February</option>
+								<option value="03" <?php if(date("m") == "03") echo "selected"; ?> />March</option>
+								<option value="04" <?php if(date("m") == "04") echo "selected"; ?> />April</option>
+								<option value="05" <?php if(date("m") == "05") echo "selected"; ?> />May</option>
+								<option value="06" <?php if(date("m") == "06") echo "selected"; ?> />June</option>
+								<option value="07" <?php if(date("m") == "07") echo "selected"; ?> />July</option>
+								<option value="08" <?php if(date("m") == "08") echo "selected"; ?> />August</option>
+								<option value="09" <?php if(date("m") == "09") echo "selected"; ?> />September</option>
+								<option value="10" <?php if(date("m") == "10") echo "selected"; ?> />October</option>
+								<option value="11" <?php if(date("m") == "11") echo "selected"; ?> />November</option>
+								<option value="12" <?php if(date("m") == "12") echo "selected"; ?> />December</option>
+						</select>
+						<label class="focus-label">End Month</label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<div class="form-group form-focus select-focus">
+						<select id="eddlyear" name="eddlyear" class="form-control select2" style="width: 100%;" required="required">
+							<option value="">Select Year</option>
+							<?php for($y = date('Y'); $y >= 2009; $y--){ ?>
+							<option value="<?php echo $y; ?>" <?php if($y == date('Y')) { echo 'selected'; }else{ echo '0'; } ?>><?php echo $y; ?></option>
+							<?php } ?>		
+						</select>
+						<label class="focus-label">End Year</label>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-2">
+					 <div class="form-group form-focus select-focus">
+					    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-primary" style="border-radius: 5px; width:100%; height: 95%;" 	 
+					    		 <?php 
+					    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
+								else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> <i class="fa fa-forward"></i> PROCESS 13TH MONTH </button>
+ 					</div>
 				</div>
 			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-				<label>End Year</label>
-				<select id="eddlyear" name="eddlyear" class="form-control select2" style="width: 100%;" required="required">
-					<option value="">Select Year</option>
-					<?php for($y = date('Y'); $y >= 2009; $y--){ ?>
-					<option value="<?php echo $y; ?>" <?php if($y == date('Y')) { echo 'selected'; }else{ echo '0'; } ?>><?php echo $y; ?></option>
-					<?php } ?>		
-				</select>
-				</div>
-			</div>
-			<div class="col-lg-2 col-md-2">
-			 <div class="form-group">
-				<label for="gender">&emsp;</label>
-						  <div class="input-group-append">
-						    	<button type="submit" name="uploaddate" id="uploaddate" class="btn btn-danger" style="width: 100%; height: 43px; text-align:center" 	 
-						    		 <?php 
-						    		if(($tkstatus==1||$tkstatus==2)) echo "disabled";
-									else if($this->session->userdata('employeeID')!=$usersubmitted && $tkstatus!=0) echo "disabled"; ?> /> Process 13th Month </button>
-						  </div>
-				 	</div>
-				</div>
-
-		</div>
 		</form>
-		</div>
-		</div>
-	</div>
-</div>
-<div class="row filter-row" style="margin-bottom: 40px;">
+
+<div class="row filter-row" style="margin-bottom: 20px;">
 			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
 								<i class="la la-dashboard"></i>
-							13th Month No.</h5>
+							13th Month Number</h5>
 						<div class="dash-card-container">
 							<div class="dash-card-content dash-card-header">
 								<p style="color:#e04d45;margin-right: 10px;" 
@@ -283,62 +267,39 @@ foreach ($data['approver'] as $approvaldata)  {
 			  	?>
 			</div>						
 </div>
-			
-<!-- Search Filter -->
 
-<div class="row filter-row" style="margin-bottom: 40px;">
-	<div class="col-lg-12">
-		<div id="customers-list"></div>
-			<div class="card">
-				<div class="card-header">
-					<div class="row align-items-center">
-					<div class="col">
-						<h4 class="card-title mb-0">Records</h4>
-				</div>		
-				</div>		
-				</div>
-
-				<div class="card-body">
-					<div class="table-responsive" id="show_data">
-					<table class="table table-striped custom-table datatable" id="datatable1">
-						<thead>		
-								<tr>
-									<th style="width: 100px ! important;"><center>Employee ID</center></th>
-									<th style="width: 180px;"><center>Employee Name</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>
-									<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>
-									<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
-									<th style="width: 150px;"><center>Month</center></th>
-									<th class="text-right" style="width: 120px; font-size:11px;"><center>Lates</center></th>
-									<th class="text-right" style="width: 120px; font-size:11px;"><center>Absences</center></th>
-									<th class="text-right" style="width: 120px; font-size:11px;"><center>Total 13th Month</center></th>
-								</tr>
-						</thead>
-							<tbody>
-								<?php	
-							foreach($data['recorddata'] as $data) : 
-								?>	
-								 <tr>
-                     				<td><?php echo str_pad($data->employeeID, 6, "0", STR_PAD_LEFT); ?></td>
-                     				<td><?php echo $data->employeename; ?></td>
-                     				<td><?php echo $data->department; ?></td>
-                     				<td><?php echo $data->designation; ?></td>
-                     				<td><?php echo $data->employeetype; ?></td>
-                     				<td><?php echo $data->datepayrol; ?></td>
-                     				<td  class="text-right"><?php echo number_format($data->late, 4, '.', ','); ?></td>
-                     				<td  class="text-right"><?php echo number_format($data->absent, 2, '.', ',');?></td>
-                     				<td  class="text-right"><?php echo number_format($data->thrmonth, 2, '.', ','); ?></td>
-               				 	</tr>
-               				 	 <?php
-               				endforeach;
-               				?>	
-               				 </tbody>
-						</table>
-					</div>	
-				</div>
-			</div>
+	<div class="row filter-row">
+		<div class="col-lg-12">
+			<div class="table-responsive" id="show_data">
+				<table class="table table-striped custom-table datatable" id="datatable1">
+					<thead>		
+						<tr>
+							<th style="width: 100px ! important;"><center>Employee ID</center></th>
+							<th style="width: 180px;"><center>Employee Name</center></th>
+							<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>
+							<th style="width: 150px;"><center>Month</center></th>
+							<th class="text-right" style="width: 120px; font-size:11px;"><center>Lates</center></th>
+							<th class="text-right" style="width: 120px; font-size:11px;"><center>Absences</center></th>
+							<th class="text-right" style="width: 120px; font-size:11px;"><center>Total 13th Month</center></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach($data['recorddata'] as $data) : ?>	
+						 <tr>
+             				<td><?php echo str_pad($data->employeeID, 6, "0", STR_PAD_LEFT); ?></td>
+             				<td><?php echo $data->employeename; ?><span style="color:#888;display: block; font-size: 11px;"><?php echo $data->department; ?> | <?php echo $data->designation; ?></span></td>
+             				<td><?php echo $data->employeetype; ?></td>
+             				<td><?php echo $data->datepayrol; ?></td>
+             				<td  class="text-right"><?php echo number_format($data->late, 4, '.', ','); ?></td>
+             				<td  class="text-right"><?php echo number_format($data->absent, 2, '.', ',');?></td>
+             				<td  class="text-right"><?php echo number_format($data->thrmonth, 2, '.', ','); ?></td>
+       				 	</tr>
+       				 	 <?php endforeach; ?>	
+       				</tbody>
+				</table>
+			</div>	
 		</div>	
-</div>
+	</div>
 </div>
 
 <!-- Confirmation Modal -->
@@ -603,8 +564,6 @@ foreach ($data['approver'] as $approvaldata)  {
 								'<tr>' +
 									'<th style="width: 100px ! important;"><center>Employee ID</center></th>' +
 									'<th style="width: 180px;"><center>Employee Name</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Department</center></th>' +
-									'<th class="text-right" style="width: 90px; font-size:11px;"><center>Designation</center></th>' +
 									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Employee Type</center></th>' +
 									'<th style="width: 150px;"><center>Month</center></th>' +
 									'<th class="text-right" style="width: 120px; font-size:11px;"><center>Lates</center></th>' +
@@ -628,9 +587,9 @@ foreach ($data['approver'] as $approvaldata)  {
 		      		for(var i=0; i<data["recorddata"].length; i++){
 						html += '<tr>' +
     								'<td>' + data["recorddata"][i].employeeID.padStart(6,'0') + '</td>' +
-    								'<td>' + data["recorddata"][i].employeename + '</td>' +
-    								'<td>' + data["recorddata"][i].department + '</td>' +
-    								'<td>' + data["recorddata"][i].designation + '</td>' +
+    								'<td>' + data["recorddata"][i].employeename + 
+    								'<span style="color:#888;display: block; font-size: 11px;">'+ data["recorddata"][i].department +' | '+ data["recorddata"][i].designation +'</span>'+
+    								'</td>' +
     								'<td>' + data["recorddata"][i].employeetype + '</td>' +
     								'<td>' + data["recorddata"][i].datepayrol + '</td>' +
     								'<td>' +  accounting.formatMoney(data["recorddata"][i].late) + '</td>' +
@@ -643,7 +602,7 @@ foreach ($data['approver'] as $approvaldata)  {
 			           $('#datatable1').DataTable().destroy();
 			        };
 
-		      		$("#collapseOne").prop("hide", true);
+		      		/*$("#collapseOne").prop("hide", true);*/
 		      		$("#uploaddate").prop("disabled", true);
 		      		$("#show_status").html(htmlStatus);
 		      		$("#show_data").html(html);
@@ -715,7 +674,7 @@ foreach ($data['approver'] as $approvaldata)  {
 		      	var htmlApprover = "-----";
 		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" id="submitthrmonth" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit 13th month </button>';
 
-		      	$("#collapseOne").prop("disabled", false);
+		      	/*$("#collapseOne").prop("disabled", false);*/
 	      		$("#uploaddate").prop("disabled", false);
 	      		$("#show_status").html(htmlStatus);
 	      		$("#show_datesubmitted").html(htmlDatesubmitted);

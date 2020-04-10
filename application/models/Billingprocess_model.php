@@ -9,8 +9,10 @@ class Billingprocess_model extends CI_Model
 	}
 	function get_all_billingprocess($thrID)
 	{
+		/*$thdatefrom = '1880-01-01';
+		$thdateto = '1880-01-01';*/
 		
-		$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
+		$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,IFNULL(p.datefrom,0) AS datefrom,IFNULL(p.dateto,0) AS dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate,clientrecord
 										FROM dm_billing  as b
@@ -25,22 +27,25 @@ class Billingprocess_model extends CI_Model
 		   				);
 		   			$this->db->insert('dm_billing', $data);
 					$billingID = $this->db->insert_id();
-					$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
+					$queryheader = $this->db->query("SELECT b.billingID, b.payrolldateID,IFNULL(p.datefrom,0) AS datefrom,IFNULL(p.dateto,0) AS dateto, b.clientID,b.reason,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate,clientrecord
 										FROM dm_billing  as b
 										LEFT JOIN dm_payroll as p ON payrolldateID = p.payrollID
 										WHERE billingstatus!=2");
 		}else{
-			if($queryheader->row()->datefrom==0){
-					$thdatefrom = '1880-01-01';
-					$datefrom = "WHERE p.datefrom ='".$thdatefrom."'";
+			
+
+   		}
+   		if($queryheader->row()->datefrom==0){
+					/*$thdatefrom = '1880-01-01';*/
+					$datefrom = "WHERE p.datefrom ='1880-01-01'";
 			}else{
-				$datefrom = "WHERE pd.datefrom ='".$queryheader->row()->datefrom."'";
+				$datefrom = "WHERE p.datefrom ='".$queryheader->row()->datefrom."'";
 			}
 			if($queryheader->row()->dateto==0){
-					$thdateto = '1880-01-01';
-				$dateto = "AND p.dateto = '".$thdateto."'"; 
+					/*$thdateto = '1880-01-01';*/
+				$dateto = "AND p.dateto = '1880-01-01'"; 
 			}else{
 				$dateto = "AND p.dateto = '".$queryheader->row()->dateto."'";
 			}
@@ -50,7 +55,6 @@ class Billingprocess_model extends CI_Model
 				$client = "AND dth.clientID =".$queryheader->row()->clientID."";
 			}
 
-   		}
    		if($queryheader->row()->level==0){
 			$level = " AND approvalLevel= 0 ";
 		}else{
@@ -249,18 +253,18 @@ class Billingprocess_model extends CI_Model
 	function submit_Billingstatement($billingID,  $datesubmitted)
 	{
 
-		$querySubmit = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto,b.reason, b.clientID,	b.usersubmitted,	b.datesubmitted 
+		$querySubmit = $this->db->query("SELECT b.billingID, b.payrolldateID,p.datefrom,p.dateto,p.payrollID,b.reason, b.clientID,	b.usersubmitted,	b.datesubmitted 
 										,b.userapproved,	b.level, b.approvalID,	b.billingstatus, b.bstatus,
 										date_format(b.datesubmitted,'%M% %d%, %Y %H:%i:%s %p') AS formatdate
 										FROM dm_billing  as b
 										LEFT JOIN dm_payroll as p ON payrolldateID = p.payrollID
 										WHERE billingID=".$billingID." LIMIT 1");
 		if($querySubmit->row()->billingstatus ==0){
-		if($querySubmit->row()->reason==null){
+		/*if($querySubmit->row()->reason==null){
 			$reason = " ";
 		}else{
 			$reason = $querySubmit->row()->reason;
-		}
+		}*/
 			if($querySubmit->row()->billingstatus ==3 || 2){	
 				$data = array('datesubmitted' => $datesubmitted,
 	 				  'usersubmitted' => $this->session->userdata('employeeID'),
@@ -312,7 +316,7 @@ class Billingprocess_model extends CI_Model
                                         LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
                                         LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
                                         LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
-										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										WHERE p.payrollID = ".$querySubmit->row()->payrollID." AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
 										
 										UNION ALL
 										
@@ -325,7 +329,7 @@ class Billingprocess_model extends CI_Model
 										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
 										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
 										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										WHERE p.payrollID = ".$querySubmit->row()->payrollID." AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
 										)a
 										GROUP BY clientID
 									)b
@@ -408,7 +412,7 @@ class Billingprocess_model extends CI_Model
                                         LEFT JOIN dm_client AS clnt ON e.clientID = clnt.clientID
                                         LEFT JOIN dm_post as dth ON clnt.clientID = dth.clientID
                                         LEFT JOIN dm_employee AS emp ON pd.employeeID = emp.employeeID AND dth.postID = emp.postID AND dth.commander <> emp.employeeID
-										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										WHERE p.payrollID = ".$querySubmit->row()->payrollID." AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
 										
 										UNION ALL
 										
@@ -421,7 +425,7 @@ class Billingprocess_model extends CI_Model
 										LEFT JOIN  dm_payrolldetails AS pd ON  dth.commander = pd.employeeID
 										LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
 										LEFT JOIN dm_client as clnt ON dth.clientID = clnt.clientID
-										WHERE p.datefrom = '".$querySubmit->row()->datefrom."'  AND p.dateto = '".$querySubmit->row()->dateto."' AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
+										WHERE p.payrollID = ".$querySubmit->row()->payrollID." AND emp.employeetypeID = 1 AND p.payrollstatus = 2 and dth.clientID = ".$querySubmit->row()->clientID." GROUP BY dth.clientID  
 										)a
 										GROUP BY clientID
 									)b

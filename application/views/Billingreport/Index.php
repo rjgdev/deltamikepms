@@ -17,124 +17,87 @@
 			</div>
 		</div>
 <!-- Search Filter -->
-<div class="col-lg-12">
-<div class="card">
-	<div class="row">
-	<div class="col-md-12">
-	<div class="card mb-0">
-	<div class="card-header">
-		<h4 class="card-title mb-0">Billing Statement Report</h4>
-	</div>
-	<div class="card-body">
 		<form action="#"id="frmbilling"name="frmbilling">
-		<div class="row">
-			<div class="col-xl-12">
-			<div class="form-group row">
-			<div class="col-lg-5 col-md-5">
-				<div class="form-group form-focus select-focus">
-				<select class="form-control select2" id="searchbillingperiod" name="searchbillingperiod" style="width: 100%;" description="Client" required>
-				<option value="0">Select Billing Period</option>
-			 <?php
-				foreach($data as  $payroll)
-				{
-				echo '<option value="'.$payroll->datefrom.'">'.$payroll->datebilling.'</option>';
-				}
-				?> 
-				</select>
-				<label class="focus-label">Billing Date</label>
-				<div class="invalid-feedback" id="search-searchbillingperiod"></div>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group form-focus select-focus">
-					<input type="hidden" id="searchhiddenclient" name="searchhiddenclient">
-					<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
-						<option value="0">Select Client</option>
-					</select>
-					<div class="invalid-feedback" id="search-searchclient"></div>
-					<label class="focus-label">Client</label>
-					
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-					<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
-					<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
-						<option value="0">ALL</option>
-					</select>
-					<label class="focus-label">Post</label>
-				</div>
-			</div>
-				<div class="col-lg-2 col-md-2">
-			 <div class="form-group">
-						  <div class="input-group-append">
-						    	<button type="submit" name="searcgbtn" id="searcgbtn" class="btn btn-success" style="width: 105%; height: 49px; text-align:center"> 	 
-						    		Search</button>
-						  </div>
-				 	</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</form>
-	</div>
+			<div class="row">
+				<div class="col-xl-12">
+					<div class="form-group row" style="margin-bottom: 0px!important">
 
-	</div>
-	</div>
-	</div>
-</div>
-</div>
+						<div class="col-lg-5 col-md-5">
+							<div class="form-group form-focus select-focus">
+								<select class="form-control select2" id="searchbillingperiod" name="searchbillingperiod" style="width: 100%;" description="Client" required>
+									<option value="0">Select Billing Period</option>
+								 		<?php foreach($data as  $payroll)
+											{
+											echo '<option value="'.$payroll->datefrom.'">'.$payroll->datebilling.'</option>';
+											}
+										?> 
+								</select>
+								<label class="focus-label">Billing Date</label>
+								<div class="invalid-feedback" id="search-searchbillingperiod"></div>
+							</div>
+						</div>
 
-	
-	<div class="col-lg-12">
-		<div id="customers-list"></div>
-			<div class="card">
-			<div class="card-header">
-					<div class="row align-items-center">
-					<div class="col">
-						<h4 class="card-title mb-0">Records</h4>
-				</div>	
-			<!-- 	<div class="col-auto float-right ml-auto">
-					<a href="javascript:void(0);" class="btn add-btn" id="export_excel" style="border-radius: 5px; width:150%;">Export Excel</a>
-				</div>	 -->
-				</div>		
-				</div>
-				<div id="tabledata">
-				<div class="card-body">
-					<div class="table-responsive" id="show_data">
-					<table class="table table-striped custom-table datatable" id="datatable1">
-							<thead>	
-								<tr>
-									<th style="width: 90px ! important;">Client Name</th>
-									<th style="width: 90px ! important;">Detachment</th>
-									<th style="width: 180px ! important;">Billing Date</th>
-									<th style="width: 120px ! important;">Security Officer</th>
-									<th style="width: 120px ! important;">Security Guards</th>
-									<th style="width: 110px ! important;">SSS</th>
-									<th style="width: 90px ! important;">PHIC</th>
-									<th style="width: 80px ! important;">HDMF</th>
-									<th style="width: 130px ! important;">Insurance Fund</th>
-									<th style="width: 130px ! important;">OverHead Margin</th>
-									<th style="width: 60px ! important;">Subtotal</th>
-									<th style="width: 60px ! important;">Taxable</th>
-									<th style="width: 60px ! important;">Tax Due</th>
-									<th style="width: 60px ! important;">Generated</th>									
-								</tr>
-							</thead>	
-						
-							<tbody id="show_data">
-                     
-               				 </tbody>
-               				<tfoot id = total_data>
-               				
-               				</tfoot>
+						<div class="col-sm-3">
+							<div class="form-group form-focus select-focus">
+								<input type="hidden" id="searchhiddenclient" name="searchhiddenclient">
+								<select class="form-control select2" id="searchclient" name="searchclient" style="width: 100%;" description="Client" required>
+									<option value="0">Select Client</option>
+								</select>
+								<div class="invalid-feedback" id="search-searchclient"></div>
+								<label class="focus-label">Client</label>
+								
+							</div>
+						</div>
 
-               				 
-						</table>
+						<div class="col-sm-2">
+							<div class="form-group form-focus select-focus">
+								<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
+								<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
+									<option value="0">Select Post</option>
+								</select>
+								<label class="focus-label">Post</label>
+							</div>
+						</div>
+
+						<div class="col-lg-2 col-md-2">
+					 		<div class="form-group">
+								  <div class="input-group-append">
+								    	<button type="submit" name="searcgbtn" id="searcgbtn" class="btn btn-success" style="width: 105%; height: 49px; text-align:center"><i class="fas fa-search"></i> SEARCH</button>
+								  </div>
+						 	</div>
+						</div>
 					</div>
-				</div>	
 				</div>
 			</div>
+		</form>
+	
+		<div class="table-responsive" id="show_data">
+			<table class="table table-striped custom-table datatable" id="datatable1">
+				<thead>	
+					<tr>
+						<th style="width: 90px ! important;">Client Name</th>
+						<th style="width: 90px ! important;">Detachment</th>
+						<th style="width: 180px ! important;">Billing Date</th>
+						<th style="width: 120px ! important;">Security Officer</th>
+						<th style="width: 120px ! important;">Security Guards</th>
+						<th style="width: 110px ! important;">SSS</th>
+						<th style="width: 90px ! important;">PHIC</th>
+						<th style="width: 80px ! important;">HDMF</th>
+						<th style="width: 130px ! important;">Insurance Fund</th>
+						<th style="width: 130px ! important;">OverHead Margin</th>
+						<th style="width: 60px ! important;">Subtotal</th>
+						<th style="width: 60px ! important;">Taxable</th>
+						<th style="width: 60px ! important;">Tax Due</th>
+						<th style="width: 60px ! important;">Generated</th>									
+					</tr>
+				</thead>	
+				<tbody id="show_data">
+         
+   				</tbody>
+   				<tfoot id = total_data>
+   				
+   				</tfoot>
+			</table>
 		</div>
 	</div>
 
@@ -189,7 +152,7 @@
 				var html = '';
 				var i;
 
-				html += '<option value="">ALL</option>';
+				html += '<option value="">All</option>';
 				for(i=0; i<data.length; i++){
 					if($("#searchhiddendetachment").val()==data[i].detachmentID){
 					html += '<option value='+data[i].postID+' selected>'+data[i].postname+'</option>';

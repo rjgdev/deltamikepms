@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<div class="col-sm-2">  
-							<a href="#" class="btn btn-success btn-block search"> Search </a>  
+							<a href="#" class="btn btn-success btn-block search"><i class="fas fa-search"></i> Search </a>  
 						</div>  
                     </div>
 					<!-- /Search Filter -->
