@@ -25,7 +25,7 @@ class Postscheduling_model extends CI_Model
     							 	   		   WHERE clientID  ='.$clientID.' AND 
     							 	   			     postID    ='.$postID.' AND 
     							 	   			     weekstart ="'.$weekstart.'" AND
-    							 	   			     weekend   ="'.$weekend.'" order by timein, timeout');
+    							 	   			     weekend   ="'.$weekend.'" order by timein,timeout');
 
 	    if($queryPostschedule->num_rows()!=0){
     		$queryPostscheduleGuard = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) AS "fullname" FROM dm_postschedule_guard

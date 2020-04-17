@@ -292,7 +292,7 @@
 					<table class="table table-bordered table-striped custom-table table-nowrap mb-0" id="datatable" style="width:100%;">
 						<thead>
 							<tr>
-								<th colspan="<?=$colspan;?>" style="text-align:center; color:#e04d45; text-transform: uppercase;">
+								<th colspan="<?=$colspan;?>" style="text-align:center; color:white;background-color: #df4c44; text-transform: uppercase;">
 									<?php echo "Period: ".$datefrom.' - '.$dateto; ?>
 								</th>
 							</tr>
@@ -356,8 +356,9 @@
 
 									if(count($data['timekeepingdetails'])!=0){
 										foreach ($data['timekeepingdetails'] as $item){
-											if($item->employeeID!=$emp->employeeID) continue;
 
+											if($item->employeeID!=$emp->employeeID) continue;
+											
 											$exist = 1;
 
 											for($i=$init;$i<=$lastday;$i++){

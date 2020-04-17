@@ -20,13 +20,16 @@
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\select2.min.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\jquery.toast.min.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap-datepicker.css">
+		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\bootstrap-datepicker3.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\plugins\bootstrap-tagsinput\bootstrap-tagsinput.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\plugins\morris\morris.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\style.css">
 
         <script src="<?php echo base_url();?>pages\assets\js\jquery-3.2.1.min.js"></script>	
-        <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
-  		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
+        <script src="<?php echo base_url();?>pages\assets\js\jquery.toast.min.js"></script>
+  		<script src="<?php echo base_url();?>pages\assets\js\toast.js"></script>	
+  		<script src="<?php echo base_url();?>pages\assets\js\bootstrap-datepicker.min.js"></script>
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
 			<script src="<?php echo base_url();?>pages/assets/js/html5shiv.min.js"></script>

@@ -28,7 +28,7 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 30px;">ID No.</th>
+								<th style="width: 50px;">ID No.</th>
 								<th style="width: 220px ! important;">Client Name</th>
 								<th style="width: 220px ! important;">Contact Person</th>
 								<th style="width: 170px ! important;">Contact No.</th>

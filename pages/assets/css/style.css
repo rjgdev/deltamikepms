@@ -24,7 +24,7 @@ Version      : 3.3
 15. Nav tabs
 16. Holidays
 17. Delete Modal
-18. Edit Profile
+18. Edit Profilegraphic-hero.570de7eb
 19. Chat
 20. Focus Label
 21. Leave
@@ -75,6 +75,28 @@ Version      : 3.3
 /*Customize*/
 body{
 	padding-right: 0px !important;
+}
+
+/*body::-webkit-scrollbar {
+display: none;
+}*/
+
+body::-webkit-scrollbar-track, .modal::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #f7f7f7;
+}
+
+body::-webkit-scrollbar, .modal::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #f7f7f7;
+}
+
+body::-webkit-scrollbar-thumb, .modal::-webkit-scrollbar-thumb
+{
+	/*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+	background-color: #9e0924;
 }
 
 .input-group {
@@ -333,12 +355,12 @@ a { color: inherit; }
 
 .notification .badge {
   position: absolute;
-  top: 13px;
-  right: 23px;
+  top: 11px;
+  right: 12px;
   padding-right: .5em;
   padding-left: .5em;
   border-radius: 10rem;
-  background: red;
+  background: #e04d45;
   color: white;
   font-size: 13px;
 }
@@ -617,7 +639,8 @@ table.dataTable thead > tr > td.sorting_asc,
 table.dataTable thead > tr > td.sorting_desc, 
 table.dataTable thead > tr > td.sorting {
 	padding-right: 30px !important;
-	color: rgb(224, 77, 69);
+	color: white;
+	background-color: #df4c44;
 }
 
 /*-----------------
@@ -2083,7 +2106,7 @@ table.dataTable thead > tr > td.sorting {
 	border-radius: 100%;
 	color: #e04d45;
 	display: inline-block;
-	font-size: 50px;
+	font-size: 35px;
 	height: 60px;
 	line-height: 60px;
 	margin-right: 10px;
@@ -6804,6 +6827,7 @@ ul.comment-list li ul.children {
 }
 .welcome-img {
 	margin-right: 15px;
+	margin-left: 10px;
 }
 .welcome-img img {
     border-radius: 8px;
@@ -6935,16 +6959,16 @@ ul.comment-list li ul.children {
     align-items: center;
     display: flex;
     flex-flow: column wrap;
-    flex-grow: 1;
     padding-left: 15px;
     padding-right: 15px;
+    width: 150px;
 }
 .dash-stats-list + .dash-stats-list {
 	border-left: 1px solid #e7e7e7;
 }
 .dash-stats-list h4 {
-    color: #1f1f1f;
-    font-size: 21px;
+    color: #e04d45;
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.5;
     margin-bottom: 0;

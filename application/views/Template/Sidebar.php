@@ -93,7 +93,7 @@
 								<?php } if($permission[14]){ ?>
 									<li><a href="<?php echo base_url(); ?>Payrollreport">Payroll Report</a></li>
 								<?php } if($permission[15]){ ?>
-									<li><a href="<?php echo base_url(); ?>Maintenance">Payroll Adjustment Report</a></li>
+									<li><a href="<?php echo base_url(); ?>Payrolladjustmentreport">Payroll Adjustment Report</a></li>
 								<?php } ?>
 							</ul>
 						</li>			

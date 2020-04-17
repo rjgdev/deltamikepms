@@ -34,15 +34,15 @@ $accesslevel = $access->employeetypeID;
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th style="width: 120px ! important;">Overtime Number</th>
-								<th style="width: 220px ! important;">Employee Name</th>
-								<th style="width: 120px ! important;">Overtime Date</th>
-								<th style="width: 100px ! important;">Start Time</th>
-								<th style="width: 100px ! important;">End Time</th>
+								<th style="width: 80px ! important;">Overtime Number</th>
+								<th style="width: 180px ! important;">Employee Name</th>
+								<th style="width: 70px ! important;">Overtime Date</th>
+								<th style="width: 50px ! important;">Start Time</th>
+								<th style="width: 50px ! important;">End Time</th>
 								<th style="width: 50px ! important;">Total Hour</th>
-								<th style="width: 50px ! important;">Note</th>
-								<th style="width: 50px ! important;">Status</th>
-								<th style="width: 50px ! important;">Actions</th>
+								<th style="width: 10px ! important;">Note</th>
+								<th style="width: 10px ! important;">Status</th>
+								<th style="width: 10px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
@@ -87,14 +87,14 @@ $accesslevel = $access->employeetypeID;
 										data-totalhour="<?php echo $item->totalhour; ?>" 
 										data-noted="<?php echo $item->noted; ?>" 
 										data-tog="tooltip"data-placement="top" title="Edit">
-									<i class="fa fa-pencil m-r-5"></i> Edit</a>
+									<i class="fa fa-pencil"></i> Edit</a>
 									<?php  if($accesslevel==1){	
 										}else{ ?>
 								<a class="dropdown-item changesnoted" 
 									href="#" data-toggle="modal" data-target="#noted_employee"
 									data-id="<?php echo $item->overtimeid; ?>" 
 									data-overtnoted="<?php echo $item->noted; ?>">
-									<i class="fa fa-sticky-note"></i>Noted</a> <?php } ?>
+									<i class="fa fa-sticky-note"></i> Noted</a> <?php } ?>
     							</div>	
     							</div>
 								<!-- <td class="text-right">

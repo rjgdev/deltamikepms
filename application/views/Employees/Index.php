@@ -33,14 +33,14 @@
     
     <thead>
     <tr>
-    <th style="width: 100px ! important;">Employee Number</th>
-    <th style="width: 220px ! important;">Employee Name</th>
-    <th style="width: 150px ! important;">Client</th>
-    <th style="width: 100px ! important;">Employee Type</th>
-    <th style="width: 110px ! important;">Contact Number.</th>
-    <th style="width: 110px ! important;">Hired Date</th>
-    <th style="width: 50px ! important;">Status</th>
-    <th style="width: 30px ! important;">Action</th>
+    <th style="width: 70px ! important;">Employee Number</th>
+    <th style="width: 120px ! important;">Employee Name</th>
+    <th style="width: 50px ! important;">Client</th>
+    <th style="width: 50px ! important;">Employee Type</th>
+    <th style="width: 70px ! important;">Contact Number</th>
+    <th style="width: 70px ! important;">Hired Date</th>
+    <th style="width: 10px ! important;">Status</th>
+    <th style="width: 10px ! important;">Action</th>
     </tr>
     </thead>
     <tbody id="showdata">

@@ -32,10 +32,12 @@ class Dashboard_model extends CI_Model
 			ORDER BY clientID DESC LIMIT 5');
 
 		$leave = $this->db->query('
-			SELECT empleave.*, emp.firstname, emp.lastname, emp.photo, type.leavetypename 
+			SELECT empleave.*, emp.firstname, emp.lastname, emp.photo, type.leavetypename,des.designationdescription
 			FROM dm_employeeleave as empleave
 			LEFT JOIN dm_employee as emp
 			ON empleave.employeeID = emp.employeeID
+			LEFT JOIN dm_designation as des
+			ON emp.designationID = des.designationID
 			LEFT JOIN dm_leavetype as type
 			ON empleave.leavetypeID = type.leavetypeID
 			WHERE DATE(leavefrom) >= CURDATE()
@@ -53,6 +55,10 @@ class Dashboard_model extends CI_Model
 
 		$payroll = $this->db->query("SELECT * FROM dm_timekeeping WHERE payrollstatus=0 LIMIT 1");
 
+		$activeguards = $this->db->query("SELECT COUNT(employeeID) AS 'totalGuard' FROM dm_employee WHERE employeetypeID=1 AND employeestatus='Active'");
+
+		$activestaff = $this->db->query("SELECT COUNT(employeeID) AS 'totalStaff' FROM dm_employee WHERE employeetypeID=2 AND employeestatus='Active'");
+
 	    $result1 	= 	$timekeepingguard->result();
 	    $result2 	= 	$payroll->result();
 	    $result3 	= 	$thirteenthmonth->result();
@@ -64,18 +70,23 @@ class Dashboard_model extends CI_Model
 	    $result9 	= 	$post->result();
 	    $result10 	= 	$timekeeping->result();
 	    $result11 	= 	$payroll->result();
+	    $result12 	= 	$activeguards->result();
+	    $result13 	= 	$activestaff->result();
+
 	          return array(
-	          	'timekeepingguard' => $result1,
-	          	'payroll' => $result2,
-	          	'thirteenthmonth' => $result3,
-	          	'retirement' => $result4,
-	          	'billing' => $result5,
-	          	'employee' => $result6,
-	          	'client' => $result7,
-	          	'leave' => $result8,
-	          	'post' => $result9,
-	          	'timekeeping' => $result10,
-	          	'payroll' => $result11
+	          	'timekeepingguard' 	=> $result1,
+	          	'payroll' 			=> $result2,
+	          	'thirteenthmonth' 	=> $result3,
+	          	'retirement' 	=> $result4,
+	          	'billing' 		=> $result5,
+	          	'employee' 		=> $result6,
+	          	'client' 		=> $result7,
+	          	'leave' 		=> $result8,
+	          	'post' 			=> $result9,
+	          	'timekeeping' 	=> $result10,
+	          	'payroll' 		=> $result11,
+	          	'activeguards'  => $result12,
+	          	'activestaff'   => $result13
 	          );
   	}
 }

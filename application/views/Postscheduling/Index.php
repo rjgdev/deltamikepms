@@ -161,9 +161,11 @@
 			<div class="modal-body">
 				<form>
 					<div class="form-group">
+						<label>Assign Guards <span class="text-danger">*</span></label>
 						<select class="form-control select2" id="selectGuard" multiple="multiple" style="width:100%;">
 
 						</select>
+						<div class="invalid-feedback" id="add-guard"></div>
 					</div>
 
 					<div class="submit-section">
@@ -184,13 +186,13 @@
 				<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
 						<h3>Confirmation Message</h3>
-						<p>Are you sure you want to add this schedule?</p>
+						<p id="add_message"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
 				</div>
 			
 					<div class="row">
 						<div class="col-6">
-							<a href="#" class="btn btn-primary continue-btn">Add</a>
+							<button class="btn btn-primary submit-btn">Add</button>
 						</div>
 						<div class="col-6">
 							<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
@@ -216,7 +218,7 @@
 			
 					<div class="row">
 						<div class="col-6">
-							<a href="#" class="btn btn-primary continue-btn">Delete</a>
+							<button class="btn btn-primary submit-btn">Delete</button>
 						</div>
 						<div class="col-6">
 							<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
@@ -309,8 +311,11 @@ $(document).ready(function() {
 
 		    	$('#add_schedule').hide();
 
-		   		$(".continue-btn").attr("id","saveSched");
-		   		$(".cancel-btn").attr("id","cancelSched");
+		   		$("#confirmation_add .submit-btn").attr("id","saveSched");
+		   		$("#confirmation_add .submit-btn").html("Add");
+		   		$("#confirmation_add .cancel-btn").attr("id","cancelSched");
+		   		$('#confirmation_add .submit-btn').attr("disabled",false);
+		   		$('#confirmation_add #add_message').html("Are you sure you want to <b>add this shift</b>?");
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -324,7 +329,10 @@ $(document).ready(function() {
 		        var weekend   = $(".viewsched").attr("weekend");
 		        var timein    = $("#addTimein").val();
 		        var timeout   = $("#addTimeout").val();
-
+		        
+		        $(this).attr("disabled","disabled");
+				$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
+				
 				$.ajax({
 				      url : "<?php echo site_url('Scheduling/savesched');?>",
 				      method : "POST",
@@ -355,9 +363,9 @@ $(document).ready(function() {
 				      			$('#confirmation_add').modal('hide');
 								$('#add_schedule').show();
 								$("#addTimein").addClass("is-invalid");
+								$("#add-timein").html("Shift already exist!");
 								$("#addTimeout").addClass("is-invalid");
 								$("#addTimein").focus();
-				      			showErrorToast("Shift already exist!");
 				      		}
 				      },
 				      error: function(request, textStatus, error) {
@@ -382,10 +390,13 @@ $(document).ready(function() {
 			});
 
 			$(document).on("click", '.removeSched', function () {
-				$("#confirmation_delete .continue-btn").attr("id","deleteSched");
-				$("#confirmation_delete .continue-btn").attr("sched",$(this).attr("sched"));
+				$("#confirmation_delete .submit-btn").attr("id","deleteSched");
+				$("#confirmation_delete .submit-btn").attr("sched",$(this).attr("sched"));
+				$("#confirmation_delete .submit-btn").html("Delete");
+				$('#confirmation_delete .submit-btn').attr("disabled",false);
+
 		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteSched");
-		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to delete this <b>schedule</b>? <p style='font-size: .71rem; color: #e04d45; font-weight:500;'>All assigned guards in this shift will be remove also.</p>");
+		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to <b>delete this shift</b>? <p style='font-size: .71rem; color: #e04d45; font-weight:500;'>All assigned guards in this shift will be remove also.</p>");
 				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -393,6 +404,9 @@ $(document).ready(function() {
 
 			$(document).on("click", '#deleteSched', function () {
 				var postscheduleID  = $(this).attr("sched");
+
+				$(this).attr("disabled","disabled");
+				$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
 				$.ajax({
 				      url : "<?php echo site_url('Scheduling/removesched');?>",
@@ -410,7 +424,7 @@ $(document).ready(function() {
 		  							var htmlOutput = '<tr>' + 
 														'<td colspan="8" id="norecord">' + 
 															'<img class="isometric confirmationisometric" style="height:220px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
-															'<h4>No schedule found</h4>' + 
+															'<h4>No schedule found!</h4>' + 
 															'<p>Click <b>Add a new shift</b> to add.</p>' + 
 														'</td>' + 
 														'<td style="display: none;"></td>' + 
@@ -425,7 +439,7 @@ $(document).ready(function() {
 									$("#data_show").html(htmlOutput);
 		  						}
 
-		  						showErrorToast("Shift successfully removed!");
+		  						showSuccessToast("Shift successfully removed!");
 					        },500);
 				      },
 				      error: function(request, textStatus, error) {
@@ -439,6 +453,12 @@ $(document).ready(function() {
 
 
 	/*************************************  SHOW GUARD  *********************************************/
+			$('#add_guard').on('hidden.bs.modal', function(){
+		   		document.getElementById("add-guard").innerHTML = "";
+	        	$("#add_guard .select2-selection--multiple").removeClass('is-invalid');
+	        	$('#selectGuard').removeClass('is-invalid');
+			});
+
 			$(document).on("click", '.showGuard', function () {
 				var clientID 		= $(".viewsched").attr("clientid");
 				var postID 			= $(".viewsched").attr("postid");
@@ -482,9 +502,26 @@ $(document).ready(function() {
 			});
 
 			$(document).on("click", '#submitGuard', function () {
+				
+				if($("#selectGuard").val()==""){
+					document.getElementById("add-guard").innerHTML = "Please select a guard!";
+		        	$("#add_guard .select2-selection--multiple").addClass('is-invalid');
+		        	$('#selectGuard').addClass('is-invalid');
+		        	$('#selectGuard').focus();
+					return false;
+				}else{
+					document.getElementById("add-guard").innerHTML = "";
+		        	$("#add_guard .select2-selection--multiple").removeClass('is-invalid');
+		        	$('#selectGuard').removeClass('is-invalid');
+				}
+
 		    	$('#add_guard').hide();
-		    	$("#confirmation_add .continue-btn").attr("id","saveGuard");
+		    	$("#confirmation_add .submit-btn").attr("id","saveGuard");
 		   		$("#confirmation_add .cancel-btn").attr("id","cancelGuard");
+		   		$('#confirmation_add .submit-btn').attr("disabled",false);
+		   		$("#confirmation_add .submit-btn").html("Add");
+
+		   		$('#confirmation_add #add_message').html("Are you sure you want to <b>add this guard</b>?");
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -501,6 +538,9 @@ $(document).ready(function() {
 				var employeeID  	= $("#selectGuard").val();
 
 				const day = ["Sunday", "Monday", "Tueday","Wednesday", "Thursday", "Friday", "Saturday"];
+
+				$(this).attr("disabled","disabled");
+				$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
 				$.ajax({
 				      url : "<?php echo site_url('Scheduling/saveguard');?>",
@@ -520,7 +560,7 @@ $(document).ready(function() {
 												'<p class="p-guard sched' + postscheduleID + "week" + weekday + '" id="sched' + postscheduleID + "week" + weekday + "emp" + data["guard"][i].employeeID + '" employeeid="' + data["guard"][i].employeeID + '">' + data["guard"][i].fullname + '</p>' + 
 											'</div>' + 
 											'<div class="dash-card-avatars">' + 
-												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data["guard"][i].employeeID + '" class="removeGuard"><i class="fas fa-minus-circle"></i></a>' + 
+												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data["guard"][i].employeeID + '" class="removeGuard"><i class="fas fa-user-times"></i></a>' + 
 											'</div>' + 
 										'</div>' + 
 									'</div>' + 
@@ -551,12 +591,15 @@ $(document).ready(function() {
 
 
 			$(document).on("click", '.removeGuard', function () {
-				$("#confirmation_delete .continue-btn").attr("id","deleteGuard");
-				$("#confirmation_delete .continue-btn").attr("sched",$(this).attr("sched"));
-				$("#confirmation_delete .continue-btn").attr("week",$(this).attr("week"));
-				$("#confirmation_delete .continue-btn").attr("employeeid",$(this).attr("employeeid"));
+				$("#confirmation_delete .submit-btn").attr("id","deleteGuard");
+				$("#confirmation_delete .submit-btn").attr("sched",$(this).attr("sched"));
+				$("#confirmation_delete .submit-btn").attr("week",$(this).attr("week"));
+				$("#confirmation_delete .submit-btn").attr("employeeid",$(this).attr("employeeid"));
+				$('#confirmation_delete .submit-btn').attr("disabled",false);
+				$("#confirmation_delete .submit-btn").html("Remove");
+
 		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteGuard");
-		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to delete this <b>guard</b>?");
+		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to <b>remove this guard</b>?");
 				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -567,6 +610,9 @@ $(document).ready(function() {
 				var postscheduleID  = $(this).attr("sched");
 				var weekday		    = $(this).attr("week");
 				var employeeID		= $(this).attr("employeeid");
+
+				$(this).attr("disabled","disabled");
+				$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
 				$.ajax({
 				      url : "<?php echo site_url('Scheduling/removeguard');?>",
@@ -586,7 +632,7 @@ $(document).ready(function() {
 												'<p class="p-guard sched' + postscheduleID + "week" + weekday + '" id="sched' + postscheduleID + "week" + weekday + "emp" + data[i].employeeID + '" employeeid="' + data[i].employeeID + '">' + data[i].fullname + '</p>' + 
 											'</div>' + 
 											'<div class="dash-card-avatars">' + 
-												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data[i].employeeID + '" class="removeGuard"><i class="fas fa-minus-circle"></i></a>' + 
+												'<a href="javascript:void(0);" sched="' + postscheduleID + '" week="' + weekday + '" employeeid="' + data[i].employeeID + '" class="removeGuard"><i class="fas fa-user-times"></i></a>' + 
 											'</div>' + 
 										'</div>' + 
 									'</div>' + 
@@ -596,7 +642,7 @@ $(document).ready(function() {
       		  				$("#sched" + postscheduleID + "week" + weekday).html(htmlOutput);
       		  				$('#confirmation_delete').modal('hide');
 
-      		  				showErrorToast("Guard successully removed!");
+      		  				showSuccessToast("Guard successully removed!");
 				      },
 				      error: function(request, textStatus, error) {
 
@@ -649,7 +695,7 @@ $(document).ready(function() {
 									'<td colspan="8" id="norecord">' + 
 										'<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/loading.svg">' + 
 										'<h4>Please wait...</h4>' + 
-										'<p>Genarating schedule of <b>' + $("#searchclient option:selected").text() + ' - ' + $("#searchpost option:selected").text() + '<b>.</p>' + 
+										'<p>Generating schedule of <b>' + $("#searchclient option:selected").text() + ' - ' + $("#searchpost option:selected").text() + '<b>.</p>' + 
 									'</td>' + 
 								'</tr>';
 
@@ -681,7 +727,7 @@ $(document).ready(function() {
 		        				 '</tr>' +
 
 		        				'<tr>' + 
-									'<th class="text-center postHeader shift">Shifting</th>' +
+									'<th class="text-center postHeader shift" style="width:60px;">Shifting</th>' +
 									'<th class="text-center postHeader sun">Sunday<br>'+ sun +'</th>' 	 +
 									'<th class="text-center postHeader mon">Monday<br>'+ mon +'</th>' 	 +
 									'<th class="text-center postHeader tue">Tuesday<br>'+ tue +'</th>' 	 +
@@ -704,7 +750,7 @@ $(document).ready(function() {
 					      		 weekend: weekend},
 					      success: function(data){	
 					      		var htmlOutput = "";
-
+					      		console.table(data["postschedule"]);
 					      		if(data["postschedule"].length!=0){
 				      				for(y=0; y<data["postschedule"].length; y++){
 					      				htmlOutput += '<tr id="' + data["postschedule"][y].postscheduleID + '">' +
@@ -749,7 +795,7 @@ $(document).ready(function() {
 				      				htmlOutput = '<tr>' + 
 													'<td colspan="8" id="norecord">' + 
 														'<img class="isometric confirmationisometric" style="height:220px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
-														'<h4>No schedule found</h4>' + 
+														'<h4>No schedule found!</h4>' + 
 														'<p>Click <b>Add a new shift</b> to add.</p>' + 
 													'</td>' + 
 													'<td style="display: none;"></td>' + 
@@ -1012,7 +1058,7 @@ $(document).ready(function() {
     	var optionEmployee = "";
 
     	$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
-
+    	$("#searchpost").prop("disabled", true);
     	$.ajax({
 		      url : "<?php echo site_url('Scheduling/loadpost');?>",
 		      method : "POST",
@@ -1026,7 +1072,7 @@ $(document).ready(function() {
 		      	for(i=0;i<data["post"].length;i++){
 		      		htmlPost+='<option value="' + data["post"][i].postID + '">' + data["post"][i].postname + '</option>';
 		      	}
-		      	
+		      	$("#searchpost").prop("disabled", false);
 		      	$("#searchpost").html(htmlPost);
 		      	if(data["post"].length!=0) $("#searchpost").focus();
 		      	$(".loader").fadeOut();

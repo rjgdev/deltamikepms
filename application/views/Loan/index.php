@@ -12,7 +12,7 @@
 					<h3 class="page-title">Employee Loan</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Loan</li>
+						<li class="breadcrumb-item active">Employee Loan</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
@@ -27,16 +27,16 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								  <th style="width: 220px ! important;">Loan No.</th>
-								  <th style="width: 500px ! important;">Employee Name</th>
-			                      <th style="width: 300px ! important;">Loan Type</th>
-			                      <th style="width: 200px ! important;">Term of Payment</th>
-			                      <th style="width: 150px ! important;">Start Date</th>
-			                      <th style="width: 150px ! important;">End Date</th>
-			                      <th style="width: 70px ! important;">Amount</th>
-			                      <th style="width: 70px ! important;">Deduction</th>
-			                      <th style="width: 30px ! important;">Paid</th> 
-								<th style="width: 30px ! important;">Actions</th>
+								  <th style="width: 50px ! important;">Loan No.</th>
+								  <th style="width: 150px ! important;">Employee Name</th>
+			                      <th style="width: 20px ! important;">Loan Type</th>
+			                      <th style="width: 100px ! important;">Term of Payment</th>
+			                      <th style="width: 50px ! important;">Start Date</th>
+			                      <th style="width: 50px ! important;">End Date</th>
+			                      <th style="width: 20px ! important;">Amount</th>
+			                      <th style="width: 20px ! important;">Deduction</th>
+			                      <th style="width: 20px ! important;">Status</th> 
+								  <th style="width: 10px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
@@ -60,14 +60,17 @@
 								<td class="text-right"><?php  echo $item->amount; ?></td>
 								<td class="text-right"><?php echo $item->deduction; ?></td>
 								<td>
-								<div class="action-label">
-										<a class="btn btn-white btn-sm btn-rounded action-status" href="#">
-											<?php if($item->paid=="1") 
-													   echo '<i class="fa fa-dot-circle-o text-success"></i> Paid';
-												  else echo '<i class="fa fa-dot-circle-o text-danger"></i> Unpaid';
-										    ?>
-										</a>
-									</div>
+									<?php if($item->paid=="1"){
+											 	echo '<span class="badge bg-inverse-success custom-status">
+															<i class="fa fa-dot-circle-o text-success"></i> Paid
+													  </span>';
+										  }else{
+										  		echo '<span class="badge bg-inverse-danger custom-status">
+															<i class="fa fa-dot-circle-o text-danger"></i> Unpaid
+													  </span>';
+										  }
+									  ?>
+									
 								</td>	
 								</div>
 									<td class="text-right">

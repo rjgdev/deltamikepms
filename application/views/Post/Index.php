@@ -28,15 +28,15 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 50px;">ID No.</th>
-								<th style="width: 200px ! important;">Post Name</th>
-								<th style="width: 180px ! important;">Location</th>
-								<th style="width: 180px ! important;">Client Name</th>
-								<th style="width: 180px ! important;">Detachment Commander</th>
-								<th style="width: 100px ! important;">Start Date</th>
-								<th style="width: 100px ! important;">End Date</th>
-								<th style="width: 100px ! important;">Status</th>
-								<th style="width: 50px ! important;" class="text-right">Action</th>
+								<th style="width: 20px;">ID No.</th>
+								<th style="width: 80px ! important;">Post Name</th>
+								<th style="width: 80px ! important;">Location</th>
+								<th style="width: 80px ! important;">Client Name</th>
+								<th style="width: 110px ! important;">Detachment Commander</th>
+								<th style="width: 50px ! important;">Start Date</th>
+								<th style="width: 50px ! important;">End Date</th>
+								<th style="width: 20px ! important;">Status</th>
+								<th style="width: 20px ! important;" class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -45,7 +45,7 @@
 									<td><?php echo $item->pstID; ?></td>
 									<td>
 										<div class="dash-card-content">  
-											<p style="margin-left: 10px; color: black;"> <?php echo $item->postname; ?> <span style="color:#888;display: block; font-size: 11px;"> Guards Assigned: <?php echo $item->noofguard; ?> </span></p> 	
+											<p style="color: black;"> <?php echo $item->postname; ?> <span style="color:#888;display: block; font-size: 11px;"> Guards Assigned: <?php echo $item->noofguard; ?> </span></p> 	
 										</div>
 									</td>
 									<td><?php echo $item->detachcity; ?></td>

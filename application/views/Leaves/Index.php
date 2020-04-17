@@ -11,7 +11,7 @@
 					<h3 class="page-title">Employee Leave</h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Leaves</li>
+						<li class="breadcrumb-item active">Employee Leave</li>
 					</ul>
 				</div>
 				<div class="col-auto float-right ml-auto">
@@ -27,15 +27,15 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="width: 110px ! important;"><center>Leave Number</th>
-								<th style="width: 220px ! important;"><center>Employee Name</th>
-								<th style="width: 150px ! important;"><center>Leave Type</th>
-								<th style="width: 190px ! important;"><center>From</th>
-								<th style="width: 190px ! important;"><center>To</th>
-								<th style="width: 50px ! important;"><center>No. of Days</th>
-								<th style="width: 120px ! important;"><center>Note</th>
-								<th style="width: 120px ! important;"><center>Status</th>
-								<th style="width: 40px ! important;"><center>Actions</th>
+								<th style="width: 70px ! important;">Leave Number</th>
+								<th style="width: 200px ! important;">Employee Name</th>
+								<th style="width: 50px ! important;">Leave Type</th>
+								<th style="width: 70px ! important;">From</th>
+								<th style="width: 70px ! important;">To</th>
+								<th style="width: 60px ! important;">No. of Days</th>
+								<th style="width: 20px ! important;">Note</th>
+								<th style="width: 20px ! important;">Status</th>
+								<th style="width: 20px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -76,12 +76,12 @@
 									data-numberofdays="<?php echo $record->numberofdays; ?>" 
 									data-remainingleave="<?php echo $record->remainingleave; ?>" 
 									data-reason="<?php echo $record->reason; ?>" 
-									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i>Edit</a>
+									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> Edit</a>
 									<a class="dropdown-item changesnoted" 
 									href="#" data-toggle="modal" data-target="#noted_employee"
 									data-id="<?php echo $record->employeeleaveID; ?>" 
 									data-noted="<?php echo $record->noted; ?>">
-									<i class="fa fa-sticky-note"></i>Noted</a>
+									<i class="fa fa-sticky-note"></i> Noted</a>
 								<!-- <td class="text-right">
 									<button type="button" 
 									id="<?php echo $record->employeeleaveID; ?>" 

@@ -44,7 +44,7 @@ class Timekeepingsecurityguard_model extends CI_Model
    										  INNER JOIN dm_employee ON dm_employee.employeeID = dm_timekeepingdetails.employeeID 
 									  	  WHERE dm_employee.employeetypeID=1 AND dm_timekeepingdetails.timekeepingID='.$timekeepingID.
 									   	 ' AND dm_timekeepingdetails.datesched>="'.$datefrom.'"'.
-									   	 ' AND dm_timekeepingdetails.datesched<="'.$dateto.'"');
+									   	 ' AND dm_timekeepingdetails.datesched<="'.$dateto.'" ORDER BY datesched,dm_employee.employeeID');
 
    		$queryEmployee = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) AS fullname FROM dm_employee 
    										   WHERE employeestatus="Active" AND 
