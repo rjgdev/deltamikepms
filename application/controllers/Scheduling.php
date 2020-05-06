@@ -21,6 +21,19 @@
 			$this->load->view('Template/Footer',$data);
 		} 
 
+		/*public function loadguard() 
+		{ 
+			$postID 	 	= $this->input->post('postID');
+			$postType 	 	= $this->input->post('postType');
+			$postType 		= $this->input->post('postType');
+			$scheduleDay 	= $this->input->post('scheduleDay');
+			$postscheduleID = $this->input->post('postscheduleID');
+
+       		$data=$this->schedule->load_guard($postID,$postType,$scheduleDay,$postscheduleID);
+
+			echo json_encode($data);
+		}*/
+
 		public function loadguard() 
 		{ 
 			$clientID 	 	= $this->input->post('clientID');

@@ -34,15 +34,15 @@ $accesslevel = $access->employeetypeID;
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 110px ! important;">Overtime Number</th>
-								<th style="min-width: 260px ! important;">Employee Name</th>
-								<th style="min-width: 90px ! important;">Overtime Date</th>
-								<th style="min-width: 70px ! important;">Start Time</th>
-								<th style="min-width: 70px ! important;">End Time</th>
-								<th style="min-width: 40px ! important;">Hours</th>
-								<th style="min-width: 100px ! important;">Note</th>
-								<th style="min-width: 60px ! important;">Status</th>
-								<th style="min-width: 50px ! important;">Actions</th>
+								<th style="width: 80px ! important;">Overtime Number</th>
+								<th style="width: 180px ! important;">Employee Name</th>
+								<th style="width: 70px ! important;">Overtime Date</th>
+								<th style="width: 50px ! important;">Start Time</th>
+								<th style="width: 50px ! important;">End Time</th>
+								<th style="width: 50px ! important;">Total Hour</th>
+								<th style="width: 10px ! important;">Note</th>
+								<th style="width: 10px ! important;">Status</th>
+								<th style="width: 10px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
@@ -434,14 +434,12 @@ $accesslevel = $access->employeetypeID;
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
 	}
 ?>
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-    overflow-y: hidden;
-}
-</style>
-
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
 	$('.changesnoted').unbind('click').bind('click', function(){
      $(".modal-body #overtimenoted").val( $(this).data('overtnoted'));
      $('.editnote').attr('id', $(this).data('id'));
@@ -621,30 +619,24 @@ $("#addstarttime").change(function(){
 			 	event.preventDefault();
 			}
 		}
-
 		if(starttimecheck==""){
-			document.getElementById("add-starttime").innerHTML = "Please provide a start time.";
+			document.getElementById("add-endtime").innerHTML = "Please provide a start time.";
 	        $('#addstarttime').addClass('is-invalid');
             event.preventDefault();
             
 		}else{
-			document.getElementById("add-starttime").innerHTML = "";	
-			$('#addstarttime').removeClass('is-invalid');
-			$('#addstarttime').addClass('is-valid');
-		 	event.preventDefault();
 		};
-
 		if(endtimecheck==""){
-			document.getElementById("add-endtime").innerHTML = "Please provide an end time.";
+			document.getElementById("add-starttime").innerHTML = "Please provide a end time.";
 	        $('#addendtime').addClass('is-invalid');
             event.preventDefault();
             
 		}else{
 			document.getElementById("add-endtime").innerHTML = "";	
-			$('#addendtime').removeClass('is-invalid');
-			$('#addendtime').addClass('is-valid');
-		 	event.preventDefault();
-		}
+				$('#addendtime').removeClass('is-invalid');
+				$('#addendtime').addClass('is-valid');
+			 	event.preventDefault();
+		};
 
 		if(description==""){
 			document.getElementById("add-description").innerHTML = "Please provide a desciption.";
@@ -767,7 +759,7 @@ $("#addstarttime").change(function(){
 			}
 		}
 		if(endtimecheck==""){
-			document.getElementById("edit-endtime").innerHTML = "Please provide an end time.";
+			document.getElementById("edit-endtime").innerHTML = "Please provide a end time.";
 	        $('#editendtime').addClass('is-invalid');
             event.preventDefault();
            

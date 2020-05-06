@@ -28,15 +28,15 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 10px; width:10px;">#</th>
-								<th style="min-width: 120px ! important;">Post Name</th>
-								<th style="min-width: 120px ! important;">Location</th>
-								<th style="min-width: 120px ! important;">Client Name</th>
-								<th style="min-width: 150px ! important;">Detachment Commander</th>
-								<th style="min-width: 70px ! important;">Start Date</th>
-								<th style="min-width: 70px ! important;">End Date</th>
-								<th style="min-width: 50px;">Status</th>
-								<th style="min-width: 50px;" class="text-right">Action</th>
+								<th style="width: 20px;">ID No.</th>
+								<th style="width: 80px ! important;">Post Name</th>
+								<th style="width: 80px ! important;">Location</th>
+								<th style="width: 80px ! important;">Client Name</th>
+								<th style="width: 110px ! important;">Detachment Commander</th>
+								<th style="width: 50px ! important;">Start Date</th>
+								<th style="width: 50px ! important;">End Date</th>
+								<th style="width: 20px ! important;">Status</th>
+								<th style="width: 20px ! important;" class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -115,76 +115,110 @@
 					</button>
 				</div>
 				<div class="modal-body">
-						<form >
-							<div class="row">
-								<div class="form-group col-sm-6">
-									<label>Post Name <span class="text-danger">*</span></label>
-									<input class="form-control restrictspecchar" type="text" id="postname">
-									<div class="invalid-feedback" id="add-postname"></div>
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#bottom-justified-tab1" data-toggle="tab">Information</a></li>
+						<li class="nav-item"><a class="nav-link" href="#bottom-justified-tab2" data-toggle="tab">Schedule</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="bottom-justified-tab1">
+							<form >
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label>Post Name <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="postname">
+										<div class="invalid-feedback" id="add-postname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Client <span class="text-danger">*</span></label>
+										<select class="form-control select2" name="clientID" id="clientID" style="width:100%;" required="">
+											<option value="">Select Client</option>
+											<?php
+											foreach($data['client'] as $detachment)
+											{
+											echo '<option value="'.$detachment->clientID.'">'.$detachment->clientname.'</option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="add-clientID"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>House No. </label>
+										<input class="form-control specchar" type="text" id="housenumber">
+										<div class="invalid-feedback" id="add-housenumber"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Street Name <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="streetname">
+										<div class="invalid-feedback" id="add-streetname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Barangay <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="barangay">
+										<div class="invalid-feedback" id="add-barangay"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>City <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="city">
+										<div class="invalid-feedback" id="add-city"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Detachment Commander <span class="text-danger">*</span></label>
+										<select class="form-control select2" name="commander" id="commander" style="width:100%;" required="">
+											<option value="">Select Datachment Commander</option>
+											<?php
+											foreach($data['employee'] as $detachment)
+											{
+											echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="add-commander"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+										<input class="form-control numbersonly" type="text" id="noofguard">
+										<div class="invalid-feedback" id="add-noofguard"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Start Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="startdate" type="text">
+										<div class="invalid-feedback" id="add-startdate"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>End Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="enddate" type="text">
+										<div class="invalid-feedback" id="add-enddate"></div>
+									</div>						
 								</div>
-								<div class="form-group col-sm-6">
-									<label>Client <span class="text-danger">*</span></label>
-									<select class="form-control select2" name="clientID" id="clientID" style="width:100%;" required="">
-										<option value="">Select Client</option>
-										<?php
-										foreach($data['client'] as $detachment)
-										{
-										echo '<option value="'.$detachment->clientID.'">'.$detachment->clientname.'</option>';
-										}
-										?>  
-									</select>
-									<div class="invalid-feedback" id="add-clientID"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>House No. </label>
-									<input class="form-control specchar" type="text" id="housenumber">
-									<div class="invalid-feedback" id="add-housenumber"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Street Name <span class="text-danger">*</span></label>
-									<input class="form-control specchar" type="text" id="streetname">
-									<div class="invalid-feedback" id="add-streetname"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Barangay <span class="text-danger">*</span></label>
-									<input class="form-control specchar" type="text" id="barangay">
-									<div class="invalid-feedback" id="add-barangay"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>City <span class="text-danger">*</span></label>
-									<input class="form-control restrictspecchar" type="text" id="city">
-									<div class="invalid-feedback" id="add-city"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Detachment Commander <span class="text-danger">*</span></label>
-									<select class="form-control select2" name="commander" id="commander" style="width:100%;" required="">
-										<option value="">Select Datachment Commander</option>
-										<?php
-										foreach($data['employee'] as $detachment)
-										{
-										echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
-										}
-										?>  
-									</select>
-									<div class="invalid-feedback" id="add-commander"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-									<input class="form-control numbersonly" type="text" id="noofguard">
-									<div class="invalid-feedback" id="add-noofguard"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Start Date <span class="text-danger">*</span></label>
-									<input class="form-control previousdate" id="startdate" type="text">
-									<div class="invalid-feedback" id="add-startdate"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>End Date <span class="text-danger">*</span></label>
-									<input class="form-control previousdate" id="enddate" type="text">
-									<div class="invalid-feedback" id="add-enddate"></div>
-								</div>						
+							</form>
+						</div>
+						<div class="tab-pane" id="bottom-justified-tab2">
+							<div class="table-responsive">
+								<table class="table table-bordered review-table mb-0">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Time In</th>
+											<th style="text-align: center;">Time Out</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="time" class="form-control timein" id="addFirstIn"></td>
+											<td><input type="time" class="form-control timeout" id="addFirstOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="addSecondIn"></td>
+											<td><input type="time" class="form-control timeout" id="addSecondOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="addThirdIn"></td>
+											<td><input type="time" class="form-control timeout" id="addFirstOut"></td>
+										</tr>
+										
+									</tbody>
+								</table>
 							</div>
-						</form>
+						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn" id="save">Submit</button>
 						</div>
@@ -207,76 +241,110 @@
 					</button>
 				</div>
 				<div class="modal-body">
-						<form>
-							<div class="row">
-								<div class="form-group col-sm-6">
-									<label>Post Name <span class="text-danger">*</span></label>
-									<input class="form-control restrictspecchar" type="text" id="editpostname">
-									<div class="invalid-feedback" id="edit-postname"></div>
+					<ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+						<li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Post Information</a></li>
+						<li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Post Schedule</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane show active" id="tab1">
+							<form>
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label>Post Name <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="editpostname">
+										<div class="invalid-feedback" id="edit-postname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Client <span class="text-danger">*</span></label>
+										<select class="form-control select2" name="clientID" id="editclientID" style="width:100%;" required="">
+											<option value="">Select Client</option>
+											<?php
+											foreach($data['client'] as $client)
+											{
+											echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
+											}
+											?>  
+										</select>
+										<div class="invalid-feedback" id="edit-clientID"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>House No. </label>
+										<input class="form-control specchar" type="text" id="edithousenumber">
+										<div class="invalid-feedback" id="edit-housenumber"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Street Name <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="editstreetname">
+										<div class="invalid-feedback" id="edit-streetname"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Barangay <span class="text-danger">*</span></label>
+										<input class="form-control specchar" type="text" id="editbarangay">
+										<div class="invalid-feedback" id="edit-barangay"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>City <span class="text-danger">*</span></label>
+										<input class="form-control restrictspecchar" type="text" id="editcity">
+										<div class="invalid-feedback" id="edit-city"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Detachment Commander <span class="text-danger">*</span></label>
+										<select class="form-control select2" name="commander" id="editcommander" style="width:100%;" required="">
+													<option value="">Select Datachment Commander</option>
+													<?php
+													foreach($data['employee'] as $detachment)
+													{
+													echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
+													}
+													?>  
+										</select>
+										<div class="invalid-feedback" id="edit-commander"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+										<input class="form-control numbersonly" type="text" id="editnoofguard">
+										<div class="invalid-feedback" id="edit-noofguard"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>Start Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="editstartdate" type="text">
+										<div class="invalid-feedback" id="edit-startdate"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>End Date <span class="text-danger">*</span></label>
+										<input class="form-control previousdate" id="editenddate" type="text">
+										<div class="invalid-feedback" id="edit-enddate"></div>
+									</div>
 								</div>
-								<div class="form-group col-sm-6">
-									<label>Client <span class="text-danger">*</span></label>
-									<select class="form-control select2" name="clientID" id="editclientID" style="width:100%;" required="">
-										<option value="">Select Client</option>
-										<?php
-										foreach($data['client'] as $client)
-										{
-										echo '<option value="'.$client->clientID.'">'.$client->clientname.'</option>';
-										}
-										?>  
-									</select>
-									<div class="invalid-feedback" id="edit-clientID"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>House No. </label>
-									<input class="form-control specchar" type="text" id="edithousenumber">
-									<div class="invalid-feedback" id="edit-housenumber"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Street Name <span class="text-danger">*</span></label>
-									<input class="form-control specchar" type="text" id="editstreetname">
-									<div class="invalid-feedback" id="edit-streetname"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Barangay <span class="text-danger">*</span></label>
-									<input class="form-control specchar" type="text" id="editbarangay">
-									<div class="invalid-feedback" id="edit-barangay"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>City <span class="text-danger">*</span></label>
-									<input class="form-control restrictspecchar" type="text" id="editcity">
-									<div class="invalid-feedback" id="edit-city"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Detachment Commander <span class="text-danger">*</span></label>
-									<select class="form-control select2" name="commander" id="editcommander" style="width:100%;" required="">
-												<option value="">Select Datachment Commander</option>
-												<?php
-												foreach($data['employee'] as $detachment)
-												{
-												echo '<option value="'.$detachment->employeeID.'">'.str_pad($detachment->employeeID, 6, "0", STR_PAD_LEFT).' - '.$detachment->lastname.', '.$detachment->firstname.' </option>';
-												}
-												?>  
-									</select>
-									<div class="invalid-feedback" id="edit-commander"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>No. of Guards Assigned <span class="text-danger">*</span></label>
-									<input class="form-control numbersonly" type="text" id="editnoofguard">
-									<div class="invalid-feedback" id="edit-noofguard"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>Start Date <span class="text-danger">*</span></label>
-									<input class="form-control previousdate" id="editstartdate" type="text">
-									<div class="invalid-feedback" id="edit-startdate"></div>
-								</div>
-								<div class="form-group col-sm-6">
-									<label>End Date <span class="text-danger">*</span></label>
-									<input class="form-control previousdate" id="editenddate" type="text">
-									<div class="invalid-feedback" id="edit-enddate"></div>
-								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="tab2">
+							<div class="table-responsive">
+								<table class="table table-bordered review-table mb-0">
+									<thead>
+										<tr>
+											<th style="text-align: center;">Time In</th>
+											<th style="text-align: center;">Time Out</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><input type="time" class="form-control timein" id="editFirstIn"></td>
+											<td><input type="time" class="form-control timeout" id="firstmondayOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="secondmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="secondmondayOut"></td>
+										</tr>
+										<tr>
+											<td><input type="time" class="form-control timein" id="thirdmondayIn"></td>
+											<td><input type="time" class="form-control timeout" id="thirdmondayOut"></td>
+										</tr>
+										
+									</tbody>
+								</table>
 							</div>
-						</form>
+						</div>
 						<div class="submit-section">
 							<button class="btn btn-primary submit-btn update">Update</button>
 						</div>
@@ -387,13 +455,11 @@
 ?>
 <!-- /Page Wrapper -->
 
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-	    overflow-y: hidden;
-	}
-</style>
-
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {		
 		$('.select2').select2();
 
@@ -492,6 +558,8 @@
 			$(".modal-body #editstartdate").val( $(this).data('startdate') );
 			$(".modal-body #editenddate").val( $(this).data('enddate') );
 			$(".modal-body #editnoofguard").val( $(this).data('noofguard') );
+			$(".modal-body .edittimein").val( $(this).data('timein') );
+			$(".modal-body .edittimeout").val( $(this).data('timeout') );
 			$('.edit').attr('id', $(this).attr('id'));
 		});
 
@@ -916,8 +984,17 @@
 	        var startdate = $('#startdate').val().trim();
 	        var enddate = $('#enddate').val().trim();
 	        var noofguard = $('#noofguard').val().trim();
-
+	        var timein = [];
+        	var timeout = [];
         	var confirmPassword = $('#addPassword').val().trim();
+
+        	$('input.timein').map(function() {
+	        timein.push($(this).val());
+	        });
+
+	        $('input.timeout').map(function() {
+	        timeout.push($(this).val());
+	        });
 
 	        if(confirmPassword==""){
 				$('#addPassword').focus();
@@ -942,7 +1019,9 @@
 					                		commander:commander,
 					                		startdate:startdate,
 					                		enddate:enddate,
-					                		noofguard:noofguard
+					                		noofguard:noofguard,
+					                		timein:timein,
+				            				timeout:timeout
 					                		},
 					                async : true,
 					                dataType : 'json',

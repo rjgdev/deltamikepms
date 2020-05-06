@@ -28,10 +28,10 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 10px; width:10px;">#</th>
-								<th style="min-width: 120px;">Leave Type</th>
-								<th style="min-width: 50px; width:100px;">Status</th>
-								<th style="min-width: 50px; width:100px;" class="text-right">Action</th>
+								<th style="width: 50px;">ID No.</th>
+								<th>Leave Type</th>
+								<th style="width: 100px;">Status</th>
+								<th class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -239,13 +239,12 @@
 	}
 ?>
 <!-- /Page Wrapper -->
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-	    overflow-y: hidden;
-	}
-</style>
 
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {
 		$('.select2').select2();
 

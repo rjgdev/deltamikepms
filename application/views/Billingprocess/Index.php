@@ -373,6 +373,10 @@ foreach ($data['approver'] as $approvaldata)  {
 <span><?php if($this->session->flashdata('billing')=="success") echo '<script type="text/javascript"> showdataSuccessbillingthToast() </script>';?></span>
 
 <script  type="text/javascript">  
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+		
 	$(document).ready(function() {
 		$(document).on("click", "#uploaddate", function(){
 				var payrolldateID =   $("#searchpayperiod").val();

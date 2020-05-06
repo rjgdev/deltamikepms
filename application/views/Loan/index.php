@@ -27,16 +27,16 @@
 					<table class="table table-striped custom-table datatable">
 						<thead>
 							<tr>
-								  <th style="min-width: 55px ! important;">Loan No.</th>
-								  <th style="min-width: 250px ! important;">Employee Name</th>
-			                      <th style="min-width: 70px ! important;">Loan Type</th>
-			                      <th style="min-width: 50px ! important;">Terms</th>
-			                      <th style="min-width: 70px ! important;">Start Date</th>
-			                      <th style="min-width: 70px ! important;">End Date</th>
-			                      <th style="min-width: 70px ! important;">Amount</th>
-			                      <th style="min-width: 70px ! important;">Deduction</th>
-			                      <th style="min-width: 50px ! important;">Status</th> 
-								  <th style="min-width: 50px ! important;">Actions</th>
+								  <th style="width: 50px ! important;">Loan No.</th>
+								  <th style="width: 150px ! important;">Employee Name</th>
+			                      <th style="width: 20px ! important;">Loan Type</th>
+			                      <th style="width: 100px ! important;">Term of Payment</th>
+			                      <th style="width: 50px ! important;">Start Date</th>
+			                      <th style="width: 50px ! important;">End Date</th>
+			                      <th style="width: 20px ! important;">Amount</th>
+			                      <th style="width: 20px ! important;">Deduction</th>
+			                      <th style="width: 20px ! important;">Status</th> 
+								  <th style="width: 10px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody id="showdata">
@@ -436,15 +436,11 @@
 		echo '<script type="text/javascript"> showSuccessToast("'.$this->session->flashdata("success").'")</script>';
 	}
 ?>
-
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-    overflow-y: hidden;
-}
-</style>
-
  <script  type="text/javascript">
-   $("#specify").hide();
+ 	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	$("#specify").hide();
    $(document).ready(function() {
    		$('.viewrecord').click(function(){
    			var id = $(this).attr('loanid'); 
