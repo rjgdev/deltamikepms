@@ -55,7 +55,7 @@ class Leave_model extends CI_Model
 			$this->db->where($updatedemployeecredit);  
             $this->db->update("dm_employeecreditleave", $updatedtotal);  
 			$this->db->insert('dm_employeeleave', $data);
-			return 'true|Filing of leave successfully created!';
+			return 'true|  leave successfully created!';
 	}else{	
 		return 'false|The employee has an existing leave on this day';	
 	}
@@ -75,7 +75,7 @@ class Leave_model extends CI_Model
 	            $this->db->update("dm_employeecreditleave", $updatedtotal);
 	            $this->db->where('employeeleaveID',$id);  
 	            $this->db->update("dm_employeeleave", $data);    
-			return 'true|Filing of leave successfully updated!';
+			return 'true|  The leave is successfully updated!';
 		}else{	
 			return 'false|The employee has an existing leave on this day';
 			

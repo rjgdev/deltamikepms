@@ -21,14 +21,6 @@
     <script src="<?php echo base_url(); ?>pages\assets\js\accounting.js"></script>
 
 	<script  type="text/javascript">  
-
-	  $(window).on("load", function() {
-	      $(".loader").fadeOut(700, function(){ 
-	        $('body').css("position", "absolute");
-	        $('body').css("overflow", "overlay");
-	      });
-	  });
-
     $(document).ready(function() {
 		$('.select2').select2();
 
@@ -53,14 +45,6 @@
 	            $this.addClass('active');
 	        }
 	    });
-
-    	$('.modal').on('show.bs.modal', function(){
-           $('body').css("overflow", "hidden");
-        });
-
-        $('.modal').on('hidden.bs.modal', function(){
-           $('body').css("overflow", "overlay");
-        });
 
 	    /* 
 		    48-57 - (0-9)Numbers
@@ -191,5 +175,6 @@
 
 	});
 	</script>
+
 	</body>
 </html>

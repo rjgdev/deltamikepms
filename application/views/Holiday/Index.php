@@ -28,11 +28,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 10px; width:10px;">#</th>
-								<th style="min-width: 150px;">Holiday Name</th>
-								<th style="min-width: 100px;">Holiday Date</th>
-								<th style="min-width: 100px;">Type of Holiday</th>
-								<th style="min-width: 50px; width:100px;" class="text-right">Action</th>
+								<th style="width: 50px;">ID No.</th>
+								<th>Holiday Name</th>
+								<th>Holiday Date</th>
+								<th>Type of Holiday</th>
+								<th class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -49,8 +49,7 @@
 												data-controls-modal="your_div_id" data-backdrop="static" data-keyboard="false" 
 												data-id="<?php echo $item->holidayID; ?>"
 												data-holidayname="<?php echo $item->holidayname; ?>"
-												data-holidaydate="<?php echo date('Y',strtotime($item->holidaydate)); ?>"
-												data-holidaymonth="<?php echo date('m-d',strtotime($item->holidaydate)); ?>"
+												data-holidaydate="<?php echo $item->holidaydate; ?>"
 												data-tog="tooltip"
 												data-placement="top"
 												title="Edit"> <i class="fa fa-pencil"></i> </button>
@@ -84,7 +83,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-form-label">Holiday Date <span class="text-danger">*</span></label>
-							<input class="form-control" id="holidaydate" type="text">
+							<input class="form-control previousdate" id="holidaydate" type="text">
 							<div class="invalid-feedback" id="add-holidaydate"></div>
 						</div>
 						<div class="form-group">
@@ -125,8 +124,8 @@
 							<div class="invalid-feedback" id="edit-holidayname"></div>
 						<!-- </div> -->
 						<div class="form-group">
-							<label class="col-form-label">Holiday Year <span class="text-danger">*</span></label>
-							<input class="form-control" id="editholidaydate" type="text">
+							<label class="col-form-label">Holiday Date <span class="text-danger">*</span></label>
+							<input class="form-control previousdate" id="editholidaydate" type="text">
 							<div class="invalid-feedback" id="edit-holidaydate"></div>
 						</div>
 						<!-- <div class="form-group">
@@ -213,14 +212,12 @@
 ?>
 <!-- /Page Wrapper -->
 
-<script>	
+<script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {
-		$('#editholidaydate').datepicker({
-		    format: "yyyy",
-		    minViewMode: 2,
-		    autoclose: true
-		});	
-
 		$('.select2').select2();
 
   		$('[data-tog="tooltip"]').tooltip();
@@ -277,7 +274,6 @@
 		$('.editholiday').unbind('click').bind('click', function(){
 			$(".modal-body #editholidayname").val( $(this).data('holidayname') );
 			$(".modal-body #editholidaydate").val( $(this).data('holidaydate') );
-			$(".modal-body .update").attr("holidaymonth",$(this).data('holidaymonth'));
 			/*$(".modal-body #editholidaytype").find( $(this).data('holidaytype') ).text();
             $(".modal-body #editholidaytype").val( $(this).data('holidaytype') );*/
 			$('.edit').attr('id', $(this).data('id'));
@@ -344,9 +340,8 @@
 
  		$('.update').unbind('click').bind('click', function(){
 			var id = $(this).attr('id');
-	        var holidayname  = $('#editholidayname').val();
-	        var holidaymonth = $(this).attr('holidaymonth');
-	        var holidaydate  = $('#editholidaydate').val() + "-" + holidaymonth;
+	        var holidayname = $('#editholidayname').val().trim();
+	        var holidaydate = $('#editholidaydate').val().trim();
 	        /*var holidaytype = $('#editholidaytype').val().trim();*/
 
 	        if(holidayname==""){
@@ -362,7 +357,7 @@
 	        }
 
 	        if(holidaydate==""){
-	        	document.getElementById("edit-holidaydate").innerHTML = "Please provide a holiday year.";
+	        	document.getElementById("edit-holidaydate").innerHTML = "Please provide a holiday date.";
 	        	$('#editholidaydate').addClass('is-invalid');
                 event.preventDefault();
 	        }else{
@@ -432,8 +427,7 @@
         $('.edit').unbind('click').bind('click', function(){
         	var id = $(this).attr('id');
 	        var holidayname = $('#editholidayname').val().trim();
-	        var holidaymonth = $('.update').attr('holidaymonth');
-	        var holidaydate  = $('#editholidaydate').val() + "-" + holidaymonth;
+	        var holidaydate = $('#editholidaydate').val().trim();
 	        /*var holidaytype = $('#editholidaytype').val().trim();*/
 	        var confirmPassword = $('#editPassword').val().trim();
 

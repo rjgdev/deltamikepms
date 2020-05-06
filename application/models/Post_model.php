@@ -42,7 +42,7 @@ class Post_model extends CI_Model
 	          );
   	}
 
-  	function save_detachment($data, $postname, $clientID)
+  	function save_detachment($data, $postname, $clientID, $timein, $timeout)
 	{
 		$query = $this->db->query('SELECT postname FROM dm_post WHERE postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
@@ -52,15 +52,25 @@ class Post_model extends CI_Model
 			$record  = array();
 			$dataschedule = array();
 
+			if(count($timein)!=0){
+				for($count = 0; $count<count($timein); $count++)
+				{
+					$dataschedule[$count]  = array(
+					'postID'			=>	$last_id,
+					'timein'			=>	$timein[$count],
+					'timeout'			=>	$timeout[$count]);
+				}	
+				$this->db->insert_batch('dm_postschedule', $dataschedule);
+			}
 			return 'true|'.$postname.' successfully created!';
 		}
 		else 
 		{
-			return 'false|Post already exist!';
+			return 'false|Detachment post already exist!';
 		}   
   	}
 
-  	function update_detachment($id, $data, $postname, $clientID)
+  	function update_detachment($id, $data, $postname, $clientID, $timein, $timeout)
 	{
 		$query = $this->db->query('SELECT postname FROM dm_post WHERE postID!='.$id.' AND postname = "'.$postname.'" AND clientID = "'.$clientID.'"' );
 
@@ -71,11 +81,22 @@ class Post_model extends CI_Model
             $record  = array();
 			$dataschedule = array();
 
+			/*if(count($timein)!=0){
+				for($count = 0; $count<count($timein); $count++)
+				{
+					$dataschedule[$count]  = array(
+					'postID'			=>	$last_id,
+					'timein'			=>	$timein[$count],
+					'timeout'			=>	$timeout[$count]);
+				}	
+				$this->db->update_batch('dm_postschedule', $dataschedule);
+			}   */ 
+
 			return 'true|'.$postname.' successfully updated!';
 		}
 		else 
 		{
-			return 'false|Post already exist!';
+			return 'false|Detachment post already exist!';
 		}   
   	}
 

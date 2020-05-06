@@ -28,11 +28,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 10px; width:10px;">#</th>
-								<th style="min-width: 120px;">Bank Name</th>
-								<th style="min-width: 150px;">Account Number Format</th>
-								<th style="min-width: 50px; width:100px;">Status</th>
-								<th style="min-width: 50px; width:100px;" class="text-right">Action</th>
+								<th style="width: 50px;">ID No.</th>
+								<th>Bank Name</th>
+								<th>Account Number Format</th>
+								<th style="width: 100px;">Status</th>
+								<th class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody id="show_data">
@@ -249,7 +249,11 @@
 ?>
 <!-- /Page Wrapper -->
 
-<script>	
+<script>
+	$(window).on("load", function() {
+			$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {
   		$('[data-tog="tooltip"]').tooltip();
 

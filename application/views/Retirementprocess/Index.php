@@ -335,7 +335,11 @@ foreach ($data['approver'] as $approvaldata)  {
 </div>
 
 
-<script  type="text/javascript">  	
+<script  type="text/javascript">  
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+	
 	$(document).ready(function() {
 		$("#export_excel").click(function() {
 		window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));

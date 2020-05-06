@@ -28,11 +28,11 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 10px; width:10px;">#</th>
-								<th style="min-width: 120px;" class="text-right">Minimum Range</th>
-								<th style="min-width: 120px;" class="text-right">Maximum Range</th>
-								<th style="min-width: 120px;" class="text-right">Additional Tax</th>
-								<th style="min-width: 120px;" class="text-right">Percentage</th>
+								<th style="width: 50px;">ID No.</th>
+								<th class="text-right">Minimum Range</th>
+								<th class="text-right">Maximum Range</th>
+								<th class="text-right">Additional Tax</th>
+								<th class="text-right">Percentage</th>
 								<!-- <th class="text-right">Action</th> -->
 							</tr>
 						</thead>
@@ -241,13 +241,11 @@
 ?>
 <!-- /Page Wrapper -->
 
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-	    overflow-y: hidden;
-	}
-</style>
-
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
 	$(document).ready(function() {
 		$('.select2').select2();
 

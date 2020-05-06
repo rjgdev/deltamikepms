@@ -177,7 +177,7 @@
 						</div>
 					</div>
 					<div class="submit-section">
-					<button class="btn btn-primary submit-btn update" style="width:20rem;">Update</button>
+					<button class="btn btn-primary submit-btn update" style="width:30%;">Update</button>
 					</div>
 				<?php endforeach; ?>
 				
@@ -218,6 +218,10 @@
 	}
 ?>		
 <script  type="text/javascript">  
+$(window).on("load", function() {
+	$(".loader").fadeOut();
+});
+
 $(document).ready(function() {
 	$('#phonenumber').mask('00-00000-0000');
 	$('#editmobilenumber').mask('0000-000-0000');

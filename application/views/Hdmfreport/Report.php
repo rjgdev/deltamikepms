@@ -154,6 +154,12 @@
 					</div>
 				</div>
             </div>
+
+<script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+</script>
 <style type="text/css">
 	.loader{
 	  position: absolute;
