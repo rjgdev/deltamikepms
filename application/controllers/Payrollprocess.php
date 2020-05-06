@@ -93,7 +93,11 @@
 			$nightdiffadjustment	= $this->input->post('nightdiffadjustment');
 			$lateadjustment			= $this->input->post('lateadjustment');
 			$leaveadjustment		= $this->input->post('leaveadjustment');
-			$otherdescription       = $this->input->post('otherdescription');
+			$otnotes		        = $this->input->post('otnotes');
+			$nightnotes		        = $this->input->post('nightnotes');
+			$latenotes		        = $this->input->post('latenotes');
+			$leavenotes		        = $this->input->post('leavenotes');
+			$othernotes		        = $this->input->post('othernotes');
       		$otheradjustment		= $this->input->post('otheradjustment');
       		$totalGrosspay			= $this->input->post('totalGrosspay');
       		$sss					= $this->input->post('sss');
@@ -106,7 +110,7 @@
       		$absent					= $this->input->post('absent');
       		$loan					= $this->input->post('loan');
 
-			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan);
+			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otnotes,$nightnotes,$latenotes,$leavenotes,$othernotes,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan);
 
 			echo json_encode($result);
 		} 

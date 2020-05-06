@@ -14,7 +14,10 @@
 	  		/*$data['data']=$this->payrolladjustmentreport->get_payrolladjustment();*/
 
 			$this->load->view('Template/Header',$data);
-			$this->load->view("Payrolladjustmentreport/Index",$data);
+
+			if(isAllowed(15)) $this->load->view("Payrolladjustmentreport/Index",$data);
+				         else $this->load->view("Denied/Index");
+
 			$this->load->view('Template/Footer',$data);
 		} 
 
@@ -32,10 +35,22 @@
 			$datefrom 	 	= $this->input->post('datefrom');
 			$dateto 	 	= $this->input->post('dateto');
 			$employee 	 	= $this->input->post('employee');
+			$employeetype 	= $this->input->post('employeetype');
 
-       		$data=$this->payrolladjustmentreport->view_report($datefrom,$dateto,$employee);
+       		$data=$this->payrolladjustmentreport->view_report($datefrom,$dateto,$employee,$employeetype);
 
 			echo json_encode($data);
 		} 
+
+		public function preview() 
+		{ 
+			$printArray = $this->input->post('printArray');
+			$datefrom 	= $this->input->post('datefrom');
+			$dateto 	= $this->input->post('dateto');
+
+			$data['data'] = array('record' => $printArray,'datefrom' => $datefrom, 'dateto' => $dateto);
+
+			return $this->load->view("Payrolladjustmentreport/Print_specific",$data);
+		}
 	}     
 ?>

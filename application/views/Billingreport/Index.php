@@ -101,11 +101,7 @@
 		</div>
 	</div>
 
-	<script  type="text/javascript">  
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-    });
-    
+<script  type="text/javascript">      
 	$(document).ready(function() {
 
 		$("#searchbillingperiod").change(function(){

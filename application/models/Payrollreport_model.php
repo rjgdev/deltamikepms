@@ -70,7 +70,7 @@ class Payrollreport_model extends CI_Model
 									 ((pd.ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) + (pd.nightdiffadjustment))AS totalnightdiff,
 									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,
 									 ((pd.absent) + (leaveadjustment)) AS totalleave,
-									 pd.otheradjustment, otherdescription, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
+									 pd.otheradjustment, othernotes, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
 									 pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductions,
 									 pd.netpay FROM dm_payrolldetails as pd 
 									 LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID 

@@ -152,15 +152,15 @@
 
 		<div class="row mt-3">
 			<div class="col-md-6 d-flex mb-3">
-				<div class="card-table flex-fill">
-					<div class="table-responsive" style="height: 100%;">
-						<table class="table custom-table mb-0">
+				<div class="card-table flex-fill" style="width: 100%;">
+					<div class="table-responsive">
+						<table class="table custom-table mb-0" id="dtemployees">
 							<h3 class="dash-title mb-2" style="font-size:15px !important;">RECENT EMPLOYEES</h3>
 							<thead>
 								<tr>
-									<th style="color: rgb(224, 77, 69)">Employee Name</th>
-									<th style="color: rgb(224, 77, 69); width:120px;">Hired Date</th>
-									<th style="color: rgb(224, 77, 69); width:120px;">Employee Type</th>
+									<th style="min-width:200px;">Employee Name</th>
+									<th style="min-width:70px;">Hired Date</th>
+									<th style="min-width:90px;">Employee Type</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -196,18 +196,30 @@
 			</div>
 
 			<div class="col-md-6 d-flex mb-3">
-				<div class="card-table flex-fill">
-					<div class="table-responsive" style="height: 100%;">
-						<table class="table custom-table mb-0">
+				<div class="card-table flex-fill" style="width: 100%;">
+					<div class="table-responsive" style="height: 100%">
+						<table class="table custom-table mb-0" id="dtleaves">
 							<h3 class="card-title mb-2" style="font-size:15px !important;">UPCOMING LEAVES</h3>
 							<thead>
 								<tr>
-									<th style="color: rgb(224, 77, 69);width: 200px;">Employee Name</th>
-									<th style="color: rgb(224, 77, 69);">Duration</th>
-									<th style="color: rgb(224, 77, 69); width:150px;">Description</th>
+									<th style="min-width: 240px;">Employee Name</th>
+									<th style="min-width: 100px;">Duration</th>
+									<th style="min-width: 100px;">Description</th>
 								</tr>
 							</thead>
 							<tbody>
+								<?php
+									if(count($data['leave'])==0) { ?>
+										<tr>
+											<td colspan="3" id="norecord">
+												<img class="isometric confirmationisometric" style="height:150px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">
+												<h5>No upcoming leave!</h5>
+											</td>
+											<td style="display: none;">
+											<td style="display: none;">
+										</tr>
+							    <?php } ?>
+
 								<?php foreach ($data['leave'] as $item) { ?>
 								<tr>
 									<td>
@@ -249,21 +261,19 @@
 
 		<div class="row">
 			<div class="col-md-6 d-flex mb-3">
-				<div class="card-table flex-fill">
-					<div class="table-responsive" style="height: 100%;">
-						<table class="table custom-table mb-0">
+				<div class="card-table flex-fill" style="width: 100%;">
+					<div class="table-responsive">
+						<table class="table custom-table mb-0" id="dtclients">
 							<h3 class="card-title mb-2" style="font-size:15px !important;">RECENT CLIENTS</h3>
 							<thead>
 								<tr>
-									<th style="color: rgb(224, 77, 69)">ID Number</th>
-									<th style="color: rgb(224, 77, 69)">Client Name</th>
-									<th style="color: rgb(224, 77, 69)">Contact Person</th>
+									<th style="">Client Name</th>
+									<th style="">Contact Person</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php foreach ($data['client'] as $item) { ?>
 								<tr>
-									<td><?php echo $item->clientID; ?></td>
 									<td>
 										<div class="dash-card-content">  
 											<p style="color: black;"> <?php echo $item->clientname; ?> <span style="color:#888;display: block; font-size: 11px;"> Number of post: <?php echo $item->noofpost; ?> </span></p> 	
@@ -286,21 +296,19 @@
 			</div>
 
 			<div class="col-md-6 d-flex mb-3">
-				<div class="card-table flex-fill">
-					<div class="table-responsive" style="height: 100%;">
-						<table class="table custom-table mb-0">
+				<div class="card-table flex-fill" style="width: 100%;">
+					<div class="table-responsive">
+						<table class="table custom-table mb-0" id="dtposts">
 							<h3 class="card-title mb-2" style="font-size:15px !important;">RECENT POSTS</h3>
 							<thead>
 								<tr>
-									<th style="color: rgb(224, 77, 69)">ID Number</th>
-									<th style="color: rgb(224, 77, 69)">Post Name</th>
-									<th style="color: rgb(224, 77, 69)">Client Name</th>
+									<th style="">Post Name</th>
+									<th style="">Client Name</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php foreach ($data['post'] as $item) { ?>
 								<tr>
-									<td><?php echo $item->postID; ?></td>
 									<td>
 										<div class="dash-card-content">  
 											<p style="color: black;"> <?php echo $item->postname; ?> <span style="color:#888;display: block; font-size: 11px;"> Guards Assigned: <?php echo $item->noofguard; ?> </span></p> 	
@@ -342,15 +350,121 @@
 	box-shadow: 0px 0px 2px 0px rgba(0,0,0,.16), 0px 0px 0px 0 rgba(0,0,0,.12) !important;
 }
 
-@media only screen and (max-width: 575.98px){
+#norecord{
+	height:180px;
+	text-align: center;
+}
+
+div#dtemployees_wrapper .row:nth-child(2){
+    overflow-y: hidden;
+}
+
+div#dtleaves_wrapper .row:nth-child(2){
+    overflow-y: hidden;
+}
+
+div#dtclients_wrapper .row:nth-child(2){
+    overflow-y: hidden;
+}
+
+div#dtposts_wrapper .row:nth-child(2){
+    overflow-y: hidden;
+}
+
+@media only screen and (max-width: 575px){
+	.welcome-box{margin: -30px -15px 0px -15px;}
+}
+
+@media only screen and (max-width: 756px){
+	.table-responsive{ zoom:70%; }
+
 	.content {
 	    padding-top: 30px !important;
 	}
+
+	.card-body{
+		display: none;
+	}	
+
+	.welcome-det{
+		width:100%;
+		justify-content: inherit !important;
+	}
+
+	.welcome-det h4{
+		font-size: 1rem;
+	}
+
+	.col-md-2 {
+	    -ms-flex: 0 0 16.666667%;
+	    flex: 1 0 0.666667%;
+	    max-width: 50.666667%;
+    }
+
+    .col-md-2 p{
+	    font-size:10px !important;
+    }
+}
+
+@media only screen and (max-width: 1024px){
+	.time-list{
+		width: 400px;
+	}
+
+	.welcome-det{
+		width:100%;
+		justify-content: inherit !important;
+	}
+
+	.welcome-det h4{
+		font-size: 14px;
+	}
+
+	.welcome-det p{
+		font-size: 11px;
+	}
+
+	.dash-stats-list{
+		padding-right: 10px !important;
+		padding-left: 10px !important;
+	}
+
+	.dash-stats-list h4{
+		font-size: 12px !important;
+	}
+
+	.dash-stats-list p{
+		font-size: 9px !important;
+	}
+}
+
+@media only screen and (min-width: 757px) and (max-width: 1024px) {
+	.col-md-2 {
+	    -ms-flex: 0 0 16.666667%;
+	    flex: 1 0 0.666667%;
+	    max-width: 16.666667%;
+    }
+
+    .col-md-2 p{
+	    font-size: 10px;
+    }
+
+    .dash-widget-icon{
+    	font-size:30px !important;
+    	width: 40px !important;
+    }
+
+    .notification{
+    	padding: 15px 10px 0px !important;
+    }
 }
 </style>
 
-<script type="text/javascript">
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
+<script>
+$(document).ready(function() {
+	$('#dtemployees').DataTable( {"searching": false, "info": false, "paging": false });
+	$('#dtleaves').DataTable( {"searching": false, "info": false, "paging": false });
+	$('#dtclients').DataTable( {"searching": false, "info": false, "paging": false });
+	$('#dtposts').DataTable( {"searching": false, "info": false, "paging": false });
+});
 </script>
