@@ -111,10 +111,6 @@
     </body>
 </html>
 <script>
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
-
 	$(document).ready(function() {
 		$('.search').unbind('click').bind('click', function(){
 				var id = $("#search-id").val();

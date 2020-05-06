@@ -25,8 +25,6 @@
 		{ 
 			$postname = $this->input->post('postname');
 			$clientID = $this->input->post('clientID');
-			$timein   =	$this->input->post('timein');
-			$timeout  =	$this->input->post('timeout');
 
 			$data = array(
 				'postname' => $postname,
@@ -43,7 +41,7 @@
 			 );
 
 
-       		$data=$this->detachment->save_detachment($data, $postname, $clientID, $timein, $timeout);
+       		$data=$this->detachment->save_detachment($data, $postname, $clientID);
        		$retval = explode("|",$data);
 
             if($retval[0] == "false" && $retval[1] == "Post already exist!"){
@@ -59,8 +57,6 @@
 			$id = $this->input->post('id');
 			$postname = $this->input->post('postname');
 			$clientID = $this->input->post('clientID');
-			$timein   =	$this->input->post('timein');
-			$timeout  =	$this->input->post('timeout');
 
 			$data = array(
 				'postname' => $postname,
@@ -75,7 +71,7 @@
 				'noofguard' => $this->input->post('noofguard')
 			 );
 
-       		$data=$this->detachment->update_detachment($id, $data, $postname, $clientID, $timein, $timeout);
+       		$data=$this->detachment->update_detachment($id, $data, $postname, $clientID);
        		$retval = explode("|",$data);
 
             if($retval[0] == "false" && $retval[1] == "Post name already exist!"){
