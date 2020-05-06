@@ -1,16 +1,3 @@
-<?php 
-	$sLeave = 0;
-	$vLeave = 0;
-
-	foreach ($data['sick'] as $item) {
-		$sLeave = $item->totalleave; 
-	} 
-
-	foreach ($data['vacation'] as $item) {	
-		$vLeave = $item->totalleave;
-	}
-?>
-
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 
@@ -30,7 +17,9 @@
 			</div>
 		</div>
 		<!-- /Page Header -->
-		<div class="card mb-0" style="border-radius: 10px;">
+		<div class="row mr-1 ml-1">
+		
+		<div class="card mb-0 col-md-6">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-12">
@@ -40,42 +29,21 @@
 									<?php if($this->session->userdata('photo')==""){
 					                      echo '<img src="uploads/profileimg.png" alt=""/>';
 					                    }else{
-					                      echo '<img src="uploads/'.$this->session->userdata('photo').'" alt="" style="width:100%;height:100%;border: 1px solid #b2aeae; padding: 2px;"/>';
+					                      echo '<img src="uploads/'.$this->session->userdata('photo').'" alt=""/>';
 					                    }
 					                ?>
 								</div>
 							</div>
 							<div class="profile-basic">
 								<div class="row">
-									<div class="col-md-5 ">
-										<div class="profile-info-left">
-											<h3 class="user-name m-t-0 mb-0"><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></h3>
-											<h6 class="text-muted mb-0"><?php echo $this->session->userdata('description'); ?></h6>
-											<small class="text-muted"><?php echo $this->session->userdata('designationdescription'); ?></small>
+									<div class="col-md-12">
+										<div class="profile-info">
+											<h3 class="user-name m-t-0 mb-1"><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></h3>
+											<h6 class="text-muted mb-0"><?php echo $this->session->userdata('designationdescription'); ?> | <?php echo $this->session->userdata('description'); ?></h6>
 											<div class="staff-id">Employee ID : <?php echo str_pad($this->session->userdata('employeeID'), 6, "0", STR_PAD_LEFT); ?></div>
-											<div class="small doj text-muted">Date of Join : <?php echo date("F d, Y",strtotime($this->session->userdata('hireddate'))); ?></div>
+											<div class="medium doj text-muted">Date of Join : <?php echo date("F d, Y",strtotime($this->session->userdata('hireddate'))); ?></div>
+											<!-- <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div> -->
 										</div>
-									</div>
-									<div class="col-md-7">
-										<ul class="personal-info">
-											<li>
-												<div class="title">Contact No.:</div>
-												<div class="text"><a href=""><?php echo $this->session->userdata('contactinfo'); ?></a></div>
-											</li>
-											<li>
-												<div class="title">Birthday:</div>
-												<div class="text"><?php echo date("F d, Y",strtotime($this->session->userdata('birthdate'))); ?></div>
-											</li>
-											
-											<li>
-												<div class="title">Sick Leave</div>
-												<div class="text"><?=$sLeave; ?></div>
-											</li>
-											<li>
-												<div class="title">Vacation Leave</div>
-												<div class="text"><?=$vLeave; ?></div>
-											</li>
-										</ul>
 									</div>
 								</div>
 							</div>
@@ -85,222 +53,539 @@
 			</div>
 		</div>
 
-	 	<div class="row mt-3">
-			<div class="col-md-6 d-flex">
-				<div class="card profile-box flex-fill">
-					<div class="card-body">
-						<h3 class="card-title" style="color:#e04d45;"><i class="fa fa-user"></i> Personal Information</h3>
-						<ul class="personal-info">
-							<li>
-								<div class="title">Citizenship:</div>
-								<div class="text"><?php echo $this->session->userdata('citizenship'); ?></div>
-							</li>
-							<li>
-								<div class="title">Gender:</div>
-								<div class="text"><?php echo $this->session->userdata('gender'); ?></div>
-							</li>
-							<li>
-								<div class="title">Civil Status</div>
-								<div class="text"><?=$this->session->userdata('civilstatus'); ?></div>
-							</li>
-							<li>
-								<div class="title">Address</div>
-								<div class="text"><?php echo $this->session->userdata('ehousenumber').' '.$this->session->userdata('estreetname').' '.$this->session->userdata('ebarangay').' '.$this->session->userdata('ecity'); ?></div>
-							</li>
-							<hr>
-							<li>
-								<div class="title">TIN</div>
-								<div class="text"><?php echo $this->session->userdata('tinnumber'); ?></div>
-							</li>
-							<li>
-								<div class="title">SSS No.</div>
-								<div class="text"><?php echo $this->session->userdata('sssnumber'); ?></div>
-							</li>
-							<li>
-								<div class="title">PhilHealth No.</div>
-								<div class="text"><?php echo $this->session->userdata('philhealthnumber'); ?></div>
-							</li>
-							<li>
-								<div class="title">Pag-IBIG MID No.</div>
-								<div class="text"><?php echo $this->session->userdata('pagibignumber'); ?></div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 d-flex">
-				<div class="card profile-box flex-fill">
-					<div class="card-body">
-						<h3 class="card-title" style="color:#e04d45;"><i class="fas fa-bank"></i> Payroll Information</h3>
-						<ul class="personal-info">
-							<li>
-								<div class="title">Basic Salary</div>
-								<div class="text" style="text-align: right;">₱ <?php echo number_format($this->session->userdata('basicsalary'), 4, '.', ','); ?></div>
-							</li>
-							<li>
-								<div class="title">Daily Rate</div>
-								<div class="text" style="text-align: right;">₱ <?php echo number_format($this->session->userdata('dailyrate'), 4, '.', ','); ?></div>
-							</li>
-							<li>
-								<div class="title">Allowance</div>
-								<div class="text" style="text-align: right;">₱ <?php echo number_format($this->session->userdata('allowance'), 4, '.', ','); ?></div>
-							</li>
-							<li>
-								<div class="title">Incentive</div>
-								<div class="text" style="text-align: right;">₱ <?php echo number_format($this->session->userdata('incentive'), 4, '.', ','); ?></div>
-							</li>
-						</ul>
-						<hr>
-						<ul class="personal-info">
-							<li>
-								<div class="title">Bank</div>
-								<div class="text"><?php echo ($this->session->userdata('bank_name')==""?"-":$this->session->userdata('bank_name')); ?></div>
-							</li>
-							<li>
-								<div class="title">Account Name</div>
-								<div class="text"><?php echo ($this->session->userdata('backaccountname')==""?"-":$this->session->userdata('backaccountname')) ; ?></div>
-							</li>
-							<li>
-								<div class="title">Account Number</div>
-								<div class="text"><?php echo ($this->session->userdata('backaccountnumber')==""?"-":$this->session->userdata('backaccountnumber')); ?></div>
-							</li>
-						</ul>
+		<div class="card mb-0 col-md-6">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12">
+						<section>
+							<h5 class="dash-title">Remaining Leaves</h5>
+							<div class="time-list">
+								<div class="dash-stats-list">
+									<?php foreach ($data['sick'] as $item) { ?>
+										<h4><?php echo $item->totalleave; ?></h4>
+										<!-- <?php if($item->remainingleave=="") 
+												echo "<h4>$item->totalleave</h4>";
+									    	?> -->
+									<?php } ?>
+									<p>Sick Leave</p>
+								</div>
+								<div class="dash-stats-list">
+									<?php foreach ($data['vacation'] as $item) { ?>
+										<h4><?php echo $item->totalleave; ?></h4>
+										<!-- <?php if($item->remainingleave=="") 
+												echo "<h4>$item->totalleave</h4>";
+									    	?> -->
+									<?php } ?>
+									<p>Vacation Leave</p>
+								</div>
+							</div>
+						</section>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- /Page Content -->
+
+		</div>
 		
-		<!-- Profile Modal -->
-		<div id="profile_info" class="modal custom-modal fade" role="dialog">
-			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Profile Information</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+		<div class="card tab-box mt-2">
+			<div class="row user-tabs">
+				<div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+					<ul class="nav nav-tabs nav-tabs-bottom">
+						<li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
+						<li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">Payroll Information</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="tab-content">
+		
+			<!-- Profile Info Tab -->
+			<div id="emp_profile" class="pro-overview tab-pane fade show active">
+
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title">Personal Informations </h3>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="profile-view">
+									<div>
+										<div class="row">
+											<div class="col-md-6">
+												<ul class="personal-info">
+													<li>
+														<div class="title">Status:</div>
+														<div class="text"><?php echo $this->session->userdata('employeestatus'); ?></div>
+													</li>
+													<li>
+														<div class="title">Address:</div>
+														<div class="text"><?php echo $this->session->userdata('ehousenumber').' '.$this->session->userdata('estreetname').' '.$this->session->userdata('ebarangay').' '.$this->session->userdata('ecity'); ?></div>
+													</li>
+													<li>
+														<div class="title">Contact Number:</div>
+														<div class="text"><?php echo $this->session->userdata('contactinfo'); ?></div>
+													</li>
+													<li>
+														<div class="title">Gender:</div>
+														<div class="text"><?php echo $this->session->userdata('gender'); ?></div>
+													</li>
+												</ul>
+											</div>
+											<div class="col-md-6">
+												<ul class="personal-info">
+													<li>
+														<div class="title">Civil Status:</div>
+														<div class="text"><?php echo $this->session->userdata('civilstatus'); ?></div>
+													</li>
+													<li>
+														<div class="title">Citizenship:</div>
+														<div class="text"><?php echo $this->session->userdata('citizenship'); ?></div>
+													</li>
+													<li>
+														<div class="title">Birthdate:</div>
+														<div class="text"><?php echo date("F d, Y",strtotime($this->session->userdata('birthdate'))); ?></div>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="modal-body">
+				</div>
+			</div>
+			<!-- /Profile Info Tab -->
+			
+			<!-- Projects Tab -->
+			<div id="emp_projects" class="pro-overview tab-pane fade show">
+				<div class="row">
+					<div class="col-md-6 d-flex">
+						<div class="card flex-fill">
+							<div class="card-body">
+								<h3 class="card-title">Payroll Informations</h3>
+								<ul class="personal-info">
+									<li>
+										<div class="title">Basic Salary</div>
+										<div class="text" style="text-align: right;">₱<?php echo $this->session->userdata('basicsalary'); ?></div>
+									</li>
+									<li>
+										<div class="title">Daily Rate</div>
+										<div class="text" style="text-align: right;">₱<?php echo $this->session->userdata('dailyrate'); ?></div>
+									</li>
+									<li>
+										<div class="title">Allowance</div>
+										<div class="text" style="text-align: right;">₱<?php echo $this->session->userdata('allowance'); ?></div>
+									</li>
+									<!-- <li>
+										<div class="title">Nationality</div>
+										<div class="text">Indian</div>
+									</li>
+									<li>
+										<div class="title">Religion</div>
+										<div class="text">Christian</div>
+									</li>
+									<li>
+										<div class="title">Marital status</div>
+										<div class="text">Married</div>
+									</li>
+									<li>
+										<div class="title">Employment of spouse</div>
+										<div class="text">No</div>
+									</li>
+									<li>
+										<div class="title">No. of children</div>
+										<div class="text">2</div>
+									</li> -->
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 d-flex">
+						<div class="card flex-fill">
+							<div class="card-body">
+								<h3 class="card-title">Payroll Informations</h3>
+								<ul class="personal-info">
+									<li>
+										<div class="title">TIN</div>
+										<div class="text"><?php echo $this->session->userdata('tinnumber'); ?></div>
+									</li>
+									<li>
+										<div class="title">SSS No.</div>
+										<div class="text"><?php echo $this->session->userdata('sssnumber'); ?></div>
+									</li>
+									<li>
+										<div class="title">PhilHealth No.</div>
+										<div class="text"><?php echo $this->session->userdata('philhealthnumber'); ?></div>
+									</li>
+									<li>
+										<div class="title">Pag-IBIG MID No.</div>
+										<div class="text"><?php echo $this->session->userdata('pagibignumber'); ?></div>
+									</li>
+									<!-- <li>
+										<div class="title">Marital status</div>
+										<div class="text">Married</div>
+									</li>
+									<li>
+										<div class="title">Employment of spouse</div>
+										<div class="text">No</div>
+									</li>
+									<li>
+										<div class="title">No. of children</div>
+										<div class="text">2</div>
+									</li>
+								</ul> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			<!-- /Projects Tab -->
+			
+			<!-- Bank Statutory Tab -->
+			<!-- <div class="tab-pane fade" id="bank_statutory">
+				<div class="card">
+					<div class="card-body">
+						<h3 class="card-title"> Basic Salary Information</h3>
 						<form>
 							<div class="row">
-								<div class="col-md-12">
-									<div class="profile-img-wrap edit-img">
-										<img class="inline-block" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-02.jpg" alt="user">
-										<div class="fileupload btn">
-											<span class="btn-text">edit</span>
-											<input class="upload" type="file">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Salary basis <span class="text-danger">*</span></label>
+										<select class="select">
+											<option>Select salary basis type</option>
+											<option>Hourly</option>
+											<option>Daily</option>
+											<option>Weekly</option>
+											<option>Monthly</option>
+										</select>
+								   </div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Salary amount <small class="text-muted">per month</small></label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text">$</span>
+											</div>
+											<input type="text" class="form-control" placeholder="Type your salary amount" value="0.00">
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>First Name</label>
-												<input type="text" class="form-control" value="John">
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Last Name</label>
-												<input type="text" class="form-control" value="Doe">
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Birth Date</label>
-												<div class="cal-icon">
-													<input class="form-control datetimepicker" type="text" value="05/06/1985">
-												</div>
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label>Gender</label>
-												<select class="select form-control">
-													<option value="male selected">Male</option>
-													<option value="female">Female</option>
-												</select>
-											</div>
-										</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Payment type</label>
+										<select class="select">
+											<option>Select payment type</option>
+											<option>Bank transfer</option>
+											<option>Check</option>
+											<option>Cash</option>
+										</select>
+								   </div>
+								</div>
+							</div>
+							<hr>
+							<h3 class="card-title"> PF Information</h3>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">PF contribution</label>
+										<select class="select">
+											<option>Select PF contribution</option>
+											<option>Yes</option>
+											<option>No</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">PF No. <span class="text-danger">*</span></label>
+										<select class="select">
+											<option>Select PF contribution</option>
+											<option>Yes</option>
+											<option>No</option>
+										</select>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label>Address</label>
-										<input type="text" class="form-control" value="4487 Snowbird Lane">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>State</label>
-										<input type="text" class="form-control" value="New York">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Country</label>
-										<input type="text" class="form-control" value="United States">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Pin Code</label>
-										<input type="text" class="form-control" value="10523">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Phone Number</label>
-										<input type="text" class="form-control" value="631-889-3206">
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-										<label>Department <span class="text-danger">*</span></label>
+										<label class="col-form-label">Employee PF rate</label>
 										<select class="select">
-											<option>Select Department</option>
-											<option>Web Development</option>
-											<option>IT Management</option>
-											<option>Marketing</option>
+											<option>Select PF contribution</option>
+											<option>Yes</option>
+											<option>No</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label>Designation <span class="text-danger">*</span></label>
+										<label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
 										<select class="select">
-											<option>Select Designation</option>
-											<option>Web Designer</option>
-											<option>Web Developer</option>
-											<option>Android Developer</option>
+											<option>Select additional rate</option>
+											<option>0%</option>
+											<option>1%</option>
+											<option>2%</option>
+											<option>3%</option>
+											<option>4%</option>
+											<option>5%</option>
+											<option>6%</option>
+											<option>7%</option>
+											<option>8%</option>
+											<option>9%</option>
+											<option>10%</option>
 										</select>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-sm-4">
 									<div class="form-group">
-										<label>Reports To <span class="text-danger">*</span></label>
+										<label class="col-form-label">Total rate</label>
+										<input type="text" class="form-control" placeholder="N/A" value="11%">
+									</div>
+								</div>
+						   </div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Employee PF rate</label>
 										<select class="select">
-											<option>-</option>
-											<option>Wilmer Deluna</option>
-											<option>Lesley Grauer</option>
-											<option>Jeffery Lalor</option>
+											<option>Select PF contribution</option>
+											<option>Yes</option>
+											<option>No</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
+										<select class="select">
+											<option>Select additional rate</option>
+											<option>0%</option>
+											<option>1%</option>
+											<option>2%</option>
+											<option>3%</option>
+											<option>4%</option>
+											<option>5%</option>
+											<option>6%</option>
+											<option>7%</option>
+											<option>8%</option>
+											<option>9%</option>
+											<option>10%</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Total rate</label>
+										<input type="text" class="form-control" placeholder="N/A" value="11%">
+									</div>
+								</div>
+							</div>
+							
+							<hr>
+							<h3 class="card-title"> ESI Information</h3>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">ESI contribution</label>
+										<select class="select">
+											<option>Select ESI contribution</option>
+											<option>Yes</option>
+											<option>No</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">ESI No. <span class="text-danger">*</span></label>
+										<select class="select">
+											<option>Select ESI contribution</option>
+											<option>Yes</option>
+											<option>No</option>
 										</select>
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Employee ESI rate</label>
+										<select class="select">
+											<option>Select ESI contribution</option>
+											<option>Yes</option>
+											<option>No</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Additional rate <span class="text-danger">*</span></label>
+										<select class="select">
+											<option>Select additional rate</option>
+											<option>0%</option>
+											<option>1%</option>
+											<option>2%</option>
+											<option>3%</option>
+											<option>4%</option>
+											<option>5%</option>
+											<option>6%</option>
+											<option>7%</option>
+											<option>8%</option>
+											<option>9%</option>
+											<option>10%</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label class="col-form-label">Total rate</label>
+										<input type="text" class="form-control" placeholder="N/A" value="11%">
+									</div>
+								</div>
+						   </div>
+							
 							<div class="submit-section">
-								<button class="btn btn-primary submit-btn">Submit</button>
+								<button class="btn btn-primary submit-btn" type="submit">Save</button>
 							</div>
 						</form>
 					</div>
 				</div>
-			</div>
+			</div> -->
+			<!-- /Bank Statutory Tab -->
+			
 		</div>
     </div>
-
-
+	<!-- /Page Content -->
+	
+	<!-- Profile Modal -->
+	<div id="profile_info" class="modal custom-modal fade" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Profile Information</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="profile-img-wrap edit-img">
+									<img class="inline-block" src="<?php echo base_url();?>pages\assets\img\profiles\avatar-02.jpg" alt="user">
+									<div class="fileupload btn">
+										<span class="btn-text">edit</span>
+										<input class="upload" type="file">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>First Name</label>
+											<input type="text" class="form-control" value="John">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Last Name</label>
+											<input type="text" class="form-control" value="Doe">
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Birth Date</label>
+											<div class="cal-icon">
+												<input class="form-control datetimepicker" type="text" value="05/06/1985">
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Gender</label>
+											<select class="select form-control">
+												<option value="male selected">Male</option>
+												<option value="female">Female</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Address</label>
+									<input type="text" class="form-control" value="4487 Snowbird Lane">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>State</label>
+									<input type="text" class="form-control" value="New York">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Country</label>
+									<input type="text" class="form-control" value="United States">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Pin Code</label>
+									<input type="text" class="form-control" value="10523">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Phone Number</label>
+									<input type="text" class="form-control" value="631-889-3206">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Department <span class="text-danger">*</span></label>
+									<select class="select">
+										<option>Select Department</option>
+										<option>Web Development</option>
+										<option>IT Management</option>
+										<option>Marketing</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Designation <span class="text-danger">*</span></label>
+									<select class="select">
+										<option>Select Designation</option>
+										<option>Web Designer</option>
+										<option>Web Developer</option>
+										<option>Android Developer</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Reports To <span class="text-danger">*</span></label>
+									<select class="select">
+										<option>-</option>
+										<option>Wilmer Deluna</option>
+										<option>Lesley Grauer</option>
+										<option>Jeffery Lalor</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="submit-section">
+							<button class="btn btn-primary submit-btn">Submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- /Profile Modal -->
 	
 	<!-- Personal Info Modal -->
@@ -792,3 +1077,9 @@
 	
 </div>
 <!-- /Page Wrapper -->
+
+<script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+</script>

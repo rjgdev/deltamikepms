@@ -207,6 +207,10 @@
 <!-- /Page Wrapper -->
 
 <script>
+	$(window).on("load", function() {
+		$(".loader").fadeOut();
+	});
+
 	$(document).ready(function() {
 		$('#1').addClass('active');
 

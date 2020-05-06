@@ -160,7 +160,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-2 col-md-2 mb-1">
+			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -184,7 +184,7 @@
 					</div>
 				</div>
 			</div>	
-			<div class="col-lg-2 col-md-2 mb-1">
+			<div class="col-lg-2 col-md-2">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -208,7 +208,7 @@
 					</div>
 				</div>
 			</div>	
-			<div class="col-lg-3 col-md-3 mb-1">
+			<div class="col-lg-3 col-md-3">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -226,7 +226,7 @@
 					</div>
 				</div>
 			</div>	
-			<div class="col-lg-3 col-md-3 mb-1">
+			<div class="col-lg-3 col-md-3">
 				<div class="dash-info-list">
 					<div class="dash-card">
 						<h5 class="dash-title">
@@ -245,7 +245,7 @@
 				</div>
 			</div>	
 
-			<div class="col-lg-2 col-md-2 mb-1 mt-1" id="show_button">
+			<div class="col-lg-2 col-md-2" id="show_button">
 				<?php 
 					if($tkstatus==0){ 
 			    		echo '<button type="button" class="btn btn-info submit" id="submittimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';	
@@ -590,15 +590,10 @@
 	</div>
 <!-- /Confirmation Modal -->
 
-<style>
-	div#datatable_wrapper .row:nth-child(2){
-	    overflow-y: hidden;
-	}
-</style>
-
 <script type="text/javascript">
 
 	$(window).on("load", function() {
+		$(".loader").fadeOut();
 		<?php if($this->session->flashdata('uploaded')!=""){ $test = $this->session->flashdata('uploaded'); ?>
 			showSuccessToast("<?php echo $test; ?>" + " is successfully uploaded!");
 		<?php } ?>

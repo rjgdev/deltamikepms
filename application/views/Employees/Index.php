@@ -1,22 +1,13 @@
   <style>
   a.avatar { cursor: pointer; }
   .custom-file-input{ cursor: pointer; }
-
-    div#DataTables_Table_0_wrapper .row:nth-child(2){
-        overflow-y: hidden;
-    }
-
-  @media only screen and (max-width: 756px){
-      .content{ zoom:90%; }
-  }
   </style>
   <!-- Page Wrapper -->
   <div class="page-wrapper">
 
   <!-- Page Content -->
-  <div class="loader"></div>
-
   <div class="content container-fluid">
+  <div class="loader"></div>
   <!-- Page Header -->
   <div class="page-header">
     <div class="row align-items-center">
@@ -42,14 +33,14 @@
     
     <thead>
     <tr>
-    <th style="min-width: 110px !important;">Employee Number</th>
-    <th style="min-width: 260px ! important;">Employee Name</th>
-    <th style="min-width: 80px ! important;">Client</th>
-    <th style="min-width: 90px ! important;">Employee Type</th>
-    <th style="min-width: 100px ! important;">Contact Number</th>
-    <th style="min-width: 80px ! important;">Hired Date</th>
-    <th style="min-width: 10px ! important;">Status</th>
-    <th style="min-width: 10px ! important;">Action</th>
+    <th style="width: 70px ! important;">Employee Number</th>
+    <th style="width: 120px ! important;">Employee Name</th>
+    <th style="width: 50px ! important;">Client</th>
+    <th style="width: 50px ! important;">Employee Type</th>
+    <th style="width: 70px ! important;">Contact Number</th>
+    <th style="width: 70px ! important;">Hired Date</th>
+    <th style="width: 10px ! important;">Status</th>
+    <th style="width: 10px ! important;">Action</th>
     </tr>
     </thead>
     <tbody id="showdata">
@@ -184,7 +175,7 @@
     <div class="invalid-feedback" id="add-employeetype"></div>
     </div>
     <div class="form-group col-sm-6">
-    <label for="">Contact Number <span class="text-danger">*</span></label>
+    <label for="">Contact Number. <span class="text-danger">*</span></label>
     <input id="addcontactinfo" type="text" name="addcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact number" required tabindex="10">
     <div class="invalid-feedback" id="add-contactinfo"></div>
   </div>
@@ -245,7 +236,7 @@
   <div class="invalid-feedback" id="add-department"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="housenumber">Unit/House Number</label>
+  <label for="housenumber">Unit/House Number.</label>
   <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="5">
   </div>
 
@@ -451,7 +442,7 @@
                            <div class="invalid-feedback" id="add-bankname"></div>
                           </div>
                            <div class="form-group col-sm-6">
-                            <label for="allowance">Bank Account Number</label>
+                            <label for="allowance">Bank Account Number.</label>
                             <input id="addbackaccountnumber" name="addbackaccountnumber" class="form-control input accountnumber"  autocomplete="off">
                           </div>
                         <!--     <div class="form-group col-sm-6">
@@ -465,17 +456,17 @@
                             <div class="invalid-feedback" id="add-tinnumber"></div>
                             </div> 
                            <div class="form-group col-sm-6">
-                            <label for="sssnumber">SSS Number</label>
+                            <label for="sssnumber">SSS Number.</label>
                             <input id="addsssnumber" type="text" name="addsssnumber" value="00-0000000-0" class="form-control input" placeholder="00-0000000-0"  minlength=12 autocomplete="off">
                              <div class="invalid-feedback" id="add-sssnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
-                            <label for="philhealthnumber">PhilHealth Number</label>
+                            <label for="philhealthnumber">PhilHealth Number.</label>
                             <input id="addphilhealthnumber" type="text" name="addphilhealthnumber" value ="00-000000000-0" class="form-control input" placeholder="00-000000000-0" minlength=14 autocomplete="off">
                             <div class="invalid-feedback" id="add-philhealthnumber"></div>
                            </div>
                            <div class="form-group col-sm-6">
-                            <label for="pagibignumber">Pag-IBIG MID Number</label>
+                            <label for="pagibignumber">Pag-IBIG MID Number.</label>
                             <input id="addpagibignumber" type="text" name="addpagibignumber" value="0000-0000-0000" class="form-control input" placeholder="0000-0000-0000" minlength=14 autocomplete="off">
                              <div class="invalid-feedback" id="add-pagibignumber"></div>
                           </div>
@@ -632,7 +623,7 @@
           <div class="invalid-feedback" id="edit-employeetype"></div>
         </div>
          <div class="form-group col-sm-6">
-        <label for="">Contact Number <span class="text-danger">*</span></label>
+        <label for="">Contact Number. <span class="text-danger">*</span></label>
         <input id="editcontactinfo" type="text" name="editcontactinfo" class="form-control" minlength=13 autocomplete="off" description="contact number" required tabindex="11">
         <div class="invalid-feedback" id="edit-contactinfo"></div>
         </div> 
@@ -693,7 +684,7 @@
         <div class="invalid-feedback" id="edit-department"></div>
         </div> 
         <div class="form-group col-sm-6">
-        <label for="housenumber">Unit/House Number</label>
+        <label for="housenumber">Unit/House Number.</label>
         <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="6">
       </div>
         <div class="form-group col-sm-6">
@@ -848,7 +839,7 @@
       </div>
       </div>
        <div class="form-group col-sm-6">
-        <label for="allowance">Retirement Fund</label>
+        <label for="allowance">Retirment Fund</label>
       <div class="input-group mr-sm-2 mb-sm-0">
       <div class="input-group-prepend">
       <span class="input-group-text">₱</span>
@@ -884,12 +875,12 @@
         <div class="invalid-feedback" id="edit-bankname"></div>
     </div>
     <div class="form-group col-sm-6">
-      <label for="allowance">Bank Account Number</label>
+      <label for="allowance">Bank Account Number.</label>
       <input id="editbackaccountnumber" name="editbackaccountnumber" class="form-control input"  autocomplete="off">
       <div class="invalid-feedback" id="edit-backaccountnumber"></div>
     </div>
        <!--  <div class="form-group col-sm-6">
-        <label for="allowance">Retirement Fund</label>
+        <label for="allowance">Retirment Fund</label>
         <input id="editretfund" name="editretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
         </div> -->
         <!-- <div class="form-group col-sm-6">
@@ -902,17 +893,17 @@
        <div class="invalid-feedback" id="edit-tinnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="sssnumber">SSS Number</label>
+      <label for="sssnumber">SSS Number.</label>
       <input id="editsssnumber" type="text" name="editsssnumber" class="form-control input" value="00-0000000-0" placeholder="00-0000000-0" minlength=12 autocomplete="off">
       <div class="invalid-feedback" id="edit-sssnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="philhealthnumber">PhilHealth Number</label>
+      <label for="philhealthnumber">PhilHealth Number.</label>
       <input id="editphilhealthnumber" type="text" name="editphilhealthnumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off"description="Philhealth number">
       <div class="invalid-feedback" id="edit-philhealthnumber"></div>
       </div>
       <div class="form-group col-sm-6">
-      <label for="pagibignumber">Pag-IBIG MID Number</label>
+      <label for="pagibignumber">Pag-IBIG MID Number.</label>
       <input id="editpagibignumber" type="text" name="editpagibignumber" class="form-control input" value="0000-0000-0000" placeholder="0000-0000-0000" minlength=14 autocomplete="off" description="Pag-ibig number">
        <div class="invalid-feedback" id="edit-pagibignumber"></div>
       </div>
@@ -1177,18 +1168,20 @@
 .loader{
   position: absolute;
   left: 0px;
-  top: 0px;
+  top: 60px;
   width: 100%;
   height: 100vh;
   z-index: 1001;
   background: url('<?php echo base_url();?>pages/assets/img/Loading.svg') 
               50% 50% no-repeat rgb(249,249,249);
 }
-
 </style>
 
 <!-- /Page Wrapper -->
 <script  type="text/javascript">
+  $(window).on("load", function() {
+      $(".loader").fadeOut();
+  });
 
   $(document).ready(function() {
     /*********************** FOCUS AND CLEAR CONFIRMPASSWORD ***********************/

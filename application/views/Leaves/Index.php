@@ -27,15 +27,15 @@
 					<table class="table table-striped custom-table mb-0 datatable">
 						<thead>
 							<tr>
-								<th style="min-width: 90px ! important;">Leave Number</th>
-								<th style="min-width: 260px ! important;">Employee Name</th>
-								<th style="min-width: 70px ! important;">Leave Type</th>
-								<th style="min-width: 70px ! important;">From</th>
-								<th style="min-width: 70px ! important;">To</th>
-								<th style="min-width: 70px ! important;">No. of Days</th>
-								<th style="min-width: 70px ! important;">Status</th>
-								<th style="min-width: 100px ! important;">Note</th>
-								<th style="min-width: 50px ! important;">Actions</th>
+								<th style="width: 70px ! important;">Leave Number</th>
+								<th style="width: 200px ! important;">Employee Name</th>
+								<th style="width: 50px ! important;">Leave Type</th>
+								<th style="width: 70px ! important;">From</th>
+								<th style="width: 70px ! important;">To</th>
+								<th style="width: 60px ! important;">No. of Days</th>
+								<th style="width: 20px ! important;">Note</th>
+								<th style="width: 20px ! important;">Status</th>
+								<th style="width: 20px ! important;">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,15 +55,9 @@
 								<td><?php echo $record->leavetypename ?></td>
 								<td><?php echo  date("F d, Y", strtotime($record->leavefrom)) ?></td>
 								<td><?php echo  date("F d, Y", strtotime($record->leaveto)) ?></td>
-								<td style="text-align: center;"><?php echo $record->numberofdays ?></td>
-								<td>
-									<?php if($record->leavestatus=="Reviewed") 
-								      echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> '.$record->leavestatus.'</span>';
-								    else
-								      echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> '.$record->leavestatus.'</span>';
-								  	?>
-								</td>
+								<td><?php echo $record->numberofdays ?></td>
 								<td><?php echo $record->noted ?></td>
+								<td><?php echo $record->leavestatus ?></td>
 								<td class="text-right">
 						    <div class="dropdown dropdown-action">
 						    <a href="" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
@@ -83,14 +77,11 @@
 									data-remainingleave="<?php echo $record->remainingleave; ?>" 
 									data-reason="<?php echo $record->reason; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> Edit</a>
-									
-									<?php if($record->leavestatus!="Reviewed") { ?>
-										<a class="dropdown-item changesnoted" 
-										href="#" data-toggle="modal" data-target="#noted_employee"
-										data-id="<?php echo $record->employeeleaveID; ?>" 
-										data-noted="<?php echo $record->noted; ?>">
-										<i class="fa fa-sticky-note"></i> Note</a>
-									<?php } ?>
+									<a class="dropdown-item changesnoted" 
+									href="#" data-toggle="modal" data-target="#noted_employee"
+									data-id="<?php echo $record->employeeleaveID; ?>" 
+									data-noted="<?php echo $record->noted; ?>">
+									<i class="fa fa-sticky-note"></i> Noted</a>
 								<!-- <td class="text-right">
 									<button type="button" 
 									id="<?php echo $record->employeeleaveID; ?>" 
@@ -178,7 +169,7 @@
 						<div class="col-sm-12">	
 						<div class="form-group">
 							<label>Number of days</label>
-							<input class="form-control" readonly="" name="numberofdays"id="numberofdayss" type="text" description="leave credit">
+							<input class="form-control" readonly="" name="numberofdays"id="numberofdayss" type="text" description="credit">
 							<div class="invalid-feedback" id="add-totalTime"></div>
 						</div>
 						</div>
@@ -193,7 +184,7 @@
 						<div class="col-sm-12">	
 						<div class="form-group">
 							<label>Leave Reason <span class="text-danger">*</span></label>
-							<input type="text" class="form-control alphanumericwithspace"id="addreason"name="addreason" description="reason for filing a leave">
+							<input type="text" class="form-control alphanumericwithspace"id="addreason"name="addreason" description="reason">
 							<div class="invalid-feedback" id="add-reason"></div>
 						</div>
 						</div>
@@ -285,7 +276,7 @@
 						<div class="col-sm-12">	
 						<div class="form-group">
 							<label>Leave Reason <span class="text-danger">*</span></label>
-							<input type="text" class="form-control alphanumericwithspace"id="editreason"name="editreason" description="reason for filing a leave">
+							<input type="text" class="form-control alphanumericwithspace"id="editreason"name="editreason" description="reason">
 							<div class="invalid-feedback" id="edit-reason"></div>
 						</div>
 						</div>
@@ -434,12 +425,12 @@
 			</div>
       <div class="modal-body">
         <div class="form-header">
-          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/note.svg">
+          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
           <h3>Note</h3>
-	       <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter any notes you have for this record:</p> 
-         
+          <div class="col-sm-12">
           	<input class="form-control letterswithspace" id="editnoted" name="editnoted" description="note">
           	<div class="invalid-feedback" id="edit-editnoted"></div>
+            </div>
         </div>
         <div class="modal-btn delete-action">
           <div class="row">
@@ -461,14 +452,12 @@
 	}
 ?>
 
-<style>
-	div#DataTables_Table_0_wrapper .row:nth-child(2){
-    overflow-y: hidden;
-}
-</style>
-
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
+  $(window).on("load", function() {
+		$(".loader").fadeOut();
+  });
+
   $(document).ready(function() {
   	 $('#addemployeeID').change(function(){ 
    	 var id=$(this).val();
@@ -668,19 +657,23 @@
 		var ErrorIDArray = ['add-employee','add-leave', 'add-from', 'add-to', 'add-totalTime','add-leavenumber', 'add-reason'];
 		var ValueArray = [];	
 		var firstRequired = "";
-
+		var navIndex = 0;
 		var reason = $("#addreason").val();
 		var addleaveID = $("#addleaveID").val();
 	
+		if($(IDArray[4]).val()=="0"){
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
+			$(IDArray[4]).addClass('is-invalid');
+                event.preventDefault();
+			return false;
+		}
+
 		if($(IDArray[5]).val()=="0"){
 			document.getElementById(ErrorIDArray[5]).innerHTML = "Insufficient  " + $(IDArray[5]).attr("description") +".";
 			$(IDArray[5]).addClass('is-invalid');
                 event.preventDefault();
 			return false;
 		}
-		alert($(IDArray[4]).val());
-		alert($(IDArray[5]).val());
-
 		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
 			document.getElementById(ErrorIDArray[4]).innerHTML = "Insufficient " + $(IDArray[4]).attr("description") +".";
 			$(IDArray[4]).addClass('is-invalid');
@@ -691,21 +684,12 @@
 
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
-			if(i==5)  continue;
+			if(i==4 || i==5)  continue;
 			if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()==""){
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-				if(i==0 || i==3){
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
-				}else if(i==4){
-					if($(IDArray[i]).val()=="0" || $(IDArray[i]).val()==""){
-						document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid chosen date.";
-					}
-				}else{
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-				}
-
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -717,7 +701,7 @@
 		
 		}
 		if(addleaveID==""){
-			document.getElementById("add-leave").innerHTML = "Please provide a leave type.";
+			document.getElementById("add-leave").innerHTML = "Please provide an leave type.";
 		$('#addleaveID').addClass('is-invalid');
 		event.preventDefault();
 		}else{
@@ -796,8 +780,8 @@
      });
 		$('.update').unbind('click').bind('click', function(){
 		var id = $(this).attr('id');
-		var IDArray = ['#editemployee', '#editleaveID', '#editfrom', '#editto', '#editnumberofdays', '#editremainingleave', '#editreason'];
-		var ErrorIDArray = ['edit-employee', 'edit-leave', 'edit-from', 'edit-to', 'edit-numberofdays', 'edit-remainingleave', 'edit-reason'];
+		var IDArray = ['#editleaveID', '#editemployee', '#editfrom', '#editto', '#editnumberofdays', '#editremainingleave', '#editreason'];
+		var ErrorIDArray = ['edit-leave', 'edit-employee', 'edit-from', 'edit-to', 'edit-numberofdays', 'edit-remainingleave', 'edit-reason'];
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
@@ -812,13 +796,7 @@
 				if(firstRequired==""){
 					firstRequired = IDArray[i]
 				};
-
-				if(i==0 || i==3){
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
-				}else{
-					document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") + ".";
-				}
-
+				document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide an " + $(IDArray[i]).attr("description") +".";
 	        	$(IDArray[i]).addClass('is-invalid');
                 event.preventDefault();
 			}else{
@@ -829,7 +807,7 @@
 			}
 		}
 		if(editleaveID=="0"){
-			document.getElementById("edit-leave").innerHTML = "Please provide a leave type. ";
+			document.getElementById("edit-leave").innerHTML = "Please provide a employee type. ";
 			$("#editleaveID").addClass('is-invalid');
                 event.preventDefault();
 			/*return false;*/
@@ -842,8 +820,8 @@
 			return false;
 		}else{
 		};*/
-		if($(IDArray[4]).val()=="0" || $(IDArray[4]).val()==""){
-			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid chosen date.";
+		if($(IDArray[4]).val()=="0"){
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates ";
 			$(IDArray[4]).addClass('is-invalid');
                 event.preventDefault();
 			return false;
@@ -856,7 +834,7 @@
 		}else{
 		};
 		if($(IDArray[4]).val() - 1 > $(IDArray[5]).val()){	
-			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid chosen date.";
+			document.getElementById(ErrorIDArray[4]).innerHTML = "Invalid  Dates";
 			$(IDArray[4]).addClass('is-invalid');
 			event.preventDefault();
 			return false;
