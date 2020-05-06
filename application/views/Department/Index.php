@@ -30,10 +30,10 @@
 
 						<thead>
 							<tr>
-								<th style="width: 50px;">ID No.</th>
-								<th>Department Name</th>
-								<th style="width: 100px;">Status</th>
-								<th class="text-right">Action</th>
+								<th style="min-width: 10px; width:10px;">#</th>
+								<th style="min-width: 120px;">Department Name</th>
+								<th style="min-width: 50px; width:100px;">Status</th>
+								<th style="min-width: 50px; width:100px;" class="text-right">Action</th>
 							</tr>
 						</thead>
 						<tbody id="show_data">
@@ -225,11 +225,13 @@
 ?>
 <!-- /Page Wrapper -->
 
-<script>
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
+<style>
+	div#DataTables_Table_0_wrapper .row:nth-child(2){
+	    overflow-y: hidden;
+	}
+</style>
 
+<script>
 	$(document).ready(function() {
   		$('[data-tog="tooltip"]').tooltip();
 

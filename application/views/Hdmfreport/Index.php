@@ -54,8 +54,3 @@
 		<!-- /Main Wrapper -->
     </body>
 </html>
-<script>
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
-</script>

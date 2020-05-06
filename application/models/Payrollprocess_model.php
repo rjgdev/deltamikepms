@@ -442,34 +442,48 @@ class Payrollprocess_model extends CI_Model
 		$firstFromCutoff = date_format(date_create($year."-".$month."-"."01"),"Y-m-d");
 		$firstToCutoff 	 = date_format(date_create($year."-".$month."-"."15"),"Y-m-d");
 
+		$ordot=0; $rstot=0; $spcot=0; $spcrstot=0; $rglot=0; $rglrstot=0; $dblot=0; $dblrstot=0;
+		$ordlate=0; $rstlate=0; $spclate=0; $spcrstlate=0; $rgllate=0; $rglrstlate=0; $dbllate=0; $dblrstlate=0;
+		$nightdiffadjustment=0; $leaveadjustment=0; $lateadjustment=0; $otadjustment=0; $otheradjustment=0;
+		$allowance=0; $incentive=0; $basicpay=0; $absent=0; 
+
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
-		/* Overtime */
-      	$ordot 		= $query->row()->ordot;
-      	$rstot		= $query->row()->rstot;
-      	$spcot 		= $query->row()->spcot;
-      	$spcrstot 	= $query->row()->spcrstot;
-      	$rglot 		= $query->row()->rglot;
-      	$rglrstot 	= $query->row()->rglrstot;
-      	$dblot 		= $query->row()->dblot;
-      	$dblrstot 	= $query->row()->dblrstot;
+		if($query->num_rows()!=0){
+			/* Overtime */
+	      	$ordot 		= $query->row()->ordot;
+	      	$rstot		= $query->row()->rstot;
+	      	$spcot 		= $query->row()->spcot;
+	      	$spcrstot 	= $query->row()->spcrstot;
+	      	$rglot 		= $query->row()->rglot;
+	      	$rglrstot 	= $query->row()->rglrstot;
+	      	$dblot 		= $query->row()->dblot;
+	      	$dblrstot 	= $query->row()->dblrstot;
 
-      	/* Late */
-	  	$ordlate 	= $query->row()->ordlate;
-	  	$rstlate 	= $query->row()->rstlate;
-	  	$spclate 	= $query->row()->spclate;
-	  	$spcrstlate = $query->row()->spcrstlate;
-	  	$rgllate 	= $query->row()->rgllate;
-	  	$rglrstlate = $query->row()->rglrstlate;
-	  	$dbllate 	= $query->row()->dbllate;
-	  	$dblrstlate = $query->row()->dblrstlate;
+	      	/* Late */
+		  	$ordlate 	= $query->row()->ordlate;
+		  	$rstlate 	= $query->row()->rstlate;
+		  	$spclate 	= $query->row()->spclate;
+		  	$spcrstlate = $query->row()->spcrstlate;
+		  	$rgllate 	= $query->row()->rgllate;
+		  	$rglrstlate = $query->row()->rglrstlate;
+		  	$dbllate 	= $query->row()->dbllate;
+		  	$dblrstlate = $query->row()->dblrstlate;
 
-	  	/* Adjustment */
-	  	$nightdiffadjustment = $query->row()->nightdiffadjustment;
-	    $leaveadjustment 	 = $query->row()->leaveadjustment;								
-	    $lateadjustment 	 = $query->row()->lateadjustment;
-	    $otadjustment 		 = $query->row()->otadjustment;
-	    $otheradjustment 	 = $query->row()->otheradjustment;
+		  	/* Adjustment */
+		  	$nightdiffadjustment = $query->row()->nightdiffadjustment;
+		    $leaveadjustment 	 = $query->row()->leaveadjustment;								
+		    $lateadjustment 	 = $query->row()->lateadjustment;
+		    $otadjustment 		 = $query->row()->otadjustment;
+		    $otheradjustment 	 = $query->row()->otheradjustment;
+
+		    /* Allowance */
+		    $allowance = $query->row()->allowance;
+		    $incentive = $query->row()->incentive;
+
+		    $basicpay = $query->row()->basicpay;
+		    $absent   = $query->row()->absent;
+    	}
 
       	$totalOTpay = $ordot + $rstot + $spcot + $spcrstot + 
 					  $rglot + $rglrstot + $dblot + $dblrstot;
@@ -479,11 +493,11 @@ class Payrollprocess_model extends CI_Model
 
 		$totalAdjustment = ($nightdiffadjustment + $leaveadjustment + $lateadjustment + $otadjustment + $otheradjustment);
 
-      	$totalAllowance = $query->row()->allowance + 
-						  $query->row()->incentive;
+      	$totalAllowance = $allowance + 
+						  $incentive;
 
-		$basicsalary = (($salary + $query->row()->basicpay + $totalOTpay + $totalAllowance) + $totalAdjustment) - 
-						($totalLate + $query->row()->absent);
+		$basicsalary = (($salary + $basicpay + $totalOTpay + $totalAllowance) + $totalAdjustment) - 
+						($totalLate + $absent);
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
 
@@ -608,7 +622,7 @@ class Payrollprocess_model extends CI_Model
         $this->db->update("dm_payroll", $data);   	   	
 	}
 
-	function save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otherdescription,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan)
+	function save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otnotes,$nightnotes,$latenotes,$leavenotes,$othernotes,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan)
 	{
 		$sss_ee   		 = 0;
 		$sss_er   		 = 0;
@@ -650,7 +664,11 @@ class Payrollprocess_model extends CI_Model
 	 				  'nightdiffadjustment' => $nightdiffadjustment,
 	 				  'lateadjustment' 		=> $lateadjustment,
 	 				  'leaveadjustment' 	=> $leaveadjustment,
-	 				  'otherdescription' 	=> $otherdescription,
+	 				  'otnotes' 			=> $otnotes,
+	 				  'nightnotes' 			=> $nightnotes,
+	 				  'latenotes' 			=> $latenotes,
+	 				  'leavenotes' 			=> $leavenotes,
+	 				  'othernotes' 			=> $othernotes,
 	 				  'otheradjustment' 	=> $otheradjustment,
 	 				  'sss_ee'			 	=> $sss_ee,
 					  'sss_er'			 	=> $sss_er,

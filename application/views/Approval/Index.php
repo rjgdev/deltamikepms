@@ -37,10 +37,12 @@
 				</div>
 			</div>
 			
-			<div class="mt-3 col-sm-8 col-md-8 col-lg-8 col-xl-9" id="listapprover">
+			<div class="col-sm-8 col-md-8 col-lg-8 col-xl-9" id="listapprover">
+<h6 class="card-title m-b-20 text-primary">Level of Approver</h6>
 
 				<div class="m-b-30">
-					<ul class="list-group notification-list" id="show_approver" style="margin-top: 28px;">
+
+					<ul class="list-group notification-list" id="show_approver">
 						<?php foreach ($approval as $item) { 
 
 							if($item->photo==""){
@@ -110,7 +112,7 @@
 						</div>
 
 						<div class="submit-section">
-							<button class="btn btn-primary submit-btn update" style="width:50%;">Update</button>
+							<button class="btn btn-primary submit-btn update" style="width:50%;">Submit</button>
 						</div>
 					</form>
 				</div>
@@ -146,9 +148,6 @@
 <!-- /Confirmation Modal -->
 
 <script>
-$(window).on("load", function() {
-	$(".loader").fadeOut();
-});
 $(document).ready(function() {
 	var counter = 0;
 	var exist = 0;
@@ -382,9 +381,9 @@ $(document).ready(function() {
 					if(err!="") return false;
 
 			   		$('#modal_confirmation .confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg");
-					$('#modal_confirmation #modal_title').html("Confirmation message");
+					$('#modal_confirmation #modal_title').html("Update Approval");
 			    	$('#modal_confirmation #modal_message').html("Are you sure you want to update this approval?");
-			    	$('#modal_confirmation .submit-btn').html("Update Approval");
+			    	$('#modal_confirmation .submit-btn').html("Update");
 			    	$('#modal_confirmation .cancel-btn').html("Cancel");
 					$('#modal_confirmation .submit-btn').attr("id","modal_approver");
 			        $('#update_approver').hide();
