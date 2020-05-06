@@ -44,7 +44,7 @@
 		  	<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
 			  		<label class="focus-label">Client</label>
-					<select class="form-control is-invalid select2" id="searchclient"> 
+					<select class="form-control is-invalid select2" id="searchclient" style="width:100%"> 
 						<option value="0">Select Client</option>
 						<?=$optionClient;?>
 					</select>
@@ -54,7 +54,7 @@
 			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
 			  		<label class="focus-label">Post</label>
-					<select class="form-control is-invalid select2" id="searchpost"> 
+					<select class="form-control is-invalid select2" id="searchpost" style="width:100%"> 
 						<option value="0">Select Post</option>
 					</select>
 				</div>
@@ -62,9 +62,9 @@
 
 			<div class="col-sm-6 col-md-4 col-lg-4 col-xl-3 col-12"> 
 			  	<div class="form-group form-focus select-focus">
-					<label class="focus-label">Choose week</label>
+					<label class="focus-label">Week</label>
  					<input id="scheddate"  name="scheddate" 
- 						   class="form-control datetimepicker">
+ 						   class="form-control datetimepicker" data-toggle="datetimepicker">
 				</div>
 			</div>
 
@@ -185,7 +185,7 @@
 			<div class="modal-body">
 				<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-						<h3>Confirmation Message</h3>
+						<h3 id="confirm_add"></h3>
 						<p id="add_message"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
 				</div>
@@ -211,7 +211,7 @@
 			<div class="modal-body">
 				<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/delete.svg">
-						<h3>Confirmation Message</h3>
+						<h3 id="confirm_delete"></h3>
 						<p id="confirm_message"></p>
 						<div class="invalid-feedback" id="status-invalid"></div>
 				</div>
@@ -294,10 +294,6 @@
 
 <script>
 $(document).ready(function() {
-	$(window).on("load", function() {
-		$("#searchclient").trigger("change");
-    });
-
 	/*************************************  ADD SCHEDULE  *********************************************/
 		    $('#add_schedule').on('hidden.bs.modal', function(){
 		   		$("#addTimein").val("07:00");
@@ -316,6 +312,7 @@ $(document).ready(function() {
 		   		$("#confirmation_add .cancel-btn").attr("id","cancelSched");
 		   		$('#confirmation_add .submit-btn').attr("disabled",false);
 		   		$('#confirmation_add #add_message').html("Are you sure you want to <b>add this shift</b>?");
+		   		$('#confirmation_add #confirm_add').html("Add Shift");
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -397,6 +394,7 @@ $(document).ready(function() {
 
 		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteSched");
 		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to <b>delete this shift</b>? <p style='font-size: .71rem; color: #e04d45; font-weight:500;'>All assigned guards in this shift will be remove also.</p>");
+		   		$("#confirmation_delete #confirm_delete").html("Delete Shift");
 				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -522,6 +520,7 @@ $(document).ready(function() {
 		   		$("#confirmation_add .submit-btn").html("Add");
 
 		   		$('#confirmation_add #add_message').html("Are you sure you want to <b>add this guard</b>?");
+		   		$('#confirmation_add #confirm_add').html("Add Security Guard");
 				$('#confirmation_add').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -600,6 +599,7 @@ $(document).ready(function() {
 
 		   		$("#confirmation_delete .cancel-btn").attr("id","cancelDeleteGuard");
 		   		$("#confirmation_delete #confirm_message").html("Are you sure you want to <b>remove this guard</b>?");
+		   		$("#confirmation_delete #confirm_delete").html("Remove Security Guard");
 				$('#confirmation_delete').modal({backdrop: 'static', keyboard: false},'show');
 				event.preventDefault(); 
 				return false;
@@ -840,224 +840,27 @@ $(document).ready(function() {
 
 					      }
 			 	 	});
-
-		 			/*$.ajax({
-				      url : "<?php echo site_url('Scheduling/searchschedule');?>",
-				      method : "POST",
-				      async : true,
-				      dataType : 'json',
-				      data: {clientID:clientID,
-				      		 postID:postID},
-				      success: function(data){		
-				      	console.log(data);
-				      	var postName = "";
-
-				      	for(y=0; y<data["employee"].length; y++){
-							optionEmployee+='<option value="' + data["employee"][y].employeeID + '">' + data["employee"][y].firstname + ' ' + data["employee"][y].lastname + '</option>';
-			      		}
-
-				      	for(i=0; i<data["post"].length; i++){
-		      				if(postName!=data["post"][i].postname){
-		      					html+='<tr>' +
-									  	'<td class="text-center postName" colspan="8">' + data["post"][i].postname + '</td>' +
-								      '</tr>';
-		      				}
-
-		      				postName = data["post"][i].postname;
-		      				
-							html+='<tr>' +
-								  '<td class="text-center" style="width: 200px !important; font-size:11px;"><b style="color:#e04d45">' + data["post"][i].timein + '<br/> to <br/>' + data["post"][i].timeout + '</b></td>';
-											
-										for(x=0; x<7; x++){
-											html+='<td class="postGuard">' + 
-													  '<label style="margin-bottom:0;">Regular</label>' +
-													  '<select class="form-control select2" id="searchemployee' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" multiple="multiple" disabled>' +
-														optionEmployee +
-													  '</select>';
-
-													loadData(data["post"][i].postID,x,data["post"][i].postscheduleID); 
-
-													html+='<br/>' + 
-														  '<span class="file-author float-right" id="editGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: block;">' + 
-														   		'<a href="#" class="editGuard" name="' + data["post"][i].postscheduleID + data["post"][i].postID + x + '">Edit Assigned Guard</a>' +
-														  '</span>' + 
-														  '<span class="file-author float-left" id="saveGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
-																'<a href="#" class="saveGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Save</a>' +
-														  '</span>' + 
-														  '<span class="file-author float-right" id="cancelGuard' + data["post"][i].postscheduleID + data["post"][i].postID + x + '" style="display: none;">' +
-																'<a href="#" class="cancelGuard" postID="' + data["post"][i].postID + '" scheduleDay="' + x + '" postscheduleID="' + data["post"][i].postscheduleID + '">Cancel</a>' +
-														  '</span><br><br>';
-									    }
-								html+='</tr>';
-		  				}     	
-		  				$("#data_show").html(html);
-		  				$('.select2').select2();	
-		  				$(".loader").fadeOut();
-				      },
-				      error: function(request, textStatus, error) {
-
-				      }
-		 	 	});*/
 		 		}
 		 	});
 		/*************************************  END VIEW SCHEDULE  *********************************************/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*$(document).on("click", ".editGuard", function(){
-		$("#searchemployee" + $(this).attr("name")).removeAttr('disabled');
-		$("#editGuard" + $(this).attr("name")).css("display","none");
-		$("#saveGuard" + $(this).attr("name")).css("display","block");
-		$("#cancelGuard" + $(this).attr("name")).css("display","block");
-	});
-
-	$(document).on("click", ".cancelGuard", function(){
-        $('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/cancel.svg");
-		$('#modal_title').html("Confirmation Message");
-    	$('#modal_message').html("Are you sure you want to cancel?");
-    	$('.submit-btn').html("Confirm");
-    	$('.cancel-btn').html("Cancel");
-    	$('.submit-btn').attr("id","modal_cancelediting");
-    	$('.submit-btn').attr("postID",$(this).attr("postID"));
-    	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
-    	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
-        $('#modal_confirmation').modal('show');
-		return false;
-	});
-
-    $(document).on("click", "#modal_cancelediting", function(){
-    	var postID = $(this).attr("postID");
-		var scheduleDay = $(this).attr("scheduleDay");
-		var postscheduleID = $(this).attr("postscheduleID");
-
-		var arrVal = [];
-
-		$.ajax({
-		      url : "<?php echo site_url('Scheduling/loadguard');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {postID:postID,
-		      		 postType:"regular",
-		      		 postscheduleID:postscheduleID,
-		      		 scheduleDay:scheduleDay},
-		      success: function(data){	
-		     										      			
-      			for(i=0; i<data.length; i++){
-      				arrVal[i] = data[i].employeeID;
-  				}
-  				$("#searchemployee" + postscheduleID + postID + scheduleDay).val(arrVal);
-				$("#searchemployee" + postscheduleID + postID + scheduleDay).trigger("change");
-		      },
-		      error: function(request, textStatus, error) {
-
-		      }
- 	 	});
-
-		$("#searchemployee" + postscheduleID + postID + scheduleDay).attr('disabled', 'disabled');
-		$("#editGuard" + postscheduleID + postID + scheduleDay).css("display","block");
-		$("#saveGuard" + postscheduleID + postID + scheduleDay).css("display","none");
-		$("#cancelGuard" + postscheduleID + postID + scheduleDay).css("display","none");
-		$('#modal_confirmation').modal('hide');
-	});*/
-/*
-	$(document).on("click", ".saveGuard", function(){
-		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/submit.svg");
-		$('#modal_title').html("Confirmation Message");
-    	$('#modal_message').html("Are you sure you want to save these changes?");
-    	$('.submit-btn').html("Submit");
-    	$('.cancel-btn').html("Cancel");
-    	$('.submit-btn').attr("id","modal_saverecord");
-    	$('.submit-btn').attr("postID",$(this).attr("postID"));
-    	$('.submit-btn').attr("scheduleDay",$(this).attr("scheduleDay"));
-    	$('.submit-btn').attr("postscheduleID",$(this).attr("postscheduleID"));
-        $('#modal_confirmation').modal('show');
-		return false;
-	});*/
-
-	/*$(document).on("click", "#modal_saverecord", function(){
-		var postID = $(this).attr("postID");
-		var scheduleDay = $(this).attr("scheduleDay");
-		var postscheduleID = $(this).attr("postscheduleID");
-		var employeeID =$("#searchemployee" + postscheduleID + postID + scheduleDay).val();
-
-		$.ajax({
-			url 	 : "<?php echo site_url('Scheduling/saveguard');?>",
-			method : "POST",
-			async  : true,
-			data: {postID:postID,
-					 postType:"regular",
-					 postscheduleID:postscheduleID,
-					 scheduleDay:scheduleDay,
-					 employeeID:employeeID},
-			success: function(data){	
-
-			},
-			error: function(request, textStatus, error) {
-
-			}
-		});
-
-		$("#searchemployee" + postscheduleID + postID + scheduleDay).attr('disabled', 'disabled');
-		$("#editGuard" + postscheduleID + postID + scheduleDay).css("display","block");
-		$("#saveGuard" + postscheduleID + postID + scheduleDay).css("display","none");
-		$("#cancelGuard" + postscheduleID + postID + scheduleDay).css("display","none");
-		$('#modal_confirmation').modal('hide');
-	});*/
-
-	/*function loadData(postID,scheduleDay,postscheduleID){
-		var arrVal = [];
-
-		$.ajax({
-		      url : "<?php echo site_url('Scheduling/loadguard');?>",
-		      method : "POST",
-		      async : true,
-		      dataType : 'json',
-		      data: {postID:postID,
-		      		 postType:"regular",
-		      		 postscheduleID:postscheduleID,
-		      		 scheduleDay:scheduleDay},
-		      success: function(data){			
-	  			for(i=0; i<data.length; i++){
-	  				arrVal[i] = data[i].employeeID;
-				}
-				
-				$("#searchemployee" + postscheduleID + postID + scheduleDay).val(arrVal);
-				$("#searchemployee" + postscheduleID + postID + scheduleDay).trigger("change");
-		      },
-		      error: function(request, textStatus, error) {
-
-		      }
-	 	});
-	}*/
 
     $(document).on("change", "#searchclient", function(){
     	var clientID = $(this).val();
     	var htmlPost = "";
     	var optionEmployee = "";
 
-    	$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
+    	$("[aria-labelledby='select2-searchclient-container']").removeClass('is-valid');
+		$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
+
+		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-valid');
+		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
+
+    	if(clientID==0){
+    		$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
+		}else{
+    		$("[aria-labelledby='select2-searchclient-container']").addClass('is-valid');
+    	}
+
     	$("#searchpost").prop("disabled", true);
     	$.ajax({
 		      url : "<?php echo site_url('Scheduling/loadpost');?>",
@@ -1083,13 +886,24 @@ $(document).ready(function() {
  	 	});
 	});
 
+
+
 	$(document).on("change", "#searchpost", function(){
     	var postID = $(this).val();
-    	$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
+
+    	$("[aria-labelledby='select2-searchpost-container']").removeClass('is-valid');
+		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
+
+    	if(postID==0){
+    		$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
+		}else{
+    		$("[aria-labelledby='select2-searchpost-container']").addClass('is-valid');
+		}
  	});
 
- 	$(document).on("click", "#scheddate", function(){
-    	$("#scheddate").removeClass('is-invalid');
+ 	$(document).on("click", "#scheddate", function(event){
+		$("#scheddate").removeClass('is-invalid');
+		$("#scheddate").addClass('is-valid');
  	});
 });
 </script>

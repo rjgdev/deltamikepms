@@ -285,7 +285,7 @@ tr.shown td.details-control {
 }
 
 table.dataTable td{
-	padding:5px 8px 5px 14px !important;
+	padding:5px 8px 5px 8px !important;
 }
 
 .table-sss tbody tr:nth-of-type(even){
@@ -451,7 +451,9 @@ body {
 	color: #1f1f1f;
 	background-color: #f7f7f7;
 	min-height: 100%;
-	overflow-x: hidden;
+	overflow: hidden;
+	position: fixed;
+	width:100%;
 }
 h1,
 h2,
@@ -1967,6 +1969,8 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .account-page {
+	display: flex;
+    justify-content: center;
 	align-items: center ;
 	background: -moz-linear-gradient(left, #e04d45 0%, #9e0924 100%);
 	background: -webkit-linear-gradient(left, #e04d45 0%, #9e0924 100%);
@@ -2469,7 +2473,7 @@ table.dataTable thead > tr > td.sorting {
 	width: 100%;
 }
 .profile-img-wrap img {
-    border-radius: 50%;
+    border-radius: 15%;
     height: 120px;
     width: 120px;
 }
@@ -2944,7 +2948,7 @@ table.dataTable thead > tr > td.sorting {
 	border-radius: 50%;
 }
 .user-name {
-	color: #333;
+	color: #e04d45;
 }
 .edit-btn {
 	border-radius: 40px;
@@ -3590,7 +3594,7 @@ table.dataTable thead > tr > td.sorting {
 	float: left;
 	font-weight: 500;
 	margin-right: 30px;
-	width: 25%;
+	width: 29%;
 }
 .personal-info li .text {
 	color: #8e8e8e;
@@ -3609,12 +3613,12 @@ table.dataTable thead > tr > td.sorting {
 	position: relative;
 }
 .profile-view .profile-img-wrap {
-	height: 120px;
+	height: 100%;
 	width: 120px;
 }
 .profile-view .profile-img {
 	width: 120px;
-	height: 120px;
+	height: 100%;
 }
 .profile-view .profile-img .avatar {
 	font-size: 24px;

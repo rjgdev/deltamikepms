@@ -155,7 +155,7 @@
 	@media print{
 
 		tr:nth-child(even) td {
-		background-color: #daf1fd !important;
+		background-color: green !important;
 		-webkit-print-color-adjust: exact;
 		}
 

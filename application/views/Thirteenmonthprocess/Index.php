@@ -402,10 +402,6 @@ foreach ($data['approver'] as $approvaldata)  {
 <span><?php if($this->session->flashdata('empstatus')=="empsuccess") echo '<script type="text/javascript"> showdataSuccess13thToast() </script>';?></span>
 
 <script  type="text/javascript">  
-	$(window).on("load", function() {
-		$(".loader").fadeOut();
-	});
-
 	$(document).ready(function() {
 		$("#export_excel").click(function() {
 			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#tabledata').html()));
