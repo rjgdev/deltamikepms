@@ -35,9 +35,22 @@ class Leave_model extends CI_Model
 	}	
 	function search_totalleave($id, $leave)
 	{
-		$leave = $this->db->query('
-			SELECT employeeID, leavetypeID, (totalleave) AS remainingleave FROM dm_employeecreditleave WHERE leavetypeID ='.$leave.' AND employeeID = '.$id.'
-		');
+		if($id==""){
+			$employeeID ="WHERE employeeID = 0";
+		}else{
+			$employeeID ="WHERE employeeID = $id";
+		}
+		if($leave==""){
+			$leaveID = "AND leavetypeID = 0";
+		}else{
+			$leaveID =" AND leavetypeID = $leave";
+		}
+		$leave = $this->db->query("
+			SELECT employeeID, leavetypeID, (totalleave) AS remainingleave FROM dm_employeecreditleave $employeeID $leaveID
+		");
+
+		/*print_r($this->db->last_query());  
+     	  exit;*/
 		return $leave->result();
 	}
 	function save_leave($data,$numberofdays,$leavetypeID,$employeeID, $remainingleave,$addfrom, $addto)
@@ -83,15 +96,20 @@ class Leave_model extends CI_Model
 	}
 	function get_employeeleave($employeeID)
 	{
+		if($employeeID==""){
+			$employee ="WHERE ecl.employeeID = 0";
+		}else{
+			$employee ="WHERE ecl.employeeID = $employeeID";
+		}
 
-		$query = $this->db->query('
+		$query = $this->db->query("
 		SELECT * FROM
 		(
 		SELECT ecl.leavetypeID,l.leavetypename,ecl.totalleave FROM dm_employeecreditleave AS ecl
 		LEFT JOIN dm_employee AS e ON ecl.employeeID = e.employeeID
 		LEFT JOIN dm_leavetype AS l ON ecl.leavetypeID = l.leavetypeID
-		WHERE ecl.employeeID = '.$employeeID.'
-		)a');
+		$employee
+		)a");
 		return $query->result();
 	}
 	function get_noted($id,$noted)

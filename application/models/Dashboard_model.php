@@ -10,7 +10,7 @@ class Dashboard_model extends CI_Model
 	function get_all()
 	{ 
 		$timekeepingguard = $this->db->query('SELECT * FROM `dm_timekeeping` ORDER BY timekeepingID DESC LIMIT 1');
-		$payroll = $this->db->query('SELECT * FROM `dm_payroll` ORDER BY payrollID DESC LIMIT 1');
+		$payrollguard = $this->db->query('SELECT * FROM `dm_payroll` ORDER BY payrollID DESC LIMIT 1');
 		$thirteenthmonth = $this->db->query('SELECT * FROM `dm_thrmonth` ORDER BY thrmonthID DESC LIMIT 1');
 		$retirement = $this->db->query('SELECT * FROM `dm_retirement` ORDER BY retirementID DESC LIMIT 1');
 		$billing = $this->db->query('SELECT * FROM `dm_billing` ORDER BY billingID DESC LIMIT 1');
@@ -60,7 +60,7 @@ class Dashboard_model extends CI_Model
 		$activestaff = $this->db->query("SELECT COUNT(employeeID) AS 'totalStaff' FROM dm_employee WHERE employeetypeID=2 AND employeestatus='Active'");
 
 	    $result1 	= 	$timekeepingguard->result();
-	    $result2 	= 	$payroll->result();
+	    $result2 	= 	$payrollguard->result();
 	    $result3 	= 	$thirteenthmonth->result();
 	    $result4 	= 	$retirement->result();
 	    $result5 	= 	$billing->result();
@@ -75,7 +75,7 @@ class Dashboard_model extends CI_Model
 
 	          return array(
 	          	'timekeepingguard' 	=> $result1,
-	          	'payroll' 			=> $result2,
+	          	'payrollguard'		=> $result2,
 	          	'thirteenthmonth' 	=> $result3,
 	          	'retirement' 	=> $result4,
 	          	'billing' 		=> $result5,

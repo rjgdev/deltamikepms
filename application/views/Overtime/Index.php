@@ -145,7 +145,7 @@ $accesslevel = $access->employeetypeID;
                          <div class="col-sm-12">
 								<div class="form-group">
 	                            <label for="description">Employee Name <span class="text-danger">*</span></label>
-	                            <select class="form-control" id="addemployee" name="addemployee" style="width: 100%;"  description="employee name" required>
+	                            <select class="form-control select2" id="addemployee" name="addemployee" style="width: 100%;"  description="employee name" required>
 	                            <option value="">No Selected</option>
 	                              <?php
 	                              foreach($data['dropdownemp'] as $empldropdown)
@@ -233,7 +233,7 @@ $accesslevel = $access->employeetypeID;
                          <div class="col-sm-12">
 								<div class="form-group">
 	                            <label for="description">Employee Name<span class="text-danger">*</span></label>
-	                            <select class="form-control" id="editemployee" name="editemployee" style="width: 100%;" description="employee name" >
+	                            <select class="form-control select2" id="editemployee" name="editemployee" style="width: 100%;" description="employee name" >
 	                            <option value="">No Selected</option>
 	                              <?php
 	                              foreach($data['dropdownemp'] as $empldropdown)
@@ -441,7 +441,8 @@ $accesslevel = $access->employeetypeID;
 </style>
 
 <!-- /Page Wrapper -->
-<script  type="text/javascript">  
+<script  type="text/javascript"> 
+
 	$('.changesnoted').unbind('click').bind('click', function(){
      $(".modal-body #overtimenoted").val( $(this).data('overtnoted'));
      $('.editnote').attr('id', $(this).data('id'));
@@ -511,6 +512,11 @@ $accesslevel = $access->employeetypeID;
         	$('input').removeClass('is-valid');
         	$('select').removeClass('is-invalid');
         	$('select').removeClass('is-valid');
+
+        	 $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
 		});
 		//Clear Modal//
 		$('#edit_overtime').on('hidden.bs.modal', function(){
@@ -520,6 +526,11 @@ $accesslevel = $access->employeetypeID;
         	$('input').removeClass('is-valid');
         	$('select').removeClass('is-invalid');
         	$('select').removeClass('is-valid');
+
+        	 $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
 		});
 
 $("#addendtime").change(function(){
@@ -594,6 +605,7 @@ $("#addstarttime").change(function(){
 	$('#save').unbind('click').bind('click', function(){
 		var IDArray = ['#addemployee', '#addovertimedate', '#addstarttime', '#addendtime', /*'#totalTime'*//*, '#adddescription'*//*,'#addnoted'*/];
 		var ErrorIDArray = ['add-employee', 'add-overtime', 'add-starttime', 'add-endtime', /*'add-totalTime'*//*, 'add-description'*//*,'add-noted'*/];
+		var addemployee = $("#addemployee").val();
 		var starttimecheck = $("#addstarttime").val();
 		var endtimecheck = $("#addendtime").val();
 		var description = $("#adddescription").val();
@@ -601,8 +613,12 @@ $("#addstarttime").change(function(){
 		var ValueArray = [];	
 		var firstRequired = "";
 		var navIndex = 0;
-		
 
+		 $(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
+		
 		if(starttimecheck <= endtimecheck){
 		for(var i=0;i<IDArray.length;i++){
 			ValueArray[i] = $(IDArray[i]).val().trim()
@@ -622,23 +638,33 @@ $("#addstarttime").change(function(){
 			}
 		}
 
-		if(starttimecheck==""){
-			document.getElementById("add-starttime").innerHTML = "Please provide a start time.";
-	        $('#addstarttime').addClass('is-invalid');
-            event.preventDefault();
+		if(addemployee==""){
+			document.getElementById("add-employee").innerHTML = "Please provide an employee name.";
+			$("[aria-labelledby='select2-addemployee-container']").addClass('is-invalid');
+			$('#addemployee').addClass('is-invalid');
+				event.preventDefault();
             
 		}else{
-			document.getElementById("add-starttime").innerHTML = "";	
-			$('#addstarttime').removeClass('is-invalid');
-			$('#addstarttime').addClass('is-valid');
-		 	event.preventDefault();
+			document.getElementById("add-employee").innerHTML = "";
+			$("[aria-labelledby='select2-addemployee-container']").addClass('is-valid');
+	        $('#addemployee').addClass('is-valid');
+	        event.preventDefault();
 		};
+		if(endtimecheck==""){
+			document.getElementById("add-endtime").innerHTML = "Please provide an end time.";
+	        $('#addendtime').addClass('is-invalid');
+            event.preventDefault(); 
+		}else{
+			document.getElementById("add-endtime").innerHTML = "";	
+			$('#addendtime').removeClass('is-invalid');
+			$('#addendtime').addClass('is-valid');
+		 	event.preventDefault();
+		}
 
 		if(endtimecheck==""){
 			document.getElementById("add-endtime").innerHTML = "Please provide an end time.";
 	        $('#addendtime').addClass('is-invalid');
-            event.preventDefault();
-            
+            event.preventDefault(); 
 		}else{
 			document.getElementById("add-endtime").innerHTML = "";	
 			$('#addendtime').removeClass('is-invalid');
@@ -728,6 +754,7 @@ $("#addstarttime").change(function(){
 
 		$('.edit_overtime').unbind('click').bind('click', function(){
 		$(".modal-body #editemployee").val( $(this).data('employeeid'));
+		$(".modal-body #editemployee").trigger("change");
 		$(".modal-body #editovertimedate").val( $(this).data('overtimedate'));
 		$(".modal-body #editstarttime").val( $(this).data('starttime'));
 		$(".modal-body #editendtime").val( $(this).data('endtime'));
@@ -743,10 +770,15 @@ $("#addstarttime").change(function(){
 		var endtimecheck = $("#editendtime").val();
 		var description = $("#editdescription").val();
 		var edittotalTime = $("#edittotalTime").val();
+		var editemployee = $("#editemployee").val();
 		var ValueArray = [];
 		var firstRequired = "";
 		var navIndex = 0;
 		var id = $(this).attr('id');
+		$(".select2-selection--single").each(function(){
+                $(this).removeClass("is-invalid");
+                $(this).removeClass("is-valid");
+         	 });
 		if(starttimecheck <= endtimecheck){
 
 		for(var i=0;i<IDArray.length;i++){
@@ -766,6 +798,18 @@ $("#addstarttime").change(function(){
 			 	event.preventDefault();
 			}
 		}
+		if(editemployee==""){
+			document.getElementById("edit-employee").innerHTML = "Please provide an employee name.";
+			$("[aria-labelledby='select2-editemployee-container']").addClass('is-invalid');
+			$('#editemployee').addClass('is-invalid');
+				event.preventDefault();
+            
+		}else{
+			document.getElementById("add-employee").innerHTML = "";
+			$("[aria-labelledby='select2-editemployee-container']").addClass('is-valid');
+	        $('#editemployee').addClass('is-valid');
+	        event.preventDefault();
+		};
 		if(endtimecheck==""){
 			document.getElementById("edit-endtime").innerHTML = "Please provide an end time.";
 	        $('#editendtime').addClass('is-invalid');

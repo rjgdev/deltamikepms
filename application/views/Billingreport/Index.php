@@ -84,11 +84,11 @@
 						<th style="width: 90px ! important;">PHIC</th>
 						<th style="width: 80px ! important;">HDMF</th>
 						<th style="width: 130px ! important;">Insurance Fund</th>
-						<th style="width: 130px ! important;">OverHead Margin</th>
+						<th style="width: 130px ! important;">Overhead Margin</th>
 						<th style="width: 60px ! important;">Subtotal</th>
 						<th style="width: 60px ! important;">Taxable</th>
 						<th style="width: 60px ! important;">Tax Due</th>
-						<th style="width: 60px ! important;">Generated</th>									
+						<th style="width: 60px ! important;">Action</th>									
 					</tr>
 				</thead>	
 				<tbody id="show_data">
@@ -217,11 +217,11 @@
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>' +
 									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>OverHead Margin</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Tax Due</center></th>' +
-									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Generated</center></th>' +
+									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Action</center></th>' +
 								'</tr> ' +
 						'</thead>';
 					html += '<tbody>';
@@ -240,7 +240,7 @@
     								'<td>' +  accounting.formatMoney(data[i].subtotalwithmargin) + '</td>' +
     								'<td>' +  accounting.formatMoney(data[i].taxable) + '</td>' +
     								'<td>' +  accounting.formatMoney(data[i].taxdue) + '</td>' +
-    								'<td><a class="btn btn-sm btn-primary" href="Billingreport/Billingclient?payrollID='+ data[i].payrollID + '&client='+ data[i].clientID +' &post='+ data[i].postID +'"target="_blank" >Generate Report</a></td>'+	
+    								'<td><a class="btn btn-sm btn-primary" href="Billingreport/Billingclient?payrollID='+ data[i].payrollID + '&client='+ data[i].clientID +' &post='+ data[i].postID +'"target="_blank" >Action</a></td>'+	
     							'</tr>';
     					}			
     					html += '</tbody></table>';					

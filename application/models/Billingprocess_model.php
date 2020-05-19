@@ -520,8 +520,10 @@ class Billingprocess_model extends CI_Model
 								   FROM dm_billing AS b
 								   INNER JOIN dm_employee ON dm_employee.employeeID = b.userdenied 
 								   WHERE b.billingID = '.$billingID); 
+		/*print_r($this->db->last_query());  
+     	  exit;*/
 
-		return $query->result();
+	return $query->result();
 	}
 
 }		

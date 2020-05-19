@@ -43,7 +43,7 @@ class Payrollreport_model extends CI_Model
 
 		 return $query->result();
 	}
-	function search($searchpayperiod,$searchemployeetype,$searchclient,$searchdetachment)
+	function search($searchpayperiod,$searchemployeetype,$searchclient)
     {	
     if($searchemployeetype == 0) {
 		$cond = " ";
@@ -55,11 +55,6 @@ class Payrollreport_model extends CI_Model
 	}else{
     	$client = "AND e.cLientID = $searchclient";
     }
-    if($searchdetachment == 0) {
-		$detachment = " ";
-	}else{
-    	$detachment = "AND e.postID =  $searchdetachment";
-    }
 
     	$query = $this->db->query("
     							SELECT 
@@ -67,16 +62,16 @@ class Payrollreport_model extends CI_Model
     							FROM 
 									( SELECT pd.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as fullname,
 									 pd.basicpay,((pd.ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) + (pd.otadjustment)) AS totalovertime,
-									 ((pd.ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) + (pd.nightdiffadjustment))AS totalnightdiff,
-									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,
+									 ((pd.ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) + (pd.nightdiffadjustment))AS totalnightdiff,nightdiffadjustment,
+									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,lateadjustment,leaveadjustment,
 									 ((pd.absent) + (leaveadjustment)) AS totalleave,
-									 pd.otheradjustment, othernotes, grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
-									 pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductions,
+									 pd.otheradjustment,  grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
+									 pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductionsloan,
 									 pd.netpay FROM dm_payrolldetails as pd 
 									 LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID 
 									 LEFT JOIN dm_client AS c ON e.clientID = c.clientID 
 									 LEFT JOIN dm_post AS p ON e.postID = p.postID 
-									    WHERE pd.payrollID = '$searchpayperiod' $cond   $client  $detachment
+									    WHERE pd.payrollID = '$searchpayperiod' $cond   $client 
 									    GROUP BY datefrom,e.employeeID
 									)a
 								");

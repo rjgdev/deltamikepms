@@ -338,6 +338,7 @@
 									$totalDays		= 0;
 									$imgName		= 0;
 									$exist 			= 0;
+									$color  		= "";
 
 									if($emp->photo=="") $imgName = "profileimg.png";
 									else $imgName = $emp->photo;
@@ -364,33 +365,44 @@
 											for($i=$init;$i<=$lastday;$i++){
 												$init++;
 												if(date('d', strtotime($item->datesched))==$i){
-													/********* TOTAL HOURS **********/
-														$total_hours = explode(":",$item->actualhours)[0];
-														$total_minutes = explode(":",$item->actualhours)[1];
 
-														$total_accumHours += $total_hours;
-														$total_accumMinutes += $total_minutes;
+													if($item->tkType!="Exist") $color = "#ff5200c7";
+													else if($item->validateuser!="" || $item->validateuser!=NULL) $color = "#ff5200c7";
+													else $color = "#179414";
 
-													/********* TOTAL BASIC **********/
-														$basic_hours = explode(":",$item->actual_regular_hours)[0];
-														$basic_minutes = explode(":",$item->actual_regular_hours)[1];
+													if($item->tkType=="Exist"){
+														/********* TOTAL HOURS **********/
+															$total_hours = explode(":",$item->actualhours)[0];
+															$total_minutes = explode(":",$item->actualhours)[1];
 
-														$basic_accumHours += $basic_hours;
-														$basic_accumMinutes += $basic_minutes;
+															$total_accumHours += $total_hours;
+															$total_accumMinutes += $total_minutes;
 
-													/********* TOTAL OT **********/
-														$overtime_hours = explode(":",$item->actual_ot_hours)[0];
-														$overtime_minutes = explode(":",$item->actual_ot_hours)[1];
+														/********* TOTAL BASIC **********/
+															$basic_hours = explode(":",$item->actual_regular_hours)[0];
+															$basic_minutes = explode(":",$item->actual_regular_hours)[1];
 
-														$overtime_accumHours += $overtime_hours;
-														$overtime_accumMinutes += $overtime_minutes;
+															$basic_accumHours += $basic_hours;
+															$basic_accumMinutes += $basic_minutes;
 
-													$actualhours = explode(":",$item->actualhours)[0].":".explode(":",$item->actualhours)[1];
-													$totalDays++;
+														/********* TOTAL OT **********/
+															$overtime_hours = explode(":",$item->actual_ot_hours)[0];
+															$overtime_minutes = explode(":",$item->actual_ot_hours)[1];
 
-													echo "<td class='tsdata' style='font-weight: 500; color:#179414;'>
-															<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='".$item->timesheetID."'>".$actualhours."</a></td>";
-													break;
+															$overtime_accumHours += $overtime_hours;
+															$overtime_accumMinutes += $overtime_minutes;
+
+														$actualhours = explode(":",$item->actualhours)[0].":".explode(":",$item->actualhours)[1];
+														$totalDays++;
+
+														echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
+																<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='".$item->timesheetID."'>".$actualhours."</a></td>";
+														break;
+													}else{
+														echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
+																<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' timeshtid='".$item->timesheetID."'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
+														break;
+													}
 												}else{
 													$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i);
 													$restDay+=$retRD;
@@ -511,6 +523,26 @@
 										</tr>
 									</tbody>
 								</table>
+
+								<div class="validate_details" style="display:none;">
+									<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px; color:#ff5200c7;">Validation details</h4>
+									<table class="table table-striped table-border">
+										<tbody>
+											<tr>
+												<td style="color:#e04d45;">Validated by:</td>
+												<td class="text-right" id="validateuser"></td>
+											</tr>
+											<tr>
+												<td style="color:#e04d45;">Validated date:</td>
+												<td class="text-right" id="validatedate"></td>
+											</tr>
+											<tr>
+												<td style="color:#e04d45;">Remarks</td>
+												<td class="text-right" id="validateremarks"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -520,6 +552,94 @@
 	</div>
 </div>
 <!-- /Attendance Modal -->
+
+<!-- Schedule Modal -->
+<div class="modal custom-modal fade" id="schedule_info" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-xs" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Attendance Information</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="card" style="border-style: none !important;  margin-bottom:0px;">
+							<div class="card-body" style="padding: .25rem !important;">
+								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Timekeeping <small class="text-muted" style="font-size: 70% !important;" id="schedule_date"></small></h4>
+								<table class="table table-striped table-border">
+									<tbody>
+										<tr>
+											<td class="text-center" colspan="2" style="color: #ffffff; background-color: #e04d45; font-weight: 500;" id="schedule_day">NO SCHEDULE</td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Time In:</td>
+											<td class="text-right" id="schedule_timein"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Time Out:</td>
+											<td class="text-right" id="schedule_timeout"></td>
+										</tr>
+									</tbody>
+								</table>
+
+								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Client details</h4>
+								<table class="table table-striped table-border">
+									<tbody>
+										<tr>
+											<td style="color:#e04d45;">Client Name:</td>
+											<td class="text-right" id="schedule_client"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;">Post Name:</td>
+											<td class="text-right" id="schedule_post"></td>
+										</tr>
+										<tr>
+											<td style="color:#e04d45;" colspan="2">
+												<div class="row">
+													<div class="col-6">
+														<label>Time In <span class="text-danger">*</span></label>
+														<input class="form-control" type="time" value="07:00" id="addTimein">
+														<div class="invalid-feedback" id="addTimein-invalid"></div>
+													</div>
+													<div class="col-6">
+														<label>Time Out <span class="text-danger">*</span></label>
+														<input class="form-control" type="time" value="19:00" id="addTimeout">
+														<div class="invalid-feedback" id="addTimeout-invalid"></div>
+													</div>
+												</div>
+											</td>
+											<!-- <td id="schedule_shift">
+												
+											</td> -->
+										</tr>
+										<tr>
+											<td style="color:#e04d45;" colspan="2">
+												<div class="row">
+													<div class="col-12">
+														<label>Remarks <span class="text-danger">*</span></label>
+														<textarea class="form-control" style="width:100%;" id="addRemarks" rows=3 placeholder="Enter your remarks here"></textarea>
+														<div class="invalid-feedback" id="addRemarks-invalid"></div>
+													</div>
+												</div>
+											</td>
+											<!-- <td id="schedule_shift"></td> -->
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							 <button type="button" class="btn btn-success validate"><i class="fa fa-check"></i> Validate Attendance</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /Schedule Modal -->
 
 <!-- Denied Modal -->
 <div class="modal custom-modal fade" id="denied_info" role="dialog">
@@ -594,13 +714,20 @@
 	div#datatable_wrapper .row:nth-child(2){
 	    overflow-y: hidden;
 	}
+
+	.table td{
+		padding: .5rem;
+	}
 </style>
 
 <script type="text/javascript">
 
 	$(window).on("load", function() {
-		<?php if($this->session->flashdata('uploaded')!=""){ $test = $this->session->flashdata('uploaded'); ?>
-			showSuccessToast("<?php echo $test; ?>" + " is successfully uploaded!");
+		<?php if($this->session->flashdata('uploaded')!=""){ $message = $this->session->flashdata('uploaded'); ?>
+			showSuccessToast("<?php echo $message; ?>" + " is successfully uploaded!");
+		<?php } ?>
+		<?php if($this->session->flashdata('validated')!=""){ ?>
+			showSuccessToast("Record successfully validated!");
 		<?php } ?>
 	});
 
@@ -624,6 +751,10 @@
 	$('#file').change(function(){
       var name = document.getElementById('file'); 
       $(".custom-file-label").text(name.files.item(0).name);
+    });
+
+    $('#schedule_info').on('shown.bs.modal', function(){
+		$('#addTimein').focus(); 
     });
 
     $(document).on("click", ".approve", function(){
@@ -949,6 +1080,17 @@
              	const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
              	const day = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri", "Sat"];
 
+             	var validate_user = data[0]["validateusername"];
+             	var validate_remarks = data[0]["remarks"];
+
+             	var validatedate = new Date(data[0]["validatedate"]);
+             	var validate_date = day[validatedate.getDay()] + ", " + months[validatedate.getMonth()] + " " + 
+	             					validatedate.getDate().toString().padStart(2,"0") + ", " + 
+	             					validatedate.getFullYear() + " <b>" +
+	             					validatedate.getHours().toString().padStart(2,"0") + ":" +
+	             					validatedate.getMinutes().toString().padStart(2,"0") + ":" +
+	             					validatedate.getSeconds().toString().padStart(2,"0") + "</b>";
+
              	var sched 	= new Date(data[0]["datesched"]);
              	var daytype = data[0]["rateDescription"];
              	var datesched = day[sched.getDay()] + ", " + months[sched.getMonth()] + " " + 
@@ -1033,6 +1175,75 @@
 				$("#attendance_hours").html(regularHours);
 				$("#attendance_overtime").html(overtimeHours);
 				$("#attendance_night").html(nightDiffirential);
+
+				if(validate_user!="" && validate_user!=null){
+					$(".validate_details").css('display','block');
+					$("#validateuser").html(validate_user);
+					$("#validatedate").html(validate_date);
+					$("#validateremarks").html(validate_remarks);
+				}else{
+					$(".validate_details").css('display','none');
+					$("#validateuser").html("");
+					$("#validatedate").html("");
+					$("#validateremarks").html("");
+				}
+
+/*
+				$("#attendance_hours").html(months[m] + " " + d + ", " + y);
+				$("#attendance_overtime").html(months[m] + " " + d + ", " + y);
+				$("#attendance_client").html(months[m] + " " + d + ", " + y);
+				$("#attendance_post").html(months[m] + " " + d + ", " + y);*/
+             },
+             error: function(request, textStatus, error) {
+
+        	 } 
+        });
+        return false; 
+	}); 
+
+	$(document).on("click", ".schedule_info", function(){
+		var timesheetID = $(this).attr('timeshtid');
+		$(".validate").attr("timeshtid",timesheetID);
+		
+    	$.ajax({
+		      url : "<?php echo site_url('timekeepingsecurityguard/getattendance');?>",
+		      method : "POST",
+		      data : {timesheetID:timesheetID},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+
+             	const months = ["January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
+             	const day = ["Sun", "Mon", "Tue","Wed", "Thu", "Fri", "Sat"];
+
+             	var sched 	= new Date(data[0]["datesched"]);
+
+             	var datesched = day[sched.getDay()] + ", " + months[sched.getMonth()] + " " + 
+             					sched.getDate().toString().padStart(2,"0") + ", " + 
+             					sched.getFullYear();
+
+				var timein = new Date(data[0]["t_timein"]);
+             	var datetimein = day[timein.getDay()] + ", " + months[timein.getMonth()] + " " + 
+             					timein.getDate().toString().padStart(2,"0") + ", " + 
+             					timein.getFullYear() + " <b>" +
+             					timein.getHours().toString().padStart(2,"0") + ":" +
+             					timein.getMinutes().toString().padStart(2,"0") + ":" +
+             					timein.getSeconds().toString().padStart(2,"0") + "</b>";
+
+				var timeout = new Date(data[0]["t_timeout"]);
+             	var datetimeout = day[timein.getDay()] + ", " + months[timeout.getMonth()] + " " + 
+             					timeout.getDate().toString().padStart(2,"0") + ", " + 
+             					timeout.getFullYear() + " <b>" +
+             					timeout.getHours().toString().padStart(2,"0") + ":" +
+             					timeout.getMinutes().toString().padStart(2,"0") + ":" +
+             					timeout.getSeconds().toString().padStart(2,"0") + "</b>";
+
+				$("#schedule_client").html(data[0]["clientname"]);
+				$("#schedule_post").html(data[0]["postname"]);
+
+				$("#schedule_date").html(datesched);
+				$("#schedule_timein").html(datetimein);
+				$("#schedule_timeout").html(datetimeout);
 /*
 				$("#attendance_hours").html(months[m] + " " + d + ", " + y);
 				$("#attendance_overtime").html(months[m] + " " + d + ", " + y);
@@ -1078,6 +1289,104 @@
         });
         return false; 
 	}); 
+
+	$(document).on("click", ".validate", function(){
+		var postTimein  = $("#addTimein").val();
+		var postTimeout = $("#addTimeout").val();
+		var remarks 	= $("#addRemarks").val();
+		var object 		= "";
+		var error 		= "";
+
+		if(postTimein==""){
+			document.getElementById("addTimein-invalid").innerHTML = "Please enter a valid time in.";
+        	$('#addTimein').removeClass('is-valid');
+        	$('#addTimein').addClass('is-invalid');
+        	object = "#addTimein";
+        	error  = "true";
+		}else{
+       		document.getElementById("addTimein-invalid").innerHTML = "";
+        	$('#addTimein').removeClass('is-invalid');
+        	$('#addTimein').addClass('is-valid');
+        }
+
+        if(postTimeout==""){
+			document.getElementById("addTimeout-invalid").innerHTML = "Please enter a valid time out.";
+        	$('#addTimeout').removeClass('is-valid');
+        	$('#addTimeout').addClass('is-invalid');
+        	if(object=="") object = "#addTimeout";
+        	error = "true";
+		}else{
+       		document.getElementById("addTimeout-invalid").innerHTML = "";
+        	$('#addTimeout').removeClass('is-invalid');
+        	$('#addTimeout').addClass('is-valid');
+        }
+
+        if(remarks==""){
+			document.getElementById("addRemarks-invalid").innerHTML = "Please enter a remarks.";
+        	$('#addRemarks').removeClass('is-valid');
+        	$('#addRemarks').addClass('is-invalid');
+        	if(object=="") object = "#addRemarks";
+        	error = "true";
+		}else{
+       		document.getElementById("addRemarks-invalid").innerHTML = "";
+        	$('#addRemarks').removeClass('is-invalid');
+        	$('#addRemarks').addClass('is-valid');
+        }
+
+        if(error!=""){
+        	$(object).focus();
+        	return false;
+    	}
+
+		$('#schedule_info').hide();
+		$('.confirmationisometric').attr("src", "<?=base_url(); ?>pages/assets/img/isometric/upload.svg");
+		$('#modal_title').html("Validate Attendance");
+    	$('#modal_message').html("Are you sure you want to validate this attendance?");
+    	$('.submit-btn').attr("disabled",false);
+    	$('.submit-btn').html("Validate");
+    	$(".cancel-btn").attr("id","cancelValidate");
+    	$('.cancel-btn').html("Cancel");
+    	$('.submit-btn').attr("id","modal_validate");
+    	$('.deny_item').html("");
+        $('#modal_confirmation').modal({backdrop: 'static', keyboard: false},'show');
+		return false;
+	});
+
+	$(document).on("click", '#cancelValidate', function () {
+		$('#modal_confirmation').modal('hide');
+		$('#schedule_info').show();
+	});
+
+	$(document).on("click", "#modal_validate", function(){
+		var postTimein  = $("#addTimein").val();
+		var postTimeout = $("#addTimeout").val();
+		var remarks 	= $("#addRemarks").val();
+		var timesheetID = $(".validate").attr("timeshtid");
+
+		$('.submit-btn').attr("disabled","disabled");
+		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validating...');
+
+		$.ajax({
+		      url : "<?php echo site_url('timekeepingsecurityguard/validateattendance');?>",
+		      method : "POST",
+		      data : {timesheetID:timesheetID,
+		      		  postTimein:postTimein,
+		      		  postTimeout:postTimeout,
+		      		  remarks:remarks},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+		  			window.location.replace('<?php echo base_url(); ?>timekeepingsecurityguard');
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
+	});
+
+	/*$(document).on("click", ".validate", function(){
+		
+	}); */
 });
 </script>
 <!-- Page Wrapper -->

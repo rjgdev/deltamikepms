@@ -78,17 +78,20 @@
             <div class="col-lg-12">
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped custom-table table-nowrap mb-0" id="datatable" style="width:100%;">
-						<thead>
-							<tr>
+						<thead id="show_header">
+							<!-- <tr>
 								<th colspan="21" style="text-align:center; color:white;background-color: #df4c44; text-transform: uppercase;">
 									<?php echo "Period: MAY 01, 2020 - MAY 15, 2020" ?>
 								</th>
-							</tr>
-							<tr>
+							</tr> -->
+							<!-- <tr>
 								<th class="tsheader tsemployeeheader" style="color:#e04d45; text-align: left !important;">Employee Name </th>
-								
-								<?php 
+								<?php foreach ($data['timekeeping'] as $item) { ?>
 
+
+								<?php } ?>
+
+								<?php 
 									$dayWord = ["", "Mon", "Tue","Wed", "Thu", "Fri", "Sat","Sun"];
 									$dayfrom = 1;
 									$dayto = 15;
@@ -107,9 +110,9 @@
 								<th class="tsheader tslastheader" style="color:#e04d45;">OT<br>(Hour)</th>
 								<th class="tsheader tslastheader" style="color:#e04d45;">Rest<br>Day</th>
 								<th class="tsheader tslastheader" style="color:#e04d45;">No. of<br>Days</th>
-							</tr>
+							</tr> -->
 						</thead>
-						<tbody id="show_data">
+						<tbody id="show_details">
 							
 						</tbody>
 					</table>
@@ -131,6 +134,18 @@
 #norecord{
 	height: 55vh;
 	text-align: center;
+}
+
+.tsemployeeheader{
+	width:100px;
+}
+
+.tsdataheader{
+	
+}
+
+.tslastheader{
+	width:40px;
 }
 </style>
 
@@ -206,46 +221,57 @@ $(document).ready(function() {
  	});
 
  	$(document).on("click", "#submit", function(){
-    	var timekeepingID	= $("#timekeepingID").val();
-		var clientID		= $("#searchclient").val();
-		var postID			= $("#searchpost").val();
-		var error = 0;
 
-		$("[aria-labelledby='select2-timekeepingID-container']").removeClass('is-invalid');
-		$("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
-		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
+  //   	var timekeepingID	= $("#timekeepingID").val();
+		// var clientID		= $("#searchclient").val();
+		// var postID			= $("#searchpost").val();
+		// var error = 0;
 
-		$("[aria-labelledby='select2-timekeepingID-container']").removeClass('is-valid');
-		$("[aria-labelledby='select2-searchclient-container']").removeClass('is-valid');
-		$("[aria-labelledby='select2-searchpost-container']").removeClass('is-valid');
+		// $("[aria-labelledby='select2-timekeepingID-container']").removeClass('is-invalid');
+		// $("[aria-labelledby='select2-searchclient-container']").removeClass('is-invalid');
+		// $("[aria-labelledby='select2-searchpost-container']").removeClass('is-invalid');
 
-		if(timekeepingID==0){
-			$("[aria-labelledby='select2-timekeepingID-container']").addClass('is-invalid');
-			$("#timekeepingID").focus();
-			error=1;
-		}else{
-			$("[aria-labelledby='select2-timekeepingID-container']").addClass('is-valid');
-		}
+		// $("[aria-labelledby='select2-timekeepingID-container']").removeClass('is-valid');
+		// $("[aria-labelledby='select2-searchclient-container']").removeClass('is-valid');
+		// $("[aria-labelledby='select2-searchpost-container']").removeClass('is-valid');
 
-		if(clientID==0){
-			$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
-			if(error==0){
-				$("#searchclient").focus();
-				error=1;
-			}
-		}else{
-			$("[aria-labelledby='select2-searchclient-container']").addClass('is-valid');
-		}
+		// $("[aria-labelledby='select2-employeetype-container']").addClass('is-valid');
 
-		if(postID==0){
-			$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
-			if(error==0){
-				$("#searchpost").focus();
-				error=1;
-			}
-		}else{
-			$("[aria-labelledby='select2-searchpost-container']").addClass('is-valid');
-		}
+		// if(timekeepingID==0){
+		// 	$("[aria-labelledby='select2-timekeepingID-container']").addClass('is-invalid');
+		// 	$("#timekeepingID").focus();
+		// 	error=1;
+		// }else{
+		// 	$("[aria-labelledby='select2-timekeepingID-container']").addClass('is-valid');
+
+		// 	$("[aria-labelledby='select2-timekeepingID-container']").addClass('is-valid');
+
+		// }
+
+		// if(clientID==0){
+		// 	$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
+		// 	if(error==0){
+		// 		$("#searchclient").focus();
+		// 		error=1;
+		// 	}
+		// }else{
+		// 	$("[aria-labelledby='select2-searchclient-container']").addClass('is-valid');
+		// }
+
+		// if(postID==0){
+		// 	$("[aria-labelledby='select2-searchpost-container']").addClass('is-invalid');
+		// 	if(error==0){
+		// 		$("#searchpost").focus();
+		// 		error=1;
+		// 	}
+		// }else{
+		// 	$("[aria-labelledby='select2-searchpost-container']").addClass('is-valid');
+		// }
+
+		var timekeepingID	= 1;
+		var clientID		= 1;
+		var postID			= 1;
+		var error			= 0;
 
 		if(error==0){
 			$.ajax({
@@ -257,21 +283,94 @@ $(document).ready(function() {
 			      		 clientID:clientID,
 			      		 postID:postID},
 			      success: function(data){	
-			      	var htmlDisplay = "";
+			      	var htmlHeader 	= "";
+			      	var htmlDetails = "";
+			      	var employeeID 	= "";
 
-			      	for(i=0;i<data["report"].length;i++){
-			      		htmlDisplay+='<tr>' + 
-			      					'<td>' + data["report"][i].employeeID + '</td>' + 
-			      				  '</tr>';
+			      	if(data["header"].length!=0){
+			      		var datefromDay 	= new Date(data["header"][0].datefrom).getDate();
+						var datefromMonth 	= new Date(data["header"][0].datefrom).getMonth() + 1;
+						var datefromYear 	= new Date(data["header"][0].datefrom).getFullYear();
+
+						var datetoDay 	= new Date(data["header"][0].dateto).getDate();
+						var datetoMonth = new Date(data["header"][0].dateto).getMonth() + 1;
+						var datetoYear 	= new Date(data["header"][0].dateto).getFullYear();
+
+						const months = ["","January", "February", "March","April", "May", "June", "July", "August", "September", "October", "November", "December"];
+						const dayWord = ["Sun","Mon", "Tue","Wed", "Thu", "Fri", "Sat"];
+
+						var colspan = (datetoDay - datefromDay) + 7;
+
+			      		htmlHeader +='<tr>' + 
+										'<th colspan="' + colspan + '" style="text-align:center; color:white;background-color: #df4c44; text-transform: uppercase;">' + 
+											'Period: ' + months[datefromMonth] + ' ' + datefromDay.toString().padStart(2,"0") + ', ' + datefromYear + ' - ' +
+														 months[datetoMonth] + ' ' + datetoDay.toString().padStart(2,"0") + ', ' + datetoYear +
+										'</th>'+
+									'</tr>' + 
+									'<tr>' +
+										'<th class="tsheader tsemployeeheader" style="color:#e04d45; width:300px !important; text-align: left !important;">Employee Name </th>';
+
+						for(i=datefromDay;i<=datetoDay;i++){
+							var day = new Date(datefromYear + '-' + datefromMonth + '-' + i).getDay();
+							
+							htmlHeader += '<th class="tsheader tsdataheader" style="color:#e04d45;font-weight: 500; width:20px !important;">' + i + '<br>' + dayWord[day] + '</th>';
+						}
+
+							htmlHeader += '<th class="tsheader tslastheader" style="color:#e04d45;">Total<br>Hours</th>' +
+										  '<th class="tsheader tslastheader" style="color:#e04d45;">Basic<br>(Hour)</th>' +
+										  '<th class="tsheader tslastheader" style="color:#e04d45;">OT<br>(Hour)</th>' +
+										  '<th class="tsheader tslastheader" style="color:#e04d45;">Rest<br>Day</th>' +
+										  '<th class="tsheader tslastheader" style="color:#e04d45;">No. of<br>Days</th>';
+
+							htmlHeader += '</tr>';
+
+
+						for(i=0;i<data["details"].length;i++){
+				      		if(data["details"][i].employeeID!=employeeID){
+				      			employeeID=data["details"][i].employeeID;
+
+			      				var datesched = new Date(data["details"][0].datesched).getDate();
+
+			      				htmlDetails += '<tr>' + 
+				      								'<td>' + data["details"][i].employeeID.padStart(6,'0') + ' - ' + data["details"][i].fullname + '</td>';
+
+				      			for(x=datefromDay;x<=datetoDay;x++){
+
+      								if(datesched==x){
+      									var actualhours = data["details"][i].actualhours;
+
+      									htmlDetails += "<td>" + actualhours + "</td>";
+      									break;
+      								}else{
+      									htmlDetails += "<td></td>";
+      								}
+			      				}
+
+			      				htmlDetails += '</tr>';
+				      		}
+			      		}
+			      	}
+			      	
+			      	$("#show_header").html(htmlHeader);
+			      	$("#show_details").html(htmlDetails);
+
+			      	/*for(i=0;i<data["report"].length;i++){
+			      		employeeID = data["report"][i].employeeID;
+
+			      		if(data["report"][i].employeeID!=employeeID){
+			      			employeeID=data["report"][i].employeeID;
+
+
+			      		}
 			      	}
 
-			      	console.table(data["report"]);
+			      	console.table(data["report"]);*/
 
-			      	var index = data["report"].map(function(o) { return o.datesched; }).indexOf("2020-04-06");
+			      	/*var index = data["report"].map(function(o) { return o.datesched; }).indexOf("2020-04-06");
 
-			      	console.log(index);
+			      	console.log(index);*/
 
-			      	$("#show_data").html(htmlDisplay);
+			      	/*$("#show_data").html(htmlDisplay);*/
 		      	  },
 			      error: function(request, textStatus, error) {
 

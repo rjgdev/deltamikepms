@@ -35,9 +35,11 @@
 	   		$employeeID = $this->input->post('employeeID');
 			$loantypeID = $this->input->post('loantypeID');
 			$dategranted = $this->input->post('dategranted');
+			$enddate 	 = $this->input->post('enddate');
+			$deduction 	 = $this->input->post('deduction');
+			$termofpaymentID = $this->input->post('termofpaymentID');
 
-
-			$data = $this->loan->save_loan($data, $employeeID,$loantypeID,$dategranted);
+			$data = $this->loan->save_loan($data, $employeeID,$loantypeID,$dategranted,$enddate,$deduction,$termofpaymentID);
 
 			$retval = explode("|",$data);
        		
@@ -53,6 +55,11 @@
 			$id = $this->input->post('id');
 			$employeeID = $this->input->post('employeeID');
 			$dategranted = $this->input->post('dategranted');
+			$loantypeID = $this->input->post('loantypeID');
+			$enddate 	 = $this->input->post('enddate');
+			$deduction 	 = $this->input->post('deduction');
+			$termofpaymentID = $this->input->post('termofpaymentID');
+
 			$data = array (
 			'employeeID' => $this->input->post('employeeID'),
 			'loantypeID' => $this->input->post('loantypeID'),
@@ -62,7 +69,7 @@
 			'deduction' => $this->input->post('deduction'),
 			'termofpaymentID' => $this->input->post('termofpaymentID'),
 			'lnothers' => $this->input->post('lnothers'));
-			$data = $this->loan->update_loan($data,$id,$employeeID,$dategranted);
+			$data = $this->loan->update_loan($data,$id,$employeeID,$dategranted,$loantypeID,$enddate,$deduction,$termofpaymentID);
 			$retval = explode("|",$data);
 			//var_dump($retval);
             if($retval[0] == "false" && $retval[1] == "data already exist!"){
@@ -74,11 +81,21 @@
 
 			
 		}
-		public function get_loan_data()
+		public function getamortization()
 		{
-			$id = $this->input->post('id');
-			$data = $this->loan->get_loan_data_model($id);
+			$loanID = $this->input->post('loanID');
+
+			$data = $this->loan->get_amortization($loanID);
+
 	    	echo json_encode($data);  
+		}
+
+		public function delete()
+		{
+			$loanID = $this->input->post('loanID');
+
+			$data = $this->loan->delete_loan($loanID);
+            $this->session->set_flashdata('success', "<b>LN-".str_pad($loanID, 6, "0", STR_PAD_LEFT).'</b> successfully deleted.'); 
 		}
 		
 	}     

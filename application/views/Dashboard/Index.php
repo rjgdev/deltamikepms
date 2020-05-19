@@ -118,7 +118,7 @@
 			<div class="col-md-2 d-flex mb-3">
 				<a href="<?php echo base_url(); ?>Payrollprocess" class="notification">
 				  <span class="dash-widget-icon" style="margin-right: 0px !important;"><i class="fas fa-coins"></i></span>
-				  	<?php foreach ($data['payroll'] as $item) { ?>
+				  	<?php foreach ($data['payrollguard'] as $item) { ?>
 						<?php if($item->payrollstatus=="1") 
 							echo '<span class="badge">1</span>';
 					    ?>

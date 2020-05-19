@@ -13,7 +13,7 @@ class Timekeepingreport_model extends CI_Model
 										  (SELECT CONCAT(firstname," ",lastname) FROM dm_employee WHERE dm_employee.employeeID=dm_timekeeping.usersubmitted) AS "employeesubmit",
 										  (SELECT CONCAT(firstname," ",lastname) FROM dm_employee WHERE dm_employee.employeeID=dm_timekeeping.usersubmitted) AS "employeesubmit"
 								   FROM dm_timekeeping 
-								   WHERE timekeepingstatus=2');
+								   WHERE timekeepingstatus=2 ORDER BY timekeepingID DESC');
 
 		return array("timekeeping" => $query->result());
   	}
@@ -32,11 +32,15 @@ class Timekeepingreport_model extends CI_Model
 
   	function view_report($timekeepingID,$clientID,$postID)
 	{
-	    $queryReport = $this->db->query('SELECT * FROM dm_timekeepingdetails as td WHERE 
-	    								 td.clientID='.$clientID.' AND 
-	    								 postID='.$postID.' AND
+
+		$queryHeader = $this->db->query('SELECT datefrom,dateto FROM dm_timekeeping WHERE timekeepingID='.$timekeepingID);
+
+	    $queryDetails = $this->db->query('SELECT *,td.employeeID,CONCAT(lastname,", ",firstname) AS "fullname" FROM dm_timekeepingdetails as td
+	    								 INNER JOIN dm_employee ON dm_employee.employeeID=td.employeeID
+	    								 WHERE td.clientID='.$clientID.' AND 
+	    								 td.postID='.$postID.' AND
 	    								 td.timekeepingID='.$timekeepingID.' ORDER BY td.employeeID,td.datesched');
-    	return array("report"   => $queryReport->result());
+    	return array("header" => $queryHeader->result(), "details" => $queryDetails->result());
   	}
 }
 ?>

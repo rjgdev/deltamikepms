@@ -39,7 +39,7 @@ td[rowspan]:not([rowspan="2"]) {
 					<label class="focus-label">Pay Period</label>
 				</div>
 			</div>
-			<div class="col-sm-2">
+			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
 					<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
 						<option value="0">All</option>
@@ -63,16 +63,8 @@ td[rowspan]:not([rowspan="2"]) {
 					<label class="focus-label">Client</label>
 				</div>
 			</div>
-			<div class="col-sm-2">
-				<div class="form-group form-focus select-focus">
-					<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
-					<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" required>
-						<option value="0">Select Post</option>
-					</select>
-					<label class="focus-label">Post</label>
-				</div>
-			</div>
-			<div class="col-sm-2">
+			<!--  -->
+			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
 					<button class="btn btn-success" id="submit" style="border-radius: 5px; width:100%; height: 45px;"><i class="fas fa-search"></i> Search</button>
 				</div>
@@ -101,15 +93,20 @@ td[rowspan]:not([rowspan="2"]) {
 									<th style="width: 80px;"><center>Basic Pay</center></th>
 									<th style="width: 70px;"><center>Overtime</center></th>
 									<th style="width: 120px;"><center>Night Differential</center></th>
+									<th style="width: 150px;"><center>Night Diff. Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>Allowance</center></th>
 									<th style="width: 80px ! important;"><center>Incentive</center></th>
 									<th style="width: 80px ! important;"><center>Late</center></th>
+									<th style="width: 140px ! important;"><center>Late Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>LWOP</center></th>
-									<th style="width: 80px ! important;"><center>SSS</center></th>
-									<th style="width: 80px ! important;"><center>HDMF</center></th>
-									<th style="width: 80px ! important;"><center>PhilHealth</center></th>
+									<th style="width: 120px ! important;"><center>Leave Adjustment</center></th>
+									<th style="width: 120px ! important;"><center>Other Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>GROSS PAY</center></th>
 									<th style="width: 100px ! important;"><center>Withholding Tax</center></th>
+									<th style="width: 80px ! important;"><center>SSS</center></th>
+									<th style="width: 80px ! important;"><center>PHIC</center></th>
+									<th style="width: 80px ! important;"><center>HDMF</center></th>
+									<th style="width: 80px ! important;"><center>Loan</center></th>
 									<th style="width: 80px ! important;"><center>NET PAY</center></th>					
 								</tr>
 							</thead>	
@@ -119,6 +116,11 @@ td[rowspan]:not([rowspan="2"]) {
 	           				<tfoot>
            						<tr>
 									<th colspan="2" style="text-align: right;">TOTAL:</tH>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
@@ -156,7 +158,7 @@ td[rowspan]:not([rowspan="2"]) {
 			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('.dataTables_scroll').html()));
 		});
 
-		$("#searchclient").change(function(){
+	/*	$("#searchclient").change(function(){
 			var id=$(this).val();
 			
 			$.ajax({
@@ -180,19 +182,19 @@ td[rowspan]:not([rowspan="2"]) {
 			});
 			return false;
 
-		});
+		});*/
 
 		$('#searchemployeetype').change(function(){
 			var employeetype =$(this).val();
 			if(employeetype==1){
 			$("#searchclient").prop("disabled", false);
-			$("#searchdetachment").prop("disabled", false);
+			/*$("#searchdetachment").prop("disabled", false);*/
 
 		}else{
 			$("#searchclient").prop("disabled", true);
-			$("#searchdetachment").prop("disabled", true);
+			/*$("#searchdetachment").prop("disabled", true);*/
 			$("#searchclient").val('');
-			$("#searchdetachment").val('');
+			/*$("#searchdetachment").val('');*/
 		}
 
 		});
@@ -200,20 +202,20 @@ td[rowspan]:not([rowspan="2"]) {
 			var searchpayperiod =   $("#searchpayperiod").val();
 			var searchemployeetype = $("#searchemployeetype").val();
 			var searchclient = $("#searchclient").val();
-			var searchdetachment = $("#searchdetachment").val();
+			/*var searchdetachment = $("#searchdetachment").val();*/
 			var tot = "Total";
 			var total = tot.bold();
 			var department = " ";
 			var designation = " ";
 			var employeetype = " ";
 			var clientname = " ";
-			var detachment = " ";
+			/*var detachment = " ";*/
 
 			$.ajax({
 				url : "<?php echo site_url('Payrollreport/search_payroll');?>",
 				method : "POST",
 				data : {searchpayperiod: searchpayperiod, 	searchemployeetype: searchemployeetype, 
-						searchclient: 	 searchclient, 		searchdetachment: 	searchdetachment},
+						searchclient: 	 searchclient},
 				async : true,
 				dataType : 'json',
 				beforeSend:function(){
@@ -226,10 +228,13 @@ td[rowspan]:not([rowspan="2"]) {
                     var basic = 0;
                     var overtime = 0;
                     var nightdiff = 0;
+                    var nightdiffadjustment = 0;
                     var allowance =0;
                     var incentive = 0;
                     var totallate = 0;
+                    var lateadjustment = 0;
                     var totalleave = 0;
+                    var leaveadjustment = 0;
                     var otheradjustment = 0;
                     var grosspay = 0;
                     var wtax = 0;
@@ -238,6 +243,7 @@ td[rowspan]:not([rowspan="2"]) {
                     var netpay = 0;
                     var totalsss = 0;
                     var totalhdmf = 0;
+                    var otherdeductionsloan = 0; 
                     var totalphic = 0;
                    html +='<table class="table table-striped custom-table datatable" id="datatable1">' +
                    			'<div id="recordexcel">' +
@@ -248,15 +254,20 @@ td[rowspan]:not([rowspan="2"]) {
 								'<th style="width: 80px;"><center>Basic Pay</center></th>' +
 								'<th style="width: 70px;"><center>Overtime</center></th>' +
 								'<th style="width: 120px;"><center>Night Differential</center></th>' +
+								'<th style="width: 170px;"><center>Night Diff. Adjustment</center></th>' +
 								'<th style="width: 80px ! important;"><center>Allowance</center></th>' +
 								'<th style="width: 80px ! important;"><center>Incentive</center></th>' +
 								'<th style="width: 80px ! important;"><center>Late</center></th>' +
+								'<th style="width: 120px ! important;"><center>Late Adjustment</center>' +
 								'<th style="width: 80px ! important;"><center>LWOP</center></th>' +
-								'<th style="width: 80px ! important;"><center>SSS</center></th>' +
-								'<th style="width: 80px ! important;"><center>HDMF</center></th>' +
-								'<th style="width: 80px ! important;"><center>PhilHealth</center></th>' +
+								'<th style="width: 120px ! important;"><center>Leave Adjustment</center>' +
+								'<th style="width: 120px ! important;"><center>Other Adjustment</center></th>' +
 								'<th style="width: 80px ! important;"><center>GROSS PAY</center></th>' +
 								'<th style="width: 100px ! important;"><center>Withholding Tax</center></th>' +
+								'<th style="width: 80px ! important;"><center>SSS</center></th>' +
+								'<th style="width: 80px ! important;"><center>PHIC</center></th>' +
+								'<th style="width: 80px ! important;"><center>HDMF</center></th>' +
+								'<th style="width: 80px ! important;"><center>Loan</center></th>' + 
 								'<th style="width: 80px ! important;"><center>NET PAY</center></th>' +					
 							'</tr>' +
 							'</thead>' +	
@@ -269,14 +280,20 @@ td[rowspan]:not([rowspan="2"]) {
                     	 	 overtime += parseFloat(response[i].totalovertime);
                     	if(parseInt(response[i].totalnightdiff))
                     	 	 nightdiff += parseFloat(response[i].totalnightdiff); 
+                    	if(parseInt(response[i].nightdiffadjustment))
+                    	 	 nightdiffadjustment += parseFloat(response[i].nightdiffadjustment); 
                     	if(parseInt(response[i].allowance))
                     	 	 allowance += parseFloat(response[i].allowance); 
                     	 if(parseInt(response[i].incentive))
                     	 	 incentive += parseFloat(response[i].incentive);
                     	if(parseInt(response[i].totallate))
                     	 	 totallate += parseFloat(response[i].totallate); 
+                    	 if(parseInt(response[i].lateadjustment))
+                    	 	 lateadjustment += parseFloat(response[i].lateadjustment); 
                     	if(parseInt(response[i].totalleave))
                     	 	 totalleave += parseFloat(response[i].totalleave);
+                    	if(parseInt(response[i].leaveadjustment))
+                    	 	 leaveadjustment += parseFloat(response[i].leaveadjustment);
                     	if(parseInt(response[i].otheradjustment))
                     	 	 otheradjustment += parseFloat(response[i].otheradjustment); 
                     	if(parseInt(response[i].grosspay))
@@ -294,23 +311,30 @@ td[rowspan]:not([rowspan="2"]) {
                     	 	 totalsss += parseFloat(response[i].sss_ee); 
                     	  if(parseInt(response[i].hdmf_ee))
                     	 	 totalhdmf += parseFloat(response[i].hdmf_ee); 	 	
-                    	 	 if(parseInt(response[i].phic_ee))
-                    	 	 totalphic += parseFloat(response[i].phic_ee); 
+                    	 if(parseInt(response[i].phic_ee))
+                    	 	 totalphic += parseFloat(response[i].phic_ee);
+                    	  if(parseInt(response[i].otherdeductionsloan))
+                    	 	 otherdeductionsloan += parseFloat(response[i].otherdeductionsloan); 	  
                         html += '<tr>'+
 									'<td>'+response[i].employeeID.padStart(6,'0')+'</td>'+
 									'<td >'+response[i].fullname+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].basicpay)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalovertime)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalnightdiff)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].nightdiffadjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].allowance)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].incentive)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totallate)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].lateadjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalleave)+'</td>'+
-									'<td class="text-right">'+accounting.formatMoney(response[i].sss_ee)+'</td>'+
-									'<td class="text-right">'+accounting.formatMoney(response[i].hdmf_ee)+'</td>'+
-									'<td class="text-right">'+accounting.formatMoney(response[i].phic_ee)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].leaveadjustment)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].otheradjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].grosspay)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].wtax)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].sss_ee)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].phic_ee)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].hdmf_ee)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].otherdeductionsloan)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
                         		 '</tr>';
                     }	
@@ -321,15 +345,20 @@ td[rowspan]:not([rowspan="2"]) {
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(basic)  	 +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(overtime)   +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiff)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiffadjustment)  +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(allowance)  +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(incentive)  +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(lateadjustment)  +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalleave) +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)   +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(leaveadjustment) +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(otheradjustment) +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(grosspay)   +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(wtax)  	 +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)   +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</th>'+
+										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(otherdeductionsloan)  +'</th>'+
 										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(netpay)  	 +'</th>'+
 									'</tr>' +
 							  '</tfoot></div></table>';

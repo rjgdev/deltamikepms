@@ -107,7 +107,7 @@ class Payrollprocess_model extends CI_Model
 											  SUM(dblrstlate)	AS 'dblrstlatehours'
 									   FROM dm_timekeepingdetails
 									   INNER JOIN dm_employee ON dm_employee.employeeID=dm_timekeepingdetails.employeeID
-									   WHERE (datesched >= '".$fromcutoff."' AND 
+									   WHERE tkType='Exist' AND (datesched >= '".$fromcutoff."' AND 
 									   	      datesched <= '".$tocutoff."') GROUP BY dm_timekeepingdetails.employeeID");
 
 			if ($query->num_rows() > 0)
@@ -206,13 +206,27 @@ class Payrollprocess_model extends CI_Model
 						$sss_ec = $returnSSS[2];
 					}
 
-					$sssloan = $this->getLoan($tocutoff, $row->employeeID, 1);
+					$retSSS       = explode("|",$this->getLoan($tocutoff, $row->employeeID, 1));
+					$retHdmf      = explode("|",$this->getLoan($tocutoff, $row->employeeID, 2));
+					$retSalary    = explode("|",$this->getLoan($tocutoff, $row->employeeID, 3));
+					$retEmergency = explode("|",$this->getLoan($tocutoff, $row->employeeID, 4));
+					$retTraining  = explode("|",$this->getLoan($tocutoff, $row->employeeID, 5));
+					$retOther     = explode("|",$this->getLoan($tocutoff, $row->employeeID, 6));
 
-					/*$hdmfloan 	= $this->getLoan($basicsalary);
-					$salaryloan 	= $this->getLoan($basicsalary);
-					$emergencyloan 	= $this->getLoan($basicsalary);
-					$trainingloan 	= $this->getLoan($basicsalary);
-					$otherloan 		= $this->getLoan($basicsalary);*/
+					$sssDesc 		= $retSSS[1];
+					$hdmfDesc 		= $retHdmf[1];
+					$salaryDesc 	= $retSalary[1];
+					$emergencyDesc 	= $retEmergency[1];
+					$trainingDesc 	= $retTraining[1];
+					$otherDesc 		= $retOther[1];
+					$otherLoanDesc  = $retOther[2];
+
+					$sssloan 	   = $retSSS[0];
+					$hdmfloan 	   = $retHdmf[0];
+					$salaryloan    = $retSalary[0];
+					$emergencyloan = $retEmergency[0];
+					$trainingloan  = $retTraining[0];
+					$otherloan 	   = $retOther[0];
 
 					$taxDeduction   = $totalLate + $absent + $hdmf + $phic + $sss_ee;
 				    $TOTALDEDUCTION = $taxDeduction + $sssloan + $hdmfloan + $salaryloan + $emergencyloan + $trainingloan + $otherloan;
@@ -316,11 +330,18 @@ class Payrollprocess_model extends CI_Model
 								  'sss_er'			 => $sss_er,
 								  'sss_ec'			 => $sss_ec,
 								  'sssloan'			 => $sssloan,
+								  'sssDesc'			 => $sssDesc,
 								  'hdmfloan'	     => $hdmfloan,
+								  'hdmfDesc'	     => $hdmfDesc,
 								  'salaryloan'		 => $salaryloan,
+								  'salaryDesc'		 => $salaryDesc,
 								  'emergencyloan'	 => $emergencyloan,
+								  'emergencyDesc'	 => $emergencyDesc,
 								  'trainingloan'	 => $trainingloan,
+								  'trainingDesc'	 => $trainingDesc,
 								  'otherloan'	     => $otherloan,
+								  'otherLoanDesc'	 => $otherLoanDesc,
+								  'otherDesc'	     => $otherDesc,
 								  'wtax'			 => $wtax,
 								  'netpay'			 => $netpay,
 								  'thrmonth'		 => $thirteenmonth,
@@ -535,15 +556,40 @@ class Payrollprocess_model extends CI_Model
 								  employeeID = $employeeID AND
 								  loantypeID = $loantypeID AND 
 								  paid = 0");
-		/*if($query->num_rows()!=0){
+		if($query->num_rows()!=0){
 			$loanID = $query->row()->loanID;
 
 			$queryDeduction = $this->db->query("SELECT * FROM dm_loandeduction WHERE 
 												loanID = $loanID AND datededuction = '$dateto'");
 			
-			return $queryDeduction->row()->amount;
-		}*/
-		return 0;
+			if($queryDeduction->num_rows()!=0){
+				$this->db->query("UPDATE dm_loan set isProcess=1 WHERE 
+								  loanID=".$query->row()->loanID);
+
+				$remaining = $this->getRemainingLoan($loanID);
+
+				if($loantypeID==6){
+					return $queryDeduction->row()->amount."|".$remaining."|".$query->row()->lnothers;
+				}else{
+					return $queryDeduction->row()->amount."|".$remaining;
+				}
+			}else{
+				return "0||";
+			}
+		}
+		return "0||";
+	}
+
+	function getRemainingLoan($loanID){
+		$query = $this->db->query("SELECT (SELECT COUNT(loanstatus) + 1 FROM dm_loandeduction WHERE loanID=$loanID AND loanstatus=1) as 'from' ,
+								   COUNT(loanID) as 'to' FROM dm_loandeduction WHERE loanID=$loanID GROUP BY loanID");
+
+		if($query->num_rows()!=0){
+			return "(".$query->row()->from."/".$query->row()->to.")";
+		}else{
+			return "";
+		}
+
 	}
 
   	function submit_payroll($payrollID, $datesubmitted)
@@ -586,12 +632,23 @@ class Payrollprocess_model extends CI_Model
 	function approve_payroll($payrollID, $timekeepingID, $dateapproved, $lastapprover, $dateto)
 	{
 		if($lastapprover==1){
-			$queryUpdatePayroll = $this->db->query('UPDATE dm_payroll 
-									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,payrollstatus=2 WHERE payrollID='.$payrollID);
+			$this->db->query('UPDATE dm_payroll 
+						      SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,payrollstatus=2 WHERE payrollID='.$payrollID);
 
-			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping SET payrollstatus=2 WHERE timekeepingID='.$timekeepingID);
+			$this->db->query('UPDATE dm_timekeeping SET payrollstatus=2 WHERE timekeepingID='.$timekeepingID);
+			$this->db->query('UPDATE dm_loandeduction SET loanstatus=1 WHERE datededuction="'.$dateto.'"');
 
-			$queryUpdateLoan = $this->db->query('UPDATE dm_loandeduction SET loanstatus=1 WHERE datededuction="'.$dateto.'"');
+			$queryLoan = $this->db->query('SELECT loanID FROM dm_loan WHERE paid=0 AND enddate>="'. $dateto.'"');
+
+			if($queryLoan->num_rows()!=0){
+				foreach ($queryLoan->result() as $row){
+					$queryLoanDeduction = $this->db->query('SELECT loanID FROM dm_loandeduction WHERE loanID='.$row->loanID.' AND loanstatus=0');
+					
+					if($queryLoanDeduction->num_rows()===0){
+						$this->db->query('UPDATE dm_loan SET paid=1 WHERE loanID='.$row->loanID);
+					}
+				}
+			}
 
 	        $query = $this->db->query('SELECT * FROM dm_payroll WHERE payrollID='.$payrollID);
 		}else{

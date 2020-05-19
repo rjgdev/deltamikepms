@@ -319,14 +319,25 @@ class Retirementprocess_model extends CI_Model
 	}
 	function approve_Retirementprocess($retirementID, $dateapproved, $lastapprover)
 	{
+			
+
 		if($lastapprover==1){
 			$queryUpdateTK = $this->db->query('UPDATE dm_retirement 
 									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,retirementstatus=2 WHERE retirementID='.$retirementID);
+		$retirementemployee = $this->db->query('SELECT * FROM dm_retirement WHERE retirementID ='.$retirementID);
+		if($retirementemployee->row()->employeeID ==null){
+   				$employeerecord ="" ;
+   			}else{
+   				$employeerecord = $retirementemployee->row()->employeeID;
+   			}
+			$updatedemployee = $this->db->query("UPDATE dm_employee SET employeestatus ='Resigned' WHERE employeeID = ".$employeerecord."");	
 
 	    }else{
 			$queryUpdateTK = $this->db->query('UPDATE dm_retirement 
 									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
 									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE retirementID='.$retirementID);
+
+		
 		}
 		$queryheader = $this->db->query("SELECT retirementID,	employeeID,		usersubmitted,		datesubmitted,
 												userapproved,	dateapproved,	level,				approvalID,

@@ -9,7 +9,7 @@
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Payroll Peport');
+	  		$data = array('title' => 'Payroll Report');
 	  		$data['data']=$this->payrollreport->get_all_payroll();
 			$this->load->view('Template/Header',$data);
 
@@ -19,21 +19,21 @@
 			$this->load->view('Template/Footer',$data);
 		} 
 
-		public function get_client()
+		/*public function get_client()
 		{
 			$client				= 		$this->input->post('id');
 			$data   			= 		$this->payrollreport->get_clientdata($client);
 
 			echo json_encode($data);  
-		}
+		}*/
 
 		public function search_payroll()
 		{
 			$searchpayperiod = $this->input->post('searchpayperiod');
 			$searchemployeetype = $this->input->post('searchemployeetype');
 			$searchclient = $this->input->post('searchclient');
-			$searchdetachment = $this->input->post('searchdetachment');
-			$data = $this->payrollreport->search($searchpayperiod,$searchemployeetype,$searchclient,$searchdetachment);
+			/*$searchdetachment = $this->input->post('searchdetachment');*/
+			$data = $this->payrollreport->search($searchpayperiod,$searchemployeetype,$searchclient/*,$searchdetachment*/);
 /*			$this->load->view('Template/Header',$data);
 			$this->load->view("Payrollreport/Index",$data);
 			$this->load->view('Template/Footer',$data);*/

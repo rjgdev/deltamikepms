@@ -146,7 +146,7 @@
 							
 							<ul style="display: none;" class="menu-header" id="reports-header">
 								<?php } if($permission[22]){ ?>
-									<li><a href="<?php echo base_url(); ?>Maintenance">PPS (Metrobank)</a></li>
+									<li><a href="<?php echo base_url(); ?>Payrollpaymentsystemreport">PPS (Metrobank)</a></li>
 								<?php } if($permission[23]){ ?>
 									<li><a href="<?php echo base_url(); ?>Philhealthreport">PHIC Premium Payment</a></li>
 								<?php } if($permission[24]){ ?>

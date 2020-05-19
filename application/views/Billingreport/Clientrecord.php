@@ -93,19 +93,19 @@ endforeach;
 												</li> -->
 												<br>
 												<li>
-													<h5 class="title" style="text-align: right;">Subtotal</h5>
+													<h5 class="title" style="text-align: left;">Subtotal</h5>
 													<h5 class="text"  style="text-align: right;"><?php echo "₱ " .number_format($phic, 4, '.', ','); ?></h5>
 												</li>
 												<li>
-													<h5 class="title" style="text-align: right;">Taxable</h5>
+													<h5 class="title" style="text-align: left;">Taxable</h5>
 													<h5 class="text"  style="text-align: right;"><?php echo "₱ " .number_format($taxable, 4, '.', ','); ?></h5>
 												</li>
 												<li>
-													<h5 class="title" style="text-align: right;">Tax rate</h5>
+													<h5 class="title" style="text-align: left;">Tax rate</h5>
 													<h5 class="text"  style="text-align: right;">No data</h5>
 												</li>
 												<li>
-													<h5 class="title" style="text-align: right;">Tax due</h5>
+													<h5 class="title" style="text-align: left;">Tax due</h5>
 													<h5 class="text" style="text-align:  right;"><?php echo "₱ " .number_format($taxdue, 4, '.', ','); ?></h5>
 												</li>
 												<!-- <li>

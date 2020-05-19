@@ -41,11 +41,12 @@ class Generatepayslip_model extends CI_Model
 	    	SELECT *, 
 	    	pd.allowance as allwnce,
 	    	pd.incentive as inctv,
-
-	    	SUM(sssloan + hdmfloan + 
-	    		salaryloan + emergencyloan + 
-	    		trainingloan + otherloan) as loan,
-
+	    	sssloan,
+	    	hdmfloan,
+    		salaryloan, 
+    		emergencyloan, 
+    		trainingloan,
+    		otherloan,
 	    	SUM(spc  + spcrst +  
 	    		rgl + rglrst +  
 	    		dbl + dblrst) as holidaypay,

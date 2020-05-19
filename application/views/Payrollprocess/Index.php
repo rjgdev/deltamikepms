@@ -305,7 +305,6 @@
 					<table class="table table-striped custom-table" id="datatable1">
 						<thead>
 							<tr>
-								<th style="width: 90px ! important;">Employee No.</th>
 								<th style="width: 240px;">Employee Name</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
@@ -384,8 +383,7 @@
 							 ?>
 
 									<tr id="<?php echo $item->payrolldetailsID; ?>">
-	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?></td>
-	    								<td><?=$item->firstname.' '.$item->lastname;?></td>
+	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?> - <?=$item->firstname.' '.$item->lastname;?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->basicpay,4,".",",")?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->totalOT,4,".",",")?></td>
 	    								<td class="text-right" style="color:<?php if($item->otadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
@@ -632,7 +630,7 @@
 	        scrollX: true,
 	        scrollCollapse: true,
 	        fixedColumns:   {
-			    leftColumns: 2,
+			    leftColumns: 1,
 			    rightColumns: 2
 			}
     } );
@@ -684,7 +682,6 @@
 	            	html =  '<table class="table table-striped custom-table" id="datatable1">' + 
 	            			'<thead>' +
 							'<tr>' +
-								 '<th style="width: 90px ! important;">Employee No.</th>' +
 								 '<th style="width: 240px;">Employee Name</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
@@ -712,8 +709,7 @@
 
 	            	for(var i=0; i<data["payrolldetails"].length; i++){
     					html += '<tr id="' + data["payrolldetails"][i].payrolldetailsID + '">' +
-    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') 														+ '</td>' +
-    								'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 							+ '</td>' +
+    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') + ' - ' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 							+ '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalOT) 	+ '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otadjustment) + '</td>' +
@@ -845,7 +841,9 @@
 		      		$('#modal_confirmation').modal('hide');
 		      		showSuccessToast("Payroll is successfully <b>submitted!</b>");
 		      	}else{
-		      		showErrorToast(data['error']); ;
+		      		showErrorToast(data['error']);
+		      		$('#modal_confirmation .submit-btn').attr("disabled",false);
+    				$('#modal_confirmation .submit-btn').html("Submit payroll");
 		      	}
 		      },
 		      error: function(request, textStatus, error) {
