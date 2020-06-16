@@ -60,10 +60,10 @@ class Payrollreport_model extends CI_Model
     							SELECT 
     							* 
     							FROM 
-									( SELECT pd.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as fullname,
-									 pd.basicpay,((pd.ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) + (pd.otadjustment)) AS totalovertime,
+									( SELECT pd.employeeID, concat(LPAD(pd.employeeID, 5, 0), ' - ',lastname,', ',e.firstname,' ',e.middlename) as fullname,
+									 pd.basicpay,((pd.ordot + rstot + spcot + spcrstot + rglot + rglrstot + dblot + dblrstot) + (pd.otadjustment)) AS totalovertime,otadjustment,
 									 ((pd.ordnight + rstnight + spcnight + spcrstnight + rglnight + rglrstnight + dblnight + dblrstnight) + (pd.nightdiffadjustment))AS totalnightdiff,nightdiffadjustment,
-									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,lateadjustment,leaveadjustment,
+									 pd.allowance,pd.incentive,((pd.ordlate + rstlate + spclate + spcrstlate + rgllate + rglrstlate + dbllate + dblrstlate + late) + (pd.lateadjustment)) as totallate,lateadjustment,leaveadjustment,(spc + spcrst + 	rgl + rglrst + 	dbl + dblrst) as holiday,
 									 ((pd.absent) + (leaveadjustment)) AS totalleave,
 									 pd.otheradjustment,  grosspay,pd.wtax,(pd.sss_ee + pd.phic_ee + pd.hdmf_ee) AS government,
 									 pd.sss_ee,pd.phic_ee,pd.hdmf_ee, (pd.sssloan + pd.hdmfloan + pd.salaryloan + pd.trainingloan + pd.otherloan) as otherdeductionsloan,

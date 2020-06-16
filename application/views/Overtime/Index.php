@@ -64,7 +64,14 @@ $accesslevel = $access->employeetypeID;
 								<td><?php echo $item->endtime ?></td>
 								<td><?php echo $item->totalhour ?></td>
 								<td><?php echo $item->noted ?></td>
-								<td><?php echo $item->overtimestatus ?></td>
+								<!-- <td><?php echo $item->overtimestatus ?></td> -->
+								<td>
+									<?php if($item->overtimestatus=="Reviewed") 
+								      echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> '.$item->overtimestatus.'</span>';
+								    else
+								      echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> '.$item->overtimestatus.'</span>';
+								  	?>
+								</td>
 								<div class="dropdown dropdown-action">
 								</div>
 								<td class="text-right">
@@ -94,7 +101,7 @@ $accesslevel = $access->employeetypeID;
 									href="#" data-toggle="modal" data-target="#noted_employee"
 									data-id="<?php echo $item->overtimeid; ?>" 
 									data-overtnoted="<?php echo $item->noted; ?>">
-									<i class="fa fa-sticky-note"></i> Noted</a> <?php } ?>
+									<i class="fa fa-sticky-note"></i> Note</a> <?php } ?>
     							</div>	
     							</div>
 								<!-- <td class="text-right">
@@ -191,7 +198,7 @@ $accesslevel = $access->employeetypeID;
 						</div>
 					 <div class="col-sm-12">	
 						<div class="form-group">
-							<label>Description <span class="text-danger">*</span></label>
+							<label>Remarks <span class="text-danger">*</span></label>
 							<input type="text" class="form-control alphanumericwithspace" id="adddescription" name="adddescription" description="Description">
 							<div class="invalid-feedback" id="add-description"></div>
 						</div>
@@ -277,7 +284,7 @@ $accesslevel = $access->employeetypeID;
 						</div>
 					 <div class="col-sm-12">	
 						<div class="form-group">
-							<label>Description <span class="text-danger">*</span></label>
+							<label>Remarks <span class="text-danger">*</span></label>
 							<input id="editdescription" name="editdescription" class="form-control alphanumericwithspace" description="description">
 							<div class="invalid-feedback" id="edit-description"></div>
 						</div>
@@ -337,7 +344,7 @@ $accesslevel = $access->employeetypeID;
 				<div class="modal-body">
 					<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Add Overtime</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 					</div>
@@ -361,7 +368,7 @@ $accesslevel = $access->employeetypeID;
 				<div class="modal-body">
 					<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Update Overtime</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 					</div>

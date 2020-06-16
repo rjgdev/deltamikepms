@@ -149,7 +149,6 @@ $(document).ready(function() {
 	var dateToday = new Date();
 	if($('.previousdate').length > 0) {
 		$('.previousdate').datetimepicker({
-			minDate: dateToday,
 			format: 'YYYY-MM-DD',
 			icons: {
 				up: "fa fa-angle-up",

@@ -31,7 +31,7 @@
 								<th style="min-width: 10px; width:10px;">#</th>
 								<th style="min-width: 220px ! important;">Client Name</th>
 								<th style="min-width: 220px ! important;">Contact Person</th>
-								<th style="min-width: 130px ! important;">Contact No.</th>
+								<th style="min-width: 130px ! important;">Contact Number</th>
 								<th style="min-width: 130px ! important;">Email</th>
 								<th style="min-width: 50px; width:100px;">Status</th>
 								<th style="min-width: 50px; width:100px;" class="text-right">Action</th>
@@ -123,7 +123,7 @@
 								<div class="invalid-feedback" id="add-description"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>House Number </label>
+								<label>Unit Number </label>
 								<input class="form-control specchar" type="text" id="housenumber">
 								<div class="invalid-feedback" id="add-housenumber"></div>
 							</div>
@@ -197,7 +197,7 @@
 								<div class="invalid-feedback" id="edit-description"></div>
 							</div>
 							<div class="form-group col-sm-6">
-								<label>House Number </label>
+								<label>Unit Number </label>
 								<input class="form-control specchar" type="text" id="edithousenumber">
 								<div class="invalid-feedback" id="edit-housenumber"></div>
 							</div>
@@ -286,7 +286,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Add Client</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 
@@ -316,7 +316,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Update Client</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 

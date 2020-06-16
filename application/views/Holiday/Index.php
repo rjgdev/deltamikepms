@@ -112,7 +112,7 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Edit Holiday</h5>
+					<h5 class="modal-title">Update Holiday year</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -181,7 +181,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Update Holiday Year</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 

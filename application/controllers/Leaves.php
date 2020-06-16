@@ -26,6 +26,13 @@
 		$data = $this->leave->search_totalleave($id, $leave);
 		echo json_encode($data); 
 	} 
+	public function editsearchtotalleave()
+	{
+		$id = $this->input->post('id');
+		$leave = $this->input->post('leave');
+		$data = $this->leave->search_totalleave($id, $leave);
+		echo json_encode($data); 
+	} 
 	public function save()
 	{
 		$leavestatusdata = "For review";

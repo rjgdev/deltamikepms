@@ -4,6 +4,9 @@ td[rowspan]:not([rowspan="2"]) {
 }
 
 </style>
+<head>
+<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+</head>
 <!-- Page Wrapper -->
 <div class="page-wrapper">
 	<!-- Page Content -->
@@ -84,14 +87,15 @@ td[rowspan]:not([rowspan="2"]) {
 								</button>
 							</div>
 				<div class="table-responsive" id="show_data">
-					<table class="table table-striped custom-table">
+					<table class="table table-striped custom-table table-bordered mb-0" border="1">
 							<thead>
 
 								<tr>
-									<th style="width: 100px;"><center>Employee ID</center></th>
-									<th style="width: 120px;"><center>Employee Name</center></th>
+									<th style="width: 180px;"><center>Employee Name</center></th>
 									<th style="width: 80px;"><center>Basic Pay</center></th>
+									<th style="width: 80px;"><center>Holiday</center></th>
 									<th style="width: 70px;"><center>Overtime</center></th>
+									<th style="width: 180px;"><center>Overtime Adjustment</center></th>
 									<th style="width: 120px;"><center>Night Differential</center></th>
 									<th style="width: 150px;"><center>Night Diff. Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>Allowance</center></th>
@@ -100,13 +104,15 @@ td[rowspan]:not([rowspan="2"]) {
 									<th style="width: 140px ! important;"><center>Late Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>LWOP</center></th>
 									<th style="width: 120px ! important;"><center>Leave Adjustment</center></th>
-									<th style="width: 120px ! important;"><center>Other Adjustment</center></th>
 									<th style="width: 80px ! important;"><center>GROSS PAY</center></th>
+									<!-- <th style="width: 120px ! important;"><center>Other Adjustment</center></th> -->
 									<th style="width: 100px ! important;"><center>Withholding Tax</center></th>
 									<th style="width: 80px ! important;"><center>SSS</center></th>
 									<th style="width: 80px ! important;"><center>PHIC</center></th>
 									<th style="width: 80px ! important;"><center>HDMF</center></th>
 									<th style="width: 80px ! important;"><center>Loan</center></th>
+									<th style="width: 120px ! important;"><center>Other Adjustment</center></th>
+									<!-- <th style="width: 80px ! important;"><center>GROSS PAY</center></th> -->
 									<th style="width: 80px ! important;"><center>NET PAY</center></th>					
 								</tr>
 							</thead>	
@@ -115,7 +121,9 @@ td[rowspan]:not([rowspan="2"]) {
 	           				</tbody>
 	           				<tfoot>
            						<tr>
-									<th colspan="2" style="text-align: right;">TOTAL:</tH>
+									<th colspan="1" style="text-align: right;">TOTAL:</tH>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
+									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
 									<th class="text-right" style="color:#be0e0e;">0.0000</th>
@@ -148,13 +156,22 @@ td[rowspan]:not([rowspan="2"]) {
 
 		$('.table').DataTable({
 	        scrollX: true,
-	    	scrollCollapse: true
+	    	scrollCollapse: true,
+	    	 exportOptions: {
+            "columns": ':visible',
+        }
+
+			        	 /*exportOptions: {
+               			 modifier: {
+                   	 search: 'applied',
+                   	 order: 'applied'
+                }
+            }*/
 	    });
 
 		/*$("#export_excel").hide();*/
 	
 		$("#export_excel").click(function() {
-
 			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('.dataTables_scroll').html()));
 		});
 
@@ -226,6 +243,7 @@ td[rowspan]:not([rowspan="2"]) {
 				  	var html = '';
                     var i;
                     var basic = 0;
+                    var holiday = 0;
                     var overtime = 0;
                     var nightdiff = 0;
                     var nightdiffadjustment = 0;
@@ -244,15 +262,17 @@ td[rowspan]:not([rowspan="2"]) {
                     var totalsss = 0;
                     var totalhdmf = 0;
                     var otherdeductionsloan = 0; 
+                      var otadjustment1 = 0; 
                     var totalphic = 0;
-                   html +='<table class="table table-striped custom-table datatable" id="datatable1">' +
+                   html +='<table class="table table-striped table-bordered mb-0" border="1" id="datatable1">' +
                    			'<div id="recordexcel">' +
 							'<thead >' +
 							'<tr>' +
-								'<th style="width: 100px;"><center>Employee ID</center></th>' +
-								'<th style="width: 120px;"><center>Employee Name</center></th>' +
+								'<th style="width: 180px;"><center>Employee Name</center></th>' +
 								'<th style="width: 80px;"><center>Basic Pay</center></th>' +
+								'<th style="width: 80px;"><center>Holiday</center></th>' +
 								'<th style="width: 70px;"><center>Overtime</center></th>' +
+								'<th style="width: 180px;"><center>Overtime Adjustment</center></th>' +
 								'<th style="width: 120px;"><center>Night Differential</center></th>' +
 								'<th style="width: 170px;"><center>Night Diff. Adjustment</center></th>' +
 								'<th style="width: 80px ! important;"><center>Allowance</center></th>' +
@@ -261,18 +281,18 @@ td[rowspan]:not([rowspan="2"]) {
 								'<th style="width: 120px ! important;"><center>Late Adjustment</center>' +
 								'<th style="width: 80px ! important;"><center>LWOP</center></th>' +
 								'<th style="width: 120px ! important;"><center>Leave Adjustment</center>' +
-								'<th style="width: 120px ! important;"><center>Other Adjustment</center></th>' +
 								'<th style="width: 80px ! important;"><center>GROSS PAY</center></th>' +
 								'<th style="width: 100px ! important;"><center>Withholding Tax</center></th>' +
 								'<th style="width: 80px ! important;"><center>SSS</center></th>' +
 								'<th style="width: 80px ! important;"><center>PHIC</center></th>' +
 								'<th style="width: 80px ! important;"><center>HDMF</center></th>' +
 								'<th style="width: 80px ! important;"><center>Loan</center></th>' + 
-								'<th style="width: 80px ! important;"><center>NET PAY</center></th>' +					
+								'<th style="width: 120px ! important;"><center>Other Adjustment</center></th>' +
+								'<th style="width: 80px ! important;"><center>NET PAY</center></th>' +
 							'</tr>' +
 							'</thead>' +	
 							'<tbody>';
-							console.log(response);
+							//console.log(response);
                     for(i=0; i<response.length; i++){
                     	if(parseInt(response[i].basicpay))
                     	 	 basic += parseFloat(response[i].basicpay);
@@ -314,12 +334,17 @@ td[rowspan]:not([rowspan="2"]) {
                     	 if(parseInt(response[i].phic_ee))
                     	 	 totalphic += parseFloat(response[i].phic_ee);
                     	  if(parseInt(response[i].otherdeductionsloan))
-                    	 	 otherdeductionsloan += parseFloat(response[i].otherdeductionsloan); 	  
+                    	 	 otherdeductionsloan += parseFloat(response[i].otherdeductionsloan); 	
+                    	 	   if(parseInt(response[i].otadjustment))
+                    	 	 otadjustment1 += parseFloat(response[i].otadjustment); 
+                    	 if(parseInt(response[i].holiday))
+                    	 	 holiday += parseFloat(response[i].holiday); 	   
                         html += '<tr>'+
-									'<td>'+response[i].employeeID.padStart(6,'0')+'</td>'+
 									'<td >'+response[i].fullname+'</td>'+
-									'<td class="text-right">'+accounting.formatMoney(response[i].basicpay)+'</td>'+
+									'<td class="text-right" data-tableexport-msonumberformat="0000">'+accounting.formatMoney(response[i].basicpay)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].holiday)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalovertime)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].otadjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalnightdiff)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].nightdiffadjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].allowance)+'</td>'+
@@ -328,38 +353,40 @@ td[rowspan]:not([rowspan="2"]) {
 									'<td class="text-right">'+accounting.formatMoney(response[i].lateadjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].totalleave)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].leaveadjustment)+'</td>'+
-									'<td class="text-right">'+accounting.formatMoney(response[i].otheradjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].grosspay)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].wtax)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].sss_ee)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].phic_ee)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].hdmf_ee)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].otherdeductionsloan)+'</td>'+
+									'<td class="text-right">'+accounting.formatMoney(response[i].otheradjustment)+'</td>'+
 									'<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
                         		 '</tr>';
                     }	
                       html +=  '</tbody>' +
                      			'<tfoot>' +
                      				'<tr>'+
-										'<th colspan="2" style="text-align: right;">TOTAL:</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(basic)  	 +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(overtime)   +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiff)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(nightdiffadjustment)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(allowance)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(incentive)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totallate)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(lateadjustment)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalleave) +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(leaveadjustment) +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(otheradjustment) +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(grosspay)   +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(wtax)  	 +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalsss)   +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalphic)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(totalhdmf)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(otherdeductionsloan)  +'</th>'+
-										'<th class="text-right" style="color:#be0e0e;">'+ accounting.formatMoney(netpay)  	 +'</th>'+
+										'<th colspan="1" style="text-align: right;">TOTAL:</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(basic)  	 +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(holiday)  	 +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(overtime)   +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(otadjustment1)   +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(nightdiff)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(nightdiffadjustment)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(allowance)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(incentive)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(totallate)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(lateadjustment)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(totalleave) +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(leaveadjustment) +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(grosspay)   +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(wtax)  	 +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(totalsss)   +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(totalphic)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(totalhdmf)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(otherdeductionsloan)  +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(otheradjustment) +'</th>'+
+										'<th style="color:#be0e0e; text-align: right">'+ accounting.formatMoney(netpay)  	 +'</th>'+
 									'</tr>' +
 							  '</tfoot></div></table>';
 					if ($.fn.DataTable.isDataTable('#datatable1')){
@@ -371,6 +398,9 @@ td[rowspan]:not([rowspan="2"]) {
                     $('#datatable1').DataTable({
 				        scrollX: true,
 			        	scrollCollapse: true,
+			        	 exportOptions: {
+			            "columns": ':invisible',
+			        }
 				    });
 				   
 
@@ -383,7 +413,11 @@ td[rowspan]:not([rowspan="2"]) {
 		$("#datatable1").DataTable({
 				       
 			        	searching: false,
-			        	paging: false
+			        	paging: false,
+			        	
+			        	 exportOptions: {
+           			 "columns": ':invisible',
+       				 }
 				      
 				    });
 

@@ -22,19 +22,17 @@
 			<script src="<?php echo base_url();?>pages/assets/js/respond.min.js"></script>
 		<![endif]-->
     </head>
-    <body class="account-page">
+    <body class="account-page" style="background-image: url('<?php echo base_url();?>pages/assets/img/406.jpg')">
 			<!-- Authentication pages -->
 			<div class="auth">
 				<div class="container">
 					
 					<div class="auth__inner">
-						<div class="auth__media">
-							<img src="<?php echo base_url();?>pages\assets\img\Login.svg">
-						</div>
 						<div class="auth__auth">
-
-							<h1 class="auth__title" style="margin-bottom: 0px;">Access your account</h1>
-							<p style="color:#fff;">Fill in your username and password to proceed!</p>
+							<div class="auth__media">
+								<img src="<?php echo base_url();?>pages\assets\img\dm_logo.png">
+							</div>
+							<h1 class="auth__title pb-4">PAYROLL MANAGEMENT SYSTEM</h1>
 
 							<?php if($this->session->flashdata("error")!=""){ ?>
 								<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -93,3 +91,11 @@
 		</script>
     </body>
 </html>
+
+<style>
+	@media (max-width:570px){
+		.auth__title{
+			font-size: 1rem;
+		}
+	}
+</style>

@@ -42,7 +42,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 
    		$this->check_schedule($timekeepingID);
 
-   		$queryDetails = $this->db->query('SELECT * FROM dm_timekeepingdetails
+   		$queryDetails = $this->db->query('SELECT *,dm_timekeepingdetails.clientID AS "client_ID",dm_timekeepingdetails.clientID AS "post_ID"  FROM dm_timekeepingdetails
    										  INNER JOIN dm_employee ON dm_employee.employeeID = dm_timekeepingdetails.employeeID 
 									  	  WHERE dm_employee.employeetypeID=1 AND dm_timekeepingdetails.timekeepingID='.$timekeepingID.
 									   	 ' AND dm_timekeepingdetails.datesched>="'.$datefrom.'"'.
@@ -92,11 +92,13 @@ class Timekeepingsecurityguard_model extends CI_Model
       	$this->db->delete("dm_timekeepingdetails"); 
 	}
 
-	function approve_timekeeping($timekeepingID, $dateapproved, $lastapprover)
+	function approve_timekeeping($timekeepingID, $dateapproved, $lastapprover, $record)
 	{
 		if($lastapprover==1){
-			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping 
+			$this->db->query('UPDATE dm_timekeeping 
 									   		   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),dateapproved=IFNULL (CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1,timekeepingstatus=2 WHERE timekeepingID='.$timekeepingID);
+			
+			$this->db->insert_batch('dm_timekeepingreport',$record);
 
 	        $query = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingID='.$timekeepingID);
 
@@ -128,7 +130,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 			$this->db->insert('dm_timekeeping', $data);
 		}else{
-			$queryUpdateTK = $this->db->query('UPDATE dm_timekeeping 
+			$this->db->query('UPDATE dm_timekeeping 
 									   SET userapproved=IFNULL(CONCAT(userapproved, "|'.$this->session->userdata('employeeID').'" ), "'.$this->session->userdata('employeeID').'"),
 									   	   dateapproved=IFNULL(CONCAT(dateapproved, "|'.date("Y-m-d H:i:s").'" ), "'.date("Y-m-d H:i:s").'"),level=level+1 WHERE timekeepingID='.$timekeepingID);
 		}

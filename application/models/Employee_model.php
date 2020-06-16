@@ -55,24 +55,28 @@ class Employee_model extends CI_Model
 			$record  = array();
 			$dataschedule = array();
 
-			if(count($totalleave)!=0){
-				for($count = 0; $count<count($totalleave); $count++)
-				{
-	 				$record[$count] = array ('employeeID'   =>	$last_id,
-											 'leavetypeID'	=>	$leavetypeID[$count],
-											 'totalleave'	=>	$totalleave[$count]);				
-				}	
-				$this->db->insert_batch('dm_employeecreditleave',$record);
-			}	
-
-			if(count($restdayresult)!=0){
-				for($count = 0; $count<count($restdayresult); $count++)
-				{
-					$dataschedule[$count]  = array(
-					'employeeID'		=>	$last_id,
-					'restday'			=>	$restdayresult[$count]);
-				}	
-				$this->db->insert_batch('dm_schedule', $dataschedule);
+			if(is_array($totalleave)){
+				if(count($totalleave)!=0){
+					for($count = 0; $count<count($totalleave); $count++)
+					{
+		 				$record[$count] = array ('employeeID'   =>	$last_id,
+												 'leavetypeID'	=>	$leavetypeID[$count],
+												 'totalleave'	=>	$totalleave[$count]);				
+					}	
+					$this->db->insert_batch('dm_employeecreditleave',$record);
+				}
+			}
+				
+			if(is_array($restdayresult)){
+				if(count($restdayresult)!=0){
+					for($count = 0; $count<count($restdayresult); $count++)
+					{
+						$dataschedule[$count]  = array(
+						'employeeID'		=>	$last_id,
+						'restday'			=>	$restdayresult[$count]);
+					}	
+					$this->db->insert_batch('dm_schedule', $dataschedule);
+				}
 			}
 
 			return 'true|'.str_pad($last_id, 6, "0", STR_PAD_LEFT).' - '.$firstname.' '.$middlename.' '.$lastname.' successfully created!';

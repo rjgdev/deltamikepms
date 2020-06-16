@@ -81,7 +81,7 @@
 									data-leavefrom="<?php echo $record->leavefrom; ?>"
 									data-leaveto="<?php echo $record->leaveto; ?>" 
 									data-numberofdays="<?php echo $record->numberofdays; ?>" 
-									data-remainingleave="<?php echo $record->remainingleave; ?>" 
+									data-editremainingleave="<?php echo $record->remainingleave; ?>" 
 									data-reason="<?php echo $record->reason; ?>" 
 									data-tog="tooltip"data-placement="top" title="Edit"> <i class="fa fa-pencil"></i> Edit</a>
 									
@@ -267,6 +267,7 @@
 						<div class="form-group">
 							<label>Number of days</label>
 							<input class="form-control" readonly="" name="editnumberofdays"id="editnumberofdays" type="text">
+							<input class="form-control" readonly="" name="editnumberofdays1"id="editnumberofdays1" type="text" hidden>
 							<div class="invalid-feedback" id="edit-numberofdays"></div>
 						</div>
 						</div>
@@ -329,7 +330,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Add Leave</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 					</div>
@@ -354,7 +355,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Edit Leave</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 					</div>
@@ -471,6 +472,10 @@
 <!-- /Page Wrapper -->
 <script  type="text/javascript">  
   $(document).ready(function() {
+  	var schedule = [];
+  	var writtenDay = [];
+  	var editschedule = [];
+  	var editwrittenDay = [];
   	$('.select2').select2();
   	 $('#addemployeeID').change(function(){ 
    	 var id=$(this).val();
@@ -503,7 +508,7 @@
    $('#editemployee').change(function(){ 
 
       var id=$(this).val();
-
+ 		 if(id!=null){
       $.ajax({
           url : "<?php echo site_url('Leaves/get_employeeleave');?>",
           method : "POST",
@@ -519,18 +524,25 @@
                 if($("#hiddeneditleaveID").val()==data[i].leavetypeID){
                   	html += '<option value='+data[i].leavetypeID+' selected>'+data[i].leavetypename+'</option>';
                 }else{
-                	html += /*'<option value="">No Selected</option>'+*/
-                   '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+                	html += '<option value='+data[i].leavetypeID+'>'+data[i].leavetypename+'</option>';
+
                 }
               }
               $('#editleaveID').html(html);
           }
       });
-      return false;
+        }else{
+            var html = '<option value="">No Selected</option>';
+            $('#editleaveID').html(html);
+
+          $("#editclient").prop("selectedIndex", 0);
+          $("#editleaveID").val($("#editleaveID option:first").val());
+        }
+        return false;
     });
   // end of dropdown EMPLOYEE//
 	$('#add_leave').on('hidden.bs.modal', function(){
-	    $(this).find('form')[0].reset();
+	    $(this).find('form')[0].reset();		
 	    $(".invalid-feedback").html("");
 		$('input').removeClass('is-invalid');
 		$('input').removeClass('is-valid');
@@ -540,7 +552,7 @@
 		 $(".select2-selection--single").each(function(){
                 $(this).removeClass("is-invalid");
                 $(this).removeClass("is-valid");
-         	 });
+         });
 	}); 
 		$('#edit_leave').on('hidden.bs.modal', function(){
 	    $(this).find('form')[0].reset();
@@ -568,6 +580,7 @@
 	});	
 
 	function computeLeave(id,leave){
+		
 		$.ajax({
 	        url : "<?php echo site_url('Leaves/searchtotalleave');?>",
 	        method : "POST",
@@ -575,17 +588,27 @@
 	        async : true,
 	        dataType : 'json',
 	        success: function(response){
-	        	if (!$.trim(response)){  
+	        	if (!$.trim(response["leave"])){  
 	        		var remainingleave = 0;
 				    $('#addremainingleave').val(remainingleave);
 				}
 				else{   
-				    var len 			= 	response.length;
-				     for(var i=0; i<len; i++){
-				    var remainingleave  = 	response[i].remainingleave;
+				    for(var i=0; i<response["leave"].length; i++){
+				    var remainingleave  = 	response["leave"][i].remainingleave;
 				$('#addremainingleave').val(remainingleave);
 				}
 			}
+				 schedule = [];
+				for(var i=0; i<response["schedule"].length; i++){
+		      		schedule[i] 		= response["schedule"][i].restday;
+		      		 if (schedule[i] !== null || schedule[i] !== "" || !schedule[i]) {
+				        schedule[i];
+				      
+				    }else{
+				         schedule = 0;  
+				    }
+		      			
+	      		}
 			return false;
 		}
 	 });
@@ -606,22 +629,134 @@
 
 		var start_date 	= 	moment(dateto, 'YYYY-MM-DD HH:mm:ss');
    		var end_date 	= 	moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
+   		
    		var duration 	= 	moment.duration(start_date.diff(end_date));
    		var days 		= 	duration.asDays() + 1 || 0;  
+   			
+   		var getDateArray = function(start_date, end_date) {
+	    var arr = new Array();
+	    var dt 	= new Date(start_date);
 
-   		if( days <= 0){
-   			var days = 0;
-   		 }else{
-   		 	var days;
-   		} 	
-   		 $("#numberofdayss").val(days);
+	    while (dt <= end_date) {	
+	    arr.push(new Date(dt));
+        dt.setDate(dt.getDate() + 1);
+        
+    }
+
+    return arr;
+  
 	}
+		var checkdateto1 	= new Date(end_date);
+		var checkdatefrom1 	= new Date(start_date);
+		var weekday = new Array(7);
+		weekday[0]=  "7"; //Sunday
+		weekday[1] = "1"; //Monday
+		weekday[2] = "2";//Tuesday
+		weekday[3] = "3";//Wednesday
+		weekday[4] = "4";//Thursday
+		weekday[5] = "5";//Friday
+		weekday[6] = "6";//Saturday
+
+		writtenDay = [];
+		var dateArr = getDateArray(end_date, start_date);
+
+		for (var i = 0; i < dateArr.length; i++) {
+			 writtenDay[i] = weekday[dateArr[i].getDay()];
+
+			var result = 0;
+			var countNotMatched = 0;
+			var array3 = writtenDay.filter(function(obj) { return schedule.indexOf(obj) <0; });
+			var result = array3.length;	
+			if( result <= 0){
+   			result = 0;
+   		 }else{
+   		 	var result;
+   		 	
+   		}
+		  } 
+   		 $("#numberofdayss").val(result);
+	}
+	
+	$("#editemployee").change(function(){
+		var id 		= $(this).val(); 	
+	 	var editleave 	= $("#editleaveID").val();	
+	 	 if(id!="")  editcomputeLeave(id,editleave);
+	});	
+	$("#editleaveID").change(function(){
+		var id 			= $("#editemployee").val(); 
+	 	var editleave 	= $(this).val(); 
+	 
+	 	if(editleave!="") editcomputeLeave(id,editleave);
+	});
+		function editcomputeLeave(id,leave){
+			
+			if(leave==null){
+				leave = $("#hiddeneditleaveID").val();	
+				  $.ajax({
+			        url : "<?php echo site_url('Leaves/editsearchtotalleave');?>",
+			        method : "POST",
+			        data : {id: id, leave: leave},
+			        async : true,
+			        dataType : 'json',
+			        success: function(response){
+						 editschedule = [];
+						
+						for(var i=0; i<response["schedule"].length; i++){
+				      			editschedule[i] 		= response["schedule"][i].restday;
+				      		 if (editschedule[i] !== null || editschedule[i] !== "" || !editschedule[i]) {
+						        editschedule[i];  
+						    }else{
+						         editschedule = 0;  
+
+						    }		
+			      		}
+				
+			            return false;
+					}
+			 	 });
+	}else{
+				leave;
+		$.ajax({
+	        url : "<?php echo site_url('Leaves/editsearchtotalleave');?>",
+	        method : "POST",
+	        data : {id: id, leave: leave},
+	        async : true,
+	        dataType : 'json',
+	        success: function(response){
+	        	if (!$.trim(response["leave"])){  
+	        		var editremainingleave = 0;
+				    $('#editremainingleave').val(editremainingleave);
+				}
+				else{   
+				    for(var i=0; i<response["leave"].length; i++){
+				    var editremainingleave  = 	response["leave"][i].remainingleave;
+				$('#editremainingleave').val(editremainingleave);
+				}
+			}
+				 editschedule = [];
+				
+				for(var i=0; i<response["schedule"].length; i++){
+		      			editschedule[i] 		= response["schedule"][i].restday;
+		      		 if (editschedule[i] !== null || editschedule[i] !== "" || !editschedule[i]) {
+				        editschedule[i];  
+
+				    }else{
+				         editschedule = 0;  
+
+				    }		
+	      		}
+		
+	            return false;
+			}
+	 	 });
+		}
+	}
+
 	$('#editfrom').on("dp.change", function() {
 		var datefrom = 	$(this).val(); 
 		var dateto 	 = 	$("#editto").val().trim();
 		
 		if(datefrom!="") editcomputedate(datefrom, dateto);
-
 	});	
 	$('#editto').on("dp.change", function() {
 		var dateto 	 = $(this).val(); 
@@ -629,51 +764,56 @@
 		if(dateto!="") editcomputedate(datefrom, dateto);
 	});	
 	function editcomputedate(datefrom, dateto){
-		var days = 0;
-		var start_date = moment(dateto, 'YYYY-MM-DD HH:mm:ss');
-   		var end_date   = moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
-   		var duration   = moment.duration(start_date.diff(end_date));
-   		var days 	   = duration.asDays() + 1 || 0;  
-   		if( days <= 0){
-   			var days = 0;
+		//var days = 0;
+		var editstart_date = moment(dateto, 'YYYY-MM-DD HH:mm:ss');
+   		var editend_date   = moment(datefrom, 'YYYY-MM-DD HH:mm:ss');
+   		var duration   = moment.duration(editstart_date.diff(editend_date));
+   		var days 	   = duration.asDays() + 1 || 0; 
+
+   		var editgetDateArray = function(editstart_date, editend_date) {
+	    var editarr = new Array();
+	    var editdt 	= new Date(editstart_date);
+
+	    while (editdt <= editend_date) {	
+	    editarr.push(new Date(editdt));
+        editdt.setDate(editdt.getDate() + 1);   
+    }
+    return editarr;
+  
+	}
+	var editcheckdateto1 	= new Date(editend_date);
+		var editcheckdatefrom1 	= new Date(editstart_date);
+		var weekday = new Array(7);
+		weekday[0]=  "7"; //Sunday
+		weekday[1] = "1"; //Monday
+		weekday[2] = "2";//Tuesday
+		weekday[3] = "3";//Wednesday
+		weekday[4] = "4";//Thursday
+		weekday[5] = "5";//Friday
+		weekday[6] = "6";//Saturday
+
+		editwrittenDay = [];
+		var editdateArr = editgetDateArray(editend_date, editstart_date);
+
+		for (var i = 0; i < editdateArr.length; i++) {
+			 editwrittenDay[i] = weekday[editdateArr[i].getDay()];
+			 
+
+
+			var editresult = 0;
+			var countNotMatched = 0;
+			var editarray3 = editwrittenDay.filter(function(obj) { return editschedule.indexOf(obj) <0; });
+			var editresult = editarray3.length;	
+			if( editresult <= 0){
+   			editresult = 0;
    		 }else{
-   		 	var days;
-   		} 	
-		
-   		 $("#editnumberofdays").val(days);
+   		 	var editresult;	
+   		}
+	} 
+   	 $("#editnumberofdays").val(editresult);
 	}
-	$("#editleaveID").change(function(){
-		var id 		= $("#editemployee").val(); 
-	 	var leave 	= $(this).val();
-	 	if(leave!="") editcomputeLeave(id,leave);
-	});
-	$("#editemployee").change(function(){
-		var id 		= $(this).val(); 	
-	 	var leave 	= $("#editleaveID").val();
-	 	 if(id!="")  editcomputeLeave(id,leave);
-	});	
+	
 
-	function editcomputeLeave(id,leave){
-		
-
-		$.ajax({
-	        url : "<?php echo site_url('Leaves/searchtotalleave');?>",
-	        method : "POST",
-	        data : {id: id, leave: leave},
-	        async : true,
-	        dataType : 'json',
-	        success: function(response){
-	             if (response == null || response == ""){ 
-				    var addzeroremainingvalue = 0;
-				    $('#editremainingleave').val(addzeroremainingvalue);
-					}else{   
-					var remainingleave = response[0]["remainingleave"];
-				    $('#editremainingleave').val(remainingleave);
-				}
-			}
-	 	 });
-		return false;
-	}
 	$('#save').unbind('click').bind('click', function(){
 		var IDArray = ['#addemployeeID','#addleaveID', '#addfrom', '#addto', '#numberofdayss','#addremainingleave', '#addreason'];
 		var ErrorIDArray = ['add-employee','add-leave', 'add-from', 'add-to', 'add-totalTime','add-leavenumber', 'add-reason'];
@@ -760,7 +900,6 @@
 		return false;
 		}
 		
-	   /* }	*/	
 	 });
 
 	 $("#cncl-add").unbind('click').bind('click', function(){
@@ -808,18 +947,20 @@
 	            });
 	            return false;
 	  	});
+	  	$("#editleaveID").val($(this).data('leavetypeid'));
 
 		$('.edit_leave').unbind('click').bind('click', function(){
 		$(".modal-body #hiddeneditleaveID").val( $(this).data('leavetypeid'));
-		$(".modal-body #editleaveID").val($(this).data('leavetypeid'));
 		$(".modal-body #editemployee").val($(this).data('employeeid'));
 		$(".modal-body #editemployee").trigger("change");
+		$(".modal-body #editleaveID").val($(this).data('leavetypeid'));
 		$(".modal-body #editleaveID").trigger("change");
 		$(".modal-body #editfrom").val($(this).data('leavefrom'));
 		$(".modal-body #editto").val($(this).data('leaveto'));
 		$(".modal-body #editnumberofdays").val($(this).data('numberofdays'));
+		$(".modal-body #editnumberofdays1").val($(this).data('numberofdays'));
 		$(".modal-body #editnumberofdaysnumber").val($(this).data('numberofdays'));
-		$(".modal-body #editremainingleave").val($(this).data('remainingleave'));
+		$(".modal-body #editremainingleave").val($(this).data('editremainingleave'));
 		$(".modal-body #editremainingleavetotal").val($(this).data('numberofdays'));
 		$(".modal-body #editreason").val( $(this).data('reason'));
 		$('.edit').attr('id', $(this).data('id'));
@@ -917,49 +1058,50 @@
 
 		});
 	$('.edit').unbind('click').bind('click', function(){
-		var id 				= 	$(this).attr('id');
-		var leaveID 		= 	$('#editleaveID').val().trim();
-		var employeeID 		= 	$('#editemployee').val().trim();
-		var startdate 		= 	$('#editfrom').val().trim();
-		var enddate 		= 	$('#editto').val().trim();
-		var numberofdays 	= 	$('#editnumberofdays').val().trim();
-		var remainingleave 	= 	$('#editremainingleave').val().trim();
-		var reason 			= 	$('#editreason').val().trim();
-		var originalvalue 	= 	$("#editnumberofdaysnumber").val();
-		var newvalue 		= 	$("#editnumberofdays").val();
-		var remainingLeaves = 	$("#editremainingleave").val()
-		var minusdays 		=  	$("#editnumberofdaysnumber").val();
+		var id 						= 	$(this).attr('id');
+		var leaveID 				= 	$('#editleaveID').val().trim();
+		var employeeID 				= 	$('#editemployee').val().trim();
+		var startdate 				= 	$('#editfrom').val().trim();
+		var enddate 				= 	$('#editto').val().trim();
+		var numberofdays 			= 	$('#editnumberofdays').val().trim();
+		var remainingleave 			= 	$('#editremainingleave').val().trim();
+		var reason 					= 	$('#editreason').val().trim();
+		var originalvalue = $("#editnumberofdaysnumber").val();
+		var newvalue = $("#editnumberofdays").val();
+		var remainingLeaves = $("#editremainingleave").val()
+		var minusdays =  $("#editnumberofdaysnumber").val();
 		var lessLeave;
-		var ifSuccess 		= false;
+		var ifSuccess = false;
 		if(originalvalue!=newvalue){
-		// DAGDAG LEAVE
+			// DAGDAG LEAVE
 			if(newvalue > originalvalue){
-			var lessLeave 	=  newvalue - originalvalue;
-			ifSuccess 		= true;
+			var lessLeave =  newvalue - originalvalue;
+			ifSuccess = true;
 			if(lessLeave > remainingLeaves){
 				document.getElementById("edit-remainingleave").innerHTML = "Insufficient credit remaining leave.";
-				$('#editremainingleave').addClass('is-invalid');
-				event.preventDefault();
+				$(IDArray[4]).addClass('is-invalid');
+                event.preventDefault();
 				return false;
 				}else{
-				var lessLeave =   	parseInt(newvalue,10) - parseInt(originalvalue,10);
-				ifSuccess = true;
-			}
+					//////// subract leave
+					var lessLeave1 =  parseInt(newvalue,10) - parseInt(minusdays,10);
+					var lessLeave = parseInt(remainingLeaves,10) - parseInt(lessLeave1,10);
+					ifSuccess = true;
+				}
 			// add creadit leave
 			}else{
-			var lessLeave1 	 =  	parseInt(newvalue,10) - parseInt(minusdays,10)  ;
-			var lessLeave 	 = 		parseInt(remainingLeaves,10) - parseInt(lessLeave1,10);
-
-			ifSuccess = true;
+				//alert(originalvalue + + newvalue);
+				var lessLeave12 =  parseInt(originalvalue,10) - parseInt(newvalue,10);
+				var lessLeave =  parseInt(remainingLeaves,10) + parseInt(lessLeave12,10);	
+				ifSuccess = true;
 			}
 		}else{
-		var lessLeave 		=  		parseInt(originalvalue,10);
-
-		ifSuccess = true;
+			//alert(remainingLeaves);
+			var lessLeave =  parseInt(remainingLeaves,10);
+			ifSuccess = true;
 		}
-			/*var lessLeave = parseInt(originalvalue,10) - parseInt(newvalue,10)
-			alert(originalvalue + " " +  newvalue);*/
 		if(ifSuccess==true){
+		
 		$.ajax({
 			url : "<?php echo site_url('Leaves/update');?>",
 			method : "POST",
@@ -1013,8 +1155,8 @@
 		});
 $('.editnote').unbind('click').bind('click', function(){
 		var id 				= 	$(this).attr('id');
-		var noted 		= 	$('#editnoted').val().trim();
-		/*alert(noted +' '+ id);*/
+		var noted 			= 	$('#editnoted').val().trim();
+		
 		$.ajax({
 			url : "<?php echo site_url('Leaves/updatenoted');?>",
 			method : "POST",

@@ -66,12 +66,39 @@
 
 		public function approve() 
 		{ 
-			$timekeepingID = $this->input->post('timekeepingID');
-			$lastapprover = $this->input->post('lastapprover');
+			$timekeepingID 	= $this->input->post('timekeepingID');
+			$lastapprover 	= $this->input->post('lastapprover');
+			$attendance 	= $this->input->post('attendance');
+			$dayfrom 		= $this->input->post('dayfrom');
+			$dayto 			= $this->input->post('dayto');
+			$record  		= array();
+
+			if($lastapprover==1){
+				for($i=0;$i<count($attendance);$i++){
+					$array_d = array();
+
+					for($x=0;$x<=30;$x++){
+						$array_d[$x] = '';
+					}
+
+					for($day=$dayfrom;$day<=$dayto;$day++){
+						$array_d[$day-1] = $attendance[$i][$day + 1];
+					}
+
+					$record[$i] = array ('employeeID'    =>	$attendance[$i][0], 
+										 'timekeepingID' =>	$attendance[$i][1], 
+										 'd1'  => $array_d[0] ,  'd2'  => $array_d[1],  'd3'  => $array_d[2] ,  'd4'  => $array_d[3],  'd5'  => $array_d[4],
+										 'd6'  => $array_d[5] ,  'd7'  => $array_d[6],  'd8'  => $array_d[7] ,  'd9'  => $array_d[8],  'd10' => $array_d[9],
+										 'd11' => $array_d[10] , 'd12' => $array_d[11], 'd13' => $array_d[12] , 'd14' => $array_d[13], 'd15' => $array_d[14],
+										 'd16' => $array_d[15] , 'd17' => $array_d[16], 'd18' => $array_d[17] , 'd19' => $array_d[18], 'd20' => $array_d[19],
+										 'd21' => $array_d[20] , 'd22' => $array_d[21], 'd23' => $array_d[22] , 'd24' => $array_d[23], 'd25' => $array_d[24],
+										 'd26' => $array_d[25] , 'd27' => $array_d[26], 'd28' => $array_d[27] , 'd29' => $array_d[28], 'd30' => $array_d[29],
+										 'd31' => $array_d[30] , 'totalhours' => $attendance[$i][count($attendance[$i])-5]   , 'basichours' =>  $attendance[$i][count($attendance[$i])-4], 'othours' =>  $attendance[$i][count($attendance[$i])-3], 'restday' =>  $attendance[$i][count($attendance[$i])-2],  'totaldays' =>  $attendance[$i][count($attendance[$i])-1]);
+				}
+			}
 			
-        	$result = $this->timekeeping->approve_timekeeping($timekeepingID, date("Y-m-d"),$lastapprover);
-        	
-        	
+			
+        	$result = $this->timekeeping->approve_timekeeping($timekeepingID, date("Y-m-d"),$lastapprover,$record);	
         	echo json_encode($result);
 		}
 
@@ -82,6 +109,7 @@
 
         	$this->timekeeping->deny_timekeeping($timekeepingID,$reason);
 		}
+
 		public function submit() 
 		{ 
 			$timekeepingID = $this->input->post('timekeepingID');

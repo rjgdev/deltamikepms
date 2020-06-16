@@ -6,7 +6,7 @@
 			parent::__construct(); 
 			$this->load->model('Payrollpaymentsystemreport_model');  
 	  		$this->payrollpayment = new Payrollpaymentsystemreport_model; 
-	  		$this->load->library('Excel');    
+	  		// /$this->load->library('Excel');    
 		}
 	public function index() 
 		{ 
@@ -42,30 +42,25 @@
 		public function employee_download($download)
 
   {
-  		print_r($download);
+  		
 
-  	// create file name
-        $fileName = 'data-'.time().'.xls';  
-		// load excel library
+  	
+      /*  $fileName = 'data-'.time().'.xls';  
+		
         $this->load->library('excel');
        
         $objPHPExcel = new PHPExcel();
         $objPHPExcel->setActiveSheetIndex(0);
-        // set Header
+       
         $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'Employee Code');
         $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Employee Name');
         $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Branch Code');
         $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Payroll Acct. No.');
         $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Amount');       
-        // set Row
+      
         
         $rowCount = 2;
-        	/*$searchpayperiod = $this->input->post('searchpayperiod');
-
-			$searchemployeetype = $this->input->post('searchemployeetype');
-			$searchclient = $this->input->post('searchclient');*/
-			/*$searchdetachment = $this->input->post('searchdetachment');*/
-			//$data = $this->payrollpayment->search($searchpayperiod,$searchemployeetype,$searchclient);
+        	
 			echo "<pre>";
 		    print_r($data);
 		    echo "</pre>";
@@ -86,29 +81,9 @@
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');  
 		$objWriter->save('php://output'); 
-		exit;
+		exit;*/
 
     }
-  		/*$this->load->library("excel");
-	 	 $object = new PHPExcel();
-
-	  $object->setActiveSheetIndex(0);
-
-	  $table_columns = array("Name", "Address", "Gender", "Designation", "Age");
-
-	  $column = 0;
-
-	  foreach($table_columns as $field)
-	  {
-	   $object->getActiveSheet()->setCellValueByColumnAndRow($column, 1, $field);
-	   $column++;
-  	}
-  	$excel_row = 2;
-
-  	$object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
-  header('Content-Type: application/vnd.ms-excel');
-  header('Content-Disposition: attachment;filename="Employee Data.xls"');
-  $object_writer->save('php://output');*/
- 
+  		
 
 	}			

@@ -136,7 +136,7 @@
 									<div class="invalid-feedback" id="add-clientID"></div>
 								</div>
 								<div class="form-group col-sm-6">
-									<label>House No. </label>
+									<label>Unit Number </label>
 									<input class="form-control specchar" type="text" id="housenumber">
 									<div class="invalid-feedback" id="add-housenumber"></div>
 								</div>
@@ -169,7 +169,7 @@
 									<div class="invalid-feedback" id="add-commander"></div>
 								</div>
 								<div class="form-group col-sm-6">
-									<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+									<label>Number of Guards Assigned <span class="text-danger">*</span></label>
 									<input class="form-control numbersonly" type="text" id="noofguard">
 									<div class="invalid-feedback" id="add-noofguard"></div>
 								</div>
@@ -228,7 +228,7 @@
 									<div class="invalid-feedback" id="edit-clientID"></div>
 								</div>
 								<div class="form-group col-sm-6">
-									<label>House No. </label>
+									<label>Unit Number </label>
 									<input class="form-control specchar" type="text" id="edithousenumber">
 									<div class="invalid-feedback" id="edit-housenumber"></div>
 								</div>
@@ -261,7 +261,7 @@
 									<div class="invalid-feedback" id="edit-commander"></div>
 								</div>
 								<div class="form-group col-sm-6">
-									<label>No. of Guards Assigned <span class="text-danger">*</span></label>
+									<label>Number of Guards Assigned <span class="text-danger">*</span></label>
 									<input class="form-control numbersonly" type="text" id="editnoofguard">
 									<div class="invalid-feedback" id="edit-noofguard"></div>
 								</div>
@@ -326,7 +326,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Add Post</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 							<br> 
@@ -355,7 +355,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Update Post</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 							<br> 

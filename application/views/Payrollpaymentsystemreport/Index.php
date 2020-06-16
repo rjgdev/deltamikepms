@@ -3,9 +3,12 @@ td[rowspan]:not([rowspan="2"]) {
     text-align: center;
 }
 
+
 </style>
 <head>
 	  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	  
+
   </head>
 <!-- Page Wrapper -->
 <div class="page-wrapper">
@@ -40,6 +43,7 @@ td[rowspan]:not([rowspan="2"]) {
 						?> 
 					</select>
 					<label class="focus-label">Pay Period</label>
+					<div class="invalid-feedback" id="search-searchpayperiod"></div>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -88,13 +92,14 @@ td[rowspan]:not([rowspan="2"]) {
 								</button>
 							</div>
 				<div class="table-responsive" id="show_data">
-					<table class="table table-striped custom-table">
+					<div id="recordexcel">
+					<table class="table table-striped table-bordered mb-0" border="1">
 							<thead>
 								<tr>
 									<th style="width: 250px;"><center>Employee Code</center></th>
 									<th style="width: 270px;"><center>Employee Name</center></th>
 									<th style="width: 160px;"><center>Branch Code</center></th>
-									<th style="width: 200px;"><center>Payroll Acct. No.</center></th>
+									<th style="width: 200px;"><center>Payroll Account Number</center></th>
 									<th style="width: 250px;"><center>Amount</center></th>				
 								</tr>
 							</thead>	
@@ -102,18 +107,25 @@ td[rowspan]:not([rowspan="2"]) {
 	           				</tbody>
 					</table>
 				</div>
+				</div>
 				</div></div>
 			</div>
 		</div>	
 	</div>
 </div>
-<script  type="text/javascript">  
+<script  type="text/javascript"> 
+
 	$(document).ready(function() {
 
 		$('.table').DataTable({
-	        scrollX: true,
-	    	scrollCollapse: true
+	        scrollX: false,
+	    	scrollCollapse: false
 	    });
+
+	    $(".select2-selection--single").each(function(){
+            $(this).removeClass("is-invalid");
+            $(this).removeClass("is-valid");   
+     	 });
 
 		/*$("#export_excel").hide();*/
 	
@@ -121,6 +133,8 @@ td[rowspan]:not([rowspan="2"]) {
 
 
 				window.open('data:application/vnd.ms-excel,'  + encodeURIComponent($('.dataTables_scroll').html()));
+				//filename: "Your_File_Name.xls" 
+				//preventDefault();
 				
 
 		});
@@ -143,7 +157,25 @@ td[rowspan]:not([rowspan="2"]) {
 			var searchpayperiod =   $("#searchpayperiod").val();
 			var searchemployeetype = $("#searchemployeetype").val();
 			var searchclient = $("#searchclient").val();
-			/*var searchdetachment = $("#searchdetachment").val();*/
+
+			$(".select2-selection--single").each(function(){
+            $(this).removeClass("is-invalid");
+            $(this).removeClass("is-valid");   
+     	 });
+			if(searchpayperiod ==0){
+				showErrorToast("Please select a pay period! ");
+			document.getElementById("search-searchpayperiod").innerHTML = "Please select a pay period!";
+			$("[aria-labelledby='select2-searchpayperiod-container']").addClass('is-invalid');
+			$('#searchpayperiod').addClass('is-invalid');
+			return false;
+			event.preventDefault();
+			}else{
+			document.getElementById("search-searchpayperiod").innerHTML = "";
+			$('#searchpayperiod').removeClass('is-invalid');
+			$("[aria-labelledby='select2-searchpayperiod-container']").addClass('is-valid');
+	        $('#searchpayperiod').addClass('is-valid');
+	        event.preventDefault();
+			}
 			var tot = "Total";
 			var total = tot.bold();
 			var department = " ";
@@ -167,26 +199,25 @@ td[rowspan]:not([rowspan="2"]) {
 				  	var html = '';
                     var i;
                    html +='<div id="recordexcel">' +
-                   '<table class="table table-striped custom-table datatable" id="datatable1">' +
-                   			
+                   '<table class="table table-striped table-bordered mb-0" border="1" id="datatable1"" >' +
 							'<thead >' +
 							'<tr>' +
 								'<th style="width: 250px;"><center>Employee Code</center></th>' +
-								'<th style="width: 270px;"><center>Employee Name</center></th>' +
-								'<th style="width: 160px;"><center>Branch Code</center></th>' +
-								'<th style="width: 200px;"><center>Payroll Acct. No.</center></th>' +
+								'<th style="width: 310px;"><center>Employee Name</center></th>' +
+								'<th style="width: 270px;"><center>Branch Code</center></th>' +
+								'<th style="width: 253px;"><center>Payroll Account Number</center></th>' +
 								'<th style="width: 250px;"><center>Amount</center></th>' +				
 							'</tr>' +
 							'</thead>' +	
 							'<tbody>';
 					 for(i=0; i<response.length; i++){
 					  html += '<tr>'+
-					 	'<td class="text-left">'+response[i].employeeID.padStart(6,'0')+'</td>'+
+					 	'<td class="text-left">'+response[i].employeeID+'</td>'+
 					 	'<td class="text-left">'+response[i].employeename+'</td>'+
-					 	'<td class="text-left">'+response[i].branchcode+'</td>'+
-					 	'<td class="text-left">'+response[i].backaccountnumber+'</td>'+
+					 	'<td class="text-right">'+response[i].branchcode+'</td>'+
+					 	'<td class="text-right">'+response[i].backaccountnumber+'</td>'+
 					 	'<td class="text-right">'+accounting.formatMoney(response[i].netpay)+'</td>'+
-					   '</tr>';	
+					   '</tr>' ;	
 
 					 }	
 						

@@ -16,8 +16,9 @@ class Payrollprocess_model extends CI_Model
 		$query = $this->db->query("SELECT * FROM dm_timekeeping WHERE payrollstatus=0 LIMIT 1");
 
 		if($query->num_rows()!=0){
-			 $datefrom = $query->row()->datefrom;
-			 $dateto = $query->row()->dateto;
+			 $datefrom 	= $query->row()->datefrom;
+			 $dateto   	= $query->row()->dateto;
+			 $payperiod = $query->row()->payperiod;
 		}
 
 		$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");	
@@ -25,6 +26,18 @@ class Payrollprocess_model extends CI_Model
 		if($queryPayroll->num_rows()!=0){
 			$payrollID = $queryPayroll->row()->payrollID;
 			$level     = $queryPayroll->row()->level;
+		}else{
+			if($datefrom!=""){
+				$data = array('datefrom' 	=> $datefrom,
+							  'dateto'	 	=> $dateto,
+							  'payperiod'	=> $payperiod
+							 );
+
+				$this->db->insert('dm_payroll', $data);
+				$payrollID = $this->db->insert_id();
+
+				$queryPayroll = $this->db->query("SELECT * FROM dm_payroll WHERE datefrom='".$datefrom."' AND dateto='".$dateto."'");	
+			}
 		}
 
 		$queryPayrolldetails = $this->db->query("SELECT *,dm_payrolldetails.incentive,dm_payrolldetails.allowance,
@@ -154,14 +167,14 @@ class Payrollprocess_model extends CI_Model
 			      	$dblrstot 	= ($row->hourlyrate * 5.07) * $row->dblrstothours;
 
 			      	/* Night Differential */
-			      	$ordnight 		= ($row->hourlyrate * 1.1) 	* $row->ordnighthours;
-			      	$rstnight 		= ($row->hourlyrate * 1.43) * $row->rstnighthours;
-			      	$spcnight 		= ($row->hourlyrate * 1.43) * $row->spcnighthours;
-			      	$spcrstnight 	= ($row->hourlyrate * 1.65) * $row->spcrstnighthours;
-			      	$rglnight 		= ($row->hourlyrate * 2.2) 	* $row->rglnighthours;
-			      	$rglrstnight 	= ($row->hourlyrate * 2.86) * $row->rglrstnighthours;
-			      	$dblnight 		= ($row->hourlyrate * 3.3) 	* $row->dblnighthours;
-			      	$dblrstnight 	= ($row->hourlyrate * 4.29) * $row->dblrstnighthours;
+			      	$ordnight 		= ($row->hourlyrate * 0.10)	* $row->ordnighthours;
+			      	$rstnight 		= ($row->hourlyrate * 0.10) * $row->rstnighthours;
+			      	$spcnight 		= ($row->hourlyrate * 0.10) * $row->spcnighthours;
+			      	$spcrstnight 	= ($row->hourlyrate * 0.10) * $row->spcrstnighthours;
+			      	$rglnight 		= ($row->hourlyrate * 0.10)	* $row->rglnighthours;
+			      	$rglrstnight 	= ($row->hourlyrate * 0.10) * $row->rglrstnighthours;
+			      	$dblnight 		= ($row->hourlyrate * 0.10)	* $row->dblnighthours;
+			      	$dblrstnight 	= ($row->hourlyrate * 0.10) * $row->dblrstnighthours;
 
 			      	/* Late */
 			      	$ordlate 		= ($row->hourlyrate * 1)   * $row->ordlatehours;
@@ -481,6 +494,16 @@ class Payrollprocess_model extends CI_Model
 	      	$dblot 		= $query->row()->dblot;
 	      	$dblrstot 	= $query->row()->dblrstot;
 
+	      	/* NightDiff */
+	      	$ordnight 		= $query->row()->ordnight;
+	      	$rstnight		= $query->row()->rstnight;
+	      	$spcnight 		= $query->row()->spcnight;
+	      	$spcrstnight 	= $query->row()->spcrstnight;
+	      	$rglnight 		= $query->row()->rglnight;
+	      	$rglrstnight 	= $query->row()->rglrstnight;
+	      	$dblnight 		= $query->row()->dblnight;
+	      	$dblrstnight 	= $query->row()->dblrstnight;
+
 	      	/* Late */
 		  	$ordlate 	= $query->row()->ordlate;
 		  	$rstlate 	= $query->row()->rstlate;
@@ -507,7 +530,10 @@ class Payrollprocess_model extends CI_Model
     	}
 
       	$totalOTpay = $ordot + $rstot + $spcot + $spcrstot + 
-					  $rglot + $rglrstot + $dblot + $dblrstot;
+					  $rglot + $rglrstnight + $dblot + $dblrstot;
+
+	  	$totalNightpay = $ordnight + $rstnight + $spcnight + $spcrstnight + 
+					  	 $rglnight + $rglrstnight + $dblnight + $dblrstnight;
 
 	    $totalLate = $ordlate + $rstlate + $spclate + $spcrstlate + 
 					 $rgllate + $rglrstlate + $dbllate + $dblrstlate;
@@ -517,7 +543,7 @@ class Payrollprocess_model extends CI_Model
       	$totalAllowance = $allowance + 
 						  $incentive;
 
-		$basicsalary = (($salary + $basicpay + $totalOTpay + $totalAllowance) + $totalAdjustment) - 
+		$basicsalary = (($salary + $basicpay + $totalNightpay + $totalOTpay + $totalAllowance) + $totalAdjustment) - 
 						($totalLate + $absent);
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
@@ -694,7 +720,7 @@ class Payrollprocess_model extends CI_Model
 		$otherloan 		 = 0;
 
 		if($payperiod=="2"){
-			$returnSSS = explode("|", $this->getSSS($totalGrosspay, $fromcutoff, $employeeID));
+			$returnSSS = explode("|", $this->getSSS($totalGrosspay + $otheradjustment, $fromcutoff, $employeeID));
 
 			$sss_ee = $returnSSS[0];
 			$sss_er = $returnSSS[1];
@@ -715,7 +741,7 @@ class Payrollprocess_model extends CI_Model
 
 		$phic = $this->getPHIC($basicpay);
 
-	    $netpay = $totalGrosspay - ($hdmf + $phic + $sss_ee + $wtax + $loan);
+	    $netpay = ($totalGrosspay + $otheradjustment) - ($hdmf + $phic + $sss_ee + $wtax + $loan);
 
 	 	$data = array('otadjustment' 		=> $otadjustment,
 	 				  'nightdiffadjustment' => $nightdiffadjustment,

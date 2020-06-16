@@ -63,7 +63,7 @@ class Payrollpaymentsystemreport_model extends CI_Model
     							* 
     							FROM 
 									( 
-									SELECT e.employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as employeename, '068' as branchcode,	e.backaccountnumber,pd.netpay FROM dm_employee as e
+									SELECT concat('',LPAD(e.employeeID, 5, 0)) as employeeID, concat(e.lastname,', ',e.firstname,' ',e.middlename) as employeename, '068' as branchcode,	e.backaccountnumber,pd.netpay FROM dm_employee as e
 										LEFT JOIN dm_payrolldetails as pd ON e.employeeID = pd.employeeID
 									    WHERE pd.payrollID = '$searchpayperiod' $cond   $client AND e.backaccountnumber !=0
 									    GROUP BY e.employeeID

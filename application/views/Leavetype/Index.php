@@ -178,7 +178,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Add Leave Type</h3>
 							<p>Are you sure you want to add this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 
@@ -208,7 +208,7 @@
 				<div class="modal-body">
 					<div class="form-header">
 							<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-							<h3>Confirmation Message</h3>
+							<h3>Update Leave Type</h3>
 							<p>Are you sure you want to update this record?</p>
 							<div class="invalid-feedback" id="status-invalid"></div>
 

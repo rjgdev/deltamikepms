@@ -68,12 +68,12 @@
 											</li>
 											
 											<li>
-												<div class="title">Sick Leave</div>
-												<div class="text"><?=$sLeave; ?></div>
+												<div class="title">Sick Leave:</div>
+												<div class="text" style="color:#19cc19;font-weight: 500;"><?=$sLeave; ?> <div style="font-size:10px;display:inline;">Available Balance</div></div>
 											</li>
 											<li>
-												<div class="title">Vacation Leave</div>
-												<div class="text"><?=$vLeave; ?></div>
+												<div class="title">Vacation Leave:</div>
+												<div class="text" style="color:#19cc19;font-weight: 500;"><?=$vLeave; ?> <div style="font-size:10px;display:inline;">Available Balance</div></div>
 											</li>
 										</ul>
 									</div>

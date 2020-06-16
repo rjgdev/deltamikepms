@@ -240,7 +240,7 @@
     								'<td>' +  accounting.formatMoney(data[i].subtotalwithmargin) + '</td>' +
     								'<td>' +  accounting.formatMoney(data[i].taxable) + '</td>' +
     								'<td>' +  accounting.formatMoney(data[i].taxdue) + '</td>' +
-    								'<td><a class="btn btn-sm btn-primary" href="Billingreport/Billingclient?payrollID='+ data[i].payrollID + '&client='+ data[i].clientID +' &post='+ data[i].postID +'"target="_blank" >Action</a></td>'+	
+    								'<td><a class="btn btn-sm btn-primary" href="Billingreport/Billingclient?payrollID='+ data[i].payrollID + '&client='+ data[i].clientID +' &post='+ data[i].postID +'"target="_blank" >Generate Report</a></td>'+	
     							'</tr>';
     					}			
     					html += '</tbody></table>';					

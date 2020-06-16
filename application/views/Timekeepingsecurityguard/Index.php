@@ -49,16 +49,16 @@
 		$approvername 	 = $item->firstname.' '.$item->lastname;
 	}
 
-	function checkRDLV($dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day) {
+	function checkRDLV($timekeepingID,$dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day,$clientID,$postID) {
 		if(count($dataRest)!=0){
 			$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
 			$isRest = 0;
 			$restDay = 0;
 
-			foreach ($dataRest as $rest)  {
+			foreach ($dataRest as $rest) { 
 				if($rest->employeeID==$employeeID && 
-				   $rest->restday==$current_day){
-			  	  		echo "<td class='tsdata' style='color:#1c78d1;'>RD</td>";
+				   $rest->restday==$current_day){ 
+			  	  		echo "<td class='tsdata' style='color:#1c78d1;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0|".$clientID."|".$postID."'></div>RD</td>";
 			  	  		$restDay++;
 				  $isRest = 1;
 				}
@@ -72,16 +72,16 @@
 					foreach ($dataLeave as $leave)  {
 						if($leave->employeeID==$employeeID && 
 						  ($leave->leavefrom<=$current_date && $leave->leaveto>=$current_date)){
-					  	  		echo "<td class='tsdata' style='color:#d1221c;'>LV</td>";
+					  	  		echo "<td class='tsdata' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0|".$clientID."|".$postID."'></div>LV</td>";
 						  $isLeave = 1;
 						}
 					}
 
 					if($isLeave==0){
-						echo "<td></td>";
+						echo "<td><div tkid='".$timekeepingID."' value=''></div></td>";
 					}
 				}else{
-					echo "<td></td>";
+					echo "<td><div tkid='".$timekeepingID."' value=''></div></td>";
 				}
 			}
 		}else{
@@ -92,16 +92,16 @@
 				foreach ($dataLeave as $leave)  {
 					if($leave->employeeID==$employeeID && 
 					  ($leave->leavefrom<=$current_date && $leave->leaveto>=$current_date)){
-				  	  		echo "<td class='tsdata' style='color:#d1221c;'>LV</td>";
+				  	  		echo "<td class='tsdata' value='LV|0|0|0|0|".$clientID."|".$postID."' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
 					  $isLeave = 1;
 					}
 				}
 
 				if($isLeave==0){
-					echo "<td></td>";
+					echo "<td><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
 				}
 			}else{
-				echo "<td></td>";
+				echo "<td><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
 			}
 		}
 
@@ -249,6 +249,7 @@
 				<?php 
 					if($tkstatus==0){ 
 			    		echo '<button type="button" class="btn btn-info submit" id="submittimekeeping" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit timekeeping</button>';	
+			    		
 		    	 	}else if($tkstatus==1){ 
 		    	 		if($currentapprover!=$this->session->userdata('employeeID')) {
 			    	 		if(($userapproved=="" || $userapproved==NULL) && $this->session->userdata('employeeID')==$usersubmitted){
@@ -297,6 +298,7 @@
 								</th>
 							</tr>
 							<tr>
+								<th style="display: none;">Employee ID </th>
 								<th class="tsheader tsemployeeheader" style="color:#e04d45; text-align: left !important;">Employee Name </th>
 								
 								<?php 
@@ -339,11 +341,13 @@
 									$imgName		= 0;
 									$exist 			= 0;
 									$color  		= "";
+									$timeStatus     = 0;
 
 									if($emp->photo=="") $imgName = "profileimg.png";
 									else $imgName = $emp->photo;
 
 									echo '<tr>
+											<td style="display:none;"><div tkid="'.$timekeepingID.'" value="'.$emp->employeeID.'"></div>'.$emp->employeeID.'</td>
 											<td>
 												<h2 class="table-avatar">
 													<div class="avatar">
@@ -365,10 +369,16 @@
 											for($i=$init;$i<=$lastday;$i++){
 												$init++;
 												if(date('d', strtotime($item->datesched))==$i){
-
-													if($item->tkType!="Exist") $color = "#ff5200c7";
-													else if($item->validateuser!="" || $item->validateuser!=NULL) $color = "#ff5200c7";
-													else $color = "#179414";
+													if($item->tkType!="Exist"){
+														$color = "#ff5200c7"; 
+														$timeStatus = 2;
+													}else if($item->validateuser!="" || $item->validateuser!=NULL){
+														$color = "#ff5200c7";
+														$timeStatus = 2;
+													}else{
+														$color = "#179414";
+														$timeStatus = 1;
+													} 
 
 													if($item->tkType=="Exist"){
 														/********* TOTAL HOURS **********/
@@ -393,26 +403,28 @@
 															$overtime_accumMinutes += $overtime_minutes;
 
 														$actualhours = explode(":",$item->actualhours)[0].":".explode(":",$item->actualhours)[1];
+														$actualreg   = explode(":",$item->actual_regular_hours)[0].":".explode(":",$item->actual_regular_hours)[1];
+														$actualot    = explode(":",$item->actual_ot_hours)[0].":".explode(":",$item->actual_ot_hours)[1];
 														$totalDays++;
 
 														echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
-																<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='".$item->timesheetID."'>".$actualhours."</a></td>";
+																<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' tkid='".$item->timekeepingID."' value='".$actualhours."|".$actualreg."|".$actualot."|".$item->timesheetID."|".$timeStatus."|".$item->client_ID."|".$item->post_ID."' id='".$item->timesheetID."'>".$actualhours."</a></td>";
 														break;
 													}else{
 														echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
-																<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' timeshtid='".$item->timesheetID."'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
+																<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' tkid='".$item->timekeepingID."' value='notexist|0|0|".$item->timesheetID."|0|".$item->client_ID."|".$item->post_ID."' timeshtid='".$item->timesheetID."'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
 														break;
 													}
 												}else{
-													$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i);
+													$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i,$item->client_ID,$item->post_ID);
 													$restDay+=$retRD;
 												}
 											}
-										} 
+										}
 
 										if($exist==1){
 											for($x=$i+1;$x<=$lastday;$x++){
-												$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x);
+												$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x,$item->client_ID,$item->post_ID);
 												$restDay+=$retRD;
 											}
 										}
@@ -421,7 +433,7 @@
 									if($exist==0){
 										for($y=$init;$y<=$lastday;$y++){
 											$init++;
-											$retRD = checkRDLV($data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y);
+											$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y,$emp->clientID,$emp->postID);
 											$restDay+=$retRD;
 										}
 									}
@@ -446,11 +458,11 @@
 
 										$totalOvertime = ($overtime_accumHours + $overtime_addedHours).":".str_pad($overtime_totalMinutes, 2, "0", STR_PAD_LEFT);
 
-									echo  "<td class='tsdata' style='font-weight: 500;'>".($totalHours==0 ? "" : $totalHours)."</td>".
-										  "<td class='tsdata' style='font-weight: 500;'>".($totalBasic==0 ? "" : $totalBasic)."</td>".
-										  "<td class='tsdata' style='font-weight: 500;'>".($totalOvertime==0 ? "" : $totalOvertime)."</td>".
-										  "<td class='tsdata' style='font-weight: 500;'>".($restDay==0 ? "" : $restDay)."</td>".
-										  "<td class='tsdata' style='font-weight: 500;'>".($totalDays==0 ? "" : $totalDays)."</td>".
+									echo  "<td class='tsdata' style='font-weight: 500;'><div tkid='".$timekeepingID."' value='".($totalHours==0 ? "" : $totalHours)."'></div>".($totalHours==0 ? "" : $totalHours)."</td>".
+										  "<td class='tsdata' style='font-weight: 500;'><div tkid='".$timekeepingID."' value='".($totalBasic==0 ? "" : $totalBasic)."'></div>".($totalBasic==0 ? "" : $totalBasic)."</td>".
+										  "<td class='tsdata' style='font-weight: 500;'><div tkid='".$timekeepingID."' value='".($totalOvertime==0 ? "" : $totalOvertime)."'></div>".($totalOvertime==0 ? "" : $totalOvertime)."</td>".
+										  "<td class='tsdata' style='font-weight: 500;'><div tkid='".$timekeepingID."' value='".($restDay==0 ? "" : $restDay)."'></div>".($restDay==0 ? "" : $restDay)."</td>".
+										  "<td class='tsdata' style='font-weight: 500;'><div tkid='".$timekeepingID."' value='".($totalDays==0 ? "" : $totalDays)."'></div>".($totalDays==0 ? "" : $totalDays)."</td>".
 										"</tr>";
 									}
 								?>
@@ -732,21 +744,20 @@
 	});
 
 	$(document).ready(function() {
-		$('#datatable').DataTable( {
-	        
-	        "ordering": false,
-	        "info":     false,
-	        "autoWidth": false,
-		    "fixedHeader": {
-		        "header": false,
-		        "footer": false
-		    },
-		    "columnDefs": [
-		      { "width": "300px", "targets": 'tsemployeeheader'},
-		      { "width": "20px", "targets": 'tsdataheader'},
-		      { "width": "40px", "targets": 'tslastheader'}
-		    ]
-    } );
+		table = $('#datatable').DataTable( {
+				        "ordering": false,
+				        "info":     false,
+				        "autoWidth": false,
+					    "fixedHeader": {
+					        "header": false,
+					        "footer": false
+					    },
+					    "columnDefs": [
+					      { "width": "300px", "targets": 'tsemployeeheader'},
+					      { "width": "20px", "targets": 'tsdataheader'},
+					      { "width": "40px", "targets": 'tslastheader'}
+					    ]
+			    });
 
 	$('#file').change(function(){
       var name = document.getElementById('file'); 
@@ -777,11 +788,49 @@
     	$('.submit-btn').attr("disabled","disabled");
 		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
+		var attendance = [];
+		
+		if(lastapprover==1){
+		    var i = 0;
+
+		 	table.rows().eq(0).each( function ( index ) {
+			    var row = table.row( index );
+			 
+			    var data = row.data();
+			    var array_attendance = [];
+
+			    for(i=0;i<data.length;i++){
+			    	if(i==0){
+		    			array_attendance[i] = $(data[0]).attr("value");
+		    			continue;
+			    	} 
+
+			    	if(i==1){
+	    				array_attendance[i] = $(data[0]).attr("tkid");
+	    				continue;
+			    	} 
+
+			    	array_attendance[i] = $(data[i]).attr("value");
+			    }
+
+			    if(array_attendance[array_attendance.length-1]!="" ||  
+			       array_attendance[array_attendance.length-2]!="" ||
+			       array_attendance[array_attendance.length-3]!="" ||
+			       array_attendance[array_attendance.length-4]!="" ||
+			       array_attendance[array_attendance.length-5]!=""){
+		       		attendance.push(array_attendance);
+			    }
+			});
+		}
+
     	$.ajax({
 		      url : "<?php echo site_url('timekeepingsecurityguard/approve');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID,
-		      		  lastapprover:lastapprover},
+		      		  lastapprover:lastapprover,
+		      		  attendance:attendance,
+			      	  dayfrom:<?=$dayfrom;?>,
+			      	  dayto:<?=$dayto;?>},
 		      async : true,
 		      dataType : 'json',
 		      success: function(data){

@@ -1969,14 +1969,48 @@ table.dataTable thead > tr > td.sorting {
 -----------------------*/
 
 .account-page {
-	display: flex;
+	/*display: flex;
     justify-content: center;
 	align-items: center ;
 	background: -moz-linear-gradient(left, #e04d45 0%, #9e0924 100%);
 	background: -webkit-linear-gradient(left, #e04d45 0%, #9e0924 100%);
 	background: -ms-linear-gradient(left, #e04d45 0%, #9e0924 100%);
-	background: linear-gradient(to right, #e04d45 0%, #9e0924 100%);
+	background: linear-gradient(to right, #e04d45 0%, #9e0924 100%);*/
+	width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    z-index: 1;
 }
+
+.account-page::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #005bea;
+  background: -webkit-linear-gradient(bottom, #8e0000, #000);
+  background: -o-linear-gradient(bottom, #8e0000, #000);
+  background: -moz-linear-gradient(bottom, #8e0000, #C94059);
+  background: linear-gradient(bottom, #8e0000, #000);
+  opacity: 0.9;
+}
+
 .account-page .main-wrapper {
 	display: flex;
     flex-wrap: wrap;

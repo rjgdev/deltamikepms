@@ -305,6 +305,7 @@
 					<table class="table table-striped custom-table" id="datatable1">
 						<thead>
 							<tr>
+								<th style="width: 120px;">Employee Number</th>
 								<th style="width: 240px;">Employee Name</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
@@ -317,13 +318,13 @@
 								<th class="text-right" style="width: 90px; font-size:11px;">Late Adjustment</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Leave Adjustment</th>
-								<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">GROSS PAY</th>
 								<th class="text-right" style="width: 100px; font-size:11px;">Withholding Tax</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Loan</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Action</th>
 							</tr>
@@ -383,7 +384,8 @@
 							 ?>
 
 									<tr id="<?php echo $item->payrolldetailsID; ?>">
-	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?> - <?=$item->firstname.' '.$item->lastname;?></td>
+	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?></td>
+	    								<td><?=$item->firstname.' '.$item->lastname;?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->basicpay,4,".",",")?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->totalOT,4,".",",")?></td>
 	    								<td class="text-right" style="color:<?php if($item->otadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
@@ -403,9 +405,6 @@
 	    								<td class="text-right" style="color:<?php if($item->leaveadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">	
 	    									<?=$leave_adj; ?>
 	    								</td>
-	    								<td class="text-right" style="color:<?php if($item->otheradjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
-	    									<?=$other_adj; ?>
-    									</td>
 	    								<td class="text-right" style="color:<?php if($item->grosspay>=0) echo '#059a05'; else echo '#9a0505'; ?>">
 	    									<?=number_format($item->grosspay,4,".",",")?>
     									</td>
@@ -414,6 +413,9 @@
 	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->phic_ee,4,".",",")?></td>
 	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->hdmf_ee,4,".",",")?></td>
 	    								<td class="text-right" style="color:#9a0505;"><?=number_format($item->totalLoan,4,".",",")?></td>
+	    								<td class="text-right" style="color:<?php if($item->otheradjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
+	    									<?=$other_adj; ?>
+    									</td>
 	    								<td class="text-right" style="color:<?php if($item->netpay>=0) echo '#059a05'; else echo '#9a0505'; ?>; font-weight: 500;">
 	    									<?=number_format($item->netpay,4,".",",")?>
     									</td>
@@ -630,7 +632,7 @@
 	        scrollX: true,
 	        scrollCollapse: true,
 	        fixedColumns:   {
-			    leftColumns: 1,
+			    leftColumns: 2,
 			    rightColumns: 2
 			}
     } );
@@ -682,6 +684,7 @@
 	            	html =  '<table class="table table-striped custom-table" id="datatable1">' + 
 	            			'<thead>' +
 							'<tr>' +
+								 '<th style="width: 120px;">Employee Number</th>' +
 								 '<th style="width: 240px;">Employee Name</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
@@ -694,13 +697,13 @@
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Late Adjustment</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">LWOP</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Leave Adjustment</th>' +
-								 '<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>' + 
 								 '<th class="text-right" style="width: 90px; font-size:11px;">GROSS PAY</th>' +
 								 '<th class="text-right" style="width: 100px; font-size:11px;">Withholding Tax</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">SSS</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">PHIC</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">HDMF</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Loan</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Other Adjustment</th>' + 
 								 '<th class="text-right" style="width: 90px; font-size:11px;">NET PAY</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Action</th>' +
 							'</tr>' +
@@ -709,25 +712,28 @@
 
 	            	for(var i=0; i<data["payrolldetails"].length; i++){
     					html += '<tr id="' + data["payrolldetails"][i].payrolldetailsID + '">' +
-    								'<td>' + data["payrolldetails"][i].employeeID.padStart(6,'0') + ' - ' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname 							+ '</td>' +
+    								'<td>' + 
+										data["payrolldetails"][i].employeeID.padStart(6,'0') +
+									'</td>' +
+									'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalOT) 	+ '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otadjustment) + '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalNight) 		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalOT) 	    + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otadjustment)   + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalNight) 		 + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].nightdiffadjustment) + '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].allowance) 		+ '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].incentive) 		+ '</td>' +
-    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].totalLate) 			+ '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].lateadjustment) + '</td>' +
-    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].allowance) 		 + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].incentive) 		 + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].totalLate) 		 + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].lateadjustment)  + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].absent) 		 + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].leaveadjustment) + '</td>' +
-    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otheradjustment) + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].grosspay) 		 + '</td>' +
     								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].wtax) 			 + '</td>' +
     								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].sss_ee) 		 + '</td>' +
     								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].phic_ee) 		 + '</td>' +
     								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].hdmf_ee) 		 + '</td>' +
-    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].totalLoan)    + '</td>' +
+    								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].totalLoan)    	 + '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otheradjustment) + '</td>' +
     								'<td class="text-right" style="color:#059a05; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>' +
     								'<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="' + data["payrolldetails"][i].payrolldetailsID + '" id="adjustment' + data["payrolldetails"][i].payrolldetailsID + 
     								'" otnotes="'+ data["payrolldetails"][i].otnotes + 
@@ -1042,18 +1048,18 @@
 									'lateadjustment'		: table.row(this).data()[10],
 									'LWOP'					: table.row(this).data()[11],
 									'leaveadjustment' 		: table.row(this).data()[12],
-									'otheradjustment' 		: table.row(this).data()[13],
 									'otnotes' 		    	: $(this).attr('othernotes'),
 									'nightnotes' 		    : $(this).attr('nightnotes'),
 									'latenotes' 		    : $(this).attr('latenotes'),
 									'leavenotes' 		    : $(this).attr('leavenotes'),
 									'othernotes' 		    : $(this).attr('othernotes'),
-									'grosspay' 				: table.row(this).data()[14],
-									'wtax' 					: table.row(this).data()[15],
-									'sss' 					: table.row(this).data()[16],
-									'phic' 					: table.row(this).data()[17],
-									'hdmf'					: table.row(this).data()[18],
-									'loan'					: table.row(this).data()[19],
+									'grosspay' 				: table.row(this).data()[13],
+									'wtax' 					: table.row(this).data()[14],
+									'sss' 					: table.row(this).data()[15],
+									'phic' 					: table.row(this).data()[16],
+									'hdmf'					: table.row(this).data()[17],
+									'loan'					: table.row(this).data()[18],
+									'otheradjustment' 		: table.row(this).data()[19],
 									'netpay'				: table.row(this).data()[20]
 									});
 		$('#modal_adjustment .submit-btn').html("Submit");
@@ -1061,7 +1067,7 @@
 		$('#nightdiffadjustment').val(table.row(this).data()[6]);
 		$('#lateadjustment').val(table.row(this).data()[10]);
 		$('#leaveadjustment').val(table.row(this).data()[12]);
-		$('#otheradjustment').val(table.row(this).data()[13]);
+		$('#otheradjustment').val(table.row(this).data()[19]);
 
 
 		$('#otnotes').val($(this).attr('otnotes'));
@@ -1130,7 +1136,7 @@
 		var totalGrosspay 		= 0;
 		var totalNetpay 		= 0;
 
-		totalAdjustment = parseFloat(otadjustment) + parseFloat(nightdiffadjustment) + parseFloat(lateadjustment) + parseFloat(leaveadjustment) + parseFloat(otheradjustment);
+		totalAdjustment = parseFloat(otadjustment) + parseFloat(nightdiffadjustment) + parseFloat(lateadjustment) + parseFloat(leaveadjustment);
 
   		totalGrosspay = (parseFloat(basicpay) +  parseFloat(overtime) +  parseFloat(nightdiff) +  parseFloat(allowance) +  parseFloat(incentive)) 
   						 + parseFloat(totalAdjustment) 
@@ -1228,24 +1234,23 @@
         		$("#adjustment"+payrolldetailsID).attr("latenotes",latenotes);
         		$("#adjustment"+payrolldetailsID).attr("leavenotes",leavenotes);
         		$("#adjustment"+payrolldetailsID).attr("othernotes",othernotes);
-
 	      		table.cell('#' + payrolldetailsID + ' td:eq(4)').data(ot_adj).draw();
 	      		table.cell('#' + payrolldetailsID + ' td:eq(6)').data(night_adj).draw();
 	      		table.cell('#' + payrolldetailsID + ' td:eq(10)').data(late_adj).draw();
 	      		table.cell('#' + payrolldetailsID + ' td:eq(12)').data(leave_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(13)').data(other_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(14)').data(accounting.formatMoney(totalGrosspay)).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(15)').data(accounting.formatMoney(data["wtax"])).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(16)').data(accounting.formatMoney(data["sss"])).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(17)').data(accounting.formatMoney(data["phic"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(13)').data(accounting.formatMoney(totalGrosspay)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(14)').data(accounting.formatMoney(data["wtax"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(15)').data(accounting.formatMoney(data["sss"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(16)').data(accounting.formatMoney(data["phic"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(19)').data(other_adj).draw();
 	      		table.cell('#' + payrolldetailsID + ' td:eq(20)').data(accounting.formatMoney(data["netpay"])).draw();
 
 	      		$('#' + payrolldetailsID + ' td:eq(4)').css("color", (otadjustment<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(6)').css("color", (nightdiffadjustment<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(10)').css("color", (lateadjustment<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(12)').css("color", (leaveadjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(13)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(14)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(13)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(19)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(20)').css("color", (parseFloat(data["netpay"])<0) ? "#9a0505" : '#059a05');
 
 	  	  		showSuccessToast("Payroll adjustment successfully applied!");

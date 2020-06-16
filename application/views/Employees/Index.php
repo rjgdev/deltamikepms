@@ -190,7 +190,7 @@
   </div>
     <div class="form-group col-sm-6">
     <label for="firstname">First Name <span class="text-danger">*</span></label>
-    <input id="addfirstname" type="text" name="addfirstname" class="form-control input letterswithspace" autocomplete="off" description="first name" required tabindex="1">
+    <input id="addfirstname" type="text" name="addfirstname" class="form-control input letterswithspacenameperiod" autocomplete="off" description="first name" required tabindex="1">
     <div class="invalid-feedback" id="add-firstname"></div>
     </div>
     <div class="form-group col-sm-6">
@@ -204,7 +204,7 @@
   </div>  
     <div class="form-group col-sm-6">
     <label for="middlename">Middle Name</label>
-    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input letterswithspace" autocomplete="off" tabindex="2">
+    <input id="addmiddlename" type="text" name="addmiddlename" class="form-control input letterswithspacemiddlenamedash" autocomplete="off" tabindex="2">
     <div class="invalid-feedback" id="add-middlename"></div>
   </div>
    <div class="form-group col-sm-6">
@@ -214,7 +214,7 @@
   </div>
     <div class="form-group col-sm-6">
     <label for="lastname">Last Name  <span class="text-danger">*</span></label>
-    <input id="addlastname" type="text" name="addlastname" class="form-control input letterswithspace" autocomplete="off" description="last name" required tabindex="3">
+    <input id="addlastname" type="text" name="addlastname" class="form-control input letterswithspacemiddlenamedash" autocomplete="off" description="last name" required tabindex="3">
     <div class="invalid-feedback" id="add-lastname"></div>
     </div>
      <div class="form-group col-sm-6">
@@ -246,7 +246,7 @@
   </div>
   <div class="form-group col-sm-6">
   <label for="housenumber">Unit/House Number</label>
-  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="5">
+  <input id="addhousenumber" type="text" name="addhousenumber" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" tabindex="5">
   </div>
 
   <div class="form-group col-sm-6">
@@ -259,7 +259,7 @@
   </div>
   <div class="form-group col-sm-6">
   <label for="streetname">Building/Street Name  <span class="text-danger">*</span></label>
-  <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required tabindex="6">
+  <input id="addstreetname" type="text" name="addstreetname" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="building/street name" required tabindex="6">
   <div class="invalid-feedback" id="add-streetname"></div>
   </div>
    <div class="form-group col-sm-6">
@@ -277,11 +277,11 @@
   </div> 
   <div class="form-group col-sm-6">
   <label for="barangay">Barangay  <span class="text-danger">*</span></label>
-  <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required tabindex="7">
+  <input id="addbarangay" type="text" name="addbarangay" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="barangay" required tabindex="7">
   <div class="invalid-feedback" id="add-barangay"></div>
   </div>
   <div class="form-group col-sm-6">
-  <label for="adddetachment">Post <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
+  <label for="adddetachment">Current Post <span class="text-danger">* </span><span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></label>
   <select class="form-control" id="adddetachment" name="adddetachment" style="width: 100%;" description="post" required tabindex="17">
   <option value="">No Selected</option>
   </select>
@@ -289,7 +289,7 @@
   </div> 
   <div class="form-group col-sm-6">
   <label for="city">City/Municipality  <span class="text-danger">*</span></label>
-  <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspace" autocomplete="off" description="city/municipality" required tabindex="8">
+  <input id="addcity" type="text" name="addcity" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="city/municipality" required tabindex="8">
   <div class="invalid-feedback" id="add-city"></div>
   </div>
     <div class="form-group col-sm-6">
@@ -638,7 +638,7 @@
         </div> 
         <div class="form-group col-sm-6">
         <label for="firstname">First Name <span class="text-danger">*</span></label>
-        <input id="editfirstname" type="text" name="editfirstname " class="form-control input letterswithspace" autocomplete="off" description="first name" required tabindex="2">
+        <input id="editfirstname" type="text" name="editfirstname " class="form-control input letterswithspacenameperiod" autocomplete="off" description="first name" required tabindex="2">
         <div class="invalid-feedback" id="edit-firstname"></div>
         </div> 
          <div class="form-group col-sm-6">
@@ -652,7 +652,7 @@
         </div>  
         <div class="form-group col-sm-6">
         <label for="middlename">Middle Name</label>
-        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input letterswithspace" autocomplete="off" tabindex="3">
+        <input id="editmiddlename" type="text" name="editmiddlename" class="form-control input letterswithspacemiddlenamedash" autocomplete="off" tabindex="3">
         <div class="invalid-feedback" id="edit-middlename"></div>
         </div>
         <div class="form-group col-sm-6">
@@ -662,7 +662,7 @@
         </div>
         <div class="form-group col-sm-6">
         <label for="lastname">Last Name <span class="text-danger">*</span></label>
-        <input id="editlastname" type="text" name="editlastname" class="form-control input letterswithspace" autocomplete="off" description="last name" required tabindex="4">
+        <input id="editlastname" type="text" name="editlastname" class="form-control input letterswithspacemiddlenamedash" autocomplete="off" description="last name" required tabindex="4">
         <div class="invalid-feedback" id="edit-lastname"></div>
         </div>
         <div class="form-group col-sm-6">
@@ -694,7 +694,7 @@
         </div> 
         <div class="form-group col-sm-6">
         <label for="housenumber">Unit/House Number</label>
-        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspace" autocomplete="off" tabindex="6">
+        <input id="edithousenumber" type="text" name="edithousenumber" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" tabindex="6">
       </div>
         <div class="form-group col-sm-6">
           <label for="editdesignation">Designation <span class="text-danger">*</span></label>
@@ -705,7 +705,7 @@
           </div>
         <div class="form-group col-sm-6">
         <label for="streetname">Building/Street Name <span class="text-danger">*</span></label>
-        <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspace" autocomplete="off" description="building/street name" required tabindex="7">
+        <input id="editstreetname" type="text" name="editstreetname" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="building/street name" required tabindex="7">
         <div class="invalid-feedback" id="edit-streetname"></div>
         </div>
     <div class="form-group col-sm-6">
@@ -723,12 +723,12 @@
   </div>
         <div class="form-group col-sm-6">
         <label for="barangay">Barangay <span class="text-danger">*</span></label>
-        <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspace" autocomplete="off" description="barangay" required tabindex="8">
+        <input id="editbarangay" type="text" name="editbarangay" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="barangay" required tabindex="8">
         <div class="invalid-feedback" id="edit-barangay"></div>
         </div>
 
         <div class="form-group col-sm-6">
-          <label for="editdetachment">Post <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
+          <label for="editdetachment">Current Post <span class="text-danger">* <span class="badge bg-inverse-warning" style="font-size: 11px;font-weight: 500;"> For security guard only</span></span></label>
            <input type="hidden" id="edithiddenDetachment" name="edithiddenDetachment">
           <select class="form-control" id="editdetachment" name="editdetachment" style="width: 100%;" description="detachment" required tabindex="18">
           </select>
@@ -736,7 +736,7 @@
         </div> 
         <div class="form-group col-sm-6">
         <label for="city">City/Municipality <span class="text-danger">*</span></label>
-        <input id="editcity" type="text" name="editcity" class="form-control input letterswithspace" autocomplete="off" description="city/municipality" required tabindex="9">
+        <input id="editcity" type="text" name="editcity" class="form-control input alphanumericwithspaceunithouse" autocomplete="off" description="city/municipality" required tabindex="9">
         <div class="invalid-feedback" id="edit-city"></div>
         </div>
         
@@ -1113,7 +1113,7 @@
         <div class="modal-body">
           <div class="form-header">
             <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-              <h3>Confirmation Message</h3>
+              <h3>Add Employee</h3>
               <p>Are you sure you want to add this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
 
@@ -1143,7 +1143,7 @@
         <div class="modal-body">
           <div class="form-header">
              <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/questionmark.svg">
-              <h3>Confirmation Message</h3>
+              <h3>Update Employee</h3>
               <p>Are you sure you want to update this record?</p>
               <div class="invalid-feedback" id="status-invalid"></div>
 
@@ -1754,7 +1754,7 @@
           for(var i=0;i<IDArray.length;i++){
               ValueArray[i] = $(IDArray[i]).val().trim();
               if(employeetype==1){
-                if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
+                if(i==2 || i==5 || i==20 || i==21 ||/* i==22 ||*/ i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
 
               }else{
                 if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 || i==26 ||/* i==27 || i==28 ||*/ /*i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
@@ -1803,26 +1803,39 @@
                   event.preventDefault();
                 }
               }else if(i==22){
-                if($("#addemployeetype").val()!="1"){
                     if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
-                        if(firstRequired==""){
-                            firstRequired = IDArray[i];
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
 
-                                 if(i<=18) navIndex = 0;
-                            else if(i<=21) navIndex = 1;
-                            else if(i<=34) navIndex = 2;
-                        }
-
-                        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-                        $(IDArray[i]).addClass('is-invalid');
-                        event.preventDefault();
-                    }else{
-                        document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                        $(IDArray[i]).removeClass('is-invalid');
-                        $(IDArray[i]).addClass('is-valid');
-                        event.preventDefault();
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
                     }
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#addtabs li:eq(2) a').tab('show');
+                    $("#adddailyrate").focus();
+                }else if(parseFloat(parseFloat(addbasicdecimal).toFixed(4)) < parseFloat(parseFloat(adddailydecimal).toFixed(4)) && $("#addemployeetype").val()==1){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    }
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid  basic salary.";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#addtabs li:eq(2) a').tab('show');
+                    $("#adddailyrate").focus();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
                 }
+              
               }else if(i==23){
                 if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
                     if(firstRequired==""){
@@ -2042,7 +2055,6 @@
             var backaccountname   =   $("#addbankaccountname").val();
             var backaccountnumber =    $("#addbackaccountnumber").val();
             var bankname          =    $("#addbankname").val();
-
             var confirmPassword = $('#addPword').val().trim();
 
             if(confirmPassword==""){
@@ -2076,9 +2088,7 @@
                                   dataType : 'json',
                                   success: function(data){
                                         var result = data.split('|');
-                                        
                                         if(result[0]=="false"){
-                                        if(result[1] == "Employee name already exist!"){
                                         document.getElementById("add-firstname").innerHTML = result[1];
                                         $('#addfirstname').removeClass('is-valid');
                                         $('#addfirstname').addClass('is-invalid');
@@ -2090,14 +2100,6 @@
                                         $('#addlastname').removeClass('is-valid');
                                         $('#addlastname').addClass('is-invalid');
                                         $('#add-lastname').addClass('invalid-feedback');
-                                        }else{
-                                        $('#addtabs li:eq(1) a').tab('show');
-                                        document.getElementById("add-username").innerHTML = result[1];
-                                        $('#addusername').removeClass('is-valid');
-                                        $('#addusername').addClass('is-invalid');
-                                        $('#add-username').addClass('invalid-feedback');
-                                        $("#addusername").focus();
-                                        }
                                     }else{
                                       window.location.replace('<?php echo base_url(); ?>Employees');
                                     }
@@ -2107,6 +2109,7 @@
                                   }                         
                               });
                               return false;
+
                       }else{
                             document.getElementById("add-pword").innerHTML = "Incorrect Password.";
                             $('#addPword').addClass('is-invalid');
@@ -2277,7 +2280,7 @@
           for(var i=0;i<IDArray.length;i++){
               
               if(employeetype==1){
-                if(i==2 || i==5 || i==20 || i==21 || i==22 || i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+                if(i==2 || i==5 || i==20 || i==21 || /*i==22 ||*/ i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
               /*  if(i==23){
                 if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
                     if(firstRequired==""){
@@ -2345,25 +2348,37 @@
                   event.preventDefault();
                 }
               }else if(i==22){
-                if($("#editemployeetype").val()!="1"){
-                    if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
-                        if(firstRequired==""){
-                            firstRequired = IDArray[i];
+                if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
 
-                                 if(i<=18) navIndex = 0;
-                            else if(i<=21) navIndex = 1;
-                            else if(i<=34) navIndex = 2;
-                        }
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
+                    };
 
-                        document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
-                        $(IDArray[i]).addClass('is-invalid');
-                        event.preventDefault();
-                    }else{
-                        document.getElementById(ErrorIDArray[i]).innerHTML = "";
-                        $(IDArray[i]).removeClass('is-invalid');
-                        $(IDArray[i]).addClass('is-valid');
-                        event.preventDefault();
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Please provide a " + $(IDArray[i]).attr("description") +".";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                }else if(parseFloat(parseFloat(editbasicdecimal).toFixed(4)) < parseFloat(parseFloat(editdailydecimal).toFixed(4)) && $("#editemployeetype").val()==1){                  
+                    if(firstRequired==""){
+                        firstRequired = IDArray[i];
+
+                             if(i<=18) navIndex = 0;
+                        else if(i<=21) navIndex = 1;
+                        else if(i<=34) navIndex = 2;
                     }
+
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "Invalid basic salary.";
+                    $(IDArray[i]).addClass('is-invalid');
+                    $('#edittabs li:eq(2) a').tab('show');
+                    $("#editdailyrate").focus();
+                }else{
+                    document.getElementById(ErrorIDArray[i]).innerHTML = "";
+                    $(IDArray[i]).removeClass('is-invalid');
+                    $(IDArray[i]).addClass('is-valid');
+                    event.preventDefault();
                 }
               }else if(i==23){
                 if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){

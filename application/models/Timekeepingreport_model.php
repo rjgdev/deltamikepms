@@ -35,11 +35,19 @@ class Timekeepingreport_model extends CI_Model
 
 		$queryHeader = $this->db->query('SELECT datefrom,dateto FROM dm_timekeeping WHERE timekeepingID='.$timekeepingID);
 
-	    $queryDetails = $this->db->query('SELECT *,td.employeeID,CONCAT(lastname,", ",firstname) AS "fullname" FROM dm_timekeepingdetails as td
-	    								 INNER JOIN dm_employee ON dm_employee.employeeID=td.employeeID
-	    								 WHERE td.clientID='.$clientID.' AND 
-	    								 td.postID='.$postID.' AND
-	    								 td.timekeepingID='.$timekeepingID.' ORDER BY td.employeeID,td.datesched');
+		$datefrom = date('j',strtotime($queryHeader->row()->datefrom));
+		$dateto	  = date('j', strtotime($queryHeader->row()->dateto));
+		$sql = "";
+
+		for($x=$datefrom;$x<=$dateto;$x++){
+			$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID AND SPLIT_STR(d'.$x.', "|", 6)='.$clientID.' AND SPLIT_STR(d'.$x.', "|", 7)='.$postID.') as "d'.$x.'",';
+		}
+
+	    $queryDetails = $this->db->query('SELECT '.$sql.'totalhours,basichours,othours,restday,totaldays,dm_employee.photo,dm_employee.lastname,tr.employeeID,
+	    								  CONCAT(lastname,", ",firstname) AS "fullname" FROM dm_timekeepingreport as tr
+	    								  INNER JOIN dm_employee ON dm_employee.employeeID=tr.employeeID
+	    								  WHERE tr.timekeepingID='.$timekeepingID.'
+    								  	  ORDER BY dm_employee.lastname,tr.employeeID');
     	return array("header" => $queryHeader->result(), "details" => $queryDetails->result());
   	}
 }
