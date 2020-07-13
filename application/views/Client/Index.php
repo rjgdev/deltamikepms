@@ -53,7 +53,10 @@
 										<div class="action-label">
 												<?php if($item->clientstatus=="Active") 
 														   echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
-													  else echo '<span class="badge bg-inverse-danger custom-status"><i class="fa fa-dot-circle-o text-danger"></i> Inactive</span>';
+													  else if($item->clientstatus=="Terminated")
+													  	   echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> Terminated</span>';
+													  else if($item->clientstatus=="End of Contract")
+													  	   echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> End of Contract</span>';
 											    ?>
 										</div>
 									</td>
@@ -249,34 +252,45 @@
 
 	<!-- Status Modal -->
 	<div class="modal custom-modal fade" id="status_client" role="dialog">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body">
-					<div class="form-header">
-						<img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
-						<h3>Change Status</h3>
-						<p id="statusmessage"></p>
-						<div class="invalid-feedback" id="status-invalid"></div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="form-header">
+          <img class="isometric confirmationisometric" src="<?=base_url(); ?>pages/assets/img/isometric/change.svg">
+          <h3>Change Status</h3>
+          <div class="col-sm-12">
+                <div class="dropdown">
+              <p>Are you sure you want to
+                  <select class="selectstatus" name="changestatus" id="changestatus" description="status">
+                      <option value="Active"> Activate</option>
+                      <option value="Terminated"> Terminate</option>
+                      <option value="End of Contract"> End the Contract</option>
+                  </select>
+                this record?</p>
+              </div>
+                </p>
+            </div>    
+          <div class="invalid-feedback" id="status-invalid"></div>
 
-						<br> 
-						 <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter authorize password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
-						 <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
-					 	 <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
-					</div>
-					<div class="modal-btn delete-action">
-						<div class="row">
-							<div class="col-6">
-								<a href="#" class="btn btn-primary continue-btn change">Change</a>
-							</div>
-							<div class="col-6">
-								<a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+          <br> 
+          <p class="text-left text-purple mb-2" style="font-size: 1.1em;">Please enter an authorized password: <span class="badge bg-inverse-warning" style="font-size: 10px;font-weight: 500;"> Passwords are case sensitive</span></p> 
+          <input type="password" class="form-control input alphanumeric" id="statusPassword" autocomplete="off" description="password" required>
+          <div class="invalid-feedback" id="status-password" style="text-align: left;"></div>
+        </div>
+        <div class="modal-btn delete-action">
+          <div class="row">
+            <div class="col-6">
+              <a href="#" class="btn btn-primary continue-btn change">Change</a>
+            </div>
+            <div class="col-6">
+              <a href="#" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 	<!-- /Delete Department Modal -->
 
 	<!-- Confirmation Modal -->
@@ -340,6 +354,7 @@
 	</div>
 	
 </div>
+<span><?php if($this->session->flashdata('clientstatus')=="clientsuccess") echo '<script type="text/javascript"> showClientStatusSuccessToast() </script>';?></span>
 
 <?php 
 	if($this->session->flashdata('success')!=""){
@@ -508,19 +523,11 @@
 
 	    /* Change Status */
 		$('.changestatus').unbind('click').bind('click', function(){
-			$('.change').attr('id', $(this).data('id'));
-			$('.change').attr('status', $(this).data('status'));
-			$('.change').attr('clientname', $(this).data('clientname'));
-			var displayText = "";
-
-			if($(this).data('status')=="Active"){
-				displayText = "<font color='green'>activate</font>";
-			}else if($(this).data('status')=="Inactive"){
-				displayText = "<font color='#e04d45'>inactive</font>";
-			}
-
-			document.getElementById("statusmessage").innerHTML = "Are you sure you want to " + displayText + " this record?";
-		});
+          $('.change').attr('id', $(this).data('id'));
+          $('.change').attr('status', $(this).data('status'));
+          $('.change').attr('clientstatus', $(this).data('clientstatus')); 
+        
+        });
 
 		/* SAVE DESCIPTION */
 		$('#save').unbind('click').bind('click', function(){
@@ -777,55 +784,48 @@
 
 		/* CHANGE STATUS */
 		$('.change').unbind('click').bind('click', function(){
-	        var id = $(this).attr('id');
-	        var status = $(this).attr('status');
-	        var clientname = $(this).attr('clientname');
-	        var confirmPassword = $('#statusPassword').val().trim();
+            var changestatus = $("#changestatus").val();
+            var id = $(this).attr('id');
+            var confirmPassword = $('#statusPassword').val().trim();
 
-	        if(confirmPassword==""){
-				$('#statusPassword').focus();
-				return false;
-			}else{
-				$.ajax({
-	                url : "<?php echo site_url('Checkpassword/validate');?>",
-	                method : "POST",
-	                data : {confirmPassword:confirmPassword},
-	                dataType : 'json',
-	                success: function(data){
-	                	if(data=="true"){
-				        	$.ajax({
-				                url : "<?php echo site_url('clients/changestatus');?>",
-				                method : "POST",
-				                data : {id:id,
-				                		status:status,
-				                		clientname:clientname},
-				                async : true,
-				                dataType : 'json',
-				                success: function(data){
-				                	var result = data.split('|');
-				        			if(result[0]=="false"){
-				        				$("#status-invalid").css("display","block");
-										document.getElementById("status-invalid").innerHTML = result[1];
-				        			}else{
-				    					window.location.replace('<?php echo base_url(); ?>Clients');
-				        			}
-				                },
-				                error: function(request, textStatus, error) {
+            if(confirmPassword==""){
+              $('#statusPassword').focus();
+              return false;
+            }else{
+              $.ajax({
+                        url : "<?php echo site_url('Checkpassword/validate');?>",
+                        method : "POST",
+                        data : {confirmPassword:confirmPassword},
+                        dataType : 'json',
+                        success: function(data){
+                          if(data=="true"){
+                              $.ajax({
+                                    url : "<?php echo site_url('Clients/changestatus');?>",
+                                    method : "POST",
+                                    data : {id:id,
+                                        changestatus:changestatus},
+                                    async : true,
+                                    dataType : 'json',
+                                    success: function(data){
 
-				            	}
-				            });
-				            return false;
-				        }else{
-	                		document.getElementById("status-password").innerHTML = "Incorrect Password.";
-	                		$('#statusPassword').addClass('is-invalid');
-	                		$('#statusPassword').focus();
-	                	}
-	                },
-	                error: function(request, textStatus, error) {
-	                	return false;
-	            	}
-	            });
-	            return false
+                                      window.location.replace('<?php echo base_url(); ?>Clients');
+                                    },
+                                    error: function(request, textStatus, error) {
+
+                                  }
+                                });
+                                return false;
+                          }else{
+                      document.getElementById("status-password").innerHTML = "Incorrect Password.";
+                      $('#statusPassword').addClass('is-invalid');
+                      $('#statusPassword').focus();
+                    }
+                  },
+                  error: function(request, textStatus, error) {
+                    return false;
+                }
+              });
+              return false
             }
         });
 

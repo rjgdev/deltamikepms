@@ -79,12 +79,24 @@
 
     <?php if($item->employeestatus=="Active") 
       echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
-    elseif($item->employeestatus=="Terminated")
-      echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> Terminated</span>';
-    elseif($item->employeestatus=="Resigned")
-      echo '<span class="badge bg-inverse-danger custom-status"><i class="fa fa-dot-circle-o text-danger"></i> Resigned</span>';
+    elseif($item->employeestatus=="AWOL")
+      echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> AWOL</span>';
     elseif($item->employeestatus=="End of Contract")
       echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> End of Contract</span>';
+    elseif($item->employeestatus=="Floating")
+      echo '<span class="badge bg-inverse-warning custom-status"><i class="fa fa-dot-circle-o text-warning"></i> Floating</span>';
+     elseif($item->employeestatus=="On Leave")
+      echo '<span class="badge bg-inverse-inverse  custom-status"><i class="fa fa-dot-circle-o text-inverse "></i> On Leave</span>';
+      elseif($item->employeestatus=="Resigned")
+      echo '<span class="badge bg-inverse-faded custom-status"><i class="fa fa-dot-circle-o text-faded"></i> Resigned</span>';
+    elseif($item->employeestatus=="Retired")
+      echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> Retired</span>';
+    elseif($item->employeestatus=="Suspended Pending Investigation")
+      echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> Suspended Pending Investigation</span>';
+    elseif($item->employeestatus=="Suspended")
+      echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> Suspended</span>';
+    elseif($item->employeestatus=="Terminated")
+      echo '<span class="badge bg-inverse-black custom-status"><i class="fa fa-dot-circle-o text-black"></i> Terminated</span>';
     ?>
     </td> 
     <td class="text-right">
@@ -295,12 +307,18 @@
     <div class="form-group col-sm-6">
   <label for="addstatus">Status <span class="text-danger">*</span></label>
   <select class="form-control" name="addstatus" id="addstatus" description="status" required tabindex="18">
-  <option value="">No Selected</option>
-   <option>Active</option>
-  <option>Terminated</option>
-  <option>End of Contract</option>
-  <option>Resigned</option>
-  </select>
+    <option value="">No Selected</option>
+    <option>Active</option>
+    <option>AWOL</option>
+    <option>End of Contract</option>
+    <option>Floating</option>
+    <option>On Leave</option>
+    <option>Resigned</option>
+    <option>Retired</option>
+    <option>Suspended Pending Investigation</option>
+     <option>Suspended</option>
+    <option>Terminated</option>
+    </select>
   <div class="invalid-feedback" id="add-status"></div>
   </div>
   <div class="form-group col-sm-6">
@@ -422,7 +440,7 @@
                           </select>
                            <div class="invalid-feedback" id="add-bankname"></div>
                           </div> -->
-                            <div class="form-group col-sm-6">
+                           <!--  <div class="form-group col-sm-6">
                             <label for="allowance">Incentives</label>
                              <div class="input-group mr-sm-2 mb-sm-0">
                               <div class="input-group-prepend">
@@ -430,7 +448,7 @@
                               </div>
                             <input id="addincentive" name="addincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
                           </div>
-                           </div>
+                           </div> -->
                              <div class="form-group col-sm-6">
                             <label for="allowance">Bank Account Name</label>                       
                             <input id="addbankaccountname" type="text" name="addbankaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
@@ -743,11 +761,17 @@
          <div class="form-group col-sm-6">
           <label for="editstatus">Status <span class="text-danger">*</span></label>
           <select class="form-control" name="editstatus" id="editstatus" description="status" required tabindex="19">
-          <option value="">No Selected</option>
-          <option value="Active">Active</option>
-          <option value="Terminated">Terminated</option>
-          <option value="End of Contract">End of Contract</option>
-          <option value="Resigned">Resigned</option>
+            <option value="">No Selected</option>
+             <option value="Active">Active</option>
+            <option value="AWOL">AWOL</option>
+            <option value="End of Contract">End of Contract</option>
+            <option value="Floating">Floating</option>
+            <option value="On Leave">On Leave</option>
+            <option value="Resigned">Resigned</option>
+            <option value="Retired">Retired</option>
+            <option value="Suspended Pending Investigation">Suspended Pending Investigation</option>
+             <option value="Suspended">Suspended </option>
+            <option value="Terminated">Terminated</option>
           </select>
           <div class="invalid-feedback" id="edit-status"></div>
         </div>
@@ -856,7 +880,7 @@
         <input id="editretfund" name="editretfund" class="form-control input" data-inputmask="'alias': 'currency'" autocomplete="off" description="Retirement fund">
         </div>
         </div>
-        <div class="form-group col-sm-6">
+       <!--  <div class="form-group col-sm-6">
         <label for="allowance">Incentives</label>
          <div class="input-group mr-sm-2 mb-sm-0">
       <div class="input-group-prepend">
@@ -864,7 +888,7 @@
       </div>
         <input id="editincentive" name="editincentive" class="form-control input"  data-inputmask="'alias': 'currency'" autocomplete="off" description="Incentives">
       </div>
-      </div>
+      </div> -->
     <div class="form-group col-sm-6">
     <label for="allowance">Bank Account Name</label>                       
       <input id="editbackaccountname" type="text" name="editbackaccountname" class="form-control input letterswithspace" autocomplete="off" description="Bank acount Name" required>
@@ -1076,10 +1100,16 @@
                 <div class="dropdown">
               <p>Are you sure you want to
                   <select class="selectstatus" name="changestatus" id="changestatus" description="status">
-                      <option value="Active"> Activate</option>
-                      <option value="Terminated"> Terminate</option>
-                      <option value="End of Contract"> End the Contract</option>
-                      <option value="Resigned"> Resign</option>
+                  <option value="Active">Active</option>
+                  <option value="AWOL">AWOL</option>
+                  <option value="End of Contract">End of Contract</option>
+                  <option value="Floating">Floating</option>
+                  <option value="On Leave">On Leave</option>
+                  <option value="Resigned">Resigned</option>
+                  <option value="Retired">Retired</option>
+                  <option value="Suspended Pending Investigation">Suspended Pending Investigation</option>
+                   <option value="Suspended">Suspended</option>
+                  <option value="Terminated">Terminated</option>
                   </select>
                 this record?</p>
               </div>
@@ -1733,7 +1763,7 @@
                         '#addcivilstatus', '#addcitizenship', '#addhireddate', '#adddepartment', '#adddesignation',
                         '#addclient', '#adddetachment', '#addstatus', '#addrole', '#addusername', 
                         '#addpassword', '#addbasicsalary', '#adddailyrate', '#addallowance', '#addretfund',
-                        '#addincentive', /*'#adduniformallowance',*/ '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
+                        /*'#addincentive',*/ /*'#adduniformallowance',*/ '#addtinnumber', '#addsssnumber', '#addphilhealthnumber',  
                         '#addpagibignumber', '#addbankaccountname', '#addbackaccountnumber','#addbankname'];
 
           var ErrorIDArray = ['add-employeetype','add-firstname', 'add-middlename', 'add-lastname', 'add-gender', 'add-housenumber',
@@ -1741,7 +1771,7 @@
                               'add-civilstatus', 'add-citizenship', 'add-hireddate', 'add-department', 'add-designation',
                               'add-client','add-detachment', 'add-status', 'add-role', 'add-username',  
                               'add-password', 'add-basicsalary', 'add-dailyrate', 'add-allowance', 'add-retfund', 
-                              'add-incentive', /*'add-uniformallowance',*/ 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
+                             /* 'add-incentive',*/ /*'add-uniformallowance',*/ 'add-tinnumber', 'add-sssnumber', 'add-philhealthnumber',  
                               'add-pagibignumber', 'add-backaccountname', 'add-backaccountnumber','add-bankname'];
 
           var ValueArray = [];
@@ -1754,10 +1784,10 @@
           for(var i=0;i<IDArray.length;i++){
               ValueArray[i] = $(IDArray[i]).val().trim();
               if(employeetype==1){
-                if(i==2 || i==5 || i==20 || i==21 ||/* i==22 ||*/ i==24 || i==25 || i==26 || /*i==27 || i==28 ||*//* i==29 || i==30  ||*/ i==31 || i==32 || i==33 ) continue;
+                if(i==2 || i==5 || i==20 || i==21 ||/* i==22 ||*/ i==24 || i==25 || /*i==26 || *//*i==27 || i==28 ||*//* i==29 | | */ i==30  || i==31 || i==32) continue;
 
               }else{
-                if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 || i==26 ||/* i==27 || i==28 ||*/ /*i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+                if(i==2 || i==5 || i==16 || i==17 ||/* i==22 || i==23 ||*/ i==20 || i==21 || i==24 || i==25 ||/* i==26 ||*//* i==27 || i==28 ||*/ /*i==29 || */ i==30  || i==31 || i==32) continue;
               /*  if(i==22 || i==23){*/
               /*  if($(IDArray[i]).val().trim()=="" ||$(IDArray[i]).val().trim()=="0.0000" || addbasicinteger < adddailyinteger){*/
                     /*if(firstRequired==""){
@@ -1869,7 +1899,7 @@
                     $(IDArray[i]).addClass('is-valid');
                     event.preventDefault();
                 }
-                 }else if(i==27){
+                 }else if(i==26){
                 if($(IDArray[i]).val().length<11){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -1888,7 +1918,7 @@
                   event.preventDefault();
 
                 }
-               }else if(i==28){
+               }else if(i==27){
                 if($(IDArray[i]).val().length<12){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -1907,7 +1937,7 @@
                   event.preventDefault();
                
                 }   
-                }else if(i==29){
+                }else if(i==28){
                 if($(IDArray[i]).val().length<14){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -1926,7 +1956,7 @@
                   event.preventDefault();
                
                 }
-              }else if(i==30){
+              }else if(i==29){
                 if($(IDArray[i]).val().length<14){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -2045,7 +2075,6 @@
             var dailyrate         =   $("#adddailyrate").val().replace(",","");
             var allowance         =   $("#addallowance").val().replace(",","");
             var retfund           =   $("#addretfund").val().replace(",","");
-            var incentive         =   $("#addincentive").val().replace(",","");
             var tinnumber         =   $("#addtinnumber").val();
             var sssnumber         =   $("#addsssnumber").val();
             var philhealthnumber  =   $("#addphilhealthnumber").val();
@@ -2079,7 +2108,7 @@
                                           detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                                           username:          username,        password:         password,         basicsalary:      basicsalary,    
                                           dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                                          incentive:         incentive,       tinnumber:        tinnumber,              
+                                          tinnumber:        tinnumber,              
                                           sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,             
                                           clientID:         clientID,         employeetypeid:   employeetypeid,   backaccountname:  backaccountname,             
                                           backaccountnumber: backaccountnumber,leave:            leave,            totalleave:       totalleave,       
@@ -2159,7 +2188,6 @@
         $(".modal-body #editdailyrate").val( $(this).data('dailyrate'));
         $(".modal-body #editallowance").val( $(this).data('allowance'));
         $(".modal-body #editretfund").val( $(this).data('retfund'));
-        $(".modal-body #editincentive").val( $(this).data('incentive'));
         $(".modal-body #editbankname").val( $(this).data('bankname'));
         $(".modal-body #editbankname").trigger("change");
         $(".modal-body #editbackaccountname").val( $(this).data('backaccountname'));
@@ -2259,7 +2287,7 @@
                        '#editcivilstatus', '#editcitizenship', '#edithireddate', '#editdepartment', '#editdesignation',
                        '#editclient',  '#editdetachment', '#editstatus', '#editrole', '#editusername', 
                        '#editpassword', '#editbasicsalary', '#editdailyrate', '#editallowance','#editretfund', 
-                       '#editincentive', '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
+                       '#edittinnumber',  '#editsssnumber','#editphilhealthnumber',
                        '#editpagibignumber', '#editbackaccountname','#editbackaccountnumber','#editbankname'];
 
         var ErrorIDArray = ['edit-employeetype','edit-firstname', 'edit-middlename', 'edit-lastname', 'edit-gender', 'edit-housenumber',
@@ -2267,7 +2295,7 @@
                             'edit-civilstatus', 'edit-citizenship', 'edit-hireddate', 'edit-department', 'edit-designation',
                             'edit-client','edit-detachment', 'edit-status', 'edit-role', 'edit-username',  
                             'edit-password','edit-basicsalary', 'edit-dailyrate', 'edit-allowance', 'edit-retfund', 
-                            'edit-incentive',  'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
+                            'edit-tinnumber',  'edit-sssnumber', 'edit-philhealthnumber',
                             'edit-pagibignumber', 'edit-backaccountname', 'edit-backaccountnumber','edit-backaccountnumber','edit-bankname'];
 
           var ValueArray = [];
@@ -2280,7 +2308,7 @@
           for(var i=0;i<IDArray.length;i++){
               
               if(employeetype==1){
-                if(i==2 || i==5 || i==20 || i==21 || /*i==22 ||*/ i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  ||*/ i==31 || i==32 || i==33) continue;
+                if(i==2 || i==5 || i==20 || i==21 || /*i==22 ||*/ i==24 || i==25 || /*i==26 || i==27 || i==28 || i==29 ||*/ i==30  || i==31 || i==32) continue;
               /*  if(i==23){
                 if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000"){
                     if(firstRequired==""){
@@ -2303,7 +2331,7 @@
                 }
               }*/
               }else{
-                if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 || i==26 ||/* i==27 || i==28 || i==29 || i==30  || */ i==31 || i==32 || i==33) continue;
+                if(i==2 || i==5 || i==16 || i==17 || i==20 || i==21 ||  i==24 || i==25 ||/*  i==26 ||i==27 || i==28 || i==29 ||  */ i==30  || i==31 || i==32) continue;
                  /* if(i==23){
                 if($(IDArray[i]).val().trim()=="" || $(IDArray[i]).val().trim()=="0.0000" || basicinteger < dailyinteger){
                     if(firstRequired==""){
@@ -2413,7 +2441,7 @@
                     $(IDArray[i]).addClass('is-valid');
                     event.preventDefault();
                 }
-                }else if(i==28){
+                }else if(i==26){
                 if($(IDArray[i]).val().length<11){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -2432,7 +2460,7 @@
                   event.preventDefault();
 
                 }
-               }else if(i==29){
+               }else if(i==27){
                 if($(IDArray[i]).val().length<12){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -2451,7 +2479,7 @@
                   event.preventDefault();
                
                 }   
-                }else if(i==30){
+                }else if(i==28){
                 if($(IDArray[i]).val().length<14){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -2470,7 +2498,7 @@
                   event.preventDefault();
                
                 }
-              }else if(i==31){
+              }else if(i==29){
                 if($(IDArray[i]).val().length<14){
                    if(firstRequired==""){
                       firstRequired = IDArray[i];
@@ -2641,7 +2669,6 @@
             var dailyrate         =   $("#editdailyrate").val().replace(",","");
             var allowance         =   $("#editallowance").val().replace(",","");
             var retfund           =   $("#editretfund").val().replace(",","");
-            var incentive         =   $("#editincentive").val().replace(",","");
             var tinnumber         =   $("#edittinnumber").val();
             var sssnumber         =   $("#editsssnumber").val();
             var philhealthnumber  =   $("#editphilhealthnumber").val();
@@ -2677,7 +2704,7 @@
                                   detachmentID:      detachmentID,    employeestatus:   employeestatus,   roleDescription:  roleDescription, 
                                   username:          username,        password:         password,         basicsalary:      basicsalary,    
                                   dailyrate:         dailyrate,       allowance:        allowance,        retfund:          retfund,    
-                                  incentive:         incentive,       tinnumber:        tinnumber,      
+                                  tinnumber:        tinnumber,      
                                   sssnumber:         sssnumber,       philhealthnumber: philhealthnumber, pagibignumber:    pagibignumber,       
                                   clientID:          clientID,        employeetypeid:   employeetypeid,   backaccountname:  backaccountname, 
                                   backaccountnumber: backaccountnumber,leave:           leave,            totalleave:       totalleave,

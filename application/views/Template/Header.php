@@ -25,6 +25,7 @@
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\plugins\bootstrap-tagsinput\bootstrap-tagsinput.css">
 		<link rel="stylesheet" href="<?php echo base_url();?>pages\assets\plugins\morris\morris.css">
         <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\style.css">
+        <link rel="stylesheet" href="<?php echo base_url();?>pages\assets\css\buttons.dataTables.min.css">
 
         <script src="<?php echo base_url();?>pages\assets\js\jquery-3.2.1.min.js"></script>	
         <script src="<?php echo base_url();?>pages\assets\js\jquery.toast.min.js"></script>

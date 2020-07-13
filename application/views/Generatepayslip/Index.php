@@ -85,20 +85,29 @@
 					
 					<div class="row">
 						<div class="col-md-12">
-							<div class="table-responsive">
-								<table class="table table-striped custom-table datatable">
-									<thead>
-										<tr>
-											<th style="width: 80px ! important;">Employee ID</th>
-											<th style="width: 350px ! important;">Employee</th>
-											<th style="width: 200px ! important;">Employee Type</th>
-											<th style="width: 100px ! important;">Status</th>
-											<th class="text-right">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
+							<div class="card mb-0">
+								<div class="card-body">
+									<div id="button" class="col-auto float-right ml-auto mb-3 pr-0">
+										<button class="btn btn-sm btn-primary float-right generate" target="_blank" disabled="true">
+											<i class="fas fa-print"></i> Print All
+										</button>
+									</div>
+									<div class="table-responsive">
+										<table class="table table-striped custom-table datatable">
+											<thead>
+												<tr>
+													<th style="width: 80px ! important;">Employee ID</th>
+													<th style="width: 350px ! important;">Employee</th>
+													<th style="width: 150px ! important;">Employee Type</th>
+													<th style="width: 100px ! important;">Status</th>
+													<th class="text-right">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -139,6 +148,8 @@
 			            var varStatusIcon = "";
 			            var varPhoto = "";
 
+			            
+
 			            for (var i=0; i < data.length; i++)
 			            {
 			        		if(data[i].payslipstatus=="1"){
@@ -154,6 +165,10 @@
 			    			}else{
 			        			varPhoto = '<img alt="" src="uploads/'+data[i].photo+'" ></a>';
 			    			}
+
+			    		html = '<a class="btn btn-sm btn-primary float-right generate" href="<?php echo base_url(); ?>generatepayslip/printAll?payrollID='+data[i].payrollID+'" target="_blank"><i class="fas fa-print"></i> Print All</a>';
+
+			            $('#button').html(html);
 
 			                table.oApi._fnAddData(oSettings, [
 			                		data[i].empID.padStart(6,'0'),

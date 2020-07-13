@@ -34,7 +34,7 @@ class Generatepayslip_model extends CI_Model
 	          );
   	}
 
-  	function get_details($id, $payrolldetailsID)
+  	function get_details($id, $payrolldetailsID, $payrollID)
 	{
 
 		$payslip = $this->db->query("
@@ -103,9 +103,89 @@ class Generatepayslip_model extends CI_Model
 	    	WHERE pd.employeeID=$id AND pd.payrolldetailsID =$payrolldetailsID"
 		);
 
-	    $result1 = $payslip->result();
+		$result1 = $payslip->result();
 	          return array(
 	          	'payslip' => $result1
+	          );
+  	}
+
+  	function get_all_details($payrollID)
+	{
+
+		$all = $this->db->query("
+			SELECT *,
+			pd.allowance as allwnce,
+	    	pd.incentive as inctv,
+	    	sssloan,
+	    	hdmfloan,
+    		salaryloan, 
+    		emergencyloan, 
+    		trainingloan,
+    		otherloan,
+	    	pd.dailyrate as drate,
+	    	pd.payrolldetailsID as pdID,
+	    	pd.employeeID as empID,
+	    	(ordnight + rstnight + 
+	    		spcnight + spcrstnight + 
+	    		rglnight + rglrstnight + 
+	    		dblnight + dblrstnight) as nightdiff,
+	    	(spc  + spcrst +  
+	    		rgl + rglrst +  
+	    		dbl + dblrst) as holidaypay,
+
+	    	(ordnight + rstnight + 
+	    		spcnight + spcrstnight + 
+	    		rglnight + rglrstnight + 
+	    		dblnight + dblrstnight) as nightdiff,
+
+	    	(ordot + rstot + spcot +
+	    		spcrstot + rglot + rglrstot +
+	    		dblot + dblrstot) as overtime,
+
+	    	(otadjustment + 
+	    		nightdiffadjustment + 
+	    		lateadjustment + 
+	    		leaveadjustment) as adjustment,	
+
+	    	(ordlate + rstlate + spclate + 
+	    		spcrstlate + rgllate + rglrstlate +
+	    		dbllate + dblrstlate) as lt,	
+
+	    	(basicpay + pd.incentive + pd.allowance +
+	    		ordnight + rstnight + spcnight + 
+	    		spcrstnight + rglnight + rglrstnight + 
+	    		dblnight + dblrstnight + spcot + 
+	    		spcrstot + rglot + rglrstot + 
+	    		dblot + dblrstot + ordot + 
+	    		rstot + otadjustment + nightdiffadjustment + 
+	    		lateadjustment + leaveadjustment)  as earnings,
+
+	    	(absent + ordlate + rstlate + 
+	    		spclate + spcrstlate + rgllate + 
+	    		rglrstlate + dbllate + dblrstlate + 
+	    		wtax + sss_ee + phic_ee + 
+	    		hdmf_ee + sssloan + hdmfloan + 
+	    		salaryloan + emergencyloan + trainingloan +
+	    		otherloan)  as deductions,
+
+	    	(netpay - ordlate - rstlate -
+	    		spcrstlate - rgllate - rglrstlate -
+	    		spclate - dbllate - dblrstlate) as ntpay
+
+			FROM dm_payrolldetails as pd 
+			LEFT JOIN dm_employee as emp
+			ON pd.employeeID=emp.employeeID 
+			LEFT JOIN dm_client as client
+			ON emp.clientID=client.clientID
+			LEFT JOIN dm_payslipstatus as ps
+			ON pd.payrolldetailsID=ps.payrolldetailsID
+			WHERE pd.payrollID = $payrollID
+			ORDER BY pd.employeeID ASC"
+		);
+
+	    $result1 = $all->result();
+	          return array(
+	          	'all' => $result1
 	          );
   	}
 

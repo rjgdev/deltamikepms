@@ -9,6 +9,15 @@
 	<script src="<?php echo base_url();?>pages\assets\plugins\bootstrap-tagsinput\bootstrap-tagsinput.min.js"></script>
 	<script src="<?php echo base_url();?>pages\assets\js\jquery.dataTables.min.js"></script>
 	<script src="<?php echo base_url();?>pages\assets\js\dataTables.bootstrap4.min.js"></script>
+	
+	<script src="<?php echo base_url();?>pages\assets\js\dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\buttons.flash.min.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\jszip.min.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\vfs_fonts.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\buttons.html5.min.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\buttons.print.min.js"></script>
+    <script src="<?php echo base_url();?>pages\assets\js\pdfmake.min.js"></script>
+
 	<script src="<?php echo base_url();?>pages\assets\plugins\morris\morris.min.js"></script>
 	<script src="<?php echo base_url();?>pages\assets\plugins\raphael\raphael.min.js"></script>
 	<script src="<?php echo base_url();?>pages\assets\js\chart.js"></script>

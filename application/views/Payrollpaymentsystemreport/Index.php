@@ -118,8 +118,11 @@ td[rowspan]:not([rowspan="2"]) {
 	$(document).ready(function() {
 
 		$('.table').DataTable({
+			responsive: true,
 	        scrollX: false,
-	    	scrollCollapse: false
+	    	scrollCollapse: true,
+	    	 autoWidth: true,
+	    	
 	    });
 
 	    $(".select2-selection--single").each(function(){
@@ -195,18 +198,26 @@ td[rowspan]:not([rowspan="2"]) {
 					  $("body").addClass("loading");
 				},
 				success: function(response){
+
+					console.table(response);
+
 					var htmlfooter = '';
 				  	var html = '';
                     var i;
-                   html +='<div id="recordexcel">' +
+                   html +='<div style="overflow-x:auto;">' +
+                   '<div class="table-responsive" id="show_data">' +
+                   '<div id="recordexcel">' +
                    '<table class="table table-striped table-bordered mb-0" border="1" id="datatable1"" >' +
 							'<thead >' +
+								'<tr>' +
+								'<td colspan="5"; border="0"; rowspan="0";><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5></td>' +
+							'</tr>' +	
 							'<tr>' +
-								'<th style="width: 250px;"><center>Employee Code</center></th>' +
-								'<th style="width: 310px;"><center>Employee Name</center></th>' +
-								'<th style="width: 270px;"><center>Branch Code</center></th>' +
-								'<th style="width: 253px;"><center>Payroll Account Number</center></th>' +
-								'<th style="width: 250px;"><center>Amount</center></th>' +				
+								'<th style="width: 250px ! important;"><center>Employee Code</center></th>' +
+								'<th style="width: 390px ! important;"><center>Employee Name</center></th>' +
+								'<th style="width: 370px ! important;"><center>Branch Code</center></th>' +
+								'<th style="width: 253px ! important;"><center>Payroll Account Number</center></th>' +
+								'<th style="width: 250px ! important;"><center>Amount</center></th>' +				
 							'</tr>' +
 							'</thead>' +	
 							'<tbody>';
@@ -221,7 +232,7 @@ td[rowspan]:not([rowspan="2"]) {
 
 					 }	
 						
-                      html +=  '</tbody></table></div>';
+                      html +=  '</tbody></table></div></div></div>';
 					if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };	
@@ -230,9 +241,9 @@ td[rowspan]:not([rowspan="2"]) {
 
                     $('#datatable1').DataTable({
 				        scrollX: true,
-			        	scrollCollapse: true
-			        	
-
+			        	scrollCollapse: true,
+			        	 autoWidth: true,
+			        	 responsive: true
 			        	
 				    });
 				   

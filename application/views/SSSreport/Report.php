@@ -26,7 +26,9 @@
         <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
-    <body style="background-color: #fff;">
+    <div style="overflow-y: auto; height: calc(100vh - 0px); ">
+    <body style="background-color: #fff; margin-top: 10px">
+    	<h5 style="float: right; color: red; margin-right: 10px;"><i>*for internal use only</i></h5>
         	<!-- Main Wrapper -->
         <div class="main-wrapper">
 			
@@ -129,6 +131,7 @@
 		<!-- /Main Wrapper -->
 	</div>
 </body>
+</div>
 <script>
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
@@ -146,11 +149,6 @@
 	              50% 50% no-repeat rgb(249,249,249);
 	}
 
-	@page {
-	  size: portrait;
-	  margin: 0;
-
-}
 
 	@media print{
 
@@ -166,6 +164,7 @@
 		.table td.total{
 			background-color: #0c6c9f !important;
 		}
+
 
 </style>
 

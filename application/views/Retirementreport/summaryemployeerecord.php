@@ -18,15 +18,14 @@ foreach ($data['company'] as $company):
 
 endforeach;
 ?>	
+
 			<br>
 			<br>
 			<br>
 			<br>
 			<div align="center">
 						<div class="col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div style="width: 99%">
+									<div style="width: 99%"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5>
 
 											<img style="width: 100px; height: 100px;" src="<?=base_url(); ?>pages/assets/img/logo2.png" >
 											<h2 style="text-align: center; margin-bottom: 0;"><?php echo $companyname; ?></h2>
@@ -43,25 +42,23 @@ endforeach;
 										</div>
 									<div class="row">
 									</div>
-									<div align="center">
-									
-										
+									<div align="center">	
 										<div class="col-sm-12">
 											<div>
 												<br>
-												<table class="table table-bordered table-sss custom-table mb-0 table-striped ">
-													<thead class="thead-light">
+												<table class="table mb-0">
+													<thead>
 														<tr>
-														<th >Employee ID</th>	
-														<th >Employee Name</th>
-														<th >Department</th>
-														<th >Designation</th>
-														<th >Employee Type</th>
-														<th >Last pay cut off</th>
-														<th >Hired Date</th>
-														<th >Year</th>
-														<th >Year of service</th>
-														<th >Retirement Fund</th>
+														<th class="philhealthreportheader">Employee ID</th>	
+														<th class="philhealthreportheader">Employee Name</th>
+														<th class="philhealthreportheader">Department</th>
+														<th class="philhealthreportheader">Designation</th>
+														<th class="philhealthreportheader">Employee Type</th>
+														<th class="philhealthreportheader">Last pay cut off</th>
+														<th class="philhealthreportheader">Hired Date</th>
+														<th class="philhealthreportheader">Year</th>
+														<th class="philhealthreportheader">Year of service</th>
+														<th class="philhealthreportheader">Retirement Fund</th>
 														<tr>
 													</thead>	
 													<?php 
@@ -69,23 +66,23 @@ endforeach;
 															$totalretfund[] = $record->retfund;
 													?>	
 													<tr> 
-														<td style ="text-align: left;"><?php echo str_pad($record->employeeID, 6, "0", STR_PAD_LEFT); ?></td> 
-														<td style ="text-align: left;"><?php echo $record->employeename; ?></td>
-														<td style ="text-align: left;"><?php echo $record->department; ?></td>
-														<td style ="text-align: left;"><?php echo $record->designation; ?></td>
-														<td style ="text-align: left;"><?php echo $record->employeetype; ?></td>
-														<td style ="text-align: left;"><?php echo $record->lastcutoff; ?></td> 
-														<td style ="text-align: left;"><?php echo $record->hireddate; ?></td> 
-														<td style ="text-align: left;"><?php echo $record->year1; ?></td> 
-														<td style ="text-align: left;"><?php echo $record->yearofwork; ?></td>  
-														<td style ="text-align: right;"><?php echo $record->retfund; ?></td>	 	
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo str_pad($record->employeeID, 6, "0", STR_PAD_LEFT); ?></td> 
+														<td  class="philhealthreportheader" style ="text-align: left;"><?php echo $record->employeename; ?></td>
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->department; ?></td>
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->designation; ?></td>
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->employeetype; ?></td>
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->lastcutoff; ?></td> 
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->hireddate; ?></td> 
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->year1; ?></td> 
+														<td class="philhealthreportheader" style ="text-align: left;"><?php echo $record->yearofwork; ?></td>  
+														<td class="philhealthreportheader" style ="text-align: right;"><?php echo $record->retfund; ?></td>	 	
 													<?php endforeach; ?>
 												</tr>
-												<tfoot>
+												<tfoot class="philhealthreportheader">
 													<tr>
- 														<th style ="text-align: left;" colspan="9" >Total</th>
+ 														<th class="philhealthreportheader" style ="text-align: left ! important;" colspan="9" >Total</th>
  														
- 													 <th style ="text-align: right;  color:#FF0000;"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
+ 													 <th class="philhealthreportheader" style ="text-align: right"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
  													
 
 													</tr>	
@@ -98,6 +95,26 @@ endforeach;
 									</div>
 								</div>
 							</div>
-						</div>
-						</div>
 					
+<style type="text/css">
+#retirementbordersummary  td, #retirementbordersummary th {
+  border: 2px solid #000000;
+  padding: 8px;
+}
+
+@media print{
+
+		tr:nth-child(even) td {
+		background-color: !important;
+		-webkit-print-color-adjust: exact;
+		}
+
+		.total th.total{
+			background-color: #0c6c9f !important;
+		}
+
+		.total td.total{
+			background-color: #0c6c9f !important;
+		}
+
+</style>			

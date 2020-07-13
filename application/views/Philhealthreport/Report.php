@@ -26,9 +26,11 @@
         <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
-    <body style="background-color: #fff;">
+    <div style="overflow-y: auto; height: calc(100vh - 0px); ">
+    <body style="background-color: #fff; margin-top: 15px;">
+    	<h5 style="float: right; color: red; margin-right: 10px"><i>*for internal use only</i></h5>
         	<!-- Main Wrapper -->
-        <div class="main-wrapper">
+        <div class="main-wrapper" >
 			
 			<!-- Page Wrapper -->
             <div class="mt-5">
@@ -141,6 +143,9 @@
 
         </div>
 		<!-- /Main Wrapper -->
+	</body>
+</div>
+
 <script>
 	$(window).on("load", function() {
 		$(".loader").fadeOut();
@@ -160,7 +165,7 @@
 	}
 
 	@page {
-	  size: landscape;
+	  size: portrait;
 	  margin: 0;
 	}
 </style>

@@ -39,8 +39,22 @@ class Timekeepingreport_model extends CI_Model
 		$dateto	  = date('j', strtotime($queryHeader->row()->dateto));
 		$sql = "";
 
-		for($x=$datefrom;$x<=$dateto;$x++){
-			$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID AND SPLIT_STR(d'.$x.', "|", 6)='.$clientID.' AND SPLIT_STR(d'.$x.', "|", 7)='.$postID.') as "d'.$x.'",';
+		if($clientID!=0 && $postID!=0){
+			for($x=$datefrom;$x<=$dateto;$x++){
+				$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID AND SPLIT_STR(d'.$x.', "|", 6)='.$clientID.' AND SPLIT_STR(d'.$x.', "|", 7)='.$postID.') as "d'.$x.'",';
+			}
+		}else if($clientID!=0){
+			for($x=$datefrom;$x<=$dateto;$x++){
+				$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID AND SPLIT_STR(d'.$x.', "|", 6)='.$clientID.') as "d'.$x.'",';
+			}
+		}else if($postID!=0){
+			for($x=$datefrom;$x<=$dateto;$x++){
+				$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID AND SPLIT_STR(d'.$x.', "|", 7)='.$postID.') as "d'.$x.'",';
+			}
+		}else{
+			for($x=$datefrom;$x<=$dateto;$x++){
+				$sql.='(SELECT d'.$x.' FROM dm_timekeepingreport WHERE tkreportID=tr.tkreportID) as "d'.$x.'",';
+			}
 		}
 
 	    $queryDetails = $this->db->query('SELECT '.$sql.'totalhours,basichours,othours,restday,totaldays,dm_employee.photo,dm_employee.lastname,tr.employeeID,

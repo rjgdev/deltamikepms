@@ -18,15 +18,20 @@ foreach ($data['company'] as $company):
 
 endforeach;
 ?>	
+<style>
+#retirementborder  td, #retirementborder th {
+  border: 2px solid #000000;
+  padding: 8px;
+}
+</style>
 			<br>
 			<br>
 			<br>
 			<br>
 			<div align="center">
 						<div class="col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div style="width: 99%">
+							
+									<div style="width: 99%"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5>
 
 											<img style="width: 100px; height: 100px;" src="<?=base_url(); ?>pages/assets/img/logo2.png" >
 											<h2 style="text-align: center; margin-bottom: 0;"><?php echo $companyname; ?></h2>
@@ -53,11 +58,11 @@ endforeach;
 										<div class="col-sm-12">
 											<div>
 												<br>
-												<table class="table table-bordered table-sss custom-table mb-0 table-striped ">
-													<thead class="thead-light">
+												<table class="table mb-0">
+													<thead>
 														<tr>	
-														<th style="width: 100px ! important;"><center>Year</center></th>
-														<th style="width: 100px ! important;"><center>Retirement Fund</center></th>
+														<th class="hdmfreportheader" style="width: 100px ! important;"><center>Year</center></th>
+														<th class="hdmfreportheader" style="width: 100px ! important;"><center>Retirement Fund</center></th>
 														<tr>
 													</thead>	
 													<?php 
@@ -65,26 +70,22 @@ endforeach;
 															$totalretfund[] = $record->retfund;
 													?>	
 													<tr> 
-														<td style ="text-align: left;"><?php echo $record->yearofhired; ?></td> 
-														<td style ="text-align: right;"><?php echo number_format($record->retfund, 4, '.', ','); ?></td> 	
+														<td class="hdmfreportheader" style ="text-align: left;"><?php echo $record->yearofhired; ?></td> 
+														<td class="hdmfreportheader" style ="text-align: right;"><?php echo number_format($record->retfund, 4, '.', ','); ?></td> 	
 													<?php endforeach; ?>
 												</tr>
-												<tfoot>
-													<tr>
- 														<th style ="text-align: left;">Total</th>
- 													 <th style ="text-align: right;  color:#FF0000;"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
- 													
-
+												<tfoot >
+													<tr class="hdmfreportheader">
+ 														<th class="hdmfreportheader" style ="text-align: left">Total</th>
+ 													 	<th class="hdmfreportheader" style ="text-align: right"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
 													</tr>	
 												</tfoot>
 												</table>
 											</div>
 										</div>
 										
-										
 									</div>
 								</div>
-							</div>
-						</div>
+						
 						</div>
 					

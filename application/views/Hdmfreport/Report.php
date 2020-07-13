@@ -26,7 +26,9 @@
         <script src="<?php echo base_url(); ?>pages\assets\js\jquery.toast.min.js"></script>
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
-    <body style="background-color: #fff;">
+    <div style="overflow-y: auto; height: calc(100vh - 0px); ">
+    <body style="background-color: #fff;  margin-top: 15px">
+    	<h5 style="float: right; color: red; margin-right: 30px"><i>*for internal use only</i></h5>
         	<!-- Main Wrapper -->
         <div class="main-wrapper">
 			
@@ -35,7 +37,7 @@
             	<!-- <button class="btn btn-white float-right" id="printPageButton" onClick="window.print();" disabled="disabled"><i class="fa fa-print fa-lg"></i> Print</button> -->
 			
 				<!-- Page Content -->
-                <div class="content container-fluid">
+                <div class="content container-fluid" style="padding-left: 30px!important; padding-right: 30px!important">
                 	<div class="loader"></div>
 					<div class="row">
 						<div class="col-md-12">
@@ -66,7 +68,7 @@
 								<div class="row mt-2">
 									<div class="col">
 										<div>
-											<table class="table" style="margin-bottom: 0rem;">
+											<table class="table">
 												<thead>
 													<tr>
 														<th class="hdmfreportheader" style="border-bottom: 0px !important" colspan="10">EMPLOYER/BUSINESS NAME</th>
@@ -141,8 +143,9 @@
 														<th class="hdmfreportheader" style="text-align: right;"><?=number_format($item->totaler,2,".",",")?></th>
 														<th class="hdmfreportheader" style="text-align: right;"><?=number_format($item->totalhdmf,2,".",",")?></th>
 														<th class="hdmfreportheader" style="text-align: right;"></th>
-													</tr>
+
 													<?php } ?>
+													</tr>
 												</thead>
 											</table>
 										</div>
@@ -154,6 +157,8 @@
 					</div>
 				</div>
             </div>
+        </body>
+    </div>
 
 <script>
 	$(window).on("load", function() {

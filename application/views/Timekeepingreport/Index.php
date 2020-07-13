@@ -52,7 +52,7 @@
 						<div class="form-group form-focus select-focus">
 							<label class="focus-label">Client</label>
 							<select class="form-control select2" style="width: 100%;" id="searchclient">
-								<option value="0">Select Client</option>
+								<option value="0">All</option>
 								<?=$optionClient;?>
 							</select>
 						</div>
@@ -61,7 +61,7 @@
 						<div class="form-group form-focus select-focus">
 							<label class="focus-label">Post</label>
 							<select class="form-control select2" style="width: 100%;" id="searchpost">
-								<option value="0">Select Post</option>
+								<option value="0">All</option>
 							</select>
 						</div>
 					</div>
@@ -79,10 +79,16 @@
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped custom-table table-nowrap mb-0" id="datatable" style="width:100%;">
 						<thead id="show_header">
-
+							
 						</thead>
 						<tbody id="show_details">
-							
+							<tr>
+								<td id="norecord" style="height: 55vh;">
+									<img class="isometric confirmationisometric" style="height:120px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notimekeeping.svg">
+									<h4>Timekeeping Report</h4> 
+									<p>Click <b><u>Search</u></b> to generate report.</p>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -266,16 +272,6 @@
 
 <script>
 $(document).ready(function() {
-	/*table = $('#datatable').DataTable( {
-		        "ordering": false,
-		        "info":     false,
-		        "autoWidth": false,
-			    "fixedHeader": {
-			        "header": false,
-			        "footer": false
-			    }
-	    });
-*/
 	$(document).on("click", ".attendance_info", function(){
 		var timesheetID = $(this).attr('id');
 		
@@ -507,7 +503,7 @@ $(document).ready(function() {
 		      data: {clientID:clientID},
 		      success: function(data){	
 
-	      		htmlPost+='<option value="0">Select Post</option>';
+	      		htmlPost+='<option value="0">All</option>';
 
 		      	for(i=0;i<data["post"].length;i++){
 		      		htmlPost+='<option value="' + data["post"][i].postID + '">' + data["post"][i].postname + '</option>';
@@ -564,14 +560,14 @@ $(document).ready(function() {
 
 		}
 
-		if(clientID==0){
+		/*if(clientID==0){
 			$("[aria-labelledby='select2-searchclient-container']").addClass('is-invalid');
 			if(error==0){
 				$("#searchclient").focus();
 				error=1;
 			}
 		}else{
-			$("[aria-labelledby='select2-searchclient-container']").addClass('is-valid');
+
 		}
 
 		if(postID==0){
@@ -581,8 +577,12 @@ $(document).ready(function() {
 				error=1;
 			}
 		}else{
-			$("[aria-labelledby='select2-searchpost-container']").addClass('is-valid');
-		}
+
+		}*/
+
+		$("[aria-labelledby='select2-searchclient-container']").addClass('is-valid');
+		$("[aria-labelledby='select2-searchpost-container']").addClass('is-valid');
+
 
 		/*var timekeepingID	= 1;
 		var clientID		= 1;
@@ -602,6 +602,9 @@ $(document).ready(function() {
 			      	var htmlHeader 	= "";
 			      	var htmlDetails = "";
 			      	var employeeID 	= "";
+			      	var removeArray = [];
+			      	var isExists 	= 0;
+			      	var columnCount = 0;
 
 			      	if(data["header"].length!=0){
 			      		var datefromDay 	= new Date(data["header"][0].datefrom).getDate();
@@ -618,35 +621,39 @@ $(document).ready(function() {
 						var colspan = (datetoDay - datefromDay) + 7;
 
 			      		htmlHeader +='<tr>' + 
-										'<th colspan="' + colspan + '" style="text-align:center; color:white;background-color: #df4c44; text-transform: uppercase;">' + 
+										'<th colspan="' + colspan + '"  style="text-align:center; color:white;background-color: #df4c44; text-transform: uppercase;">' + 
 											'Period: ' + months[datefromMonth] + ' ' + datefromDay.toString().padStart(2,"0") + ', ' + datefromYear + ' - ' +
 														 months[datetoMonth] + ' ' + datetoDay.toString().padStart(2,"0") + ', ' + datetoYear +
-										'</th>'+
-									'</tr>' + 
-									'<tr>' +
+										'</th>';
+
+						htmlHeader += '</tr><tr>' +
 										'<th class="tsheader tsemployeeheader" style="color:#e04d45; width:300px !important; text-align: left !important;">Employee Name </th>';
+
+						
 
 						for(i=datefromDay;i<=datetoDay;i++){
 							var day = new Date(datefromYear + '-' + datefromMonth + '-' + i).getDay();
 							
 							htmlHeader += '<th class="tsheader tsdataheader" style="color:#e04d45;font-weight: 500; width:20px !important;">' + i + '<br>' + dayWord[day] + '</th>';
+
+							columnCount++;
 						}
 
 						htmlHeader += '<th class="tsheader tslastheader" style="color:#e04d45;">Total<br>Hours</th>' +
 									  '<th class="tsheader tslastheader" style="color:#e04d45;">Basic<br>(Hour)</th>' +
 									  '<th class="tsheader tslastheader" style="color:#e04d45;">OT<br>(Hour)</th>' +
-									  '<th class="tsheader tslastheader" style="color:#e04d45;">Rest<br>Day</th>' +
+									  '<th class="tsheader tslastheader" style="color:#e04d45;">Rest<br style="mso-data-placement:same-cell;">Day</th>' +
 									  '<th class="tsheader tslastheader" style="color:#e04d45;">No. of<br>Days</th>';
-
 						htmlHeader += '</tr>';
 
-						var imgName = "";
+						var imgName  = "";
+							isExists = 0;
 
 						for(i=0;i<data["details"].length;i++){
 							if(data["details"][i].photo=="") imgName = "profileimg.png";
 							else imgName = data["details"][i].photo;
 
-							htmlDetails += '<tr>' + 
+							htmlDetails += '<tr id="' + data["details"][i].employeeID + '">' + 
 			      								'<td>' + 
 			      									'<h2 class="table-avatar">' + 
 				      									'<div class="avatar">' +
@@ -696,6 +703,8 @@ $(document).ready(function() {
 							var totalRD 		= 0;
 							var totalDays 		= 0;
 
+							var countLV = 0;
+
 							/* 
 								value.split('|')[0] = time
 								value.split('|')[1] = regular
@@ -720,6 +729,7 @@ $(document).ready(function() {
 
 									if(value.split('|')[4]=="1"){
 										color = "#179414";
+										totalDays++;
 										htmlDetails += '<td class="tsdata" style="font-weight: 500; color:' + color + ';">' + 
 													"<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='" + timesheetID + "'>" + time + "</a></td>";
 
@@ -749,6 +759,7 @@ $(document).ready(function() {
 											htmlDetails += '<td class="tsdata" style="font-weight: 500; color:' + color + ';">' + 
 													"<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' timeshtid='" + timesheetID + "'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
 										}else{
+											totalDays++;
 											htmlDetails += '<td class="tsdata" style="font-weight: 500; color:' + color + ';">' + 
 													"<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' id='" + timesheetID + "'>" + time + "</a></td>";
 
@@ -778,6 +789,7 @@ $(document).ready(function() {
 									time = value.split('|')[0];
 
 									if(time=="RD"){
+										totalRD++;
 										color = "#1c78d1";
 									}else{
 										color = "#d1221c";
@@ -808,6 +820,14 @@ $(document).ready(function() {
 
 									totalOvertime = parseFloat(overtime_accumHours + overtime_addedHours) + ":" + overtime_totalMinutes.toString().padStart(2,'0');
 
+								/*if(parseFloat(total_accumHours + total_addedHours)==0 || ){
+
+								}*/
+
+								if((parseFloat(total_accumHours + total_addedHours)==0 && total_totalMinutes==0) && totalRD==0){
+									removeArray.push(data["details"][i].employeeID);
+								}
+
 								htmlDetails += "<td class='tsdata' style='font-weight: 500;'>" + totalHours 	+ "</td>";
 								htmlDetails += "<td class='tsdata' style='font-weight: 500;'>" + totalBasic 	+ "</td>";
 								htmlDetails += "<td class='tsdata' style='font-weight: 500;'>" + totalOvertime  + "</td>";
@@ -818,8 +838,49 @@ $(document).ready(function() {
 						}
 			      	}
 
-			      	$("#show_header").html(htmlHeader);
-			      	$("#show_details").html(htmlDetails);
+			      	 $("#show_header").html(htmlHeader);
+			      	 $("#show_details").html(htmlDetails);
+
+
+
+			      	 for(var i=0;i<removeArray.length;i++){
+			      	 	$('table#datatable tr#' + removeArray[i]).remove();
+			      	 }
+
+		      	 	if ($.fn.DataTable.isDataTable('#datatable')){
+			           $('#datatable').DataTable().destroy();
+			        };	
+
+			      	 $('#datatable').DataTable( {
+			      	 	"pageLength": 50,
+				        "ordering": false,
+				        "info":     false,
+						dom: 'Bfrtip',
+				        buttons: [
+					        {
+					        	extend: 'excel',
+					        	className: 'btn btn-success',
+					        	filename: 'Timekeeping ' + $("#timekeepingID option:selected").html(),
+            					text:      '<i class="fa fa-file-excel-o"> </i> Export to excel',
+                				titleAttr: 'Excel'
+					        }
+				        ]
+					});
+
+
+			      	/* if($('#datatable tr').length==2){
+			      	 	htmlDetails = "";
+						htmlDetails += '<tr><td colspan="' + (columnCount+6) + '" id="norecord" style="height: 45vh;">' + 
+											'<img class="isometric confirmationisometric" style="height:100px !important;" src="<?=base_url(); ?>pages/assets/img/isometric/notfound.svg">' + 
+											'<h4>No Timekeeping record found!</h4>'  + 
+											'<p><b>Client:</b> ' + $("#searchclient option:selected").html() + ' <b>Post:</b>' + $("#searchpost option:selected").html() + '</p>' + 
+										'</td></tr>';
+
+						$("#show_details").html(htmlDetails);
+					}*/
+
+
+
 		      	  },
 			      error: function(request, textStatus, error) {
 

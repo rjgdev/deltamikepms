@@ -330,7 +330,7 @@ class Retirementprocess_model extends CI_Model
    			}else{
    				$employeerecord = $retirementemployee->row()->employeeID;
    			}
-			$updatedemployee = $this->db->query("UPDATE dm_employee SET employeestatus ='Resigned' WHERE employeeID = ".$employeerecord."");	
+			$updatedemployee = $this->db->query("UPDATE dm_employee SET employeestatus ='Retired' WHERE employeeID = ".$employeerecord."");	
 
 	    }else{
 			$queryUpdateTK = $this->db->query('UPDATE dm_retirement 

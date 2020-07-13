@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Timekeepingsecurityguard_model extends CI_Model
+class Timekeepingstaff_model extends CI_Model
 {
 	function __construct() 
 	{ 
@@ -13,7 +13,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 		$datefrom = "";
 		$dateto = "";
 
-		$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus!=2 AND timekeepingType=1');
+		$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus!=2 AND timekeepingType=2');
 
    		if($queryheader->num_rows()===0){
    			$month = date('m');
@@ -23,7 +23,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 			$dateto   = date_format(date_create($year."-".$month."-"."15"),"Y-m-d");
 			$payperiod = 1;
 
-   			$data = array('timekeepingType'		=> 1,
+   			$data = array('timekeepingType'		=> 2,
    						  'datefrom' 			=> $datefrom,
 						  'dateto'	 			=> $dateto,
 						  'payperiod'			=> $payperiod,
@@ -33,7 +33,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 			$this->db->insert('dm_timekeeping', $data);
 			$timekeepingID = $this->db->insert_id();
 
-			$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus=0 AND timekeepingType=1');
+			$queryheader = $this->db->query('SELECT * FROM dm_timekeeping WHERE timekeepingstatus=0 AND timekeepingType=2');
    		}else{
    			$timekeepingID = $queryheader->row()->timekeepingID;
    			$datefrom = $queryheader->row()->datefrom;
@@ -41,17 +41,13 @@ class Timekeepingsecurityguard_model extends CI_Model
    		}
 
    		/**************************   GET BIOMETRICS TIME IN    *********************************/
-   		$queryCheckIn = $this->db->query('SELECT checkinout.id as "checkinoutID", clientID,postID,pin,checktime FROM checkinout 
-   											 INNER JOIN personnel_area ON personnel_area.id=checkinout.area
-                                         	 INNER JOIN dm_post ON dm_post.postID=personnel_area.areaid
+   		$queryCheckIn = $this->db->query('SELECT checkinout.id as "checkinoutID", pin,checktime FROM checkinout 
 											 WHERE checktype="0" AND location IS NULL AND checkinout.checktime BETWEEN "'.$datefrom.' 00:00:00" AND "'.$dateto.' 23:59:00" 
 											 GROUP BY pin');
 
    		foreach ($queryCheckIn->result() as $row){
 	   		$bio_in_datesched    = date('Y-m-d', strtotime($row->checktime));
 	   		$bio_in_employeeID   = $row->pin;
-	   		$bio_in_clientID 	 = $row->clientID;
-	   		$bio_in_postID 	     = $row->postID;
 	   		$bio_in_timein 	 	 = $row->checktime;
 	   		$bio_in_checkinoutID = $row->checkinoutID;
 
@@ -59,23 +55,14 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 	   		if($queryCheckTimeIn->num_rows()===0){
 	   			 $weekday = date('N',strtotime($bio_in_datesched));
-   				 $retVal_postTime  = explode("|",$this->get_post_schedule($bio_in_clientID,$bio_in_postID,$bio_in_datesched,$bio_in_employeeID,$weekday));
- 
-   				 	/*echo $retVal_postTime[0].'<br>';
-					echo $retVal_postTime[1].'<br>';
-					echo $retVal_postTime[2].'<br>';
-
-					exit;*/
 
  	   			 $data = array('timekeepingID'		=> $timekeepingID,
 		        			   'employeeID' 		=> $bio_in_employeeID,
 		        			   'tkType'				=> '',
 							   'datesched' 			=> $bio_in_datesched,
-							   'clientID' 			=> $bio_in_clientID,
-							   'postID' 			=> $bio_in_postID,
 							   'timein' 			=> $bio_in_timein,
-							   'post_timein' 		=> $retVal_postTime[0],
-							   'post_timeout' 		=> $retVal_postTime[1]
+							   'post_timein' 		=> '08:00',
+							   'post_timeout' 		=> '17:00'
 						  );
 
 					$this->db->insert('dm_timekeepingdetails', $data);
@@ -89,25 +76,15 @@ class Timekeepingsecurityguard_model extends CI_Model
    		}
 
    		/**************************   GET BIOMETRICS TIME OUT   *********************************/
-   		$queryCheckOut = $this->db->query('SELECT checkinout.id as "checkinoutID", clientID,postID,pin,checktime FROM checkinout 
-   										   INNER JOIN personnel_area ON personnel_area.id=checkinout.area
-                                           INNER JOIN dm_post ON dm_post.postID=personnel_area.areaid
+   		$queryCheckOut = $this->db->query('SELECT checkinout.id as "checkinoutID", pin,checktime FROM checkinout 
 										   WHERE checktype="1" AND location IS NULL AND checkinout.checktime BETWEEN "'.$datefrom.' 00:00:00" AND "'.$dateto.' 23:59:00" 
 										   GROUP BY pin ORDER BY `checktime` DESC');
 
    		foreach ($queryCheckOut->result() as $row){
 	   		$bio_out_datesched    = date('Y-m-d', strtotime($row->checktime));
 	   		$bio_out_employeeID   = $row->pin;
-	   		$bio_out_clientID 	  = $row->clientID;
-	   		$bio_out_postID 	  = $row->postID;
 	   		$bio_out_timeout 	  = $row->checktime;
 	   		$bio_out_checkinoutID = $row->checkinoutID;
-
-   			$hour_timeout = date("H",strtotime($bio_out_timeout));
-
-   			if($hour_timeout<12){
-   				$bio_out_datesched = date("Y-m-d",strtotime('-1 day',strtotime($bio_out_timeout)));
-   			}
 
 	   		$queryCheckTimeOut = $this->db->query('SELECT * FROM dm_timekeepingdetails WHERE employeeID='.$bio_out_employeeID.' AND datesched="'.$bio_out_datesched.'"');
 
@@ -122,8 +99,6 @@ class Timekeepingsecurityguard_model extends CI_Model
 			        			   'employeeID' 		=> $bio_out_employeeID,
 			        			   'tkType'				=> '',
 								   'datesched' 			=> $bio_out_datesched,
-								   'clientID' 			=> $bio_out_clientID,
-								   'postID' 			=> $bio_out_postID,
 								   'timeout' 			=> $bio_out_timeout
 							  );
 
@@ -142,23 +117,23 @@ class Timekeepingsecurityguard_model extends CI_Model
 
    		$this->check_schedule($timekeepingID);
 
-   		$queryDetails = $this->db->query('SELECT *,dm_timekeepingdetails.clientID AS "client_ID",dm_timekeepingdetails.postID AS "post_ID"  FROM dm_timekeepingdetails
+   		$queryDetails = $this->db->query('SELECT *  FROM dm_timekeepingdetails
    										  INNER JOIN dm_employee ON dm_employee.employeeID = dm_timekeepingdetails.employeeID 
-									  	  WHERE dm_employee.employeetypeID=1 AND dm_timekeepingdetails.timekeepingID='.$timekeepingID.
+									  	  WHERE dm_employee.employeetypeID=2 AND dm_timekeepingdetails.timekeepingID='.$timekeepingID.
 									   	 ' AND dm_timekeepingdetails.datesched>="'.$datefrom.'"'.
 									   	 ' AND dm_timekeepingdetails.datesched<="'.$dateto.'" ORDER BY datesched,dm_employee.employeeID');
 
    		$queryEmployee = $this->db->query('SELECT *,CONCAT(lastname,", ",firstname) AS fullname FROM dm_employee 
    										   WHERE employeestatus="Active" AND 
-   										   		 employeetypeID=1 order by fullname');
+   										   		 employeetypeID=2 order by fullname');
 
    		$queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=1 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
 
    		$queryLeave 	= $this->db->query('SELECT * FROM dm_employeeleave
 											INNER JOIN dm_employee ON dm_employee.employeeID = dm_employeeleave.employeeID 
-									  	    WHERE dm_employee.employeetypeID=1 AND leavefrom>="'.$datefrom.'" AND leaveto<="'.$dateto.'"');
+									  	    WHERE dm_employee.employeetypeID=2 AND leavefrom>="'.$datefrom.'" AND leaveto<="'.$dateto.'"');
    		
    		$queryRestday 	= $this->db->query('SELECT * FROM dm_schedule');
 
@@ -221,7 +196,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 				$payperiod = 1;
 	        }
 
-	        $data = array('timekeepingType'		=> 1,
+	        $data = array('timekeepingType'		=> 2,
 	        			  'datefrom' 			=> $datefrom,
 						  'dateto'	 			=> $dateto,
 						  'payperiod'			=> $payperiod,
@@ -239,7 +214,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=1 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
 		
         return array('timekeeping' => $queryheader->result(), 'approver' => $queryApprover->result());
 	}
@@ -255,7 +230,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 	 	$data = array('datesubmitted' => $datesubmitted,
 	 				  'usersubmitted' => $this->session->userdata('employeeID'),
 	 				  'level' => 1,
-	 				  'approvalID' => 1,
+	 				  'approvalID' => 2,
 	 				  'timekeepingstatus' => 1);
 
 		$this->db->where("timekeepingID", $timekeepingID);  
@@ -265,7 +240,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 
         $queryApprover = $this->db->query('SELECT dm_approvaldet.*,dm_employee.firstname,dm_employee.lastname FROM dm_approvaldet 
    										   INNER JOIN dm_employee ON dm_employee.employeeID=dm_approvaldet.employeeID
-   										   WHERE dm_approvaldet.approvalID=1 AND approvalLevel='.$queryheader->row()->level);
+   										   WHERE dm_approvaldet.approvalID=2 AND approvalLevel='.$queryheader->row()->level);
 
         return array('timekeeping' => $queryheader->result(), 'approver' => $queryApprover->result());  
 	}
@@ -301,8 +276,6 @@ class Timekeepingsecurityguard_model extends CI_Model
 										    r.rateDescription,
 										    CONCAT(e.firstname," ",e.lastname) AS "validateusername"
 										    FROM dm_timekeepingdetails AS t
-								   INNER JOIN dm_client ON dm_client.clientID = t.clientID 
-								   INNER JOIN dm_post   AS p ON p.postID = t.postID 
 								   LEFT JOIN dm_rate    AS r ON r.rateCode = t.rateCode 
 								   LEFT JOIN dm_employee AS e ON e.employeeID = t.validateuser
 								   WHERE t.timesheetID='.$timesheetID); 
@@ -373,37 +346,6 @@ class Timekeepingsecurityguard_model extends CI_Model
 								   WHERE dm_timekeeping.timekeepingID='.$timekeepingID); 
 
 		return $query->result();
-	}
-
-	function get_post_schedule($clientID,$postID,$datesched,$employeeID,$weekday)
-	{
-		$tkStatus = "";
-
-		$querySchedule = $this->db->query('SELECT timein,timeout FROM dm_postschedule
-										   WHERE clientID='.$clientID.
-										  ' AND  postID='.$postID.
-										  ' AND (weekstart<="'.$datesched.'" AND weekend>="'.$datesched.'")'); 
-
-		if($querySchedule->num_rows()===0){
-			return "00:00|00:00|No schedule";
-		}else{
-			$queryScheduleGuard = $this->db->query('SELECT dm_postschedule_guard.postscheduleID,timein,timeout FROM dm_postschedule
-												   INNER JOIN dm_postschedule_guard ON dm_postschedule_guard.postscheduleID=dm_postschedule.postscheduleID
-												   WHERE clientID='.$clientID.
-												  ' AND  postID='.$postID.
-												  ' AND employeeID='.$employeeID.
-												  ' AND weekday='.$weekday.
-												  ' AND (weekstart<="'.$datesched.'" AND weekend>="'.$datesched.'")'); 
-			if($queryScheduleGuard->num_rows()===0){
-				$tkStatus = "Not exist";
-			}else{
-				$tkStatus = "Exist";
-				$querySchedule = $this->db->query('SELECT timein,timeout FROM dm_postschedule
-										   WHERE postscheduleID='.$queryScheduleGuard->row()->postscheduleID); 
-			}
-
-			return $querySchedule->row()->timein."|".$querySchedule->row()->timeout."|".$tkStatus;
-		}
 	}
 
 	public function getNightDifference($start_work,$end_work){
@@ -492,19 +434,19 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 			if($item->timeout!=NULL && $item->timein!=NULL){
 				/*if($item->employeeID==17){*/
-					$this->computeTime("checkschedule",$item->timekeepingID,$item->employeeID,$item->datesched,$item->clientID,$item->postID,$item->timein,$item->timeout);
+					$this->computeTime("checkschedule",$item->timekeepingID,$item->employeeID,$item->datesched,$item->timein,$item->timeout);
 				/*}*/
 			}
 		}
 	}
 
-	function computeTime($transaction,$timekeepingID,$employeeID,$datesched,$clientID,$postID,$timein,$timeout){
+	function computeTime($transaction,$timekeepingID,$employeeID,$datesched,$timein,$timeout){
 		$formatDate = date('Y',strtotime($datesched)).'-'.
 					  date('m',strtotime($datesched)).'-'.
 					  date('d',strtotime($datesched));
 
 		if($transaction=="Upload"){
-			if(trim(strtolower($clientID))=="reset") {					
+			if(trim(strtolower($timein))=="reset") {					
 				$this->timekeeping->remove_timekeeping($employeeID,$formatDate);
 				return;
 			}
@@ -574,18 +516,10 @@ class Timekeepingsecurityguard_model extends CI_Model
 					   date('s',$column_timeout);
 	/*********************** END *****************************/
 
-	/************************** GUARD TIME IN*****************************/
+	/************************** STAFF TIME IN*****************************/
 		$weekday = date('N',strtotime($datesched));
 
-		$retVal_postTime  = explode("|",$this->get_post_schedule($clientID,$postID,$formatDate,$employeeID,$weekday));
-
-		$tkType = $retVal_postTime[2];
-
-		/*echo $retVal_postTime[0].'<br>';
-		echo $retVal_postTime[1].'<br>';
-		echo $retVal_postTime[2].'<br>';
-
-		exit;*/
+		$tkType = 'Exist';
 
 		if($tkType!="Exist"){
 			$data = array(
@@ -596,8 +530,6 @@ class Timekeepingsecurityguard_model extends CI_Model
 		                'validatedate'			=> NULL,
 		                'remarks'				=> NULL,
 		                'datesched' 			=> date('Y-m-d', strtotime($datesched)),
-		                'clientID' 				=> $clientID,
-		                'postID' 				=> $postID,
 		                'timein' 				=> date('Y-m-d H:i:s', strtotime($datetimein)),
 		                'timeout' 				=> date('Y-m-d H:i:s', strtotime($datetimeout))
 		    ); 
@@ -606,7 +538,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 			return;
 		}
 
-		$guardTimeIn = date('m',$column_timein)	."/".
+		$staffTimeIn = date('m',$column_timein)	."/".
 					   date('d',$column_timein)	."/".
 					   date('Y',$column_timein)	." ".
 					   date('H',$column_timein)	.":".
@@ -616,9 +548,9 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 		$postTimeIn  = date('m',$column_timein)."/".
 					   date('d',$column_timein)."/".
-					   date('Y',$column_timein)." ".$retVal_postTime[0];
-	/******************************** GUARD TIME OUT********************************/
-		$guardTimeOut = date('m',$column_timeout)	."/".
+					   date('Y',$column_timein)." 08:00";
+	/******************************** STAFF TIME OUT********************************/
+		$staffTimeOut = date('m',$column_timeout)	."/".
 					    date('d',$column_timeout)	."/".
 					    date('Y',$column_timeout)	." ".
 					    date('H',$column_timeout)	.":".
@@ -628,49 +560,75 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 		$postTimeOut = date('m',$column_timeout)."/".
 					   date('d',$column_timeout)."/".
-					   date('Y',$column_timeout)." ".$retVal_postTime[1];
+					   date('Y',$column_timeout)." 17:00";
 
 	/**************************COMPUTE REGULAR TIME*************************/
 		$regularTime = date("m/d/Y H:i",strtotime($postTimeIn));
 		$regularHour = date('H',strtotime($regularTime));
 		$regularMin  = date('i',strtotime($regularTime));
 
-	/***************************COMPUTE OVERTIME****************************/
-		$diff_overtimehours = date_diff(date_create($regularTime),date_create($postTimeOut));
-		$overtime = $diff_overtimehours->h.":". str_pad($diff_overtimehours->i, 2, "0", STR_PAD_LEFT);
-
-	/******************************COMPUTE GUARD LATE*****************************/
-		if($guardTimeIn>$postTimeIn){
-			$diff_late = date_diff(date_create($postTimeIn),date_create($guardTimeIn));
+	/******************************COMPUTE STAFF LATE*****************************/
+		if($staffTimeIn>$postTimeIn){
+			$diff_late = date_diff(date_create($postTimeIn),date_create($staffTimeIn));
 			$late = $diff_late->h  + sprintf("%.2f", $diff_late->i / 60);
 
-			$actualTimeIn = $guardTimeIn;
+			$actualTimeIn = $staffTimeIn;
 		}else{
 			$actualTimeIn = $postTimeIn;
 		}
 
-		if($guardTimeOut>$postTimeOut){
+		if($staffTimeOut>$postTimeOut){
 			$actualTimeOut = $postTimeOut;
 		}else{
-			$actualTimeOut = $guardTimeOut;
+			$actualTimeOut = $staffTimeOut;
 		}
 
-	/*********************COMPUTE GUARD REGULAR********************/
+	/*********************COMPUTE STAFF REGULAR********************/
 		$diff_rendered = 0;
 		$actual_ot_hours = 0;
 		$render_overtime_hours  = 0;
 
-		/*if($actualTimeOut<$regularTime){
-			echo '1st';
-			$diff_rendered = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
-		}else if($actualTimeOut>=$regularTime){
-			echo '2st';
+		$time_in 	= new DateTime(date("H:i:s",strtotime($actualTimeIn)));
+	    $time_out 	= new DateTime(date("H:i:s",strtotime($actualTimeOut)));
 
-			$diff_rendered = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
-		}*/
+	    $breakin 	= new DateTime('12:00 PM');
+	    $breakout 	= new DateTime('1:00 PM');
+	    $breakhours = 0;
 
-		$diff_rendered = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
-		/*echo "1st diff_rendered: ".$diff_rendered->format('%h:%I').'<br>';*/
+        if ($time_in>=$breakin && $time_in<$breakout) {
+            $interval = $time_in->diff($breakout);
+            $breakhours += round($interval->s / 3600 + $interval->i / 60 + $interval->h,2);
+        }
+        else if ($time_out>$breakin && $time_out<=$breakout) {
+            $interval = $time_out->diff($breakin);
+            $breakhours += round($interval->s / 3600 + $interval->i / 60 + $interval->h,2);
+        }
+        else if ($time_in<=$breakin && $time_out>=$breakout) {
+            $interval = $breakin->diff($breakout);
+            $breakhours += round($interval->s / 3600 + $interval->i / 60 + $interval->h,2);
+        }
+
+        $interval = $time_in->diff($time_out);
+        $stayhours = round($interval->s / 3600 + $interval->i / 60 + $interval->h,2);
+
+        $render_regular_hours = $stayhours - $breakhours;
+
+        if($breakhours==1){
+        	$actual_regular_hours = sprintf("%02d",$interval->h-$breakhours).":". str_pad($interval->i, 2, "0", STR_PAD_LEFT);
+        }else{
+        	$actual_regular_hours = sprintf("%02d",$interval->h).":". str_pad(round($interval->i/60,2)-$breakhours, 2, "0", STR_PAD_LEFT);
+        }
+
+       /* echo $stayhours.'<br>';
+        echo $render_regular_hours.'<br>';
+        echo $breakhours.'<br>';
+        
+        echo $interval->i.'<br>';
+        echo round($interval->i/60,2)-$breakhours.'<br>';
+
+        exit;*/
+
+		/*$diff_rendered = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
 
 		if($diff_rendered->h>8){
 			if($actualTimeOut>=$postTimeOut){
@@ -690,50 +648,11 @@ class Timekeepingsecurityguard_model extends CI_Model
 		}else{
 			$render_regular_hours = sprintf("%02d",$diff_rendered->h) + sprintf("%.2f",$diff_rendered->i / 60);
 			$actual_regular_hours = sprintf("%02d",$diff_rendered->h).":". str_pad($diff_rendered->i, 2, "0", STR_PAD_LEFT);
-		}
-
-		
-
-		/*$render_regular_hours  = sprintf("%02d",$diff_rendered->h) + sprintf("%.2f",$diff_rendered->i / 60);*/
-
-		/*echo "empID: ".$employeeID.'<br>';
-		echo "datetimeout: ".$datetimeout.'<br>';
-		echo "actualTimeIn: ".$actualTimeIn.'<br>';
-		echo "actualTimeOut: ".$actualTimeOut.'<br>';
-		echo "regularTime: ".$regularTime.'<br>';
-		echo "postTimeIn: ".$postTimeIn.'<br>';
-		echo "postTimeOut: ".$postTimeOut.'<br>';
-
-
-		echo "2nd diff_rendered: ".$diff_rendered->format('%h:%I').'<br>';
-		echo "render_regular_hours: ".$render_regular_hours.'<br>';
-
-		exit;*/
-		
-
-	/************************COMPUTE GUARD OT HOURS**********************/
-		/*$actual_ot_hours = 0;
-		$render_overtime_hours  = 0;
-
-		if($actualTimeOut>=$regularTime){
-			if($actualTimeOut>=$postTimeOut){
-				$diff_overtime = date_diff(date_create($postTimeOut),date_create($regularTime));
-			}else{
-				$diff_overtime = date_diff(date_create($actualTimeOut),date_create($regularTime));
-			}
-
-			$actual_ot_hours = $diff_overtime->h.":". str_pad($diff_overtime->i, 2, "0", STR_PAD_LEFT);
-			$render_overtime_hours  = sprintf("%02d",$diff_overtime->h) + sprintf("%.2f",$diff_overtime->i / 60);
 		}*/
 
-		/*echo "actual_ot_hours: ".$actual_ot_hours.'<br>';
-		echo "render_overtime_hours: ".$render_overtime_hours.'<br>';
-		exit;*/
-
-
 	/************************COMPUTE TOTAL HOURS**********************/
-		$diff_total_hours = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
-		$render_total_hours = $diff_total_hours->h.":". str_pad($diff_total_hours->i, 2, "0", STR_PAD_LEFT);
+		/*$diff_total_hours = date_diff(date_create($actualTimeIn),date_create($actualTimeOut));
+		$render_total_hours = $diff_total_hours->h.":". str_pad($diff_total_hours->i, 2, "0", STR_PAD_LEFT);*/
 
 		$retVal = explode("|",$this->getNightDifference(strtotime($actualTimeIn), strtotime($actualTimeOut)));
 
@@ -758,7 +677,7 @@ class Timekeepingsecurityguard_model extends CI_Model
 	/************************ CHECK IF RESTDAY **********************/
 		$return_restday=$this->check_if_restday($employeeID,date('N', strtotime($datetimein)));
 
-		/*if($return_restday) $dayType .="rst";*/ /* COMMENTED DUE TO: NO RESTDAY PAY FOR GUARD */
+		/*if($return_restday) $dayType .="rst";*/ /* COMMENTED DUE TO: NO RESTDAY PAY FOR STAFF */
 
 	/************************ OUTPUT **********************/
 		if($dayType=="") $dayType = "ord";
@@ -776,13 +695,11 @@ class Timekeepingsecurityguard_model extends CI_Model
                 'rateCode'				=> $dayType,
                 'tkType'				=> $tkType,
                 'datesched' 			=> date('Y-m-d', strtotime($datesched)),
-                'clientID' 				=> $clientID,
-                'postID' 				=> $postID,
                 'timein' 				=> date('Y-m-d H:i:s', strtotime($datetimein)),
                 'timeout' 				=> date('Y-m-d H:i:s', strtotime($datetimeout)),
                 'post_timein' 			=> date('H:i:s', strtotime($postTimeIn)),
                 'post_timeout' 			=> date('H:i:s', strtotime($postTimeOut)),
-                'actualhours' 			=> $render_total_hours,
+                'actualhours' 			=> $actual_regular_hours,
                 $lateType 				=> $late,
 
                 'actual_regular_hours' 	=> $actual_regular_hours,

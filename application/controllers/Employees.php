@@ -57,7 +57,6 @@
 		'allowance'			=>		$this->input->post('allowance'),
 		'tinnumber'			=>		$this->input->post('tinnumber'),
 		'retfund'			=>		$this->input->post('retfund'),
-		'incentive'			=>		$this->input->post('incentive'),
 		/*'uniformallowance'	=>		$this->input->post('uniformallowance'),*/
 		'sssnumber'			=>		$this->input->post('sssnumber'),
 		'philhealthnumber'	=>		$this->input->post('philhealthnumber'),
@@ -116,8 +115,6 @@
 			'dailyrate' 		=> 		$this->input->post('dailyrate'),
 			'allowance' 		=> 		$this->input->post('allowance'),
 			'retfund' 			=> 		$this->input->post('retfund'),
-			'incentive' 		=> 		$this->input->post('incentive'),
-			/*'uniformallowance' 	=> 		$this->input->post('uniformallowance'),*/
 			'tinnumber' 		=> 		$this->input->post('tinnumber'),
 			'sssnumber' 		=> 		$this->input->post('sssnumber'),
 			'philhealthnumber'	=> 		$this->input->post('philhealthnumber'),

@@ -32,6 +32,7 @@
   		<script src="<?php echo base_url(); ?>pages\assets\js\toast.js"></script>	
     </head>
     <body style="background-color: #fff;" >
+    	<h5 style="float: right; color: red; margin:20px 20px"><i>*for internal use only</i></h5>
         <div class="main-wrapper">
 			<div class="content container-fluid mt-5">
 				<div class="loader"></div>

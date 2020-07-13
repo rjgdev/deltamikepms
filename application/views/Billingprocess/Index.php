@@ -240,7 +240,7 @@ foreach ($data['approver'] as $approvaldata)  {
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>
-								<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>
+								<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance/ECC</center></th>
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>
 								<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>
@@ -503,7 +503,7 @@ foreach ($data['approver'] as $approvaldata)  {
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>SSS</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>PHIC</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>HDMF</center></th>' +
-									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance Fund</center></th>' +
+									'<th class="text-right" style="width: 100px; font-size:11px;"><center>Insurance/ECC</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Overhead Margin</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Subtotal</center></th>' +
 									'<th class="text-right" style="width: 60px; font-size:11px;"><center>Taxable</center></th>' +

@@ -85,16 +85,21 @@
 
 		<div class="row">
 			<div class="col-md-2 d-flex mb-3">
-				<a href="#" class="notification">
+				<a href="<?php echo base_url(); ?>Timekeepingstaff" class="notification">
 				  <span class="dash-widget-icon" style="margin-right: 0px !important;"><i class="fas fa-calendar"></i></span>
+				  <?php foreach ($data['timekeepingstaff'] as $item) { ?>
+						<?php if($item->timekeepingstatus=="1") 
+							echo '<span class="badge">1</span>';
+					    ?>
+					<?php } ?>
 				  <p style="margin-bottom: 0px;">Timekeeping<br>(STAFF)</p>
 				</a>
 			</div>
 
 			<div class="col-md-2 d-flex mb-3">
-				<a href="#" class="notification">
+				<a href="<?php echo base_url(); ?>Payrollstaff" class="notification">
 				  <span class="dash-widget-icon" style="margin-right: 0px !important;"><i class="fas fa-coins"></i></span>
-				  	<?php foreach ($data['payroll'] as $item) { ?>
+				  	<?php foreach ($data['payrollstaff'] as $item) { ?>
 						<?php if($item->payrollstatus=="1") 
 							echo '<span class="badge">1</span>';
 					    ?>
@@ -116,7 +121,7 @@
 			</div>
 			
 			<div class="col-md-2 d-flex mb-3">
-				<a href="<?php echo base_url(); ?>Payrollprocess" class="notification">
+				<a href="<?php echo base_url(); ?>Payrollsecurityguard" class="notification">
 				  <span class="dash-widget-icon" style="margin-right: 0px !important;"><i class="fas fa-coins"></i></span>
 				  	<?php foreach ($data['payrollguard'] as $item) { ?>
 						<?php if($item->payrollstatus=="1") 

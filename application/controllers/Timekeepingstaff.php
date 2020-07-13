@@ -1,21 +1,21 @@
 <?php 
-   class Timekeepingsecurityguard extends CI_Controller {  
+   class Timekeepingstaff extends CI_Controller {  
      
      	public function __construct() {
 			parent::__construct(); 
-			$this->load->model('Timekeepingsecurityguard_model');  
-	  		$this->timekeeping = new Timekeepingsecurityguard_model;     
+			$this->load->model('Timekeepingstaff_model');  
+	  		$this->timekeeping = new Timekeepingstaff_model;     
 		}
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Timekeeping (Security Guard)');
+	  		$data = array('title' => 'Timekeeping (Staff)');
 
 	  		$data['data']=$this->timekeeping->get_timekeeping("");
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(7)) $this->load->view("Timekeepingsecurityguard/Index",$data);
+			if(isAllowed(8)) $this->load->view("Timekeepingstaff/Index",$data);
 				        else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
@@ -40,21 +40,15 @@
 
 		        	    	if(trim(strtolower($column[2]))=="reset") {
 	        	    			$column3 = "";
-	        	    			$column4 = "";
-	        	    			$column5 = "";
 	        	    		}else{
 	        	    			$column3 = $column[3];
-	        	    			$column4 = $column[4];
-	        	    			$column5 = $column[5];
 	        	    		}
 		        	    	$this->timekeeping->computeTime("Upload",
 		        	    									$timekeepingID,
 		        	    									$column[0],
 	        	    										$column[1],
 	        	    										$column[2],
-	        	    										$column3,
-	        	    										$column4,
-	        	    										$column5);
+	        	    										$column3);
 			        }
 			    }
 				

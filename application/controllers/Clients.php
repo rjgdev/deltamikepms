@@ -55,18 +55,10 @@
 		public function changestatus() 
 		{ 
 			$id = $this->input->post('id');
-			$status = $this->input->post('status');
-			$clientname = $this->input->post('clientname');
-
-       		$data=$this->client->change_status_client($id, $status,$clientname);
-       		$retval = explode("|",$data);
-
-            if($retval[0] == "false" && $retval[1] == "Client name already exist!"){
-    			$this->session->set_flashdata('error', $retval[1]); 
-            }else{
-                $this->session->set_flashdata('success', $retval[1]); 
-            }   
-	    	echo json_encode($data);  
-		} 
+			$data = array ('clientstatus' 	=>	 $this->input->post('changestatus'));
+			$data = $this->client->change_status_client($id,$data);
+			$this->session->set_flashdata('clientstatus', 'clientsuccess'); 
+			echo json_encode($data);  
+		}
 	}     
 ?>

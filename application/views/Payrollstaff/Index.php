@@ -86,10 +86,10 @@
 		<div class="page-header">
 			<div class="row align-items-center">
 				<div class="col">
-					<h3 class="page-title">Payroll Process (Security Guard)</h3>
+					<h3 class="page-title">Payroll Process <span class="text-info">(Staff)</span></h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Payroll Process (Security Guard)</li>
+						<li class="breadcrumb-item active">Payroll Process (Staff)</li>
 					</ul>
 				</div>
 			</div>
@@ -308,6 +308,7 @@
 								<th style="width: 120px;">Employee Number</th>
 								<th style="width: 240px;">Employee Name</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>
+								<th class="text-right" style="width: 90px; font-size:11px;">Holiday Pay</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Overtime Adjustment</th>
 								<th class="text-right" style="width: 90px; font-size:11px;">Night Differential</th>
@@ -387,6 +388,7 @@
 	    								<td><?=str_pad($item->employeeID, 6, "0", STR_PAD_LEFT);?></td>
 	    								<td><?=$item->firstname.' '.$item->lastname;?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->basicpay,4,".",",")?></td>
+	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->holiday,4,".",",")?></td>
 	    								<td class="text-right" style="color:#059a05;"><?=number_format($item->totalOT,4,".",",")?></td>
 	    								<td class="text-right" style="color:<?php if($item->otadjustment>=0) echo '#059a05'; else echo '#9a0505'; ?>">
 	    									<?=$ot_adj; ?>
@@ -419,7 +421,7 @@
 	    								<td class="text-right" style="color:<?php if($item->netpay>=0) echo '#059a05'; else echo '#9a0505'; ?>; font-weight: 500;">
 	    									<?=number_format($item->netpay,4,".",",")?>
     									</td>
-	    								<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="<?=$item->payrolldetailsID?>" id="adjustment<?=$item->payrolldetailsID?>" 
+	    								<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="<?=$item->payrolldetailsID?>" daysofwork="<?=$item->daysofwork; ?>" id="adjustment<?=$item->payrolldetailsID?>" 
 	    									otnotes="<?=$item->otnotes;?>" 
 	    									nightnotes="<?=$item->nightnotes;?>"
 	    									latenotes="<?=$item->latenotes;?>"
@@ -672,7 +674,7 @@
 			var html ="";
 
 			$.ajax({
-	            url : "<?php echo site_url('Payrollprocess/process');?>",
+	            url : "<?php echo site_url('Payrollstaff/process');?>",
 	            method : "POST",
 	            data : {timekeepingID:timekeepingID,
             			fromcutoff: fromcutoff,
@@ -687,6 +689,7 @@
 								 '<th style="width: 120px;">Employee Number</th>' +
 								 '<th style="width: 240px;">Employee Name</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Basic Pay</th>' +
+								 '<th class="text-right" style="width: 90px; font-size:11px;">Holiday Pay</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Overtime Adjustment</th>' +
 								 '<th class="text-right" style="width: 90px; font-size:11px;">Night Differential</th>' +
@@ -717,6 +720,7 @@
 									'</td>' +
 									'<td>' + data["payrolldetails"][i].firstname + ' ' + data["payrolldetails"][i].lastname + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].basicpay)		+ '</td>' +
+    								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].holiday)		+ '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalOT) 	    + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otadjustment)   + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].totalNight) 		 + '</td>' +
@@ -735,7 +739,7 @@
     								'<td class="text-right" style="color:#9a0505;">' + accounting.formatMoney(data["payrolldetails"][i].totalLoan)    	 + '</td>' +
     								'<td class="text-right" style="color:#059a05;">' + accounting.formatMoney(data["payrolldetails"][i].otheradjustment) + '</td>' +
     								'<td class="text-right" style="color:#059a05; font-weight: 500;">' + accounting.formatMoney(data["payrolldetails"][i].netpay) + '</td>' +
-    								'<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="' + data["payrolldetails"][i].payrolldetailsID + '" id="adjustment' + data["payrolldetails"][i].payrolldetailsID + 
+    								'<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="' + data["payrolldetails"][i].payrolldetailsID + '" daysofwork="' + data["payrolldetails"][i].daysofwork + '" id="adjustment' + data["payrolldetails"][i].payrolldetailsID + 
     								'" otnotes="'+ data["payrolldetails"][i].otnotes + 
     								'" nightnotes="'+ data["payrolldetails"][i].nightnotes + 
     								'" latenotes="'+ data["payrolldetails"][i].latenotes + 
@@ -771,7 +775,7 @@
 						    });
 
 		        	$('#modal_confirmation').modal('hide');
-		      		showSuccessToast("Timekeeping is successfully <b>processed!</b> Kindly review the payroll before submitting.");
+		      		showSuccessToast("Timekeeping is successfully <b>processed!</b> Kindly review the payroll before to submit.");
 	        	},
 	            error: function(request, textStatus, error) {
 
@@ -807,7 +811,7 @@
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/submit');?>",
+		      url : "<?php echo site_url('Payrollstaff/submit');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID},
 		      async : true,
@@ -879,7 +883,7 @@
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/cancel');?>",
+		      url : "<?php echo site_url('Payrollstaff/cancel');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID},
 		      async : true,
@@ -927,7 +931,7 @@
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/approve');?>",
+		      url : "<?php echo site_url('Payrollstaff/approve');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID,
 		      		  timekeepingID: timekeepingID,
@@ -965,7 +969,12 @@
 	      		$("#show_payroll_approver").html(htmlApprover);
 	      		$("#show_payroll_button").html(htmlButton);
 	      		$('#modal_confirmation').modal('hide');
-	  	  		showSuccessToast("Payroll is successfully approved!");
+
+	      		if(lastapprover==1){
+	  	  			showSuccessToast("Payroll is successfully approved! You may continue the process by going to the <b><u>payslip generation</u></b>");
+	      		}else{
+	      			showSuccessToast("Payroll is successfully approved and now available for the next approver.");
+	      		}
 		      },
 		      error: function(request, textStatus, error) {
 
@@ -1006,7 +1015,7 @@
 		$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/deny');?>",
+		      url : "<?php echo site_url('Payrollstaff/deny');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID,
 		      		  reason:reason},
@@ -1035,39 +1044,41 @@
 
 	$(document).on("click", ".adjustment", function(){
 		$('.save_adjustment').attr({'payrolldetailsid'		: $(this).attr('payrolldetailsid'), 
+									'daysofwork'			: $(this).attr('daysofwork'),
 									'employeeID'			: table.row(this).data()[0],
 									'employeetype'			: $(this).attr('employeetype'), 
 									'basicpay'				: table.row(this).data()[2],
-									'overtime'				: table.row(this).data()[3],
-									'otadjusment'			: table.row(this).data()[4],
-									'nightdiff'				: table.row(this).data()[5],
-									'nightdiffadjustment'	: table.row(this).data()[6],
-									'allowance'				: table.row(this).data()[7],
-									'incentive'				: table.row(this).data()[8],
-									'late'					: table.row(this).data()[9],
-									'lateadjustment'		: table.row(this).data()[10],
-									'LWOP'					: table.row(this).data()[11],
-									'leaveadjustment' 		: table.row(this).data()[12],
+									'holiday'				: table.row(this).data()[3],
+									'overtime'				: table.row(this).data()[4],
+									'otadjusment'			: table.row(this).data()[5],
+									'nightdiff'				: table.row(this).data()[6],
+									'nightdiffadjustment'	: table.row(this).data()[7],
+									'allowance'				: table.row(this).data()[8],
+									'incentive'				: table.row(this).data()[9],
+									'late'					: table.row(this).data()[10],
+									'lateadjustment'		: table.row(this).data()[11],
+									'LWOP'					: table.row(this).data()[12],
+									'leaveadjustment' 		: table.row(this).data()[13],
 									'otnotes' 		    	: $(this).attr('othernotes'),
 									'nightnotes' 		    : $(this).attr('nightnotes'),
 									'latenotes' 		    : $(this).attr('latenotes'),
 									'leavenotes' 		    : $(this).attr('leavenotes'),
 									'othernotes' 		    : $(this).attr('othernotes'),
-									'grosspay' 				: table.row(this).data()[13],
-									'wtax' 					: table.row(this).data()[14],
-									'sss' 					: table.row(this).data()[15],
-									'phic' 					: table.row(this).data()[16],
-									'hdmf'					: table.row(this).data()[17],
-									'loan'					: table.row(this).data()[18],
-									'otheradjustment' 		: table.row(this).data()[19],
-									'netpay'				: table.row(this).data()[20]
+									'grosspay' 				: table.row(this).data()[14],
+									'wtax' 					: table.row(this).data()[15],
+									'sss' 					: table.row(this).data()[16],
+									'phic' 					: table.row(this).data()[17],
+									'hdmf'					: table.row(this).data()[18],
+									'loan'					: table.row(this).data()[19],
+									'otheradjustment' 		: table.row(this).data()[20],
+									'netpay'				: table.row(this).data()[21]
 									});
 		$('#modal_adjustment .submit-btn').html("Submit");
-		$('#otadjustment').val(table.row(this).data()[4]);
-		$('#nightdiffadjustment').val(table.row(this).data()[6]);
-		$('#lateadjustment').val(table.row(this).data()[10]);
-		$('#leaveadjustment').val(table.row(this).data()[12]);
-		$('#otheradjustment').val(table.row(this).data()[19]);
+		$('#otadjustment').val(table.row(this).data()[5]);
+		$('#nightdiffadjustment').val(table.row(this).data()[7]);
+		$('#lateadjustment').val(table.row(this).data()[11]);
+		$('#leaveadjustment').val(table.row(this).data()[13]);
+		$('#otheradjustment').val(table.row(this).data()[20]);
 
 
 		$('#otnotes').val($(this).attr('otnotes'));
@@ -1116,9 +1127,11 @@
 		var payperiod	  	 	= "<?php echo $payperiod; ?>";
 		var fromcutoff			= "<?php echo $fromcutoff; ?>";
 		var payrolldetailsID 	= $(".save_adjustment").attr('payrolldetailsid');
+		var daysofwork 			= $(".save_adjustment").attr('daysofwork');
 		var employeeID	  	 	= $(".save_adjustment").attr('employeeID');
 		var employeetype 	 	= $(".save_adjustment").attr('employeetype');
 		var basicpay	  	 	= $(".save_adjustment").attr('basicpay').trim().replace(",","").replace(" ","");
+		var holiday	  	 		= $(".save_adjustment").attr('holiday').trim().replace(",","").replace(" ","");
 		var overtime	  	 	= $(".save_adjustment").attr('overtime').trim().replace(",","").replace(" ","");
 		var nightdiff	  	 	= $(".save_adjustment").attr('nightdiff').trim().replace(",","").replace(" ","");
 		var allowance	  	 	= $(".save_adjustment").attr('allowance').trim().replace(",","").replace(" ","");
@@ -1138,19 +1151,21 @@
 
 		totalAdjustment = parseFloat(otadjustment) + parseFloat(nightdiffadjustment) + parseFloat(lateadjustment) + parseFloat(leaveadjustment);
 
-  		totalGrosspay = (parseFloat(basicpay) +  parseFloat(overtime) +  parseFloat(nightdiff) +  parseFloat(allowance) +  parseFloat(incentive)) 
+  		totalGrosspay = (parseFloat(basicpay) + parseFloat(holiday) +  parseFloat(overtime) +  parseFloat(nightdiff) +  parseFloat(allowance) +  parseFloat(incentive)) 
   						 + parseFloat(totalAdjustment) 
   						 - (parseFloat(late) + parseFloat(LWOP));
 
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/adjustment');?>",
+		      url : "<?php echo site_url('Payrollstaff/adjustment');?>",
 		      method : "POST",
 		      data : {payperiod:payperiod,
 		      		  fromcutoff:fromcutoff,
 		      		  payrolldetailsID: payrolldetailsID,
+		      		  daysofwork: daysofwork,
 		      		  employeeID:employeeID,
 		      		  employeetype:employeetype,
 		      		  basicpay:basicpay,
+		      		  holiday:holiday,
 		      		  overtime:overtime,
 		      		  nightdiff:nightdiff,
 		      		  late:late,
@@ -1234,24 +1249,24 @@
         		$("#adjustment"+payrolldetailsID).attr("latenotes",latenotes);
         		$("#adjustment"+payrolldetailsID).attr("leavenotes",leavenotes);
         		$("#adjustment"+payrolldetailsID).attr("othernotes",othernotes);
-	      		table.cell('#' + payrolldetailsID + ' td:eq(4)').data(ot_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(6)').data(night_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(10)').data(late_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(12)').data(leave_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(13)').data(accounting.formatMoney(totalGrosspay)).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(14)').data(accounting.formatMoney(data["wtax"])).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(15)').data(accounting.formatMoney(data["sss"])).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(16)').data(accounting.formatMoney(data["phic"])).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(19)').data(other_adj).draw();
-	      		table.cell('#' + payrolldetailsID + ' td:eq(20)').data(accounting.formatMoney(data["netpay"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(5)').data(ot_adj).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(7)').data(night_adj).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(11)').data(late_adj).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(13)').data(leave_adj).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(14)').data(accounting.formatMoney(totalGrosspay)).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(15)').data(accounting.formatMoney(data["wtax"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(16)').data(accounting.formatMoney(data["sss"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(17)').data(accounting.formatMoney(data["phic"])).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(20)').data(other_adj).draw();
+	      		table.cell('#' + payrolldetailsID + ' td:eq(21)').data(accounting.formatMoney(data["netpay"])).draw();
 
-	      		$('#' + payrolldetailsID + ' td:eq(4)').css("color", (otadjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(6)').css("color", (nightdiffadjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(10)').css("color", (lateadjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(12)').css("color", (leaveadjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(13)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(19)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(20)').css("color", (parseFloat(data["netpay"])<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(5)').css("color", (otadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(7)').css("color", (nightdiffadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(11)').css("color", (lateadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(13)').css("color", (leaveadjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(14)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(20)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(21)').css("color", (parseFloat(data["netpay"])<0) ? "#9a0505" : '#059a05');
 
 	  	  		showSuccessToast("Payroll adjustment successfully applied!");
 		      },
@@ -1269,7 +1284,7 @@
 		var payrollID = $(this).attr('denied_id');
 		
     	$.ajax({
-		      url : "<?php echo site_url('Payrollprocess/getdenied');?>",
+		      url : "<?php echo site_url('Payrollstaff/getdenied');?>",
 		      method : "POST",
 		      data : {payrollID:payrollID},
 		      async : true,

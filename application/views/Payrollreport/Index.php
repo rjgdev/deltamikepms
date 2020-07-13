@@ -262,11 +262,14 @@ td[rowspan]:not([rowspan="2"]) {
                     var totalsss = 0;
                     var totalhdmf = 0;
                     var otherdeductionsloan = 0; 
-                      var otadjustment1 = 0; 
+                    var otadjustment1 = 0; 
                     var totalphic = 0;
                    html +='<table class="table table-striped table-bordered mb-0" border="1" id="datatable1">' +
                    			'<div id="recordexcel">' +
 							'<thead >' +
+							'<tr>' +
+								'<td colspan="21" border="0"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5></td>' +
+							'</tr>' +	
 							'<tr>' +
 								'<th style="width: 180px;"><center>Employee Name</center></th>' +
 								'<th style="width: 80px;"><center>Basic Pay</center></th>' +

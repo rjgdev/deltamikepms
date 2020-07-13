@@ -72,28 +72,11 @@ class Client_model extends CI_Model
 		}   
   	}
 
-  	function change_status_client($id,$status,$clientname)
-	{
-		if($status=="Inactive"){
-			$query = $this->db->query('SELECT * FROM dm_post WHERE clientid='.$id.' AND poststatus="Active"');
-
-			if($query->num_rows() == 0){
-            	$data = array('clientstatus' => $status);
-
-	            $this->db->where("clientID", $id);  
-	          	$this->db->update("dm_client", $data);  
-	          	return 'true|'.$clientname.' successfully changed the status!';
-            }else{
-          		return 'false|Client is currently in used!'; 
-            }
-		}else{
-			$data = array('clientstatus' => $status);
-
-			$this->db->where("clientID", $id);  
-          	$this->db->update("dm_client", $data);    
-			return 'true|'.$clientname.' successfully changed the status!';
-		}
-  	}
+  	function change_status_client($id,$data)
+   	{
+   	 	$this->db->where("clientID", $id);  
+        $this->db->update("dm_client", $data); 
+    }
 }
 ?>
 

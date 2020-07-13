@@ -83,17 +83,19 @@ class Retirementreport_model extends CI_Model
 			$emp = "WHERE e.employeeID =(".$searchemployee.")";
 		}*/
 		$query = $this->db->query("SELECT 
-								employeeID, employeename, employeetype, department, designation , 
+								employeeID,yeardate, employeename, employeetype, department, designation , 
 								 retfund, basicsalary, netpay , hireddate, yearofhired, yearofwork
 								 FROM 
 								 ( 
-								 SELECT e.employeeID, concat(lastname,', ',firstname,' ',middlename) as employeename ,d.description AS department,
+								 SELECT e.employeeID,year(pd.datefrom) AS yeardate, concat(lastname,', ',firstname,' ',middlename) as employeename ,d.description AS department,
 								 ds.designationdescription as designation, 
 								 CASE WHEN e.employeetypeID = 1 THEN 'Security Guard' WHEN e.employeetypeID = 2 THEN 'Staff' ELSE employeetypeID END AS employeetype ,
 								 sum(pd.retfund) as retfund, e.basicsalary, late, absent, 
 								 SUM(netpay) AS netpay, year(pd.datefrom) as yearofhired, cast(DATEDIFF(max(pd.datefrom),e.hireddate) / 365.25 AS UNSIGNED) AS yearofwork,
 								 date_format(e.hireddate,'%M% %d%, %Y') hireddate
-								 FROM dm_payrolldetails AS pd LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
+								 FROM dm_payrolldetails AS pd 
+								 LEFT JOIN dm_payroll AS p ON pd.payrollID = p.payrollID 
+								 LEFT JOIN dm_employee AS e ON pd.employeeID = e.employeeID
 								 LEFT JOIN dm_department AS d ON e.departmentID = d.departmentID 
 								 LEFT JOIN dm_designation AS ds ON e.designationID = ds.designationID 
 								 LEFT JOIN dm_post AS dtc ON e.postID = dtc.postID 
@@ -102,7 +104,7 @@ class Retirementreport_model extends CI_Model
 								GROUP BY year(pd.datefrom),e.employeeID
 								ORDER BY employeeID,yearofwork ASC
 							)a 
-							WHERE yearofwork >= 5
+							 GROUP BY yeardate
 							ORDER BY employeeID,yearofwork ASC");
 						//print_r($this->db->last_query());  
 			$querycompany = $this->db->query("SELECT *,concat(unitno,' ',bldgname,' ',streetname,' ',subdivisionname,' ',barangay,', ',municipality,' ',province) AS address FROM dm_company");

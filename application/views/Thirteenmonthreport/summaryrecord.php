@@ -32,11 +32,9 @@ if($datato==0){
 			<br>
 			<br>
 			<br>
-			<div align="center">
-						<div class="col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div style="width: 99%">
+			<div class="scroll">
+			<div  align="center">
+									<div style="width: 99%"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5>
 											<img style="width: 100px; height: 100px;" src="<?=base_url(); ?>pages/assets/img/logo2.png" >
 											<h2 style="text-align: center; margin-bottom: 0;"><?php echo $companyname; ?></h2>
 											<h6 style="text-align: center;"><?php echo $address; ?></h6>
@@ -46,29 +44,21 @@ if($datato==0){
 											<br>
 											<h4 style="text-align: center;">13TH MONTH REPORT</h4>
 											<h5 style="text-align: center;"><?php echo date("F, Y", strtotime($datefromrecord)); ?> to <?php echo date("F, Y", strtotime($datatorecord)); ?></h5>
-										
-										
 											<br>
-									</div>
-									<div class="row">
-									</div>
-									<div align="center">
-										<div class="col-sm-20">
-											<div>
 												<br>
-												<table class="table table-bordered table-sss custom-table mb-0 table-striped ">
-													<thead class="thead-light">
+												<table class="table mb-0">
+													<thead>
 														<tr>	
-														<th style="width: 100px ! important;">Employee ID</th>
-														<th style="width: 180px;">Employee Name</th>
-														<th class="text-left" style="width: 90px;">Department</th>
-														<th class="text-left" style="width: 90px;">Designation</th>
-														<th class="text-left" style="width: 100px;">Employee Type</th>
-														<th class="text-left" style="width: 150px;">Month</th>
-														<th class="text-left" style="width: 50px;">Lates</center></th>
-														<th class="text-left" style="width: 50px;">Absences</center></th>
-														<th class="text-right" style="width: 120px;">Total 13th Month</th>
-														<tr>
+														<th class="philhealthreportheader" style="width: 100px ! important;">Employee ID</th>
+														<th class="philhealthreportheader" style="width: 180px;">Employee Name</th>
+														<th class="text-left; philhealthreportheader" style="width: 90px;">Department</th>
+														<th class="text-left; philhealthreportheader" style="width: 90px;">Designation</th>
+														<th class="text-left; philhealthreportheader" style="width: 100px;">Employee Type</th>
+														<th class="text-left; philhealthreportheader" style="width: 150px;">Month</th>
+														<th class="text-left; philhealthreportheader" style="width: 50px;">Lates</center></th>
+														<th class="text-left; philhealthreportheader" style="width: 50px;">Absences</center></th>
+														<th class="text-right; philhealthreportheader" style="width: 120px;">Total 13th Month</th>
+														</tr>
 													</thead>
 													<body>
 														<?php
@@ -78,37 +68,39 @@ if($datato==0){
 																$totalthrmonth[] =   $data->thrmonth;
 														?>		
 														<tr>
-															<td style ="text-align: left;"><?php echo str_pad($data->employeeID, 6, "0", STR_PAD_LEFT)	 ?></td> 
-															<td style ="text-align: left;"><?php echo $data->employeename; ?></td> 
-															<td style ="text-align: left;"><?php echo $data->department; ?></td> 
-															<td style ="text-align: left;"><?php echo $data->designation; ?></td> 
-															<td style ="text-align: left;"><?php echo $data->employeetype; ?></td> 
-															<td style ="text-align: left;"><?php echo $data->thrthmonthdate; ?></td>
-															<td style ="text-align: right;"><?php echo $data->late; ?></td> 
-															<td style ="text-align: right;"><?php echo $data->absent; ?></td>
-															<td style ="text-align: right;"><?php echo $data->thrmonth; ?></td>
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo str_pad($data->employeeID, 6, "0", STR_PAD_LEFT)	 ?></td> 
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo $data->employeename; ?></td> 
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo $data->department; ?></td> 
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo $data->designation; ?></td> 
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo $data->employeetype; ?></td> 
+															<td class="philhealthreportheader" style ="text-align: left;"><?php echo $data->thrthmonthdate; ?></td>
+															<td class="philhealthreportheader" style ="text-align: right;"><?php echo $data->late; ?></td> 
+															<td class="philhealthreportheader" style ="text-align: right;"><?php echo $data->absent; ?></td>
+															<td class="philhealthreportheader" style ="text-align: right;"><?php echo $data->thrmonth; ?></td>
 														</tr>
 													<?php endforeach; ?>
 													</body>
 													<tfoot>
 														<tr>
-															<th>Total</th>
-															<td colspan="5"></td>
-															<th style ="text-align: right;  color:#FF0000;"><?php echo  number_format(array_sum($totallate), 4, '.', ',');?></th>
-															<th style ="text-align: right;  color:#FF0000;"><?php echo  number_format(array_sum($totalabsent), 4, '.', ','); ?></th>
-															<th style ="text-align: right;  color:#FF0000;"><?php echo  number_format(array_sum($totalthrmonth), 4, '.', ','); ?></th>
-															
+															<th class="philhealthreportheader">Total</th>
+															<td class="philhealthreportheader" colspan="5"></td>
+															<th class="philhealthreportheader" style ="text-align: right;"><?php echo  number_format(array_sum($totallate), 4, '.', ',');?></th>
+															<th class="philhealthreportheader" style ="text-align: right;"><?php echo  number_format(array_sum($totalabsent), 4, '.', ','); ?></th>
+															<th class="philhealthreportheader" style ="text-align: right;"><?php echo  number_format(array_sum($totalthrmonth), 4, '.', ','); ?></th>
 														</tr>
 													</tfoot>		
-
-
 											</table>
-											</div>
 										</div>
-										
-										
 									</div>
-								</div>
-							</div>
-						</div>
-						</div>										
+								<div>		
+
+<style type="text/css">
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .scroll {
+    width: 100%;
+    padding: 10px;
+  }
+}
+</style>							
+														

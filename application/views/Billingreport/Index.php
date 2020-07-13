@@ -83,7 +83,7 @@
 						<th style="width: 110px ! important;">SSS</th>
 						<th style="width: 90px ! important;">PHIC</th>
 						<th style="width: 80px ! important;">HDMF</th>
-						<th style="width: 130px ! important;">Insurance Fund</th>
+						<th style="width: 130px ! important;">Insurance/ECC</th>
 						<th style="width: 130px ! important;">Overhead Margin</th>
 						<th style="width: 60px ! important;">Subtotal</th>
 						<th style="width: 60px ! important;">Taxable</th>

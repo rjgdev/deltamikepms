@@ -64,7 +64,7 @@
 											<th style="width: 80px ! important; font-size: 10.5px">Hired Date</th>
 											<th style="width: 90px ! important; font-size: 10.5px">Year</th>
 											<th style="width: 200px ! important; font-size: 10.5px">Number of Years of Work</th>
-											
+											<th class="text-right" style="width: 175px;font-size: 10.5px">Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -141,7 +141,7 @@ $("#seachform").submit(function(event) {
 									'<th style="width: 110px ! important;font-size: 10.5px">Hired Date</th>' +
 									'<th style="width: 100px ! important;font-size: 10.5px">Year</th>' +
 									'<th style="width: 150px ! important;font-size: 10.5px">Number of Years of Work</th>' +
-									'<th class="text-right" style="width: 90px;font-size: 10.5px">Action</th>' +						
+									'<th style="width: 175px;font-size: 10.5px"><center>Action</center></th>' +						
 								'</tr>' +
 							'</thead>' +
 							'<tbody>';
@@ -161,7 +161,7 @@ $("#seachform").submit(function(event) {
 							'<td>'+response["result"][i].hireddate+'</td>'+
 							'<td>'+response["result"][i].yearofhired+'</td>'+
 							'<td>'+response["result"][i].yearofwork+'</td>'+
-							 '<td><a class="btn btn-sm btn-primary" href="Retirementreport/employeerecorddata?employee='+ response["result"][i].employeeID + '"target="_blank" >Generate Report</a></td>'+
+							 '<td class="text-center" ><a class="btn btn-sm btn-primary" href="Retirementreport/employeerecorddata?employee='+ response["result"][i].employeeID + '"target="_blank" >Generate Report</a></td>'+
 							'</tr>';
                               	
                     }

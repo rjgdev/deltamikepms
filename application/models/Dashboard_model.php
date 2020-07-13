@@ -9,8 +9,10 @@ class Dashboard_model extends CI_Model
 
 	function get_all()
 	{ 
-		$timekeepingguard = $this->db->query('SELECT * FROM `dm_timekeeping` ORDER BY timekeepingID DESC LIMIT 1');
-		$payrollguard = $this->db->query('SELECT * FROM `dm_payroll` ORDER BY payrollID DESC LIMIT 1');
+		$timekeepingguard = $this->db->query('SELECT * FROM `dm_timekeeping` WHERE timekeepingType="1" ORDER BY timekeepingID DESC LIMIT 1');
+		$payrollguard = $this->db->query('SELECT * FROM `dm_payroll` WHERE payrollType="1" ORDER BY payrollID DESC LIMIT 1');
+		$timekeepingstaff = $this->db->query('SELECT * FROM `dm_timekeeping` WHERE timekeepingType="2" ORDER BY timekeepingID DESC LIMIT 1');
+		$payrollstaff = $this->db->query('SELECT * FROM `dm_payroll` WHERE payrollType="2" ORDER BY payrollID DESC LIMIT 1');
 		$thirteenthmonth = $this->db->query('SELECT * FROM `dm_thrmonth` ORDER BY thrmonthID DESC LIMIT 1');
 		$retirement = $this->db->query('SELECT * FROM `dm_retirement` ORDER BY retirementID DESC LIMIT 1');
 		$billing = $this->db->query('SELECT * FROM `dm_billing` ORDER BY billingID DESC LIMIT 1');
@@ -72,6 +74,8 @@ class Dashboard_model extends CI_Model
 	    $result11 	= 	$payroll->result();
 	    $result12 	= 	$activeguards->result();
 	    $result13 	= 	$activestaff->result();
+	    $result14 	= 	$timekeepingstaff->result();
+	    $result15 	= 	$payrollstaff->result();
 
 	          return array(
 	          	'timekeepingguard' 	=> $result1,
@@ -86,7 +90,9 @@ class Dashboard_model extends CI_Model
 	          	'timekeeping' 	=> $result10,
 	          	'payroll' 		=> $result11,
 	          	'activeguards'  => $result12,
-	          	'activestaff'   => $result13
+	          	'activestaff'   => $result13,
+	          	'timekeepingstaff' => $result14,
+	          	'payrollstaff'     => $result15
 	          );
   	}
 }

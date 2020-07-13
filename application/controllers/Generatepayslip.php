@@ -40,8 +40,18 @@
 			$data = array('title' => 'Payslip');
 			$id = $this->input->get('id');
 			$payrolldetailsID = $this->input->get('payrolldetailsID');
-			$data['data']=$this->generatepayslip->get_details($id, $payrolldetailsID);
+			$payrollID = $this->input->get('payrollID');
+			$data['data']=$this->generatepayslip->get_details($id, $payrolldetailsID, $payrollID);
 			$this->load->view("Generatepayslip/Payslip", $data);
+		}
+
+		public function printAll() 
+		{ 
+
+			$data = array('title' => 'Payslip');
+			$payrollID = $this->input->get('payrollID');
+			$data['data']=$this->generatepayslip->get_all_details( $payrollID);
+			$this->load->view("Generatepayslip/PrintAll", $data);
 		}
 
 		public function save() 

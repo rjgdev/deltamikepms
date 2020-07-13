@@ -1,25 +1,25 @@
 <?php 
-   class Payrollprocess extends CI_Controller {  
+   class Payrollsecurityguard extends CI_Controller {  
      	public function __construct() {
 			//load database in autoload libraries 
 			parent::__construct(); 
-			$this->load->model('Payrollprocess_model');  
-	  		$this->payroll = new Payrollprocess_model;     
+			$this->load->model('Payrollsecurityguard_model');  
+	  		$this->payroll = new Payrollsecurityguard_model;     
 		}
 
 		public function index() 
 		{ 
-	  		$data = array('title' => 'Payroll Process');
+	  		$data = array('title' => 'Payroll Process (Security Guard)');
 
 	  		$data['data']=$this->payroll->get_payroll();
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(10)) $this->load->view("Payrollprocess/Index",$data);
+			if(isAllowed(10)) $this->load->view("Payrollsecurityguard/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);
-		} 
+		}
 
 		public function process() 
 		{ 
@@ -104,13 +104,15 @@
       		$phic					= $this->input->post('phic');
       		$hdmf					= $this->input->post('hdmf');
       		$basicpay				= $this->input->post('basicpay');
+      		$holiday				= $this->input->post('holiday');
       		$overtime				= $this->input->post('overtime');
       		$nightdiff				= $this->input->post('nightdiff');
       		$late					= $this->input->post('late');
       		$absent					= $this->input->post('absent');
       		$loan					= $this->input->post('loan');
+      		$daysofwork					= $this->input->post('daysofwork');
 
-			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otnotes,$nightnotes,$latenotes,$leavenotes,$othernotes,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$overtime,$nightdiff,$late,$absent,$loan);
+			$result = $this->payroll->save_adjustment($payperiod,$fromcutoff,$payrolldetailsID,$employeeID,$employeetype,$otadjustment,$nightdiffadjustment,$lateadjustment,$leaveadjustment,$otnotes,$nightnotes,$latenotes,$leavenotes,$othernotes,$otheradjustment,$totalGrosspay,$phic,$hdmf,$basicpay,$holiday,$overtime,$nightdiff,$late,$absent,$loan,$daysofwork);
 
 			echo json_encode($result);
 		} 

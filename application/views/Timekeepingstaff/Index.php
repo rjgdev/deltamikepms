@@ -49,7 +49,7 @@
 		$approvername 	 = $item->firstname.' '.$item->lastname;
 	}
 
-	function checkRDLV($timekeepingID,$dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day,$clientID,$postID) {
+	function checkRDLV($timekeepingID,$dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day) {
 		if(count($dataRest)!=0){
 			$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
 			$isRest = 0;
@@ -58,7 +58,7 @@
 			foreach ($dataRest as $rest) { 
 				if($rest->employeeID==$employeeID && 
 				   $rest->restday==$current_day){ 
-			  	  		echo "<td class='tsdata' style='color:#1c78d1;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0|".$clientID."|".$postID."'></div>RD</td>";
+			  	  		echo "<td class='tsdata' style='color:#1c78d1;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0'></div>RD</td>";
 			  	  		$restDay++;
 				  $isRest = 1;
 				}
@@ -72,7 +72,7 @@
 					foreach ($dataLeave as $leave) {
 						if($leave->employeeID==$employeeID && 
 						  ($leave->leavefrom<=$current_date && $leave->leaveto>=$current_date)){
-					  	  		echo "<td class='tsdata' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0|".$clientID."|".$postID."'></div>LV</td>";
+					  	  		echo "<td class='tsdata' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='RD|0|0|0|0'></div>LV</td>";
 						  $isLeave = 1;
 						}
 					}
@@ -92,7 +92,7 @@
 				foreach ($dataLeave as $leave)  {
 					if($leave->employeeID==$employeeID && 
 					  ($leave->leavefrom<=$current_date && $leave->leaveto>=$current_date)){
-				  	  		echo "<td class='tsdata' value='LV|0|0|0|0|".$clientID."|".$postID."' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
+				  	  		echo "<td class='tsdata' value='LV|0|0|0|0' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
 					  $isLeave = 1;
 					}
 				}
@@ -118,10 +118,10 @@
 			<div class="row">
 				<div class="col-sm-12">
 	
-					<h3 class="page-title">Timekeeping <span class="text-info">(Security Guard)</span></h3>
+					<h3 class="page-title">Timekeeping <span class="text-info">(Staff)</span></h3>
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item"><a href="<?php echo base_url(); ?>Dashboard">Dashboard</a></li>
-						<li class="breadcrumb-item active">Timekeeping (Security Guard)</li>
+						<li class="breadcrumb-item active">Timekeeping (Staff)</li>
 					</ul>
 				</div>
 			</div>
@@ -408,22 +408,22 @@
 														$totalDays++;
 
 														echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
-																<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' tkid='".$item->timekeepingID."' value='".$actualhours."|".$actualreg."|".$actualot."|".$item->timesheetID."|".$timeStatus."|".$item->client_ID."|".$item->post_ID."' id='".$item->timesheetID."'>".$actualhours."</a></td>";
+																<a href='javascript:void(0);' data-toggle='modal' class='attendance_info' data-target='#attendance_info' tkid='".$item->timekeepingID."' value='".$actualhours."|".$actualreg."|".$actualot."|".$item->timesheetID."|".$timeStatus."' id='".$item->timesheetID."'>".$actualhours."</a></td>";
 														break;
 													}else{
 
 														if($item->timein==null || $item->timeout==null){
 															echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
-																<a href='javascript:void(0);' data-toggle='modal' class='biotime_info' data-target='#biotime_info' tkid='".$item->timekeepingID."' value='notexist|0|0|".$item->timesheetID."|0|".$item->client_ID."|".$item->post_ID."' timeshtid='".$item->timesheetID."'><i style='color:#49ca46;' class='fas fa-user-clock fa-lg'></i></a></td>";
+																<a href='javascript:void(0);' data-toggle='modal' class='biotime_info' data-target='#biotime_info' tkid='".$item->timekeepingID."' value='notexist|0|0|".$item->timesheetID."|0' timeshtid='".$item->timesheetID."'><i style='color:#49ca46;' class='fas fa-user-clock fa-lg'></i></a></td>";
 														}else{
 															echo "<td class='tsdata' style='font-weight: 500; color:".$color.";'>
-																<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' tkid='".$item->timekeepingID."' value='notexist|0|0|".$item->timesheetID."|0|".$item->client_ID."|".$item->post_ID."' timeshtid='".$item->timesheetID."'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
+																<a href='javascript:void(0);' data-toggle='modal' class='schedule_info' data-target='#schedule_info' tkid='".$item->timekeepingID."' value='notexist|0|0|".$item->timesheetID."|0' timeshtid='".$item->timesheetID."'><i class='fa fa-calendar-times fa-2x'></i></a></td>";
 														}
 														
 														break;
 													}
 												}else{
-													$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i,$emp->clientID,$emp->postID);
+													$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$i);
 													$restDay+=$retRD;
 												}
 											}
@@ -431,7 +431,7 @@
 
 										if($exist==1){
 											for($x=$i+1;$x<=$lastday;$x++){
-												$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x,$emp->clientID,$emp->postID);
+												$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$x);
 												$restDay+=$retRD;
 											}
 										}
@@ -440,7 +440,7 @@
 									if($exist==0){
 										for($y=$init;$y<=$lastday;$y++){
 											$init++;
-											$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y,$emp->clientID,$emp->postID);
+											$retRD = checkRDLV($item->timekeepingID,$data['restday'],$data['leave'],$emp->employeeID,$currentYear,$currentMonth,$y);
 											$restDay+=$retRD;
 										}
 									}
@@ -525,24 +525,6 @@
 									</tbody>
 								</table>
 
-								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Client details</h4>
-								<table class="table table-striped table-border">
-									<tbody>
-										<tr>
-											<td style="color:#e04d45;">Client Name:</td>
-											<td class="text-right" id="attendance_client"></td>
-										</tr>
-										<tr>
-											<td style="color:#e04d45;">Post Name:</td>
-											<td class="text-right" id="attendance_post"></td>
-										</tr>
-										<tr>
-											<td style="color:#e04d45;">Shift:</td>
-											<td class="text-right" id="attendance_shift"></td>
-										</tr>
-									</tbody>
-								</table>
-
 								<div class="validate_details" style="display:none;">
 									<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px; color:#ff5200c7;">Validation details</h4>
 									<table class="table table-striped table-border">
@@ -604,17 +586,9 @@
 									</tbody>
 								</table>
 
-								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Client details</h4>
+								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Schedule Info</h4>
 								<table class="table table-striped table-border">
 									<tbody>
-										<tr>
-											<td style="color:#e04d45;">Client Name:</td>
-											<td class="text-right" id="schedule_client"></td>
-										</tr>
-										<tr>
-											<td style="color:#e04d45;">Post Name:</td>
-											<td class="text-right" id="schedule_post"></td>
-										</tr>
 										<tr>
 											<td style="color:#e04d45;" colspan="2">
 												<div class="row">
@@ -688,24 +662,6 @@
 										<tr>
 											<td style="color:#e04d45;">Time Out:</td>
 											<td class="text-right" id="biotime_timeout"></td>
-										</tr>
-									</tbody>
-								</table>
-
-								<h4 class="card-title" style="font-size: 17px !important; margin-bottom: 5px;">Client details</h4>
-								<table class="table table-striped table-border">
-									<tbody>
-										<tr>
-											<td style="color:#e04d45;">Client Name:</td>
-											<td class="text-right" id="biotime_client"></td>
-										</tr>
-										<tr>
-											<td style="color:#e04d45;">Post Name:</td>
-											<td class="text-right" id="biotime_post"></td>
-										</tr>
-										<tr>
-											<td style="color:#e04d45;">Shift:</td>
-											<td class="text-right" id="biotime_shift"></td>
 										</tr>
 									</tbody>
 								</table>
@@ -795,6 +751,11 @@
 
 	.table td{
 		padding: .5rem;
+	}
+
+	.edit-time{
+		margin-left:5px; 
+		color:#df4c44;
 	}
 </style>
 
@@ -891,7 +852,7 @@
 		}
 
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/approve');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/approve');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID,
 		      		  lastapprover:lastapprover,
@@ -977,7 +938,7 @@
 		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/deny');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/deny');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID,
 		      		  reason:reason},
@@ -1023,7 +984,7 @@
     	var timekeepingID = $('#cutoff').attr('timekeepingid');
 
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/submit');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/submit');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID},
 		      async : true,
@@ -1096,7 +1057,7 @@
 		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
 		      		
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/cancel');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/cancel');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID},
 		      async : true,
@@ -1168,7 +1129,7 @@
         e.preventDefault(); //form will not submitted  
 
         $.ajax({  
-             url:"<?php echo site_url('Timekeepingsecurityguard/uploadTimekeeping');?>",   
+             url:"<?php echo site_url('Timekeepingstaff/uploadTimekeeping');?>",   
              method:"POST",  
              data:formData,  
              contentType:false,          // The content type used when sending data to the server.  
@@ -1176,7 +1137,7 @@
              processData:false,          // To send DOMDocument or non processed data file it is set to false  
              dataType : 'json',
              success: function(data){  
-             	window.location.replace('<?php echo base_url(); ?>Timekeepingsecurityguard');
+             	window.location.replace('<?php echo base_url(); ?>Timekeepingstaff');
              },
              error: function(request, textStatus, error) {
 
@@ -1191,7 +1152,7 @@
 		var timesheetID = $(this).attr('id');
 		
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/getattendance');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/getattendance');?>",
 		      method : "POST",
 		      data : {timesheetID:timesheetID},
 		      async : true,
@@ -1225,7 +1186,12 @@
              					timein.getHours().toString().padStart(2,"0") + ":" +
              					timein.getMinutes().toString().padStart(2,"0") + ":" +
              					timein.getSeconds().toString().padStart(2,"0") + "</b>";
-
+             					
+ 					datetimein += "<a href='#' id='edit_timein' indate='"+day[timein.getDay()] + ", " + months[timein.getMonth()] + " " + 
+             					timein.getDate().toString().padStart(2,"0") + ", " + 
+             					timein.getFullYear()+"' intime='"+timein.getHours().toString().padStart(2,"0") + ":" +
+             					timein.getMinutes().toString().padStart(2,"0") + ":" +
+             					timein.getSeconds().toString().padStart(2,"0")+"'><i class='fa fa-edit edit-time'></i></a>";
 				var timeout = new Date(data[0]["t_timeout"]);
              	var datetimeout = day[timein.getDay()] + ", " + months[timeout.getMonth()] + " " + 
              					timeout.getDate().toString().padStart(2,"0") + ", " + 
@@ -1233,6 +1199,12 @@
              					timeout.getHours().toString().padStart(2,"0") + ":" +
              					timeout.getMinutes().toString().padStart(2,"0") + ":" +
              					timeout.getSeconds().toString().padStart(2,"0") + "</b>";
+
+ 					datetimeout += "<a href='#' id='edit_timeout' outdate='"+day[timeout.getDay()] + ", " + months[timeout.getMonth()] + " " + 
+             					timeout.getDate().toString().padStart(2,"0") + ", " + 
+             					timeout.getFullYear()+"' outtime='"+timeout.getHours().toString().padStart(2,"0") + ":" +
+             					timeout.getMinutes().toString().padStart(2,"0") + ":" +
+             					timeout.getSeconds().toString().padStart(2,"0")+"'><i class='fa fa-edit edit-time'></i></a>";
 
 				/******************** REGULAR HOURS ***************************/
 				var strHrs = "";
@@ -1289,10 +1261,6 @@
 				var nightDiffirential = "---";
 				if(strHrs_night+strMin_night!="") nightDiffirential = strHrs_night + strMin_night;
 				
-				$("#attendance_client").html(data[0]["clientname"]);
-				$("#attendance_post").html(data[0]["postname"]);
-				$("#attendance_shift").html(data[0]["post_timein"] + " - " + data[0]["post_timeout"]);
-
 				$("#attendance_date").html(datesched);
 				$("#attendance_day").html(daytype);
 				$("#attendance_timein").html(datetimein);
@@ -1312,12 +1280,6 @@
 					$("#validatedate").html("");
 					$("#validateremarks").html("");
 				}
-
-/*
-				$("#attendance_hours").html(months[m] + " " + d + ", " + y);
-				$("#attendance_overtime").html(months[m] + " " + d + ", " + y);
-				$("#attendance_client").html(months[m] + " " + d + ", " + y);
-				$("#attendance_post").html(months[m] + " " + d + ", " + y);*/
              },
              error: function(request, textStatus, error) {
 
@@ -1331,7 +1293,7 @@
 		$(".validate").attr("timeshtid",timesheetID);
 		
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/getattendance');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/getattendance');?>",
 		      method : "POST",
 		      data : {timesheetID:timesheetID},
 		      async : true,
@@ -1369,18 +1331,10 @@
 	             					timeout.getMinutes().toString().padStart(2,"0") + ":" +
 	             					timeout.getSeconds().toString().padStart(2,"0") + "</b>";
 				}
-				
-				$("#schedule_client").html(data[0]["clientname"]);
-				$("#schedule_post").html(data[0]["postname"]);
 
 				$("#schedule_date").html(datesched);
 				$("#schedule_timein").html(datetimein);
 				$("#schedule_timeout").html(datetimeout);
-/*
-				$("#attendance_hours").html(months[m] + " " + d + ", " + y);
-				$("#attendance_overtime").html(months[m] + " " + d + ", " + y);
-				$("#attendance_client").html(months[m] + " " + d + ", " + y);
-				$("#attendance_post").html(months[m] + " " + d + ", " + y);*/
              },
              error: function(request, textStatus, error) {
 
@@ -1393,7 +1347,7 @@
 		var timesheetID = $(this).attr('timeshtid');
 
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/getattendance');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/getattendance');?>",
 		      method : "POST",
 		      data : {timesheetID:timesheetID},
 		      async : true,
@@ -1437,10 +1391,6 @@
 				$("#biotime_date").html(datesched);
 				$("#biotime_timein").html(datetimein);
 				$("#biotime_timeout").html(datetimeout);
-
-				$("#biotime_client").html(data[0]["clientname"]);
-				$("#biotime_post").html(data[0]["postname"]);
-				$("#biotime_shift").html(data[0]["post_timein"] + " - " + data[0]["post_timeout"]);
              },
              error: function(request, textStatus, error) {
 
@@ -1457,7 +1407,7 @@
 		var timekeepingID = $(this).attr('id');
 		
     	$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/getdenied');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/getdenied');?>",
 		      method : "POST",
 		      data : {timekeepingID:timekeepingID},
 		      async : true,
@@ -1559,7 +1509,7 @@
 		$('.submit-btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Validating...');
 
 		$.ajax({
-		      url : "<?php echo site_url('Timekeepingsecurityguard/validateattendance');?>",
+		      url : "<?php echo site_url('Timekeepingstaff/validateattendance');?>",
 		      method : "POST",
 		      data : {timesheetID:timesheetID,
 		      		  postTimein:postTimein,
@@ -1568,7 +1518,7 @@
 		      async : true,
 		      dataType : 'json',
 		      success: function(data){
-		  			window.location.replace('<?php echo base_url(); ?>Timekeepingsecurityguard');
+		  			window.location.replace('<?php echo base_url(); ?>Timekeepingstaff');
          	  },
               error: function(request, textStatus, error) {
 
@@ -1576,9 +1526,57 @@
         });
 	});
 
-	/*$(document).on("click", ".validate", function(){
-		
-	}); */
+	$(document).on("click", "#edit_timein", function(){
+		var intime = $(this).attr('intime');
+		var indate = $(this).attr('indate');
+
+		var htmlTimein = "<a href='#' class='pull-right cancel-timein' canceltimein='"+intime+"' canceldatein='"+indate+"' style='padding: 5px 3px;'>" + 
+						 	"<i class='fa fa-ban' style='color:red;font-size:1rem;'></i>" + 
+					 	 "</a>" + 
+					 	 "<a href='#' class='pull-right' style='padding: 5px 3px;'>" + 
+					 	 	"<i class='fa fa-check' style='color:green;font-size:1rem;'></i>" + 
+					 	 "</a>" + 
+					 	 "<input class='form-control pull-right newtimein' style='height:25px;width: 110px; text-align: center;' type='time' value='"+intime+"'>";
+		$("#attendance_timein").html(htmlTimein);
+		$(".newtimein").focus();
+	});
+
+	$(document).on("click", ".cancel-timein", function(){
+		var indate = $(this).attr('canceldatein');
+		var intime = $(this).attr('canceltimein');
+		var htmlTimein = "";
+
+		htmlTimein += indate+" <b>"+intime+"</b><a href='#' id='edit_timein' indate='"+indate+"' intime='"+intime+"'><i class='fa fa-edit edit-time'></i></a>"
+
+
+		$("#attendance_timein").html(htmlTimein);
+	});
+
+	$(document).on("click", "#edit_timeout", function(){
+		var outtime = $(this).attr('outtime');
+		var outdate = $(this).attr('outdate');
+
+		var htmlTimeout = "<a href='#' class='pull-right cancel-timeout' canceltimeout='"+outtime+"' canceldateout='"+outdate+"' style='padding: 5px 3px;'>" + 
+						 	"<i class='fa fa-ban' style='color:red;font-size:1rem;'></i>" + 
+					 	 "</a>" + 
+					 	 "<a href='#' class='pull-right' style='padding: 5px 3px;'>" + 
+					 	 	"<i class='fa fa-check' style='color:green;font-size:1rem;'></i>" + 
+					 	 "</a>" + 
+					 	 "<input class='form-control pull-right newtimeout' style='height:25px;width: 110px; text-align: center;' type='time' value='"+outtime+"'>";
+		$("#attendance_timeout").html(htmlTimeout);
+		$(".newtimeout").focus();
+	});
+
+	$(document).on("click", ".cancel-timeout", function(){
+		var outdate = $(this).attr('canceldateout');
+		var outtime = $(this).attr('canceltimeout');
+		var htmlTimeout = "";
+
+		htmlTimeout += outdate+" <b>"+outtime+"</b><a href='#' id='edit_timeout' outdate='"+outdate+"' outtime='"+outtime+"'><i class='fa fa-edit edit-time'></i></a>"
+
+
+		$("#attendance_timeout").html(htmlTimeout);
+	});
 });
 </script>
 <!-- Page Wrapper -->

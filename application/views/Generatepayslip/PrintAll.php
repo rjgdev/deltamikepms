@@ -36,6 +36,7 @@
             	<!-- <button class="btn btn-white float-right" id="printPageButton" onClick="window.print();" disabled="disabled"><i class="fa fa-print fa-lg"></i> Print</button> -->
 			
 				<!-- Page Content -->
+				<?php foreach ($data['all'] as $item) { ?>
                 <div class="content container-fluid">
                 	<div class="loader"></div>
 					<div class="row">
@@ -44,7 +45,6 @@
 								<div class="card-body">
 									<div class="row ml-2 mr-2 mt-2">
 										<div style="width: 1%">
-											<?php foreach ($data['payslip'] as $item) { ?>
 											
 										</div>
 										<div style="width: 99%;text-align:center;">
@@ -241,11 +241,11 @@
 											</table>
 										</div>
 									</div>
-									<?php } ?>
 								</div>
 							</div>
 						</div>
 					</div>
+					<?php } ?>
                 </div>
 				<!-- /Page Content -->
 				
@@ -340,4 +340,3 @@
 	}
 </style>
 
-		 
