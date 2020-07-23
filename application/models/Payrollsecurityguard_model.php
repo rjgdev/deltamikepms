@@ -127,7 +127,7 @@ class Payrollsecurityguard_model extends CI_Model
 									   INNER JOIN dm_timekeeping ON dm_timekeeping.timekeepingID=dm_timekeepingdetails.timekeepingID
 									   WHERE tkType='Exist' AND timekeepingType=1 AND (datesched >= '".$fromcutoff."' AND 
 									   	      datesched <= '".$tocutoff."') GROUP BY dm_timekeepingdetails.employeeID");
-
+			
 			if ($query->num_rows() > 0)
 			{
 			   foreach ($query->result() as $row)

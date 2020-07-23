@@ -159,5 +159,15 @@
        		$this->session->set_flashdata('validated', 'success'); 
        		echo json_encode($data);
    		}
+
+   		public function savetimein() 
+		{ 
+			$timesheetID = $this->input->post('timesheetID');
+			$newtimein  = $this->input->post('newtimein');
+
+       		$data=$this->timekeeping->save_timein($timesheetID,$newtimein);
+       		
+       		echo json_encode($data);
+   		}
 	}     
 ?>

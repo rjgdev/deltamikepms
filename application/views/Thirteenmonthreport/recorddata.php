@@ -22,17 +22,16 @@ foreach ($data['company'] as $company):
 	$dateto = $company->dateto;
 
 endforeach;
-?>
-<style>
-
-</style>	
+?>	
 			<br>
 			<br>
 			<br>
 			<br>
 			<div align="center">
-						<div class="col-sm-12" id="scroll">
-									<div style="width: 99%"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5>
+						<div class="col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<div style="width: 99%">
 											<img style="width: 100px; height: 100px;" src="<?=base_url(); ?>pages/assets/img/logo2.png" >
 											<h2 style="text-align: center; margin-bottom: 0;"><?php echo $companyname; ?></h2>
 											<h6 style="text-align: center;"><?php echo $address; ?></h6>
@@ -59,13 +58,13 @@ endforeach;
 										<div class="col-sm-20">
 											<div>
 												<br>
-												<table class="table mb-0">
-													<thead >
-														<tr class="thirteenmonth">	
-														<th class="thirteenmonth">Month</th>
-														<th class="thirteenmonth">Late</th>
-														<th class="thirteenmonth">Absent</th>
-														<th class="thirteenmonth">Net Pay</th>
+												<table class="table table-bordered table-sss custom-table mb-0 table-striped ">
+													<thead class="thead-light">
+														<tr>	
+														<th>Month</th>
+														<th>Late</th>
+														<th>Absent</th>
+														<th>Net Pay</th>
 														<tr>
 													</thead>	
 													<?php 
@@ -76,18 +75,19 @@ endforeach;
 
 													?>		
 													<tr> 
-														<td class="thirteenmonth"><?php echo $record->datepayrol; ?></td> 
-														<td class="thirteenmonth" style ="text-align: right;"><?php echo number_format($record->late, 4, '.', ','); ?></td> 
-														<td class="thirteenmonth" style ="text-align: right;"><?php echo number_format($record->daysofabsent, 4,'',''); ?></td> 
-														<td class="thirteenmonth" style ="text-align: right;"><?php echo number_format($record->thrmonth, 4, '.', ','); ?></td> 
-													<?php endforeach;?>
+														<td><?php echo $record->datepayrol; ?></td> 
+														<td style ="text-align: right;"><?php echo number_format($record->late, 4, '.', ','); ?></td> 
+														<td style ="text-align: right;"><?php echo number_format($record->daysofabsent, 4,'',''); ?></td> 
+														<td  style ="text-align: right;"><?php echo number_format($record->thrmonth, 4, '.', ','); ?></td> 
+													<?php endforeach; ?>
 												</tr>
-												<tfoot >
+												<tfoot>
 													<tr>
- 														<th class="thirteenmonth">Total</th>
- 														<th class="thirteenmonth" style ="text-align: right"> <?php echo number_format(array_sum($totallate), 4, '.', ','); ?></th>
- 														<th class="thirteenmonth" style ="text-align: right"> <?php echo number_format(array_sum($totalabsent), 4, '.', ','); ?></th>
- 														<th class="thirteenmonth" style ="text-align: right"> <?php echo number_format(array_sum($totalnetpay), 4, '.', ','); ?></th>
+ 														<th>Total</th>
+ 														<th style ="text-align: right;  color:#FF0000;"> <?php echo number_format(array_sum($totallate), 4, '.', ','); ?></th>
+ 														<th style ="text-align: right;  color:#FF0000;"> <?php echo number_format(array_sum($totalabsent), 4, '.', ','); ?></th>
+ 														<th style ="text-align: right;  color:#FF0000;"> <?php echo number_format(array_sum($totalnetpay), 4, '.', ','); ?></th>
+
 													</tr>	
 												</tfoot>
 												</table>
@@ -98,28 +98,10 @@ endforeach;
 									</div>
 								</div>
 							</div>
+						</div>
+						</div>
 					
-					
 
-<style type="text/css">
-
-
-@media print{
-	
-
-		tr:nth-child(even) td {
-		background-color:  !important;
-		-webkit-print-color-adjust: exact;
-		}
-}
-@media only screen and (max-width: 768px) {
-  /* For mobile phones: */
-  #scroll {
-    width: 100%;
-    padding: 10px;
-  }
-}
-</style>			
 
 				
 

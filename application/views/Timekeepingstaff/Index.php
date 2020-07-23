@@ -757,6 +757,11 @@
 		margin-left:5px; 
 		color:#df4c44;
 	}
+
+	a.disabled {
+	  cursor: no-drop;
+	  pointer-events: none;
+	}
 </style>
 
 <script type="text/javascript">
@@ -1187,7 +1192,7 @@
              					timein.getMinutes().toString().padStart(2,"0") + ":" +
              					timein.getSeconds().toString().padStart(2,"0") + "</b>";
              					
- 					datetimein += "<a href='#' id='edit_timein' indate='"+day[timein.getDay()] + ", " + months[timein.getMonth()] + " " + 
+ 					datetimein += "<a href='#' class='editButton' id='edit_timein' indate='"+day[timein.getDay()] + ", " + months[timein.getMonth()] + " " + 
              					timein.getDate().toString().padStart(2,"0") + ", " + 
              					timein.getFullYear()+"' intime='"+timein.getHours().toString().padStart(2,"0") + ":" +
              					timein.getMinutes().toString().padStart(2,"0") + ":" +
@@ -1200,7 +1205,7 @@
              					timeout.getMinutes().toString().padStart(2,"0") + ":" +
              					timeout.getSeconds().toString().padStart(2,"0") + "</b>";
 
- 					datetimeout += "<a href='#' id='edit_timeout' outdate='"+day[timeout.getDay()] + ", " + months[timeout.getMonth()] + " " + 
+ 					datetimeout += "<a href='#' class='editButton' id='edit_timeout' outdate='"+day[timeout.getDay()] + ", " + months[timeout.getMonth()] + " " + 
              					timeout.getDate().toString().padStart(2,"0") + ", " + 
              					timeout.getFullYear()+"' outtime='"+timeout.getHours().toString().padStart(2,"0") + ":" +
              					timeout.getMinutes().toString().padStart(2,"0") + ":" +
@@ -1533,11 +1538,12 @@
 		var htmlTimein = "<a href='#' class='pull-right cancel-timein' canceltimein='"+intime+"' canceldatein='"+indate+"' style='padding: 5px 3px;'>" + 
 						 	"<i class='fa fa-ban' style='color:red;font-size:1rem;'></i>" + 
 					 	 "</a>" + 
-					 	 "<a href='#' class='pull-right' style='padding: 5px 3px;'>" + 
+					 	 "<a href='#' class='pull-right save-timein' style='padding: 5px 3px;'>" + 
 					 	 	"<i class='fa fa-check' style='color:green;font-size:1rem;'></i>" + 
 					 	 "</a>" + 
 					 	 "<input class='form-control pull-right newtimein' style='height:25px;width: 110px; text-align: center;' type='time' value='"+intime+"'>";
 		$("#attendance_timein").html(htmlTimein);
+		$(".editButton").addClass("disabled");
 		$(".newtimein").focus();
 	});
 
@@ -1546,10 +1552,11 @@
 		var intime = $(this).attr('canceltimein');
 		var htmlTimein = "";
 
-		htmlTimein += indate+" <b>"+intime+"</b><a href='#' id='edit_timein' indate='"+indate+"' intime='"+intime+"'><i class='fa fa-edit edit-time'></i></a>"
+		htmlTimein += indate+" <b>"+intime+"</b><a href='#' class='editButton' id='edit_timein' indate='"+indate+"' intime='"+intime+"'><i class='fa fa-edit edit-time'></i></a>"
 
 
 		$("#attendance_timein").html(htmlTimein);
+		$(".editButton").removeClass("disabled");
 	});
 
 	$(document).on("click", "#edit_timeout", function(){
@@ -1559,11 +1566,12 @@
 		var htmlTimeout = "<a href='#' class='pull-right cancel-timeout' canceltimeout='"+outtime+"' canceldateout='"+outdate+"' style='padding: 5px 3px;'>" + 
 						 	"<i class='fa fa-ban' style='color:red;font-size:1rem;'></i>" + 
 					 	 "</a>" + 
-					 	 "<a href='#' class='pull-right' style='padding: 5px 3px;'>" + 
+					 	 "<a href='#' class='pull-right save-timeout' style='padding: 5px 3px;'>" + 
 					 	 	"<i class='fa fa-check' style='color:green;font-size:1rem;'></i>" + 
 					 	 "</a>" + 
 					 	 "<input class='form-control pull-right newtimeout' style='height:25px;width: 110px; text-align: center;' type='time' value='"+outtime+"'>";
 		$("#attendance_timeout").html(htmlTimeout);
+		$(".editButton").addClass("disabled");
 		$(".newtimeout").focus();
 	});
 
@@ -1572,10 +1580,29 @@
 		var outtime = $(this).attr('canceltimeout');
 		var htmlTimeout = "";
 
-		htmlTimeout += outdate+" <b>"+outtime+"</b><a href='#' id='edit_timeout' outdate='"+outdate+"' outtime='"+outtime+"'><i class='fa fa-edit edit-time'></i></a>"
-
+		htmlTimeout += outdate+" <b>"+outtime+"</b><a href='#' class='editButton' id='edit_timeout' outdate='"+outdate+"' outtime='"+outtime+"'><i class='fa fa-edit edit-time'></i></a>";
 
 		$("#attendance_timeout").html(htmlTimeout);
+		$(".editButton").removeClass("disabled");
+	});
+
+	$(document).on("click", ".save-timein", function(){
+		var newtimein = $(".newtimein").val();
+
+		$.ajax({
+		      url : "<?php echo site_url('Timekeepingstaff/savetimein');?>",
+		      method : "POST",
+		      data : {timesheetID:timesheetID,
+		      		  newtimein:newtimein},
+		      async : true,
+		      dataType : 'json',
+		      success: function(data){
+				
+         	  },
+              error: function(request, textStatus, error) {
+
+        	  } 
+        });
 	});
 });
 </script>

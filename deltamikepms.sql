@@ -723,16 +723,6 @@ CREATE TABLE `dm_payroll` (
   `payrollstatus` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `dm_payroll`
---
-
-INSERT INTO `dm_payroll` (`payrollID`, `payrollType`, `datefrom`, `dateto`, `payperiod`, `usersubmitted`, `datesubmitted`, `userapproved`, `dateapproved`, `level`, `approvalID`, `reason`, `userdenied`, `datedenied`, `payrollstatus`) VALUES
-(1, 1, '2020-07-01', '2020-07-15', 1, 1, '2020-07-13 06:58:21', '1', '2020-07-13 06:58:26', 2, 3, '', '', '', 2),
-(2, 2, '2020-07-01', '2020-07-15', 1, 1, '2020-07-13 06:58:33', '5|9', '2020-07-13 06:59:00|2020-07-13 06:59:21', 3, 4, '', '', '', 2),
-(3, 1, '2020-07-16', '2020-07-31', 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', 0),
-(4, 2, '2020-07-16', '2020-07-31', 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -1841,7 +1831,7 @@ ALTER TABLE `dm_overtime`
 -- AUTO_INCREMENT for table `dm_payroll`
 --
 ALTER TABLE `dm_payroll`
-  MODIFY `payrollID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `payrollID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `dm_payrolldetails`
 --

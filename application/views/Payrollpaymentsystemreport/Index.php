@@ -33,29 +33,23 @@ td[rowspan]:not([rowspan="2"]) {
 		<div class="row filter-row">
 			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
-					<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
-					 	<option value="0">Select Pay Period</option>
-					 	<?php
-							foreach($data['payrolldate'] as $payroll)
-							{
-								echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
-							}
-						?> 
-					</select>
-					<label class="focus-label">Pay Period</label>
-					<div class="invalid-feedback" id="search-searchpayperiod"></div>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group form-focus select-focus">
 					<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
-						<option value="0">All</option>
+						<option value="0">Select employee type</option>
 						<option value="1">Security Guard</option>
 						<option value="2">Staff</option>
 					</select>
 					<label class="focus-label">Employee Type</label>
 				</div>
 
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group form-focus select-focus">
+					<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
+					 	<option value="0">Select Pay Period</option>
+					</select>
+					<label class="focus-label">Pay Period</label>
+					<div class="invalid-feedback" id="search-searchpayperiod"></div>
+				</div>
 			</div>
 			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
@@ -118,11 +112,8 @@ td[rowspan]:not([rowspan="2"]) {
 	$(document).ready(function() {
 
 		$('.table').DataTable({
-			responsive: true,
 	        scrollX: false,
-	    	scrollCollapse: true,
-	    	 autoWidth: true,
-	    	
+	    	scrollCollapse: false
 	    });
 
 	    $(".select2-selection--single").each(function(){
@@ -141,6 +132,30 @@ td[rowspan]:not([rowspan="2"]) {
 				
 
 		});
+		$("#searchemployeetype").change(function(){
+			var id=$(this).val();
+			$.ajax({
+				url : "<?php echo site_url('Payrollpaymentsystemreport/get_date');?>",
+				method : "POST",
+				data : {id: id},
+				async : true,
+				dataType : 'json',
+				success: function(data){
+				var html = '';
+				var i;
+				for(i=0; i<data.length; i++){
+					if($("#searchhiddensearchpayperiod").val()==data[i].payrollID){
+					html += '<option value='+data[i].payrollID+' selected>'+data[i].dateformat+'</option>';
+					}else{
+
+					html += '<option value='+data[i].payrollID+'>'+data[i].dateformat+'</option>';
+					}
+				}
+				$('#searchpayperiod').html(html);
+				}
+			/*}*/
+		});	
+	});			
 
 		$('#searchemployeetype').change(function(){
 			var employeetype =$(this).val();
@@ -150,8 +165,9 @@ td[rowspan]:not([rowspan="2"]) {
 
 		}else{
 			$("#searchclient").prop("disabled", true);
+			$('#searchclient').val('0').trigger('change');
 			/*$("#searchdetachment").prop("disabled", true);*/
-			$("#searchclient").val('');
+			//$("#searchclient").val('');
 			/*$("#searchdetachment").val('');*/
 		}
 
@@ -198,26 +214,18 @@ td[rowspan]:not([rowspan="2"]) {
 					  $("body").addClass("loading");
 				},
 				success: function(response){
-
-					console.table(response);
-
 					var htmlfooter = '';
 				  	var html = '';
                     var i;
-                   html +='<div style="overflow-x:auto;">' +
-                   '<div class="table-responsive" id="show_data">' +
-                   '<div id="recordexcel">' +
+                   html +='<div id="recordexcel">' +
                    '<table class="table table-striped table-bordered mb-0" border="1" id="datatable1"" >' +
 							'<thead >' +
-								'<tr>' +
-								'<td colspan="5"; border="0"; rowspan="0";><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5></td>' +
-							'</tr>' +	
 							'<tr>' +
-								'<th style="width: 250px ! important;"><center>Employee Code</center></th>' +
-								'<th style="width: 390px ! important;"><center>Employee Name</center></th>' +
-								'<th style="width: 370px ! important;"><center>Branch Code</center></th>' +
-								'<th style="width: 253px ! important;"><center>Payroll Account Number</center></th>' +
-								'<th style="width: 250px ! important;"><center>Amount</center></th>' +				
+								'<th style="width: 250px;"><center>Employee Code</center></th>' +
+								'<th style="width: 310px;"><center>Employee Name</center></th>' +
+								'<th style="width: 270px;"><center>Branch Code</center></th>' +
+								'<th style="width: 253px;"><center>Payroll Account Number</center></th>' +
+								'<th style="width: 250px;"><center>Amount</center></th>' +				
 							'</tr>' +
 							'</thead>' +	
 							'<tbody>';
@@ -232,7 +240,7 @@ td[rowspan]:not([rowspan="2"]) {
 
 					 }	
 						
-                      html +=  '</tbody></table></div></div></div>';
+                      html +=  '</tbody></table></div>';
 					if ($.fn.DataTable.isDataTable('#datatable1')){
 			           $('#datatable1').DataTable().destroy();
 			        };	
@@ -241,9 +249,9 @@ td[rowspan]:not([rowspan="2"]) {
 
                     $('#datatable1').DataTable({
 				        scrollX: true,
-			        	scrollCollapse: true,
-			        	 autoWidth: true,
-			        	 responsive: true
+			        	scrollCollapse: true
+			        	
+
 			        	
 				    });
 				   

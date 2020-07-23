@@ -21,11 +21,21 @@
 		<form action="#">
 			<div class="row">
 				<div class="col-xl-12">
-					<div class="form-group row" style="margin-bottom: 0px!important">			
+					<div class="form-group row" style="margin-bottom: 0px!important">
+					<div class="col-sm-2">
+							<div class="form-group form-focus select-focus">
+								<select class="form-control select2" name="searchemployeetype" style="width: 100%;" id="searchemployeetype" >
+								<option value="">Select employee type</option>
+								<option value="1">Security Guard</option>
+								<option value="2">Staff</option>
+								</select>
+								<label class="focus-label">Employee Type</label>
+							</div>
+						</div>			
 						<div class="col-sm-3">
 							<div class="form-group form-focus select-focus">
 								<select class="form-control select2" id="searchdate" name="seachdate" style="width: 100%;" description="Client">
-								<option value="">Select 13th month period</option>
+								<option value="0">Select 13th month period</option>
 								<?php
 								foreach($data['cutoff'] as $datecutoff)
 								{
@@ -35,16 +45,6 @@
 								</select>
 								<label class="focus-label">13th Month Pay</label>
 							<div class="invalid-feedback" id="add-searchdate"></div>
-							</div>
-						</div>
-						<div class="col-sm-2">
-							<div class="form-group form-focus select-focus">
-								<select class="form-control select2" name="searchemployeetype" style="width: 100%;" id="searchemployeetype" >
-								<option value="">All</option>
-								<option value="1">Security Guard</option>
-								<option value="2">Staff</option>
-								</select>
-								<label class="focus-label">Employee Type</label>
 							</div>
 						</div>
 						<div class="col-sm-3">
@@ -65,7 +65,7 @@
 							<div class="form-group form-focus select-focus">
 								<input type="hidden" id="searchhiddendetachment" name="searchhiddendetachment">
 								<select class="form-control select2" id="searchdetachment" name="searchdetachment" style="width: 100%;" description="detachment" >
-								<option value="">All</option>
+								<option value="0">All</option>
 								</select>
 								<label class="focus-label">Post</label>
 							</div>
@@ -96,7 +96,7 @@
 										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Lates</center></th>
 										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Absences</center></th>
 										<th class="text-right" style="width: 90px; font-size:10.5px;"><center>Total 13th Month</center></th>
-										<th class="text-right" style="width: 180px; font-size:10.5px;">Action</th>
+										<th class="text-right" style="width: 90px; font-size:10.5px;">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -130,8 +130,9 @@
 		}else{
 			$("#searchclient").prop("disabled", true);
 			$("#searchdetachment").prop("disabled", true);
-			$("#searchclient").val('');
-			$("#searchdetachment").val('');
+			$('#searchclient').val('0').trigger('change');
+			$('#searchdetachment').val('0').trigger('change');
+			//$("#searchdetachment").val('');
 		}
 
 		});
@@ -162,6 +163,7 @@
 		// });	
 		$('#searchclient').change(function(){
 			var id=$(this).val();
+
 			$.ajax({
 				url : "<?php echo site_url('Thirteenmonthreport/get_client');?>",
 				method : "POST",
@@ -213,7 +215,7 @@
 			var searchemployeetype = $("#searchemployeetype").val();
 			var searchclient = $("#searchclient").val();
 			var searchdetachment = $("#searchdetachment").val();
-			if(thrmonthID==""){
+			if(thrmonthID==0){
 			showErrorToast("Please select 13th month date range! ");
 			document.getElementById("add-searchdate").innerHTML = "Please provide a 13th month period!";
         	$('#searchdate').addClass('is-invalid');
@@ -225,7 +227,7 @@
 	        else{
         	document.getElementById("add-searchdate").innerHTML = "";
         	$('#searchdate').removeClass('is-invalid');
-        	$("[aria-labelledby='select2-searchdate-container']").addClass('is-valid');
+        	$('#searchdate').addClass('is-valid'); 
         	}
 			$.ajax({
 				url : "<?php echo site_url('Thirteenmonthreport/search_Thirteenmonthreport');?>",
@@ -261,13 +263,13 @@
 					'<thead>' +	
 					'<tr>' +
 						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee ID</center></th>' +
-						'<th class="text-right" style="width: 250px; font-size:11px;"><center>Employee Name</center></th>' +
-						'<th class="text-right" style="width: 140px; font-size:11px;"><center>Employee Type</center></th>' +
+						'<th class="text-right" style="width: 200px; font-size:11px;"><center>Employee Name</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Employee Type</center></th>' +
 						'<th class="text-right" style="width: 250px; font-size:11px;"><center>Month</center></th>' +
-						'<th class="text-right" style="width: 100px; font-size:11px;"><center>Lates</center></th>' +
-						'<th class="text-right" style="width: 100px; font-size:11px;"><center>Absences</center></th>' +
-						'<th class="text-right" style="width: 100px; font-size:11px;"><center>Total 13th Month</center></th>' +
-						'<th class="text-right" style="width: 180px; font-size:11px;">Action</th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Lates</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Absences</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;"><center>Total 13th Month</center></th>' +
+						'<th class="text-right" style="width: 90px; font-size:11px;">Action</th>' +
 					'</tr>' +
 					'</thead>'+
 					'<tbody>';
@@ -290,7 +292,7 @@
 	                         '<td class="text-right">'+accounting.formatMoney(response[i].late)+'</td>'+
 	                         '<td class="text-right">'+accounting.formatMoney(response[i].absent)+'</td>'+
 	                         '<td class="text-right">'+accounting.formatMoney(response[i].thrmonth)+'</td>'+
-	                         '<td class="text-center"><a class="btn btn-sm btn-primary" href="Thirteenmonthreport/recorddata?from='+response[i].datefrom + '&to='+response[i].dateto +'&id='+response[i].employeeID +' "target="_blank" >Generate Report</a></td>'+
+	                         '<td><a class="btn btn-sm btn-primary" href="Thirteenmonthreport/recorddata?from='+response[i].datefrom + '&to='+response[i].dateto +'&id='+response[i].employeeID +' "target="_blank" >Generate Report</a></td>'+
                         	'</tr>';   
                     }
                      html += '</tbody>'; 
@@ -308,11 +310,11 @@
 			        };		  
                     $('#tabledatarecord').html(html);
                     $('#datatable1').DataTable({
-				       		 scrollX: false,
-					        	scrollCollapse: false,
+				       		 scrollX: true,
+					        	scrollCollapse: true,
 						        fixedColumns:   {
-								    /*leftColumns: 1,
-								    rightColumns: 1*/
+								    leftColumns: 1,
+								    rightColumns: 1
 								}		
 				    });
 

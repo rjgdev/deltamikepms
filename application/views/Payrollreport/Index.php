@@ -30,26 +30,21 @@ td[rowspan]:not([rowspan="2"]) {
 		<div class="row filter-row">
 			<div class="col-sm-3">
 				<div class="form-group form-focus select-focus">
-					<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
-					 	<option value="0">Select Pay Period</option>
-					 	<?php
-							foreach($data['payrolldate'] as $payroll)
-							{
-								echo '<option value="'.$payroll->payrollID.'">'.$payroll->dateformat.'</option>';
-							}
-						?> 
-					</select>
-					<label class="focus-label">Pay Period</label>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group form-focus select-focus">
 					<select class="form-control select2" name="searchemployeetype" id="searchemployeetype" >
-						<option value="0">All</option>
+						<option value="0">Select employee type</option>
 						<option value="1">Security Guard</option>
 						<option value="2">Staff</option>
 					</select>
 					<label class="focus-label">Employee Type</label>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group form-focus select-focus">
+					<input type="hidden" id="searchhiddensearchpayperiod" name="searchhiddensearchpayperiod">
+					<select class="form-control select2" id="searchpayperiod" name="searchpayperiod" style="width: 100%;" description="Client" required>
+								<option value="0">All</option>
+								</select>
+								<label class="focus-label">Pay Period</label>
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -175,11 +170,10 @@ td[rowspan]:not([rowspan="2"]) {
 			window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('.dataTables_scroll').html()));
 		});
 
-	/*	$("#searchclient").change(function(){
+		$("#searchemployeetype").change(function(){
 			var id=$(this).val();
-			
 			$.ajax({
-				url : "<?php echo site_url('Payrollreport/get_client');?>",
+				url : "<?php echo site_url('Payrollreport/get_date');?>",
 				method : "POST",
 				data : {id: id},
 				async : true,
@@ -188,18 +182,21 @@ td[rowspan]:not([rowspan="2"]) {
 				var html = '';
 				var i;
 				for(i=0; i<data.length; i++){
-					if($("#searchhiddendetachment").val()==data[i].detachmentID){
-					html += '<option value='+data[i].detachmentID+' selected>'+data[i].postname+'</option>';
+					if($("#searchhiddensearchpayperiod").val()==data[i].payrollID){
+					html += '<option value='+data[i].payrollID+' selected>'+data[i].dateformat+'</option>';
 					}else{
-					html += '<option value='+data[i].detachmentID+'>'+data[i].postname+'</option>';
+
+					html += '<option value='+data[i].payrollID+'>'+data[i].dateformat+'</option>';
 					}
 				}
-				$('#searchdetachment').html(html);
+				$('#searchpayperiod').html(html);
 				}
-			});
-			return false;
+			/*}*/
+		});	
+	});			
+			
 
-		});*/
+	
 
 		$('#searchemployeetype').change(function(){
 			var employeetype =$(this).val();
@@ -209,8 +206,9 @@ td[rowspan]:not([rowspan="2"]) {
 
 		}else{
 			$("#searchclient").prop("disabled", true);
+			$('#searchclient').val('0').trigger('change');
 			/*$("#searchdetachment").prop("disabled", true);*/
-			$("#searchclient").val('');
+			//$("#searchclient").val('');
 			/*$("#searchdetachment").val('');*/
 		}
 
@@ -262,14 +260,11 @@ td[rowspan]:not([rowspan="2"]) {
                     var totalsss = 0;
                     var totalhdmf = 0;
                     var otherdeductionsloan = 0; 
-                    var otadjustment1 = 0; 
+                      var otadjustment1 = 0; 
                     var totalphic = 0;
                    html +='<table class="table table-striped table-bordered mb-0" border="1" id="datatable1">' +
                    			'<div id="recordexcel">' +
 							'<thead >' +
-							'<tr>' +
-								'<td colspan="21" border="0"><h5 style="text-align: right; color:Tomato;"><i>*for internal use only</i><h5></td>' +
-							'</tr>' +	
 							'<tr>' +
 								'<th style="width: 180px;"><center>Employee Name</center></th>' +
 								'<th style="width: 80px;"><center>Basic Pay</center></th>' +

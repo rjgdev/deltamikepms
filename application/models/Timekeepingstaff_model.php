@@ -440,6 +440,11 @@ class Timekeepingstaff_model extends CI_Model
 		}
 	}
 
+	function save_timein($timesheetID,$newtimein)
+	{
+		
+	}
+
 	function computeTime($transaction,$timekeepingID,$employeeID,$datesched,$timein,$timeout){
 		$formatDate = date('Y',strtotime($datesched)).'-'.
 					  date('m',strtotime($datesched)).'-'.

@@ -40,4 +40,9 @@
 			echo json_encode($data);
 
 		}
+		public function get_date(){
+			$searchpayperiod = $this->input->post('id');
+			$data = $this->payrollreport->searchpayperiod($searchpayperiod);
+			echo json_encode($data);  
+		}
 	}	
