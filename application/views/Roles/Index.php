@@ -47,7 +47,7 @@
 				<div class="m-b-30">
 					<ul class="list-group notification-list" id="show_data" style="margin-top: 28px;">
 						<?php foreach ($module as $item) { 
-							if($item->moduleShortDesc=="rolespermission" || $item->moduleShortDesc=="payrolladjustment") continue;
+							if(/*$item->moduleShortDesc=="rolespermission" ||*/ $item->moduleShortDesc=="payrolladjustment") continue;
 						 ?> 
 							<li class="list-group-item">
 								<?php echo $item->moduleDescription; ?>
@@ -428,7 +428,7 @@
 					for ( var i=0; i<data.length; i++ ) {
 						var checked = "";
 
-						if(data[i].moduleShortDesc=="rolespermission") continue;
+						/*if(data[i].moduleShortDesc=="rolespermission") continue;*/
 
 						if(data[i].modulestatus=="1"){
 							checked = "checked=''";

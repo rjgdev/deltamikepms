@@ -81,8 +81,6 @@
       echo '<span class="badge bg-inverse-success custom-status"><i class="fa fa-dot-circle-o text-success"></i> Active</span>';
     elseif($item->employeestatus=="AWOL")
       echo '<span class="badge bg-inverse-purple custom-status"><i class="fa fa-dot-circle-o text-purple"></i> AWOL</span>';
-    elseif($item->employeestatus=="End of Contract")
-      echo '<span class="badge bg-inverse-info custom-status"><i class="fa fa-dot-circle-o text-info"></i> End of Contract</span>';
     elseif($item->employeestatus=="Floating")
       echo '<span class="badge bg-inverse-warning custom-status"><i class="fa fa-dot-circle-o text-warning"></i> Floating</span>';
      elseif($item->employeestatus=="On Leave")
@@ -310,7 +308,6 @@
     <option value="">No Selected</option>
     <option>Active</option>
     <option>AWOL</option>
-    <option>End of Contract</option>
     <option>Floating</option>
     <option>On Leave</option>
     <option>Resigned</option>
@@ -764,7 +761,6 @@
             <option value="">No Selected</option>
              <option value="Active">Active</option>
             <option value="AWOL">AWOL</option>
-            <option value="End of Contract">End of Contract</option>
             <option value="Floating">Floating</option>
             <option value="On Leave">On Leave</option>
             <option value="Resigned">Resigned</option>
@@ -1102,7 +1098,6 @@
                   <select class="selectstatus" name="changestatus" id="changestatus" description="status">
                   <option value="Active">Active</option>
                   <option value="AWOL">AWOL</option>
-                  <option value="End of Contract">End of Contract</option>
                   <option value="Floating">Floating</option>
                   <option value="On Leave">On Leave</option>
                   <option value="Resigned">Resigned</option>

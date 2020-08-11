@@ -14,7 +14,7 @@
 		$data['data']=$this->leave->get_all_leave();
 		$this->load->view('Template/Header',$data);
 
-		if(isAllowed(4)) $this->load->view("Leaves/Index",$data);
+		if(isAllowed(4) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Leaves/Index",$data);
 					else $this->load->view("Denied/Index");
 
 		$this->load->view('Template/Footer',$data);

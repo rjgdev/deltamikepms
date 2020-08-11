@@ -14,7 +14,7 @@
 	  		$data['data']=$this->Retirementprocess->get_all_Retirementprocess("");
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(18)) $this->load->view("Retirementprocess/Index",$data);
+			if(isAllowed(18) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Retirementprocess/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

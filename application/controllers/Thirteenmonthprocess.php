@@ -14,7 +14,7 @@
   		$data['data']=$this->Thirteenmonthprocess->get_all_thirteenmonthprocess("");
 		$this->load->view('Template/Header',$data);
 
-		if(isAllowed(16)) $this->load->view("Thirteenmonthprocess/Index",$data);
+		if(isAllowed(16) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Thirteenmonthprocess/Index",$data);
 				     else $this->load->view("Denied/Index");
 
 		$this->load->view('Template/Footer',$data);

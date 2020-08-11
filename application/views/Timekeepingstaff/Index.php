@@ -50,11 +50,11 @@
 	}
 
 	function checkRDLV($timekeepingID,$dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day) {
+		$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
+		$isRest = 0;
+		$restDay = 0;
+		
 		if(count($dataRest)!=0){
-			$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
-			$isRest = 0;
-			$restDay = 0;
-
 			foreach ($dataRest as $rest) { 
 				if($rest->employeeID==$employeeID && 
 				   $rest->restday==$current_day){ 

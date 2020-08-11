@@ -16,7 +16,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(22)) $this->load->view("Payrollpaymentsystemreport/Index",$data);
+			if(isAllowed(22) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Payrollpaymentsystemreport/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

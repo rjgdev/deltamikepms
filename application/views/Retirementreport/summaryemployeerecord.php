@@ -18,6 +18,20 @@ foreach ($data['company'] as $company):
 
 endforeach;
 ?>	
+<style>
+body{
+	font-family: 'CircularStd', sans-serif;
+	font-size: .7375rem;
+	color: #1f1f1f;
+	background-color: #f7f7f7;
+	min-height: 100%;
+	width:100%;
+	overflow: scroll;
+	position: absolute;
+	
+}
+</style>
+		<body>	
 
 			<br>
 			<br>
@@ -60,7 +74,8 @@ endforeach;
 														<th class="philhealthreportheader">Year of service</th>
 														<th class="philhealthreportheader">Retirement Fund</th>
 														<tr>
-													</thead>	
+													</thead>
+													<tbody>	
 													<?php 
 														foreach ($data['record'] as $record):
 															$totalretfund[] = $record->retfund;
@@ -78,15 +93,11 @@ endforeach;
 														<td class="philhealthreportheader" style ="text-align: right;"><?php echo $record->retfund; ?></td>	 	
 													<?php endforeach; ?>
 												</tr>
-												<tfoot class="philhealthreportheader">
 													<tr>
- 														<th class="philhealthreportheader" style ="text-align: left ! important;" colspan="9" >Total</th>
- 														
+ 													 <th class="philhealthreportheader" style ="text-align: left ! important;" colspan="9" >Total</th>
  													 <th class="philhealthreportheader" style ="text-align: right"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
- 													
-
 													</tr>	
-												</tfoot>
+													</tbody>
 												</table>
 											</div>
 										</div>
@@ -95,6 +106,7 @@ endforeach;
 									</div>
 								</div>
 							</div>
+		</body>					
 					
 <style type="text/css">
 #retirementbordersummary  td, #retirementbordersummary th {

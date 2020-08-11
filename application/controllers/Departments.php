@@ -15,7 +15,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(27)) $this->load->view("Department/Index",$data);
+			if(isAllowed(27) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Department/Index",$data);
 					     else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data); 

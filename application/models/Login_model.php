@@ -41,7 +41,16 @@ class Login_model extends CI_Model
 	    $query = $this->db->query($sql,array($username,$password));
 
 	    return $query;
-  }
+  	}
+
+	function validateBCGI($username,$password)
+	{
+		$sql = 'SELECT * FROM dm_bcgiaccount WHERE BINARY username= ? AND BINARY password= ?';
+
+	    $query = $this->db->query($sql,array($username,$password));
+
+		return $query;
+	}
 }
 ?>
 

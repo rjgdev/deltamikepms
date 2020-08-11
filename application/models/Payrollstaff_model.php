@@ -419,11 +419,11 @@ class Payrollstaff_model extends CI_Model
 		$query = $this->db->query("SELECT * FROM dm_payrolldetails WHERE datefrom>='".$firstFromCutoff."' AND dateto<='".$firstToCutoff."' AND employeeID=".$employeeID);
 
 		/************************   INCOME  *************************/
-	    $taxEarnings  	= $basicsalary + $totalOTpay + $totalNightpay;
-	    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;
+	    /*$taxEarnings  	= $basicsalary + $totalOTpay + $totalNightpay;
+	    $TOTALINCOME    = $taxEarnings + $incentive + $allowance;*/
 
 		/************************  TOTAL  *************************/
-		$taxableIncome = $taxEarnings - $taxDeduction;
+		/*$taxableIncome = $taxEarnings - $taxDeduction;*/
 
 		/* Late */
 	  	$ordlate 	= $query->row()->ordlate;
@@ -446,7 +446,7 @@ class Payrollstaff_model extends CI_Model
       	$spcot 		= $query->row()->spcot;
       	$spcrstot 	= $query->row()->spcrstot;
       	$rglot 		= $query->row()->rglot;
-      	$rglrstot 	= $$query->row()->rglrstot;
+      	$rglrstot 	= $query->row()->rglrstot;
       	$dblot 		= $query->row()->dblot;
       	$dblrstot 	= $query->row()->dblrstot;
 
@@ -574,7 +574,17 @@ class Payrollstaff_model extends CI_Model
 		
 		$querySSS = $this->db->query("SELECT * FROM dm_ssstable WHERE belowrange<=".$basicsalary." AND aboverange>=".$basicsalary." LIMIT 1");
 
-		return $querySSS->row()->employee."|".$querySSS->row()->employer."|".$querySSS->row()->ec;
+		$sssEmployee  = 0;
+		$sssEmployeer = 0;
+		$sssEc        = 0;
+
+		if($querySSS->num_rows()!=0){
+			$sssEmployee  = $querySSS->row()->employee;
+			$sssEmployeer = $querySSS->row()->employer;
+			$sssEc 		  = $querySSS->row()->ec;
+		}
+
+		return $sssEmployee."|".$sssEmployeer."|".$sssEc;
 	}
 
 	/* MONTHLY BASIC SALARY */

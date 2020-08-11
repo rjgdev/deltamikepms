@@ -15,7 +15,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(10)) $this->load->view("Payrollsecurityguard/Index",$data);
+			if(isAllowed(10) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Payrollsecurityguard/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

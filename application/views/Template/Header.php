@@ -84,7 +84,7 @@
 							<span><?php echo $this->session->userdata('firstname').' '.$this->session->userdata('lastname'); ?></span>
 						</a>
 						<div class="dropdown-menu">
-							<?php if(isAllowed(2)){ ?>
+							<?php if(isAllowed(2)  || $this->session->userdata('accountype')=="bcgiadmin"){ ?>
 								<a class="dropdown-item" href="<?php echo base_url(); ?>profile"><i class="la la-user"></i> My Profile</a>
 							<?php } ?>
 							<a class="dropdown-item" href="<?php echo base_url(); ?>Login/logout"><i class="la la-sign-out"></i> Logout</a>
@@ -106,4 +106,7 @@
             </div>
 			<!-- /Header -->
 			
-			<?php $this->view('Template/Sidebar'); ?>
+			<?php
+				if($this->session->userdata('accountype')!="bcgiadmin") $this->view('Template/Sidebar');
+		 		else $this->view('Template/SidebarAdmin'); 
+	 		?>

@@ -13,7 +13,7 @@
 	  		$data['data']=$this->payrollreport->get_all_payroll();
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(14)) $this->load->view("Payrollreport/Index",$data);
+			if(isAllowed(14) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Payrollreport/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

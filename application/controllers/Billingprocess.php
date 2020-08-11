@@ -13,7 +13,7 @@
   		$data = array('title' => 'Billing Statement Process');
   		$data['data']=$this->Billingprocess->get_all_billingprocess("");
 		$this->load->view('Template/Header',$data);
-		 if(isAllowed(20))$this->load->view("Billingprocess/Index",$data);
+		 if(isAllowed(20) || $this->session->userdata('accountype')=="bcgiadmin")$this->load->view("Billingprocess/Index",$data);
 		   else $this->load->view("Denied/Index");
 
 		  $this->load->view('Template/Footer',$data);

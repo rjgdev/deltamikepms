@@ -15,7 +15,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(12)) $this->load->view("Postscheduling/Index",$data);
+			if(isAllowed(12) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Postscheduling/Index",$data);
 						 else $this->load->view("Denied/Index");
 			
 			$this->load->view('Template/Footer',$data);

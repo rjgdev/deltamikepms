@@ -17,14 +17,23 @@
 			$password = $this->input->post('password');
 
 			$this->load->model('Login_model');
-			
+
 			$data = $this->Login_model->validate($username, $password);
 
 			if($data->num_rows()==0){
-				$this->session->set_flashdata('uname', $username);
-				$this->session->set_flashdata('pword', $password);
-				$this->session->set_flashdata('error', 'The username or password is invalid.');
-				redirect(base_url());
+				$databcgi = $this->Login_model->validateBCGI($username, $password);
+
+				
+
+				if($databcgi->num_rows()==0){
+					$this->session->set_flashdata('uname', $username);
+					$this->session->set_flashdata('pword', $password);
+					$this->session->set_flashdata('error', 'The username or password is invalid.');
+					redirect(base_url());
+				}else{
+					$this->session->set_userdata($databcgi->row_array());
+					redirect(base_url() .'Dashboard');
+				}
 			}else{
 				$row = $data->row_array();
 
@@ -42,7 +51,7 @@
 	     
 		public function logout()
 		{
-		    $this->session->unset_userdata('username');
+		    $this->session->sess_destroy();
 		    redirect(base_url());
 		}
 	}     

@@ -727,6 +727,15 @@ $(document).ready(function() {
 									overtime	= value.split('|')[2];
 									timesheetID = value.split('|')[3];
 
+									console.log(data["details"]);
+									console.log(Object.values(data["details"][i])[counter]);
+
+									console.log('here'+value);
+									console.log(time);
+									console.log(regular);
+									console.log(overtime);
+									console.log(timesheetID);
+
 									if(value.split('|')[4]=="1"){
 										color = "#179414";
 										totalDays++;

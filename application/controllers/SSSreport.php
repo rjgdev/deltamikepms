@@ -13,7 +13,7 @@
        		$data['data']=$this->sssreport->get_all();
 
 			$this->load->view('Template/Header',$data);
-			if(isAllowed(24)) $this->load->view("SSSreport/Index",$data);
+			if(isAllowed(24) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("SSSreport/Index",$data);
 						 else $this->load->view("Denied/Index");
 			$this->load->view('Template/Footer',$data);
 		}

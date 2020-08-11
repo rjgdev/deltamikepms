@@ -15,7 +15,7 @@
 	  		$data['data']=$this->overtime->get_all_employeeovertime();
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(5)) $this->load->view("Overtime/Index",$data);
+			if(isAllowed(5) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Overtime/Index",$data);
 						else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

@@ -71,14 +71,24 @@
 					<?php } ?>
 				<?php } ?>
 
-				<?php if( $permission[10] || $permission[11] || $permission[12] || $permission[13] || $permission[14] ||
+				<?php if($permission[12]){ ?>
+					<li class="menu-title"> 
+						<span>Operations</span>
+					</li>
+
+					<li class="nav-item"> 
+						<a href="<?php echo base_url(); ?>Scheduling"><i class="la la-clipboard"></i> <span>Post Scheduling</span></a>
+					</li>
+				<?php } ?>
+
+				<?php if( $permission[10] || $permission[11] /*|| $permission[12]*/ || $permission[13] || $permission[14] ||
 						  $permission[15] || $permission[16] || $permission[17] || $permission[18] || $permission[19] || 
 						  $permission[20] || $permission[21] || $permission[22] || $permission[23] || $permission[24] || $permission[25]){ ?>
 					<li class="menu-title"> 
 						<span>Process</span>
 					</li>
 
-					<?php if($permission[10] || $permission[11] || $permission[12] || $permission[13] || $permission[14] || $permission[15]){ ?>
+					<?php if($permission[10] || $permission[11] /*|| $permission[12]*/ || $permission[13] || $permission[14] || $permission[15]){ ?>
 						<li class="submenu">
 							<a href="#" class="payroll-header"><i class="fa fa-money"></i> <span>Payroll</span><span class="menu-arrow"></a>
 							<ul style="display: none;" class="menu-header" id="payroll-header">
@@ -87,7 +97,7 @@
 								<?php } if($permission[11]){ ?>
 									<li><a href="<?php echo base_url(); ?>Payrollstaff">Payroll Process (Staff)</a></li>
 								<?php } if($permission[12]){ ?>
-									<li><a href="<?php echo base_url(); ?>Scheduling">Post Scheduling</a></li>
+									
 								<?php } if($permission[13]){ ?>
 									<li><a href="<?php echo base_url(); ?>Generatepayslip">Generate Payslip</a></li>
 								<?php } if($permission[14]){ ?>

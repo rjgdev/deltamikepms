@@ -15,7 +15,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(7)) $this->load->view("Timekeepingsecurityguard/Index",$data);
+			if(isAllowed(7) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Timekeepingsecurityguard/Index",$data);
 				        else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

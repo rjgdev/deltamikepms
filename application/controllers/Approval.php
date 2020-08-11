@@ -17,7 +17,7 @@
 
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(39)) $this->load->view("Approval/Index",$data);
+			if(isAllowed(39) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Approval/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

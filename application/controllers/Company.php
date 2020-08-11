@@ -14,7 +14,7 @@
 	  		$data['data']=$this->company->get_all_company();
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(37)) $this->load->view("Company/Index",$data);
+			if(isAllowed(37) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Company/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

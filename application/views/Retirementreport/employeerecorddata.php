@@ -23,7 +23,19 @@ endforeach;
   border: 2px solid #000000;
   padding: 8px;
 }
+body{
+	font-family: 'CircularStd', sans-serif;
+	font-size: .7375rem;
+	color: #1f1f1f;
+	background-color: #f7f7f7;
+	min-height: 100%;
+	width:100%;
+	overflow: scroll;
+	position: absolute;
+	
+}
 </style>
+		<body>
 			<br>
 			<br>
 			<br>
@@ -64,7 +76,8 @@ endforeach;
 														<th class="hdmfreportheader" style="width: 100px ! important;"><center>Year</center></th>
 														<th class="hdmfreportheader" style="width: 100px ! important;"><center>Retirement Fund</center></th>
 														<tr>
-													</thead>	
+													</thead>
+													<tbody>
 													<?php 
 														foreach ($data['record'] as $record):
 															$totalretfund[] = $record->retfund;
@@ -73,13 +86,13 @@ endforeach;
 														<td class="hdmfreportheader" style ="text-align: left;"><?php echo $record->yearofhired; ?></td> 
 														<td class="hdmfreportheader" style ="text-align: right;"><?php echo number_format($record->retfund, 4, '.', ','); ?></td> 	
 													<?php endforeach; ?>
-												</tr>
-												<tfoot >
+													</tr>
+												
 													<tr class="hdmfreportheader">
  														<th class="hdmfreportheader" style ="text-align: left">Total</th>
  													 	<th class="hdmfreportheader" style ="text-align: right"> <?php echo number_format(array_sum($totalretfund), 4, '.', ','); ?></th> 
 													</tr>	
-												</tfoot>
+												</tbody>
 												</table>
 											</div>
 										</div>
@@ -88,4 +101,5 @@ endforeach;
 								</div>
 						
 						</div>
+	</body>					
 					

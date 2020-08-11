@@ -14,7 +14,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 			
-			if(isAllowed(23)) $this->load->view("Philhealthreport/Index",$data);
+			if(isAllowed(23) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Philhealthreport/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

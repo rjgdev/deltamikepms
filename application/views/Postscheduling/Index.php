@@ -293,7 +293,8 @@
 </style>
 
 <script>
-$(document).ready(function() {
+	$(document).ready(function() {
+		
 	/*************************************  ADD SCHEDULE  *********************************************/
 		    $('#add_schedule').on('hidden.bs.modal', function(){
 		   		$("#addTimein").val("07:00");
@@ -536,7 +537,7 @@ $(document).ready(function() {
 				var weekday		    = $("#submitGuard").attr("weekday");
 				var employeeID  	= $("#selectGuard").val();
 
-				const day = ["Sunday", "Monday", "Tueday","Wednesday", "Thursday", "Friday", "Saturday"];
+				const day = ["", "Monday", "Tueday","Wednesday", "Thursday", "Friday", "Saturday","Sunday"];
 
 				$(this).attr("disabled","disabled");
 				$(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
@@ -709,8 +710,8 @@ $(document).ready(function() {
 		 			fri = moment(schedDate, 'YYYY-MM-DD').day(5).format('MMM DD, YYYY');
 		 			sat = moment(schedDate, 'YYYY-MM-DD').day(6).format('MMM DD, YYYY');
 
-		 			var weekstart = moment(schedDate, 'YYYY-MM-DD').day(0).format('YYYY-MM-DD');
-		 			var weekend   = moment(schedDate, 'YYYY-MM-DD').day(6).format('YYYY-MM-DD');
+		 			var weekstart  = moment(schedDate, 'YYYY-MM-DD').day(0).format('YYYY-MM-DD');
+		 			var weekend    = moment(schedDate, 'YYYY-MM-DD').day(6).format('YYYY-MM-DD');
 		        	var htmlHeader = "";
 
 		        	$(this).attr("clientid", clientID);
@@ -756,7 +757,40 @@ $(document).ready(function() {
 					      				htmlOutput += '<tr id="' + data["postschedule"][y].postscheduleID + '">' +
 					      									'<td class="td-sched"><br>' + data["postschedule"][y].timein + '<br> to <br>' + data["postschedule"][y].timeout + ' <br> <a href="javascript:void(0);" sched="' +  data["postschedule"][y].postscheduleID + '" class="removeSched"><i class="fas fa-times-circle" style="position: absolute;top: 5px;right: 3px;"></i></a><br></td>';
 
-					      									for(weekday=0;weekday<=6;weekday++){
+					      									for(weekday=7;weekday<=7;weekday++){
+					      										htmlOutput += '<td class="td-guard">' + 
+																					'<button class="btn btn-info mb-2 showGuard"' + 
+																							'data-toggle="modal" data-target="#add_guard"' +
+																							'postscheduleID="' + data["postschedule"][y].postscheduleID + '"' +  
+																							'weekday="' + weekday + '"' +  
+																							'data-backdrop="static" data-keyboard="false">' + 
+																							'<i class="fas fa-search-plus"></i> Add Security Guard' + 
+																					'</button>';
+
+																				htmlOutput += '<div class="employeeList" id="sched' + data["postschedule"][y].postscheduleID + 'week'+ weekday +'">';
+
+								      											for(i=0; i<data["postscheduleguard"].length; i++){
+						      														if(data["postscheduleguard"][i].weekday==weekday && data["postscheduleguard"][i].postscheduleID==data["postschedule"][y].postscheduleID){
+
+						  																htmlOutput += '<div class="dash-info-list mb-1">' + 
+																											'<div class="dash-card text-danger">' + 
+																												'<div class="dash-card-container">' + 
+																													'<div class="dash-card-content">' + 
+																														'<p class="p-guard sched' + data["postschedule"][y].postscheduleID + "week" + weekday + '"  id="sched' + data["postschedule"][y].postscheduleID + "week" + weekday + "emp" + data["postscheduleguard"][i].employeeID + '" employeeid="' + data["postscheduleguard"][i].employeeID + '">' + data["postscheduleguard"][i].fullname + '</p>' + 
+																													'</div>' + 
+																													'<div class="dash-card-avatars">' + 
+																														'<a href="javascript:void(0);" sched="' +  data["postschedule"][y].postscheduleID + '" week="' + weekday + '" employeeid="' + data["postscheduleguard"][i].employeeID + '" class="removeGuard"><i class="fas fa-user-times"></i></a>' + 
+																													'</div>' + 
+																												'</div>' + 
+																											'</div>' + 
+																										'</div>';
+		      																		}
+			      																}
+		      																	htmlOutput += "</div>";
+																htmlOutput += '</td>';
+					      									}
+
+					      									for(weekday=1;weekday<=6;weekday++){
 					      										htmlOutput += '<td class="td-guard">' + 
 																					'<button class="btn btn-info mb-2 showGuard"' + 
 																							'data-toggle="modal" data-target="#add_guard"' +

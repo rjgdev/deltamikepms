@@ -27,7 +27,7 @@
 	  		
 			$this->load->view('Template/Header',$data);
 
-			if(isAllowed(13)) $this->load->view("Generatepayslip/Index",$data);
+			if(isAllowed(13) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Generatepayslip/Index",$data);
 						 else $this->load->view("Denied/Index");
 
 			$this->load->view('Template/Footer',$data);

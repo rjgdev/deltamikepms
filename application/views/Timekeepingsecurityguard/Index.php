@@ -50,11 +50,11 @@
 	}
 
 	function checkRDLV($timekeepingID,$dataRest,$dataLeave,$employeeID,$currentYear,$currentMonth,$day,$clientID,$postID) {
+		$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
+		$isRest = 0;
+		$restDay = 0;
+		
 		if(count($dataRest)!=0){
-			$current_day = date_format(date_create($currentYear."-".$currentMonth."-".$day),"N");
-			$isRest = 0;
-			$restDay = 0;
-
 			foreach ($dataRest as $rest) { 
 				if($rest->employeeID==$employeeID && 
 				   $rest->restday==$current_day){ 
@@ -92,16 +92,16 @@
 				foreach ($dataLeave as $leave)  {
 					if($leave->employeeID==$employeeID && 
 					  ($leave->leavefrom<=$current_date && $leave->leaveto>=$current_date)){
-				  	  		echo "<td class='tsdata' value='LV|0|0|0|0|".$clientID."|".$postID."' style='color:#d1221c;'><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
+				  	  		echo "<td class='tsdata' value='LV|0|0|0|0|".$clientID."|".$postID."' style='color:#d1221c;'><div tkid='".$timekeepingID."' value=''></div></td>";
 					  $isLeave = 1;
 					}
 				}
 
 				if($isLeave==0){
-					echo "<td><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
+					echo "<td><div tkid='".$timekeepingID."' value=''></div></td>";
 				}
 			}else{
-				echo "<td><div tkid='".$timekeepingID."' value='".$timekeepingID."'></div></td>";
+				echo "<td><div tkid='".$timekeepingID."' value=''></div></td>";
 			}
 		}
 

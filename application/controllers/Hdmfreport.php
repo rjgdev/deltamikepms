@@ -13,7 +13,7 @@
        		$data['data']=$this->hdmfreport->get_all();
 	  		
 			$this->load->view('Template/Header',$data);
-			if(isAllowed(25)) $this->load->view("Hdmfreport/Index",$data);
+			if(isAllowed(25) || $this->session->userdata('accountype')=="bcgiadmin") $this->load->view("Hdmfreport/Index",$data);
 						 else $this->load->view("Denied/Index");
 			$this->load->view('Template/Footer',$data);
 		}

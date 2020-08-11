@@ -421,7 +421,14 @@
 	    								<td class="text-right" style="color:<?php if($item->netpay>=0) echo '#059a05'; else echo '#9a0505'; ?>; font-weight: 500;">
 	    									<?=number_format($item->netpay,4,".",",")?>
     									</td>
-	    								<td class="text-right"><a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="<?=$item->payrolldetailsID?>" daysofwork="<?=$item->daysofwork; ?>" id="adjustment<?=$item->payrolldetailsID?>" 
+	    								<td class="text-right">
+	    									<?php 
+	    										$adjustBtn = "";
+	    										if($payrollstatus!="-----" && $payrollstatus!="DENIED" && $payrollstatus!="DRAFT"){
+													$adjustBtn="disabled";
+						 						}
+    										?>
+	    									<a href="javascript:void(0);" class="btn btn-sm btn-primary adjustment $adjustBtn" data-toggle="modal" data-target="#modal_adjustment" payrolldetailsid="<?=$item->payrolldetailsID?>" daysofwork="<?=$item->daysofwork; ?>" id="adjustment<?=$item->payrolldetailsID?>" 
 	    									otnotes="<?=$item->otnotes;?>" 
 	    									nightnotes="<?=$item->nightnotes;?>"
 	    									latenotes="<?=$item->latenotes;?>"
@@ -842,6 +849,7 @@
 		      		if(htmlDatesubmitted != "-----"){
 						htmlButton = '<button type="button" class="btn btn-danger cancel" style="width: 100%; height: 95%;"><i class="fa fa-ban"></i> Cancel Request</button>';	
 						$(".processpayroll").prop("disabled", true);
+						$(".adjustment").addClass("disabled");
 		      		}
 
 		      		$("#show_payroll_status").html(htmlStatus);
@@ -894,6 +902,8 @@
 		      	var htmlButton	 = '<button type="button" class="btn btn-info submit" style="width: 100%; height: 95%;"><i class="fa fa-send"></i> Submit Payroll</button>';
 
 				$(".processpayroll").prop("disabled", false);
+				$(".adjustment").removeClass("disabled");
+
 	      		$("#show_payroll_status").html(htmlStatus);
 	      		$("#show_payroll_datesubmitted").html(htmlDatesubmitted);
 	      		$("#show_payroll_approver").html(htmlApprover);
@@ -1266,7 +1276,7 @@
 	      		$('#' + payrolldetailsID + ' td:eq(13)').css("color", (leaveadjustment<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(14)').css("color", (totalGrosspay<0) ? "#9a0505" : '#059a05');
 	      		$('#' + payrolldetailsID + ' td:eq(20)').css("color", (otheradjustment<0) ? "#9a0505" : '#059a05');
-	      		$('#' + payrolldetailsID + ' td:eq(21)').css("color", (parseFloat(data["netpay"])<0) ? "#9a0505" : '#059a05');
+	      		$('#' + payrolldetailsID + ' td:eq(21)').css("color", (parseFloat(data["netpay"])<parseFloat(0)) ? "#9a0505" : '#059a05');
 
 	  	  		showSuccessToast("Payroll adjustment successfully applied!");
 		      },

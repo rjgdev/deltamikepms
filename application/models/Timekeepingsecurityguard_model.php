@@ -377,8 +377,6 @@ class Timekeepingsecurityguard_model extends CI_Model
 
 	function get_post_schedule($clientID,$postID,$datesched,$employeeID,$weekday)
 	{
-		$tkStatus = "";
-
 		$querySchedule = $this->db->query('SELECT timein,timeout FROM dm_postschedule
 										   WHERE clientID='.$clientID.
 										  ' AND  postID='.$postID.
